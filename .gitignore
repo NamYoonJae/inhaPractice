@@ -45,9 +45,6 @@ ExportedObj/
 *.opendb
 *.VC.db
 
-# VS Filter File
-*.filters
-
 # Compressed Files
 *.zip
 *7z
