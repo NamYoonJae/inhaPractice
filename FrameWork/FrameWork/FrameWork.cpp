@@ -6,6 +6,9 @@
 
 #define MAX_LOADSTRING 100
 
+
+
+HWND g_hWnd;
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
@@ -100,6 +103,15 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
+   g_pLogger->CreateLogFile();
+   LoggerEntry;
+   g_hWnd = hWnd;
+   g_pLogger->CommentLog(__FUNCTION__, "g_hWnd == hWnd");
+   LoggerLeave;
+
+   g_pLogger->CloseConsole();
+
+	
    if (!hWnd)
    {
       return FALSE;
