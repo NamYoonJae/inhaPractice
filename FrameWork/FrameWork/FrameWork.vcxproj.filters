@@ -1,23 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="cDeviceManage.cpp" />
-    <ClCompile Include="FrameWork.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Code\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Code\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Code\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="PopUp.cpp">
+      <Filter>Code\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Code\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Code\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Code\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="cDeviceManage.cpp">
+      <Filter>Code\DeviceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="basic.h" />
-    <ClInclude Include="cDeviceManage.h" />
-    <ClInclude Include="FrameWork.h" />
-    <ClInclude Include="Logger.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="SoundManager.h">
+      <Filter>Code\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Code\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Code\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="basic.h">
+      <Filter>Code\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Code\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="PopUp.h">
+      <Filter>Code\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Code\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Code\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameWork.h">
+      <Filter>Code\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="cDeviceManage.h">
+      <Filter>Code\DeviceManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -46,12 +88,6 @@
     <ClInclude Include="cDeviceManage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PopUp.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,22 +99,41 @@
     <ClCompile Include="cDeviceManage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="PopUp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource">
       <UniqueIdentifier>{1f9f75aa-cff3-47b8-a719-e100b91d9544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code">
+      <UniqueIdentifier>{e21d1e7c-9e35-4383-99d8-768f053a0631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Common">
+      <UniqueIdentifier>{1e384df5-4455-4dd6-92b2-f8d081c02e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Camera">
+      <UniqueIdentifier>{467c6439-638b-4a42-bd4b-c4d42c2418c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\SoundManager">
+      <UniqueIdentifier>{c014ce63-c10a-4f89-982d-868d20720bbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI">
+      <UniqueIdentifier>{90ae959c-54fb-44cf-85d0-981576edb30b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Logger">
+      <UniqueIdentifier>{2a7bf982-db18-40cc-896d-80cc53618fe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\DeviceManager">
+      <UniqueIdentifier>{1dfa259c-06f6-4c4e-a68f-15b2c0455e89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork.rc">
       <Filter>Resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt">
+      <Filter>Resource</Filter>
+    </Text>
   </ItemGroup>
 </Project>
