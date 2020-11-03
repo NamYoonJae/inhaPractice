@@ -106,7 +106,6 @@ void cLogger::OnConsole()
 	if(m_IsConsole == false)
 		AllocConsole();
 	m_IsConsole = true;
-	
 }
 
 void cLogger::CloseConsole()

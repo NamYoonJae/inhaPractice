@@ -71,7 +71,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
+    wcex.style          = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
     wcex.lpfnWndProc    = WndProc;
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
@@ -109,8 +109,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    g_pLogger->CommentLog(__FUNCTION__, "g_hWnd == hWnd");
    LoggerLeave;
 
-   g_pLogger->CloseConsole();
-
 	
    if (!hWnd)
    {
@@ -135,8 +133,21 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	static UI* m_pMenu;
+	static Player* m_pPlayer;
+
+	InputcEventManager->InputEvent(message, wParam, lParam);
     switch (message)
     {
+	case WM_CREATE:
+	{
+		m_pMenu = new UI(RECT{ 0, 0, 400, 400 });
+		m_pPlayer = new Player;
+		InputcEventManager->Attach(m_pMenu);
+		InputcEventManager->Attach(m_pPlayer);
+		// 현재 이벤트 awsd  / 마우스 0,0,400,400 IN , ESC키,numpad1,numpad2 
+		// 마우스 R,L  / L버튼 더블클릭
+	}
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

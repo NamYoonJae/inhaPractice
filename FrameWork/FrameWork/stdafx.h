@@ -49,3 +49,10 @@ extern HWND g_hWnd;
 
 #include "cDeviceManage.h"
 #include "Logger.h"
+#include "EventManager.h"
+
+
+// >> :cEventManager Example Class
+#include "UI.h"
+#include "Player.h"
+// << 

@@ -25,6 +25,21 @@
     <ClCompile Include="cDeviceManage.cpp">
       <Filter>Code\DeviceManager</Filter>
     </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Code\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Code\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Code\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Code\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Code\EventManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -60,6 +75,21 @@
     <ClInclude Include="cDeviceManage.h">
       <Filter>Code\DeviceManager</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Code\EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Code\EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Code\EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Code\EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Code\EventManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -93,9 +123,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="FrameWork.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="cDeviceManage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -124,6 +151,9 @@
     </Filter>
     <Filter Include="Code\DeviceManager">
       <UniqueIdentifier>{1dfa259c-06f6-4c4e-a68f-15b2c0455e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\EventManager">
+      <UniqueIdentifier>{b8f5fa17-e645-4f81-a303-b6051bd511b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
