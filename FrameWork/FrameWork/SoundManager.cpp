@@ -2,26 +2,26 @@
 #include "basic.h"
 #include "SoundManager.h"
 
-SoundManager::SoundManager()
+cSoundManager::cSoundManager()
 {
 }
 
-SoundManager::~SoundManager()
+cSoundManager::~cSoundManager()
 {
 	Stop();
-	fmodSystem->close();
+	m_fmodSystem->close();
 }
 
 // cant use
-void SoundManager::Destroy()
+void cSoundManager::Destroy()
 {
-	delete fmodSystem;
+	delete m_fmodSystem;
 }
 
-void SoundManager::init()
+void cSoundManager::init()
 {
-	System_Create(&fmodSystem);
-	fmodSystem->init(4, FMOD_INIT_NORMAL, NULL);
+	System_Create(&m_fmodSystem);
+	m_fmodSystem->init(4, FMOD_INIT_NORMAL, NULL);
 	
 	AddSFX("sounds/appear.wav", "BombPut");
 	AddSFX("sounds/die.wav", "Die");
@@ -34,30 +34,30 @@ void SoundManager::init()
 	AddSFX("sounds/win.wav", "Win");
 }
 
-void SoundManager::AddBGM(string path)
+void cSoundManager::AddBGM(string path)
 {
 	//fmodSystem->createSound(path.c_str(), FMOD_LOOP_NORMAL, NULL, &bgm);
-	fmodSystem->createStream(path.c_str(), FMOD_LOOP_NORMAL, NULL, &bgm);
+	m_fmodSystem->createStream(path.c_str(), FMOD_LOOP_NORMAL, NULL, &m_sbgm);
 }
 
-void SoundManager::AddSFX(string path, string soundName)
+void cSoundManager::AddSFX(string path, string soundName)
 {
-	fmodSystem->createSound(path.c_str(), FMOD_DEFAULT, NULL, &soundHash[soundName]);
+	m_fmodSystem->createSound(path.c_str(), FMOD_DEFAULT, NULL, &m_mapsoundHash[soundName]);
 }
 
-void SoundManager::PlayBGM()
+void cSoundManager::PlayBGM()
 {
-	fmodSystem->playSound(FMOD_CHANNEL_REUSE, bgm, false, &bgmChannel);
+	m_fmodSystem->playSound(FMOD_CHANNEL_REUSE, m_sbgm, false, &m_cbgmChannel);
 }
 
-void SoundManager::PlaySFX(string soundName)
+void cSoundManager::PlaySFX(string soundName)
 {
-	if (soundHash[soundName] != NULL)
-		fmodSystem->playSound(FMOD_CHANNEL_FREE, soundHash[soundName], false, &sfxChannel);
+	if (m_mapsoundHash[soundName] != NULL)
+		m_fmodSystem->playSound(FMOD_CHANNEL_FREE, m_mapsoundHash[soundName], false, &m_csfxChannel);
 }
 
-void SoundManager::Stop()
+void cSoundManager::Stop()
 {
-	sfxChannel->stop();
-	bgmChannel->stop();
+	m_csfxChannel->stop();
+	m_cbgmChannel->stop();
 }

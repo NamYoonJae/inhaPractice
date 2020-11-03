@@ -13,20 +13,20 @@
 
 using namespace FMOD;
 
-class SoundManager
+class cSoundManager
 {
 private:
-	System * fmodSystem;
+	System * m_fmodSystem;
 
-	Channel* bgmChannel;
-	Channel* sfxChannel;
+	Channel* m_cbgmChannel;
+	Channel* m_csfxChannel;
 
-	Sound* bgm;
-	map<string, Sound*> soundHash;
+	Sound* m_sbgm;
+	map<string, Sound*> m_mapsoundHash;
 
 public:
-	SoundManager();
-	~SoundManager();
+	cSoundManager();
+	~cSoundManager();
 
 	void init();
 	void AddSFX(string path, string musicName);
