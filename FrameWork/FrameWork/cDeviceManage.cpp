@@ -1,14 +1,13 @@
 #include "stdafx.h"
 #include "cDeviceManage.h"
 
-
 cDeviceManage::cDeviceManage()
 	:m_pD3D(NULL)
 	, m_pDevice(NULL)
 {
 	m_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
 
-
+	
 	D3DCAPS9 stCaps;
 	int nVertexProcessing;
 	m_pD3D->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &stCaps);

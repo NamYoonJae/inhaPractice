@@ -146,6 +146,7 @@
     <ClInclude Include="basic.h" />
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="FrameWork.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="stdafx.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="FrameWork.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
