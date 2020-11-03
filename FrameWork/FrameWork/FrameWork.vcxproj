@@ -144,15 +144,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basic.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="FrameWork.h" />
+    <ClInclude Include="PopUp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="FrameWork.cpp" />
+    <ClCompile Include="PopUp.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

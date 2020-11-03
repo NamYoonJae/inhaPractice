@@ -36,6 +36,12 @@
     <ClInclude Include="cDeviceManage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="PopUp.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +51,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="cDeviceManage.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PopUp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
