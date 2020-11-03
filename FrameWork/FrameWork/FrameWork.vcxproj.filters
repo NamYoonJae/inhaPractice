@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{ec450394-4f44-48bc-ba9e-7b64fe9f00c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -36,8 +39,13 @@
     <ClInclude Include="cDeviceManage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Camera.h">
       <Filter>헤더 파일</Filter>
+=======
+    <ClInclude Include="Logger.h">
+      <Filter>Logger</Filter>
+>>>>>>> fc6cb7473caba6c8605ce01b2fb3f8cd80a5ec25
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,8 +58,13 @@
     <ClCompile Include="cDeviceManage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Camera.cpp">
       <Filter>소스 파일</Filter>
+=======
+    <ClCompile Include="Logger.cpp">
+      <Filter>Logger</Filter>
+>>>>>>> fc6cb7473caba6c8605ce01b2fb3f8cd80a5ec25
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
