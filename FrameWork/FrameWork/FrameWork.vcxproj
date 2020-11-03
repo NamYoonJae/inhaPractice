@@ -73,6 +73,11 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>./FMOD;$(DXSDK_DIR)\Include;$(IncludePath)</IncludePath>
     <LibraryPath>./FMOD;$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
+    <ExcludePath>$(ExcludePath)</ExcludePath>
+    <SourcePath>$(SourcePath)</SourcePath>
+    <LibraryWPath>$(LibraryWPath)</LibraryWPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

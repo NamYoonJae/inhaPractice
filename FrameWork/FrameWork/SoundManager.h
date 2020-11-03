@@ -2,6 +2,10 @@
 #include "fmod.hpp"
 #include <map>
 
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "msimg32.lib")
+#pragma comment(lib, "fmodex_vc.lib")
+
 #define SOUND_MAX 1.0f
 #define SOUND_MIN 0.0f
 #define SOUND_DEFAULT 0.5f
