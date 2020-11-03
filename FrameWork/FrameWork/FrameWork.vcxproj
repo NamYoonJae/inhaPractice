@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basic.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="FrameWork.h" />
     <ClInclude Include="Logger.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="FrameWork.cpp" />
     <ClCompile Include="SoundManager.cpp" />

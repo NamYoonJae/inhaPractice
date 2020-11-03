@@ -6,6 +6,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basic.h" />
@@ -16,6 +17,7 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
