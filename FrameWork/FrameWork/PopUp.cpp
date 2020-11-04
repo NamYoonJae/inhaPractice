@@ -54,14 +54,30 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 		&m_ImageInfo,
 		NULL,
 		&m_pTextureUI);
-
-
 	
 }
 
 void cPopUp::Update(std::string message)
 {
+	/*
+	if ()
+	{
 	
+	}
+	*/
+	InputcEventManager->GetMousePosition();
+
+
+
+	for (int i = 0; i < m_vecBtnList.size(); i++) 
+	{
+		m_vecBtnList[i]->Update(message);
+	}
+
+	
+	
+
+
 }
 
 void cPopUp::Render()
