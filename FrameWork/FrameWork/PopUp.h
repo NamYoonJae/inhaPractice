@@ -24,11 +24,8 @@ protected:
 	int m_State;
 	D3DXVECTOR3 m_Position;
 
-	POINT m_ptPrevMouse;
-	POINT m_Click;
-
 	vector<cButton*> m_vecBtnList;
-	cButton* m_pccButton;
+	cButton* m_pButton;
 
 public:
 	cPopUp();
@@ -44,7 +41,7 @@ public:
 	*/
 
 	//D3DXVECTOR3 GetPosition();
-	void ccButtonPushBack(cButton&);
+	void cButtonPushBack(cButton&);
 	virtual int GetState();
 	virtual void StateChange(int state);
 };

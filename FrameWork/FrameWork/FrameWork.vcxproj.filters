@@ -43,6 +43,7 @@
     <ClCompile Include="TimerManager.cpp">
       <Filter>Code\TimeManager</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Scene.cpp">
       <Filter>Code\Scene</Filter>
     </ClCompile>
@@ -51,6 +52,8 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Code\SceneManager</Filter>
+    <ClCompile Include="json parson.cpp">
+      <Filter>Code\json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +108,7 @@
     <ClInclude Include="TimerManager.h">
       <Filter>Code\TimeManager</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Scene.h">
       <Filter>Code\Scene</Filter>
     </ClInclude>
@@ -113,6 +117,8 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Code\SceneManager</Filter>
+    <ClInclude Include="json parson.h">
+      <Filter>Code\json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -182,11 +188,14 @@
     <Filter Include="Code\TimeManager">
       <UniqueIdentifier>{f864838d-98b0-40d9-89a0-0e18b00bb76d}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="Code\Scene">
       <UniqueIdentifier>{a712d2ba-107c-482c-954b-12d70e86161f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\SceneManager">
       <UniqueIdentifier>{5dd2aac5-d47d-4c40-a316-2b8de2557b50}</UniqueIdentifier>
+    <Filter Include="Code\json">
+      <UniqueIdentifier>{74f0f738-f3ed-4beb-b4c5-c967cc256891}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

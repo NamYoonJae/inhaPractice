@@ -38,8 +38,9 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 
 }
 
-void cButton::Update()
+void cButton::Update(string message)
 {
+
 }
 
 void cButton::Render()
