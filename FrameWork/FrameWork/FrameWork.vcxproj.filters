@@ -40,8 +40,8 @@
     <ClCompile Include="UI.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
-    <ClCompile Include="json parson.cpp">
-      <Filter>Code\Json</Filter>
+    <ClCompile Include="TimerManager.cpp">
+      <Filter>Code\TimeManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,8 +93,8 @@
     <ClInclude Include="UI.h">
       <Filter>Code\EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="json parson.h">
-      <Filter>Code\Json</Filter>
+    <ClInclude Include="TimerManager.h">
+      <Filter>Code\TimeManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +161,8 @@
     <Filter Include="Code\EventManager">
       <UniqueIdentifier>{b8f5fa17-e645-4f81-a303-b6051bd511b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Json">
-      <UniqueIdentifier>{e15040ee-783d-4681-8cfd-c92a7ae85281}</UniqueIdentifier>
+    <Filter Include="Code\TimeManager">
+      <UniqueIdentifier>{f864838d-98b0-40d9-89a0-0e18b00bb76d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
