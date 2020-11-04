@@ -1,0 +1,92 @@
+{
+  "test1": 10,
+
+  "weapon" :
+  {
+    "sword":
+    {
+      
+      "short sword":
+      {
+        "range": 3,
+
+        "shit short sword":
+        {
+          "image": "weapon/sword/short sword",
+          "need level": 1,
+          "min-damage": 8,
+          "max-damage": 13,
+          "option": 
+          [
+            
+          ]
+        }
+      }
+    },
+
+    "bow": 
+    {
+      "long bow":
+      {
+        "range": 10,
+
+        "shit long bow":
+        {
+          "image": "weapon/bow/long_bow/shit_long_bow.model",
+          "need level": 1,
+          "min-damage": 5,
+          "max-damage": 10,
+          "option": 
+          [
+            
+          ]
+        },
+        "normal long bow":
+        {
+          "image": "weapon/bow/long_bow/shit_long_bow.model",
+          "need level": 5,
+          "min-damage": 7,
+          "max-damage": 12
+        },
+        "golden long bow":
+        {
+          "image": "weapon/bow/long_bow/shit_long_bow.model",
+          "need level": 10,
+          "min-damage": 9,
+          "max-damage": 14
+        }
+      },
+
+      "short bow":
+      {
+        "range": 7,
+
+        "shit short bow":
+        {
+          "image": "weapon/bow/short_bow/shit_short_bow.model",
+          "need level": 1,
+          "min-damage": 6,
+          "max-damage": 11,
+          "option": 
+          [
+            
+          ]
+        },
+        "normal short bow":
+        {
+          "image": "weapon/bow/short_bow/shit_short_bow.model",
+          "need level": 5,
+          "min-damage": 9,
+          "max-damage": 15
+        },
+        "golden short bow":
+        {
+          "image": "weapon/bow/short_bow/shit_short_bow.model",
+          "need level": 10,
+          "min-damage": 11,
+          "max-damage": 15
+        }
+      }
+    }
+  }
+}
