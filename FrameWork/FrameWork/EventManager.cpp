@@ -20,25 +20,21 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_MOUSEMOVE:
 	{
-		D3DXVECTOR2 ptWin;
-		ptWin.x = LOWORD(lParam);
-		ptWin.y = HIWORD(lParam);
+		D3DXVECTOR2 vMousePos;
+		vMousePos.x = LOWORD(lParam);
+		vMousePos.y = HIWORD(lParam);
 
-		float delX = pow(m_Point.x - ptWin.x,2);
-		float delY = pow(m_Point.y - ptWin.y,2);
-		float distance = sqrtf(delX + delY);
-		if (distance >= 2.0f)
+		if (wParam == MK_LBUTTON)
 		{
-			m_Point = ptWin;
-
-			// repair
-			m_vPrev = m_vCur;
-			m_vCur = ptWin;
-			//
-			
-			m_Queue.push(m_mapEvent[0x00]);
-			Notify();
+			m_IsDrag = true;
+			m_vPrev = vMousePos;
 		}
+		
+		m_vCur = vMousePos;
+			
+		m_Queue.push(m_mapEvent[0x00]);
+		Notify();
+		
 		return;
 	}
 	break;
@@ -48,7 +44,6 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		m_Queue.push(m_mapEvent[0x03]);
 		break;
-	
 	case WM_RBUTTONDBLCLK:
 		m_Queue.push(m_mapEvent[0x06]);
 		break;
@@ -66,6 +61,13 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	break;
 
 	case WM_LBUTTONUP:
+	{
+		if(m_IsDrag)
+		{
+		m_IsDrag = false;
+		m_Queue.push(m_mapEvent[0x0A]);	
+		}
+	}
 	case WM_RBUTTONUP:
 		Notify();		
 		break;
@@ -91,10 +93,6 @@ void cEventManager::Notify()
 
 }
 
-D3DXVECTOR2 cEventManager::GetMousePosition()
-{
-	return m_Point;
-}
 
 D3DXVECTOR2 cEventManager::GetMouseCurrent()
 {
@@ -108,13 +106,12 @@ D3DXVECTOR2 cEventManager::GetMousePrev()
 
 
 cEventManager::cEventManager()
+	: m_IsDraw(false)
 {
 	for (int i = 0x00; i < 0xFF; i++)
 	{
 		m_mapEvent[i] = " ";
 	}
-
-	// 
 	
 	m_mapEvent[0x00] = "EVENT_MOVE";  
 	m_mapEvent[0x01] = "EVENT_WHEELUP";
@@ -126,6 +123,8 @@ cEventManager::cEventManager()
 	m_mapEvent[0x07] = "EVENT_LBUTTONUP";
 	m_mapEvent[0x08] = "EVENT_RBUTTONUP";
 
+	m_mapEvent[0x0A] = "EVENT_DRAG";
+	
 	m_mapEvent[0x10] = "EVENT_NULL";
 	m_mapEvent[0x20] = "EVENT_JUMP";
 	m_mapEvent[0x09] = "EVENT_TAP";
