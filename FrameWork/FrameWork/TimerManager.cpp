@@ -18,7 +18,6 @@ void cTimerManager::Update()
 	DWORD dwCurrentTime = GetTickCount();
 	m_fElapsedTime = (dwCurrentTime - m_dwLastUpdateTime) / 1000.0f;
 	m_dwLastUpdateTime = dwCurrentTime;
-
 }
 
 float cTimerManager::GetElapsedTime()
