@@ -30,6 +30,12 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 		if (distance >= 2.0f)
 		{
 			m_Point = ptWin;
+
+			// repair
+			m_vPrev = m_vCur;
+			m_vCur = ptWin;
+			//
+			
 			m_Queue.push(m_mapEvent[0x00]);
 			Notify();
 		}
@@ -42,7 +48,7 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		m_Queue.push(m_mapEvent[0x03]);
 		break;
-		
+	
 	case WM_RBUTTONDBLCLK:
 		m_Queue.push(m_mapEvent[0x06]);
 		break;
@@ -88,6 +94,16 @@ void cEventManager::Notify()
 D3DXVECTOR2 cEventManager::GetMousePosition()
 {
 	return m_Point;
+}
+
+D3DXVECTOR2 cEventManager::GetMouseCurrent()
+{
+	return m_vCur;
+}
+
+D3DXVECTOR2 cEventManager::GetMousePrev()
+{
+	return m_vPrev;
 }
 
 
