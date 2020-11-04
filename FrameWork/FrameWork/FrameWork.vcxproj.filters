@@ -46,6 +46,15 @@
     <ClCompile Include="json parson.cpp">
       <Filter>Code\json</Filter>
     </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Code\SceneManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -101,6 +110,15 @@
     </ClInclude>
     <ClInclude Include="json parson.h">
       <Filter>Code\json</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Code\SceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +190,12 @@
     </Filter>
     <Filter Include="Code\json">
       <UniqueIdentifier>{74f0f738-f3ed-4beb-b4c5-c967cc256891}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Scene">
+      <UniqueIdentifier>{e2473897-b31c-44b2-b0c7-f2bad270627a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\SceneManager">
+      <UniqueIdentifier>{a70a97d7-48be-488b-a125-0e7fb7c2290d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
