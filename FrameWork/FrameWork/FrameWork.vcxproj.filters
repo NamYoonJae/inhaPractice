@@ -43,7 +43,6 @@
     <ClCompile Include="TimerManager.cpp">
       <Filter>Code\TimeManager</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Scene.cpp">
       <Filter>Code\Scene</Filter>
     </ClCompile>
@@ -108,7 +107,6 @@
     <ClInclude Include="TimerManager.h">
       <Filter>Code\TimeManager</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Scene.h">
       <Filter>Code\Scene</Filter>
     </ClInclude>
@@ -188,7 +186,6 @@
     <Filter Include="Code\TimeManager">
       <UniqueIdentifier>{f864838d-98b0-40d9-89a0-0e18b00bb76d}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="Code\Scene">
       <UniqueIdentifier>{a712d2ba-107c-482c-954b-12d70e86161f}</UniqueIdentifier>
     </Filter>
