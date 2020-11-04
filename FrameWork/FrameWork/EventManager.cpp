@@ -160,6 +160,4 @@ cEventManager::~cEventManager()
 	}
 	m_vecObservers.clear();
 
-	while (!m_Queue.empty())
-		m_Queue.pop();
 }
