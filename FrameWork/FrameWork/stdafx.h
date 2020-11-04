@@ -5,6 +5,8 @@
 
 #pragma once
 
+
+
 #include "targetver.h"
 
 #define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용은 Windows 헤더에서 제외합니다.
@@ -56,3 +58,11 @@ extern HWND g_hWnd;
 #include "UI.h"
 #include "Player.h"
 // << 
+
+
+#pragma region json
+#ifndef _MSC_VER // json헤더에서 요구
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+#include "json parson.h"
+#pragma endregion 

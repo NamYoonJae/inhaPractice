@@ -40,6 +40,9 @@
     <ClCompile Include="UI.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
+    <ClCompile Include="json parson.cpp">
+      <Filter>Code\Json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Code\EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="json parson.h">
+      <Filter>Code\Json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +160,9 @@
     </Filter>
     <Filter Include="Code\EventManager">
       <UniqueIdentifier>{b8f5fa17-e645-4f81-a303-b6051bd511b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Json">
+      <UniqueIdentifier>{e15040ee-783d-4681-8cfd-c92a7ae85281}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
