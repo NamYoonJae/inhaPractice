@@ -2,13 +2,15 @@
 //
 
 #include "stdafx.h"
+#include "SceneManager.h"
+#include "Scene.h"
 #include "FrameWork.h"
 
 #define MAX_LOADSTRING 100
 
 
-
 HWND g_hWnd;
+
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
@@ -43,19 +45,61 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_FRAMEWORK));
 
-    MSG msg;
+	MSG msg;
+	g_pSceneManager->Setup();
 
-    // 기본 메시지 루프입니다.
-    while (GetMessage(&msg, nullptr, 0, 0))
-    {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-    }
+	static LARGE_INTEGER LastTime;
+	QueryPerformanceCounter(&LastTime);
+	static float deltatime = 0;
 
-    return (int) msg.wParam;
+	float Timer = 0;
+	int Cnt = 0;
+
+	// Main message loop:
+	while (true)
+	{
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			if (msg.message == WM_QUIT)
+			{
+				break;
+			}
+			else
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
+		else
+		{
+			g_pSceneManager->GetCurrentScene()->CheckInput();
+			g_pSceneManager->GetCurrentScene()->Update();
+			g_pSceneManager->GetCurrentScene()->Render();
+			
+			LARGE_INTEGER CurTime, frequency, DeltaTime;
+			QueryPerformanceFrequency(&frequency);
+			QueryPerformanceCounter(&CurTime);
+			DeltaTime.QuadPart = (CurTime.QuadPart - LastTime.QuadPart) * 1000000;
+			DeltaTime.QuadPart /= frequency.QuadPart;
+
+			deltatime = DeltaTime.QuadPart * 0.000001f;
+
+			Timer += deltatime;
+			Cnt++;
+			if (Timer > 1)
+			{
+				cout << "Frame : " << Cnt << endl;
+				Timer = 0;
+				Cnt = 0;
+			}
+
+			LastTime = CurTime;
+		}
+	}
+
+	g_pSceneManager->Destroy();
+	
+	return (int)msg.wParam;
 }
 
 
