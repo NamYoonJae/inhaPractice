@@ -106,7 +106,7 @@ D3DXVECTOR2 cEventManager::GetMousePrev()
 
 
 cEventManager::cEventManager()
-	: m_IsDraw(false)
+	: m_IsDrag(false)
 {
 	for (int i = 0x00; i < 0xFF; i++)
 	{
