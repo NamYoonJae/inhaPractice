@@ -41,7 +41,7 @@ public:
 	*/
 
 	//D3DXVECTOR3 GetPosition();
-	void ccButtonPushBack(cButton&);
+	void cButtonPushBack(cButton&);
 	virtual int GetState();
 	virtual void StateChange(int state);
 };

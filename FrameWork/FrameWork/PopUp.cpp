@@ -9,10 +9,8 @@ cPopUp::cPopUp()
 	//, m_pFont(NULL)
 	, m_State(enum_Off)
 	, m_Position(0.0f, 0.0f, 0.0f)
-	, m_pccButton(NULL)
+	, m_pButton(NULL)
 {
-	m_ptPrevMouse.x = 0;
-	m_ptPrevMouse.y = 0;
 }
 
 
@@ -28,7 +26,7 @@ cPopUp::~cPopUp()
 		m_vecBtnList.erase(m_vecBtnList.end());
 	}
 
-	SafeDelete(m_pccButton);
+	SafeDelete(m_pButton);
 }
 
 void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
@@ -66,7 +64,8 @@ void cPopUp::Update(std::string message)
 	}
 	*/
 	
-	InputcEventManager->GetMousePosition();
+	InputcEventManager->GetMouseCurrent();
+	InputcEventManager->GetMousePrev();
 
 
 
@@ -132,7 +131,7 @@ D3DXVECTOR3 PopUp::GetPosition()
 }
 */
 
-void cPopUp::ccButtonPushBack(cButton& btn)
+void cPopUp::cButtonPushBack(cButton& btn)
 {
 	m_vecBtnList.push_back(&btn);
 }
