@@ -9,7 +9,7 @@ private:
 	D3DXVECTOR3 *m_pvTarget;
 
 	POINT m_ptPrevMouse;
-	bool m_isLButtonDown;
+	bool m_isLccButtonDown;
 	float m_fCameraDistance;
 	D3DXVECTOR3 m_vCamRotAngle;
 

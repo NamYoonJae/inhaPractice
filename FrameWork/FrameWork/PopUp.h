@@ -1,8 +1,8 @@
 #pragma once
 #include "basic.h"
-class Button;
+class cButton;
 
-class PopUp
+class cPopUp  : public cObserver
 {
 protected:
 	enum
@@ -27,15 +27,15 @@ protected:
 	POINT m_ptPrevMouse;
 	POINT m_Click;
 
-	vector<Button*> m_vecBtnList;
-	Button* m_pButton;
+	vector<cButton*> m_vecBtnList;
+	cButton* m_pccButton;
 
 public:
-	PopUp();
-	~PopUp();
+	cPopUp();
+	~cPopUp();
 
-	virtual void Setup(char* root, char* fileName);
-	virtual void Update();
+	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ);
+	virtual void Update(std::string);
 	virtual void Render();
 
 	/*
@@ -43,8 +43,8 @@ public:
 	void Text_Render();
 	*/
 
-	D3DXVECTOR3 GetPosition();
-	void ButtonPushBack(Button&);
+	//D3DXVECTOR3 GetPosition();
+	void ccButtonPushBack(cButton&);
 	virtual int GetState();
 	virtual void StateChange(int state);
 };

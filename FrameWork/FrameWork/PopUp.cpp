@@ -3,20 +3,20 @@
 #include "Button.h"
 
 
-PopUp::PopUp()
+cPopUp::cPopUp()
 	: m_pSprite(NULL)
 	, m_pTextureUI(NULL)
 	//, m_pFont(NULL)
 	, m_State(enum_Off)
 	, m_Position(0.0f, 0.0f, 0.0f)
-	, m_pButton(NULL)
+	, m_pccButton(NULL)
 {
 	m_ptPrevMouse.x = 0;
 	m_ptPrevMouse.y = 0;
 }
 
 
-PopUp::~PopUp()
+cPopUp::~cPopUp()
 {
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
@@ -28,11 +28,13 @@ PopUp::~PopUp()
 		m_vecBtnList.erase(m_vecBtnList.end());
 	}
 
-	SafeDelete(m_pButton);
+	SafeDelete(m_pccButton);
 }
 
-void PopUp::Setup(char * root, char * fileName)
+void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 {
+	m_Position = position;
+
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	string fileRoot(root);
@@ -57,12 +59,12 @@ void PopUp::Setup(char * root, char * fileName)
 	
 }
 
-void PopUp::Update()
+void cPopUp::Update(std::string message)
 {
 	
 }
 
-void PopUp::Render()
+void cPopUp::Render()
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 	RECT rc;
@@ -106,22 +108,24 @@ void PopUp::Text_Render()
 }
 */
 
+/*
 D3DXVECTOR3 PopUp::GetPosition()
 {
 	return m_Position;
 }
+*/
 
-void PopUp::ButtonPushBack(Button& btn)
+void cPopUp::ccButtonPushBack(cButton& btn)
 {
 	m_vecBtnList.push_back(&btn);
 }
 
-int PopUp::GetState()
+int cPopUp::GetState()
 {
 	return m_State;
 }
 
-void PopUp::StateChange(int state)
+void cPopUp::StateChange(int state)
 {
 	m_State = state;
 }

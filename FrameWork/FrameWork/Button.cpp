@@ -1,17 +1,17 @@
 #include "stdafx.h"
 #include "Button.h"
 
-Button::Button()
+cButton::cButton()
 {
 	m_State = enum_Off;
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 }
 
-Button::~Button()
+cButton::~cButton()
 {
 }
 
-void Button::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z)
+void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z)
 {
 	m_Position.x = position.x + x;
 	m_Position.y = position.y + y;
@@ -38,11 +38,11 @@ void Button::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, fl
 
 }
 
-void Button::Update()
+void cButton::Update()
 {
 }
 
-void Button::Render()
+void cButton::Render()
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 	RECT rc;
@@ -59,12 +59,12 @@ void Button::Render()
 	m_pSprite->End();
 }
 
-int Button::GetState()
+int cButton::GetState()
 {
 	return m_State;
 }
 
-void Button::StateChange(int state)
+void cButton::StateChange(int state)
 {
 	m_State = state;
 }

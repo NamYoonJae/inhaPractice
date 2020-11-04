@@ -9,7 +9,7 @@ cCamera::cCamera()
 	, m_vUp(0, 1, 0)
 	, m_pvTarget(NULL)
 	, m_fCameraDistance(5.0f)
-	, m_isLButtonDown(false)
+	, m_isLccButtonDown(false)
 	, m_vCamRotAngle(0, 0, 0)
 {
 	m_ptPrevMouse.x = 0;
@@ -65,15 +65,15 @@ void cCamera::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		m_ptPrevMouse.x = LOWORD(lParam);
 		m_ptPrevMouse.y = HIWORD(lParam);
-		m_isLButtonDown = true;
+		m_isLccButtonDown = true;
 		break;
 
 	case WM_LBUTTONUP:
-		m_isLButtonDown = false;
+		m_isLccButtonDown = false;
 		break;
 
 	case WM_MOUSEMOVE:
-		if (m_isLButtonDown)
+		if (m_isLccButtonDown)
 		{
 			POINT ptCurMouse;
 			ptCurMouse.x = LOWORD(lParam);

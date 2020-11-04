@@ -1,13 +1,13 @@
 #pragma once
 #include "PopUp.h"
-class Button :
-	public PopUp
+class cButton :
+	public cPopUp
 {
 private:
 
 public:
-	Button();
-	~Button();
+	cButton();
+	~cButton();
 
 	void Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z);
 	void Update();

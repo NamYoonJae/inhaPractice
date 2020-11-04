@@ -107,6 +107,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    LoggerEntry;
    g_hWnd = hWnd;
    g_pLogger->CommentLog(__FUNCTION__, "g_hWnd == hWnd");
+   g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fff",1.0f,0.9f,0.5f);
    LoggerLeave;
 
 	

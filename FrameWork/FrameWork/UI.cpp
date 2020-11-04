@@ -38,15 +38,15 @@ void UI::Update(std::string message)
 	{
 		cout << "KeyBoard 2" << endl;
 	}
-	else if (message.compare("EVENT_LBUTTONDOWN") == 0)
+	else if (message.compare("EVENT_LccButtonDOWN") == 0)
 	{
 		cout << "MouseLB" << endl;
 	}
-	else if (message.compare("EVENT_LBUTTONDLBC") == 0)
+	else if (message.compare("EVENT_LccButtonDLBC") == 0)
 	{
-		cout << "Mouse LButton Double Click" << endl;
+		cout << "Mouse LccButton Double Click" << endl;
 	}
-	else if (message.compare("EVENT_RBUTTONDOWN") == 0)
+	else if (message.compare("EVENT_RccButtonDOWN") == 0)
 	{
 		cout << "MouseRB" << endl;
 	}
