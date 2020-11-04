@@ -19,7 +19,6 @@ private:
 	System * m_fmodSystem;
 
 	Channel* m_cbgmChannel;
-	Channel* m_csfxChannel;
 
 	Sound* m_sbgm;
 	map<string, Sound*> m_mapsoundHash;
@@ -38,4 +37,5 @@ public:
 	void Stop();
 
 	void Destroy();
+	void Update();
 };

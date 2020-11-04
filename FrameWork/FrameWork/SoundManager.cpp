@@ -18,6 +18,14 @@ void cSoundManager::Destroy()
 	delete m_fmodSystem;
 }
 
+void cSoundManager::Update()
+{
+	if (m_fmodSystem)
+		m_fmodSystem->update();
+
+	/* IMPORTANT! CALL THIS ONCE PER FRAME! */
+}
+
 void cSoundManager::init()
 {
 	System_Create(&m_fmodSystem);
@@ -36,7 +44,6 @@ void cSoundManager::init()
 
 void cSoundManager::AddBGM(string path)
 {
-	//fmodSystem->createSound(path.c_str(), FMOD_LOOP_NORMAL, NULL, &bgm);
 	m_fmodSystem->createStream(path.c_str(), FMOD_LOOP_NORMAL, NULL, &m_sbgm);
 }
 
@@ -53,11 +60,13 @@ void cSoundManager::PlayBGM()
 void cSoundManager::PlaySFX(string soundName)
 {
 	if (m_mapsoundHash[soundName] != NULL)
+	{
+		Channel* m_csfxChannel;	
 		m_fmodSystem->playSound(FMOD_CHANNEL_FREE, m_mapsoundHash[soundName], false, &m_csfxChannel);
+	}
 }
 
 void cSoundManager::Stop()
 {
-	m_csfxChannel->stop();
 	m_cbgmChannel->stop();
 }

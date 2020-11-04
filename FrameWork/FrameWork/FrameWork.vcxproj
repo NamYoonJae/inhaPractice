@@ -154,6 +154,7 @@
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FrameWork.h" />
+    <ClInclude Include="json parson.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PopUp.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="json parson.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Player.cpp" />
