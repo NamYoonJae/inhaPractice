@@ -43,6 +43,9 @@
     <ClCompile Include="TimerManager.cpp">
       <Filter>Code\TimeManager</Filter>
     </ClCompile>
+    <ClCompile Include="json parson.cpp">
+      <Filter>Code\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="TimerManager.h">
       <Filter>Code\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="json parson.h">
+      <Filter>Code\json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +169,9 @@
     </Filter>
     <Filter Include="Code\TimeManager">
       <UniqueIdentifier>{f864838d-98b0-40d9-89a0-0e18b00bb76d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\json">
+      <UniqueIdentifier>{74f0f738-f3ed-4beb-b4c5-c967cc256891}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
