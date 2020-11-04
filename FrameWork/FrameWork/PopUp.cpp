@@ -62,9 +62,10 @@ void cPopUp::Update(std::string message)
 	/*
 	if ()
 	{
-	
+		
 	}
 	*/
+	
 	InputcEventManager->GetMousePosition();
 
 
