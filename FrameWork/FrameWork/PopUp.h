@@ -15,12 +15,6 @@ protected:
 	D3DXIMAGE_INFO m_ImageInfo;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
 
-	/*
-	LPD3DXFONT m_pFont;
-	D3DXVECTOR3 m_FontPosition;
-	string m_Text;
-	*/
-
 	int m_State;
 	D3DXVECTOR3 m_Position;
 
@@ -35,12 +29,6 @@ public:
 	virtual void Update(std::string);
 	virtual void Render();
 
-	/*
-	void FontCreate(char* szText);
-	void Text_Render();
-	*/
-
-	//D3DXVECTOR3 GetPosition();
 	void cButtonPushBack(cButton&);
 	virtual int GetState();
 	virtual void StateChange(int state);

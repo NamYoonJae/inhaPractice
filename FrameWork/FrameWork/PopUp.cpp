@@ -6,7 +6,6 @@
 cPopUp::cPopUp()
 	: m_pSprite(NULL)
 	, m_pTextureUI(NULL)
-	//, m_pFont(NULL)
 	, m_State(enum_Off)
 	, m_Position(0.0f, 0.0f, 0.0f)
 	, m_pButton(NULL)
@@ -18,7 +17,6 @@ cPopUp::~cPopUp()
 {
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
-	//SafeRelease(m_pFont);
 
 	for (int i = m_vecBtnList.size(); i == 0 ; i--)
 	{
@@ -57,12 +55,12 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 
 void cPopUp::Update(std::string message)
 {
-	/*
-	if ()
-	{
-		
+	if (message == "EVENT_MOVE")
+	{ 
+		D3DXVECTOR2 cur = InputcEventManager->GetMouseCurrent();
+		//버튼 위이면 버튼의 색을 바꾼다
+
 	}
-	*/
 	
 	InputcEventManager->GetMouseCurrent();
 	InputcEventManager->GetMousePrev();
