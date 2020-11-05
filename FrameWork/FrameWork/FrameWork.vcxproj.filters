@@ -55,6 +55,9 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Code\SceneManager</Filter>
     </ClCompile>
+    <ClCompile Include="FontManager.cpp">
+      <Filter>Code\FontManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -119,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Code\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FontManager.h">
+      <Filter>Code\FontManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +202,9 @@
     </Filter>
     <Filter Include="Code\SceneManager">
       <UniqueIdentifier>{a70a97d7-48be-488b-a125-0e7fb7c2290d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\FontManager">
+      <UniqueIdentifier>{939c01d7-548f-48f0-9d2d-14d97994150b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

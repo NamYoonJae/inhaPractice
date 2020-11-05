@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Camera.h"
+#include "TimerManager.h"
+#include "FontManager.h"
 #include "GameScene.h"
 
 
@@ -33,6 +35,8 @@ void cGameScene::Render()
 {
 	g_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	g_pD3DDevice->BeginScene();
+
+	g_pTimeManager->DrawFPS();
 
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

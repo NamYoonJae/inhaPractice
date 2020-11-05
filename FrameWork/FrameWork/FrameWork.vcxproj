@@ -153,6 +153,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="FontManager.h" />
     <ClInclude Include="FrameWork.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="json parson.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="json parson.cpp" />
     <ClCompile Include="Main.cpp" />

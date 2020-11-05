@@ -15,6 +15,6 @@ private:
 public:
 	void Update();
 	float GetElapsedTime();
-
+	int GetFPS();
+	void DrawFPS();
 };
-
