@@ -25,10 +25,13 @@ cDeviceManage::cDeviceManage()
 	ZeroMemory(&stD3DPP, sizeof(D3DPRESENT_PARAMETERS));
 
 	stD3DPP.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	stD3DPP.Windowed = TRUE;
+	stD3DPP.hDeviceWindow = g_hWnd;
+	stD3DPP.Windowed = true;
 	stD3DPP.BackBufferFormat = D3DFMT_UNKNOWN;
-	stD3DPP.EnableAutoDepthStencil = TRUE;
-	stD3DPP.AutoDepthStencilFormat = D3DFMT_D16;
+	stD3DPP.EnableAutoDepthStencil = true;
+	stD3DPP.AutoDepthStencilFormat = D3DFMT_D24S8;
+	stD3DPP.Flags = 0;
+	stD3DPP.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 	m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, g_hWnd, nVertexProcessing, &stD3DPP, &m_pDevice);
 
