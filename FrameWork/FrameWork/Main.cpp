@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "SceneManager.h"
+#include "TimerManager.h"
 #include "Scene.h"
 #include "FrameWork.h"
 
@@ -48,13 +49,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	MSG msg;
 	g_pSceneManager->Setup();
 
-	static LARGE_INTEGER LastTime;
-	QueryPerformanceCounter(&LastTime);
-	static float deltatime = 0;
-
-	float Timer = 0;
-	int Cnt = 0;
-
 	// Main message loop:
 	while (true)
 	{
@@ -75,25 +69,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			g_pSceneManager->GetCurrentScene()->CheckInput();
 			g_pSceneManager->GetCurrentScene()->Update();
 			g_pSceneManager->GetCurrentScene()->Render();
+			g_pTimeManager->Update();
 			
-			LARGE_INTEGER CurTime, frequency, DeltaTime;
-			QueryPerformanceFrequency(&frequency);
-			QueryPerformanceCounter(&CurTime);
-			DeltaTime.QuadPart = (CurTime.QuadPart - LastTime.QuadPart) * 1000000;
-			DeltaTime.QuadPart /= frequency.QuadPart;
-
-			deltatime = DeltaTime.QuadPart * 0.000001f;
-
-			Timer += deltatime;
-			Cnt++;
-			if (Timer > 1)
-			{
-				cout << "Frame : " << Cnt << endl;
-				Timer = 0;
-				Cnt = 0;
-			}
-
-			LastTime = CurTime;
 		}
 	}
 

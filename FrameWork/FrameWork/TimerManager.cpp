@@ -4,8 +4,10 @@
 
 
 cTimerManager::cTimerManager()
+	:m_fFPS_Timer(0)
+	,m_FPS(0)
 {
-	m_dwLastUpdateTime = GetTickCount();
+	QueryPerformanceCounter(&m_liLastTime);
 }
 
 
@@ -15,17 +17,28 @@ cTimerManager::~cTimerManager()
 
 void cTimerManager::Update()
 {
-	DWORD dwCurrentTime = GetTickCount();
-	m_fElapsedTime = (dwCurrentTime - m_dwLastUpdateTime) / 1000.0f;
-	m_dwLastUpdateTime = dwCurrentTime;
+	LARGE_INTEGER CurTime, frequency, DeltaTime;
+	QueryPerformanceFrequency(&frequency);
+	QueryPerformanceCounter(&CurTime);
+	DeltaTime.QuadPart = (CurTime.QuadPart - m_liLastTime.QuadPart) * 1000000;
+	DeltaTime.QuadPart /= frequency.QuadPart;
+
+	m_fElapsedTime = DeltaTime.QuadPart * 0.000001f;
+
+	m_fFPS_Timer += m_fElapsedTime;
+	m_FPS++;
+	
+	if (m_fFPS_Timer > 1)
+	{
+		cout << "Frame : " << m_FPS << endl;
+		m_fFPS_Timer = 0;
+		m_FPS = 0;
+	}
+
+	m_liLastTime = CurTime;
 }
 
 float cTimerManager::GetElapsedTime()
 {
 	return m_fElapsedTime;
-}
-
-float cTimerManager::GetLastUpdateTime()
-{
-	return m_dwLastUpdateTime / 1000.0f;
 }
