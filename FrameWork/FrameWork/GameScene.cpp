@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Camera.h"
+#include "Grid.h"
 #include "TimerManager.h"
 #include "FontManager.h"
 #include "GameScene.h"
@@ -7,6 +8,7 @@
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
+	,m_pGrid(nullptr)
 {
 }
 
@@ -18,7 +20,10 @@ cGameScene::~cGameScene()
 void cGameScene::Setup()
 {
 	m_cMainCamera = new cCamera;
-	m_cMainCamera->Setup(&D3DXVECTOR3(0, 0, 0));
+	m_cMainCamera->Setup(NULL);
+
+	m_pGrid = new cGrid;
+	m_pGrid->Setup();
 }
 
 void cGameScene::CheckInput()
@@ -37,6 +42,7 @@ void cGameScene::Render()
 	g_pD3DDevice->BeginScene();
 
 	g_pTimeManager->DrawFPS();
+	m_pGrid->Render();
 
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

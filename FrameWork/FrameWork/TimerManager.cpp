@@ -54,7 +54,7 @@ void cTimerManager::DrawFPS()
 {
 	string Text("Frame : ");
 	Text += to_string(m_FPS);
-	g_pFontManager->DrawFont(FONT_DEFAULT, Text, 65, 0, 100, 50, FONT_CENTER, FONT_WHITE);
+	g_pFontManager->DrawFont(FONT_SYSTEM, Text, 0, 0, 100, 50, FONT_LEFTTOP, FONT_GREEN);
 }
 
 

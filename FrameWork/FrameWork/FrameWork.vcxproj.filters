@@ -58,6 +58,9 @@
     <ClCompile Include="FontManager.cpp">
       <Filter>Code\FontManager</Filter>
     </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Code\Grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="FontManager.h">
       <Filter>Code\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Code\Grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +211,9 @@
     </Filter>
     <Filter Include="Code\FontManager">
       <UniqueIdentifier>{939c01d7-548f-48f0-9d2d-14d97994150b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Grid">
+      <UniqueIdentifier>{9ed05807-e052-48f3-9f87-10e0dba40cda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

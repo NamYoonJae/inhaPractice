@@ -1,10 +1,12 @@
 #pragma once
 #include "Scene.h"
 
+class cGrid;
+
 class cGameScene : public cScene
 {
 private:
-	
+	cGrid* m_pGrid;
 public:
 	cGameScene(string name);
 	~cGameScene();

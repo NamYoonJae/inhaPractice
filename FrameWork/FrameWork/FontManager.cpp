@@ -58,8 +58,7 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 
 void cFontManager::DrawFont(eFontType type, string text, RECT drawArea, DWORD format, D3DCOLOR color)
 {
-	LPD3DXFONT	pFont = NULL;
-	pFont =	GetFont(type);
+	LPD3DXFONT	pFont = GetFont(type);
 	pFont->DrawTextA(NULL, text.c_str(), text.length(), &drawArea, format, color);
 }
 
