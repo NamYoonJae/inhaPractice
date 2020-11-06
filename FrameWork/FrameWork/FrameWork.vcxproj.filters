@@ -73,6 +73,9 @@
     <ClCompile Include="cTerrain.cpp">
       <Filter>Code\Terrain</Filter>
     </ClCompile>
+    <ClCompile Include="json additional code.cpp">
+      <Filter>Code\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -155,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="cTerrain.h">
       <Filter>Code\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="json additional code.h">
+      <Filter>Code\json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,5 @@
 #include "stdafx.h"
-
-//#include "json parson.h"
+//#include "json parson.h" // was moved to "stdafx.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

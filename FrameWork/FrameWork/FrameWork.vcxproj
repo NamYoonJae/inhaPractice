@@ -158,6 +158,7 @@
     <ClInclude Include="FrameWork.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="json additional code.h" />
     <ClInclude Include="json parson.h" />
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="ObjObject.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="json additional code.cpp" />
     <ClCompile Include="json parson.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ObjLoader.cpp" />

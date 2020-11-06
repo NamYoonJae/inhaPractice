@@ -18,7 +18,8 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
-
+#include <string.h>
+#include <stdio.h>
 
 // TODO: 프로그램에 필요한 추가 헤더는 여기에서 참조합니다.
 #include<d3dx9.h>
@@ -66,4 +67,5 @@ extern HWND g_hWnd;
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 #include "json parson.h"
+#include "json additional code.h"
 #pragma endregion 
