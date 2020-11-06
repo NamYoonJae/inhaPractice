@@ -43,6 +43,7 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_LBUTTONDOWN:
 		m_Queue.push(m_mapEvent[0x03]);
+		Notify();
 		break;
 	case WM_RBUTTONDBLCLK:
 		m_Queue.push(m_mapEvent[0x06]);
@@ -67,6 +68,8 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 		m_IsDrag = false;
 		m_Queue.push(m_mapEvent[0x0A]);	
 		}
+		m_Queue.push(m_mapEvent[0x07]);
+
 	}
 	case WM_RBUTTONUP:
 		Notify();		

@@ -20,7 +20,7 @@ void UI::Update(std::string message)
 	}
 	else if (message.compare("EVENT_MOVE") == 0)
 	{
-		D3DXVECTOR2 CurMouse = InputcEventManager->GetMouseCurrent();
+		D3DXVECTOR2 CurMouse = EventManager->GetMouseCurrent();
 		POINT Pt = { (long)CurMouse.x,(long)CurMouse.y };
 		if (PtInRect(&m_Rc,Pt))
 		{

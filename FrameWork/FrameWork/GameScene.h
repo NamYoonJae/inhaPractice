@@ -2,12 +2,19 @@
 #include "Scene.h"
 
 class cGrid;
+class cPopUp;
+class cButton;
 class cObjMesh;
 class cTerrain;
 class cGameScene : public cScene
 {
 private:
 	cGrid* m_pGrid;
+	cPopUp* m_pPopup;
+	cButton* m_pButton;
+	cButton* m_pButton2;
+
+	
 	cObjMesh* m_pObjUnit;
 	cTerrain* m_pTerrain;
 public:

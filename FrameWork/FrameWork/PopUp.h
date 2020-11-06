@@ -9,7 +9,7 @@ protected:
 	{
 		enum_Off = 0,
 		enum_On = 1,
-		enum_hover = 2,
+		enum_Hover = 2,
 	};
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
@@ -21,6 +21,9 @@ protected:
 	vector<cButton*> m_vecBtnList;
 	cButton* m_pButton;
 
+	cButton* m_pButtonHover;
+	cButton* m_pButtonClick;
+
 public:
 	cPopUp();
 	~cPopUp();
@@ -29,8 +32,8 @@ public:
 	virtual void Update(std::string);
 	virtual void Render();
 
-	void cButtonPushBack(cButton&);
+	void cButtonPushBack(cButton*);
 	virtual int GetState();
-	virtual void StateChange(int state);
+	virtual void SetStateChange(int state);
 };
 

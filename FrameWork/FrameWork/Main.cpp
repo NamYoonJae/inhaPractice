@@ -47,6 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_FRAMEWORK));
 
 	MSG msg;
+	g_pD3DDevice;
 	g_pSceneManager->Setup();
 
 	// Main message loop:
@@ -123,13 +124,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-
-   g_pLogger->CreateLogFile();
-   LoggerEntry;
    g_hWnd = hWnd;
-   g_pLogger->CommentLog(__FUNCTION__, "g_hWnd == hWnd");
-   g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fff",1.0f,0.9f,0.5f);
-   LoggerLeave;
+   g_pLogger->CreateLogFile();
+
 
 	
    if (!hWnd)
@@ -158,15 +155,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	static UI* m_pMenu;
 	static Player* m_pPlayer;
 
-	InputcEventManager->InputEvent(message, wParam, lParam);
+	EventManager->InputEvent(message, wParam, lParam);
     switch (message)
     {
 	case WM_CREATE:
 	{
 		m_pMenu = new UI(RECT{ 0, 0, 400, 400 });
 		m_pPlayer = new Player;
-		InputcEventManager->Attach(m_pMenu);
-		InputcEventManager->Attach(m_pPlayer);
+		EventManager->Attach(m_pMenu);
+		EventManager->Attach(m_pPlayer);
 		// 현재 이벤트 awsd  / 마우스 0,0,400,400 IN , ESC키,numpad1,numpad2 
 		// 마우스 R,L  / L버튼 더블클릭
 	}
