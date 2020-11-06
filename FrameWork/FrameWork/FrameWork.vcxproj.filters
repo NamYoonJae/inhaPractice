@@ -68,6 +68,9 @@
       <Filter>Code\ObjFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjObject.cpp" />
+    <ClCompile Include="cTerrain.cpp">
+      <Filter>Code\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -146,6 +149,9 @@
       <Filter>Code\ObjFile</Filter>
     </ClInclude>
     <ClInclude Include="ObjObject.h" />
+    <ClInclude Include="cTerrain.h">
+      <Filter>Code\Terrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -237,6 +243,9 @@
     </Filter>
     <Filter Include="Code\ObjFile\ObjObject">
       <UniqueIdentifier>{837f631c-c969-4b83-9f08-465eaf21b3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Terrain">
+      <UniqueIdentifier>{ef7c542d-e971-4c19-92c4-1d3765fe1aa2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
