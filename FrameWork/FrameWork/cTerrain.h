@@ -1,6 +1,5 @@
 #pragma once
-#include<process.h>
-#include <thread>
+
 
 class cTerrain
 {

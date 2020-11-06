@@ -10,6 +10,9 @@
 #include <iostream>
 #include <vector>
 #include <cstdarg>
+#include<process.h>
+#include <thread>
+
 using namespace std;
 
 struct ST_PC_VERTEX

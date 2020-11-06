@@ -3,12 +3,13 @@
 
 class cGrid;
 class cObjMesh;
-
+class cTerrain;
 class cGameScene : public cScene
 {
 private:
 	cGrid* m_pGrid;
 	cObjMesh* m_pObjUnit;
+	cTerrain* m_pTerrain;
 public:
 	cGameScene(string name);
 	~cGameScene();

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cTerrain.h"
-
+#include "basic.h"
 cTerrain::cTerrain()
 	:m_pTexture(NULL)
 	, m_pTerrainMesh(NULL)
@@ -245,10 +245,11 @@ void cTerrain::Setup(std::string strFolder, std::string strTex,
 
 void cTerrain::callThread(D3DXVECTOR3 vec)
 {
-	static DWORD CheckTime = GetTickCount();
-	if (m_IsKeyThread && GetTickCount() - CheckTime > 3000.0f)
+	static D3DXVECTOR3 PrevVec = vec;
+	
+	if (m_IsKeyThread && PrevVec != vec)
 	{
-		CheckTime = GetTickCount();
+		PrevVec = vec;
 		m_IsKeyThread = false;
 		TerrainThread = new std::thread([&]() {NewTerrain(vec); });
 		
