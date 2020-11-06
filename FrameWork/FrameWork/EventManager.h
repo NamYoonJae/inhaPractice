@@ -6,7 +6,7 @@
 
 
 
-#define InputcEventManager cEventManager::GetInstance()
+#define EventManager cEventManager::GetInstance()
 
 //ÈÙ 107 108 19 110
 

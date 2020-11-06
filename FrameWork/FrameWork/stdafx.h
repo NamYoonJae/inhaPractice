@@ -52,7 +52,8 @@ extern HWND g_hWnd;
 #include "cDeviceManage.h"
 #include "Logger.h"
 #include "EventManager.h"
-
+#include "TimerManager.h"
+#include "FontManager.h"
 
 // >> :cEventManager Example Class
 #include "UI.h"

@@ -53,7 +53,24 @@ void cButton::Render()
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matWorld);
 
-	m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(0, 0, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_Position.x, m_Position.y, m_Position.z), D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	matWorld = matS * matT;
+
+	m_pSprite->End();
+}
+
+void cButton::Render(D3DXVECTOR3 position)
+{
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+	RECT rc;
+	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+	D3DXMATRIXA16 matT, matS, matWorld;
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matWorld);
+
+	m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(position.x, position.y, position.z), D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	matWorld = matS * matT;
 
@@ -68,4 +85,19 @@ int cButton::GetState()
 void cButton::StateChange(int state)
 {
 	m_State = state;
+}
+
+D3DXVECTOR3 cButton::GetPosition()
+{
+	return m_Position;
+}
+
+float cButton::GetImageInfoWidth()
+{
+	return (float)m_ImageInfo.Width;
+}
+
+float cButton::GetImageInfoHeight()
+{
+	return (float)m_ImageInfo.Height;
 }

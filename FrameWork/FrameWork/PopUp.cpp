@@ -29,6 +29,12 @@ cPopUp::~cPopUp()
 
 void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 {
+	m_pButtonHover = new cButton;
+	m_pButtonHover->Setup("UI", "btn-med-over.png", D3DXVECTOR3(0, 0, 0), 0, 0, 0); //->버튼 이미지 루트와 좌표값을 가지고 셋팅
+	m_pButtonClick = new cButton;
+	m_pButtonClick->Setup("UI", "btn-med-down.png", D3DXVECTOR3(0, 0, 0), 0, 0, 0);
+
+
 	m_Position = position;
 
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
@@ -57,16 +63,81 @@ void cPopUp::Update(std::string message)
 {
 	if (message == "EVENT_MOVE")
 	{ 
-		D3DXVECTOR2 cur = InputcEventManager->GetMouseCurrent();
-		//버튼 위이면 버튼의 색을 바꾼다
+		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
 
+		for (int i = 0; i < m_vecBtnList.size(); i++) 
+		{
+			D3DXVECTOR3 btnPosition = m_vecBtnList[i]->GetPosition();	//좌상단 좌표
+			float width = m_vecBtnList[i]->GetImageInfoWidth();	//버튼의 가로길이
+			float height = m_vecBtnList[i]->GetImageInfoHeight();	//버튼의 세로길이
+
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width) 
+			{
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height) 
+				{
+					m_vecBtnList[i]->SetStateChange(enum_Hover);
+				}
+				else 
+				{
+					m_vecBtnList[i]->SetStateChange(enum_Off);
+				}
+			}
+			else
+			{
+				m_vecBtnList[i]->SetStateChange(enum_Off);
+			}
+
+		}//for end
+		
+
+	}//if (message == "EVENT_MOVE" ) END
+
+
+
+	
+	if (message == "EVENT_LBUTTONDOWN") 
+	{
+		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
+
+		for (int i = 0; i < m_vecBtnList.size(); i++) 
+		{
+			D3DXVECTOR3 btnPosition = m_vecBtnList[i]->GetPosition();	//좌상단 좌표
+			float width = m_vecBtnList[i]->GetImageInfoWidth();	//버튼의 가로길이
+			float height = m_vecBtnList[i]->GetImageInfoHeight();	//버튼의 세로길이
+
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+			{
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					m_vecBtnList[i]->SetStateChange(enum_On);
+				}
+			}
+
+		}
+		cout << "버튼 스테이트" << m_vecBtnList[0]->GetState() << endl;
+	}
+
+	if (message == "EVENT_LBUTTONUP") 
+	{
+		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
+
+		for (int i = 0; i < m_vecBtnList.size(); i++)
+		{
+			D3DXVECTOR3 btnPosition = m_vecBtnList[i]->GetPosition();	//좌상단 좌표
+			float width = m_vecBtnList[i]->GetImageInfoWidth();	//버튼의 가로길이
+			float height = m_vecBtnList[i]->GetImageInfoHeight();	//버튼의 세로길이
+
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+			{
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					m_vecBtnList[i]->SetStateChange(enum_Hover);
+				}
+			}
+		}
+		cout << "버튼 스테이트" << m_vecBtnList[0]->GetState() << endl;
 	}
 	
-	InputcEventManager->GetMouseCurrent();
-	InputcEventManager->GetMousePrev();
-
-
-
 	for (int i = 0; i < m_vecBtnList.size(); i++) 
 	{
 		m_vecBtnList[i]->Update(message);
@@ -81,6 +152,7 @@ void cPopUp::Update(std::string message)
 void cPopUp::Render()
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+
 	RECT rc;
 	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	D3DXMATRIXA16 matT, matS, matWorld;
@@ -91,36 +163,29 @@ void cPopUp::Render()
 	//m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_ptPrevMouse.x, m_ptPrevMouse.y, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 	m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_Position.x, m_Position.y, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 	matWorld = matS * matT;
+
 	m_pSprite->End();
-}
 
+	for(int i = 0; i < m_vecBtnList.size(); i++)
+	{
+		int state = m_vecBtnList[i]->GetState();
 
-/*
-void PopUp::FontCreate(char * text)
-{
-	m_Text = text;
-	D3DXFONT_DESC fd;
+		if (state == enum_On) 
+		{
+			m_pButtonClick->Render(m_vecBtnList[i]->GetPosition());
+		}
+		else if(state == enum_Off)
+		{
+			m_vecBtnList[i]->Render();
+		}
+		else if (state == enum_Hover) 
+		{
+			m_pButtonHover->Render(m_vecBtnList[i]->GetPosition());
+		}
+	}
 
-	D3DXFONT_DESC fd;
-	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-	fd.Height = 50;
-	fd.Width = 25;
-	fd.Weight = FW_MEDIUM;
-	fd.Italic = false;
-	fd.CharSet = DEFAULT_CHARSET;
-	fd.OutputPrecision = OUT_DEFAULT_PRECIS;
-	fd.PitchAndFamily = FF_DONTCARE;
-
-	wcscpy_s(fd.FaceName, L"굴림체");
-
-	D3DXCreateFontIndirect(g_pD3DDevice, &fd, &m_pFont);
-}
-
-void PopUp::Text_Render()
-{
 
 }
-*/
 
 /*
 D3DXVECTOR3 PopUp::GetPosition()
@@ -129,9 +194,9 @@ D3DXVECTOR3 PopUp::GetPosition()
 }
 */
 
-void cPopUp::cButtonPushBack(cButton& btn)
+void cPopUp::cButtonPushBack(cButton* btn)
 {
-	m_vecBtnList.push_back(&btn);
+	m_vecBtnList.push_back(btn);
 }
 
 int cPopUp::GetState()
@@ -139,7 +204,7 @@ int cPopUp::GetState()
 	return m_State;
 }
 
-void cPopUp::StateChange(int state)
+void cPopUp::SetStateChange(int state)
 {
 	m_State = state;
 }

@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "Camera.h"
 #include "Grid.h"
-#include "TimerManager.h"
-#include "FontManager.h"
 #include "GameScene.h"
-
+#include "Button.h"
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
@@ -24,6 +22,23 @@ void cGameScene::Setup()
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
+
+
+
+	m_pPopup = new cPopUp;
+	m_pPopup->Setup("UI", "panel-info.png", D3DXVECTOR3(100,100,0));
+
+	m_pButton = new cButton;
+	m_pButton->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100,100,0), 0, 0, 0);
+	m_pPopup->cButtonPushBack(m_pButton);
+
+	m_pButton2 = new cButton;
+	m_pButton2->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 100, 100, 0);
+	m_pPopup->cButtonPushBack(m_pButton2);
+
+	EventManager->Attach(m_pPopup);
+	
+	
 }
 
 void cGameScene::CheckInput()
@@ -34,6 +49,7 @@ void cGameScene::Update()
 {
 	if (m_cMainCamera)
 		m_cMainCamera->Update();
+
 }
 
 void cGameScene::Render()
@@ -43,6 +59,11 @@ void cGameScene::Render()
 
 	g_pTimeManager->DrawFPS();
 	m_pGrid->Render();
+
+	if(m_pPopup)
+		m_pPopup->Render();
+
+
 
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
