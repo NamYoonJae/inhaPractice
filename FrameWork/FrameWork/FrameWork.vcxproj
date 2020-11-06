@@ -158,7 +158,10 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="json parson.h" />
+    <ClInclude Include="ObjLoader.h" />
+    <ClInclude Include="ObjObject.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PopUp.h" />
     <ClInclude Include="Logger.h" />
@@ -182,7 +185,10 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="json parson.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ObjLoader.cpp" />
+    <ClCompile Include="ObjObject.cpp" />
     <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopUp.cpp" />
     <ClCompile Include="Scene.cpp" />

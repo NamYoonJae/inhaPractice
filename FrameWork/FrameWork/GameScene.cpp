@@ -3,12 +3,14 @@
 #include "Grid.h"
 #include "TimerManager.h"
 #include "FontManager.h"
+#include "ObjObject.h"
 #include "GameScene.h"
 
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
 	,m_pGrid(nullptr)
+	,m_pObjUnit(nullptr)
 {
 }
 
@@ -24,6 +26,10 @@ void cGameScene::Setup()
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
+
+	m_pObjUnit = new cObjObject;
+	m_pObjUnit->Setup("data/ObjFile", "box.obj");
+	m_pObjUnit->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
 }
 
 void cGameScene::CheckInput()
@@ -44,6 +50,12 @@ void cGameScene::Render()
 	g_pTimeManager->DrawFPS();
 	m_pGrid->Render();
 
+// >> temp Light Off
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	m_pObjUnit->Render();
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+// <<
+	
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }
