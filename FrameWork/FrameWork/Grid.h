@@ -6,7 +6,6 @@ class cGrid
 {
 private:
 	vector<ST_PC_VERTEX>	m_vecVertex;
-	//vector<cPyramid*>		m_vecPyramid;
 	vector<ST_PN_VERTEX>    m_vecBoardVertex;
 	vector<cPyramidGizmo>   m_vecGizmo;
 public:

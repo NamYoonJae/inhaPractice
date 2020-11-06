@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "Camera.h"
 #include "Grid.h"
+#include "TimerManager.h"
+#include "FontManager.h"
+#include "ObjObject.h"
 #include "GameScene.h"
 #include "Button.h"
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
 	,m_pGrid(nullptr)
+	,m_pObjUnit(nullptr)
 {
 }
 
@@ -39,6 +43,9 @@ void cGameScene::Setup()
 	EventManager->Attach(m_pPopup);
 	
 	
+	m_pObjUnit = new cObjMesh;
+	m_pObjUnit->Setup("data/ObjFile", "box.obj");
+	m_pObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 }
 
 void cGameScene::CheckInput()
@@ -65,6 +72,12 @@ void cGameScene::Render()
 
 
 
+// >> temp Light Off
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	m_pObjUnit->Render();
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+// <<
+	
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }

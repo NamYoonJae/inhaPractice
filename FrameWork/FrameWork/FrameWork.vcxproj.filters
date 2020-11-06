@@ -61,6 +61,18 @@
     <ClCompile Include="Grid.cpp">
       <Filter>Code\Grid</Filter>
     </ClCompile>
+    <ClCompile Include="Parser.cpp">
+      <Filter>Code\Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjLoader.cpp">
+      <Filter>Code\ObjFile</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjObject.cpp">
+      <Filter>Code\ObjFile\ObjObject</Filter>
+    </ClCompile>
+    <ClCompile Include="cTerrain.cpp">
+      <Filter>Code\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -131,6 +143,18 @@
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Code\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Code\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjLoader.h">
+      <Filter>Code\ObjFile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjObject.h">
+      <Filter>Code\ObjFile\ObjObject</Filter>
+    </ClInclude>
+    <ClInclude Include="cTerrain.h">
+      <Filter>Code\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +238,18 @@
     </Filter>
     <Filter Include="Code\Grid">
       <UniqueIdentifier>{9ed05807-e052-48f3-9f87-10e0dba40cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Parser">
+      <UniqueIdentifier>{8e711ea1-9504-4fea-ba44-55805b645329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ObjFile">
+      <UniqueIdentifier>{06d2c038-9c3f-42f3-af5f-8188bf0af58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\ObjFile\ObjObject">
+      <UniqueIdentifier>{837f631c-c969-4b83-9f08-465eaf21b3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Terrain">
+      <UniqueIdentifier>{ef7c542d-e971-4c19-92c4-1d3765fe1aa2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

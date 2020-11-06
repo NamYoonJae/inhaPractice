@@ -4,6 +4,7 @@
 class cGrid;
 class cPopUp;
 class cButton;
+class cObjMesh;
 
 class cGameScene : public cScene
 {
@@ -14,6 +15,7 @@ private:
 	cButton* m_pButton2;
 
 	
+	cObjMesh* m_pObjUnit;
 public:
 	cGameScene(string name);
 	~cGameScene();
