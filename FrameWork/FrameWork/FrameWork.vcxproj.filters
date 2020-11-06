@@ -69,7 +69,7 @@
     </ClCompile>
     <ClCompile Include="ObjObject.cpp">
       <Filter>Code\ObjFile\ObjObject</Filter>
-    <ClCompile Include="ObjObject.cpp" />
+    </ClCompile>
     <ClCompile Include="cTerrain.cpp">
       <Filter>Code\Terrain</Filter>
     </ClCompile>
@@ -152,7 +152,7 @@
     </ClInclude>
     <ClInclude Include="ObjObject.h">
       <Filter>Code\ObjFile\ObjObject</Filter>
-    <ClInclude Include="ObjObject.h" />
+    </ClInclude>
     <ClInclude Include="cTerrain.h">
       <Filter>Code\Terrain</Filter>
     </ClInclude>
