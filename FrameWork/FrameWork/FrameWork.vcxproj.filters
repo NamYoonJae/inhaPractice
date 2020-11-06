@@ -67,7 +67,9 @@
     <ClCompile Include="ObjLoader.cpp">
       <Filter>Code\ObjFile</Filter>
     </ClCompile>
-    <ClCompile Include="ObjObject.cpp" />
+    <ClCompile Include="ObjObject.cpp">
+      <Filter>Code\ObjFile\ObjObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -145,7 +147,9 @@
     <ClInclude Include="ObjLoader.h">
       <Filter>Code\ObjFile</Filter>
     </ClInclude>
-    <ClInclude Include="ObjObject.h" />
+    <ClInclude Include="ObjObject.h">
+      <Filter>Code\ObjFile\ObjObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

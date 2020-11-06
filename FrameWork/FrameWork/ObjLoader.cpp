@@ -163,6 +163,7 @@ void cObjLoader::LoadMtlLib(char* folder, char* file)
 	}
 
 	string MtlName;
+	int nCnt = 0;
 
 	while (!feof(SrcFile))
 	{
@@ -174,11 +175,11 @@ void cObjLoader::LoadMtlLib(char* folder, char* file)
 		if (buff[0] == 'n')
 		{
 			sscanf_s(buff, "%*s %s", buff, sizeof(buff));
-			MtlName = buff;
-
+			MtlName = string(buff);
 			if (m_mapMtlTex.find(MtlName) == m_mapMtlTex.end())
 			{
 				m_mapMtlTex[MtlName] = new cMtlTex;
+				m_mapMtlTex[MtlName]->SetAttribute(nCnt++);	//nCnt대신 맵사이즈로 해도 된다
 			}
 		}
 		else if (buff[0] == 'K')
@@ -218,4 +219,127 @@ void cObjLoader::LoadMtlLib(char* folder, char* file)
 	}
 
 	fclose(SrcFile);
+}
+
+LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, char* folder, char* file)
+{
+	vector<DWORD> vecAttrBuf;
+	vector<D3DXVECTOR3> vecV;
+	vector<D3DXVECTOR2> vecVT;
+	vector<D3DXVECTOR3> vecVN;
+	vector<ST_PNT_VERTEX> vecVertex;
+
+	string sFullPath(folder);
+	sFullPath += (string("/") + string(file));
+
+	FILE* fp;
+	fopen_s(&fp, sFullPath.c_str(), "rb");
+
+	string sMtlName;
+	while (true)
+	{
+		if (feof(fp)) break;
+
+		char szTemp[1024];
+		fgets(szTemp, 1024, fp);
+
+		if (szTemp[0] == '#')
+		{
+			continue;
+		}
+		else if (szTemp[0] == 'm')
+		{
+			char szMtlFile[1024];
+			sscanf_s(szTemp, "%*s %s", szMtlFile, 1024);//%*s 애는 버리고 %s만 가져오겠다
+			LoadMtlLib(folder, szMtlFile);
+		}
+		else if (szTemp[0] == 'g')
+		{
+			// Skip
+		}
+		else if (szTemp[0] == 'v')
+		{
+			if (szTemp[1] == ' ')
+			{
+				float x, y, z;
+				sscanf_s(szTemp, "%*s %f %f %f", &x, &y, &z);
+				vecV.push_back(D3DXVECTOR3(x, y, z));
+			}
+			else if (szTemp[1] == 't')
+			{
+				float u, v;
+				sscanf_s(szTemp, "%*s %f %f", &u, &v);
+				vecVT.push_back(D3DXVECTOR2(u, v));
+			}
+			else if (szTemp[1] == 'n')
+			{
+				float x, y, z;
+				sscanf_s(szTemp, "%*s %f %f %f", &x, &y, &z);
+				vecVN.push_back(D3DXVECTOR3(x, y, z));
+			}
+		}
+		else if (szTemp[0] == 'u')
+		{
+			char szMtlName[1024];
+			sscanf_s(szTemp, "%*s %s", szMtlName, 1024);
+			sMtlName = string(szMtlName);
+		}
+		else if (szTemp[0] == 'f')
+		{
+			int nIndex[3][3];
+			sscanf_s(szTemp, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
+				&nIndex[0][0], &nIndex[0][1], &nIndex[0][2],
+				&nIndex[1][0], &nIndex[1][1], &nIndex[1][2],
+				&nIndex[2][0], &nIndex[2][1], &nIndex[2][2]
+			);
+
+			for (int i = 0; i < 3; ++i)
+			{
+				ST_PNT_VERTEX v;
+				v.p = vecV[nIndex[i][0] - 1];
+				v.t = vecVT[nIndex[i][1] - 1];
+				v.n = vecVN[nIndex[i][2] - 1];
+				vecVertex.push_back(v);
+			}
+
+			vecAttrBuf.push_back(m_mapMtlTex[sMtlName]->GetAttribute());	//속성값을 얻어와서 어트리뷰트에 넣어준다
+
+		}
+	}
+	fclose(fp);
+	
+	vecMtlTex.resize(m_mapMtlTex.size());
+
+	for each(auto it in m_mapMtlTex)
+	{
+		vecMtlTex[it.second->GetAttribute()] = it.second;
+	}
+
+	LPD3DXMESH pMesh = NULL;
+	D3DXCreateMeshFVF(vecAttrBuf.size(), vecVertex.size(), D3DXMESH_MANAGED, ST_PNT_VERTEX::FVF, g_pD3DDevice, &pMesh);
+
+	ST_PNT_VERTEX * pV = NULL;
+	pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+	memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(ST_PNT_VERTEX));
+	pMesh->UnlockVertexBuffer();
+
+	WORD* pI = NULL;
+	pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
+	for (int i = 0; i < vecVertex.size(); ++i)
+		pI[i] = i;
+	pMesh->UnlockIndexBuffer();
+
+	DWORD* pA = NULL;
+	pMesh->LockAttributeBuffer(0, &pA);
+	memcpy(pA, &vecAttrBuf[0], vecAttrBuf.size() * sizeof(DWORD));
+	pMesh->UnlockVertexBuffer();
+
+	vector<DWORD> vecAdj(vecVertex.size());
+	pMesh->GenerateAdjacency(0.0f, &vecAdj[0]);
+
+	pMesh->OptimizeInplace(D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_COMPACT | D3DXMESHOPT_VERTEXCACHE, &vecAdj[0], 0, 0, 0);
+
+	m_mapMtlTex.clear();
+
+	return pMesh;
 }

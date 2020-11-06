@@ -6,6 +6,7 @@ class cMtlTex
 private:
 	D3DMATERIAL9 m_pMlt;
 	LPDIRECT3DTEXTURE9 m_Texture;
+	int m_Attibute;
 public:
 	cMtlTex();
 	~cMtlTex();
@@ -15,6 +16,9 @@ public:
 
 	LPDIRECT3DTEXTURE9 GetTexture() { return m_Texture; }
 	void SetTexture(LPDIRECT3DTEXTURE9 texture) { m_Texture = texture; }
+
+	void SetAttribute(int attribute) { m_Attibute = attribute; }
+	int GetAttribute() { return m_Attibute; }
 };
 
 class cGroup
@@ -48,5 +52,7 @@ public:
 
 	void LoadOBJ(OUT vector<cGroup*> & vecGroup, IN char * folder, IN char * file);
 	void LoadMtlLib(char * folder, char * file);
+
+	LPD3DXMESH LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, char * folder, char * file);
 };
 

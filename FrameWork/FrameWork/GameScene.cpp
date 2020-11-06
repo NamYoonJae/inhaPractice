@@ -27,9 +27,9 @@ void cGameScene::Setup()
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
 
-	m_pObjUnit = new cObjObject;
+	m_pObjUnit = new cObjMesh;
 	m_pObjUnit->Setup("data/ObjFile", "box.obj");
-	m_pObjUnit->SetScale(D3DXVECTOR3(0.5f, 0.5f, 0.5f));
+	m_pObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 }
 
 void cGameScene::CheckInput()

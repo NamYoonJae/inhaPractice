@@ -2,13 +2,13 @@
 #include "Scene.h"
 
 class cGrid;
-class cObjObject;
+class cObjMesh;
 
 class cGameScene : public cScene
 {
 private:
 	cGrid* m_pGrid;
-	cObjObject* m_pObjUnit;
+	cObjMesh* m_pObjUnit;
 public:
 	cGameScene(string name);
 	~cGameScene();
