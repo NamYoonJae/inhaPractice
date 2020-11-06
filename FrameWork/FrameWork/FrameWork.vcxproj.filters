@@ -69,6 +69,9 @@
     </ClCompile>
     <ClCompile Include="ObjObject.cpp">
       <Filter>Code\ObjFile\ObjObject</Filter>
+    <ClCompile Include="ObjObject.cpp" />
+    <ClCompile Include="cTerrain.cpp">
+      <Filter>Code\Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +152,9 @@
     </ClInclude>
     <ClInclude Include="ObjObject.h">
       <Filter>Code\ObjFile\ObjObject</Filter>
+    <ClInclude Include="ObjObject.h" />
+    <ClInclude Include="cTerrain.h">
+      <Filter>Code\Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +247,9 @@
     </Filter>
     <Filter Include="Code\ObjFile\ObjObject">
       <UniqueIdentifier>{837f631c-c969-4b83-9f08-465eaf21b3c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Terrain">
+      <UniqueIdentifier>{ef7c542d-e971-4c19-92c4-1d3765fe1aa2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
