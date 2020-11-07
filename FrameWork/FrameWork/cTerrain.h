@@ -14,6 +14,7 @@ private:
 
 	RECT		m_CullingRect;
 	std::thread *TerrainThread;
+	CRITICAL_SECTION	cs;
 public:
 	cTerrain();
 	~cTerrain();

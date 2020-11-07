@@ -152,18 +152,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static UI* m_pMenu;
-	static Player* m_pPlayer;
 
 	EventManager->InputEvent(message, wParam, lParam);
     switch (message)
     {
 	case WM_CREATE:
 	{
-		m_pMenu = new UI(RECT{ 0, 0, 400, 400 });
-		m_pPlayer = new Player;
-		EventManager->Attach(m_pMenu);
-		EventManager->Attach(m_pPlayer);
 		// 현재 이벤트 awsd  / 마우스 0,0,400,400 IN , ESC키,numpad1,numpad2 
 		// 마우스 R,L  / L버튼 더블클릭
 	}

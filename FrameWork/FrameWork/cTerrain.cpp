@@ -241,6 +241,8 @@ void cTerrain::Setup(std::string strFolder, std::string strTex,
 	m_stMtl.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_stMtl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_stMtl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
+
+	InitializeCriticalSection(&cs);
 }
 
 void cTerrain::callThread(D3DXVECTOR3 vec)
@@ -251,8 +253,9 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 	{
 		PrevVec = vec;
 		m_IsKeyThread = false;
+		EnterCriticalSection(&cs);
 		TerrainThread = new std::thread([&]() {NewTerrain(vec); });
-		
+		LeaveCriticalSection(&cs);
 	}
 
 	
