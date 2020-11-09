@@ -6,6 +6,6 @@ class cObserver
 {
 public:
 	virtual ~cObserver() = default;
-	virtual void Update(std::string) = 0;
+	virtual void Update(string) = 0;
 };
 

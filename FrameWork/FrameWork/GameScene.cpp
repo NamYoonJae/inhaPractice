@@ -20,12 +20,15 @@ cGameScene::cGameScene(string name)
 
 cGameScene::~cGameScene()
 {
+	SafeDelete(m_pMainCamera);
+	SafeDelete(m_pGrid);
 }
 
 void cGameScene::Setup()
 {
-	m_cMainCamera = new cCamera;
-	m_cMainCamera->Setup(NULL);
+	m_pMainCamera = new cCamera;
+	m_pMainCamera->Setup(NULL);
+	EventManager->Attach(m_pMainCamera);
 
 	m_pGrid = new cGrid;
 	m_pGrid->Setup();
@@ -59,23 +62,24 @@ void cGameScene::Setup()
 
 void cGameScene::CheckInput()
 {
+
 }
 
 void cGameScene::Update()
 {
-	if (m_cMainCamera)
-		m_cMainCamera->Update();
+	if (m_pMainCamera)
+		m_pMainCamera->Update();
 
-	if (m_pTerrain)
-	{
-		static D3DXVECTOR3 vec{ 0,0,0 };
-		static int cnt = 0;
-		if (cnt > 0 && cnt < 2)
-			vec.x += 1.0f;
-		m_pTerrain->callThread(vec);
-		cnt++;
-		
-	}
+	//if (m_pTerrain)
+	//{
+	//	static D3DXVECTOR3 vec{ 0,0,0 };
+	//	static int cnt = 0;
+	//	if (cnt > 0 && cnt < 2)
+	//		vec.x += 1.0f;
+	//	m_pTerrain->callThread(vec);
+	//	cnt++;
+	//	
+	//}
 
 }
 
@@ -97,10 +101,11 @@ void cGameScene::Render()
 	m_pObjUnit->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 // <<
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	if (m_pTerrain)
-		m_pTerrain->Render();
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//if (m_pTerrain)
+	//	m_pTerrain->Render();
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

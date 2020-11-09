@@ -6,7 +6,7 @@
 
 cScene::cScene(string name)
 	:m_SceneName(name)
-	,m_cMainCamera(NULL)
+	, m_pMainCamera(NULL)
 {
 	//g_pSceneManager->m_mapScenes.find("");
 }
@@ -14,5 +14,5 @@ cScene::cScene(string name)
 
 cScene::~cScene()
 {
-	SafeDelete(m_cMainCamera);
+	SafeDelete(m_pMainCamera);
 }

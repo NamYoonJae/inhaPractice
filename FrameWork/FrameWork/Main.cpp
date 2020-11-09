@@ -47,7 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_FRAMEWORK));
 
 	MSG msg;
-	g_pD3DDevice;
+	
 	g_pSceneManager->Setup();
 
 	// Main message loop:

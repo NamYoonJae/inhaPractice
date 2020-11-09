@@ -6,7 +6,7 @@ class cScene
 {
 protected:
 	string	 m_SceneName;
-	cCamera* m_cMainCamera;
+	cCamera* m_pMainCamera;
 	
 public:
 	//cScene();

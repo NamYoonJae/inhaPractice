@@ -8,7 +8,7 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 		// MOUSE EVENT
-	case WM_MOUSEHWHEEL:
+	case WM_MOUSEWHEEL:
 	{
 		bool zDelta = GET_WHEEL_DELTA_WPARAM(wParam) / 120 == 1 ?
 			true : false;
@@ -16,6 +16,8 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 			m_Queue.push(m_mapEvent[0x01]);
 		else
 			m_Queue.push(m_mapEvent[0x02]);
+
+		Notify();
 	}
 	break;
 	case WM_MOUSEMOVE:
@@ -65,8 +67,8 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		if(m_IsDrag)
 		{
-		m_IsDrag = false;
-		m_Queue.push(m_mapEvent[0x0A]);	
+			m_IsDrag = false;
+			m_Queue.push(m_mapEvent[0x0A]);	
 		}
 		m_Queue.push(m_mapEvent[0x07]);
 
@@ -88,7 +90,9 @@ void cEventManager::Notify()
 		for (int i = 0; i < m_vecObservers.size(); ++i)
 		{
 			if(m_vecObservers[i] != NULL)
+			{
 				m_vecObservers.at(i)->Update(Message);
+			}
 		}
 		m_Queue.pop();
 	}

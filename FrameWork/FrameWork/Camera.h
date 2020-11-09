@@ -1,17 +1,18 @@
 ﻿#pragma once
 
-class cCamera
+class cCamera : public cObserver
 {
 private:
+	D3DXVECTOR3 m_vOriginEye;
 	D3DXVECTOR3 m_vEye;
 	D3DXVECTOR3 m_vLookAt;
 	D3DXVECTOR3 m_vUp;
 	D3DXVECTOR3 *m_pvTarget;
 
-	POINT m_ptPrevMouse;
+	D3DXVECTOR2 m_ptPrevMouse;
+	D3DXVECTOR3 m_vCamRotAngle;
 	bool m_isLccButtonDown;
 	float m_fCameraDistance;
-	D3DXVECTOR3 m_vCamRotAngle;
 
 public:
 	cCamera();
@@ -19,7 +20,5 @@ public:
 
 	void Setup(D3DXVECTOR3* pvTarget);
 	void Update();
-
-	void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	
+	void Update(string event);
 };
