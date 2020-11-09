@@ -1,5 +1,5 @@
 #pragma once
-
+#include <mutex>
 
 class cTerrain
 {
@@ -10,11 +10,12 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	LPD3DXMESH	m_pTerrainMesh;
 	int			m_nTile;
-	bool		m_IsKeyThread;
-
+	
+	std::mutex	m_Mutex;
 	RECT		m_CullingRect;
 	std::thread *TerrainThread;
 	CRITICAL_SECTION	cs;
+	std::unique_lock<std::mutex> *lock;
 public:
 	cTerrain();
 	~cTerrain();

@@ -6,10 +6,10 @@ cTerrain::cTerrain()
 	, m_pTerrainMesh(NULL)
 	, m_nTile(0)
 	, TerrainThread(NULL)
-	, m_IsKeyThread(true)
 {
 	m_CullingRect = { 0,0,0,0 };
-	
+	lock = new std::unique_lock<std::mutex>(m_Mutex);
+	lock->unlock();
 }
 
 
@@ -35,6 +35,12 @@ void cTerrain::Render()
 
 void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 {
+	if (lock->owns_lock())
+	{
+		return;
+	}
+
+	lock->try_lock();
 	
 	float x = ((float)(m_nTile) / 2.0f) + vec.x;
 	float z = ((float)(m_nTile) / 2.0f) - vec.z;
@@ -44,17 +50,17 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	
 	if (col < 0 || col > m_nTile || row < 0 || row > m_nTile)
 	{
-		m_IsKeyThread = true;
+		if(lock->owns_lock())
+			lock->unlock();
 		return;
 	}
-
 	RECT InPlayArea = { 0,0,0,0 };
 
 
-	InPlayArea.left   = col - 100 < 0 ? 0 : col - 100;
-	InPlayArea.top    = row - 100 < 0  ? 0 : row - 100;
-	InPlayArea.right  = col + 100 > m_nTile ? m_nTile : col + 100;
-	InPlayArea.bottom = row + 100 > m_nTile ? m_nTile : row + 100;
+	InPlayArea.left   = col - 50 < 0 ? 0 : col - 50;
+	InPlayArea.top    = row - 50 < 0  ? 0 : row - 50;
+	InPlayArea.right  = col + 50 > m_nTile ? m_nTile : col + 50;
+	InPlayArea.bottom = row + 50 > m_nTile ? m_nTile : row + 50;
 
 	// 0 ~ 100
 	//		100 100
@@ -134,9 +140,8 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 
 	m_pTerrainMesh = substitute;
 	m_CullingRect = InPlayArea;
-	m_IsKeyThread = true;
+	lock->unlock();
 }
-
 
 float cTerrain::getHeight(D3DXVECTOR3 vec)
 {
@@ -247,18 +252,23 @@ void cTerrain::Setup(std::string strFolder, std::string strTex,
 
 void cTerrain::callThread(D3DXVECTOR3 vec)
 {
-	static D3DXVECTOR3 PrevVec = vec;
-	
-	if (m_IsKeyThread && PrevVec != vec)
+	static D3DXVECTOR3 PrevVec = D3DXVECTOR3(0, 0, 0);
+	EnterCriticalSection(&cs);
+	if (TerrainThread == NULL)
 	{
+		if (PrevVec == vec) return;
 		PrevVec = vec;
-		m_IsKeyThread = false;
-		EnterCriticalSection(&cs);
 		TerrainThread = new std::thread([&]() {NewTerrain(vec); });
-		LeaveCriticalSection(&cs);
+		
 	}
-
-	
+	else
+	{
+		if (TerrainThread->joinable())
+			TerrainThread->join();
+		else
+			TerrainThread = NULL;
+	}
+	LeaveCriticalSection(&cs);
 	
 }
 
