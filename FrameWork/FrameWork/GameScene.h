@@ -6,6 +6,9 @@ class cPopUp;
 class cButton;
 class cObjMesh;
 class cTerrain;
+
+class cCharater;
+
 class cGameScene : public cScene
 {
 private:
@@ -21,6 +24,9 @@ private:
 	
 	cObjMesh* m_pObjUnit;
 	cTerrain* m_pTerrain;
+
+	//
+	cCharater*	m_pCharater;
 public:
 	cGameScene(string name);
 	~cGameScene();

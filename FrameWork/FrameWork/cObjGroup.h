@@ -13,6 +13,6 @@ public:
 	virtual void Update() override;
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL) override;
 	void	addChild(cObject* cChild);
-
+	void	removeChild(cObject& cChild);
 };
 

@@ -151,6 +151,7 @@
     <ClInclude Include="basic.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjGroup.h" />
@@ -180,6 +181,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjGroup.cpp" />
