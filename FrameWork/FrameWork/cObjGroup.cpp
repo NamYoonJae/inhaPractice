@@ -53,3 +53,9 @@ void cObjGroup::addChild(cObject* cChild)
 {
 	cObjList.push_back(cChild);
 }
+
+void cObjGroup::removeChild(cObject& cChild)
+{
+	cObjList.erase(remove(cObjList.begin(),
+		cObjList.end(), &cChild));
+}

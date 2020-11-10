@@ -76,6 +76,9 @@
     <ClCompile Include="cObjGroup.cpp">
       <Filter>Code\Object Composite</Filter>
     </ClCompile>
+    <ClCompile Include="cCharater.cpp">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="cObjGroup.h">
       <Filter>Code\Object Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="cCharater.h">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +265,9 @@
     </Filter>
     <Filter Include="Code\Object Composite">
       <UniqueIdentifier>{c491b620-7d22-4660-9af5-a30185c7835e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject">
+      <UniqueIdentifier>{e10df873-3395-4a5e-84bb-91a0f064d73f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

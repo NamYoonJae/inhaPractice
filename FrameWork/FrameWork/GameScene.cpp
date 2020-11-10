@@ -8,12 +8,14 @@
 #include "Observer.h"
 #include "cTerrain.h"
 #include "Button.h"
+#include "cCharater.h"
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
 	,m_pGrid(nullptr)
 	,m_pObjUnit(nullptr)
 	,m_pTerrain(nullptr)
+	,m_pCharater(nullptr)
 {
 }
 
@@ -58,6 +60,15 @@ void cGameScene::Setup()
 		m_pTerrain = new cTerrain;
 		m_pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
 	}
+
+	
+	if(m_pCharater == NULL)
+	{
+		m_pCharater = new cCharater;
+		m_pCharater->Setup();
+		EventManager->Attach(m_pCharater);
+	}
+	
 }
 
 void cGameScene::CheckInput()
@@ -70,17 +81,9 @@ void cGameScene::Update()
 	if (m_pMainCamera)
 		m_pMainCamera->Update();
 
-	if (m_pTerrain)
+	if (m_pTerrain && m_pCharater)
 	{
-		static D3DXVECTOR3 vec{ 0,0,0 };
-		static DWORD Elapsed = GetTickCount();
-		if (GetTickCount() - Elapsed > 1000.0f)
-		{
-			Elapsed = GetTickCount();
-			vec.x = rand() % 150;
-			vec.z = rand() % 150;
-		}
-		m_pTerrain->callThread(vec);
+		m_pTerrain->callThread(m_pCharater->GetPosition());
 	}
 
 }
@@ -108,6 +111,9 @@ void cGameScene::Render()
 	if (m_pTerrain)
 		m_pTerrain->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	if (m_pCharater)
+		m_pCharater->Render();
+
 	
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
