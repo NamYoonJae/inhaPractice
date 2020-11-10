@@ -25,7 +25,6 @@ JSON_Object * json_Fuction::object_get_object(const JSON_Object *rootobject, con
 				is_first++;
 			}
 			else L_Object = json_object_get_object(L_Object, str_name);
-			printf("%s\n", str_name);
 			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
@@ -56,14 +55,10 @@ char * json_Fuction::object_get_pChar(const JSON_Object *rootobject, const char 
 				is_first++;
 			}
 			else L_Object = json_object_get_object(L_Object, str_name);
-			printf("json rootobject name : %s\n", str_name);
 			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
-
-	printf("json rootobject name : %s\n", str_name);
-	printf("return char %s\n", json_object_get_string(L_Object, str_name));
 	
 	return const_cast<char*>(json_object_get_string(L_Object, str_name));
 	//return (char*)json_object_get_string(L_Object, tmp); // 가능하지만, 안쓰는걸 권장함
@@ -91,7 +86,6 @@ const char * json_Fuction::object_get_const_pChar(const JSON_Object *rootobject,
 				is_first++;
 			}
 			else L_Object = json_object_get_object(L_Object, str_name);
-			printf("%s\n", str_name);
 			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
@@ -122,7 +116,6 @@ string json_Fuction::object_get_string(const JSON_Object *rootobject, const char
 				is_first++;
 			}
 			else L_Object = json_object_get_object(L_Object, str_name);
-			printf("%s\n", str_name);
 			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
@@ -153,7 +146,6 @@ JSON_Array * json_Fuction::object_get_array(const JSON_Object *rootobject, const
 				is_first++;
 			}
 			else L_Object = json_object_get_object(L_Object, str_name);
-			printf("%s\n", str_name);
 			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
@@ -186,7 +178,6 @@ double json_Fuction::object_get_double(const JSON_Object *rootobject, const char
 				is_first++;
 			}
 			else L_Object = json_object_get_object(L_Object, str_name);
-			printf("%s\n", str_name);
 			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
@@ -217,7 +208,6 @@ int json_Fuction::object_get_boolean(const JSON_Object *rootobject, const char *
 				is_first++;
 			}
 			else L_Object = json_object_get_object(L_Object, str_name);
-			printf("%s\n", str_name);
 			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
