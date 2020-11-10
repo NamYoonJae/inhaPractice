@@ -3,7 +3,8 @@
 
   "Box":
   {
-    "FileDirectory" : "data/ObjFile/box.obj",
+    "FileDirectory" : "data/ObjFile",
+    "FileName" : "box.obj",
     "Pos_x" : 10,
     "Pos_y" : 0,
     "Pos_z" : 10,
