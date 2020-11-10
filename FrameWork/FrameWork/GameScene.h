@@ -17,6 +17,10 @@ private:
 	cButton* m_pButton;
 	cButton* m_pButton2;
 
+	JSON_Object* m_p_jsonObj;
+	JSON_Value* m_p_jsonValue;
+	
+	cObjMesh* m_p_jsonObjUnit;
 	
 	cObjMesh* m_pObjUnit;
 	cTerrain* m_pTerrain;

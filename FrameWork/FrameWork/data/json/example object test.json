@@ -12,7 +12,7 @@
 
         "shit short sword":
         {
-          "image": "weapon/sword/short sword",
+          "image": "숏소드 이미지 이름",
           "need level": 1,
           "min-damage": 8,
           "max-damage": 13,
