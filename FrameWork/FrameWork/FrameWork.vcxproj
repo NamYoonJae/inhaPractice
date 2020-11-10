@@ -152,6 +152,8 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cDeviceManage.h" />
+    <ClInclude Include="cObject.h" />
+    <ClInclude Include="cObjGroup.h" />
     <ClInclude Include="cTerrain.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
@@ -179,6 +181,8 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
+    <ClCompile Include="cObject.cpp" />
+    <ClCompile Include="cObjGroup.cpp" />
     <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />

@@ -1,5 +1,6 @@
 #pragma once
 #include "basic.h"
+#include "Observer.h"
 class cButton;
 
 class cPopUp  : public cObserver

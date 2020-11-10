@@ -5,7 +5,7 @@
 #include "FontManager.h"
 #include "ObjObject.h"
 #include "GameScene.h"
-
+#include "Observer.h"
 #include "cTerrain.h"
 #include "Button.h"
 

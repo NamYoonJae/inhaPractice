@@ -54,11 +54,6 @@ extern HWND g_hWnd;
 #include "Logger.h"
 #include "EventManager.h"
 
-// >> :cEventManager Example Class
-#include "UI.h"
-#include "Player.h"
-// << 
-
 
 #pragma region json
 #ifndef _MSC_VER // json헤더에서 요구
