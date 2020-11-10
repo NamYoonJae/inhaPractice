@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PopUp.h"
 #include "Button.h"
+#include "TextureManager.h"
 
 
 cPopUp::cPopUp()
@@ -29,11 +30,6 @@ cPopUp::~cPopUp()
 
 void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 {
-	m_pButtonHover = new cButton;
-	m_pButtonHover->Setup("UI", "btn-med-over.png", D3DXVECTOR3(0, 0, 0), 0, 0, 0); //->버튼 이미지 루트와 좌표값을 가지고 셋팅
-	m_pButtonClick = new cButton;
-	m_pButtonClick->Setup("UI", "btn-med-down.png", D3DXVECTOR3(0, 0, 0), 0, 0, 0);
-
 
 	m_Position = position;
 
@@ -172,7 +168,7 @@ void cPopUp::Render()
 
 		if (state == enum_On) 
 		{
-			m_pButtonClick->Render(m_vecBtnList[i]->GetPosition());
+			//m_pButtonClick->Render(m_vecBtnList[i]->GetPosition());
 		}
 		else if(state == enum_Off)
 		{
@@ -180,7 +176,7 @@ void cPopUp::Render()
 		}
 		else if (state == enum_Hover) 
 		{
-			m_pButtonHover->Render(m_vecBtnList[i]->GetPosition());
+			//m_pButtonHover->Render(m_vecBtnList[i]->GetPosition());
 		}
 	}
 
