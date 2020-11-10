@@ -37,9 +37,11 @@ void cTerrain::Render()
 		D3DXMatrixIdentity(&matWorld);
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-		g_pD3DDevice->SetTexture(0,m_pTexture);
+		g_pD3DDevice->SetTexture(0, m_pTexture);
 		g_pD3DDevice->SetMaterial(&m_stMtl);
 		m_pTerrainMesh->DrawSubset(0);
+
+		g_pD3DDevice->SetTexture(0, NULL);
 	}
 }
 
@@ -148,6 +150,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	m_pNewTerrainMesh = substitute;
 	m_CullingRect = InPlayArea;
 	lock->unlock();
+	LeaveCriticalSection(&cs);
 }
 
 float cTerrain::getHeight(D3DXVECTOR3 vec)
@@ -265,7 +268,6 @@ bool cTerrain::SwapMesh()
 		ZeroMemory(&m_pTerrainMesh, sizeof(LPD3DXMESH));
 		m_pTerrainMesh = m_pNewTerrainMesh;
 		m_pNewTerrainMesh = NULL;
-		//ZeroMemory(m_pNewTerrainMesh, sizeof(LPD3DXMESH));
 		return true;
 	}
 	else
@@ -281,20 +283,19 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 	{
 		if (PrevVec == vec) return;
 		PrevVec = vec;
-		TerrainThread = new std::thread([&]() {NewTerrain(vec); });
-		
+		TerrainThread = new std::thread([&]() {NewTerrain(vec); });	
 	}
 	else
 	{
 		if (TerrainThread->joinable())
 		{
 			TerrainThread->join();
-			TerrainThread = NULL;
+			//TerrainThread = NULL;
+			SafeDelete(TerrainThread);
 		}
-		else
-			TerrainThread = NULL;
+
 	}
-	LeaveCriticalSection(&cs);
+	
 	
 }
 
