@@ -6,6 +6,7 @@ cTerrain::cTerrain()
 	, m_pTerrainMesh(NULL)
 	, m_nTile(0)
 	, TerrainThread(NULL)
+	, m_pNewTerrainMesh(NULL)
 {
 	m_CullingRect = { 0,0,0,0 };
 	lock = new std::unique_lock<std::mutex>(m_Mutex);
@@ -15,12 +16,21 @@ cTerrain::cTerrain()
 
 cTerrain::~cTerrain()
 {
-
+	if(TerrainThread && TerrainThread->joinable())
+	{
+		TerrainThread->join();
+	}
+	SafeDelete(TerrainThread);
 	
+	SafeRelease(m_pTerrainMesh);
+	SafeRelease(m_pNewTerrainMesh);
+	SafeRelease(m_pTexture);
 }
 
 void cTerrain::Render()
 {
+	SwapMesh();
+	
 	if(m_pTerrainMesh)
 	{
 		D3DXMATRIXA16 matWorld;
@@ -62,9 +72,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	InPlayArea.right  = col + 50 > m_nTile ? m_nTile : col + 50;
 	InPlayArea.bottom = row + 50 > m_nTile ? m_nTile : row + 50;
 
-	// 0 ~ 100
-	//		100 100
-	
+
 
 	std::vector<DWORD> vecIndex;
 	std::vector<ST_PNT_VERTEX> vecVetex;
@@ -74,7 +82,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 		for (int x = InPlayArea.left; x <= InPlayArea.right; x++)
 		{
 			vecVetex.push_back(m_vecMapVertex[x + y * (m_nTile+1)]);
-			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",(double)(x + y*m_nTile));
+
 		}
 	}
 
@@ -137,8 +145,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 		&vecAdj[0],
 		0, 0, 0);
 
-
-	m_pTerrainMesh = substitute;
+	m_pNewTerrainMesh = substitute;
 	m_CullingRect = InPlayArea;
 	lock->unlock();
 }
@@ -250,6 +257,22 @@ void cTerrain::Setup(std::string strFolder, std::string strTex,
 	InitializeCriticalSection(&cs);
 }
 
+
+bool cTerrain::SwapMesh()
+{
+	if (m_pNewTerrainMesh)
+	{
+		ZeroMemory(&m_pTerrainMesh, sizeof(LPD3DXMESH));
+		m_pTerrainMesh = m_pNewTerrainMesh;
+		m_pNewTerrainMesh = NULL;
+		//ZeroMemory(m_pNewTerrainMesh, sizeof(LPD3DXMESH));
+		return true;
+	}
+	else
+		return false;
+	
+}
+
 void cTerrain::callThread(D3DXVECTOR3 vec)
 {
 	static D3DXVECTOR3 PrevVec = D3DXVECTOR3(0, 0, 0);
@@ -264,7 +287,10 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 	else
 	{
 		if (TerrainThread->joinable())
+		{
 			TerrainThread->join();
+			TerrainThread = NULL;
+		}
 		else
 			TerrainThread = NULL;
 	}

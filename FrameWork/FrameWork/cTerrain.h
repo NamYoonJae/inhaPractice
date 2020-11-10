@@ -9,6 +9,7 @@ private:
 	D3DMATERIAL9 m_stMtl;
 	LPDIRECT3DTEXTURE9 m_pTexture;
 	LPD3DXMESH	m_pTerrainMesh;
+	LPD3DXMESH	m_pNewTerrainMesh;
 	int			m_nTile;
 	
 	std::mutex	m_Mutex;
@@ -27,7 +28,8 @@ public:
 	
 	float getHeightMapEntry(int nRow, int nCol) { return m_vecMapVertex[(m_nTile) * nRow + nCol].p.y;};
 	LPD3DXMESH GetTerrainMesh() { return m_pTerrainMesh; }
-
+	bool SwapMesh();
+	
 	void cTerrain::callThread(D3DXVECTOR3 vec);
 	RECT GetCullingRect() { return m_CullingRect; };
 
