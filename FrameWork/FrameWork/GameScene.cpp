@@ -23,6 +23,8 @@ cGameScene::cGameScene(string name)
 
 cGameScene::~cGameScene()
 {
+	json_value_free(m_p_jsonValue);
+	
 	SafeDelete(m_pMainCamera);
 	SafeDelete(m_pGrid);
 }
@@ -58,13 +60,14 @@ void cGameScene::Setup()
 
 	m_p_jsonObjUnit = new cObjMesh;
 	m_p_jsonObjUnit->Setup(
-		json_multi_object_get_pChar(m_p_jsonObj, "Box/FileDirectory"),
-		json_multi_object_get_pChar(m_p_jsonObj, "Box/FileName")
+		json_Object::object_get_pChar(m_p_jsonObj, "Box/FileDirectory"),
+		json_Object::object_get_pChar(m_p_jsonObj, "Box/FileName")
 	);
 	m_p_jsonObjUnit->SetPosition(
-		json_get_D3DXVECTOR3(m_p_jsonObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
+		json_Object::get_D3DXVECTOR3(m_p_jsonObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
 	);
 	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
+
 #pragma endregion jsonfileload
 	
 	m_pObjUnit = new cObjMesh;

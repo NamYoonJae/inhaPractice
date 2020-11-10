@@ -1,18 +1,32 @@
 #pragma once
 
-JSON_Object * json_multi_object_get_object(const JSON_Object *object, const char *name);
+class json_Object
+{
+	
+public:
+#pragma region load
+	static JSON_Object * object_get_object(const JSON_Object *rootobject, const char *name);
 
-char * json_multi_object_get_pChar(const JSON_Object *object, const char *name);
+	static char * object_get_pChar(const JSON_Object *rootobject, const char *name);
 
-const char * json_multi_object_get_const_pChar(const JSON_Object *object, const char *name);
+	static const char * object_get_const_pChar(const JSON_Object *rootobject, const char *name);
 
-string json_multi_object_get_string(const JSON_Object *object, const char *name);
+	static string object_get_string(const JSON_Object *rootobject, const char *name);
 
-JSON_Array  * json_multi_object_get_array(const JSON_Object *object, const char *name);
+	static JSON_Array  * object_get_array(const JSON_Object *rootobject, const char *name);
 
-double json_multi_object_get_double(const JSON_Object *object, const char *name);
+	static double object_get_double(const JSON_Object *rootobject, const char *name);
 
-int json_multi_object_get_boolean(const JSON_Object *object, const char *name);
+	static int object_get_boolean(const JSON_Object *rootobject, const char *name);
 
+	static D3DXVECTOR3 get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z);
+#pragma load
 
-D3DXVECTOR3 json_get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z);
+#pragma region save
+
+	// TODO 채워넣기
+	
+	
+#pragma save
+};
+
