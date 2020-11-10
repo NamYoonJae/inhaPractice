@@ -287,7 +287,10 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 	else
 	{
 		if (TerrainThread->joinable())
+		{
 			TerrainThread->join();
+			TerrainThread = NULL;
+		}
 		else
 			TerrainThread = NULL;
 	}
