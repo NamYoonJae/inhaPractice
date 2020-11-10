@@ -156,13 +156,13 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 
 float cTerrain::getHeight(D3DXVECTOR3 vec)
 {
-	float x = ((float)(m_nTile + 1) / 2.0f) + vec.x;
-	float z = ((float)(m_nTile + 1) / 2.0f) - vec.z;
+	float x = ((float)(m_nTile) / 2.0f) + vec.x;
+	float z = ((float)(m_nTile) / 2.0f) - vec.z;
 
 	float col = ::floorf(x);
 	float row = ::floorf(z);
 
-	if (col >= (m_nTile + 1) || row >= (m_nTile + 1))
+	if (col >= (m_nTile) || row >= (m_nTile))
 		return 0.0f;
 
 	float A = getHeightMapEntry(row + 0, col + 0);
@@ -273,7 +273,6 @@ bool cTerrain::SwapMesh()
 	}
 	else
 		return false;
-	
 }
 
 void cTerrain::callThread(D3DXVECTOR3 vec)
@@ -296,8 +295,6 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 		}
 
 	}
-	
-	
 }
 
 float cTerrain::LerpPosition(float a , float b, float t)

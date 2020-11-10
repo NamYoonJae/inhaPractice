@@ -97,8 +97,6 @@ void cEventManager::Notify()
 		}
 		m_Queue.pop();
 	}
-
-
 }
 
 
