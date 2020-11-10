@@ -31,13 +31,7 @@
     <ClCompile Include="Observer.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Code\EventManager</Filter>
-    </ClCompile>
     <ClCompile Include="Subject.cpp">
-      <Filter>Code\EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp">
@@ -78,6 +72,14 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Code\TextureManager</Filter>
+    <ClCompile Include="cObject.cpp">
+      <Filter>Code\Object Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjGroup.cpp">
+      <Filter>Code\Object Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="cCharater.cpp">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,13 +122,7 @@
     <ClInclude Include="Observer.h">
       <Filter>Code\EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Code\EventManager</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
-      <Filter>Code\EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
       <Filter>Code\EventManager</Filter>
     </ClInclude>
     <ClInclude Include="TimerManager.h">
@@ -167,6 +163,14 @@
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Code\TextureManager</Filter>
+    <ClInclude Include="cObject.h">
+      <Filter>Code\Object Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjGroup.h">
+      <Filter>Code\Object Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="cCharater.h">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +269,11 @@
     </Filter>
     <Filter Include="Code\TextureManager">
       <UniqueIdentifier>{38c36455-2c02-4665-9305-f2940292be81}</UniqueIdentifier>
+    <Filter Include="Code\Object Composite">
+      <UniqueIdentifier>{c491b620-7d22-4660-9af5-a30185c7835e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject">
+      <UniqueIdentifier>{e10df873-3395-4a5e-84bb-91a0f064d73f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -276,5 +285,8 @@
     <Text Include="ReadMe.txt">
       <Filter>Resource</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

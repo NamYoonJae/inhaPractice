@@ -2,10 +2,11 @@
 #include "cTerrain.h"
 #include "basic.h"
 cTerrain::cTerrain()
-	:m_pTexture(NULL)
+	: m_pTexture(NULL)
 	, m_pTerrainMesh(NULL)
 	, m_nTile(0)
 	, TerrainThread(NULL)
+	, m_pNewTerrainMesh(NULL)
 {
 	m_CullingRect = { 0,0,0,0 };
 	lock = new std::unique_lock<std::mutex>(m_Mutex);
@@ -15,21 +16,32 @@ cTerrain::cTerrain()
 
 cTerrain::~cTerrain()
 {
-
+	if(TerrainThread && TerrainThread->joinable())
+	{
+		TerrainThread->join();
+	}
+	SafeDelete(TerrainThread);
 	
+	SafeRelease(m_pTerrainMesh);
+	SafeRelease(m_pNewTerrainMesh);
+	SafeRelease(m_pTexture);
 }
 
 void cTerrain::Render()
 {
+	SwapMesh();
+	
 	if(m_pTerrainMesh)
 	{
 		D3DXMATRIXA16 matWorld;
 		D3DXMatrixIdentity(&matWorld);
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-		g_pD3DDevice->SetTexture(0,m_pTexture);
+		g_pD3DDevice->SetTexture(0, m_pTexture);
 		g_pD3DDevice->SetMaterial(&m_stMtl);
 		m_pTerrainMesh->DrawSubset(0);
+
+		g_pD3DDevice->SetTexture(0, NULL);
 	}
 }
 
@@ -52,6 +64,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	{
 		if(lock->owns_lock())
 			lock->unlock();
+		LeaveCriticalSection(&cs);
 		return;
 	}
 	RECT InPlayArea = { 0,0,0,0 };
@@ -62,9 +75,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	InPlayArea.right  = col + 50 > m_nTile ? m_nTile : col + 50;
 	InPlayArea.bottom = row + 50 > m_nTile ? m_nTile : row + 50;
 
-	// 0 ~ 100
-	//		100 100
-	
+
 
 	std::vector<DWORD> vecIndex;
 	std::vector<ST_PNT_VERTEX> vecVetex;
@@ -74,7 +85,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 		for (int x = InPlayArea.left; x <= InPlayArea.right; x++)
 		{
 			vecVetex.push_back(m_vecMapVertex[x + y * (m_nTile+1)]);
-			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",(double)(x + y*m_nTile));
+
 		}
 	}
 
@@ -137,21 +148,21 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 		&vecAdj[0],
 		0, 0, 0);
 
-
-	m_pTerrainMesh = substitute;
+	m_pNewTerrainMesh = substitute;
 	m_CullingRect = InPlayArea;
 	lock->unlock();
+	LeaveCriticalSection(&cs);
 }
 
 float cTerrain::getHeight(D3DXVECTOR3 vec)
 {
-	float x = ((float)(m_nTile + 1) / 2.0f) + vec.x;
-	float z = ((float)(m_nTile + 1) / 2.0f) - vec.z;
+	float x = ((float)(m_nTile) / 2.0f) + vec.x;
+	float z = ((float)(m_nTile) / 2.0f) - vec.z;
 
 	float col = ::floorf(x);
 	float row = ::floorf(z);
 
-	if (col >= (m_nTile + 1) || row >= (m_nTile + 1))
+	if (col >= (m_nTile) || row >= (m_nTile))
 		return 0.0f;
 
 	float A = getHeightMapEntry(row + 0, col + 0);
@@ -250,6 +261,20 @@ void cTerrain::Setup(std::string strFolder, std::string strTex,
 	InitializeCriticalSection(&cs);
 }
 
+
+bool cTerrain::SwapMesh()
+{
+	if (m_pNewTerrainMesh)
+	{
+		ZeroMemory(&m_pTerrainMesh, sizeof(LPD3DXMESH));
+		m_pTerrainMesh = m_pNewTerrainMesh;
+		m_pNewTerrainMesh = NULL;
+		return true;
+	}
+	else
+		return false;
+}
+
 void cTerrain::callThread(D3DXVECTOR3 vec)
 {
 	static D3DXVECTOR3 PrevVec = D3DXVECTOR3(0, 0, 0);
@@ -258,18 +283,18 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 	{
 		if (PrevVec == vec) return;
 		PrevVec = vec;
-		TerrainThread = new std::thread([&]() {NewTerrain(vec); });
-		
+		TerrainThread = new std::thread([&]() {NewTerrain(vec); });	
 	}
 	else
 	{
 		if (TerrainThread->joinable())
+		{
 			TerrainThread->join();
-		else
-			TerrainThread = NULL;
+			//TerrainThread = NULL;
+			SafeDelete(TerrainThread);
+		}
+
 	}
-	LeaveCriticalSection(&cs);
-	
 }
 
 float cTerrain::LerpPosition(float a , float b, float t)

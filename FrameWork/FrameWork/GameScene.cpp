@@ -5,15 +5,20 @@
 #include "FontManager.h"
 #include "ObjObject.h"
 #include "GameScene.h"
-
+#include "Observer.h"
 #include "cTerrain.h"
 #include "Button.h"
+#include "cCharater.h"
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
 	,m_pGrid(nullptr)
 	,m_pObjUnit(nullptr)
 	,m_pTerrain(nullptr)
+	,m_pCharater(nullptr)
+	,m_p_jsonObj(nullptr)
+	,m_p_jsonValue(nullptr)
+	,m_p_jsonObjUnit(nullptr)
 {
 }
 
@@ -25,7 +30,7 @@ cGameScene::~cGameScene()
 }
 
 void cGameScene::Setup()
-{
+{	
 	m_pMainCamera = new cCamera;
 	m_pMainCamera->Setup(NULL);
 	EventManager->Attach(m_pMainCamera);
@@ -47,10 +52,25 @@ void cGameScene::Setup()
 	m_pPopup->cButtonPushBack(m_pButton2);
 
 	EventManager->Attach(m_pPopup);
-	
+
+#pragma region jsonfileload
+	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
+	m_p_jsonValue = json_parse_file("data/json/example box test.json");
+	m_p_jsonObj = json_value_get_object(m_p_jsonValue);
+
+	m_p_jsonObjUnit = new cObjMesh;
+	m_p_jsonObjUnit->Setup(
+		json_multi_object_get_pChar(m_p_jsonObj, "Box/FileDirectory"),
+		json_multi_object_get_pChar(m_p_jsonObj, "Box/FileName")
+	);
+	m_p_jsonObjUnit->SetPosition(
+		json_get_D3DXVECTOR3(m_p_jsonObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
+	);
+	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
+#pragma endregion jsonfileload
 	
 	m_pObjUnit = new cObjMesh;
-	m_pObjUnit->Setup("data/ObjFile", "box.obj");
+	m_pObjUnit->Setup("data/ObjFile", "SampleRoom.obj");
 	m_pObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 
 	if(m_pTerrain == NULL)
@@ -58,6 +78,16 @@ void cGameScene::Setup()
 		m_pTerrain = new cTerrain;
 		m_pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
 	}
+
+	
+	if(m_pCharater == NULL)
+	{
+		m_pCharater = new cCharater;
+		m_pCharater->Setup();
+		EventManager->Attach(m_pCharater);
+		m_pMainCamera->Setup(m_pCharater->GetPos());
+	}
+	
 }
 
 void cGameScene::CheckInput()
@@ -70,26 +100,21 @@ void cGameScene::Update()
 	if (m_pMainCamera)
 		m_pMainCamera->Update();
 
-	//if (m_pTerrain)
-	//{
-	//	D3DXVECTOR3 vec{ 0,0,0 };
-	//	static DWORD Elapsed = GetTickCount();
-	//	if (GetTickCount() - Elapsed > 15000.0f)
-	//	{
-	//		Elapsed = GetTickCount();
-	//		vec.x = rand() % 150;
-	//		vec.z = rand() % 150;
-	//		m_pTerrain->callThread(vec);
-	//	}
-	//	else if (m_pTerrain->GetTerrainMesh() == NULL)
-	//	{
-	//		Elapsed = GetTickCount();
-	//		vec.x = rand() % 150;
-	//		vec.z = rand() % 150;
-	//		m_pTerrain->callThread(vec);
-	//	}
 
-	//}
+	if(m_pCharater)
+	{
+		float y = m_pTerrain->getHeight(m_pCharater->GetPosition());
+		D3DXVECTOR3 vec = m_pCharater->GetPosition();
+		vec.y = y + 1.0f;
+		m_pCharater->SetPostiion(vec);
+		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fff",
+			vec.x, vec.y, vec.z);
+	}
+
+	if (m_pTerrain && m_pCharater)
+	{
+		m_pTerrain->callThread(m_pCharater->GetPosition());
+	}
 
 }
 
@@ -105,17 +130,20 @@ void cGameScene::Render()
 		m_pPopup->Render();
 
 
-
-// >> temp Light Off
+#pragma region Light Off
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	m_p_jsonObjUnit->Render();
 	m_pObjUnit->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-// <<
+#pragma endregion Light Off
 	
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	//if (m_pTerrain)
-	//	m_pTerrain->Render();
+	if (m_pTerrain)
+		m_pTerrain->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	if (m_pCharater)
+		m_pCharater->Render();
+
 	
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

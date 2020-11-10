@@ -58,6 +58,7 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		// MK_SHIF , MK_CONTROL not yet
 		m_Queue.push(m_mapEvent[wParam]);
+
 		Notify();
 		break;
 	}
@@ -96,8 +97,6 @@ void cEventManager::Notify()
 		}
 		m_Queue.pop();
 	}
-
-
 }
 
 

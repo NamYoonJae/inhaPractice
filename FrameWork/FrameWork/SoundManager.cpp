@@ -5,6 +5,7 @@
 cSoundManager::cSoundManager()
 	:m_fVolume(1.0f)
 {
+	init();
 }
 
 cSoundManager::~cSoundManager()
@@ -32,15 +33,7 @@ void cSoundManager::init()
 	System_Create(&m_fmodSystem);
 	m_fmodSystem->init(4, FMOD_INIT_NORMAL, NULL);
 	
-	AddSFX("sounds/appear.wav", "BombPut");
-	AddSFX("sounds/die.wav", "Die");
-	AddSFX("sounds/draw.wav", "Draw");
-	AddSFX("sounds/explode.wav", "Boom");
-	AddSFX("sounds/get.wav", "ItemGet");
-	AddSFX("sounds/lay.wav", "Lay");
-	AddSFX("sounds/lose.wav", "Lose");
-	AddSFX("sounds/start.wav", "Start");
-	AddSFX("sounds/win.wav", "Win");
+	AddSFX("data/Sound/SFX/explode.wav", "Boom");
 }
 
 void cSoundManager::AddBGM(string path)

@@ -151,7 +151,10 @@
     <ClInclude Include="basic.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
+    <ClInclude Include="cObject.h" />
+    <ClInclude Include="cObjGroup.h" />
     <ClInclude Include="cTerrain.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
@@ -164,7 +167,6 @@
     <ClInclude Include="ObjObject.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Parser.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="PopUp.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Resource.h" />
@@ -176,12 +178,14 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimerManager.h" />
-    <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
+    <ClCompile Include="cObject.cpp" />
+    <ClCompile Include="cObjGroup.cpp" />
     <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />
@@ -194,7 +198,6 @@
     <ClCompile Include="ObjObject.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Parser.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PopUp.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -209,7 +212,6 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimerManager.cpp" />
-    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork.rc" />
@@ -217,6 +219,9 @@
   <ItemGroup>
     <Image Include="FrameWork.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

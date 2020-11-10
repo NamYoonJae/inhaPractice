@@ -64,7 +64,12 @@ cObjObject::~cObjObject()
 	m_vecGroup.clear();
 }
 
-void cObjObject::Setup(char* folder, char* file)
+void cObjObject::Setup(string folder, string file)
+{
+	Setup(folder.c_str(), file.c_str());
+}
+
+void cObjObject::Setup(const char* folder, const char* file)
 {
 	cObjLoader Loader;
 	Loader.LoadOBJ(m_vecGroup, folder, file);
@@ -105,7 +110,12 @@ cObjMesh::~cObjMesh()
 	SafeDelete(m_Mesh);
 }
 
-void cObjMesh::Setup(char* folder, char* file)
+void cObjMesh::Setup(string folder, string file)
+{
+	Setup(folder.c_str(), file.c_str());
+}
+
+void cObjMesh::Setup(const char* folder, const char* file)
 {
 	cObjLoader Loader;
 	m_Mesh = Loader.LoadMeshOBJ(m_vecMtlTex, folder, file);
