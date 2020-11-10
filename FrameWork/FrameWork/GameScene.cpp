@@ -14,6 +14,9 @@ cGameScene::cGameScene(string name)
 	,m_pGrid(nullptr)
 	,m_pObjUnit(nullptr)
 	,m_pTerrain(nullptr)
+	,m_p_jsonObj(nullptr)
+	,m_p_jsonValue(nullptr)
+	,m_p_jsonObjUnit(nullptr)
 {
 }
 
@@ -25,7 +28,7 @@ cGameScene::~cGameScene()
 }
 
 void cGameScene::Setup()
-{
+{	
 	m_pMainCamera = new cCamera;
 	m_pMainCamera->Setup(NULL);
 	EventManager->Attach(m_pMainCamera);
@@ -47,7 +50,26 @@ void cGameScene::Setup()
 	m_pPopup->cButtonPushBack(m_pButton2);
 
 	EventManager->Attach(m_pPopup);
-	
+
+#pragma region jsonfileload
+	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
+	m_p_jsonValue = json_parse_file("data/json/example box test.json");
+	m_p_jsonObj = json_value_get_object(m_p_jsonValue);
+
+	m_p_jsonObjUnit = new cObjMesh;
+	m_p_jsonObjUnit->Setup(
+		json_multi_object_get_pChar(m_p_jsonObj, "Box/FileDirectory"),
+		json_multi_object_get_pChar(m_p_jsonObj, "Box/FileName")
+	);
+	m_p_jsonObjUnit->SetPosition(
+		D3DXVECTOR3(
+			json_multi_object_get_double(m_p_jsonObj, "Box/Pos_x"),
+			json_multi_object_get_double(m_p_jsonObj, "Box/Pos_y"),
+			json_multi_object_get_double(m_p_jsonObj, "Box/Pos_z")
+		)
+	);
+	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
+#pragma endregion jsonfileload
 	
 	m_pObjUnit = new cObjMesh;
 	m_pObjUnit->Setup("data/ObjFile", "box.obj");
@@ -97,12 +119,12 @@ void cGameScene::Render()
 		m_pPopup->Render();
 
 
-
-// >> temp Light Off
+#pragma region Light Off
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	m_p_jsonObjUnit->Render();
 	m_pObjUnit->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-// <<
+#pragma endregion Light Off
 	
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	if (m_pTerrain)

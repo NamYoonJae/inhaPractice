@@ -54,7 +54,7 @@ cObjLoader::~cObjLoader()
 {
 }
 
-void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, char* folder, char* file)
+void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, const char* folder, const char* file)
 {
 	string Path = folder + string("/") + file;
 	FILE* SrcFile;
@@ -150,7 +150,7 @@ void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, char* folder, char* fil
 	//m_mapMtlTex.clear();
 }
 
-void cObjLoader::LoadMtlLib(char* folder, char* file)
+void cObjLoader::LoadMtlLib(const char* folder, const char* file)
 {
 	string Path = folder + string("/") + file;
 
@@ -221,7 +221,7 @@ void cObjLoader::LoadMtlLib(char* folder, char* file)
 	fclose(SrcFile);
 }
 
-LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, char* folder, char* file)
+LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char* folder, const char* file)
 {
 	vector<DWORD> vecAttrBuf;
 	vector<D3DXVECTOR3> vecV;
