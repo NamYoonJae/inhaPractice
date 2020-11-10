@@ -4,6 +4,47 @@
 
 
 // 반환값은 오브젝트가 가르킬 포인터, name의 형식은 "오브젝트/오브젝트/오브젝트/...." 이 된다.
+//
+//JSON_Value * json_parse_file(const char *filename)
+//{
+//	int is_first = 0;
+//	char tmp[128] = { 0 };
+//	strcpy_s(tmp, 128, filename);
+//	
+//	for (size_t i = 0, ii = 0; i < strlen(filename); i++)
+//	{
+//		if ('/' == filename[i])
+//		{
+//			char L_tmp[128] = { 0 };
+//			strcpy_s(L_tmp, 128, tmp);
+//			tmp[i - ii] = '\0';
+//
+//			if (!is_first)
+//			{
+//				//L_Object = json_object_get_object(object, tmp);
+//				is_first++;
+//			}
+//			else
+//			{
+//				//L_Object = json_object_get_object(L_Object, tmp);
+//			}
+//			printf("%s\n", tmp);
+//			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+//			ii = i + 1;
+//		}
+//	}
+//
+//
+//	
+//	char *file_contents = read_file(filename);
+//	JSON_Value *output_value = NULL;
+//	if (file_contents == NULL)
+//		return NULL;
+//	output_value = json_parse_string(file_contents);
+//	parson_free(file_contents);
+//	return output_value;
+//}
+
 
 //object에 rootObject를 넣을 것
 JSON_Object * Temp_multi_object_get_object(const JSON_Object *object, const char *name)

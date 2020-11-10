@@ -31,13 +31,7 @@
     <ClCompile Include="Observer.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Code\EventManager</Filter>
-    </ClCompile>
     <ClCompile Include="Subject.cpp">
-      <Filter>Code\EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp">
@@ -117,13 +111,7 @@
     <ClInclude Include="Observer.h">
       <Filter>Code\EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Code\EventManager</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
-      <Filter>Code\EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
       <Filter>Code\EventManager</Filter>
     </ClInclude>
     <ClInclude Include="TimerManager.h">
