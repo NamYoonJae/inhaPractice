@@ -50,7 +50,7 @@ void cGameScene::Setup()
 	
 	
 	m_pObjUnit = new cObjMesh;
-	m_pObjUnit->Setup("data/ObjFile", "box.obj");
+	m_pObjUnit->Setup("data/ObjFile", "SampleRoom.obj");
 	m_pObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 
 	if(m_pTerrain == NULL)
