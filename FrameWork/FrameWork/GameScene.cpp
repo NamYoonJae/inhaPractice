@@ -62,11 +62,7 @@ void cGameScene::Setup()
 		json_multi_object_get_pChar(m_p_jsonObj, "Box/FileName")
 	);
 	m_p_jsonObjUnit->SetPosition(
-		D3DXVECTOR3(
-			json_multi_object_get_double(m_p_jsonObj, "Box/Pos_x"),
-			json_multi_object_get_double(m_p_jsonObj, "Box/Pos_y"),
-			json_multi_object_get_double(m_p_jsonObj, "Box/Pos_z")
-		)
+		json_get_D3DXVECTOR3(m_p_jsonObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
 	);
 	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 #pragma endregion jsonfileload

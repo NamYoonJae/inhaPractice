@@ -13,3 +13,6 @@ JSON_Array  * json_multi_object_get_array(const JSON_Object *object, const char 
 double json_multi_object_get_double(const JSON_Object *object, const char *name);
 
 int json_multi_object_get_boolean(const JSON_Object *object, const char *name);
+
+
+D3DXVECTOR3 json_get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z);

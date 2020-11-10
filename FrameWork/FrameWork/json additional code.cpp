@@ -233,3 +233,12 @@ int json_multi_object_get_boolean(const JSON_Object *object, const char *name)
 	return json_object_get_boolean(L_Object, tmp);
 }
 
+D3DXVECTOR3 json_get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z)
+{
+	return D3DXVECTOR3
+	(
+		json_multi_object_get_double(rootObject, x),
+		json_multi_object_get_double(rootObject, y),
+		json_multi_object_get_double(rootObject, z)
+	);
+}
