@@ -3,231 +3,230 @@
 //#include "json export.h"
 
 //object에 rootObject를 넣을 것
-JSON_Object * json_Object::object_get_object(const JSON_Object *rootobject, const char *name)
+JSON_Object * json_Fuction::object_get_object(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
 	int is_first = 0;
-	char tmp[128] = { 0 };
-	strcpy_s(tmp, 128, name);
+	char str_name[128] = { 0 };
+	strcpy_s(str_name, 128, name);
 
 	for (size_t i = 0, ii = 0; i < strlen(name); i++)
 	{
 		if ('/' == name[i])
 		{
-			char L_tmp[128] = { 0 };
-			strcpy_s(L_tmp, 128, tmp);
-			tmp[i - ii] = '\0';
+			char str[128] = { 0 };
+			strcpy_s(str, 128, str_name);
+			str_name[i - ii] = '\0';
 
 			if (!is_first)
 			{
-				L_Object = json_object_get_object(rootobject, tmp);
+				L_Object = json_object_get_object(rootobject, str_name);
 				is_first++;
 			}
-			else L_Object = json_object_get_object(L_Object, tmp);
-			printf("%s\n", tmp);
-			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+			else L_Object = json_object_get_object(L_Object, str_name);
+			printf("%s\n", str_name);
+			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
-
 
 	return L_Object;
 }
 
-char * json_Object::object_get_pChar(const JSON_Object *rootobject, const char *name)
+char * json_Fuction::object_get_pChar(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
 	int is_first = 0;
-	char tmp[128] = { 0 };
-	strcpy_s(tmp, 128, name);
+	char str_name[128] = { 0 };
+	strcpy_s(str_name, 128, name);
 
 	for (size_t i = 0, ii = 0; i < strlen(name); i++)
 	{
 		if ('/' == name[i])
 		{
-			char L_tmp[128] = { 0 };
-			strcpy_s(L_tmp, 128, tmp);
-			tmp[i - ii] = '\0';
+			char str[128] = { 0 };
+			strcpy_s(str, 128, str_name);
+			str_name[i - ii] = '\0';
 
 			if (!is_first)
 			{
-				L_Object = json_object_get_object(rootobject, tmp);
+				L_Object = json_object_get_object(rootobject, str_name);
 				is_first++;
 			}
-			else L_Object = json_object_get_object(L_Object, tmp);
-			printf("json rootobject name : %s\n", tmp);
-			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+			else L_Object = json_object_get_object(L_Object, str_name);
+			printf("json rootobject name : %s\n", str_name);
+			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
 
-	printf("json rootobject name : %s\n", tmp);
-	printf("return char %s\n", json_object_get_string(L_Object, tmp));
+	printf("json rootobject name : %s\n", str_name);
+	printf("return char %s\n", json_object_get_string(L_Object, str_name));
 	
-	return const_cast<char*>(json_object_get_string(L_Object, tmp));
+	return const_cast<char*>(json_object_get_string(L_Object, str_name));
 	//return (char*)json_object_get_string(L_Object, tmp); // 가능하지만, 안쓰는걸 권장함
 }
 
-const char * json_Object::object_get_const_pChar(const JSON_Object *rootobject, const char *name)
+const char * json_Fuction::object_get_const_pChar(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
 	int is_first = 0;
-	char tmp[128] = { 0 };
-	strcpy_s(tmp,128,name);
+	char str_name[128] = { 0 };
+	strcpy_s(str_name,128,name);
 	
 	for (size_t i = 0, ii = 0; i < strlen(name); i++)
 	{
 		if ('/' == name[i])
 		{
-			char L_tmp[128] = { 0 };
-			strcpy_s(L_tmp, 128, tmp);
-			tmp[i - ii] = '\0';
+			char str[128] = { 0 };
+			strcpy_s(str, 128, str_name);
+			str_name[i - ii] = '\0';
 
 			if (!is_first)
 			{
-				L_Object = json_object_get_object(rootobject, tmp);
+				L_Object = json_object_get_object(rootobject, str_name);
 				is_first++;
 			}
-			else L_Object = json_object_get_object(L_Object, tmp);
-			printf("%s\n", tmp);
-			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+			else L_Object = json_object_get_object(L_Object, str_name);
+			printf("%s\n", str_name);
+			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
 
-	return json_object_get_string(L_Object, tmp);
+	return json_object_get_string(L_Object, str_name);
 }
 
-string json_Object::object_get_string(const JSON_Object *rootobject, const char *name)
+string json_Fuction::object_get_string(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
 	int is_first = 0;
-	char tmp[128] = { 0 };
-	strcpy_s(tmp, 128, name);
+	char str_name[128] = { 0 };
+	strcpy_s(str_name, 128, name);
 
 	for (size_t i = 0, ii = 0; i < strlen(name); i++)
 	{
 		if ('/' == name[i])
 		{
-			char L_tmp[128] = { 0 };
-			strcpy_s(L_tmp, 128, tmp);
-			tmp[i - ii] = '\0';
+			char str[128] = { 0 };
+			strcpy_s(str, 128, str_name);
+			str_name[i - ii] = '\0';
 
 			if (!is_first)
 			{
-				L_Object = json_object_get_object(rootobject, tmp);
+				L_Object = json_object_get_object(rootobject, str_name);
 				is_first++;
 			}
-			else L_Object = json_object_get_object(L_Object, tmp);
-			printf("%s\n", tmp);
-			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+			else L_Object = json_object_get_object(L_Object, str_name);
+			printf("%s\n", str_name);
+			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
 
-	return json_object_get_string(L_Object, tmp);
+	return json_object_get_string(L_Object, str_name);
 }
 
-JSON_Array  * json_Object::object_get_array(const JSON_Object *rootobject, const char *name)
+JSON_Array * json_Fuction::object_get_array(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
 	int is_first = 0;
-	char tmp[128] = { 0 };
-	strcpy_s(tmp, 128, name);
+	char str_name[128] = { 0 };
+	strcpy_s(str_name, 128, name);
 
 	for (size_t i = 0, ii = 0; i < strlen(name); i++)
 	{
 		if ('/' == name[i])
 		{
-			char L_tmp[128] = { 0 };
-			strcpy_s(L_tmp, 128, tmp);
-			tmp[i - ii] = '\0';
+			char str[128] = { 0 };
+			strcpy_s(str, 128, str_name);
+			str_name[i - ii] = '\0';
 
 			if (!is_first)
 			{
-				L_Object = json_object_get_object(rootobject, tmp);
+				L_Object = json_object_get_object(rootobject, str_name);
 				is_first++;
 			}
-			else L_Object = json_object_get_object(L_Object, tmp);
-			printf("%s\n", tmp);
-			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+			else L_Object = json_object_get_object(L_Object, str_name);
+			printf("%s\n", str_name);
+			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
 
-	return json_object_get_array(L_Object, tmp);
+	return json_object_get_array(L_Object, str_name);
 }
 
 //int형 등 다른 형식이 필요하다면 캐스팅해주십쇼
-double json_Object::object_get_double(const JSON_Object *rootobject, const char *name)
+double json_Fuction::object_get_double(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
 	int is_first = 0;
-	char tmp[128] = { 0 };
-	strcpy_s(tmp, 128, name);
+	char str_name[128] = { 0 };
+	strcpy_s(str_name, 128, name);
 
 	// example) "weapon/sword/short_sword/shit_short_sword/";
 	for (size_t i = 0, ii = 0; i < strlen(name); i++)
 	{
 		if ('/' == name[i])
 		{
-			char L_tmp[128] = { 0 };
-			strcpy_s(L_tmp, 128, tmp);
-			tmp[i - ii] = '\0';
+			char str[128] = { 0 };
+			strcpy_s(str, 128, str_name);
+			str_name[i - ii] = '\0';
 
 			if (!is_first)
 			{
-				L_Object = json_object_get_object(rootobject, tmp);
+				L_Object = json_object_get_object(rootobject, str_name);
 				is_first++;
 			}
-			else L_Object = json_object_get_object(L_Object, tmp);
-			printf("%s\n", tmp);
-			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+			else L_Object = json_object_get_object(L_Object, str_name);
+			printf("%s\n", str_name);
+			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
 
-	return json_object_get_number(L_Object, tmp);
+	return json_object_get_number(L_Object, str_name);
 }
 
-int json_Object::object_get_boolean(const JSON_Object *rootobject, const char *name)
+int json_Fuction::object_get_boolean(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
 	int is_first = 0;
-	char tmp[128] = { 0 };
-	strcpy_s(tmp, 128, name);
+	char str_name[128] = { 0 };
+	strcpy_s(str_name, 128, name);
 
 	for (size_t i = 0, ii = 0; i < strlen(name); i++)
 	{
 		if ('/' == name[i])
 		{
-			char L_tmp[128] = { 0 };
-			strcpy_s(L_tmp, 128, tmp);
-			tmp[i - ii] = '\0';
+			char str[128] = { 0 };
+			strcpy_s(str, 128, str_name);
+			str_name[i - ii] = '\0';
 
 			if (!is_first)
 			{
-				L_Object = json_object_get_object(rootobject, tmp);
+				L_Object = json_object_get_object(rootobject, str_name);
 				is_first++;
 			}
-			else L_Object = json_object_get_object(L_Object, tmp);
-			printf("%s\n", tmp);
-			strcpy_s(tmp, 128, &L_tmp[i - ii + 1]);
+			else L_Object = json_object_get_object(L_Object, str_name);
+			printf("%s\n", str_name);
+			strcpy_s(str_name, 128, &str[i - ii + 1]);
 			ii = i + 1;
 		}
 	}
 
-	return json_object_get_boolean(L_Object, tmp);
+	return json_object_get_boolean(L_Object, str_name);
 }
 
-D3DXVECTOR3 json_Object::get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z)
+D3DXVECTOR3 json_Fuction::get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z)
 {
 	return D3DXVECTOR3
 	(
