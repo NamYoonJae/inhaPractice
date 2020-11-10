@@ -70,26 +70,26 @@ void cGameScene::Update()
 	if (m_pMainCamera)
 		m_pMainCamera->Update();
 
-	//if (m_pTerrain)
-	//{
-	//	D3DXVECTOR3 vec{ 0,0,0 };
-	//	static DWORD Elapsed = GetTickCount();
-	//	if (GetTickCount() - Elapsed > 15000.0f)
-	//	{
-	//		Elapsed = GetTickCount();
-	//		vec.x = rand() % 150;
-	//		vec.z = rand() % 150;
-	//		m_pTerrain->callThread(vec);
-	//	}
-	//	else if (m_pTerrain->GetTerrainMesh() == NULL)
-	//	{
-	//		Elapsed = GetTickCount();
-	//		vec.x = rand() % 150;
-	//		vec.z = rand() % 150;
-	//		m_pTerrain->callThread(vec);
-	//	}
+	if (m_pTerrain)
+	{
+		D3DXVECTOR3 vec{ 0,0,0 };
+		static DWORD Elapsed = GetTickCount();
+		if (GetTickCount() - Elapsed > 5000.0f)
+		{
+			Elapsed = GetTickCount();
+			vec.x = rand() % 150;
+			vec.z = rand() % 150;
+			m_pTerrain->callThread(vec);
+		}
+		else if (m_pTerrain->GetTerrainMesh() == NULL)
+		{
+			Elapsed = GetTickCount();
+			vec.x = rand() % 150;
+			vec.z = rand() % 150;
+			m_pTerrain->callThread(vec);
+		}
 
-	//}
+	}
 
 }
 
@@ -113,8 +113,8 @@ void cGameScene::Render()
 // <<
 	
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	//if (m_pTerrain)
-	//	m_pTerrain->Render();
+	if (m_pTerrain)
+		m_pTerrain->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	
 	g_pD3DDevice->EndScene();
