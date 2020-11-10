@@ -50,9 +50,9 @@ public:
 	cObjLoader();
 	~cObjLoader();
 
-	void LoadOBJ(OUT vector<cGroup*> & vecGroup, IN const char * folder, IN const char * file);
-	void LoadMtlLib(const char * folder, const char * file);
+	void LoadOBJ(OUT vector<cGroup*> & vecGroup, IN const char* folder, IN const char* file);
+	void LoadMtlLib(const char* folder, const char* file);
 
-	LPD3DXMESH LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char * folder, const char * file);
+	LPD3DXMESH LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char* folder, const char* file);
 };
 

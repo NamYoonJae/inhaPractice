@@ -19,7 +19,7 @@ public:
 	cObjDefault();
 	virtual ~cObjDefault();
 
-	virtual void Setup(char* folder, char* file) = 0;
+	virtual void Setup(const char* folder, const char* file) = 0;
 	virtual void Update();
 	virtual void Render() = 0;
 
@@ -43,7 +43,8 @@ public:
 	cObjObject();
 	virtual ~cObjObject();
 
-	virtual void Setup(char* folder, char* file);
+	virtual void Setup(string folder, string file);
+	virtual void Setup(const char* folder, const char* file) override;
 	virtual void Update();
 	virtual void Render();
 
@@ -59,7 +60,8 @@ public:
 	cObjMesh();
 	virtual ~cObjMesh();
 
-	virtual void Setup(char* folder, char* file) override;
+	virtual void Setup(string folder, string file);
+	virtual void Setup(const char* folder, const char* file) override;
 	virtual void Render() override;
 	
 	virtual vector<cMtlTex*> & GetMtlTex() { return m_vecMtlTex; }

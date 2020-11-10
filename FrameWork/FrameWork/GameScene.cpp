@@ -5,7 +5,7 @@
 #include "FontManager.h"
 #include "ObjObject.h"
 #include "GameScene.h"
-
+#include "Observer.h"
 #include "cTerrain.h"
 #include "Button.h"
 
@@ -72,7 +72,7 @@ void cGameScene::Setup()
 #pragma endregion jsonfileload
 	
 	m_pObjUnit = new cObjMesh;
-	m_pObjUnit->Setup("data/ObjFile", "box.obj");
+	m_pObjUnit->Setup("data/ObjFile", "SampleRoom.obj");
 	m_pObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 
 	if(m_pTerrain == NULL)

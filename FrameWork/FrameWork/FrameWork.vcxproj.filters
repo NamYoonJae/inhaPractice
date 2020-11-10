@@ -31,13 +31,7 @@
     <ClCompile Include="Observer.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Code\EventManager</Filter>
-    </ClCompile>
     <ClCompile Include="Subject.cpp">
-      <Filter>Code\EventManager</Filter>
-    </ClCompile>
-    <ClCompile Include="UI.cpp">
       <Filter>Code\EventManager</Filter>
     </ClCompile>
     <ClCompile Include="TimerManager.cpp">
@@ -75,6 +69,12 @@
     </ClCompile>
     <ClCompile Include="json additional code.cpp">
       <Filter>Code\json</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject.cpp">
+      <Filter>Code\Object Composite</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjGroup.cpp">
+      <Filter>Code\Object Composite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,13 +117,7 @@
     <ClInclude Include="Observer.h">
       <Filter>Code\EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Code\EventManager</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
-      <Filter>Code\EventManager</Filter>
-    </ClInclude>
-    <ClInclude Include="UI.h">
       <Filter>Code\EventManager</Filter>
     </ClInclude>
     <ClInclude Include="TimerManager.h">
@@ -161,6 +155,12 @@
     </ClInclude>
     <ClInclude Include="json additional code.h">
       <Filter>Code\json</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject.h">
+      <Filter>Code\Object Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjGroup.h">
+      <Filter>Code\Object Composite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +256,9 @@
     </Filter>
     <Filter Include="Code\Terrain">
       <UniqueIdentifier>{ef7c542d-e971-4c19-92c4-1d3765fe1aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite">
+      <UniqueIdentifier>{c491b620-7d22-4660-9af5-a30185c7835e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
