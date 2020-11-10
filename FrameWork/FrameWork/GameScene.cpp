@@ -94,6 +94,7 @@ void cGameScene::Setup()
 		m_pCharater = new cCharater;
 		m_pCharater->Setup();
 		EventManager->Attach(m_pCharater);
+		m_pMainCamera->Setup(m_pCharater->GetPos());
 	}
 	
 }
@@ -107,6 +108,17 @@ void cGameScene::Update()
 {
 	if (m_pMainCamera)
 		m_pMainCamera->Update();
+
+
+	if(m_pCharater)
+	{
+		float y = m_pTerrain->getHeight(m_pCharater->GetPosition());
+		D3DXVECTOR3 vec = m_pCharater->GetPosition();
+		vec.y = y + 1.0f;
+		m_pCharater->SetPostiion(vec);
+		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fff",
+			vec.x, vec.y, vec.z);
+	}
 
 	if (m_pTerrain && m_pCharater)
 	{

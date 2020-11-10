@@ -26,7 +26,7 @@ public:
 	void Setup(std::string strFolder, std::string strTex,
 		std::string strRaw, DWORD dwBytesPerPixel =1.0f);
 	
-	float getHeightMapEntry(int nRow, int nCol) { return m_vecMapVertex[(m_nTile) * nRow + nCol].p.y;};
+	float getHeightMapEntry(int nRow, int nCol) { return m_vecMapVertex[(m_nTile + 1) * nRow + nCol].p.y;};
 	LPD3DXMESH GetTerrainMesh() { return m_pTerrainMesh; }
 	bool SwapMesh();
 	
