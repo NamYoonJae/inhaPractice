@@ -2,7 +2,7 @@
 #include "cTerrain.h"
 #include "basic.h"
 cTerrain::cTerrain()
-	:m_pTexture(NULL)
+	: m_pTexture(NULL)
 	, m_pTerrainMesh(NULL)
 	, m_nTile(0)
 	, TerrainThread(NULL)
@@ -64,6 +64,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	{
 		if(lock->owns_lock())
 			lock->unlock();
+		LeaveCriticalSection(&cs);
 		return;
 	}
 	RECT InPlayArea = { 0,0,0,0 };
