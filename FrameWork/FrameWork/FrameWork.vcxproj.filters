@@ -72,6 +72,7 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Code\TextureManager</Filter>
+	</ClCompile>
     <ClCompile Include="cObject.cpp">
       <Filter>Code\Object Composite</Filter>
     </ClCompile>
@@ -163,6 +164,7 @@
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Code\TextureManager</Filter>
+	</ClInclude>
     <ClInclude Include="cObject.h">
       <Filter>Code\Object Composite</Filter>
     </ClInclude>
@@ -269,6 +271,7 @@
     </Filter>
     <Filter Include="Code\TextureManager">
       <UniqueIdentifier>{38c36455-2c02-4665-9305-f2940292be81}</UniqueIdentifier>
+	</Filter>
     <Filter Include="Code\Object Composite">
       <UniqueIdentifier>{c491b620-7d22-4660-9af5-a30185c7835e}</UniqueIdentifier>
     </Filter>
