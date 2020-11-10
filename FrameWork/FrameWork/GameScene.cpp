@@ -72,23 +72,15 @@ void cGameScene::Update()
 
 	if (m_pTerrain)
 	{
-		D3DXVECTOR3 vec{ 0,0,0 };
+		static D3DXVECTOR3 vec{ 0,0,0 };
 		static DWORD Elapsed = GetTickCount();
-		if (GetTickCount() - Elapsed > 5000.0f)
+		if (GetTickCount() - Elapsed > 1000.0f)
 		{
 			Elapsed = GetTickCount();
 			vec.x = rand() % 150;
 			vec.z = rand() % 150;
-			m_pTerrain->callThread(vec);
 		}
-		else if (m_pTerrain->GetTerrainMesh() == NULL)
-		{
-			Elapsed = GetTickCount();
-			vec.x = rand() % 150;
-			vec.z = rand() % 150;
-			m_pTerrain->callThread(vec);
-		}
-
+		m_pTerrain->callThread(vec);
 	}
 
 }
