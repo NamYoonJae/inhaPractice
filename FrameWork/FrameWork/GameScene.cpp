@@ -4,12 +4,14 @@
 #include "TimerManager.h"
 #include "FontManager.h"
 #include "ObjObject.h"
-#include "GameScene.h"
 #include "Observer.h"
 #include "cTerrain.h"
 #include "Button.h"
 #include "cCharater.h"
 #include "SkyBox.h"
+
+#include "XFileObject.h"
+#include "GameScene.h"
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
@@ -21,6 +23,7 @@ cGameScene::cGameScene(string name)
 	,m_p_jsonValue(nullptr)
 	,m_p_jsonObjUnit(nullptr)
 	,m_pSkyBox(nullptr)
+	,m_pXfileObj(nullptr)
 {
 }
 
@@ -107,6 +110,9 @@ void cGameScene::Setup()
 		m_pSkyBox->Setup("data/HeightMapData","skyhorizon.png");
 		m_pSkyBox->SetPos(m_pMainCamera->GetEye());
 	}
+
+	m_pXfileObj = new cXFileObject;
+	m_pXfileObj->Init();
 }
 
 void cGameScene::CheckInput()
@@ -151,21 +157,21 @@ void cGameScene::Render()
 	if(m_pPopup)
 		m_pPopup->Render();
 
-
 #pragma region Light Off
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+
 	m_p_jsonObjUnit->Render();
 	m_pObjUnit->Render();
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-#pragma endregion Light Off
 	
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	if (m_pTerrain)
 		m_pTerrain->Render();
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	if (m_pCharater)
 		m_pCharater->Render();
 
+	m_pXfileObj->Render();
+
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+#pragma endregion Light Off
 	
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

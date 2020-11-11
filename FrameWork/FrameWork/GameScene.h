@@ -8,8 +8,9 @@ class cObjMesh;
 class cTerrain;
 
 class cCharater;
-
 class SkyBox;
+
+class cXFileObject;
 
 class cGameScene : public cScene
 {
@@ -30,8 +31,9 @@ private:
 
 	//
 	cCharater*	m_pCharater;
-
 	SkyBox*		m_pSkyBox;
+
+	cXFileObject* m_pXfileObj;
 public:
 	cGameScene(string name);
 	~cGameScene();
