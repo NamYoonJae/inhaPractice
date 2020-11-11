@@ -9,6 +9,8 @@ class cTerrain;
 
 class cCharater;
 
+class SkyBox;
+
 class cGameScene : public cScene
 {
 private:
@@ -28,6 +30,8 @@ private:
 
 	//
 	cCharater*	m_pCharater;
+
+	SkyBox*		m_pSkyBox;
 public:
 	cGameScene(string name);
 	~cGameScene();

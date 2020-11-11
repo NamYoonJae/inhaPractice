@@ -1,5 +1,4 @@
 #pragma once
-#include <mutex>
 
 class cTerrain
 {
@@ -12,11 +11,14 @@ private:
 	LPD3DXMESH	m_pNewTerrainMesh;
 	int			m_nTile;
 	
-	std::mutex	m_Mutex;
+
 	RECT		m_CullingRect;
 	std::thread *TerrainThread;
 	CRITICAL_SECTION	cs;
-	std::unique_lock<std::mutex> *lock;
+
+	std::vector<DWORD> vecIndex;
+	std::vector<ST_PNT_VERTEX> vecVertex;
+	bool	IsSwapMesh;
 public:
 	cTerrain();
 	~cTerrain();

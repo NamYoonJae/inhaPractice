@@ -84,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Code\BoundingBox</Filter>
+	</ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Code\Object Composite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>Code\BoundingBox</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Code\Object Composite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
