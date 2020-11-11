@@ -9,6 +9,7 @@
 #include "cTerrain.h"
 #include "Button.h"
 #include "cCharater.h"
+#include "SkyBox.h"
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
@@ -19,6 +20,7 @@ cGameScene::cGameScene(string name)
 	,m_p_jsonRootObj(nullptr)
 	,m_p_jsonValue(nullptr)
 	,m_p_jsonObjUnit(nullptr)
+	,m_pSkyBox(nullptr)
 {
 }
 
@@ -96,7 +98,13 @@ void cGameScene::Setup()
 		EventManager->Attach(m_pCharater);
 		m_pMainCamera->Setup(m_pCharater->GetPos());
 	}
-	
+
+	if(m_pSkyBox == NULL)
+	{
+		m_pSkyBox = new SkyBox;
+		m_pSkyBox->Setup("data/HeightMapData","skyhorizon.png");
+		m_pSkyBox->SetPos(m_pMainCamera->GetEye());
+	}
 }
 
 void cGameScene::CheckInput()
@@ -131,7 +139,12 @@ void cGameScene::Render()
 {
 	g_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	g_pD3DDevice->BeginScene();
-
+	
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	if (m_pSkyBox)
+		m_pSkyBox->Render();
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	
 	g_pTimeManager->DrawFPS();
 	m_pGrid->Render();
 

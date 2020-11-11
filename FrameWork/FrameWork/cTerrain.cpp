@@ -80,10 +80,10 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	RECT InPlayArea = { 0,0,0,0 };
 
 
-	InPlayArea.left   = col - 50 < 0 ? 0 : col - 50;
-	InPlayArea.top    = row - 50 < 0  ? 0 : row - 50;
-	InPlayArea.right  = col + 50 > m_nTile ? m_nTile : col + 50;
-	InPlayArea.bottom = row + 50 > m_nTile ? m_nTile : row + 50;
+	InPlayArea.left   = col - 70 < 0 ? 0 : col - 70;
+	InPlayArea.top    = row - 70 < 0  ? 0 : row - 70;
+	InPlayArea.right  = col + 70 > m_nTile ? m_nTile : col + 70;
+	InPlayArea.bottom = row + 70 > m_nTile ? m_nTile : row + 70;
 
 
 	for (int y = InPlayArea.top; y <= InPlayArea.bottom; y++)
@@ -285,9 +285,13 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 	static D3DXVECTOR3 PrevVec = D3DXVECTOR3(0, 0, 0);
 	if (TerrainThread == NULL)
 	{
-		if (PrevVec == vec) return;
-		PrevVec = vec;
-		TerrainThread = new std::thread([&]() {NewTerrain(vec); });
+		float distance = sqrt(pow(PrevVec.x - vec.x, 2) + pow(PrevVec.y - vec.y, 2) + pow(PrevVec.z - vec.z, 2));
+		
+		if (distance > 10.0f || PrevVec == D3DXVECTOR3(0,0,0))
+		{
+			PrevVec = vec;
+			TerrainThread = new std::thread([&]() {NewTerrain(vec); });
+		}
 	}
 	else
 	{
