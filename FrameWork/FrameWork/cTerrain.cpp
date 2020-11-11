@@ -7,10 +7,9 @@ cTerrain::cTerrain()
 	, m_nTile(0)
 	, TerrainThread(NULL)
 	, m_pNewTerrainMesh(NULL)
+	, IsSwapMesh(false)
 {
 	m_CullingRect = { 0,0,0,0 };
-	lock = new std::unique_lock<std::mutex>(m_Mutex);
-	lock->unlock();
 }
 
 
@@ -29,7 +28,19 @@ cTerrain::~cTerrain()
 
 void cTerrain::Render()
 {
-	SwapMesh();
+	if(SwapMesh())
+	{
+		if (m_pTerrainMesh != NULL)
+			SafeRelease(m_pTerrainMesh);
+
+		if (m_pNewTerrainMesh)
+		{
+			m_pNewTerrainMesh->CloneMeshFVF(0, ST_PNT_VERTEX::FVF, g_pD3DDevice, &m_pTerrainMesh);
+
+			SafeRelease(m_pNewTerrainMesh);
+		}
+			
+	}
 	
 	if(m_pTerrainMesh)
 	{
@@ -47,13 +58,13 @@ void cTerrain::Render()
 
 void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 {
-	if (lock->owns_lock())
-	{
-		return;
-	}
-
-	lock->try_lock();
+	EnterCriticalSection(&cs);
 	
+	if (!vecIndex.empty())
+		vecIndex.clear();
+	if (!vecVertex.empty())
+		vecVertex.clear();
+
 	float x = ((float)(m_nTile) / 2.0f) + vec.x;
 	float z = ((float)(m_nTile) / 2.0f) - vec.z;
 
@@ -62,8 +73,7 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	
 	if (col < 0 || col > m_nTile || row < 0 || row > m_nTile)
 	{
-		if(lock->owns_lock())
-			lock->unlock();
+
 		LeaveCriticalSection(&cs);
 		return;
 	}
@@ -76,15 +86,11 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	InPlayArea.bottom = row + 50 > m_nTile ? m_nTile : row + 50;
 
 
-
-	std::vector<DWORD> vecIndex;
-	std::vector<ST_PNT_VERTEX> vecVetex;
-
 	for (int y = InPlayArea.top; y <= InPlayArea.bottom; y++)
 	{
 		for (int x = InPlayArea.left; x <= InPlayArea.right; x++)
 		{
-			vecVetex.push_back(m_vecMapVertex[x + y * (m_nTile+1)]);
+			vecVertex.push_back(m_vecMapVertex[x + y * (m_nTile+1)]);
 
 		}
 	}
@@ -110,47 +116,9 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 		}
 		
 	}
-	// Index Buffer
 
-	LPD3DXMESH substitute;
-	
-	D3DXCreateMeshFVF(vecIndex.size() / 3,
-		vecVetex.size(), 
-		D3DXMESH_MANAGED | D3DXMESH_32BIT,
-		ST_PNT_VERTEX::FVF,
-		g_pD3DDevice,
-		&substitute);
-
-	ST_PNT_VERTEX *pV = NULL;
-	substitute->LockVertexBuffer(0, (LPVOID*)&pV);
-	memcpy(pV, &vecVetex[0], vecVetex.size() * sizeof(ST_PNT_VERTEX));
-	substitute->UnlockVertexBuffer();
-
-	DWORD *pI = NULL;
-	substitute->LockIndexBuffer(0, (LPVOID*)&pI);
-	memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
-	substitute->UnlockIndexBuffer();
-
-	DWORD* pA = NULL;
-
-	substitute->LockAttributeBuffer(0, &pA);
-	ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
-	substitute->UnlockAttributeBuffer();
-	
-	std::vector<DWORD> vecAdj;
-	vecAdj.resize(vecIndex.size());
-	
-	substitute->GenerateAdjacency(0.001f, &vecAdj[0]);
-	substitute->OptimizeInplace(
-		D3DXMESHOPT_ATTRSORT |
-		D3DXMESHOPT_COMPACT |
-		D3DXMESHOPT_VERTEXCACHE ,
-		&vecAdj[0],
-		0, 0, 0);
-
-	m_pNewTerrainMesh = substitute;
 	m_CullingRect = InPlayArea;
-	lock->unlock();
+	IsSwapMesh = true;
 	LeaveCriticalSection(&cs);
 }
 
@@ -264,26 +232,62 @@ void cTerrain::Setup(std::string strFolder, std::string strTex,
 
 bool cTerrain::SwapMesh()
 {
-	if (m_pNewTerrainMesh)
+	if(IsSwapMesh)
 	{
-		ZeroMemory(&m_pTerrainMesh, sizeof(LPD3DXMESH));
-		m_pTerrainMesh = m_pNewTerrainMesh;
-		m_pNewTerrainMesh = NULL;
+		if(vecIndex.size() == 0 || vecVertex.size() == 0)
+		{
+			return false;
+		}
+
+		D3DXCreateMeshFVF(vecIndex.size() / 3,
+			vecVertex.size(),
+			D3DXMESH_MANAGED | D3DXMESH_32BIT,
+			ST_PNT_VERTEX::FVF,
+			g_pD3DDevice,
+			&m_pNewTerrainMesh);
+
+		ST_PNT_VERTEX *pV = NULL;
+		m_pNewTerrainMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+		memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(ST_PNT_VERTEX));
+		m_pNewTerrainMesh->UnlockVertexBuffer();
+
+		DWORD *pI = NULL;
+		m_pNewTerrainMesh->LockIndexBuffer(0, (LPVOID*)&pI);
+		memcpy(pI, &vecIndex[0], vecIndex.size() * sizeof(DWORD));
+		m_pNewTerrainMesh->UnlockIndexBuffer();
+
+		DWORD *pA = NULL;
+
+		m_pNewTerrainMesh->LockAttributeBuffer(0, &pA);
+		ZeroMemory(pA, (vecIndex.size() / 3) * sizeof(DWORD));
+		m_pNewTerrainMesh->UnlockAttributeBuffer();
+
+		std::vector<DWORD> vecAdj;
+		vecAdj.resize(vecIndex.size());
+
+		m_pNewTerrainMesh->GenerateAdjacency(0.001f, &vecAdj[0]);
+		m_pNewTerrainMesh->OptimizeInplace(
+			D3DXMESHOPT_ATTRSORT |
+			D3DXMESHOPT_COMPACT |
+			D3DXMESHOPT_VERTEXCACHE,
+			&vecAdj[0],
+			0, 0, 0);
+
+		IsSwapMesh = false;
 		return true;
 	}
-	else
-		return false;
+
+	return false;
 }
 
 void cTerrain::callThread(D3DXVECTOR3 vec)
 {
 	static D3DXVECTOR3 PrevVec = D3DXVECTOR3(0, 0, 0);
-	EnterCriticalSection(&cs);
 	if (TerrainThread == NULL)
 	{
 		if (PrevVec == vec) return;
 		PrevVec = vec;
-		TerrainThread = new std::thread([&]() {NewTerrain(vec); });	
+		TerrainThread = new std::thread([&]() {NewTerrain(vec); });
 	}
 	else
 	{
@@ -291,8 +295,8 @@ void cTerrain::callThread(D3DXVECTOR3 vec)
 		{
 			TerrainThread->join();
 			//TerrainThread = NULL;
-			SafeDelete(TerrainThread);
 		}
+		SafeDelete(TerrainThread);
 
 	}
 }

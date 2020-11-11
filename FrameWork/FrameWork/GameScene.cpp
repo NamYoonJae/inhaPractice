@@ -115,7 +115,7 @@ void cGameScene::Update()
 	{
 		m_pTerrain->callThread(m_pCharater->GetPosition());
 	}
-
+	
 }
 
 void cGameScene::Render()
