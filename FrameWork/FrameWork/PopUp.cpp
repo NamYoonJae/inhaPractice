@@ -2,7 +2,7 @@
 #include "PopUp.h"
 #include "Button.h"
 #include "TextureManager.h"
-
+#include "EventManager.h"
 
 cPopUp::cPopUp()
 	: m_pSprite(NULL)
@@ -110,7 +110,8 @@ void cPopUp::Update(std::string message)
 			}
 
 		}
-		cout << "버튼 스테이트" << m_vecBtnList[0]->GetState() << endl;
+		cout << "첫 번째 버튼 down" << m_vecBtnList[0]->GetState() << endl;
+		cout << "두 번째 down" << m_vecBtnList[1]->GetState() << endl;
 	}
 
 	if (message == "EVENT_LBUTTONUP") 
@@ -131,7 +132,9 @@ void cPopUp::Update(std::string message)
 				}
 			}
 		}
-		cout << "버튼 스테이트" << m_vecBtnList[0]->GetState() << endl;
+		cout << "첫 번째 버튼 up" << m_vecBtnList[0]->GetState() << endl;
+		cout << "두 번째 버튼 up" << m_vecBtnList[1]->GetState() << endl;
+
 	}
 	
 	for (int i = 0; i < m_vecBtnList.size(); i++) 

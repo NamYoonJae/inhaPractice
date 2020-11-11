@@ -45,9 +45,11 @@ void cGameScene::Setup()
 	m_pPopup = new cPopUp;
 	m_pPopup->Setup("UI", "panel-info.png", D3DXVECTOR3(100,100,0));
 
+
 	m_pButton = new cButton;
 	m_pButton->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100,100,0), 0, 0, 0);
 	m_pPopup->cButtonPushBack(m_pButton);
+
 
 	m_pButton2 = new cButton;
 	m_pButton2->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 100, 100, 0);

@@ -110,6 +110,16 @@ D3DXVECTOR2 cEventManager::GetMousePrev()
 	return m_vPrev;
 }
 
+void cEventManager::ButtonEvent(string message, cPopUp * btn)
+{
+	/*
+	if (message == "EVENT_LBUTTONDOWN")
+	{
+		cout << "마우스 좌클릭" << endl;
+	}
+	*/
+}
+
 
 cEventManager::cEventManager()
 	: m_IsDrag(false)

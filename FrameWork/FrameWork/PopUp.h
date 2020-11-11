@@ -1,6 +1,7 @@
 #pragma once
 #include "basic.h"
 #include "Observer.h"
+#include <functional>
 class cButton;
 
 class cPopUp  : public cObserver
@@ -33,5 +34,9 @@ public:
 	void cButtonPushBack(cButton*);
 	virtual int GetState();
 	virtual void SetStateChange(int state);
+
+	//std::function<void(string&, void*, cButton*)> EventProcess;
+	std::function<void(string&, cPopUp*)> *EP;
+	
 };
 

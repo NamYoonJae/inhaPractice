@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #pragma once
 #include <queue>
+#include "Button.h"
 
 
 
@@ -30,5 +31,7 @@ public:
 	//now
 	D3DXVECTOR2 GetMouseCurrent();
 	D3DXVECTOR2 GetMousePrev();
+
+	void ButtonEvent(string message, cPopUp*);
 
 };

@@ -13,6 +13,7 @@ cButton::~cButton()
 
 void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z)
 {
+
 	m_Position.x = position.x + x;
 	m_Position.y = position.y + y;
 	m_Position.z = position.z + z;
@@ -36,11 +37,14 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 		NULL,
 		&m_pTextureUI);
 
+	//EP = new function<void(string&,cPopUp*)> cEventManager::ButtonEvent;
+	
+	//auto EP = bind(&cEventManager::ButtonEvent, string("A"), this);
+
 }
 
 void cButton::Update(string message)
-{
-
+{	
 }
 
 void cButton::Render()
