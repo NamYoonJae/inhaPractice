@@ -124,8 +124,6 @@ void cGameScene::Update()
 		D3DXVECTOR3 vec = m_pCharater->GetPosition();
 		vec.y = y + 1.0f;
 		m_pCharater->SetPostiion(vec);
-		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fff",
-			vec.x, vec.y, vec.z);
 	}
 
 	if (m_pTerrain && m_pCharater)
