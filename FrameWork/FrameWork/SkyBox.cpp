@@ -77,15 +77,15 @@ void SkyBox::Setup(string strFolder, string strFileName)
 	int x = PNGSIZE * 4;
 	int y = PNGSIZE * 3;
 
-
+	
 	// 0 1 2 0 2 3
-	m_vecFace[0].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
-	m_vecFace[1].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
-	m_vecFace[2].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[0].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x,(float)(PNGSIZE * 2 + 1) / y);
+	m_vecFace[1].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[2].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
 
-	m_vecFace[3].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
-	m_vecFace[4].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
-	m_vecFace[5].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
+	m_vecFace[3].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
+	m_vecFace[4].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[5].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
 	
 	// back 3 x 3  4  6 5   4 7 6
 	m_vecFace[6].t = D3DXVECTOR2((float)(PNGSIZE * 3 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
@@ -97,25 +97,26 @@ void SkyBox::Setup(string strFolder, string strFileName)
 	m_vecFace[11].t = D3DXVECTOR2(1.0f, (float)(PNGSIZE * 1 + 1) / y);
 	
 
+	m_vecFace[12].t = D3DXVECTOR2((float)(PNGSIZE * 3 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
+	m_vecFace[13].t = D3DXVECTOR2((float)(PNGSIZE * 3 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[14].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
 
-	//: left 4 5 1  4 1 0
-	m_vecFace[12].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
-	m_vecFace[13].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
-	m_vecFace[14].t = D3DXVECTOR2(0.0f, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[15].t = D3DXVECTOR2((float)(PNGSIZE * 3 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
+	m_vecFace[16].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[17].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
 	
-	m_vecFace[15].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
-	m_vecFace[16].t = D3DXVECTOR2(0.0f, (float)(PNGSIZE * 1 + 1) / y);
-	m_vecFace[17].t = D3DXVECTOR2(0.0f, (float)(PNGSIZE * 2 + 1) / y);
 
-	// : right		3 2 6	 3 6 7
-	m_vecFace[18].t = D3DXVECTOR2((float)(PNGSIZE * 3 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
-	m_vecFace[19].t = D3DXVECTOR2((float)(PNGSIZE * 3 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
-	m_vecFace[20].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[18].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
+	m_vecFace[19].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[20].t = D3DXVECTOR2(0.0f, (float)(PNGSIZE * 1 + 1) / y);
+	
+	m_vecFace[21].t = D3DXVECTOR2((float)(PNGSIZE + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
+	m_vecFace[22].t = D3DXVECTOR2(0.0f, (float)(PNGSIZE * 1 + 1) / y);
+	m_vecFace[23].t = D3DXVECTOR2(0.0f, (float)(PNGSIZE * 2 + 1) / y);
 
-	m_vecFace[21].t = D3DXVECTOR2((float)(PNGSIZE * 3 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
-	m_vecFace[22].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
-	m_vecFace[23].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
 
+
+	//
 	// : top 1 5 6 1 6 2
 	m_vecFace[24].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, 0);
 	m_vecFace[25].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 1 + 1) / y);
