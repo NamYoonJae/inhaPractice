@@ -33,6 +33,8 @@ public:
 	virtual D3DXVECTOR3 GetPosition() { return m_vPos; }
 	virtual D3DXVECTOR3 GetScale() { return m_vScale; }
 	virtual D3DXVECTOR3 GetRotation() { return m_vRotateAngle; }
+
+	virtual D3DXMATRIXA16 GetWorldMatrix() { return m_matWorld; }
 };
 
 class cObjObject : public cObjDefault
@@ -65,5 +67,6 @@ public:
 	virtual void Render() override;
 	
 	virtual vector<cMtlTex*> & GetMtlTex() { return m_vecMtlTex; }
+	virtual LPD3DXMESH GetMesh() { return m_Mesh; }
 };
 
