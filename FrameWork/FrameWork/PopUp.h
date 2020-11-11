@@ -22,9 +22,6 @@ protected:
 	vector<cButton*> m_vecBtnList;
 	cButton* m_pButton;
 
-	cButton* m_pButtonHover;
-	cButton* m_pButtonClick;
-
 public:
 	cPopUp();
 	~cPopUp();

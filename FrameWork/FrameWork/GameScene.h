@@ -17,7 +17,8 @@ private:
 	cButton* m_pButton;
 	cButton* m_pButton2;
 
-	JSON_Object* m_p_jsonObj;
+	JSON_Object* m_p_jsonRootObj;
+	JSON_Object* m_p_jsonSubObj;
 	JSON_Value* m_p_jsonValue;
 	
 	cObjMesh* m_p_jsonObjUnit;
