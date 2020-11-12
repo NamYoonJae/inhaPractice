@@ -37,14 +37,11 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 		NULL,
 		&m_pTextureUI);
 
-	//EP = new function<void(string&,cPopUp*)> cEventManager::ButtonEvent;
-	
-	//auto EP = bind(&cEventManager::ButtonEvent, string("A"), this);
-
 }
 
-void cButton::Update(string message)
+void cButton::Update(EventType message)
 {	
+	EventProcess(message, this);
 }
 
 void cButton::Render()

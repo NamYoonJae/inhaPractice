@@ -203,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="XFileObject.h">
       <Filter>Code\XFile</Filter>
+	</ClInclude>
+    <ClInclude Include="ButtonEvent.h">
+      <Filter>Code\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

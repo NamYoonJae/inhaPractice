@@ -9,6 +9,7 @@
 #include "Button.h"
 #include "cCharater.h"
 #include "SkyBox.h"
+#include "ButtonEvent.h"
 
 #include "XFileObject.h"
 #include "GameScene.h"
@@ -54,11 +55,12 @@ void cGameScene::Setup()
 	m_pButton = new cButton;
 	m_pButton->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100,100,0), 0, 0, 0);
 	m_pPopup->cButtonPushBack(m_pButton);
-
+	m_pButton->EventProcess = BtnStartEvent;
 
 	m_pButton2 = new cButton;
 	m_pButton2->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 100, 100, 0);
 	m_pPopup->cButtonPushBack(m_pButton2);
+	m_pButton2->EventProcess = BtnExitEvent;
 
 	EventManager->Attach(m_pPopup);
 
