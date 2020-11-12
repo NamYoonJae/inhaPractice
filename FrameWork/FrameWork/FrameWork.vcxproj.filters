@@ -97,6 +97,15 @@
     <ClCompile Include="XFileObject.cpp">
       <Filter>Code\XFile</Filter>
     </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>Code\XFile\SkinnedMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>Code\XFile\SkinnedMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMeshManager.cpp">
+      <Filter>Code\XFile\SkinnedMesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -203,9 +212,18 @@
     </ClInclude>
     <ClInclude Include="XFileObject.h">
       <Filter>Code\XFile</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="ButtonEvent.h">
       <Filter>Code\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>Code\XFile\SkinnedMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>Code\XFile\SkinnedMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMeshManager.h">
+      <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +334,9 @@
     </Filter>
     <Filter Include="Code\XFile">
       <UniqueIdentifier>{ab92c904-01b1-454f-bbb4-492c5a62e76b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\XFile\SkinnedMesh">
+      <UniqueIdentifier>{8001d231-f01f-439c-8148-1fe320edb7b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

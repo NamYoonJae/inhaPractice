@@ -11,7 +11,12 @@
 #include "SkyBox.h"
 #include "ButtonEvent.h"
 
+// >>
 #include "XFileObject.h"
+#include "cSkinnedMesh.h"
+#include "cSkinnedMeshManager.h"
+// <<
+
 #include "GameScene.h"
 
 cGameScene::cGameScene(string name)
@@ -113,8 +118,13 @@ void cGameScene::Setup()
 		m_pSkyBox->SetPos(m_pMainCamera->GetEye());
 	}
 
+// >>
 	m_pXfileObj = new cXFileObject;
 	m_pXfileObj->Init();
+
+	m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon/", "Basic Attack.X");
+	
+// <<
 }
 
 void cGameScene::CheckInput()
@@ -171,6 +181,7 @@ void cGameScene::Render()
 		m_pCharater->Render();
 
 	m_pXfileObj->Render();
+	m_pSkinnedUnit->UpdateAndRender();
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 #pragma endregion Light Off
