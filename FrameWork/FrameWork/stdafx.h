@@ -47,15 +47,11 @@ extern HWND g_hWnd;
 
 #define SafeRelease(p)	{if(p) p->Release(); p = NULL;}
 #define SafeDelete(p) {if(p) delete p; p = NULL;}
-<<<<<<< HEAD
 #define SafeDeleteArray(p) {if(p) delete[] p; p = NULL;}
-=======
-#define SafeDeleteArray(p){if(p) delete[] p; p = NULL;}
 #define Synthesize(varType,varName,FunName)\
 	protected: varType varName; \
 	public: inline varType Get##FunName(void) const{return varName;}\
 	public: inline void Set##FunName(varType var){varName = var;}
->>>>>>> 8425862e414ba6f16fc3a54705d7f455b50cb0e4
 
 extern HWND g_hWnd;
 
