@@ -10,14 +10,51 @@
 #define EventManager cEventManager::GetInstance()
 
 //»Ÿ 107 108 19 110
+enum class  EventType
+{
+	EVENT_NULL = 9999,
+	EVENT_MOVE = 0,
+	EVENT_WHEELUP = 1,
+	EVENT_WHEELDOWN = 2,
+	EVENT_LBUTTONDOWN = 3,
+	EVENT_LBUTTONDLBC = 4,
+	EVENT_RBUTTONDOWN = 5,
+	EVENT_RBUTTONDLBC = 6,
+	EVENT_LBUTTONUP = 7,
+	EVENT_RBUTTONUP = 8,
+
+	EVENT_DRAG = 10,
+
+	EVENT_JUMP = 32,
+	EVENT_TAP = 9,
+	EVENT_ENTER = 13,
+	EVENT_SHIFT = 16,
+	EVENT_CTRL = 17,
+	EVENT_ALT = 18,
+	EVENT_MENU = 27,
+	EVENT_HOME_WINDOWS = 36,
+
+	EVENT_ARROW_LEFT = 37,
+	EVENT_ARROW_UP = 38,
+	EVENT_ARROW_RIGHT = 39,
+	EVENT_ARROW_DOWN = 40,
+
+	EVENT_NUMPAD_1 = 49,
+	EVENT_NUMPAD_2 = 50,
+	EVENT_NUMPAD_3 = 51,
+	EVENT_NUMPAD_4 = 52,
+	EVENT_NUMPAD_5 = 53,
+
+};
 
 class cEventManager
 	:public cSubject
 {
 	Singletone(cEventManager);
+
 private:
-	std::queue<std::string> m_Queue;
-	std::map<int, std::string> m_mapEvent;
+	std::queue<EventType> m_Queue;
+	std::map<int, EventType> m_mapEvent;
 
 	//
 	D3DXVECTOR2 m_vCur;
@@ -32,6 +69,6 @@ public:
 	D3DXVECTOR2 GetMouseCurrent();
 	D3DXVECTOR2 GetMousePrev();
 
-	void ButtonEvent(string message, cPopUp*);
+	//void ButtonEvent(string message, cPopUp*);
 
 };

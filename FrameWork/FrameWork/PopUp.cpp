@@ -55,9 +55,9 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 	
 }
 
-void cPopUp::Update(std::string message)
+void cPopUp::Update(EventType message)
 {
-	if (message == "EVENT_MOVE")
+	if (message == EventType::EVENT_MOVE)
 	{ 
 		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
 
@@ -91,7 +91,7 @@ void cPopUp::Update(std::string message)
 
 
 	
-	if (message == "EVENT_LBUTTONDOWN") 
+	if (message == EventType::EVENT_LBUTTONDOWN) 
 	{
 		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
 
@@ -114,7 +114,7 @@ void cPopUp::Update(std::string message)
 		cout << "µÎ ¹øÂ° down" << m_vecBtnList[1]->GetState() << endl;
 	}
 
-	if (message == "EVENT_LBUTTONUP") 
+	if (message == EventType::EVENT_LBUTTONUP) 
 	{
 		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
 
