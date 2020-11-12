@@ -57,39 +57,6 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 
 void cPopUp::Update(EventType message)
 {
-	if (message == EventType::EVENT_MOVE)
-	{ 
-		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
-
-		for (int i = 0; i < m_vecBtnList.size(); i++) 
-		{
-			D3DXVECTOR3 btnPosition = m_vecBtnList[i]->GetPosition();	//좌상단 좌표
-			float width = m_vecBtnList[i]->GetImageInfoWidth();	//버튼의 가로길이
-			float height = m_vecBtnList[i]->GetImageInfoHeight();	//버튼의 세로길이
-
-			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width) 
-			{
-				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height) 
-				{
-					m_vecBtnList[i]->SetStateChange(enum_Hover);
-				}
-				else 
-				{
-					m_vecBtnList[i]->SetStateChange(enum_Off);
-				}
-			}
-			else
-			{
-				m_vecBtnList[i]->SetStateChange(enum_Off);
-			}
-
-		}//for end
-		
-
-	}//if (message == "EVENT_MOVE" ) END
-
-
-
 	
 	if (message == EventType::EVENT_LBUTTONDOWN) 
 	{
@@ -206,4 +173,19 @@ int cPopUp::GetState()
 void cPopUp::SetStateChange(int state)
 {
 	m_State = state;
+}
+
+D3DXVECTOR3 cPopUp::GetPosition()
+{
+	return m_Position;
+}
+
+float cPopUp::GetImageInfoWidth()
+{
+	return (float)m_ImageInfo.Width;
+}
+
+float cPopUp::GetImageInfoHeight()
+{
+	return (float)m_ImageInfo.Height;
 }

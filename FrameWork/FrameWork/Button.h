@@ -16,6 +16,7 @@ public:
 
 	int GetState();
 	void StateChange(int state);
+
 	D3DXVECTOR3 GetPosition();
 	float GetImageInfoWidth();
 	float GetImageInfoHeight();

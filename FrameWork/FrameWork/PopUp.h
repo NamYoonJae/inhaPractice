@@ -4,16 +4,17 @@
 #include <functional>
 class cButton;
 
+enum
+{
+	enum_Off = 1000,
+	enum_On = 1001,
+	enum_Hover = 1002,
+};
+
 class cPopUp  : public cObserver
 {
 protected:
 
-	enum
-	{
-		enum_Off = 1000,
-		enum_On = 1001,
-		enum_Hover = 1002,
-	};
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
@@ -35,9 +36,12 @@ public:
 	void cButtonPushBack(cButton*);
 	virtual int GetState();
 	virtual void SetStateChange(int state);
-
+	virtual D3DXVECTOR3 GetPosition();
 	//std::function<void(string&, void*, cButton*)> EventProcess;
 	std::function<void(EventType&, cPopUp*)> EventProcess;
 	
+	virtual float GetImageInfoWidth();
+	virtual float GetImageInfoHeight();
+
 };
 
