@@ -10,7 +10,7 @@ public:
 	~cButton();
 
 	void Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z);
-	void Update(std::string);
+	void Update(EventType message);
 	void Render();
 	void Render(D3DXVECTOR3 position);
 

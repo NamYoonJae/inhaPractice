@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "TimerManager.h"
 #include "Camera.h"
+#include "EventManager.h"
 
 
 
@@ -58,19 +59,19 @@ void cCamera::Update()
 	g_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 }
 
-void cCamera::Update(string event)
+void cCamera::Update(EventType event)
 {
-	if(event == "EVENT_LBUTTONDOWN")
+	if(event == EventType::EVENT_LBUTTONDOWN)
 	{
 		m_isLccButtonDown = true;
 		m_ptPrevMouse = EventManager->GetMouseCurrent();
 	}
-	if(event == "EVENT_LBUTTONUP")
+	if(event == EventType::EVENT_LBUTTONUP)
 	{
 		m_isLccButtonDown = false;
 	}
 	
-	if(m_isLccButtonDown && event == "EVENT_MOVE")
+	if(m_isLccButtonDown && event == EventType::EVENT_MOVE)
 	{
 		D3DXVECTOR2 vCurMouse = EventManager->GetMouseCurrent();
 		
@@ -89,14 +90,14 @@ void cCamera::Update(string event)
 		m_ptPrevMouse = vCurMouse;
 	}
 	
-	if(event == "EVENT_WHEELUP")
+	if(event == EventType::EVENT_WHEELUP)
 	{
 		m_fCameraDistance -= 1.0f;
 
 		if (m_fCameraDistance < 0.0001f)
 			m_fCameraDistance = 0.0001f;
 	}
-	else if (event == "EVENT_WHEELDOWN")
+	else if (event == EventType::EVENT_WHEELDOWN)
 	{
 		m_fCameraDistance += 1.0f;
 	}
