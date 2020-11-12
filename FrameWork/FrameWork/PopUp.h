@@ -15,6 +15,12 @@ class cPopUp  : public cObserver
 {
 protected:
 
+	enum
+	{
+		enum_Off = 1000,
+		enum_On = 1001,
+		enum_Hover = 1002,
+	};
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;

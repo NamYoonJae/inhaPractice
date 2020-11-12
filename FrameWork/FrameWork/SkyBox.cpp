@@ -127,11 +127,11 @@ void SkyBox::Setup(string strFolder, string strFileName)
 	m_vecFace[29].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x,0);
 
 	// bottem 4 0 3  4 3 7
-	m_vecFace[30].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 3 + 1) / y);
+	m_vecFace[30].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
 	m_vecFace[31].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x,1.0f);
 	m_vecFace[32].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x,1.0f);
 
-	m_vecFace[33].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 3 + 1) / y);
+	m_vecFace[33].t = D3DXVECTOR2((float)(PNGSIZE * 1 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
 	m_vecFace[34].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, 1.0f);
 	m_vecFace[35].t = D3DXVECTOR2((float)(PNGSIZE * 2 + 1) / x, (float)(PNGSIZE * 2 + 1) / y);
 
