@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "cCharater.h"
-
+#include "EventManager.h"
 
 cCharater::cCharater()
 	:m_vRot(0,0,0)
@@ -29,22 +29,22 @@ void cCharater::Setup()
 	m_Mstl.Diffuse  = D3DXCOLOR(0.7f, 0.0f, 0.0f, 1.0f);
 }
 
-void cCharater::Update(string message)
+void cCharater::Update(EventType message)
 {
 
-	if (message.compare("EVENT_ARROW_UP") == 0)
+	if (message == EventType::EVENT_ARROW_UP)
 	{
 		m_vPos += m_vDir * 0.3f;
 	}
-	else if (message.compare("EVENT_ARROW_DOWN") == 0)
+	else if (message == EventType::EVENT_ARROW_DOWN)
 	{
 		m_vPos -= m_vDir * 0.3f;
 	}
-	else if (message.compare("EVENT_ARROW_LEFT") == 0)
+	else if (message == EventType::EVENT_ARROW_LEFT)
 	{
 		m_vRot.y += -0.3f;
 	}
-	else if (message.compare("EVENT_ARROW_RIGHT") == 0)
+	else if (message == EventType::EVENT_ARROW_RIGHT)
 	{
 		m_vRot.y += +0.3f;
 	}

@@ -84,7 +84,7 @@
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Code\BoundingBox</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="SkyBox.cpp">
       <Filter>Code\Object Composite</Filter>
     </ClCompile>
@@ -185,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="SkyBox.h">
       <Filter>Code\Object Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonEvent.h">
+      <Filter>Code\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

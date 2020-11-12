@@ -15,7 +15,7 @@ public:
 	cCharater();
 	~cCharater();
 	void Setup();
-	virtual void cObserver::Update(string) override;
+	virtual void cObserver::Update(EventType) override;
 	virtual void cObject::Update() override {};
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL) override;
 	D3DXVECTOR3 GetPosition() { return m_vPos; };

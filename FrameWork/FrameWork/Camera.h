@@ -21,6 +21,6 @@ public:
 
 	void Setup(D3DXVECTOR3* pvTarget);
 	void Update();
-	void Update(string event);
+	void Update(EventType event);
 	D3DXVECTOR3*	GetEye() { return &m_vEye; }
 };
