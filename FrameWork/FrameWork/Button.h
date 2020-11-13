@@ -21,5 +21,7 @@ public:
 	float GetImageInfoWidth();
 	float GetImageInfoHeight();
 
+	void ChangeSprite(char* szFullPath);
+
 };
 
