@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Button.h"
+#include "TextureManager.h"
 
 cButton::cButton()
 {
@@ -101,4 +102,16 @@ float cButton::GetImageInfoWidth()
 float cButton::GetImageInfoHeight()
 {
 	return (float)m_ImageInfo.Height;
+}
+
+void cButton::ChangeSprite(char * szFullPath)
+{
+	if (!g_pTextureManager->GetTexture(szFullPath)) 
+	{
+		
+	}
+
+	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
+	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
+
 }
