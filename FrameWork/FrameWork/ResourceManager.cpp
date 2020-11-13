@@ -139,13 +139,13 @@ EffectMesh* ResourceManager::ParseEffectMeshX(const string& path,
 
 void ResourceManager::Destroy()
 {
-    //SAFE_RELEASE(m_pEffectPool);
+    SafeRelease(m_pEffectPool);
 
-    //for (auto e : m_Effects)
-    //    SAFE_RELEASE(e.second);
+    for (auto e : m_Effects)
+		SafeRelease(e.second);
 
-    //for (auto t : m_Textures)
-    //    SAFE_RELEASE(t.second);
+    for (auto t : m_Textures)
+		SafeRelease(t.second);
 
     for (auto em : m_EffectMeshs)
 		SafeDelete(em.second);
