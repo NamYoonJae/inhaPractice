@@ -19,6 +19,11 @@ private:
 	Synthesize(D3DXVECTOR3, m_vMin, Min);
 	Synthesize(D3DXVECTOR3, m_vMax, Max);
 
+	bool m_isAnimBlend;
+	float m_fBlendTime;
+	float m_fPassedBlendTime;
+
+	DWORD m_dAnimStartTime;
 public:
 	cSkinnedMesh(char* szFolder, char* szFilename);	 
 	~cSkinnedMesh(void);
@@ -36,8 +41,10 @@ private:
 	void Load(char* szFolder, char* szFilename);
 	LPD3DXEFFECT LoadEffect(char* szFilename);
 	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
+	void Render_UsingShader(ST_BONE* pBone = NULL);
 	void Render(ST_BONE* pBone = NULL);
 	void SetupBoneMatrixPtrs(ST_BONE* pBone);
+	void SetAnimationIndexBlend(int nIndex);
 	void Destroy();
 };
 

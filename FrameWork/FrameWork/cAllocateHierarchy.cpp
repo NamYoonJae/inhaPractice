@@ -54,7 +54,7 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 	assert(pMeshData && pMeshData->Type == D3DXMESHTYPE_MESH);
 
 	ST_BONE_MESH* pBoneMesh = new ST_BONE_MESH;
-
+	ZeroMemory(pBoneMesh, sizeof(ST_BONE_MESH));
 	pBoneMesh->Name = NULL;
 
 	for (DWORD i = 0; i < NumMaterials; ++i)
@@ -123,63 +123,85 @@ STDMETHODIMP cAllocateHierarchy::CreateMeshContainer( THIS_ LPCSTR Name,
 			pBoneMesh->ppBoneMatrixPtrs[i] = NULL;
 			pBoneMesh->pBoneOffsetMatrices[i] = *(pSkinInfo->GetBoneOffsetMatrix(i));
 		}
-		pBoneMesh->dwNumPaletteEntries = min( m_dwDefaultPaletteSize, pSkinInfo->GetNumBones() );
-		if(m_dwMaxPaletteSize < pBoneMesh->dwNumPaletteEntries)
+		//pBoneMesh->dwNumPaletteEntries = min( m_dwDefaultPaletteSize, pSkinInfo->GetNumBones() );
+		//if(m_dwMaxPaletteSize < pBoneMesh->dwNumPaletteEntries)
+		//{
+		//	m_dwMaxPaletteSize = pBoneMesh->dwNumPaletteEntries;
+		//}
+		//pBoneMesh->pSkinInfo->ConvertToIndexedBlendedMesh(
+		//	pBoneMesh->pOrigMesh,
+		//	D3DXMESH_MANAGED | D3DXMESHOPT_VERTEXCACHE,
+		//	pBoneMesh->dwNumPaletteEntries,
+		//	pBoneMesh->pAdjacency,
+		//	NULL,
+		//	NULL,
+		//	NULL,
+		//	&pBoneMesh->dwMaxNumFaceInfls,
+		//	&pBoneMesh->dwNumAttrGroups,
+		//	&pBoneMesh->pBufBoneCombos,
+		//	&pBoneMesh->pWorkingMesh );
+
+		//DWORD dwOldFVF = pBoneMesh->pWorkingMesh->GetFVF();
+		//DWORD dwNewFVF = 
+		//	( dwOldFVF & D3DFVF_POSITION_MASK ) |
+		//	D3DFVF_NORMAL |
+		//	D3DFVF_TEX1 |
+		//	D3DFVF_LASTBETA_UBYTE4;
+
+		//if( dwNewFVF != dwOldFVF )
+		//{
+		//	LPD3DXMESH pMesh = NULL;
+
+		//	pBoneMesh->pWorkingMesh->CloneMeshFVF(
+		//		pBoneMesh->pWorkingMesh->GetOptions(),
+		//		dwNewFVF,
+		//		g_pD3DDevice,
+		//		&pMesh );
+
+		//	SafeRelease(pBoneMesh->pWorkingMesh);
+		//	pBoneMesh->pWorkingMesh = pMesh;
+
+		//	if( ! ( dwOldFVF & D3DFVF_NORMAL ) )
+		//	{
+		//		D3DXComputeNormals( pBoneMesh->pWorkingMesh, NULL );
+		//	}
+		//}
+		//D3DVERTEXELEMENT9 pDecl[ MAX_FVF_DECL_SIZE ];
+		//D3DVERTEXELEMENT9 * pDeclCur;
+		//pBoneMesh->pWorkingMesh->GetDeclaration( pDecl );
+
+		//pDeclCur = pDecl;
+		//while( pDeclCur->Stream != 0xff )
+		//{
+		//	if( ( pDeclCur->Usage == D3DDECLUSAGE_BLENDINDICES ) &&
+		//		( pDeclCur->UsageIndex == 0 ) )
+		//		pDeclCur->Type = D3DDECLTYPE_D3DCOLOR;
+		//	pDeclCur++;
+		//}
+
+		//pBoneMesh->pWorkingMesh->UpdateSemantics( pDecl );
+
+		pSkinInfo->AddRef();
+		pBoneMesh->pSkinInfo = pSkinInfo;
+
+		pMeshData->pMesh->AddRef();
+		pBoneMesh->MeshData.pMesh = pMeshData->pMesh;
+
+		pMeshData->pMesh->CloneMeshFVF(
+			pMeshData->pMesh->GetOptions(),
+			pMeshData->pMesh->GetFVF(),
+			g_pD3DDevice,
+			&pBoneMesh->pOrigMesh
+		);
+
+		pBoneMesh->ppBoneMatrixPtrs = new D3DXMATRIXA16*[dwNumBones];
+		pBoneMesh->pBoneOffsetMatrices = new D3DXMATRIXA16[dwNumBones];
+		//pBoneMesh->pCurrentBoneMatrices = new D3DXMATRIXA16[dwNumBones];
+
+		for (DWORD i = 0; i < dwNumBones; ++i)
 		{
-			m_dwMaxPaletteSize = pBoneMesh->dwNumPaletteEntries;
+			pBoneMesh->pBoneOffsetMatrices[i] = *(pSkinInfo->GetBoneOffsetMatrix(i));
 		}
-		pBoneMesh->pSkinInfo->ConvertToIndexedBlendedMesh(
-			pBoneMesh->pOrigMesh,
-			D3DXMESH_MANAGED | D3DXMESHOPT_VERTEXCACHE,
-			pBoneMesh->dwNumPaletteEntries,
-			pBoneMesh->pAdjacency,
-			NULL,
-			NULL,
-			NULL,
-			&pBoneMesh->dwMaxNumFaceInfls,
-			&pBoneMesh->dwNumAttrGroups,
-			&pBoneMesh->pBufBoneCombos,
-			&pBoneMesh->pWorkingMesh );
-
-		DWORD dwOldFVF = pBoneMesh->pWorkingMesh->GetFVF();
-		DWORD dwNewFVF = 
-			( dwOldFVF & D3DFVF_POSITION_MASK ) |
-			D3DFVF_NORMAL |
-			D3DFVF_TEX1 |
-			D3DFVF_LASTBETA_UBYTE4;
-
-		if( dwNewFVF != dwOldFVF )
-		{
-			LPD3DXMESH pMesh = NULL;
-
-			pBoneMesh->pWorkingMesh->CloneMeshFVF(
-				pBoneMesh->pWorkingMesh->GetOptions(),
-				dwNewFVF,
-				g_pD3DDevice,
-				&pMesh );
-
-			SafeRelease(pBoneMesh->pWorkingMesh);
-			pBoneMesh->pWorkingMesh = pMesh;
-
-			if( ! ( dwOldFVF & D3DFVF_NORMAL ) )
-			{
-				D3DXComputeNormals( pBoneMesh->pWorkingMesh, NULL );
-			}
-		}
-		D3DVERTEXELEMENT9 pDecl[ MAX_FVF_DECL_SIZE ];
-		D3DVERTEXELEMENT9 * pDeclCur;
-		pBoneMesh->pWorkingMesh->GetDeclaration( pDecl );
-
-		pDeclCur = pDecl;
-		while( pDeclCur->Stream != 0xff )
-		{
-			if( ( pDeclCur->Usage == D3DDECLUSAGE_BLENDINDICES ) &&
-				( pDeclCur->UsageIndex == 0 ) )
-				pDeclCur->Type = D3DDECLTYPE_D3DCOLOR;
-			pDeclCur++;
-		}
-
-		pBoneMesh->pWorkingMesh->UpdateSemantics( pDecl );
 	}
 	
 	*ppNewMeshContainer = pBoneMesh;

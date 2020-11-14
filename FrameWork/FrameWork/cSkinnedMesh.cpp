@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "cAllocateHierarchy.h"
 #include "cSkinnedMeshManager.h"
 #include "TimerManager.h"
@@ -12,13 +12,16 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFilename)
 	, m_pmWorkingPalette(NULL)
 	, m_pEffect(NULL)
 {
+	D3DXMatrixIdentity(&m_matWorldTM);
 	cSkinnedMesh* pSkinnedMesh =  g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFilename);
 	
-	D3DXMatrixIdentity(&m_matWorldTM);
 	m_pRootFrame = pSkinnedMesh->m_pRootFrame;
-	m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
-	m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
-	m_pEffect = pSkinnedMesh->m_pEffect;
+	
+#pragma region UsingShader
+	//m_dwWorkingPaletteSize = pSkinnedMesh->m_dwWorkingPaletteSize;
+	//m_pmWorkingPalette = pSkinnedMesh->m_pmWorkingPalette;
+	//m_pEffect = pSkinnedMesh->m_pEffect;
+#pragma endregion 
 
 	/// >> : OBB
 	{
@@ -52,14 +55,16 @@ cSkinnedMesh::~cSkinnedMesh(void)
 
 void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 {
-	m_pEffect = LoadEffect("MultiAnimation.hpp");
-							
-	int nPaletteSize = 0;
-	m_pEffect->GetInt("MATRIX_PALETTE_SIZE", &nPaletteSize);
-
 	cAllocateHierarchy ah;
 	ah.SetDirectory(szDirectory);
-	ah.SetDefaultPaletteSize(nPaletteSize);
+
+#pragma region UsingShader
+	//m_pEffect = LoadEffect("MultiAnimation.hpp");
+	//						
+	//int nPaletteSize = 0;
+	//m_pEffect->GetInt("MATRIX_PALETTE_SIZE", &nPaletteSize);
+	//ah.SetDefaultPaletteSize(nPaletteSize);
+#pragma endregion 
 
 	std::string sFullPath(szDirectory);
 	sFullPath += std::string(szFilename);
@@ -77,16 +82,17 @@ void cSkinnedMesh::Load( char* szDirectory, char* szFilename )
 		m_vMin = ah.GetMin();
 		m_vMax = ah.GetMax();
 	}
+#pragma region UsingShader
+	//if( m_pmWorkingPalette )
+	//	delete [] m_pmWorkingPalette;
 
-	if( m_pmWorkingPalette )
-		delete [] m_pmWorkingPalette;
-
-	m_dwWorkingPaletteSize = ah.GetMaxPaletteSize();
-	m_pmWorkingPalette = new D3DXMATRIX[ m_dwWorkingPaletteSize];
-	if( m_pmWorkingPalette == NULL )
-	{
-		m_dwWorkingPaletteSize = 0;
-	}
+	//m_dwWorkingPaletteSize = ah.GetMaxPaletteSize();
+	//m_pmWorkingPalette = new D3DXMATRIX[ m_dwWorkingPaletteSize];
+	//if( m_pmWorkingPalette == NULL )
+	//{
+	//	m_dwWorkingPaletteSize = 0;
+	//}
+#pragma endregion 
 
 	if(m_pRootFrame)
 		SetupBoneMatrixPtrs(m_pRootFrame);
@@ -114,56 +120,23 @@ void cSkinnedMesh::Render(ST_BONE* pBone )
 	{
 		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
 
-		LPD3DXBONECOMBINATION pBoneCombos = 
-			( LPD3DXBONECOMBINATION )( pBoneMesh->pBufBoneCombos->GetBufferPointer() );
-
-		D3DXMATRIXA16 matViewProj, matView, matProj;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
-		matViewProj = matView * matProj;
-
-		D3DXMATRIXA16 mView, mInvView;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW, &mView);
-		D3DXMatrixInverse(&mInvView, 0, &mView);
-		D3DXVECTOR3 vEye = D3DXVECTOR3(0, 0, 0);
-		D3DXVec3TransformCoord(&vEye, &vEye, &mInvView);
-
-		for( DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++ dwAttrib )
+		if (pBone->pMeshContainer)
 		{
-			for( DWORD dwPalEntry = 0; dwPalEntry < pBoneMesh->dwNumPaletteEntries; ++ dwPalEntry )
+			ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+			if (pBoneMesh->MeshData.pMesh)
 			{
-				DWORD dwMatrixIndex = pBoneCombos[ dwAttrib ].BoneId[ dwPalEntry ];
-				if( dwMatrixIndex != UINT_MAX )
+				g_pD3DDevice->SetTransform(D3DTS_WORLD, &pBone->CombinedTransformationMatrix);
+				for (size_t i = 0; i < pBoneMesh->vecMaterial.size(); ++i)
 				{
-					m_pmWorkingPalette[ dwPalEntry ] = 
-						pBoneMesh->pBoneOffsetMatrices[ dwMatrixIndex ] * 
-						(*pBoneMesh->ppBoneMatrixPtrs[ dwMatrixIndex ]);
+					if (!pBoneMesh->vecTexture.empty())
+					{
+						g_pD3DDevice->SetTexture(0, pBoneMesh->vecTexture[i]);
+						g_pD3DDevice->SetMaterial(&pBoneMesh->vecMaterial[i]);
+					}
+					pBoneMesh->MeshData.pMesh->DrawSubset(i);
+					g_pD3DDevice->SetTexture(0, NULL);
 				}
 			}
-
-			m_pEffect->SetMatrixArray( "amPalette",
-				m_pmWorkingPalette,
-				pBoneMesh->dwNumPaletteEntries );
-
-			m_pEffect->SetMatrix("g_mViewProj", &matViewProj);
-			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-			m_pEffect->SetVector("vWorldLightPos", &D3DXVECTOR4( 500.0f, 500.0f, 500.0f, 1.0f ) );
-			m_pEffect->SetVector("vWorldCameraPos", &D3DXVECTOR4( vEye, 1.0f ) );
-			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4( 0.53f, 0.53f, 0.53f, 0.53f ) );
-			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-			m_pEffect->SetTexture( "g_txScene", pBoneMesh->vecTexture[ pBoneCombos[ dwAttrib ].AttribId ] );
-			m_pEffect->SetInt( "CurNumBones", pBoneMesh->dwMaxNumFaceInfls - 1 );
-			m_pEffect->SetTechnique( "Skinning20" );
-
-			UINT uiPasses, uiPass;
-			m_pEffect->Begin( & uiPasses, 0 );
-			for( uiPass = 0; uiPass < uiPasses; ++ uiPass )
-			{
-				m_pEffect->BeginPass( uiPass );
-				pBoneMesh->pWorkingMesh->DrawSubset( dwAttrib );
-				m_pEffect->EndPass();
-			}
-			m_pEffect->End();
 		}
 	}
 
@@ -231,7 +204,13 @@ LPD3DXEFFECT cSkinnedMesh::LoadEffect( char* szFilename )
 
 void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent )
 {
+	if (pCurrent == NULL)
+	{
+		pCurrent = (ST_BONE*)m_pRootFrame;
+	}
+	
 	pCurrent->CombinedTransformationMatrix = pCurrent->TransformationMatrix;
+	
 	if(pmatParent)
 	{
 		pCurrent->CombinedTransformationMatrix =
@@ -245,7 +224,80 @@ void cSkinnedMesh::Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent )
 
 	if(pCurrent->pFrameFirstChild)
 	{
-		Update((ST_BONE*)pCurrent->pFrameFirstChild, &(pCurrent->CombinedTransformationMatrix));
+		Update((ST_BONE*)pCurrent->pFrameFirstChild, 
+			&(pCurrent->CombinedTransformationMatrix));
+	}
+}
+
+void cSkinnedMesh::Render_UsingShader(ST_BONE* pBone)
+{
+	assert(pBone);
+
+	if (pBone->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
+
+		LPD3DXBONECOMBINATION pBoneCombos =
+			(LPD3DXBONECOMBINATION)(pBoneMesh->pBufBoneCombos->GetBufferPointer());
+
+		D3DXMATRIXA16 matViewProj, matView, matProj;
+		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+		matViewProj = matView * matProj;
+
+		D3DXMATRIXA16 mView, mInvView;
+		g_pD3DDevice->GetTransform(D3DTS_VIEW, &mView);
+		D3DXMatrixInverse(&mInvView, 0, &mView);
+		D3DXVECTOR3 vEye = D3DXVECTOR3(0, 0, 0);
+		D3DXVec3TransformCoord(&vEye, &vEye, &mInvView);
+
+		for (DWORD dwAttrib = 0; dwAttrib < pBoneMesh->dwNumAttrGroups; ++dwAttrib)
+		{
+			for (DWORD dwPalEntry = 0; dwPalEntry < pBoneMesh->dwNumPaletteEntries; ++dwPalEntry)
+			{
+				DWORD dwMatrixIndex = pBoneCombos[dwAttrib].BoneId[dwPalEntry];
+				if (dwMatrixIndex != UINT_MAX)
+				{
+					m_pmWorkingPalette[dwPalEntry] =
+						pBoneMesh->pBoneOffsetMatrices[dwMatrixIndex] *
+						(*pBoneMesh->ppBoneMatrixPtrs[dwMatrixIndex]);
+				}
+			}
+
+			m_pEffect->SetMatrixArray("amPalette",
+				m_pmWorkingPalette,
+				pBoneMesh->dwNumPaletteEntries);
+
+			m_pEffect->SetMatrix("g_mViewProj", &matViewProj);
+			m_pEffect->SetVector("vLightDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+			m_pEffect->SetVector("vWorldLightPos", &D3DXVECTOR4(500.0f, 500.0f, 500.0f, 1.0f));
+			m_pEffect->SetVector("vWorldCameraPos", &D3DXVECTOR4(vEye, 1.0f));
+			m_pEffect->SetVector("vMaterialAmbient", &D3DXVECTOR4(0.53f, 0.53f, 0.53f, 0.53f));
+			m_pEffect->SetVector("vMaterialDiffuse", &D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f));
+			m_pEffect->SetTexture("g_txScene", pBoneMesh->vecTexture[pBoneCombos[dwAttrib].AttribId]);
+			m_pEffect->SetInt("CurNumBones", pBoneMesh->dwMaxNumFaceInfls - 1);
+			m_pEffect->SetTechnique("Skinning20");
+
+			UINT uiPasses, uiPass;
+			m_pEffect->Begin(&uiPasses, 0);
+			for (uiPass = 0; uiPass < uiPasses; ++uiPass)
+			{
+				m_pEffect->BeginPass(uiPass);
+				pBoneMesh->pWorkingMesh->DrawSubset(dwAttrib);
+				m_pEffect->EndPass();
+			}
+			m_pEffect->End();
+		}
+	}
+
+	if (pBone->pFrameSibling)
+	{
+		Render((ST_BONE*)pBone->pFrameSibling);
+	}
+
+	if (pBone->pFrameFirstChild)
+	{
+		Render((ST_BONE*)pBone->pFrameFirstChild);
 	}
 }
 
@@ -283,12 +335,57 @@ void cSkinnedMesh::SetupBoneMatrixPtrs( ST_BONE* pBone )
 
 void cSkinnedMesh::SetAnimationIndex( int nIndex )
 {
-	if(!m_pAnimController)
-		return;
+	if(!m_pAnimController) return;
+
+	int num = m_pAnimController->GetNumAnimationSets();
+	
+	if (nIndex > num) 
+		nIndex = nIndex % num;
+	
 	LPD3DXANIMATIONSET pAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
+	m_pAnimController->GetPriorityBlend();
 	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+
+	m_dAnimStartTime = GetTickCount();
+	
 	SafeRelease(pAnimSet);
+}
+
+void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
+{
+	m_isAnimBlend = true;
+	m_fPassedBlendTime = 0.0f;
+
+	int num = m_pAnimController->GetNumAnimationSets();
+	
+	if (nIndex > num) 
+		nIndex = nIndex % num;
+
+	LPD3DXANIMATIONSET pPrevAnimSet = NULL;
+	LPD3DXANIMATIONSET pNextAnimSet = NULL;
+
+	D3DXTRACK_DESC stTrackDesc;
+	m_pAnimController->GetTrackDesc(0, &stTrackDesc);
+
+	// 진행되고 있던 애니메이션의 정보를 받아와 1번 트랙으로 옮김
+	m_pAnimController->GetTrackAnimationSet(0, &pPrevAnimSet);
+	m_pAnimController->SetTrackAnimationSet(1, pPrevAnimSet);
+	m_pAnimController->SetTrackDesc(1, &stTrackDesc);
+
+	// 새로운 애니메이션의 정보를 0번 트랙에 받아옴
+	m_pAnimController->GetAnimationSet(nIndex, &pNextAnimSet);
+	m_pAnimController->SetTrackAnimationSet(0, pNextAnimSet);
+	m_pAnimController->SetTrackPosition(0, 0.0f);
+
+	// 가중치 설정
+	m_pAnimController->SetTrackWeight(0, 0.0f);
+	m_pAnimController->SetTrackWeight(1, 1.0f);
+
+	m_dAnimStartTime = GetTickCount();
+
+	SafeRelease(pPrevAnimSet);
+	SafeRelease(pNextAnimSet);
 }
 
 void cSkinnedMesh::Destroy()
