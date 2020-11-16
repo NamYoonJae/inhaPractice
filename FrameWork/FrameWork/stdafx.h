@@ -45,6 +45,9 @@ extern HWND g_hWnd;
 	return &instance;\
 	}
 
+#define SafeUpdate(p)	{if(p) p->Update();}
+#define SafeRender(p)	{if(p) p->Render();}
+
 #define SafeRelease(p)	{if(p) p->Release(); p = NULL;}
 #define SafeDelete(p) {if(p) delete p; p = NULL;}
 #define SafeDeleteArray(p) {if(p) delete[] p; p = NULL;}

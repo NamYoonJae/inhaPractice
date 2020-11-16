@@ -97,13 +97,13 @@
     <ClCompile Include="XFileObject.cpp">
       <Filter>Code\XFile</Filter>
     </ClCompile>
-    <ClCompile Include="cAllocateHierarchy.cpp">
+    <ClCompile Include="AllocateHierarchy.cpp">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMesh.cpp">
+    <ClCompile Include="SkinnedMesh.cpp">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClCompile>
-    <ClCompile Include="cSkinnedMeshManager.cpp">
+    <ClCompile Include="SkinnedMeshManager.cpp">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClCompile>
   </ItemGroup>
@@ -216,13 +216,13 @@
     <ClInclude Include="ButtonEvent.h">
       <Filter>Code\UI</Filter>
     </ClInclude>
-    <ClInclude Include="cAllocateHierarchy.h">
+    <ClInclude Include="AllocateHierarchy.h">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClInclude>
-    <ClInclude Include="cSkinnedMesh.h">
+    <ClInclude Include="SkinnedMesh.h">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClInclude>
-    <ClInclude Include="cSkinnedMeshManager.h">
+    <ClInclude Include="SkinnedMeshManager.h">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClInclude>
   </ItemGroup>
