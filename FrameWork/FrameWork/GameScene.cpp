@@ -13,7 +13,6 @@
 
 // >>
 #include "SkinnedMesh.h"
-#include "SkinnedMeshManager.h"
 #include "Arthur.h"
 // <<
 
@@ -67,8 +66,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh();
-	m_pSkinnedUnit->Setup("data/XFile/Dragon", "Basic Attack.X");
+	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
 	m_pSkinnedUnit->SetAnimationIndex(0);
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.1f, 0.1f, 0.1f);

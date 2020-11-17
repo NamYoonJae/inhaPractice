@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "TimerManager.h"
 #include "ObjectPool.h"
 
 
@@ -36,6 +37,8 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 	{
 		vecObjectList.at(i)->Render(&matWorld);
 	}
+
+	g_pTimeManager->DrawFPS();
 
 	for(int i = 0; i < vecUserInterface.size(); i++)
 	{
