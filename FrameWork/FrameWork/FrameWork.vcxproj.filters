@@ -106,7 +106,9 @@
     <ClCompile Include="ObjectPool.cpp">
       <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClCompile>
-    <ClCompile Include="Arthur.cpp" />
+    <ClCompile Include="Arthur.cpp">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -226,7 +228,9 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClInclude>
-    <ClInclude Include="Arthur.h" />
+    <ClInclude Include="Arthur.h">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -340,9 +344,9 @@
     <Filter Include="Code\XFile\SkinnedMesh">
       <UniqueIdentifier>{8001d231-f01f-439c-8148-1fe320edb7b0}</UniqueIdentifier>
     </Filter>
-
     <Filter Include="Code\Object Composite\ObjectPool">
       <UniqueIdentifier>{703ee0ae-ff4a-4149-97f4-9d001dfb7732}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Code\Arthur">
       <UniqueIdentifier>{c8faa7a5-57ee-4eea-99d5-4671f4b27c2b}</UniqueIdentifier>
     </Filter>
