@@ -57,6 +57,7 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 
 void cPopUp::Update(EventType message)
 {
+	/*
 	if (message == EventType::EVENT_MOVE)
 	{ 
 		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
@@ -137,14 +138,11 @@ void cPopUp::Update(EventType message)
 
 	}
 	
+	*/
 	for (int i = 0; i < m_vecBtnList.size(); i++) 
 	{
 		m_vecBtnList[i]->Update(message);
 	}
-
-	
-	
-
 
 }
 
@@ -152,21 +150,21 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 
-	RECT rc;
-	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	D3DXMATRIXA16 matT, matS, matWorld;
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matWorld);
 
-	//m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_ptPrevMouse.x, m_ptPrevMouse.y, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
-	m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_Position.x, m_Position.y, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_Position.x, m_Position.y, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
 	matWorld = matS * matT;
 
 	m_pSprite->End();
 
+
 	for(int i = 0; i < m_vecBtnList.size(); i++)
 	{
+		/*
 		int state = m_vecBtnList[i]->GetState();
 
 		if (state == enum_On) 
@@ -181,6 +179,9 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 		{
 			//m_pButtonHover->Render(m_vecBtnList[i]->GetPosition());
 		}
+		*/
+
+		m_vecBtnList[i]->Render();
 	}
 
 
@@ -221,4 +222,38 @@ float cPopUp::GetImageInfoWidth()
 float cPopUp::GetImageInfoHeight()
 {
 	return (float)m_ImageInfo.Height;
+}
+
+void cPopUp::LoadTexture(char * szFullPath)
+{
+	D3DXCreateTextureFromFileExA(g_pD3DDevice,
+		szFullPath,
+		D3DX_DEFAULT_NONPOW2,
+		D3DX_DEFAULT_NONPOW2,
+		D3DX_DEFAULT,
+		0,
+		D3DFMT_UNKNOWN,
+		D3DPOOL_MANAGED,
+		D3DX_FILTER_NONE,
+		D3DX_DEFAULT,
+		0,
+		&m_ImageInfo,
+		NULL,
+		&m_pTextureUI
+	);
+
+	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
+	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
+}
+
+void cPopUp::ChangeSprite(char * szFullPath)
+{
+	if (!g_pTextureManager->GetTexture(szFullPath))
+	{
+		LoadTexture(szFullPath);
+	}
+
+	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
+	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
 }

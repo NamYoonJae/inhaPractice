@@ -15,22 +15,28 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 		D3DXVECTOR3 btnPosition = button->GetPosition();
 		float width = button->GetImageInfoWidth();
 		float height = button->GetImageInfoHeight();
-
 		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
 				button->SetStateChange(enum_Hover);
+				button->ChangeSprite("UI/btn-med-over.png");
+				
 
 			}
 			else
 			{
 				button->SetStateChange(enum_Off);
+				button->ChangeSprite("UI/btn-med-up.png");
+
 			}
 		}
 		else
 		{
 			button->SetStateChange(enum_Off);
+			button->ChangeSprite("UI/btn-med-up.png");
+
+
 		}
 
 	}//case EVENT_MOVE End

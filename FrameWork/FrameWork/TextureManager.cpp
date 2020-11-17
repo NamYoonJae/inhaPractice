@@ -40,6 +40,28 @@ D3DXIMAGE_INFO cTextureManager::GetImageInfo(string path)
 	return GetImageInfo((char*) path.c_str());
 }
 
+void cTextureManager::AddImageInfo(char * path, D3DXIMAGE_INFO info)
+{
+	if (m_mapImageInfo.find(path) == m_mapImageInfo.end())
+		m_mapImageInfo[path] = info;
+}
+
+void cTextureManager::AddImageInfo(string & path, D3DXIMAGE_INFO info)
+{
+	return AddImageInfo((char*)path.c_str(), info);
+}
+
+void cTextureManager::AddTexture(char * path, LPDIRECT3DTEXTURE9 texture)
+{
+	if (m_mapTexture.find(path) == m_mapTexture.end())
+		m_mapTexture[path] = texture;
+}
+
+void cTextureManager::AddTexture(string & path, LPDIRECT3DTEXTURE9 texture)
+{
+	return AddTexture((char*)path.c_str(), texture);
+}
+
 void cTextureManager::Destroy()
 {
 	for each(auto it in m_mapTexture)
