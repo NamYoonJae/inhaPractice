@@ -20,21 +20,21 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
 				button->SetStateChange(enum_Hover);
-				button->ChangeSprite("UI/btn-med-over.png");
+				button->ChangeSprite("data/UI/btn-med-over.png");
 				
 
 			}
 			else
 			{
 				button->SetStateChange(enum_Off);
-				button->ChangeSprite("UI/btn-med-up.png");
+				button->ChangeSprite("data/UI/btn-med-up.png");
 
 			}
 		}
 		else
 		{
 			button->SetStateChange(enum_Off);
-			button->ChangeSprite("UI/btn-med-up.png");
+			button->ChangeSprite("data/UI/btn-med-up.png");
 
 
 		}

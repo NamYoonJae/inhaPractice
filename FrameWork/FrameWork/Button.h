@@ -21,7 +21,6 @@ public:
 	float GetImageInfoWidth();
 	float GetImageInfoHeight();
 
-
 	void LoadTexture(char* szFullPath);
 	void ChangeSprite(char* szFullPath);
 	

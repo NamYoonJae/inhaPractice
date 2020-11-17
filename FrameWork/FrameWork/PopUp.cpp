@@ -57,88 +57,7 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 
 void cPopUp::Update(EventType message)
 {
-	/*
-	if (message == EventType::EVENT_MOVE)
-	{ 
-		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
-
-		for (int i = 0; i < m_vecBtnList.size(); i++) 
-		{
-			D3DXVECTOR3 btnPosition = m_vecBtnList[i]->GetPosition();	//좌상단 좌표
-			float width = m_vecBtnList[i]->GetImageInfoWidth();	//버튼의 가로길이
-			float height = m_vecBtnList[i]->GetImageInfoHeight();	//버튼의 세로길이
-
-			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width) 
-			{
-				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height) 
-				{
-					m_vecBtnList[i]->SetStateChange(enum_Hover);
-				}
-				else 
-				{
-					m_vecBtnList[i]->SetStateChange(enum_Off);
-				}
-			}
-			else
-			{
-				m_vecBtnList[i]->SetStateChange(enum_Off);
-			}
-
-		}//for end
-		
-
-	}//if (message == "EVENT_MOVE" ) END
-
-
-
 	
-	if (message == EventType::EVENT_LBUTTONDOWN) 
-	{
-		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
-
-		for (int i = 0; i < m_vecBtnList.size(); i++) 
-		{
-			D3DXVECTOR3 btnPosition = m_vecBtnList[i]->GetPosition();	//좌상단 좌표
-			float width = m_vecBtnList[i]->GetImageInfoWidth();	//버튼의 가로길이
-			float height = m_vecBtnList[i]->GetImageInfoHeight();	//버튼의 세로길이
-
-			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
-			{
-				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
-				{
-					m_vecBtnList[i]->SetStateChange(enum_On);
-				}
-			}
-
-		}
-		cout << "첫 번째 버튼 down" << m_vecBtnList[0]->GetState() << endl;
-		cout << "두 번째 down" << m_vecBtnList[1]->GetState() << endl;
-	}
-
-	if (message == EventType::EVENT_LBUTTONUP) 
-	{
-		D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
-
-		for (int i = 0; i < m_vecBtnList.size(); i++)
-		{
-			D3DXVECTOR3 btnPosition = m_vecBtnList[i]->GetPosition();	//좌상단 좌표
-			float width = m_vecBtnList[i]->GetImageInfoWidth();	//버튼의 가로길이
-			float height = m_vecBtnList[i]->GetImageInfoHeight();	//버튼의 세로길이
-
-			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
-			{
-				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
-				{
-					m_vecBtnList[i]->SetStateChange(enum_Hover);
-				}
-			}
-		}
-		cout << "첫 번째 버튼 up" << m_vecBtnList[0]->GetState() << endl;
-		cout << "두 번째 버튼 up" << m_vecBtnList[1]->GetState() << endl;
-
-	}
-	
-	*/
 	for (int i = 0; i < m_vecBtnList.size(); i++) 
 	{
 		m_vecBtnList[i]->Update(message);
@@ -164,35 +83,11 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 
 	for(int i = 0; i < m_vecBtnList.size(); i++)
 	{
-		/*
-		int state = m_vecBtnList[i]->GetState();
-
-		if (state == enum_On) 
-		{
-			//m_pButtonClick->Render(m_vecBtnList[i]->GetPosition());
-		}
-		else if(state == enum_Off)
-		{
-			m_vecBtnList[i]->Render();
-		}
-		else if (state == enum_Hover) 
-		{
-			//m_pButtonHover->Render(m_vecBtnList[i]->GetPosition());
-		}
-		*/
-
 		m_vecBtnList[i]->Render();
 	}
 
 
 }
-
-/*
-D3DXVECTOR3 PopUp::GetPosition()
-{
-	return m_Position;
-}
-*/
 
 void cPopUp::cButtonPushBack(cButton* btn)
 {
