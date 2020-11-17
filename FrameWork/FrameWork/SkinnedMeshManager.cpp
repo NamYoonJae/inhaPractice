@@ -1,6 +1,6 @@
 #include "StdAfx.h"
-#include "cSkinnedMeshManager.h"
-#include "cSkinnedMesh.h"
+#include "SkinnedMesh.h"
+#include "SkinnedMeshManager.h"
 
 cSkinnedMeshManager::cSkinnedMeshManager(void)
 {
@@ -20,15 +20,15 @@ void cSkinnedMeshManager::Destroy()
 	}
 }
 
-cSkinnedMesh* cSkinnedMeshManager::GetSkinnedMesh( char* szFolder, char* szFilename )
+cSkinnedMesh* cSkinnedMeshManager::GetSkinnedMesh( char* szFolder, char* szFileName)
 {
-	std::string sFullPath(szFolder);
-	sFullPath += std::string(szFilename);
+	string sFullPath(szFolder);
+	sFullPath += string("/") + string(szFileName);
 
 	if(m_mapSkinnedMesh.find(sFullPath) == m_mapSkinnedMesh.end())
 	{
 		cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh();
-		pSkinnedMesh->Load(szFolder, szFilename);
+		pSkinnedMesh->Load(szFolder, szFileName);
 		m_mapSkinnedMesh[sFullPath] = pSkinnedMesh;
 	}
 	return m_mapSkinnedMesh[sFullPath];

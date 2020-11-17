@@ -13,8 +13,8 @@
 
 // >>
 #include "XFileObject.h"
-#include "cSkinnedMesh.h"
-#include "cSkinnedMeshManager.h"
+#include "SkinnedMesh.h"
+#include "SkinnedMeshManager.h"
 // <<
 
 #include "GameScene.h"
@@ -122,8 +122,9 @@ void cGameScene::Setup()
 	m_pXfileObj = new cXFileObject;
 	m_pXfileObj->Init();
 
-	m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon/", "Basic Attack.X");
-	
+	m_pSkinnedUnit = new cSkinnedMesh();
+	m_pSkinnedUnit->Setup("data/XFile/Dragon", "Basic Attack.X");
+	m_pSkinnedUnit->SetAnimationIndex(0);	
 // <<
 }
 
@@ -134,9 +135,8 @@ void cGameScene::CheckInput()
 
 void cGameScene::Update()
 {
-	if (m_pMainCamera)
-		m_pMainCamera->Update();
-
+	SafeUpdate(m_pMainCamera);
+	SafeUpdate(m_pSkinnedUnit);
 
 	if(m_pCharater)
 	{
@@ -158,30 +158,23 @@ void cGameScene::Render()
 	g_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	g_pD3DDevice->BeginScene();
 	
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	if (m_pSkyBox)
-		m_pSkyBox->Render();
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-	
-	g_pTimeManager->DrawFPS();
-	m_pGrid->Render();
-
-	if(m_pPopup)
-		m_pPopup->Render();
-
 #pragma region Light Off
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 
-	m_p_jsonObjUnit->Render();
-	m_pObjUnit->Render();
+	SafeRender(m_pSkyBox);
+	g_pTimeManager->DrawFPS();
 	
-	if (m_pTerrain)
-		m_pTerrain->Render();
-	if (m_pCharater)
-		m_pCharater->Render();
-
-	m_pXfileObj->Render();
-	m_pSkinnedUnit->UpdateAndRender();
+	SafeRender(m_pGrid);
+	SafeRender(m_pPopup);
+	SafeRender(m_p_jsonObjUnit);
+	SafeRender(m_pObjUnit);
+	SafeRender(m_pTerrain);
+	SafeRender(m_pCharater);
+	SafeRender(m_pXfileObj);
+	
+	g_pD3DDevice->SetTexture(0, g_pTextureManager->GetTexture("data/XFile/Dragon/BlueHP.png"));
+	SafeRender(m_pSkinnedUnit);
+	g_pD3DDevice->SetTexture(0, NULL);
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 #pragma endregion Light Off

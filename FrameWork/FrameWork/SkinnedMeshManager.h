@@ -12,7 +12,7 @@ private:
 public:
 	Singletone(cSkinnedMeshManager);
 
-	cSkinnedMesh* GetSkinnedMesh(char* szFolder, char* szFilename);
+	cSkinnedMesh* GetSkinnedMesh(char* szFolder, char* szFileName);
 	
 	void Destroy();
 };
