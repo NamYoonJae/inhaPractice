@@ -59,13 +59,14 @@ void cSkinnedMesh::Update()
 	
 	LPD3DXANIMATIONSET pCurAnimSet = NULL;
 	m_pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
-	if(GetTickCount() - m_dAnimStartTime > pCurAnimSet->GetPeriod() * 1000 - 500)
+	
+	if(GetTickCount() - m_dAnimStartTime > GetTickCount() + pCurAnimSet->GetPeriod())
 	{
-		SetAnimationIndexBlend(4);
+		//SetAnimationIndexBlend(4);
 	}
 
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
-	Update(m_pRoot, NULL);
+	Update((ST_BONE*)m_pRoot, &m_matWorldTM);
 	UpdateSkinnedMesh(m_pRoot);
 }
 
@@ -105,7 +106,8 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pBone->pMeshContainer;
 		if (pBoneMesh->MeshData.pMesh)
 		{
-			g_pD3DDevice->SetTransform(D3DTS_WORLD, &pBone->CombinedTransformationMatrix);
+			// 본 기준 행렬정렬 제거(임시)
+			//g_pD3DDevice->SetTransform(D3DTS_WORLD, &pBone->CombinedTransformationMatrix);
 			for (size_t i = 0; i < pBoneMesh->vecMtl.size(); ++i) 
 			{
 				if(!pBoneMesh->vecTexture.empty())
@@ -200,7 +202,7 @@ void cSkinnedMesh::SetAnimationIndex(int nIndex)
 
 	LPD3DXANIMATIONSET pAnimSet = NULL;
 	m_pAnimController->GetAnimationSet(nIndex, &pAnimSet);
-	m_pAnimController->GetPriorityBlend();
+	//m_pAnimController->GetPriorityBlend();
 	m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
 
 	m_dAnimStartTime = GetTickCount();
@@ -282,11 +284,13 @@ void cSkinnedMesh::Load(char* szFolder, char* szFileName)
 	m_vMin = ah.GetMin();
 	m_vMax = ah.GetMax();
 
-	cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh;
-	if(m_pRoot)
-	{
-		pSkinnedMesh->SetupBoneMatrixPtrs(m_pRoot);
-	}
+	//cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh;
+	//if(m_pRoot)
+	//{
+	//	pSkinnedMesh->SetupBoneMatrixPtrs(m_pRoot);
+	//}
+
+	SetupBoneMatrixPtrs(m_pRoot);
 }
 
 void cSkinnedMesh::Destroy()

@@ -10,8 +10,7 @@ class cTerrain;
 class cCharater;
 class SkyBox;
 
-class cXFileObject;
-class cSkinnedMesh;
+class cArthur;
 
 class cGameScene : public cScene
 {
@@ -35,8 +34,7 @@ private:
 	SkyBox*		m_pSkyBox;
 
 // temp >>
-	cXFileObject* m_pXfileObj;
-	cSkinnedMesh* m_pSkinnedUnit;
+	cArthur*	  m_pArthur;
 // <<
 public:
 	cGameScene(string name);

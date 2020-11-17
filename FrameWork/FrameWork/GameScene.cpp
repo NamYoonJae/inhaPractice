@@ -12,9 +12,9 @@
 #include "ButtonEvent.h"
 
 // >>
-#include "XFileObject.h"
 #include "SkinnedMesh.h"
 #include "SkinnedMeshManager.h"
+#include "Arthur.h"
 // <<
 
 #include "GameScene.h"
@@ -29,7 +29,7 @@ cGameScene::cGameScene(string name)
 	,m_p_jsonValue(nullptr)
 	,m_p_jsonObjUnit(nullptr)
 	,m_pSkyBox(nullptr)
-	,m_pXfileObj(nullptr)
+	, m_pArthur(nullptr)
 {
 }
 
@@ -40,6 +40,8 @@ cGameScene::~cGameScene()
 	
 	SafeDelete(m_pMainCamera);
 	SafeDelete(m_pGrid);
+	
+	SafeDelete(m_pArthur);
 }
 
 void cGameScene::Setup()
@@ -107,8 +109,7 @@ void cGameScene::Setup()
 	{
 		m_pCharater = new cCharater;
 		m_pCharater->Setup();
-		EventManager->Attach(m_pCharater);
-		m_pMainCamera->Setup(m_pCharater->GetPos());
+		//EventManager->Attach(m_pCharater);
 	}
 
 	if(m_pSkyBox == NULL)
@@ -119,12 +120,12 @@ void cGameScene::Setup()
 	}
 
 // >>
-	m_pXfileObj = new cXFileObject;
-	m_pXfileObj->Init();
-
-	m_pSkinnedUnit = new cSkinnedMesh();
-	m_pSkinnedUnit->Setup("data/XFile/Dragon", "Basic Attack.X");
-	m_pSkinnedUnit->SetAnimationIndex(0);	
+	m_pArthur = new cArthur;
+	m_pArthur->Setup("data/XFile/Arthur", "arthur_passive01.X");
+	//m_pArthur->Setup("data/XFile/Arthur", "arthur_run01.X");
+	//m_pArthur->Setup("data/XFile/Arthur", "arthur_Attack01.X");
+	m_pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+	m_pMainCamera->Setup(m_pArthur->GetPos());
 // <<
 }
 
@@ -136,21 +137,21 @@ void cGameScene::CheckInput()
 void cGameScene::Update()
 {
 	SafeUpdate(m_pMainCamera);
-	SafeUpdate(m_pSkinnedUnit);
 
-	if(m_pCharater)
+	if(m_pArthur)
 	{
-		float y = m_pTerrain->getHeight(m_pCharater->GetPosition());
-		D3DXVECTOR3 vec = m_pCharater->GetPosition();
+		float y = m_pTerrain->getHeight(m_pArthur->GetPosition());
+		D3DXVECTOR3 vec = m_pArthur->GetPosition();
 		vec.y = y + 1.0f;
-		m_pCharater->SetPostiion(vec);
+		m_pArthur->SetPostiion(vec);
 	}
 
-	if (m_pTerrain && m_pCharater)
+	if (m_pTerrain && m_pArthur)
 	{
-		m_pTerrain->callThread(m_pCharater->GetPosition());
+		m_pTerrain->callThread(m_pArthur->GetPosition());
 	}
-	
+
+	SafeUpdate(m_pArthur);
 }
 
 void cGameScene::Render()
@@ -165,16 +166,13 @@ void cGameScene::Render()
 	g_pTimeManager->DrawFPS();
 	
 	SafeRender(m_pGrid);
-	SafeRender(m_pPopup);
-	SafeRender(m_p_jsonObjUnit);
-	SafeRender(m_pObjUnit);
+	//SafeRender(m_pPopup);
+	//SafeRender(m_p_jsonObjUnit);
+	//SafeRender(m_pObjUnit);
 	SafeRender(m_pTerrain);
-	SafeRender(m_pCharater);
-	SafeRender(m_pXfileObj);
+	//SafeRender(m_pCharater);
 	
-	g_pD3DDevice->SetTexture(0, g_pTextureManager->GetTexture("data/XFile/Dragon/BlueHP.png"));
-	SafeRender(m_pSkinnedUnit);
-	g_pD3DDevice->SetTexture(0, NULL);
+	SafeRender(m_pArthur);
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 #pragma endregion Light Off
