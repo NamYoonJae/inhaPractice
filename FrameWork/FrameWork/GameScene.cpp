@@ -121,9 +121,7 @@ void cGameScene::Setup()
 
 // >>
 	m_pArthur = new cArthur;
-	m_pArthur->Setup("data/XFile/Arthur", "arthur_passive01.X");
-	//m_pArthur->Setup("data/XFile/Arthur", "arthur_run01.X");
-	//m_pArthur->Setup("data/XFile/Arthur", "arthur_Attack01.X");
+	m_pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
 	m_pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
 	m_pMainCamera->Setup(m_pArthur->GetPos());
 // <<
