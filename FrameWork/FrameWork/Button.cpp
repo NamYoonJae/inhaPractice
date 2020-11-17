@@ -121,19 +121,22 @@ void cButton::LoadTexture(char * szFullPath)
 	);
 
 	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
+
+
+
 }
 
 void cButton::ChangeSprite(char * szFullPath)
 {
-	if (!g_pTextureManager->GetTexture(szFullPath)) 
-	{
-		LoadTexture(szFullPath);
-	}
+	
+	LoadTexture(szFullPath);
 
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
+
 }
 
 

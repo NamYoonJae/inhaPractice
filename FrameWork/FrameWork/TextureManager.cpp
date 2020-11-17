@@ -17,6 +17,9 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(char * szFullpath)
 	{
 		D3DXCreateTextureFromFileA(g_pD3DDevice, szFullpath, &m_mapTexture[szFullpath]);
 	}
+
+
+
 	return m_mapTexture[szFullpath];
 }
 
