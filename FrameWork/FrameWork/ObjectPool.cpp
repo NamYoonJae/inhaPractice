@@ -84,7 +84,8 @@ void ObjectPool::Revert()
 	}
 
 	vecObjectList.swap(vecNewList);
-
+	m_nRefcnt = 0;
+	
 	return;
 }
 
@@ -113,8 +114,7 @@ const cObject* ObjectPool::SearchChild(int nTag)
 	}
 
 	return vecObjectList.at(i);
-	
-	
+
 }
 
 void ObjectPool::RemoveChild(cObject& obj)
