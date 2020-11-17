@@ -45,7 +45,6 @@ public:
 	virtual int GetState();
 	virtual void SetStateChange(int state);
 	virtual D3DXVECTOR3 GetPosition();
-	//std::function<void(string&, void*, cButton*)> EventProcess;
 	std::function<void(EventType&, cPopUp*)> EventProcess;
 	
 	virtual float GetImageInfoWidth();
