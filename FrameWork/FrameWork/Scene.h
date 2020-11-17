@@ -1,6 +1,7 @@
 #pragma once
 
-class cCamera;
+
+enum SceneName { SCENE_TITLE = 0, SCENE_BOSS1 = 1, SCENE_BOSS_2 = 2 };
 
 class cScene
 {
