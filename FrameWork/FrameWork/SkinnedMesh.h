@@ -1,8 +1,9 @@
 #pragma once
+#include "cObject.h"
 
 struct ST_BONE;
 
-class cSkinnedMesh
+class cSkinnedMesh : public cObject
 {
 protected:
 	LPD3DXFRAME m_pRoot;
@@ -21,7 +22,7 @@ public:
 	void Update();
 	void Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
 	void Render(LPD3DXFRAME pFrame);
-	void Render();
+	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 	void SetupBoneMatrixPtrs(LPD3DXFRAME pFrame);
 	void UpdateSkinnedMesh(LPD3DXFRAME pFrame);
 

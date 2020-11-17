@@ -90,9 +90,9 @@ void cGrid::Setup(int nNumHalfTile, float fInterval)
 	m_vecGizmo.push_back(Gizmo);
 }
 
-void cGrid::Render()
+void cGrid::Render(D3DXMATRIXA16* pmat)
 {
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	D3DXMATRIXA16 matI;
 	D3DXMatrixIdentity(&matI);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matI);
@@ -102,7 +102,7 @@ void cGrid::Render()
 									&m_vecVertex[0],
 									sizeof(ST_PC_VERTEX));
 
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 
 	for (auto Gizmo : m_vecGizmo)
 	{
@@ -143,7 +143,7 @@ void cPyramidGizmo::Setup(D3DCOLOR color, D3DXMATRIXA16 & rotatemat)
 
 void cPyramidGizmo::Render()
 {
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, false);
 
 	D3DXMatrixScaling(&ScaleMat, 0.1f, 2.0f, 0.1f);
@@ -159,5 +159,5 @@ void cPyramidGizmo::Render()
 
 
 	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, true);
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }

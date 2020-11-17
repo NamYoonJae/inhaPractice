@@ -160,7 +160,7 @@
     <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="cObject.h" />
-    <ClInclude Include="cObjGroup.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />
     <ClInclude Include="cTerrain.h" />
@@ -200,7 +200,7 @@
     <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="cObject.cpp" />
-    <ClCompile Include="cObjGroup.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />
     <ClCompile Include="cTerrain.cpp" />

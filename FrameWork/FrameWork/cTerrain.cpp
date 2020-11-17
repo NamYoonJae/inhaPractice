@@ -26,7 +26,15 @@ cTerrain::~cTerrain()
 	SafeRelease(m_pTexture);
 }
 
-void cTerrain::Render()
+void cTerrain::Update()
+{
+	if (m_pvTarget == NULL) return;
+	
+	callThread(m_vOldPos);
+
+}
+
+void cTerrain::Render(D3DXMATRIXA16 * pmat)
 {
 	if(SwapMesh())
 	{
@@ -41,7 +49,7 @@ void cTerrain::Render()
 		}
 			
 	}
-	
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	if(m_pTerrainMesh)
 	{
 		D3DXMATRIXA16 matWorld;
@@ -54,6 +62,7 @@ void cTerrain::Render()
 
 		g_pD3DDevice->SetTexture(0, NULL);
 	}
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 void cTerrain::NewTerrain(D3DXVECTOR3 vec)
@@ -227,6 +236,7 @@ void cTerrain::Setup(std::string strFolder, std::string strTex,
 	m_stMtl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
 	InitializeCriticalSection(&cs);
+	m_vOldPos = D3DXVECTOR3(0.0f,0.0f,0.0f);
 }
 
 
@@ -282,27 +292,27 @@ bool cTerrain::SwapMesh()
 
 void cTerrain::callThread(D3DXVECTOR3 vec)
 {
-	static D3DXVECTOR3 PrevVec = D3DXVECTOR3(0, 0, 0);
 	if (TerrainThread == NULL)
 	{
-		float distance = sqrt(pow(PrevVec.x - vec.x, 2) + pow(PrevVec.y - vec.y, 2) + pow(PrevVec.z - vec.z, 2));
+		float distance = sqrt(pow(m_pvTarget->x - vec.x, 2) +
+			pow(m_pvTarget->y - vec.y, 2) + pow(m_pvTarget->z - vec.z, 2));
 		
-		if (distance > 10.0f || PrevVec == D3DXVECTOR3(0,0,0))
+		if (distance > 10.0f || *m_pvTarget == D3DXVECTOR3(0,0,0))
 		{
-			PrevVec = vec;
+			m_vOldPos = vec;
 			TerrainThread = new std::thread([&]() {NewTerrain(vec); });
 		}
 	}
-	else
-	{
-		if (TerrainThread->joinable())
-		{
-			TerrainThread->join();
-			//TerrainThread = NULL;
-		}
-		SafeDelete(TerrainThread);
+	//else
+	//{
+	//	if (TerrainThread->joinable())
+	//	{
+	//		TerrainThread->join();
+	//		//TerrainThread = NULL;
+	//	}
+	//	SafeDelete(TerrainThread);
 
-	}
+	//}
 }
 
 float cTerrain::LerpPosition(float a , float b, float t)

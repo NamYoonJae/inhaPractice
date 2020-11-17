@@ -19,162 +19,91 @@
 
 #include "GameScene.h"
 
+//
+#include "ObjectPool.h"
+
 cGameScene::cGameScene(string name)
 	:cScene(name)
-	,m_pGrid(nullptr)
-	,m_pObjUnit(nullptr)
-	,m_pTerrain(nullptr)
-	,m_pCharater(nullptr)
-	,m_p_jsonRootObj(nullptr)
-	,m_p_jsonValue(nullptr)
-	,m_p_jsonObjUnit(nullptr)
-	,m_pSkyBox(nullptr)
-	, m_pArthur(nullptr)
 {
 }
 
 
 cGameScene::~cGameScene()
 {
-	json_value_free(m_p_jsonValue);
-	
-	SafeDelete(m_pMainCamera);
-	SafeDelete(m_pGrid);
-	
-	SafeDelete(m_pArthur);
 }
 
-void cGameScene::Setup()
-{	
-	m_pMainCamera = new cCamera;
-	m_pMainCamera->Setup(NULL);
-	EventManager->Attach(m_pMainCamera);
+void cGameScene::Setup() // boss1map  boss2map
+{
+	cGrid *pGrid = new cGrid;
+	pGrid->Setup();
 
-	m_pGrid = new cGrid;
-	m_pGrid->Setup();
+	ObjectManager->AddChild(pGrid);
+
+	cPopUp *pPopup = new cPopUp;
+	pPopup->Setup("UI", "panel-info.png", D3DXVECTOR3(100, 100, 0));
+
+	cButton *pButton = new cButton;
+	pButton->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 0, 0, 0);
+	pPopup->cButtonPushBack(pButton);
+	pButton->EventProcess = BtnStartEvent;
+
+	cButton *pButton2 = new cButton;
+	pButton2->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 100, 100, 0);
+	pPopup->cButtonPushBack(pButton2);
+	pButton2->EventProcess = BtnExitEvent;
+	EventManager->Attach(pPopup);
+
+	ObjectManager->AddUIChild(pPopup);
 
 
-
-	m_pPopup = new cPopUp;
-	m_pPopup->Setup("UI", "panel-info.png", D3DXVECTOR3(100,100,0));
-
-
-	m_pButton = new cButton;
-	m_pButton->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100,100,0), 0, 0, 0);
-	m_pPopup->cButtonPushBack(m_pButton);
-	m_pButton->EventProcess = BtnStartEvent;
-
-	m_pButton2 = new cButton;
-	m_pButton2->Setup("UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 100, 100, 0);
-	m_pPopup->cButtonPushBack(m_pButton2);
-	m_pButton2->EventProcess = BtnExitEvent;
-
-	EventManager->Attach(m_pPopup);
-
-#pragma region jsonfileload
-	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
-	m_p_jsonValue = json_parse_file("data/json/example box test.json");
-	m_p_jsonRootObj = json_value_get_object(m_p_jsonValue);
-
-	m_p_jsonObjUnit = new cObjMesh;
-	m_p_jsonObjUnit->Setup(
-		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileDirectory"),
-		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileName")
-	);
-	m_p_jsonObjUnit->SetPosition(
-		json_Fuction::get_D3DXVECTOR3(m_p_jsonRootObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
-	);
-
-	m_p_jsonSubObj = json_Fuction::object_get_object(m_p_jsonRootObj, "Box/");
-	json_object_set_number(m_p_jsonSubObj, "Pos_x", m_p_jsonObjUnit->GetPosition().x - 5.f);
-	json_object_set_number(m_p_jsonSubObj, "Pos_y", m_p_jsonObjUnit->GetPosition().y + 5.f);
-	json_object_set_number(m_p_jsonSubObj, "Pos_z", m_p_jsonObjUnit->GetPosition().z - 3.f);
-	json_serialize_to_file_pretty(m_p_jsonValue, "data/example box test save.json");
+	cTerrain* pTerrain = new cTerrain;
+	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
+	pTerrain->Tagging(Tag::Tag_Map);
 	
-	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
-#pragma endregion jsonfileload
-	
-	m_pObjUnit = new cObjMesh;
-	m_pObjUnit->Setup("data/ObjFile", "SampleRoom.obj");
-	m_pObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
+	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
 
-	if(m_pTerrain == NULL)
-	{
-		m_pTerrain = new cTerrain;
-		m_pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
-	}
+	pTerrain->GetTarget(player->GetPos());
+	ObjectManager->AddChild(pTerrain);
 
-	
-	if(m_pCharater == NULL)
-	{
-		m_pCharater = new cCharater;
-		m_pCharater->Setup();
-		//EventManager->Attach(m_pCharater);
-	}
+	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-	if(m_pSkyBox == NULL)
-	{
-		m_pSkyBox = new SkyBox;
-		m_pSkyBox->Setup("data/HeightMapData","skyhorizon.png");
-		m_pSkyBox->SetPos(m_pMainCamera->GetEye());
-	}
+	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh();
+	m_pSkinnedUnit->Setup("data/XFile/Dragon", "Basic Attack.X");
+	m_pSkinnedUnit->SetAnimationIndex(0);
 
-// >>
-	m_pArthur = new cArthur;
-	m_pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
-	m_pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-	m_pMainCamera->Setup(m_pArthur->GetPos());
-// <<
+	ObjectManager->AddChild(m_pSkinnedUnit);
+
+	cArthur* pArthur = new cArthur;
+	pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
+	pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+	Camera->Setup(pArthur->GetPos());
+	//	
+	//#pragma region jsonfileload
+	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
+	//	m_p_jsonValue = json_parse_file("data/json/example box test.json");
+	//	m_p_jsonRootObj = json_value_get_object(m_p_jsonValue);
+	//
+	//	m_p_jsonObjUnit = new cObjMesh;
+	//	m_p_jsonObjUnit->Setup(
+	//		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileDirectory"),
+	//		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileName")
+	//	);
+	//	m_p_jsonObjUnit->SetPosition(
+	//		json_Fuction::get_D3DXVECTOR3(m_p_jsonRootObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
+	//	);
+	//
+	//	m_p_jsonSubObj = json_Fuction::object_get_object(m_p_jsonRootObj, "Box/");
+	//	json_object_set_number(m_p_jsonSubObj, "Pos_x", m_p_jsonObjUnit->GetPosition().x - 5.f);
+	//	json_object_set_number(m_p_jsonSubObj, "Pos_y", m_p_jsonObjUnit->GetPosition().y + 5.f);
+	//	json_object_set_number(m_p_jsonSubObj, "Pos_z", m_p_jsonObjUnit->GetPosition().z - 3.f);
+	//	json_serialize_to_file_pretty(m_p_jsonValue, "data/example box test save.json");
+	//	
+	//	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
+	//
+	//#pragma endregion jsonfileload
 }
 
 void cGameScene::CheckInput()
 {
 
-}
-
-void cGameScene::Update()
-{
-	SafeUpdate(m_pMainCamera);
-
-	if(m_pArthur)
-	{
-		float y = m_pTerrain->getHeight(m_pArthur->GetPosition());
-		D3DXVECTOR3 vec = m_pArthur->GetPosition();
-		vec.y = y + 1.0f;
-		m_pArthur->SetPostiion(vec);
-	}
-
-	if (m_pTerrain && m_pArthur)
-	{
-		m_pTerrain->callThread(m_pArthur->GetPosition());
-	}
-
-	SafeUpdate(m_pArthur);
-}
-
-void cGameScene::Render()
-{
-	g_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
-	g_pD3DDevice->BeginScene();
-	
-#pragma region Light Off
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-
-	SafeRender(m_pSkyBox);
-	g_pTimeManager->DrawFPS();
-	
-	SafeRender(m_pGrid);
-	//SafeRender(m_pPopup);
-	//SafeRender(m_p_jsonObjUnit);
-	//SafeRender(m_pObjUnit);
-	SafeRender(m_pTerrain);
-	//SafeRender(m_pCharater);
-	
-	SafeRender(m_pArthur);
-
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-#pragma endregion Light Off
-	
-	g_pD3DDevice->EndScene();
-	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 }

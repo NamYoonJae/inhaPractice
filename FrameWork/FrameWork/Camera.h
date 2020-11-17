@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Observer.h"
-
-class cCamera : public cObserver
+#include "cObject.h"
+class cCamera : public cObserver, public cObject
 {
 private:
 	D3DXVECTOR3 m_vOriginEye;
@@ -22,5 +22,6 @@ public:
 	void Setup(D3DXVECTOR3* pvTarget);
 	void Update();
 	void Update(EventType event);
+	virtual void Render(D3DXMATRIXA16 * pmat = NULL){};
 	D3DXVECTOR3*	GetEye() { return &m_vEye; }
 };

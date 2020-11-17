@@ -1,8 +1,8 @@
 #pragma once
-
+#include "cObject.h"
 class cPyramidGizmo;
 
-class cGrid
+class cGrid : public cObject
 {
 private:
 	vector<ST_PC_VERTEX>	m_vecVertex;
@@ -13,7 +13,8 @@ public:
 	~cGrid();
 
 	void Setup(int nNumHalfTile = 15, float fInterval = 1.0f);
-	void Render();
+	void Render(D3DXMATRIXA16* pmat = 0) override;
+	void Update() override{};
 };
 
 class cPyramidGizmo

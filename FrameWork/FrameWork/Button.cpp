@@ -48,14 +48,13 @@ void cButton::Update(EventType message)
 void cButton::Render()
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-	RECT rc;
-	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	D3DXMATRIXA16 matT, matS, matWorld;
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matWorld);
 
-	m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_Position.x, m_Position.y, m_Position.z), D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_Position.x, m_Position.y, m_Position.z), D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	matWorld = matS * matT;
 
@@ -65,14 +64,13 @@ void cButton::Render()
 void cButton::Render(D3DXVECTOR3 position)
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-	RECT rc;
-	SetRect(&rc, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	D3DXMATRIXA16 matT, matS, matWorld;
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matWorld);
 
-	m_pSprite->Draw(m_pTextureUI, &rc, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(position.x, position.y, position.z), D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(position.x, position.y, position.z), D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	matWorld = matS * matT;
 
@@ -84,7 +82,7 @@ int cButton::GetState()
 	return m_State;
 }
 
-void cButton::StateChange(int state)
+void cButton::SetStateChange(int state)
 {
 	m_State = state;
 }
@@ -104,14 +102,43 @@ float cButton::GetImageInfoHeight()
 	return (float)m_ImageInfo.Height;
 }
 
+void cButton::LoadTexture(char * szFullPath)
+{
+	D3DXCreateTextureFromFileExA(g_pD3DDevice,
+		szFullPath,
+		D3DX_DEFAULT_NONPOW2,
+		D3DX_DEFAULT_NONPOW2,
+		D3DX_DEFAULT,
+		0,
+		D3DFMT_UNKNOWN,
+		D3DPOOL_MANAGED,
+		D3DX_FILTER_NONE,
+		D3DX_DEFAULT,
+		0,
+		&m_ImageInfo,
+		NULL,
+		&m_pTextureUI
+	);
+
+	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+
+	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
+	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
+
+
+
+}
+
 void cButton::ChangeSprite(char * szFullPath)
 {
-	if (!g_pTextureManager->GetTexture(szFullPath)) 
-	{
-		
-	}
+	
+	LoadTexture(szFullPath);
 
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
 
 }
+
+
+
+
