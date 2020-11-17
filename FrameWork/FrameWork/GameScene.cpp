@@ -70,6 +70,9 @@ void cGameScene::Setup() // boss1map  boss2map
 	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh();
 	m_pSkinnedUnit->Setup("data/XFile/Dragon", "Basic Attack.X");
 	m_pSkinnedUnit->SetAnimationIndex(0);
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixScaling(&matWorld, 0.1f, 0.1f, 0.1f);
+	m_pSkinnedUnit->SetTransform(&matWorld);
 
 	ObjectManager->AddChild(m_pSkinnedUnit);
 
@@ -77,6 +80,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
 	pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
 	Camera->Setup(pArthur->GetPos());
+	
+	ObjectManager->AddChild(pArthur);
 	//	
 	//#pragma region jsonfileload
 	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.

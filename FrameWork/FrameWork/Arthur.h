@@ -23,7 +23,7 @@ public:
 	void Setup(char* szFolder, char* szFile);
 	void Update();
 	void Update(EventType event) override;
-	void Render();
+	void Render(D3DXMATRIXA16 * pmat = NULL);
 
 	void SetTranseform(D3DXMATRIXA16* pmat);
 	

@@ -14,6 +14,7 @@ cSkinnedMesh::cSkinnedMesh()
 , m_fBlendTime(0.3f)
 , m_dAnimStartTime(0)
 {
+	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 

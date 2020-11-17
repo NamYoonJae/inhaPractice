@@ -78,9 +78,11 @@ void cArthur::Update(EventType event)
 	}
 }
 
-void cArthur::Render()
+void cArthur::Render(D3DXMATRIXA16 * pmat)
 {
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	SafeRender(m_pMesh);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 void cArthur::SetTranseform(D3DXMATRIXA16* pmat)
