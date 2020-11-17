@@ -27,6 +27,7 @@ protected:
 
 	int m_State;
 	D3DXVECTOR3 m_Position;
+	RECT m_Rect;
 
 	vector<cButton*> m_vecBtnList;
 	cButton* m_pButton;
@@ -48,6 +49,9 @@ public:
 	
 	virtual float GetImageInfoWidth();
 	virtual float GetImageInfoHeight();
+
+	virtual void LoadTexture(char* szFullPath);
+	virtual void ChangeSprite(char* szFullPath);
 
 };
 
