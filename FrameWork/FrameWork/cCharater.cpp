@@ -15,7 +15,6 @@ cCharater::cCharater()
 cCharater::~cCharater()
 {
 	SafeDelete(m_pMesh);
-	
 }
 
 void cCharater::Setup()
@@ -31,7 +30,6 @@ void cCharater::Setup()
 
 void cCharater::Update(EventType message)
 {
-
 	if (message == EventType::EVENT_ARROW_UP)
 	{
 		m_vPos += m_vDir * 0.3f;
@@ -49,10 +47,9 @@ void cCharater::Update(EventType message)
 		m_vRot.y += +0.3f;
 	}
 
-	D3DXMATRIXA16 matRy;
-	D3DXMatrixRotationY(&matRy, m_vRot.y);
-	D3DXVec3TransformCoord(&m_vDir, &D3DXVECTOR3(0, 0, -1), &matRy);
-
+	//D3DXMATRIXA16 matRy;
+	//D3DXMatrixRotationY(&matRy, m_vRot.y);
+	//D3DXVec3TransformCoord(&m_vDir, &D3DXVECTOR3(0, 0, -1), &matRy);
 }
 
 
