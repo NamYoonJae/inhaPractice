@@ -6,6 +6,7 @@
 #include "TimerManager.h"
 #include "Scene.h"
 #include "FrameWork.h"
+#include "ObjectPool.h"
 
 #define MAX_LOADSTRING 100
 
@@ -68,8 +69,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		else
 		{
 			g_pSceneManager->GetCurrentScene()->CheckInput();
-			g_pSceneManager->GetCurrentScene()->Update();
-			g_pSceneManager->GetCurrentScene()->Render();
+
+			ObjectManager->Update();
+			ObjectManager->Render();
+
+			//g_pSceneManager->GetCurrentScene()->Update();
+			//g_pSceneManager->GetCurrentScene()->Render();
 			g_pTimeManager->Update();
 			
 		}
@@ -156,11 +161,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	EventManager->InputEvent(message, wParam, lParam);
     switch (message)
     {
-	case WM_CREATE:
-	{
-		// 현재 이벤트 awsd  / 마우스 0,0,400,400 IN , ESC키,numpad1,numpad2 
-		// 마우스 R,L  / L버튼 더블클릭
-	}
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

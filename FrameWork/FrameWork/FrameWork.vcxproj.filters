@@ -76,17 +76,11 @@
     <ClCompile Include="cObject.cpp">
       <Filter>Code\Object Composite</Filter>
     </ClCompile>
-    <ClCompile Include="cObjGroup.cpp">
-      <Filter>Code\Object Composite</Filter>
-    </ClCompile>
     <ClCompile Include="cCharater.cpp">
       <Filter>Code\Object Composite\InstanceObject</Filter>
     </ClCompile>
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Code\BoundingBox</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
-      <Filter>Code\Object Composite</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Code\XFile</Filter>
@@ -105,6 +99,12 @@
     </ClCompile>
     <ClCompile Include="SkinnedMeshManager.cpp">
       <Filter>Code\XFile\SkinnedMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,17 +192,11 @@
     <ClInclude Include="cObject.h">
       <Filter>Code\Object Composite</Filter>
     </ClInclude>
-    <ClInclude Include="cObjGroup.h">
-      <Filter>Code\Object Composite</Filter>
-    </ClInclude>
     <ClInclude Include="cCharater.h">
       <Filter>Code\Object Composite\InstanceObject</Filter>
     </ClInclude>
     <ClInclude Include="BoundingBox.h">
       <Filter>Code\BoundingBox</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>Code\Object Composite</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Code\XFile</Filter>
@@ -224,6 +218,12 @@
     </ClInclude>
     <ClInclude Include="SkinnedMeshManager.h">
       <Filter>Code\XFile\SkinnedMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Code\Object Composite\InstanceObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +337,9 @@
     </Filter>
     <Filter Include="Code\XFile\SkinnedMesh">
       <UniqueIdentifier>{8001d231-f01f-439c-8148-1fe320edb7b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\ObjectPool">
+      <UniqueIdentifier>{703ee0ae-ff4a-4149-97f4-9d001dfb7732}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

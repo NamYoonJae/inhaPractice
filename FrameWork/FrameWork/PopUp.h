@@ -2,6 +2,7 @@
 #include "basic.h"
 #include "Observer.h"
 #include <functional>
+#include "cObject.h"
 class cButton;
 
 enum
@@ -11,7 +12,7 @@ enum
 	enum_Hover = 1002,
 };
 
-class cPopUp  : public cObserver
+class cPopUp  : public cObserver ,public cObject
 {
 protected:
 
@@ -37,8 +38,8 @@ public:
 
 	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ);
 	virtual void Update(EventType message);
-	virtual void Render();
-
+	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
+	void Update() override{};
 	void cButtonPushBack(cButton*);
 	virtual int GetState();
 	virtual void SetStateChange(int state);

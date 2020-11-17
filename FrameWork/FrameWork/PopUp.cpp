@@ -148,7 +148,7 @@ void cPopUp::Update(EventType message)
 
 }
 
-void cPopUp::Render()
+void cPopUp::Render(D3DXMATRIXA16 * pmat)
 {
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 

@@ -1,6 +1,6 @@
 #pragma once
-
-class cTerrain
+#include "cObject.h"
+class cTerrain :public cObject
 {
 private:
 	std::vector<ST_PNT_VERTEX> m_vecMapVertex;
@@ -19,10 +19,14 @@ private:
 	std::vector<DWORD> vecIndex;
 	std::vector<ST_PNT_VERTEX> vecVertex;
 	bool	IsSwapMesh;
+
+	D3DXVECTOR3 *m_pvTarget;
+	D3DXVECTOR3	 m_vOldPos;
 public:
 	cTerrain();
 	~cTerrain();
-	void Render();
+	void Update();
+	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 	void NewTerrain(D3DXVECTOR3 vec);
 	float getHeight(D3DXVECTOR3 vec);
 	void Setup(std::string strFolder, std::string strTex,
@@ -36,5 +40,6 @@ public:
 	RECT GetCullingRect() { return m_CullingRect; };
 
 	float LerpPosition(float, float, float);
+	void GetTarget(D3DXVECTOR3* pvTarget) { m_pvTarget = pvTarget; }
 };
 

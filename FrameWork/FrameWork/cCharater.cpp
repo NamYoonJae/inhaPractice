@@ -77,11 +77,13 @@ void cCharater::Render(D3DXMATRIXA16* pmat)
 	if (pmat)
 		matWorld *= *pmat;
 
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTexture(0, NULL);
 	g_pD3DDevice->SetMaterial(&m_Mstl);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	m_pMesh->DrawSubset(0);
 
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	
 	
 }
