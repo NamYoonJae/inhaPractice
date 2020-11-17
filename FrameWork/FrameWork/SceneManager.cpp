@@ -45,7 +45,7 @@ void cSceneManager::Setup()
 		pCamera->Tagging(Tag::Tag_Camera);
 
 		pSkyBox->SetPos(pCamera->GetEye());
-		
+		pSkyBox->Tagging(Tag::Tag_SkyBox);
 		EventManager->Attach(pCharater);
 		EventManager->Attach(pCamera);
 

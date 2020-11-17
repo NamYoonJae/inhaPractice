@@ -28,11 +28,9 @@ cTerrain::~cTerrain()
 
 void cTerrain::Update()
 {
-	if(m_vOldPos != *m_pvTarget)
-	{
-		m_vOldPos = *m_pvTarget;
-		callThread(m_vOldPos);
-	}
+	if (m_pvTarget == NULL) return;
+	
+	callThread(m_vOldPos);
 
 }
 
@@ -294,14 +292,14 @@ bool cTerrain::SwapMesh()
 
 void cTerrain::callThread(D3DXVECTOR3 vec)
 {
-	static D3DXVECTOR3 PrevVec = D3DXVECTOR3(0, 0, 0);
 	if (TerrainThread == NULL)
 	{
-		float distance = sqrt(pow(PrevVec.x - vec.x, 2) + pow(PrevVec.y - vec.y, 2) + pow(PrevVec.z - vec.z, 2));
+		float distance = sqrt(pow(m_pvTarget->x - vec.x, 2) +
+			pow(m_pvTarget->y - vec.y, 2) + pow(m_pvTarget->z - vec.z, 2));
 		
-		if (distance > 10.0f || PrevVec == D3DXVECTOR3(0,0,0))
+		if (distance > 10.0f || *m_pvTarget == D3DXVECTOR3(0,0,0))
 		{
-			PrevVec = vec;
+			m_vOldPos = vec;
 			TerrainThread = new std::thread([&]() {NewTerrain(vec); });
 		}
 	}

@@ -143,7 +143,7 @@ void cPyramidGizmo::Setup(D3DCOLOR color, D3DXMATRIXA16 & rotatemat)
 
 void cPyramidGizmo::Render()
 {
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, false);
 
 	D3DXMatrixScaling(&ScaleMat, 0.1f, 2.0f, 0.1f);
@@ -159,5 +159,5 @@ void cPyramidGizmo::Render()
 
 
 	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, true);
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }

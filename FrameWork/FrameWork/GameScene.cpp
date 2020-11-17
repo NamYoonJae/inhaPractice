@@ -58,7 +58,7 @@ void cGameScene::Setup()
 
 	cTerrain* pTerrain = new cTerrain;
 	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
-
+	pTerrain->Tagging(Tag::Tag_Map);
 	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
 
 	pTerrain->GetTarget(player->GetPos());
