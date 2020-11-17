@@ -131,12 +131,9 @@ void cButton::LoadTexture(char * szFullPath)
 
 void cButton::ChangeSprite(char * szFullPath)
 {
-	
 	LoadTexture(szFullPath);
-
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
-
 }
 
 
