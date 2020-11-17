@@ -12,9 +12,9 @@
 #include "ButtonEvent.h"
 
 // >>
-#include "XFileObject.h"
 #include "SkinnedMesh.h"
 #include "SkinnedMeshManager.h"
+#include "Arthur.h"
 // <<
 
 #include "GameScene.h"
@@ -24,25 +24,12 @@
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
-	//,m_pGrid(nullptr)
-	//,m_pObjUnit(nullptr)
-	//,m_pTerrain(nullptr)
-	//,m_pCharater(nullptr)
-	//,m_p_jsonRootObj(nullptr)
-	//,m_p_jsonValue(nullptr)
-	//,m_p_jsonObjUnit(nullptr)
-	//,m_pSkyBox(nullptr)
-	//,m_pXfileObj(nullptr)
 {
 }
 
 
 cGameScene::~cGameScene()
 {
-	/*json_value_free(m_p_jsonValue);
-	
-	SafeDelete(m_pMainCamera);
-	SafeDelete(m_pGrid);*/
 }
 
 void cGameScene::Setup()
@@ -79,8 +66,6 @@ void cGameScene::Setup()
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-	
-	//(D3DXMATRIXA16 * pmat
 	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh();
 	m_pSkinnedUnit->Setup("data/XFile/Dragon", "Basic Attack.X");
 	m_pSkinnedUnit->SetAnimationIndex(0);
