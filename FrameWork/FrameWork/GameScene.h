@@ -10,7 +10,7 @@ public:
 	~cGameScene();
 
 	void Setup() override;
-	void CheckInput() override;
+	
 
 };
 
