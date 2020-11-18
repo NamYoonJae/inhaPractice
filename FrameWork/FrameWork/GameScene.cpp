@@ -22,8 +22,8 @@
 #pragma once
 
 
-cGameScene::cGameScene(string name)
-	:cScene(name)
+cGameScene::cGameScene(SceneType T)
+	:cScene(T)
 {
 }
 
@@ -112,8 +112,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
 	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
-	m_Light.Ambient  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
-	m_Light.Diffuse  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	m_Light.Ambient  = D3DXCOLOR(0.3F, 0.3F, 0.3F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.3F, 0.3F, 0.3F, 1.0F);
 	//m_Light.Specular = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
 	D3DXVECTOR3 vDir(1.0f, 1.0f, 1.0f);
 	D3DXVec3Normalize(&vDir, &vDir);

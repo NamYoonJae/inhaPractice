@@ -6,7 +6,7 @@ class cGameScene : public cScene
 private:
 	
 public:
-	cGameScene(string name);
+	cGameScene(SceneType);
 	~cGameScene();
 
 	void Setup() override;
