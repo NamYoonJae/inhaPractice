@@ -54,7 +54,7 @@ class cEventManager
 
 private:
 	std::queue<EventType> m_Queue;
-	std::vector<EventType> m_vecList;
+	
 	std::map<int, EventType> m_mapEvent;
 
 	//

@@ -82,7 +82,7 @@ void ObjectPool::Revert()
 	std::vector<cObject*> vecNewList;
 	vecNewList.resize(nRevertSize);
 
-	for(int i =0; i <= nRevertSize; ++i)
+	for(int i =0; i < nRevertSize; ++i)
 	{
 		vecNewList.at(i) = vecObjectList.at(i);
 	}
