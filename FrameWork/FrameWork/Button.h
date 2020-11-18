@@ -4,6 +4,8 @@ class cButton :
 	public cPopUp
 {
 private:
+	bool hoverCheck;
+
 
 public:
 	cButton();
@@ -23,6 +25,10 @@ public:
 
 	void LoadTexture(char* szFullPath);
 	void ChangeSprite(char* szFullPath);
+
+	bool GetHoverCheck() { return hoverCheck; };
+	void ChangeHoverCheck() { hoverCheck = !hoverCheck; };
+
 	
 
 };

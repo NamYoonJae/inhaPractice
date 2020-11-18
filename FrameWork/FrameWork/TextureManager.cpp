@@ -15,7 +15,25 @@ LPDIRECT3DTEXTURE9 cTextureManager::GetTexture(char * szFullpath)
 {
 	if (m_mapTexture.find(szFullpath) == m_mapTexture.end())
 	{
-		D3DXCreateTextureFromFileA(g_pD3DDevice, szFullpath, &m_mapTexture[szFullpath]);
+		//D3DXCreateTextureFromFileA(g_pD3DDevice, szFullpath, &m_mapTexture[szFullpath]);
+
+		
+		D3DXCreateTextureFromFileExA(g_pD3DDevice,
+			szFullpath,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT_NONPOW2,
+			D3DX_DEFAULT,
+			0,
+			D3DFMT_UNKNOWN,
+			D3DPOOL_MANAGED,
+			D3DX_FILTER_NONE,
+			D3DX_DEFAULT,
+			0,
+			&m_mapImageInfo[szFullpath],
+			NULL,
+			&m_mapTexture[szFullpath]
+		);
+		
 	}
 
 

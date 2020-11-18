@@ -37,22 +37,9 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
 
 	string fileRoot(root);
 	fileRoot = root + string("/") + string(fileName);
-
-	D3DXCreateTextureFromFileExA(g_pD3DDevice,
-		fileRoot.c_str(),
-		D3DX_DEFAULT_NONPOW2,
-		D3DX_DEFAULT_NONPOW2,
-		D3DX_DEFAULT,
-		0,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_MANAGED,
-		D3DX_FILTER_NONE,
-		D3DX_DEFAULT,
-		0,
-		&m_ImageInfo,
-		NULL,
-		&m_pTextureUI);
 	
+	LoadTexture((char*)fileRoot.c_str());
+
 }
 
 void cPopUp::Update(EventType message)
@@ -121,6 +108,7 @@ float cPopUp::GetImageInfoHeight()
 
 void cPopUp::LoadTexture(char * szFullPath)
 {
+
 	D3DXCreateTextureFromFileExA(g_pD3DDevice,
 		szFullPath,
 		D3DX_DEFAULT_NONPOW2,
@@ -140,6 +128,7 @@ void cPopUp::LoadTexture(char * szFullPath)
 	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
+
 }
 
 void cPopUp::ChangeSprite(char * szFullPath)

@@ -6,6 +6,7 @@ cButton::cButton()
 {
 	m_State = enum_Off;
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	hoverCheck = false;
 }
 
 cButton::~cButton()
@@ -22,7 +23,7 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 
 	string fileRoot(root);
 	fileRoot = fileRoot + string("/") + string(fileName);
-
+	/*
 	D3DXCreateTextureFromFileExA(g_pD3DDevice,
 		fileRoot.c_str(),
 		D3DX_DEFAULT_NONPOW2,
@@ -37,12 +38,17 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 		&m_ImageInfo,
 		NULL,
 		&m_pTextureUI);
+	*/
+
+	LoadTexture((char*)fileRoot.c_str());
 
 }
 
 void cButton::Update(EventType message)
 {	
 	EventProcess(message, this);
+
+
 }
 
 void cButton::Render()
@@ -126,14 +132,19 @@ void cButton::LoadTexture(char * szFullPath)
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
 
 
-
 }
 
 void cButton::ChangeSprite(char * szFullPath)
 {
-	LoadTexture(szFullPath);
+
+	if (!g_pTextureManager->GetTexture(szFullPath)) 
+	{
+		LoadTexture(szFullPath);
+	}
+
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
+
 }
 
 

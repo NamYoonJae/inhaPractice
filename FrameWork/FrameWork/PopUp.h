@@ -33,6 +33,7 @@ protected:
 	vector<cButton*> m_vecBtnList;
 	cButton* m_pButton;
 
+
 public:
 	cPopUp();
 	~cPopUp();
