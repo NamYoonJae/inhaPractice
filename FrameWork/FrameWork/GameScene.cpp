@@ -22,8 +22,8 @@
 #pragma once
 
 
-cGameScene::cGameScene(string name)
-	:cScene(name)
+cGameScene::cGameScene(SceneType T)
+	:cScene(T)
 {
 }
 
@@ -89,7 +89,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 	cTerrain* pTerrain = new cTerrain;
-	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
+	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "NW_heightmap512.raw");
 	pTerrain->Tagging(Tag::Tag_Map);
 	
 	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);

@@ -4,10 +4,9 @@
 #include "Scene.h"
 
 
-cScene::cScene(string name)
-	:m_SceneName(name)
+cScene::cScene(SceneType T)
+	:Type(T)
 {
-	//g_pSceneManager->m_mapScenes.find("");
 }
 
 
