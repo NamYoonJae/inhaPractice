@@ -6,7 +6,8 @@ cButton::cButton()
 {
 	m_State = enum_Off;
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	hoverCheck = false;
+	curHoverCheck = false;
+	preHoverCheck = false;
 }
 
 cButton::~cButton()
@@ -146,7 +147,6 @@ void cButton::ChangeSprite(char * szFullPath)
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
 
 }
-
 
 
 
