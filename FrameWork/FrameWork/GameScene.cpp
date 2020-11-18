@@ -105,6 +105,21 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(m_pSkinnedUnit);
 
 
+	D3DLIGHT9 m_Light;
+	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
+	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
+	m_Light.Ambient  = D3DXCOLOR(0.0F, 0.1F, 0.0F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.0F, 0.1F, 0.0F, 1.0F);
+	m_Light.Specular = D3DXCOLOR(0.0F, 0.1F, 0.0F, 1.0F);
+	D3DXVECTOR3 vDir(1.0f, -1.0f, 1.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	m_Light.Direction = vDir;
+	m_Light.Range = sqrt(FLT_MAX);
+	g_pD3DDevice->SetLight(0, &m_Light);
+	g_pD3DDevice->LightEnable(0, true);
+
+
+	
 	//	
 	//#pragma region jsonfileload
 	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.

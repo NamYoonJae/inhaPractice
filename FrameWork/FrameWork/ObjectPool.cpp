@@ -18,6 +18,7 @@ void ObjectPool::Update()
 	{
 		vecObjectList.at(i)->Update();
 	}
+
 }
 
 void ObjectPool::Render(D3DXMATRIXA16* pmat)
