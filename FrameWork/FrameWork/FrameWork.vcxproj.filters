@@ -109,6 +109,9 @@
     <ClCompile Include="Arthur.cpp">
       <Filter>Code\Object Composite\InstanceObject\Arthur</Filter>
     </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -230,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="Arthur.h">
       <Filter>Code\Object Composite\InstanceObject\Arthur</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Code\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

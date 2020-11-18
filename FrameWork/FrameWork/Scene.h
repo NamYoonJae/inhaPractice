@@ -9,11 +9,10 @@ protected:
 	SceneType Type;
 public:
 	cScene(SceneType);
-	cScene();
 	virtual ~cScene();
 
 	virtual void Setup() = 0;
-	virtual void CheckInput() = 0;
+	
 
 	SceneType GetSceneName() { return Type; }
 };

@@ -43,15 +43,16 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 				}
 			}
 
+
 			if (button->GetHoverCheck() == true)
 			{
 				button->SetStateChange(enum_Hover);
-				button->ChangeSprite("data/UI/btn-med-over.png");
+				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
 			}
 			else
 			{
 				button->SetStateChange(enum_Off);
-				button->ChangeSprite("data/UI/btn-med-up.png");
+				button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
 			}
 
 	}//case EVENT_MOVE End

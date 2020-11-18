@@ -164,6 +164,7 @@
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />
     <ClInclude Include="cTerrain.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="XFileObject.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />
     <ClCompile Include="cTerrain.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="XFileObject.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />

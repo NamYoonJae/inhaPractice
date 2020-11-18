@@ -68,7 +68,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			g_pSceneManager->GetCurrentScene()->CheckInput();
 
 			ObjectManager->Update();
 			ObjectManager->Render();

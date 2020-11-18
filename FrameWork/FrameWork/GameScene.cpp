@@ -72,17 +72,18 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(pGrid);
 
 	cPopUp *pPopup = new cPopUp;
-	pPopup->Setup("data/UI", "panel-info.png", D3DXVECTOR3(100, 100, 0));
+	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(100, 100, 0));
 
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 0, 0, 0);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 400, 0), 0, 0, 0);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = BtnStartEvent;
 
 	cButton *pButton2 = new cButton;
-	pButton2->Setup("data/UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 100, 100, 0);
+	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 450, 0), 0, 0, 0);
 	pPopup->cButtonPushBack(pButton2);
 	pButton2->EventProcess = BtnExitEvent;
+
 	EventManager->Attach(pPopup);
 
 	ObjectManager->AddUIChild(pPopup);
@@ -111,9 +112,9 @@ void cGameScene::Setup() // boss1map  boss2map
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
 	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
-	m_Light.Ambient  = D3DXCOLOR(0.3F, 0.3F, 0.3F, 1.0F);
-	m_Light.Diffuse  = D3DXCOLOR(0.3F, 0.3F, 0.3F, 1.0F);
-	//m_Light.Specular = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	m_Light.Ambient  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	D3DXVECTOR3 vDir(1.0f, 1.0f, 1.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
@@ -147,9 +148,4 @@ void cGameScene::Setup() // boss1map  boss2map
 	//	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 	//
 	//#pragma endregion jsonfileload
-}
-
-void cGameScene::CheckInput()
-{
-
 }
