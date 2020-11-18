@@ -130,7 +130,9 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 
 void cSkinnedMesh::Render(D3DXMATRIXA16 * pmat)
 {
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	Render(LPD3DXFRAME(NULL));
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void cSkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)

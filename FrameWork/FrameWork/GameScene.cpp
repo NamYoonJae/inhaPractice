@@ -17,9 +17,8 @@
 // <<
 
 #include "GameScene.h"
-
-//
 #include "ObjectPool.h"
+//
 #pragma once
 
 
@@ -48,9 +47,6 @@ void cGameScene::Setup() // boss1map  boss2map
 		pSkyBox->Tagging(Tag::Tag_SkyBox);
 		EventManager->Attach(pCamera);
 
-		ObjectManager->AddStaticChild(pSkyBox);
-		ObjectManager->AddStaticChild(pCamera);
-		
 
 		cArthur* pArthur = new cArthur;
 		pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
@@ -58,7 +54,14 @@ void cGameScene::Setup() // boss1map  boss2map
 		pCamera->Setup(pArthur->GetPos());
 		pArthur->Tagging(Tag::Tag_Player);
 		
-		ObjectManager->AddChild(pArthur);
+		
+		ObjectManager->AddStaticChild(pCamera);
+		ObjectManager->AddStaticChild(pSkyBox);
+
+		ObjectManager->AddStaticChild(pArthur);
+		
+
+
 	}
 	// 예외 처리 
 
@@ -108,13 +111,13 @@ void cGameScene::Setup() // boss1map  boss2map
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
 	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
-	m_Light.Ambient  = D3DXCOLOR(0.0F, 0.1F, 0.0F, 1.0F);
-	m_Light.Diffuse  = D3DXCOLOR(0.0F, 0.1F, 0.0F, 1.0F);
-	m_Light.Specular = D3DXCOLOR(0.0F, 0.1F, 0.0F, 1.0F);
-	D3DXVECTOR3 vDir(1.0f, -1.0f, 1.0f);
+	m_Light.Ambient  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	//m_Light.Specular = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	D3DXVECTOR3 vDir(1.0f, 1.0f, 1.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
-	m_Light.Range = sqrt(FLT_MAX);
+
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
 

@@ -155,14 +155,14 @@ void SkyBox::Render(D3DXMATRIXA16* pmat)
 	matWorld *= matS * matT;
 		
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	g_pD3DDevice->SetTexture(0, m_pTexture);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, false);
 	g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
 	g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
 		m_vecFace.size() / 3,&m_vecFace[0],sizeof(ST_PNT_VERTEX));
 	g_pD3DDevice->SetTexture(0, NULL);
-	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 }

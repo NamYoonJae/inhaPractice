@@ -22,6 +22,6 @@ public:
 	void Setup(D3DXVECTOR3* pvTarget);
 	void Update();
 	void Update(EventType event);
-	virtual void Render(D3DXMATRIXA16 * pmat = NULL){};
+	virtual void Render(D3DXMATRIXA16 * pmat = NULL) { return; };
 	D3DXVECTOR3*	GetEye() { return &m_vEye; }
 };

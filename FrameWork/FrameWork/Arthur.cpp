@@ -80,6 +80,9 @@ void cArthur::Update(EventType event)
 
 void cArthur::Render(D3DXMATRIXA16 * pmat)
 {
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	SafeRender(m_pMesh);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
