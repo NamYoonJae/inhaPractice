@@ -85,19 +85,18 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 
 void cEventManager::Notify()
 {
-	while (!m_Queue.empty())
-	{
-		EventType Message = m_Queue.front();
 
-		for (int i = 0; i < m_vecObservers.size(); ++i)
+	EventType Message = m_Queue.front();
+
+	for (int i = 0; i < m_vecObservers.size(); ++i)
+	{
+		if(m_vecObservers[i] != NULL)
 		{
-			if(m_vecObservers[i] != NULL)
-			{
 				m_vecObservers.at(i)->Update(Message);
-			}
 		}
-		m_Queue.pop();
 	}
+		m_Queue.pop();
+	
 }
 
 

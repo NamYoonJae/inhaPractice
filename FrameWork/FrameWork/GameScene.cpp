@@ -20,6 +20,8 @@
 
 //
 #include "ObjectPool.h"
+#pragma once
+
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
@@ -33,6 +35,34 @@ cGameScene::~cGameScene()
 
 void cGameScene::Setup() // boss1map  boss2map
 {
+	// 
+	{
+		SkyBox* pSkyBox = new SkyBox;
+		pSkyBox->Setup("data/HeightMapData", "skyhorizon.png");
+
+		cCamera *pCamera = new cCamera;
+
+		pCamera->Tagging(Tag::Tag_Camera);
+
+		pSkyBox->SetPos(pCamera->GetEye());
+		pSkyBox->Tagging(Tag::Tag_SkyBox);
+		EventManager->Attach(pCamera);
+
+		ObjectManager->AddStaticChild(pSkyBox);
+		ObjectManager->AddStaticChild(pCamera);
+		
+
+		cArthur* pArthur = new cArthur;
+		pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
+		pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+		pCamera->Setup(pArthur->GetPos());
+		pArthur->Tagging(Tag::Tag_Player);
+		
+		ObjectManager->AddChild(pArthur);
+	}
+	// 예외 처리 
+
+	
 	cGrid *pGrid = new cGrid;
 	pGrid->Setup();
 
@@ -74,12 +104,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	ObjectManager->AddChild(m_pSkinnedUnit);
 
-	cArthur* pArthur = new cArthur;
-	pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
-	pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-	Camera->Setup(pArthur->GetPos());
-	
-	ObjectManager->AddChild(pArthur);
+
 	//	
 	//#pragma region jsonfileload
 	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
