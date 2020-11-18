@@ -4,7 +4,7 @@
 class cGameScene : public cScene
 {
 private:
-
+	
 public:
 	cGameScene(string name);
 	~cGameScene();

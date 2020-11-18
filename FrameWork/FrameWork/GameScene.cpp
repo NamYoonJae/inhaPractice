@@ -17,9 +17,10 @@
 // <<
 
 #include "GameScene.h"
-
-//
 #include "ObjectPool.h"
+//
+#pragma once
+
 
 cGameScene::cGameScene(string name)
 	:cScene(name)
@@ -33,6 +34,38 @@ cGameScene::~cGameScene()
 
 void cGameScene::Setup() // boss1map  boss2map
 {
+	// 
+	{
+		SkyBox* pSkyBox = new SkyBox;
+		pSkyBox->Setup("data/HeightMapData", "skyhorizon.png");
+
+		cCamera *pCamera = new cCamera;
+
+		pCamera->Tagging(Tag::Tag_Camera);
+
+		pSkyBox->SetPos(pCamera->GetEye());
+		pSkyBox->Tagging(Tag::Tag_SkyBox);
+		EventManager->Attach(pCamera);
+
+
+		cArthur* pArthur = new cArthur;
+		pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
+		pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+		pCamera->Setup(pArthur->GetPos());
+		pArthur->Tagging(Tag::Tag_Player);
+		
+		
+		ObjectManager->AddStaticChild(pCamera);
+		ObjectManager->AddStaticChild(pSkyBox);
+
+		ObjectManager->AddStaticChild(pArthur);
+		
+
+
+	}
+	// 예외 처리 
+
+	
 	cGrid *pGrid = new cGrid;
 	pGrid->Setup();
 
@@ -74,12 +107,22 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	ObjectManager->AddChild(m_pSkinnedUnit);
 
-	cArthur* pArthur = new cArthur;
-	pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
-	pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-	Camera->Setup(pArthur->GetPos());
+
+	D3DLIGHT9 m_Light;
+	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
+	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
+	m_Light.Ambient  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	//m_Light.Specular = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	D3DXVECTOR3 vDir(1.0f, 1.0f, 1.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	m_Light.Direction = vDir;
+
+	g_pD3DDevice->SetLight(0, &m_Light);
+	g_pD3DDevice->LightEnable(0, true);
+
+
 	
-	ObjectManager->AddChild(pArthur);
 	//	
 	//#pragma region jsonfileload
 	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
