@@ -33,7 +33,7 @@ cScene* cSceneManager::GetCurrentScene()
 void cSceneManager::Setup()
 {
 	InitializeCriticalSection(&cs);
-
+	ObjectManager->Revert();
 	m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
 	m_CurrentScene->Setup();
 }
@@ -59,6 +59,7 @@ void cSceneManager::LoadScene()
 		return;
 
 	EnterCriticalSection(&cs);
+	ObjectManager->Revert();
 	m_pThread = new std::thread(&cScene::Setup, m_CurrentScene);
 	if(m_pThread)
 	{

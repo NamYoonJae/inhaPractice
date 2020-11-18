@@ -58,8 +58,8 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 	{
 		// MK_SHIF , MK_CONTROL not yet
-		m_Queue.push(m_mapEvent[wParam]);
-
+		//m_Queue.push(m_mapEvent[wParam]);
+		m_vecList.push_back(m_mapEvent[wParam]);
 		Notify();
 		break;
 	}
@@ -87,17 +87,23 @@ void cEventManager::Notify()
 {
 	while(!m_Queue.empty())
 	{
-		EventType Message = m_Queue.front();
-
 		for (int i = 0; i < m_vecObservers.size(); ++i)
 		{
-			if(m_vecObservers[i] != NULL)
-			{
-				m_vecObservers.at(i)->Update(Message);
-			}
+			m_vecObservers.at(i)->Update(m_Queue.front());
 		}
 		m_Queue.pop();	
 	}
+
+	//for (int i = 0; i < m_vecObservers.size(); ++i)
+	//{
+	//	for (int j = 0; j < m_vecList.size(); ++j)
+	//	{
+	//		m_vecObservers[i]->Update(m_vecList[j]);
+	//	}
+	//}
+	//vector<EventType> vecSwap(0);
+
+	//m_vecList.swap(vecSwap);
 	
 }
 
@@ -111,6 +117,7 @@ D3DXVECTOR2 cEventManager::GetMousePrev()
 {
 	return m_vPrev;
 }
+
 
 cEventManager::cEventManager()
 	: m_IsDrag(false)

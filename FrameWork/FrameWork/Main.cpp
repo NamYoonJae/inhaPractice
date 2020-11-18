@@ -73,8 +73,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			ObjectManager->Update();
 			ObjectManager->Render();
 
-			//g_pSceneManager->GetCurrentScene()->Update();
-			//g_pSceneManager->GetCurrentScene()->Render();
 			g_pTimeManager->Update();
 			
 		}
