@@ -89,7 +89,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 	cTerrain* pTerrain = new cTerrain;
-	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "NW_heightmap512.raw");
+	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
 	pTerrain->Tagging(Tag::Tag_Map);
 	
 	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
@@ -111,8 +111,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
 	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
-	m_Light.Ambient  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
-	m_Light.Diffuse  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	m_Light.Ambient  = D3DXCOLOR(0.3F, 0.3F, 0.3F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.3F, 0.3F, 0.3F, 1.0F);
 	//m_Light.Specular = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
 	D3DXVECTOR3 vDir(1.0f, 1.0f, 1.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
