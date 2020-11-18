@@ -1,17 +1,15 @@
 #pragma once
 #include "Scene.h"
-/*
-class TitleScene :
+
+class cTitleScene :
 	public cScene
 {
 private:
 
 public:
-	TitleScene();
-	~TitleScene();
+	cTitleScene(SceneType);
+	~cTitleScene();
 
 	void Setup();
-	void Update();
-	void Render();
 };
-*/
+

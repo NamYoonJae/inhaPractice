@@ -1,13 +1,20 @@
 #include "stdafx.h"
 #include "TitleScene.h"
 
-/*
-TitleScene::TitleScene()
+
+cTitleScene::cTitleScene(SceneType T)
+	:cScene(T)
 {
 }
 
 
-TitleScene::~TitleScene()
+cTitleScene::~cTitleScene()
 {
+
 }
-*/
+
+void cTitleScene::Setup()
+{
+
+}
+

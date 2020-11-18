@@ -149,8 +149,3 @@ void cGameScene::Setup() // boss1map  boss2map
 	//
 	//#pragma endregion jsonfileload
 }
-
-void cGameScene::CheckInput()
-{
-
-}
