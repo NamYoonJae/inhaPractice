@@ -31,29 +31,7 @@ void cSceneManager::Setup()
 {
 	InitializeCriticalSection(&cs);
 
-	{
-		SkyBox* pSkyBox = new SkyBox;
-		pSkyBox->Setup("data/HeightMapData", "skyhorizon.png");
-		
-		cCamera *pCamera = new cCamera;
-		cCharater*	pCharater = new cCharater;
 
-		pCharater->Setup();
-		pCharater->Tagging(Tag::Tag_Player);
-		
-		pCamera->Setup(pCharater->GetPos());
-		pCamera->Tagging(Tag::Tag_Camera);
-
-		pSkyBox->SetPos(pCamera->GetEye());
-		pSkyBox->Tagging(Tag::Tag_SkyBox);
-		EventManager->Attach(pCharater);
-		EventManager->Attach(pCamera);
-
-		ObjectManager->AddStaticChild(pSkyBox);
-		ObjectManager->AddStaticChild(pCamera);
-		ObjectManager->AddStaticChild(pCharater);		
-	}
-	
 	cGameScene* gameScene = new cGameScene("MainGame");
 	gameScene->Setup();
 	m_CurrentScene = gameScene;
