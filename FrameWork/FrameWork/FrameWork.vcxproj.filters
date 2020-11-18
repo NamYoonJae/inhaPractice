@@ -107,7 +107,7 @@
       <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClCompile>
     <ClCompile Include="Arthur.cpp">
-      <Filter>Code\Object Composite\InstanceObject</Filter>
+      <Filter>Code\Object Composite\InstanceObject\Arthur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,7 +229,7 @@
       <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClInclude>
     <ClInclude Include="Arthur.h">
-      <Filter>Code\Object Composite\InstanceObject</Filter>
+      <Filter>Code\Object Composite\InstanceObject\Arthur</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -347,7 +347,7 @@
     <Filter Include="Code\Object Composite\ObjectPool">
       <UniqueIdentifier>{703ee0ae-ff4a-4149-97f4-9d001dfb7732}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Arthur">
+    <Filter Include="Code\Object Composite\InstanceObject\Arthur">
       <UniqueIdentifier>{c8faa7a5-57ee-4eea-99d5-4671f4b27c2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
