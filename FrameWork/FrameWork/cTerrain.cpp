@@ -1,4 +1,4 @@
-#include "stdafx.h"
+                #include "stdafx.h"
 #include "cTerrain.h"
 #include "basic.h"
 cTerrain::cTerrain()
@@ -32,6 +32,8 @@ void cTerrain::Update()
 
 	if(*m_pvTarget != m_vOldPos)
 		callThread();
+	float h = getHeight(*m_pvTarget);
+	m_pvTarget->y = h;
 }
 
 void cTerrain::Render(D3DXMATRIXA16 * pmat)

@@ -89,6 +89,9 @@ void ObjectPool::Revert()
 
 	vecObjectList.swap(vecNewList);
 	m_nRefcnt = 0;
+
+	std::vector<cObject*> vecNewUIList;
+	vecUserInterface.swap(vecNewUIList);
 	
 	return;
 }

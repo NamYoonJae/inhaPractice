@@ -85,9 +85,9 @@ void cGameScene::Setup() // boss1map  boss2map
 	pPopup->cButtonPushBack(pButton2);
 	pButton2->EventProcess = BtnExitEvent;
 
-	EventManager->Attach(pPopup);
+	//EventManager->Attach(pPopup);
 
-	ObjectManager->AddUIChild(pPopup);
+	//ObjectManager->AddUIChild(pPopup);
 
 
 	cTerrain* pTerrain = new cTerrain;
@@ -103,10 +103,12 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
 	m_pSkinnedUnit->SetAnimationIndex(0);
+	
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
 	m_pSkinnedUnit->SetTransform(&matWorld);
 
+	
 	ObjectManager->AddChild(m_pSkinnedUnit);
 
 

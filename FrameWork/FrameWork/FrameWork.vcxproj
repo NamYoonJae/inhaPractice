@@ -167,6 +167,7 @@
     <ClInclude Include="cTerrain.h" />
     <ClInclude Include="SoulEaterState.h" />
     <ClInclude Include="SoulEater_BasicAttack.h" />
+    <ClInclude Include="SoulEater_Idle.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="XFileObject.h" />
     <ClInclude Include="EventManager.h" />
@@ -211,6 +212,7 @@
     <ClCompile Include="cTerrain.cpp" />
     <ClCompile Include="SoulEaterState.cpp" />
     <ClCompile Include="SoulEater_BasicAttack.cpp" />
+    <ClCompile Include="SoulEater_Idle.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="XFileObject.cpp" />
     <ClCompile Include="EventManager.cpp" />
