@@ -5,7 +5,6 @@
 #include "ObjectPool.h"
 #include "TitleSceneBtnEvent.h"
 
-
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
 {
@@ -32,38 +31,45 @@ void cTitleScene::Setup()
 	float nRight = 0.33;
 	float nBottom = 0.37;
 
+	cPopUp *pBackgroundPopup = new cPopUp;
+	pBackgroundPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png",
+		D3DXVECTOR3(0, 0, 0), 2);
+	EventManager->Attach(pBackgroundPopup);
+	ObjectManager->AddUIChild(pBackgroundPopup);
+
 	cPopUp *pPopup = new cPopUp;
-	pPopup->Setup("data/UI/TitleScene", "버튼 배경 사이즈 조정.png", D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 2);
+	pPopup->Setup("data/UI/TitleScene", "버튼 배경 사이즈 조정.png", 
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 2);
 
 	//게임시작
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 60, 0, 2);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 60, 0, 2);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = StartGameBtnEvent;
 
 	//이어하기
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 160, 0, 2);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 160, 0, 2);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ContinueGameBtnEvent;
 
 	//설정
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 260, 0, 2);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 260, 0, 2);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = SetupGameBtnEvent;
 
 	//게임종료
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 360, 0, 2);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 360, 0, 2);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = EndGameBtnEvent;
 
-
 	EventManager->Attach(pPopup);
 	ObjectManager->AddUIChild(pPopup);
-
-
-
 }
 

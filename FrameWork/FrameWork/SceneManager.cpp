@@ -48,7 +48,8 @@ void cSceneManager::ChangeScene()
 {
 	/// ¾ÀÀ» ¹Ù²Ù´Â ¹ı
 	///
-	LoadScene();
+	int nRandom = 1;//rand()%2;
+	LoadScene(nRandom);
 }
 
 void cSceneManager::Destroy()
@@ -58,11 +59,9 @@ void cSceneManager::Destroy()
 	return;
 }
 
-void cSceneManager::LoadScene()
+void cSceneManager::LoadScene(int SceneType)
 {
-
-	if (m_CurrentScene == NULL)
-		return;
+	m_CurrentScene = m_vecScenes[SceneType];
 
 	EnterCriticalSection(&cs);
 	ObjectManager->Revert();
