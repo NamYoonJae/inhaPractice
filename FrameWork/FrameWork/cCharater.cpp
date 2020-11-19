@@ -47,9 +47,6 @@ void cCharater::Update(EventType message)
 		m_vRot.y += +1.0f;
 	}
 
-	//D3DXMATRIXA16 matRy;
-	//D3DXMatrixRotationY(&matRy, m_vRot.y);
-	//D3DXVec3TransformCoord(&m_vDir, &D3DXVECTOR3(0, 0, -1), &matRy);
 }
 
 

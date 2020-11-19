@@ -37,7 +37,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	// 
 	{
 		SkyBox* pSkyBox = new SkyBox;
-		pSkyBox->Setup("data/HeightMapData", "skyhorizon.png");
+		pSkyBox->Setup("data/HeightMapData", "Earth.png");
+		
 
 		cCamera *pCamera = new cCamera;
 
@@ -103,7 +104,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
 	m_pSkinnedUnit->SetAnimationIndex(0);
 	D3DXMATRIXA16 matWorld;
-	D3DXMatrixScaling(&matWorld, 0.1f, 0.1f, 0.1f);
+	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
 	m_pSkinnedUnit->SetTransform(&matWorld);
 
 	ObjectManager->AddChild(m_pSkinnedUnit);
