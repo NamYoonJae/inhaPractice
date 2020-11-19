@@ -146,11 +146,11 @@ void cSkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 
 		if (pBoneMesh->pSkinInfo) 
 		{
-			LPD3DXSKININFO pSkinInfo = pBoneMesh->pSkinInfo;
-			DWORD dwNumBones = pSkinInfo->GetNumBones();
+			DWORD dwNumBones = pBoneMesh->pSkinInfo->GetNumBones();
+			
 			for (DWORD i = 0; i < dwNumBones; i++) 
 			{
-				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, pSkinInfo->GetBoneName(i));
+				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, pBoneMesh->pSkinInfo->GetBoneName(i));
 				pBoneMesh->ppBoneMatrixPtrs[i] = &(pBone->CombinedTransformationMatrix);
 			}
 		}
@@ -213,7 +213,7 @@ void cSkinnedMesh::SetAnimationIndex(int nIndex)
 
 	m_dAnimStartTime = GetTickCount();
 	
-	//SafeRelease(pAnimSet);
+	SafeRelease(pAnimSet);
 }
 
 void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
@@ -286,7 +286,7 @@ void cSkinnedMesh::Load(char* szFolder, char* szFileName)
 
 	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), D3DXMESH_MANAGED, g_pD3DDevice, &ah, 
 		NULL, &m_pRoot, &m_pAnimController);
-	
+
 	m_vMin = ah.GetMin();
 	m_vMax = ah.GetMax();
 
