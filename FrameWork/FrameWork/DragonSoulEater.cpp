@@ -21,7 +21,7 @@ void DragonSoulEater::Update()
 	{
 		//SetState()
 	}
-	m_pSkinnedUnit->Update();
+	//m_pSkinnedUnit->Update();
 	//D3DXMATRIXA16 matWorld;
 	//D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
 	//m_pOBB->Update(&matWorld);
