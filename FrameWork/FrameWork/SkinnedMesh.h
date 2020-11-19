@@ -28,7 +28,8 @@ public:
 
 	void SetAnimationIndex(int nIndex);
 	void SetAnimationIndexBlend(int nIndex);
-
+	LPD3DXANIMATIONCONTROLLER GetAnimationController();
+	
 	// >> : obb
 private:
 	Synthesize(D3DXVECTOR3, m_vMin, Min);

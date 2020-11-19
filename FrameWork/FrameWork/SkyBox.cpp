@@ -96,7 +96,7 @@ void SkyBox::Setup(string strFolder, string strFileName)
 	m_vecFace[10].t = D3DXVECTOR2(1.0f, (float)(PNGSIZE * 2) / y);
 	m_vecFace[11].t = D3DXVECTOR2(1.0f, (float)(PNGSIZE * 1) / y);
 	
-
+	//
 	m_vecFace[12].t = D3DXVECTOR2((float)(PNGSIZE * 3) / x, (float)(PNGSIZE * 2) / y);
 	m_vecFace[13].t = D3DXVECTOR2((float)(PNGSIZE * 3) / x, (float)(PNGSIZE * 1) / y);
 	m_vecFace[14].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, (float)(PNGSIZE * 1) / y);
@@ -105,7 +105,7 @@ void SkyBox::Setup(string strFolder, string strFileName)
 	m_vecFace[16].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, (float)(PNGSIZE * 1) / y);
 	m_vecFace[17].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, (float)(PNGSIZE * 2) / y);
 	
-
+	//
 	m_vecFace[18].t = D3DXVECTOR2((float)(PNGSIZE) / x, (float)(PNGSIZE * 2) / y);
 	m_vecFace[19].t = D3DXVECTOR2((float)(PNGSIZE) / x, (float)(PNGSIZE * 1) / y);
 	m_vecFace[20].t = D3DXVECTOR2(EPSILON, (float)(PNGSIZE * 1) / y);
@@ -126,14 +126,16 @@ void SkyBox::Setup(string strFolder, string strFileName)
 	m_vecFace[28].t = D3DXVECTOR2((float)(PNGSIZE * 1 ) / x, EPSILON);
 	m_vecFace[29].t = D3DXVECTOR2((float)(PNGSIZE * 1 ) / x, (float)(PNGSIZE * 1) / y);
 
+	
 	// bottem 4 0 3  4 3 7
-	m_vecFace[30].t = D3DXVECTOR2((float)(PNGSIZE * 1 ) / x, 1.0f);
-	m_vecFace[31].t = D3DXVECTOR2((float)(PNGSIZE * 1) / x, (float)(PNGSIZE * 2) / y);
-	m_vecFace[32].t =  D3DXVECTOR2((float)(PNGSIZE * 2) / x, (float)(PNGSIZE * 2) / y);
+	m_vecFace[30].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, 1.0f); 
+	m_vecFace[31].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, (float)(PNGSIZE * 2) / y);
+	m_vecFace[32].t = D3DXVECTOR2((float)(PNGSIZE * 1) / x, (float)(PNGSIZE * 2) / y);
 
-	m_vecFace[33].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, (float)(PNGSIZE * 2) / y);
-	m_vecFace[34].t = D3DXVECTOR2((float)(PNGSIZE * 1) / x, 1.0f);
-	m_vecFace[35].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, 1.0f);
+	// 31 32
+	m_vecFace[33].t = D3DXVECTOR2((float)(PNGSIZE * 2) / x, 1.0f);
+	m_vecFace[34].t = D3DXVECTOR2((float)(PNGSIZE * 1) / x, (float)(PNGSIZE * 2) / y);
+	m_vecFace[35].t = D3DXVECTOR2((float)(PNGSIZE * 1) / x, 1.0f);
 	
 
 	
@@ -150,7 +152,7 @@ void SkyBox::Render(D3DXMATRIXA16* pmat)
 
 	D3DXMATRIXA16 matWorld,matS,matT;
 	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixScaling(&matS, 3, 3, 3);
+	D3DXMatrixScaling(&matS, 3,3,3);
 	D3DXMatrixTranslation(&matT, m_vPos->x,m_vPos->y,m_vPos->z);
 	matWorld *= matS * matT;
 		
