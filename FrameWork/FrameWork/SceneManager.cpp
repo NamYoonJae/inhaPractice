@@ -37,7 +37,6 @@ void cSceneManager::Setup()
 	InitializeCriticalSection(&cs);
 
 	ObjectManager->Revert();
-
 	m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
 	m_CurrentScene->Setup();
 }

@@ -18,6 +18,7 @@
 
 #include "GameScene.h"
 #include "ObjectPool.h"
+#include "DragonSoulEater.h"
 //
 #pragma once
 
@@ -101,15 +102,20 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
-	m_pSkinnedUnit->SetAnimationIndex(0);
-	
+	//cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
+	//m_pSkinnedUnit->SetAnimationIndex(0);
+
+	DragonSoulEater* m_pDragon = new DragonSoulEater;
+	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
-	m_pSkinnedUnit->SetTransform(&matWorld);
+	//m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
+	m_pDragon->GetSkinnedMesh().SetAnimationIndex(0);
+	ObjectManager->AddChild(m_pDragon);
+	//m_pSkinnedUnit->SetTransform();
 
 	
-	ObjectManager->AddChild(m_pSkinnedUnit);
+	//ObjectManager->AddChild(m_pSkinnedUnit);
 
 
 	D3DLIGHT9 m_Light;

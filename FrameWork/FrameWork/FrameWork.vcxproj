@@ -159,6 +159,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
+    <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="DragonSoulEater.h" />
     <ClInclude Include="ObjectPool.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
+    <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="DragonSoulEater.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
