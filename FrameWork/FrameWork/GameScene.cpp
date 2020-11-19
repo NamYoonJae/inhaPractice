@@ -18,6 +18,7 @@
 
 #include "GameScene.h"
 #include "ObjectPool.h"
+#include "DragonSoulEater.h"
 //
 #pragma once
 
@@ -37,7 +38,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	// 
 	{
 		SkyBox* pSkyBox = new SkyBox;
-		pSkyBox->Setup("data/HeightMapData", "skyhorizon.png");
+		pSkyBox->Setup("data/HeightMapData", "Earth.png");
+		
 
 		cCamera *pCamera = new cCamera;
 
@@ -72,21 +74,21 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(pGrid);
 
 	cPopUp *pPopup = new cPopUp;
-	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(100, 100, 0));
+	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(100, 100, 0), 2);
 
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 400, 0), 0, 0, 0);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 400, 0), 0, 0, 0, 2);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = BtnStartEvent;
 
 	cButton *pButton2 = new cButton;
-	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 450, 0), 0, 0, 0);
+	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 450, 0), 0, 0, 0, 2);
 	pPopup->cButtonPushBack(pButton2);
 	pButton2->EventProcess = BtnExitEvent;
 
-	EventManager->Attach(pPopup);
+	//EventManager->Attach(pPopup);
 
-	ObjectManager->AddUIChild(pPopup);
+	//ObjectManager->AddUIChild(pPopup);
 
 
 	cTerrain* pTerrain = new cTerrain;
@@ -100,13 +102,20 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
-	m_pSkinnedUnit->SetAnimationIndex(0);
-	D3DXMATRIXA16 matWorld;
-	D3DXMatrixScaling(&matWorld, 0.1f, 0.1f, 0.1f);
-	m_pSkinnedUnit->SetTransform(&matWorld);
+	//cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
+	//m_pSkinnedUnit->SetAnimationIndex(0);
 
-	ObjectManager->AddChild(m_pSkinnedUnit);
+	DragonSoulEater* m_pDragon = new DragonSoulEater;
+	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
+	//m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
+	m_pDragon->GetSkinnedMesh().SetAnimationIndex(0);
+	ObjectManager->AddChild(m_pDragon);
+	//m_pSkinnedUnit->SetTransform();
+
+	
+	//ObjectManager->AddChild(m_pSkinnedUnit);
 
 
 	D3DLIGHT9 m_Light;

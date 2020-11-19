@@ -250,6 +250,11 @@ void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
 	SafeRelease(pNextAnimSet);
 }
 
+LPD3DXANIMATIONCONTROLLER cSkinnedMesh::GetAnimationController()
+{
+	return m_pAnimController;
+}
+
 cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFileName)
 	:m_pRoot(NULL)
 	, m_pAnimController(NULL)
