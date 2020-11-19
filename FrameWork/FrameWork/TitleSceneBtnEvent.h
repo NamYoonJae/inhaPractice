@@ -2,6 +2,7 @@
 #include "EventManager.h"
 #include "PopUp.h"
 #include "TextureManager.h"
+#include "SceneManager.h"
 
 void StartGameBtnEvent(EventType message, cPopUp* btn)
 {
@@ -77,6 +78,8 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				//상태 -> enum_On 상태로 변경
 				//이미지 enum_On으로 변경
 				//이미지 변경
+				button->SetStateChange(enum_On);
+				button->ChangeSprite("data/UI/btn-med-down.png");
 
 			}
 		}
@@ -92,7 +95,9 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				//상태 -> enum_Off 상태로 변경
 				//이미지 enum_Off로 변경
 				//게임 시작으로 씬 이동
-
+				button->SetStateChange(enum_Hover);
+				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+				g_pSceneManager->ChangeScene();
 			}
 		}
 	}

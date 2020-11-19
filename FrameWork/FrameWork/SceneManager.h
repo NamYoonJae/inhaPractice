@@ -18,6 +18,6 @@ public:
 	void Setup();	
 	void ChangeScene();
 	void Destroy();
-	void LoadScene();
+	void LoadScene(int SceneType);
 };
 
