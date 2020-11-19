@@ -26,7 +26,7 @@ protected:
 	D3DXVECTOR3 m_Position;
 	RECT m_Rect;
 
-	vector<cButton*> m_vecBtnList;
+	vector<cPopUp*> m_vecBtnList;
 	cButton* m_pButton;
 
 	float m_Percentage;

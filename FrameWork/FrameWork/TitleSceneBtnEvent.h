@@ -80,7 +80,6 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				//이미지 변경
 				button->SetStateChange(enum_On);
 				button->ChangeSprite("data/UI/btn-med-down.png");
-
 			}
 		}
 	}
@@ -187,7 +186,6 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 					button->SetStateChange(enum_Off); //off상태로 체인지
 				}
 			}
-
 		}
 		else
 		{
@@ -196,7 +194,6 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 				button->SetStateChange(enum_Off);	//off 상태로 체인지
 			}
 		}
-
 
 		if (button->GetPreState() != button->GetState())
 		{
@@ -221,7 +218,6 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 		}//case EVENT_MOVE End:
 
 		break;
-
 
 	case EventType::EVENT_LBUTTONUP:
 	{
