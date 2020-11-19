@@ -255,6 +255,34 @@ LPD3DXANIMATIONCONTROLLER cSkinnedMesh::GetAnimationController()
 	return m_pAnimController;
 }
 
+void cSkinnedMesh::SetAnimationController(char* szFolder, char* szFile)
+{
+	LPD3DXANIMATIONCONTROLLER pAnimController = g_pSkinnedMeshManager->GetAnimController(szFolder, szFile);
+	
+	//LPD3DXANIMATIONSET pAnimSet = NULL;
+	//m_pAnimController->GetAnimationSet(0, &pAnimSet);
+	//m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+	
+	//m_pAnimController->CloneAnimationController(
+	//	m_pAnimController->GetMaxNumAnimationOutputs(),
+	//	m_pAnimController->GetMaxNumAnimationSets(),
+	//	m_pAnimController->GetMaxNumTracks(),
+	//	m_pAnimController->GetMaxNumEvents(),
+	//	&pAnimController);
+
+	pAnimController->CloneAnimationController(
+		pAnimController->GetMaxNumAnimationOutputs(),
+		pAnimController->GetMaxNumAnimationSets(),
+		pAnimController->GetMaxNumTracks(),
+		pAnimController->GetMaxNumEvents(),
+		&m_pAnimController);
+	
+	m_dAnimStartTime = GetTickCount();
+
+	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
+	SetAnimationIndex(0);
+}
+
 cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFileName)
 	:m_pRoot(NULL)
 	, m_pAnimController(NULL)
