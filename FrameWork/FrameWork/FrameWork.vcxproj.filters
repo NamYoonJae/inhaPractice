@@ -237,6 +237,9 @@
     <ClInclude Include="TitleScene.h">
       <Filter>Code\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="TitleSceneBtnEvent.h">
+      <Filter>Code\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

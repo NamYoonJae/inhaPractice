@@ -72,15 +72,15 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(pGrid);
 
 	cPopUp *pPopup = new cPopUp;
-	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(100, 100, 0));
+	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(100, 100, 0), 2);
 
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 400, 0), 0, 0, 0);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 400, 0), 0, 0, 0, 2);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = BtnStartEvent;
 
 	cButton *pButton2 = new cButton;
-	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 450, 0), 0, 0, 0);
+	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 450, 0), 0, 0, 0, 2);
 	pPopup->cButtonPushBack(pButton2);
 	pButton2->EventProcess = BtnExitEvent;
 

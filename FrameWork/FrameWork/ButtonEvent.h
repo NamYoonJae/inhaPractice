@@ -5,6 +5,7 @@
 
 void BtnStartEvent(EventType message, cPopUp * btn)
 {
+	/*
 	cButton* button = (cButton*)btn;
 
 	switch (message)
@@ -59,10 +60,6 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 					button->SetPreHoverCheck();
 				}
 			}
-			else
-			{
-				
-			}
 
 	}//case EVENT_MOVE End
 	break;
@@ -76,6 +73,7 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 	default:
 		break;
 	}
+	*/
 }
 
 void BtnExitEvent(EventType message, cPopUp* btn)

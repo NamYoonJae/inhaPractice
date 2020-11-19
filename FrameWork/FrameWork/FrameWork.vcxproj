@@ -165,6 +165,7 @@
     <ClInclude Include="SkinnedMeshManager.h" />
     <ClInclude Include="cTerrain.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TitleSceneBtnEvent.h" />
     <ClInclude Include="XFileObject.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FontManager.h" />
