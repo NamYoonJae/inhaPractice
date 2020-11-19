@@ -57,7 +57,7 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				button->SetPreState(enum_Off);
 			}
 			/*
-			else if (button->GetState() == enum_Off && button->GetPreState() == enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+			else if (button->GetState() == enum_Off && button->GetPreState() == enum_Hover)
 			{
 				button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
 				button->SetPreState(enum_Off);
@@ -68,6 +68,20 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 
 	break;
 
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		{
+			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+			{
+				//상태 -> enum_On 상태로 변경
+				//이미지 enum_On으로 변경
+				//이미지 변경
+
+			}
+		}
+	}
+	break;
 
 	case EventType::EVENT_LBUTTONUP:
 	{
@@ -75,19 +89,18 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height) 
 			{
-				//상태 변경 후
+				//상태 -> enum_Off 상태로 변경
+				//이미지 enum_Off로 변경
 				//게임 시작으로 씬 이동
 
 			}
 		}
 	}
-		break;
+	break;
 	/*	
 	case EventType::EVENT_WHEELUP:
 		break;
 	case EventType::EVENT_WHEELDOWN:
-		break;
-	case EventType::EVENT_LBUTTONDOWN:
 		break;
 	case EventType::EVENT_LBUTTONDLBC:
 		break;

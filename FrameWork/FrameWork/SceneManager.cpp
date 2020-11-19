@@ -39,8 +39,8 @@ void cSceneManager::Setup()
 	ObjectManager->Revert();
 
 
-	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
-	m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
+	m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+	//m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
 	m_CurrentScene->Setup();
 }
 
