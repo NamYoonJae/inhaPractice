@@ -18,7 +18,7 @@ public:
 	cButton();
 	~cButton();
 
-	void Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff);
+	void Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff, bool fixed);
 	void Update(EventType message);
 	void Render();
 	//void Render(D3DXVECTOR3 position);
@@ -45,5 +45,7 @@ public:
 
 	float GetPercent();
 	void PowerOnOff();
+
+	void Destroy();
 };
 

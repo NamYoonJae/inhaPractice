@@ -17,7 +17,7 @@ enum
 class cPopUp  : public cObserver ,public cObject
 {
 protected:
-
+	bool m_Fixed;//Power OnOff 기능이 있는지 없는지 고정이면 true 고정 아니면 false
 	bool m_Power;
 
 	LPD3DXSPRITE m_pSprite;
@@ -29,7 +29,6 @@ protected:
 	RECT m_Rect;
 
 	vector<cPopUp*> m_vecPopupBtnList;
-	cButton* m_pButton;
 
 	float m_Percentage;
 
@@ -38,7 +37,7 @@ public:
 	cPopUp();
 	~cPopUp();
 
-	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent, bool powerOnOff);
+	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent, bool powerOnOff, bool fixed);
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void Update() override{};
@@ -57,6 +56,8 @@ public:
 	virtual float GetPercent();
 
 	virtual void PowerOnOff();
+
+	virtual void Destroy();
 
 };
 
