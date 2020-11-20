@@ -6,20 +6,25 @@
 #include "cCharater.h"
 #include "Camera.h"
 #include "SkyBox.h"
+#include "TitleScene.h"
+
 cSceneManager::cSceneManager()
 	:m_CurrentScene(nullptr)
 {
-	
+	m_vecScenes.resize(2);
+	const std::vector<cScene*>::iterator it = m_vecScenes.begin();
+
+	//*(it + SceneType::SCENE_TITLE)
+	*(it + SceneType::SCENE_TITLE) = new cTitleScene(SceneType::SCENE_TITLE);
+	*(it + SceneType::SCENE_BOSS1) = new cGameScene(SceneType::SCENE_BOSS1);
 }
 
 
 cSceneManager::~cSceneManager()
 {
 	//SafeDelete(m_CurrentScene);
+	Destroy();
 	
-	map<string, cScene*> Scenes;
-	
-	m_mapScenes.swap(Scenes);
 }
 
 cScene* cSceneManager::GetCurrentScene()
@@ -31,59 +36,35 @@ void cSceneManager::Setup()
 {
 	InitializeCriticalSection(&cs);
 
+	ObjectManager->Revert();
 
-	cGameScene* gameScene = new cGameScene("MainGame");
-	gameScene->Setup();
-	m_CurrentScene = gameScene;
 
-	AddScene(gameScene->GetSceneName(), gameScene);
+	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+	m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
+	m_CurrentScene->Setup();
 }
 
-void cSceneManager::AddScene(string name, cScene* scene)
+void cSceneManager::ChangeScene()
 {
-	if(m_mapScenes.find(name) == m_mapScenes.end())
-	{
-		m_mapScenes[name] = scene;
-	}
-}
-
-void cSceneManager::DestroyScene(string name)
-{
-	if (m_mapScenes.find(name) != m_mapScenes.end())
-	{
-		SafeDelete(m_mapScenes[name]);
-		m_mapScenes.erase(m_mapScenes.find(name));
-	}
-}
-
-void cSceneManager::ChangeScene(string name)
-{
-	if (m_mapScenes.find(name) != m_mapScenes.end())
-	{
-		if(m_CurrentScene != m_mapScenes[name])
-		{
-			m_CurrentScene = m_mapScenes[name];
-		}
-	}
+	/// 씬을 바꾸는 법
+	///
+	int nRandom = 1;//rand()%2;
+	LoadScene(nRandom);
 }
 
 void cSceneManager::Destroy()
 {
-	for (auto scene : m_mapScenes)
-	{
-		SafeDelete(scene.second);
-	}
-
-	m_mapScenes.clear();
+	vector<cScene*> Scenes;
+	m_vecScenes.swap(Scenes);
+	return;
 }
 
-void cSceneManager::LoadScene()
+void cSceneManager::LoadScene(int SceneType)
 {
-
-	if (m_CurrentScene == NULL)
-		return;
+	m_CurrentScene = m_vecScenes[SceneType];
 
 	EnterCriticalSection(&cs);
+	ObjectManager->Revert();
 	m_pThread = new std::thread(&cScene::Setup, m_CurrentScene);
 	if(m_pThread)
 	{

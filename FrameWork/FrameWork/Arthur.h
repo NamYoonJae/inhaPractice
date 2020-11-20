@@ -32,5 +32,8 @@ public:
 
 	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
 	D3DXVECTOR3 GetScale() { return m_vScale; }
+
+	void SetAnimationController(char* szFolder, char* szFile);
+	void SetSkinnedMesh(char* szFolder, char* szFile);
 };
 

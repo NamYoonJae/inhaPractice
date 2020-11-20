@@ -54,6 +54,7 @@ class cEventManager
 
 private:
 	std::queue<EventType> m_Queue;
+	
 	std::map<int, EventType> m_mapEvent;
 
 	//
@@ -61,14 +62,13 @@ private:
 	D3DXVECTOR2 m_vPrev;
 	bool		m_IsDrag;
 
+	std::thread *EventThread;
 public:
 	void InputEvent(UINT message, WPARAM wParam, LPARAM lParam);
 	void Notify() override;
-
 	//now
 	D3DXVECTOR2 GetMouseCurrent();
 	D3DXVECTOR2 GetMousePrev();
 
-	//void ButtonEvent(string message, cPopUp*);
 
 };

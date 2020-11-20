@@ -32,24 +32,21 @@ void cCharater::Update(EventType message)
 {
 	if (message == EventType::EVENT_ARROW_UP)
 	{
-		m_vPos += m_vDir * 0.3f;
+		m_vPos += m_vDir * 1.0f;
 	}
 	else if (message == EventType::EVENT_ARROW_DOWN)
 	{
-		m_vPos -= m_vDir * 0.3f;
+		m_vPos -= m_vDir * 1.0f;
 	}
 	else if (message == EventType::EVENT_ARROW_LEFT)
 	{
-		m_vRot.y += -0.3f;
+		m_vRot.y += -1.0f;
 	}
 	else if (message == EventType::EVENT_ARROW_RIGHT)
 	{
-		m_vRot.y += +0.3f;
+		m_vRot.y += +1.0f;
 	}
 
-	//D3DXMATRIXA16 matRy;
-	//D3DXMatrixRotationY(&matRy, m_vRot.y);
-	//D3DXVec3TransformCoord(&m_vDir, &D3DXVECTOR3(0, 0, -1), &matRy);
 }
 
 

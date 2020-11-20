@@ -36,7 +36,7 @@ public:
 	LPD3DXMESH GetTerrainMesh() { return m_pTerrainMesh; }
 	bool SwapMesh();
 	
-	void cTerrain::callThread(D3DXVECTOR3 vec);
+	void cTerrain::callThread();
 	RECT GetCullingRect() { return m_CullingRect; };
 
 	float LerpPosition(float, float, float);

@@ -18,12 +18,13 @@
 
 #include "GameScene.h"
 #include "ObjectPool.h"
+#include "DragonSoulEater.h"
 //
 #pragma once
 
 
-cGameScene::cGameScene(string name)
-	:cScene(name)
+cGameScene::cGameScene(SceneType T)
+	:cScene(T)
 {
 }
 
@@ -37,7 +38,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	// 
 	{
 		SkyBox* pSkyBox = new SkyBox;
-		pSkyBox->Setup("data/HeightMapData", "skyhorizon.png");
+		pSkyBox->Setup("data/HeightMapData", "Earth.png");
+		
 
 		cCamera *pCamera = new cCamera;
 
@@ -49,19 +51,15 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 		cArthur* pArthur = new cArthur;
-		pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
+		pArthur->Setup("data/XFile/Arthur", "arthur_a01.X");
 		pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
 		pCamera->Setup(pArthur->GetPos());
 		pArthur->Tagging(Tag::Tag_Player);
-		
 		
 		ObjectManager->AddStaticChild(pCamera);
 		ObjectManager->AddStaticChild(pSkyBox);
 
 		ObjectManager->AddStaticChild(pArthur);
-		
-
-
 	}
 	// 예외 처리 
 
@@ -72,20 +70,21 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(pGrid);
 
 	cPopUp *pPopup = new cPopUp;
-	pPopup->Setup("data/UI", "panel-info.png", D3DXVECTOR3(100, 100, 0));
+	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(100, 100, 0), 2);
 
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 0, 0, 0);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 400, 0), 0, 0, 0, 2);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = BtnStartEvent;
 
 	cButton *pButton2 = new cButton;
-	pButton2->Setup("data/UI", "btn-med-up.png", D3DXVECTOR3(100, 100, 0), 100, 100, 0);
+	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 450, 0), 0, 0, 0, 2);
 	pPopup->cButtonPushBack(pButton2);
 	pButton2->EventProcess = BtnExitEvent;
-	EventManager->Attach(pPopup);
 
-	ObjectManager->AddUIChild(pPopup);
+	//EventManager->Attach(pPopup);
+
+	//ObjectManager->AddUIChild(pPopup);
 
 
 	cTerrain* pTerrain = new cTerrain;
@@ -99,21 +98,28 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-	cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
-	m_pSkinnedUnit->SetAnimationIndex(0);
-	D3DXMATRIXA16 matWorld;
-	D3DXMatrixScaling(&matWorld, 0.1f, 0.1f, 0.1f);
-	m_pSkinnedUnit->SetTransform(&matWorld);
+	//cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
+	//m_pSkinnedUnit->SetAnimationIndex(0);
 
-	ObjectManager->AddChild(m_pSkinnedUnit);
+	DragonSoulEater* m_pDragon = new DragonSoulEater;
+	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
+	//m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
+	m_pDragon->GetSkinnedMesh().SetAnimationIndex(0);
+	ObjectManager->AddChild(m_pDragon);
+	//m_pSkinnedUnit->SetTransform();
+
+	
+	//ObjectManager->AddChild(m_pSkinnedUnit);
 
 
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
 	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
-	m_Light.Ambient  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
-	m_Light.Diffuse  = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
-	//m_Light.Specular = D3DXCOLOR(0.0F, 0.3F, 0.0F, 1.0F);
+	m_Light.Ambient  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	D3DXVECTOR3 vDir(1.0f, 1.0f, 1.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
@@ -147,9 +153,4 @@ void cGameScene::Setup() // boss1map  boss2map
 	//	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 	//
 	//#pragma endregion jsonfileload
-}
-
-void cGameScene::CheckInput()
-{
-
 }

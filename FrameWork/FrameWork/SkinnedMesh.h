@@ -15,6 +15,7 @@ protected:
 	
 	DWORD m_dAnimStartTime;
 public:
+	
 	cSkinnedMesh();
 	~cSkinnedMesh();
 
@@ -28,7 +29,9 @@ public:
 
 	void SetAnimationIndex(int nIndex);
 	void SetAnimationIndexBlend(int nIndex);
-
+	LPD3DXANIMATIONCONTROLLER GetAnimationController();
+	virtual void SetAnimationController(char* szFolder, char* szFile);
+	
 	// >> : obb
 private:
 	Synthesize(D3DXVECTOR3, m_vMin, Min);

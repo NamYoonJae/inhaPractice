@@ -100,14 +100,32 @@
     <ClCompile Include="SkinnedMeshManager.cpp">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClCompile>
-    <ClCompile Include="SkyBox.cpp">
-      <Filter>Code\Object Composite\InstanceObject</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectPool.cpp">
       <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClCompile>
     <ClCompile Include="Arthur.cpp">
       <Filter>Code\Object Composite\InstanceObject\Arthur</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="DragonSoulEater.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Code\Object Composite\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEaterState.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEater_BasicAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEater_Idle.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="cOBB.cpp">
+      <Filter>OBB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,14 +240,35 @@
     <ClInclude Include="SkinnedMeshManager.h">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClInclude>
-    <ClInclude Include="SkyBox.h">
-      <Filter>Code\Object Composite\InstanceObject</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectPool.h">
       <Filter>Code\Object Composite\ObjectPool</Filter>
     </ClInclude>
     <ClInclude Include="Arthur.h">
       <Filter>Code\Object Composite\InstanceObject\Arthur</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSceneBtnEvent.h">
+      <Filter>Code\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="DragonSoulEater.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Code\Object Composite\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEaterState.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_BasicAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Idle.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="cOBB.h">
+      <Filter>OBB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +388,18 @@
     </Filter>
     <Filter Include="Code\Object Composite\InstanceObject\Arthur">
       <UniqueIdentifier>{c8faa7a5-57ee-4eea-99d5-4671f4b27c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\DragonSoulEater">
+      <UniqueIdentifier>{cb976b86-7fdc-4063-9684-d67ad226e25d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\SkyBox">
+      <UniqueIdentifier>{06a92838-6467-47a2-b117-efdfa66e2edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState">
+      <UniqueIdentifier>{f580876e-862d-4a5e-a5c7-b9c0d9306a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OBB">
+      <UniqueIdentifier>{32823407-0e73-4723-bf41-0ce4ae28bc7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

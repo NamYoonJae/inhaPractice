@@ -5,6 +5,7 @@
 
 void BtnStartEvent(EventType message, cPopUp * btn)
 {
+	/*
 	cButton* button = (cButton*)btn;
 
 	switch (message)
@@ -21,14 +22,14 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
-					if (button->GetHoverCheck() == false)
+					if (button->GetCurHoverCheck() == false)
 					{
 						button->ChangeHoverCheck();	//on상태로 체인지
 					}
 				}
 				else
 				{
-					if (button->GetHoverCheck() == true)
+					if (button->GetCurHoverCheck() == true)
 					{
 						button->ChangeHoverCheck(); //off상태로 체인지
 					}
@@ -37,21 +38,27 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 			}
 			else
 			{
-				if (button->GetHoverCheck() == true)
+				if (button->GetCurHoverCheck() == true)
 				{
 					button->ChangeHoverCheck();	//off 상태로 체인지
 				}
 			}
 
-			if (button->GetHoverCheck() == true)
+
+			if (button->GetPreHoverCheck() != button->GetCurHoverCheck())
 			{
-				button->SetStateChange(enum_Hover);
-				button->ChangeSprite("data/UI/btn-med-over.png");
-			}
-			else
-			{
-				button->SetStateChange(enum_Off);
-				button->ChangeSprite("data/UI/btn-med-up.png");
+				if (button->GetCurHoverCheck() == true) 
+				{
+					button->SetStateChange(enum_Hover);
+					button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+					button->SetPreHoverCheck();
+				}
+				else 
+				{
+					button->SetStateChange(enum_Off);
+					button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
+					button->SetPreHoverCheck();
+				}
 			}
 
 	}//case EVENT_MOVE End
@@ -66,6 +73,7 @@ void BtnStartEvent(EventType message, cPopUp * btn)
 	default:
 		break;
 	}
+	*/
 }
 
 void BtnExitEvent(EventType message, cPopUp* btn)

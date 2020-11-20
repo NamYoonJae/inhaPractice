@@ -59,7 +59,6 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		// MK_SHIF , MK_CONTROL not yet
 		m_Queue.push(m_mapEvent[wParam]);
-
 		Notify();
 		break;
 	}
@@ -85,18 +84,14 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 
 void cEventManager::Notify()
 {
-
-	EventType Message = m_Queue.front();
-
-	for (int i = 0; i < m_vecObservers.size(); ++i)
+	while(!m_Queue.empty())
 	{
-		if(m_vecObservers[i] != NULL)
+		for (int i = 0; i < m_vecObservers.size(); ++i)
 		{
-				m_vecObservers.at(i)->Update(Message);
+			m_vecObservers.at(i)->Update(m_Queue.front());
 		}
+		m_Queue.pop();	
 	}
-		m_Queue.pop();
-	
 }
 
 
@@ -109,6 +104,7 @@ D3DXVECTOR2 cEventManager::GetMousePrev()
 {
 	return m_vPrev;
 }
+
 
 cEventManager::cEventManager()
 	: m_IsDrag(false)

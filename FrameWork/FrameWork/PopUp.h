@@ -5,6 +5,7 @@
 #include "cObject.h"
 class cButton;
 
+//자식 뿐만 아니라 버튼 이벤트 헤더에서도 사용하기 때문에 전역으로 설정
 enum
 {
 	enum_Off = 1000,
@@ -12,16 +13,11 @@ enum
 	enum_Hover = 1002,
 };
 
+
 class cPopUp  : public cObserver ,public cObject
 {
 protected:
 
-	enum
-	{
-		enum_Off = 1000,
-		enum_On = 1001,
-		enum_Hover = 1002,
-	};
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
@@ -30,15 +26,17 @@ protected:
 	D3DXVECTOR3 m_Position;
 	RECT m_Rect;
 
-	vector<cButton*> m_vecBtnList;
+	vector<cPopUp*> m_vecBtnList;
 	cButton* m_pButton;
+
+	float m_Percentage;
 
 
 public:
 	cPopUp();
 	~cPopUp();
 
-	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ);
+	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent);
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void Update() override{};
@@ -53,6 +51,8 @@ public:
 
 	virtual void LoadTexture(char* szFullPath);
 	virtual void ChangeSprite(char* szFullPath);
+
+	virtual float GetPercent();
 
 };
 

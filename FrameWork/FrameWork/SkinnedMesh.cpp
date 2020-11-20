@@ -131,6 +131,9 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 void cSkinnedMesh::Render(D3DXMATRIXA16 * pmat)
 {
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	Render(LPD3DXFRAME(NULL));
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 }
@@ -143,11 +146,11 @@ void cSkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 
 		if (pBoneMesh->pSkinInfo) 
 		{
-			LPD3DXSKININFO pSkinInfo = pBoneMesh->pSkinInfo;
-			DWORD dwNumBones = pSkinInfo->GetNumBones();
+			DWORD dwNumBones = pBoneMesh->pSkinInfo->GetNumBones();
+			
 			for (DWORD i = 0; i < dwNumBones; i++) 
 			{
-				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, pSkinInfo->GetBoneName(i));
+				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, pBoneMesh->pSkinInfo->GetBoneName(i));
 				pBoneMesh->ppBoneMatrixPtrs[i] = &(pBone->CombinedTransformationMatrix);
 			}
 		}
@@ -210,7 +213,7 @@ void cSkinnedMesh::SetAnimationIndex(int nIndex)
 
 	m_dAnimStartTime = GetTickCount();
 	
-	//SafeRelease(pAnimSet);
+	SafeRelease(pAnimSet);
 }
 
 void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
@@ -245,6 +248,39 @@ void cSkinnedMesh::SetAnimationIndexBlend(int nIndex)
 
 	SafeRelease(pPrevAnimSet);
 	SafeRelease(pNextAnimSet);
+}
+
+LPD3DXANIMATIONCONTROLLER cSkinnedMesh::GetAnimationController()
+{
+	return m_pAnimController;
+}
+
+void cSkinnedMesh::SetAnimationController(char* szFolder, char* szFile)
+{
+	LPD3DXANIMATIONCONTROLLER pAnimController = g_pSkinnedMeshManager->GetAnimController(szFolder, szFile);
+	
+	//LPD3DXANIMATIONSET pAnimSet = NULL;
+	//m_pAnimController->GetAnimationSet(0, &pAnimSet);
+	//m_pAnimController->SetTrackAnimationSet(0, pAnimSet);
+	
+	//m_pAnimController->CloneAnimationController(
+	//	m_pAnimController->GetMaxNumAnimationOutputs(),
+	//	m_pAnimController->GetMaxNumAnimationSets(),
+	//	m_pAnimController->GetMaxNumTracks(),
+	//	m_pAnimController->GetMaxNumEvents(),
+	//	&pAnimController);
+
+	pAnimController->CloneAnimationController(
+		pAnimController->GetMaxNumAnimationOutputs(),
+		pAnimController->GetMaxNumAnimationSets(),
+		pAnimController->GetMaxNumTracks(),
+		pAnimController->GetMaxNumEvents(),
+		&m_pAnimController);
+	
+	m_dAnimStartTime = GetTickCount();
+
+	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
+	SetAnimationIndex(0);
 }
 
 cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFileName)
@@ -283,7 +319,7 @@ void cSkinnedMesh::Load(char* szFolder, char* szFileName)
 
 	D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(), D3DXMESH_MANAGED, g_pD3DDevice, &ah, 
 		NULL, &m_pRoot, &m_pAnimController);
-	
+
 	m_vMin = ah.GetMin();
 	m_vMax = ah.GetMax();
 

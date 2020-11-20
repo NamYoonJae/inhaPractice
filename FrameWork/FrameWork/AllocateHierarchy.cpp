@@ -5,6 +5,11 @@
 #include "AllocateHierarchy.h"
 
 
+ST_BONE::ST_BONE()
+{
+	memset(this, 0, sizeof(ST_BONE));
+}
+
 cAllocateHierarchy::cAllocateHierarchy()
 	:m_vMax(0, 0, 0)
 	,m_vMin(0, 0, 0)

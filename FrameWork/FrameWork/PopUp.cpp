@@ -11,6 +11,7 @@ cPopUp::cPopUp()
 	, m_Position(0.0f, 0.0f, 0.0f)
 	, m_pButton(NULL)
 {
+	m_Percentage = 0;
 }
 
 
@@ -28,8 +29,9 @@ cPopUp::~cPopUp()
 	SafeDelete(m_pButton);
 }
 
-void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position)
+void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent)
 {
+	m_Percentage = percent;
 
 	m_Position = position;
 
@@ -62,8 +64,14 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matWorld);
 
-	m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0), &D3DXVECTOR3(m_Position.x, m_Position.y, 0), D3DCOLOR_ARGB(255, 255, 255, 255));
+	D3DXMatrixScaling(&matS, m_Percentage, m_Percentage, m_Percentage);
+	D3DXMatrixTranslation(&matT, m_Position.x, m_Position.y, 0);
+
 	matWorld = matS * matT;
+	m_pSprite->SetTransform(&matWorld);
+	m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0),
+		&D3DXVECTOR3(0, 0, 0),
+		D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	m_pSprite->End();
 
@@ -140,4 +148,9 @@ void cPopUp::ChangeSprite(char * szFullPath)
 
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
+}
+
+float cPopUp::GetPercent()
+{
+	return m_Percentage;
 }
