@@ -110,6 +110,7 @@ void cOBB::Setup(cSkinnedMesh* pSkinnedMesh)
 
 	v.p = list[7];	m_vecVertex.push_back(v);
 
+	m_vecDrawingVertex = m_vecVertex;
 }
 
 void cOBB::Update(D3DXMATRIXA16* pmatWorld)
@@ -117,8 +118,9 @@ void cOBB::Update(D3DXMATRIXA16* pmatWorld)
 	if(pmatWorld)
 	{
 		m_matWorldTM = *pmatWorld;
+		//SetupVertex(pmatWorld);
 	}
-
+	
 	for(int i = 0; i < 3; i++)
 	{
 		D3DXVec3TransformNormal(&m_vAxisDir[i], &m_vOriAXidsDir[i],
@@ -127,6 +129,7 @@ void cOBB::Update(D3DXMATRIXA16* pmatWorld)
 
 	D3DXVec3TransformCoord(&m_vCenterPos, &m_vOriCenterPos, 
 		&m_matWorldTM);
+
 }
 
 bool cOBB::IsCollision(cOBB* pOBB1, cOBB* pOBB2)
@@ -302,15 +305,24 @@ bool cOBB::IsCollision(cOBB* pOBB1, cOBB* pOBB2)
 
 void cOBB::OBBBOX_Render(D3DXCOLOR c)
 {
-	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTexture(0, NULL);
 	for (int i = 0; i < m_vecVertex.size(); i++)
 		m_vecVertex[i].c = c;
-	
-	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
-		m_vecVertex.size() / 2, &m_vecVertex[0], sizeof(ST_PC_VERTEX));
+	if(!m_vecDrawingVertex.empty())
+	{
+		g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+		m_vecDrawingVertex.size() / 2, &m_vecDrawingVertex[0], sizeof(ST_PC_VERTEX));
+	}
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+}
+
+void cOBB::SetupVertex(D3DXMATRIXA16* pmat)
+{
+	for(int i =0 ; i < m_vecDrawingVertex.size(); ++i)
+	{
+		D3DXVec3TransformCoord(&m_vecDrawingVertex[i].p, &m_vecVertex[i].p, pmat);
+	}
 }

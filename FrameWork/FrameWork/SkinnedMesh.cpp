@@ -382,3 +382,33 @@ void cSkinnedMesh::SetTransform(D3DXMATRIXA16* pmat)
 {
 	m_matWorldTM = *pmat;
 }
+
+D3DXMATRIXA16* cSkinnedMesh::GetCombineMatrix()
+{
+	if (m_pRoot)
+	{
+		D3DXMATRIXA16 matResult; 
+		LPD3DXANIMATIONSET CurAnim;
+		m_pAnimController->GetTrackAnimationSet(0, &CurAnim);
+
+		
+		
+		D3DXVECTOR3 vecS, vecT;
+		D3DXQUATERNION QuaterRot;
+		ZeroMemory(&QuaterRot, sizeof(D3DXQUATERNION));
+		CurAnim->GetSRT(1.0f,0,&vecS,&QuaterRot,&vecT);
+
+		D3DXMATRIXA16 matS, matT;
+		D3DXMATRIX matR;
+		D3DXMatrixIdentity(&matR);
+		D3DXMatrixRotationQuaternion(&matR, &QuaterRot);
+		D3DXMatrixScaling(&matS, vecS.x, vecS.y, vecS.z);
+		D3DXMatrixTranslation(&matT, vecT.x, vecT.y, vecT.z);
+		matResult = (D3DXMATRIXA16)matR;// *matS * matT;
+		
+		
+		return &matResult;
+	}
+
+	return NULL;
+}

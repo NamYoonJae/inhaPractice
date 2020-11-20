@@ -37,9 +37,9 @@ void cSceneManager::Setup()
 	InitializeCriticalSection(&cs);
 
 	ObjectManager->Revert();
-
-
 	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+
+	// 프레임 버그
 	m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
 	m_CurrentScene->Setup();
 }
