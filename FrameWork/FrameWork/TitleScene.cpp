@@ -32,38 +32,38 @@ void cTitleScene::Setup()
 	float nBottom = 0.37;
 
 	cPopUp *pBackgroundPopup = new cPopUp;
-	pBackgroundPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png",
+	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
 		D3DXVECTOR3(0, 0, 0), 2, true, true);
 
 	cPopUp *pBackGoundBtnPopup = new cPopUp;
-	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "버튼 배경 사이즈 조정.png",
+	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "NW_Start_UI_Back.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 2, true, true);
 	pBackgroundPopup->cButtonPushBack(pBackGoundBtnPopup);
 
 	//게임시작
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+	pButton->Setup("data/UI/TitleScene/START", "NW_StartButton_Idle.png", 
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 60, 0, 2, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = StartGameBtnEvent;
 
 	//이어하기
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png", 
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 160, 0, 2, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ContinueGameBtnEvent;
 
 	//설정
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+	pButton->Setup("data/UI/TitleScene/SETTING", "NW_SettingButton_Idle.png", 
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 260, 0, 2, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = SetupGameBtnEvent;
 
 	//게임종료
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", 
+	pButton->Setup("data/UI/TitleScene/END", "NW_EndButton_Idle.png", 
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 360, 0, 2, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = EndGameBtnEvent;
