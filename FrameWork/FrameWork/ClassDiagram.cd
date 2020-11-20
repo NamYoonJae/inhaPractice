@@ -99,14 +99,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="cScene" Collapsed="true">
-    <Position X="6.75" Y="6.5" Width="1.5" />
+    <Position X="5.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAACAAAACAAAAAAAAAAAAAAAAAAARAAAAAAAAA=</HashCode>
       <FileName>Scene.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="cSceneManager" Collapsed="true">
-    <Position X="27" Y="2.5" Width="1.5" />
+  <Class Name="cSceneManager">
+    <Position X="9.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAECAAAAAAgAAAACAAAIABAAQAAABAAAAAAAgA=</HashCode>
       <FileName>SceneManager.h</FileName>
