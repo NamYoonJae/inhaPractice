@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "SkinnedMesh.h"
-#include "TimerManager.h"
+#include "SkinnedMeshManager.h"
 
 #include "Arthur.h"
 
@@ -46,24 +46,38 @@ void cArthur::Update(EventType event)
 
 	//float delta = g_pTimeManager->GetElapsedTime();
 	float delta = 0.001f;
+	bool isKeyDown = false;
 	
 	if (event == EventType::EVENT_ARROW_UP)
 	{
 		m_fvelocity = 300.0f * delta;
+		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_LEFT)
 	{
 		D3DXVec3TransformNormal(&m_vDir, &m_vDir, D3DXMatrixRotationY(&TempRot, -125.0f * delta));
 		m_vRot.y -= 125.0f * delta;
+		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_DOWN)
 	{
 		m_fvelocity = -118.5f * delta;
+		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_RIGHT)
 	{
 		D3DXVec3TransformNormal(&m_vDir, &m_vDir, D3DXMatrixRotationY(&TempRot, 125.0f * delta));
 		m_vRot.y += 125.0f * delta;
+		isKeyDown = true;
+	}
+	
+	if(!isKeyDown)
+	{
+		//SetSkinnedMesh("data/XFile/Arthur", "arthur_idle01.X");
+	}
+	else
+	{
+		SetSkinnedMesh("data/XFile/Arthur", "arthur_run01.X");
 	}
 
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
@@ -74,7 +88,13 @@ void cArthur::Update(EventType event)
 	
 	if(event == EventType::EVENT_LBUTTONDOWN)
 	{
-		m_pMesh->SetAnimationIndex(n++);
+		//m_pMesh->SetAnimationIndex(n++);
+		//SetAnimationController("data/XFile/Arthur", "arthur_Attack01.X");
+		SetSkinnedMesh("data/XFile/Arthur", "arthur_Attack01.X");
+	}
+	else if (event == EventType::EVENT_RBUTTONDOWN)
+	{
+		SetSkinnedMesh("data/XFile/Arthur", "arthur_a01.X");
 	}
 }
 
@@ -94,4 +114,14 @@ void cArthur::SetTranseform(D3DXMATRIXA16* pmat)
 	{
 		m_pMesh->SetTransform(pmat);
 	}
+}
+
+void cArthur::SetAnimationController(char* szFolder, char* szFile)
+{
+	m_pMesh->SetAnimationController(szFolder, szFile);
+}
+
+void cArthur::SetSkinnedMesh(char* szFolder, char* szFile)
+{
+	m_pMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFile);
 }

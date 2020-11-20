@@ -87,18 +87,22 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width) 
+		if (button->GetState() == enum_On)
 		{
-			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height) 
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 			{
-				//상태 -> enum_Off 상태로 변경
-				//이미지 enum_Off로 변경
-				//게임 시작으로 씬 이동
-				button->SetStateChange(enum_Hover);
-				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
-				g_pSceneManager->ChangeScene();
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					//상태 -> enum_Off 상태로 변경
+					//이미지 enum_Off로 변경
+					//게임 시작으로 씬 이동
+					button->SetStateChange(enum_Hover);
+					button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+					g_pSceneManager->ChangeScene();
+				}
 			}
 		}
+
 	}
 	break;
 	/*	

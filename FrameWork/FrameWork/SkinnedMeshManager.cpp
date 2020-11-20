@@ -30,6 +30,19 @@ cSkinnedMesh* cSkinnedMeshManager::GetSkinnedMesh( char* szFolder, char* szFileN
 		cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh();
 		pSkinnedMesh->Load(szFolder, szFileName);
 		m_mapSkinnedMesh[sFullPath] = pSkinnedMesh;
+		m_mapAnimCtrl[sFullPath] = pSkinnedMesh->GetAnimationController();
 	}
 	return m_mapSkinnedMesh[sFullPath];
+}
+
+LPD3DXANIMATIONCONTROLLER cSkinnedMeshManager::GetAnimController(char* szFolder, char* szFileName)
+{
+	string sFullPath(szFolder);
+	sFullPath += string("/") + string(szFileName);
+
+	if(m_mapAnimCtrl.find(sFullPath) == m_mapAnimCtrl.end())
+	{
+		GetSkinnedMesh(szFolder, szFileName);
+	}
+	return m_mapAnimCtrl[sFullPath];
 }
