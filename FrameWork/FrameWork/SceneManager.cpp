@@ -47,12 +47,14 @@ void cSceneManager::ChangeScene()
 {
 	/// 씬을 바꾸는 법
 	///
+	//씬을 삭제
 	int nRandom = 1;//rand()%2;
 	LoadScene(nRandom);
 }
 
 void cSceneManager::Destroy()
 {
+	// 게임 종료
 	vector<cScene*> Scenes;
 	m_vecScenes.swap(Scenes);
 	return;

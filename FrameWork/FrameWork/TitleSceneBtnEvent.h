@@ -95,6 +95,7 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				{
 					//상태 -> enum_Off 상태로 변경
 					//이미지 enum_Off로 변경
+					//데이터 삭제
 					//게임 시작으로 씬 이동
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");

@@ -28,7 +28,7 @@ protected:
 	D3DXVECTOR3 m_Position;
 	RECT m_Rect;
 
-	vector<cPopUp*> m_vecBtnList;
+	vector<cPopUp*> m_vecPopupBtnList;
 	cButton* m_pButton;
 
 	float m_Percentage;
@@ -38,7 +38,7 @@ public:
 	cPopUp();
 	~cPopUp();
 
-	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent);
+	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent, bool powerOnOff);
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void Update() override{};

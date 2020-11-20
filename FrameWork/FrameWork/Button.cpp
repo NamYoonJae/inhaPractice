@@ -15,9 +15,10 @@ cButton::~cButton()
 {
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
+	SafeDelete(m_pButton);
 }
 
-void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent)
+void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff)
 {
 	m_Percentage = percent;
 	m_X = x;
@@ -27,6 +28,9 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 	m_Position.x = position.x + m_X;
 	m_Position.y = position.y + m_Y;
 	m_Position.z = position.z + m_Z;
+
+	m_Power = powerOnOff;
+
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	string fileRoot(root);
