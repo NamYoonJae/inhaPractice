@@ -92,6 +92,7 @@ void ObjectPool::Revert()
 
 	//Detech를 해줘야한다
 
+	
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
 	
