@@ -91,7 +91,12 @@ void ObjectPool::Revert()
 	m_nRefcnt = 0;
 
 	//Detech를 해줘야한다
-
+	for(int i = 0; i < vecUserInterface.size(); i++)
+	{
+		cPopUp* popup = (cPopUp*)vecUserInterface[i];
+		popup->Destroy();
+	}
+	
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
 	

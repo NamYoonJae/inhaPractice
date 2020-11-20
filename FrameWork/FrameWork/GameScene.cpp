@@ -113,8 +113,11 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
-	//m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
+	m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
 	m_pDragon->GetSkinnedMesh().SetAnimationIndex(0);
+
+	m_pDragon->GetWorldMatrix(&matWorld);
+	
 	ObjectManager->AddChild(m_pDragon);
 	//m_pSkinnedUnit->SetTransform();
 

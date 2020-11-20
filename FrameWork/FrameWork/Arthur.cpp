@@ -33,6 +33,8 @@ void cArthur::Update()
 	D3DXMatrixTranslation(&m_matTranse, m_vPos.x, m_vPos.y, m_vPos.z);
 	
 	m_matWorld = m_matScale * m_matRot * m_matTranse;
+
+	
 	m_pMesh->m_matWorldTM = m_matWorld;
 
 	SafeUpdate(m_pMesh);

@@ -3,12 +3,18 @@
 #include "SoulEaterState.h"
 #include "cOBB.h"
 DragonSoulEater::DragonSoulEater()
+	:m_pSkinnedUnit(NULL)
+	,m_pOBB(NULL)
+	,m_pCurState(NULL)
 {
 }
 
 
 DragonSoulEater::~DragonSoulEater()
 {
+	SafeDelete(m_pOBB);
+	SafeDelete(m_pCurState);
+	SafeDelete(m_pSkinnedUnit);
 }
 
 void DragonSoulEater::Update()
@@ -21,10 +27,13 @@ void DragonSoulEater::Update()
 	{
 		//SetState()
 	}
-	//m_pSkinnedUnit->Update();
-	//D3DXMATRIXA16 matWorld;
-	//D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
-	//m_pOBB->Update(&matWorld);
+	m_pSkinnedUnit->Update();
+
+	D3DXMATRIXA16 matBone,matT = *m_pSkinnedUnit->GetCombineMatrix();
+	D3DXMATRIXA16 matRx;
+	D3DXMatrixRotationX(&matRx, D3DX_PI);
+	matBone = matRx * matT;
+	m_pOBB->Update(&matBone);
 	//if(m_pCurState)
 	//{
 	//	m_pCurState->Update();
@@ -48,6 +57,7 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	
 	g_pD3DDevice->SetTransform(D3DTS_WORLD,&matWorld);
 	m_pSkinnedUnit->Render();
+
 	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
 
 }
@@ -57,6 +67,7 @@ void DragonSoulEater::Setup(char* szFolder, char* szFileName)
 	m_pSkinnedUnit = new cSkinnedMesh(szFolder, szFileName);
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pSkinnedUnit);
+	
 }
 
 void DragonSoulEater::SetState()
@@ -73,4 +84,9 @@ void DragonSoulEater::SetState()
 	{
 		// 패턴을 정한다.
 	}
+}
+
+void DragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
+{
+	m_matWorld = *matWorld;
 }
