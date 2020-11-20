@@ -39,7 +39,7 @@ void cTitleScene::Setup()
 
 	cPopUp *pPopup = new cPopUp;
 	pPopup->Setup("data/UI/TitleScene", "버튼 배경 사이즈 조정.png", 
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 2);
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1);
 
 	//게임시작
 	cButton *pButton = new cButton;

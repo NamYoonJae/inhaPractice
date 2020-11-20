@@ -80,8 +80,6 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 	{
 		m_vecBtnList[i]->Render();
 	}
-
-
 }
 
 void cPopUp::cButtonPushBack(cButton* btn)

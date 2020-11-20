@@ -1,14 +1,16 @@
 #pragma once
 
 
-const enum Tag {
+const enum Tag
+{
 	Tag_Player,
 	Tag_Camera,
 	Tag_SkyBox,
 	Tag_Map,
 	Tag_Boss,
 	Tag_NormalEnemy,
-	Tag_cObj };
+	Tag_cObj
+};
 
 
 

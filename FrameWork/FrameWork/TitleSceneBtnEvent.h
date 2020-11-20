@@ -16,7 +16,6 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 	switch (message)
 	{
 	case EventType::EVENT_MOVE:
-
 		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
@@ -34,7 +33,6 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 					button->SetStateChange(enum_Off); //off상태로 체인지
 				}
 			}
-
 		}
 		else
 		{
@@ -43,7 +41,6 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				button->SetStateChange(enum_Off);	//off 상태로 체인지
 			}
 		}
-
 
 		if (button->GetPreState() != button->GetState())
 		{
@@ -79,7 +76,7 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				//이미지 enum_On으로 변경
 				//이미지 변경
 				button->SetStateChange(enum_On);
-				button->ChangeSprite("data/UI/btn-med-down.png");
+				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
 			}
 		}
 	}
@@ -87,16 +84,20 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width) 
+		if (button->GetState() == enum_On) // 버그 수정
 		{
-			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height) 
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 			{
-				//상태 -> enum_Off 상태로 변경
-				//이미지 enum_Off로 변경
-				//게임 시작으로 씬 이동
-				button->SetStateChange(enum_Hover);
-				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
-				g_pSceneManager->ChangeScene();
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					//상태 -> enum_Off 상태로 변경
+					//이미지 enum_Off로 변경
+					//게임 시작으로 씬 이동
+					//button->SetStateChange(enum_Hover);
+					button->SetStateChange(enum_Off);
+					button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+					g_pSceneManager->ChangeScene();
+				}
 			}
 		}
 	}

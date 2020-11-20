@@ -5,6 +5,7 @@
 
 void BtnStartEvent(EventType message, cPopUp * btn)
 {
+	
 	/*
 	cButton* button = (cButton*)btn;
 
