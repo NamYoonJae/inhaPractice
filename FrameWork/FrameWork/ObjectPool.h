@@ -29,3 +29,10 @@ public:
 	
 };
 
+struct HitDelay
+{
+	DWORD dwHitTime;
+	DWORD dwDelayTime;
+	Tag	  CrashObjectTag;
+};
+
