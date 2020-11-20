@@ -35,6 +35,11 @@ void cTitleScene::Setup()
 	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
 		D3DXVECTOR3(0, 0, 0), 2, true, true);
 
+	cPopUp *pTitleImagePopup = new cPopUp;
+	pTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
+		D3DXVECTOR3(370, 0, 0), 2, true, true);
+	pBackgroundPopup->cButtonPushBack(pTitleImagePopup);
+
 	cPopUp *pBackGoundBtnPopup = new cPopUp;
 	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "NW_Start_UI_Back.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 2, true, true);
