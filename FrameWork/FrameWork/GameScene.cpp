@@ -96,6 +96,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	ObjectManager->AddChild(pGrid);
 
+
 	cPopUp *pPopup = new cPopUp;
 	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 1, false, false);
 	
