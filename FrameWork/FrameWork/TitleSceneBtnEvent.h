@@ -49,13 +49,21 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+				button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Over.png");
 				button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-				button->SetPreState(enum_Off);
+				if (button->GetState() == enum_On)
+				{
+					button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Pressed.png");
+					button->SetPreState(enum_On);
+				}
+				else if (button->GetState() == enum_Off)
+				{
+					button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Idle.png");
+					button->SetPreState(enum_Off);
+				}
 			}
 			/*
 			else if (button->GetState() == enum_Off && button->GetPreState() == enum_Hover)
@@ -79,7 +87,7 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 				//이미지 enum_On으로 변경
 				//이미지 변경
 				button->SetStateChange(enum_On);
-				button->ChangeSprite("data/UI/btn-med-down.png");
+				button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Pressed.png");
 			}
 		}
 	}
@@ -87,18 +95,23 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width) 
+		if (button->GetState() == enum_On)
 		{
-			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height) 
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 			{
-				//상태 -> enum_Off 상태로 변경
-				//이미지 enum_Off로 변경
-				//게임 시작으로 씬 이동
-				button->SetStateChange(enum_Hover);
-				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
-				g_pSceneManager->ChangeScene();
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					//상태 -> enum_Off 상태로 변경
+					//이미지 enum_Off로 변경
+					//데이터 삭제
+					//게임 시작으로 씬 이동
+					button->SetStateChange(enum_Hover);
+					button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Over.png");
+					g_pSceneManager->ChangeScene();
+				}
 			}
 		}
+
 	}
 	break;
 	/*	

@@ -8,13 +8,17 @@ cButton::cButton()
 	m_PreState = enum_Off;
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Percentage = 0;
+	m_Power = true;
+	m_Fixed = false;
 }
 
 cButton::~cButton()
 {
+	SafeRelease(m_pSprite);
+	SafeRelease(m_pTextureUI);
 }
 
-void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent)
+void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff, bool fixed)
 {
 	m_Percentage = percent;
 	m_X = x;
@@ -24,6 +28,10 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 	m_Position.x = position.x + m_X;
 	m_Position.y = position.y + m_Y;
 	m_Position.z = position.z + m_Z;
+
+	m_Power = powerOnOff;
+	m_Fixed = fixed;
+
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	string fileRoot(root);
@@ -35,29 +43,35 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 
 void cButton::Update(EventType message)
 {	
-	EventProcess(message, this);
+	if (m_Power) 
+	{
+		EventProcess(message, this);
+	}
 }
 
 void cButton::Render()
 {
-	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
-	D3DXMATRIXA16 matT, matS, matWorld;
-	D3DXMatrixIdentity(&matT);
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matWorld);
+	if (m_Power) 
+	{
+		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+		SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+		D3DXMATRIXA16 matT, matS, matWorld;
+		D3DXMatrixIdentity(&matT);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matWorld);
 
-	D3DXMatrixScaling(&matS, m_Percentage, m_Percentage, m_Percentage);
-	D3DXMatrixTranslation(&matT, m_Position.x, m_Position.y, 0);
+		D3DXMatrixScaling(&matS, m_Percentage, m_Percentage, m_Percentage);
+		D3DXMatrixTranslation(&matT, m_Position.x, m_Position.y, 0);
 
 
-	matWorld = matS * matT;
-	m_pSprite->SetTransform(&matWorld);
-	m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0), 
-		&D3DXVECTOR3(0, 0, 0),
-		D3DCOLOR_ARGB(255, 255, 255, 255));
+		matWorld = matS * matT;
+		m_pSprite->SetTransform(&matWorld);
+		m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0),
+			&D3DXVECTOR3(0, 0, 0),
+			D3DCOLOR_ARGB(255, 255, 255, 255));
 
-	m_pSprite->End();
+		m_pSprite->End();
+	}
 }
 /*
 void cButton::Render(D3DXVECTOR3 position)
@@ -132,7 +146,6 @@ void cButton::LoadTexture(char * szFullPath)
 
 void cButton::ChangeSprite(char * szFullPath)
 {
-
 	if (!g_pTextureManager->GetTexture(szFullPath)) 
 	{
 		LoadTexture(szFullPath);
@@ -140,7 +153,6 @@ void cButton::ChangeSprite(char * szFullPath)
 
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
-
 }
 
 int cButton::GetPreState()
@@ -156,6 +168,16 @@ void cButton::SetPreState(int state)
 float cButton::GetPercent()
 {
 	return m_Percentage;
+}
+
+void cButton::PowerOnOff()
+{
+	m_Power = !m_Power;
+}
+
+void cButton::Destroy()
+{
+	EventManager->Detach(*this);
 }
 
 

@@ -251,7 +251,7 @@
     </ClInclude>
     <ClInclude Include="TitleSceneBtnEvent.h">
       <Filter>Code\UI</Filter>
-	</ClInclude>  
+    </ClInclude>
     <ClInclude Include="DragonSoulEater.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater</Filter>
     </ClInclude>

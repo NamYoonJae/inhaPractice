@@ -45,6 +45,7 @@ public:
 
 	D3DXMATRIXA16 m_matWorldTM;
 	void SetTransform(D3DXMATRIXA16* pmat);
+	D3DXMATRIXA16* GetCombineMatrix();
 	// <<
 };
 
