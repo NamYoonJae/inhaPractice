@@ -1,13 +1,10 @@
 #pragma once
 #include "cCharater.h"
+#include "SkinnedMesh.h"
 
-class cSkinnedMesh;
-
-class cArthur : public cCharater
+class cArthur : public cCharater, cSkinnedMesh
 {
 private:
-	cSkinnedMesh*	m_pMesh;
-
 	float			m_fvelocity;
 
 	D3DXVECTOR3		m_vScale;
@@ -16,6 +13,8 @@ private:
 	D3DXMATRIXA16	m_matRot;
 	D3DXMATRIXA16	m_matTranse;
 	D3DXMATRIXA16	m_matWorld;
+
+	bool			m_isMoving;
 public:
 	cArthur();
 	~cArthur() override;
@@ -32,8 +31,5 @@ public:
 
 	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
 	D3DXVECTOR3 GetScale() { return m_vScale; }
-
-	void SetAnimationController(char* szFolder, char* szFile);
-	void SetSkinnedMesh(char* szFolder, char* szFile);
 };
 

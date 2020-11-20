@@ -117,6 +117,8 @@ void ObjectPool::RemoveUIChild(cObject& obj)
 const cObject* ObjectPool::SearchChild(int nTag)
 {
 	int i = 0;
+	if (vecObjectList.empty()) return NULL;
+	
 	while(vecObjectList.at(i)->GetTag() != nTag)
 	{
 		++i;
