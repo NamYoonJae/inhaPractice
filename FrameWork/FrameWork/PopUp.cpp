@@ -12,6 +12,7 @@ cPopUp::cPopUp()
 	, m_pButton(NULL)
 {
 	m_Percentage = 0;
+	m_Power = true;
 }
 
 
@@ -20,20 +21,20 @@ cPopUp::~cPopUp()
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
 
-	for (int i = m_vecBtnList.size(); i == 0 ; i--)
+	for (int i = m_vecPopupBtnList.size(); i == 0 ; i--)
 	{
-		delete m_vecBtnList[i];
-		m_vecBtnList.erase(m_vecBtnList.end());
+		delete m_vecPopupBtnList[i];
+		m_vecPopupBtnList.erase(m_vecPopupBtnList.end());
 	}
 
 	SafeDelete(m_pButton);
 }
 
-void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent)
+void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff)
 {
 	m_Percentage = percent;
-
 	m_Position = position;
+	m_Power = powerOnOff;
 
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
@@ -46,47 +47,50 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float per
 
 void cPopUp::Update(EventType message)
 {
-	
-	for (int i = 0; i < m_vecBtnList.size(); i++) 
+	if (m_Power == true) 
 	{
-		m_vecBtnList[i]->Update(message);
+		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+		{
+			m_vecPopupBtnList[i]->Update(message);
+		}
 	}
 
 }
 
 void cPopUp::Render(D3DXMATRIXA16 * pmat)
 {
-	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-
-	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
-	D3DXMATRIXA16 matT, matS, matWorld;
-	D3DXMatrixIdentity(&matT);
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matWorld);
-
-	D3DXMatrixScaling(&matS, m_Percentage, m_Percentage, m_Percentage);
-	D3DXMatrixTranslation(&matT, m_Position.x, m_Position.y, 0);
-
-	matWorld = matS * matT;
-	m_pSprite->SetTransform(&matWorld);
-	m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0),
-		&D3DXVECTOR3(0, 0, 0),
-		D3DCOLOR_ARGB(255, 255, 255, 255));
-
-	m_pSprite->End();
-
-
-	for(int i = 0; i < m_vecBtnList.size(); i++)
+	if (m_Power == true) 
 	{
-		m_vecBtnList[i]->Render();
+		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+
+		SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+		D3DXMATRIXA16 matT, matS, matWorld;
+		D3DXMatrixIdentity(&matT);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matWorld);
+
+		D3DXMatrixScaling(&matS, m_Percentage, m_Percentage, m_Percentage);
+		D3DXMatrixTranslation(&matT, m_Position.x, m_Position.y, 0);
+
+		matWorld = matS * matT;
+		m_pSprite->SetTransform(&matWorld);
+		m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0),
+			&D3DXVECTOR3(0, 0, 0),
+			D3DCOLOR_ARGB(255, 255, 255, 255));
+
+		m_pSprite->End();
+
+
+		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+		{
+			m_vecPopupBtnList[i]->Render();
+		}
 	}
-
-
 }
 
-void cPopUp::cButtonPushBack(cButton* btn)
+void cPopUp::cButtonPushBack(cPopUp* btn)
 {
-	m_vecBtnList.push_back(btn);
+	m_vecPopupBtnList.push_back(btn);
 }
 
 int cPopUp::GetState()
@@ -153,4 +157,14 @@ void cPopUp::ChangeSprite(char * szFullPath)
 float cPopUp::GetPercent()
 {
 	return m_Percentage;
+}
+
+void cPopUp::PowerOnOff()
+{
+	m_Power = !m_Power;
+
+	for (int i = 0 ; i < m_vecPopupBtnList.size(); i++) 
+	{
+		m_vecPopupBtnList[i]->PowerOnOff();
+	}
 }

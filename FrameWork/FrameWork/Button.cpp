@@ -8,13 +8,17 @@ cButton::cButton()
 	m_PreState = enum_Off;
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Percentage = 0;
+	m_Power = true;
 }
 
 cButton::~cButton()
 {
+	SafeRelease(m_pSprite);
+	SafeRelease(m_pTextureUI);
+	SafeDelete(m_pButton);
 }
 
-void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent)
+void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff)
 {
 	m_Percentage = percent;
 	m_X = x;
@@ -24,6 +28,9 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 	m_Position.x = position.x + m_X;
 	m_Position.y = position.y + m_Y;
 	m_Position.z = position.z + m_Z;
+
+	m_Power = powerOnOff;
+
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	string fileRoot(root);
@@ -132,7 +139,6 @@ void cButton::LoadTexture(char * szFullPath)
 
 void cButton::ChangeSprite(char * szFullPath)
 {
-
 	if (!g_pTextureManager->GetTexture(szFullPath)) 
 	{
 		LoadTexture(szFullPath);
@@ -140,7 +146,6 @@ void cButton::ChangeSprite(char * szFullPath)
 
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
-
 }
 
 int cButton::GetPreState()
@@ -156,6 +161,11 @@ void cButton::SetPreState(int state)
 float cButton::GetPercent()
 {
 	return m_Percentage;
+}
+
+void cButton::PowerOnOff()
+{
+	m_Power = !m_Power;
 }
 
 

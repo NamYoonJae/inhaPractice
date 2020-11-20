@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TimerManager.h"
 #include "ObjectPool.h"
-
+#include "EventManager.h"
 
 ObjectPool::ObjectPool()
 {
@@ -89,6 +89,8 @@ void ObjectPool::Revert()
 
 	vecObjectList.swap(vecNewList);
 	m_nRefcnt = 0;
+
+	//Detech를 해줘야한다
 
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);

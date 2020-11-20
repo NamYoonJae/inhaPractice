@@ -60,9 +60,6 @@ void cGameScene::Setup() // boss1map  boss2map
 		ObjectManager->AddStaticChild(pSkyBox);
 
 		ObjectManager->AddStaticChild(pArthur);
-		
-
-
 	}
 	// 예외 처리 
 
@@ -73,22 +70,29 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(pGrid);
 
 	cPopUp *pPopup = new cPopUp;
-	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(100, 100, 0), 2);
-
+	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 1, false);
+	
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 400, 0), 0, 0, 0, 2);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 674, 40 + 450, 0, 2, false);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = BtnStartEvent;
-
+	
 	cButton *pButton2 = new cButton;
-	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(430, 450, 0), 0, 0, 0, 2);
+	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 674, 40 + 600, 0, 2, false);
 	pPopup->cButtonPushBack(pButton2);
 	pButton2->EventProcess = BtnExitEvent;
 
 	//EventManager->Attach(pPopup);
-
 	//ObjectManager->AddUIChild(pPopup);
 
+	//pPopup = new cPopUp;
+	// json 파일 쓸 때 대비해서 주석남겨둠
+	//pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
+	pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false);
+
+	//EventManager->Attach(pPopup);
+	//ObjectManager->AddUIChild(pPopup);
+	
 
 	cTerrain* pTerrain = new cTerrain;
 	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");

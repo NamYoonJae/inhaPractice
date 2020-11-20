@@ -1,311 +1,530 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="cCamera" Collapsed="true">
-    <Position X="5.25" Y="1.75" Width="1.5" />
+    <Position X="10.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAgGACggAAAAAAAAABAAgAAAIAAAAAAAAAICAABA=</HashCode>
+      <HashCode>AAQAAgGACggAAAAAAAAABAAgABAIAAAAABAAAICAABA=</HashCode>
       <FileName>Camera.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cSoundManager" Collapsed="true">
-    <Position X="14.75" Y="2.5" Width="1.5" />
+    <Position X="30.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQABAAAAAAAAAAQABEAAAAIYABgCAKAIAAEIAQAAgA=</HashCode>
       <FileName>SoundManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cButton" Collapsed="true">
-    <Position X="0.75" Y="3.25" Width="1.5" />
+    <Position X="13.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAEAACCAAAAAAAAAQAAAAAAAAIAAQABAAAAAAACg=</HashCode>
+      <HashCode>AAQEAUAACCAAAAEAAAAQAAAAQAAAIACQABAACgAAAAg=</HashCode>
       <FileName>Button.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cPopUp" Collapsed="true">
-    <Position X="0.75" Y="1.75" Width="1.5" />
+    <Position X="13.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAEEAACCADBEAAAAAAAAAAAAAAAAQQABEAAgAAgEE=</HashCode>
+      <HashCode>AAQEAUFACCABBEAAAAAQAAAAAAAAAAQQABUACgAAgEE=</HashCode>
       <FileName>PopUp.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cLogger" Collapsed="true">
-    <Position X="13" Y="1.5" Width="1.5" />
+    <Position X="27" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAACAAAQAAIACoAAAAFBAAAAAAABAAIAAAA=</HashCode>
       <FileName>Logger.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cDeviceManage" Collapsed="true">
-    <Position X="13" Y="0.5" Width="1.5" />
+    <Position X="30.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAIABAAAoAAAAAAAAAAAA=</HashCode>
       <FileName>cDeviceManage.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cEventManager" Collapsed="true">
-    <Position X="3.5" Y="7.75" Width="1.5" />
+    <Position X="0.5" Y="10.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAgAQAAAJEAAAAIAAAAAIAAAAABAAAAABAAAAAI=</HashCode>
+      <HashCode>AAAAAAgAQAAQJEAAAAIAAAAAIAAAAABAAAAABAAAAAI=</HashCode>
       <FileName>EventManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cObserver" Collapsed="true">
-    <Position X="4" Y="0.5" Width="1.5" />
+    <Position X="2.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Observer.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Player" Collapsed="true">
-    <Position X="7.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAgQAAEBA=</HashCode>
-      <FileName>Player.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="cSubject" Collapsed="true">
-    <Position X="3.5" Y="6.5" Width="1.5" />
+    <Position X="0.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAABAAgAAAAIAAAAAAAAAAIAAAABAAAAAAEAAAAA=</HashCode>
       <FileName>Subject.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="UI" Collapsed="true">
-    <Position X="3" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAAAAAAAQAAAAAAAAAAAAIAAAAAAgAAAAAAAIAEAA=</HashCode>
-      <FileName>UI.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="cTimerManager" Collapsed="true">
-    <Position X="18.25" Y="2.5" Width="1.5" />
+    <Position X="25.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAQAAAAAAAAAAAAAEAAABAAAIAAAAAABCBAAAEAAAAA=</HashCode>
       <FileName>TimerManager.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="cGameScene" Collapsed="true">
-    <Position X="0.5" Y="5.75" Width="1.5" />
+  <Class Name="json_Fuction" Collapsed="true">
+    <Position X="28.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAQAACAAAAIAAAAAYAAAAAAQAFAAAABAAAAAgAEA=</HashCode>
+      <HashCode>AAEAIAAAAAAAAAAAAAAAAIAAAgAACAAAAAAAAIAQIAA=</HashCode>
+      <FileName>json additional code.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="json_Pointer" Collapsed="true">
+    <Position X="30.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAACAAAAAAEgAAAAAAAAQA=</HashCode>
+      <FileName>json additional code.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cTitleScene" Collapsed="true">
+    <Position X="5.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TitleScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cGameScene" Collapsed="true">
+    <Position X="7.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAACAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>GameScene.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cScene" Collapsed="true">
-    <Position X="0.5" Y="4.5" Width="1.5" />
+    <Position X="6.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQACAAACAAAACAAAAAAAgAAAAAAAAAAABAAAQAgAAA=</HashCode>
+      <HashCode>AAAACAAACAAAACAAAAAAAAAAAAAAAAAAARAAAAAAAAA=</HashCode>
       <FileName>Scene.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cSceneManager" Collapsed="true">
-    <Position X="13" Y="2.5" Width="1.5" />
+    <Position X="27" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAACAAgAAAgABAAAAAAIABQAAAAAAAAAAAAAgA=</HashCode>
+      <HashCode>AAAACAAECAAAAAAgAAAACAAAIABAAQAAABAAAAAAAgA=</HashCode>
       <FileName>SceneManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cFontManager" Collapsed="true">
-    <Position X="14.75" Y="0.5" Width="1.5" />
+    <Position X="32.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAgAAAAAAQAAAAAAAIAhAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FontManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cGrid" Collapsed="true">
-    <Position X="16.5" Y="0.5" Width="1.5" />
+    <Position X="7" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAGAAAAAAAABAAAAAgBAAAAAAAABAAAAAAAAQ=</HashCode>
+      <HashCode>AAQAAAAAGAAAAAAAABAAAAAgBAAAAAAAABAAAAAAAAQ=</HashCode>
       <FileName>Grid.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cPyramidGizmo" Collapsed="true">
-    <Position X="18.25" Y="1.5" Width="1.5" />
+    <Position X="25.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ACAAAAAQGAAAAAAAAAAAAAAAAAAAAEAAABAEAAAAAIA=</HashCode>
       <FileName>Grid.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Parser" Collapsed="true">
-    <Position X="13" Y="3.5" Width="1.5" />
+    <Position X="32.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgAQAIACAAAIAQAQAQEAAAAAAAAAAAAAAAAgABAAA=</HashCode>
       <FileName>Parser.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cMtlTex" Collapsed="true">
-    <Position X="14.75" Y="1.5" Width="1.5" />
+    <Position X="28.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAUACACAAAAAAAAAIQAAAACAQAAIEAAAAAAAAAAA=</HashCode>
       <FileName>ObjLoader.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cGroup" Collapsed="true">
-    <Position X="18.25" Y="0.5" Width="1.5" />
+    <Position X="25.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAEAEAAAAAAAAAAAAAAAEAAAAQAAEBAAAAAAAAQ=</HashCode>
       <FileName>ObjLoader.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cObjLoader" Collapsed="true">
-    <Position X="16.5" Y="1.5" Width="1.5" />
+    <Position X="32.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAAABAAAACQAAAAAAAEAAAAAAAAAAAAAAEAAAAA=</HashCode>
       <FileName>ObjLoader.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cObjDefault" Collapsed="true">
-    <Position X="4.75" Y="3.5" Width="1.5" />
+    <Position X="1.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACQEAAAACCGAAAAlAAAAAAAAAAAAAggAIBAAgoAAAAA=</HashCode>
+      <HashCode>ACQEAAAAGCGAAAAlAAAAAAAAAAAAAggAIBAAgoAAAAA=</HashCode>
       <FileName>ObjObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cObjObject" Collapsed="true">
-    <Position X="5.75" Y="4.75" Width="1.5" />
+    <Position X="0.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAACAAAAAAAAEAAAAAAAAAAQAAEABAAAAgAAAA=</HashCode>
       <FileName>ObjObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cObjMesh" Collapsed="true">
-    <Position X="3.5" Y="4.75" Width="1.5" />
+    <Position X="2.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAIAAACAAAAMAAAAAAAEAAAAAAAAAAABAAAAAAAQA=</HashCode>
+      <HashCode>AAAAIAAACAABAMAAAAAAAEAAAAAAAAAAABAAAAAAAQA=</HashCode>
       <FileName>ObjObject.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="cTerrain" Collapsed="true">
-    <Position X="16.5" Y="2.5" Width="1.5" />
+    <Position X="9.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAAAGIEIAAAAAACAACAgAAwEQCABABACQAAIAQA=</HashCode>
+      <HashCode>IBwCAAABCIkIAAAAAACAACAgAAwEQCABABACQAAAAQA=</HashCode>
       <FileName>cTerrain.h</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="cTextureManager" Collapsed="true">
+    <Position X="32.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAACAgEAAAAAgAAAAAAAIABAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>TextureManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cObject" Collapsed="true">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAAAAAAoAAAAAEAAAAAAAAAAAAAAABAAAABAAAA=</HashCode>
+      <FileName>cObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cCharater" Collapsed="true">
+    <Position X="7.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAACCEACAAAAAAAAAoAAAgAAAAAABAAoAAAAAE=</HashCode>
+      <FileName>cCharater.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cArthur" Collapsed="true">
+    <Position X="7.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAACCEAAAJkAAAAAAAAAAAQAgAAIDAAAhAAABQ=</HashCode>
+      <FileName>Arthur.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DragonSoulEater" Collapsed="true">
+    <Position X="22.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAIACABAKAAABAAAAAIABAAAAAAgABAAoAkAAAE=</HashCode>
+      <FileName>DragonSoulEater.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoulEaterState" Collapsed="true">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAACAQAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SoulEaterState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoulEater_BasicAttack" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAQA=</HashCode>
+      <FileName>SoulEater_BasicAttack.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoulEater_Idle" Collapsed="true">
+    <Position X="2.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAIABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SoulEater_Idle.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectPool" Collapsed="true">
+    <Position X="13.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAEAAAFAQAEAAAIgIAQAAAABIAAgAQAAA=</HashCode>
+      <FileName>ObjectPool.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkyBox" Collapsed="true">
+    <Position X="16" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAACICAAAAAAAAAAAAABAAAAAAABBAAgAAAAAA=</HashCode>
+      <FileName>SkyBox.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cBoundingBox" Collapsed="true">
+    <Position X="28.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAwAACAABAAAAAAAAAEAAACAAAEAEABAAAQABIAA=</HashCode>
+      <FileName>BoundingBox.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cXFileObject" Collapsed="true">
+    <Position X="27" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAACAAAAAAAAIAAgAAAAAAABACAAAAAAA=</HashCode>
+      <FileName>XFileObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceManager" Collapsed="true">
+    <Position X="25.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACJQCAAAAAAAAAQAAAAAAIEBACAAAAAEAAAAAAAk=</HashCode>
+      <FileName>ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AllocateHierarchy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="25.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAEAAAIAAEAQAAAAEBAEAAAAAAAAAAAA=</HashCode>
+      <FileName>ResourceStructure.h</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="cAllocateHierarchy" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACBAAAIAAAAAAAAAAAQAAAAABAkAAAAAAAAAAAA=</HashCode>
+      <FileName>AllocateHierarchy.h</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="cSkinnedMesh" Collapsed="true">
+    <Position X="4.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAhCmACABAgAIAAQAABIAAAABAAEABCBIgAAQACAA=</HashCode>
+      <FileName>SkinnedMesh.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cSkinnedMeshManager" Collapsed="true">
+    <Position X="28.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAIAAAAIABAAAABAAAAAAAAAAE=</HashCode>
+      <FileName>SkinnedMeshManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cOBB" Collapsed="true">
+    <Position X="30.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAAwAAGAAAAAAAAAAAAEEAACACAEAEAAAAAQAAACA=</HashCode>
+      <FileName>cOBB.h</FileName>
+    </TypeIdentifier>
+  </Class>
   <Struct Name="ST_PC_VERTEX" Collapsed="true">
-    <Position X="13" Y="4.75" Width="1.5" />
+    <Position X="28.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAEAAAAAAAAA=</HashCode>
       <FileName>basic.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="ST_PNT_VERTEX" Collapsed="true">
-    <Position X="16.5" Y="4.75" Width="1.5" />
+    <Position X="32.25" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEEQAAAAAAAA=</HashCode>
       <FileName>basic.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="ST_PT_VERTEX" Collapsed="true">
-    <Position X="18.25" Y="4.75" Width="1.5" />
+    <Position X="25.25" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAAAAAAA=</HashCode>
       <FileName>basic.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="ST_PN_VERTEX" Collapsed="true">
-    <Position X="14.75" Y="4.75" Width="1.5" />
+    <Position X="30.5" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEEAAAAAAAAA=</HashCode>
       <FileName>basic.h</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="json_value_t" Collapsed="true">
-    <Position X="7.5" Y="9.5" Width="1.5" />
+    <Position X="4.5" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABACAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.cpp</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="json_object_t" Collapsed="true">
-    <Position X="1.5" Y="12.5" Width="1.5" />
+    <Position X="12.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAABAIAAAAAAAAAACAAAAAAAAAAAIA=</HashCode>
       <FileName>json parson.cpp</FileName>
     </TypeIdentifier>
   </Struct>
   <Struct Name="json_array_t" Collapsed="true">
-    <Position X="10.5" Y="2.5" Width="1.5" />
+    <Position X="8.5" Y="12.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAABAoAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.cpp</FileName>
     </TypeIdentifier>
   </Struct>
+  <Struct Name="EffectParam" Collapsed="true">
+    <Position X="27" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAUAAKAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>ResourceStructure.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="EffectMesh" Collapsed="true">
+    <Position X="25.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAABAAAAAAAAAAAAAABBAAAAAA=</HashCode>
+      <FileName>ResourceStructure.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Frame" Collapsed="true">
+    <Position X="28.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>ResourceStructure.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="MeshContainer" Collapsed="true">
+    <Position X="30.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAQAAAAAUAAAAAAAAAASEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResourceStructure.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SkinnedMesh" Collapsed="true">
+    <Position X="32.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIEAQgAAAAAAAAAAAgAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ResourceStructure.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ST_BONE" Collapsed="true">
+    <Position X="25.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
+      <FileName>AllocateHierarchy.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ST_BONE_MESH" Collapsed="true">
+    <Position X="27" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAADAAAAAAAAAAAAAAAQAACAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>AllocateHierarchy.h</FileName>
+    </TypeIdentifier>
+  </Struct>
   <Typedef Name="JSON_Value_Value" Collapsed="true">
-    <Position X="13" Y="7.75" Width="1.5" />
+    <Position X="32.25" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.cpp</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="JSON_Object" Collapsed="true">
-    <Position X="1.5" Y="10.5" Width="1.5" />
+    <Position X="12.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="JSON_Array" Collapsed="true">
-    <Position X="9.5" Y="4.5" Width="1.5" />
+    <Position X="8.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="JSON_Value" Collapsed="true">
-    <Position X="7.5" Y="7.5" Width="1.5" />
+    <Position X="4.5" Y="10.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="JSON_Value_Type" Collapsed="true">
-    <Position X="18.25" Y="7" Width="1.5" />
+    <Position X="30.5" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="JSON_Status" Collapsed="true">
-    <Position X="16.5" Y="7" Width="1.5" />
+    <Position X="28.75" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="JSON_Malloc_Function" Collapsed="true">
-    <Position X="14.75" Y="7" Width="1.5" />
+    <Position X="27" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Typedef>
   <Typedef Name="JSON_Free_Function" Collapsed="true">
-    <Position X="13" Y="7" Width="1.5" />
+    <Position X="25.25" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Typedef>
+  <Enum Name="__unnamed_enum_0034_1" Collapsed="true">
+    <Position X="25.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAIAAAAIAAAAA=</HashCode>
+      <FileName>PopUp.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="EventType" Collapsed="true">
+    <Position X="30.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgEBQCwEAAhAQAEoEQAAAAAgAAACAAAAIBEAAEJJEA=</HashCode>
+      <FileName>EventManager.h</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Enum Name="json_value_type" Collapsed="true">
-    <Position X="16.5" Y="6" Width="1.5" />
+    <Position X="25.25" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAACAAAAAAAIAIAAQACAAAAAIAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="json_result_t" Collapsed="true">
-    <Position X="14.75" Y="6" Width="1.5" />
+    <Position X="32.25" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAABAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>json parson.h</FileName>
     </TypeIdentifier>
   </Enum>
+  <Enum Name="SceneType" Collapsed="true">
+    <Position X="27" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAACAAAAAAAAABAAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Enum Name="eFontType" Collapsed="true">
-    <Position X="13" Y="6" Width="1.5" />
+    <Position X="28.75" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>FontManager.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Tag" Collapsed="true">
+    <Position X="28.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQBAAAAAABAAAAACEAAAAAAAAAAABAAAAAAAAAIAA=</HashCode>
+      <FileName>cObject.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0045_1" Collapsed="true">
+    <Position X="27" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAABIAAAAAAAAAACAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>SoulEaterState.h</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Malgun Gothic" Size="9" />

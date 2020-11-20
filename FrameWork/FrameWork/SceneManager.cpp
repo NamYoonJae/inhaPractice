@@ -37,10 +37,9 @@ void cSceneManager::Setup()
 	InitializeCriticalSection(&cs);
 
 	ObjectManager->Revert();
-	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
 
-	// 프레임 버그
-	m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
+	m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+	
 	m_CurrentScene->Setup();
 }
 
@@ -48,12 +47,14 @@ void cSceneManager::ChangeScene()
 {
 	/// 씬을 바꾸는 법
 	///
+	//씬을 삭제
 	int nRandom = 1;//rand()%2;
 	LoadScene(nRandom);
 }
 
 void cSceneManager::Destroy()
 {
+	// 게임 종료
 	vector<cScene*> Scenes;
 	m_vecScenes.swap(Scenes);
 	return;
