@@ -21,7 +21,8 @@ private:
 
 	float			m_fCurHeathpoint;
 	float			m_fMaxHeathPoint;
-	
+
+	D3DXMATRIXA16	m_matWorld;
 public:
 	DragonSoulEater();
 	~DragonSoulEater();
@@ -30,5 +31,8 @@ public:
 	void Setup(char* szFolder, char* szFileName);
 	void SetState();
 	cSkinnedMesh& GetSkinnedMesh() { return *m_pSkinnedUnit; }
+
+	void GetWorldMatrix(D3DXMATRIXA16* matWorld);
+
 };
 

@@ -3,7 +3,7 @@
 
 struct ST_BONE;
 
-class cSkinnedMesh : public cObject
+class cSkinnedMesh
 {
 protected:
 	LPD3DXFRAME m_pRoot;
@@ -17,20 +17,19 @@ protected:
 public:
 	
 	cSkinnedMesh();
-	~cSkinnedMesh();
+	virtual ~cSkinnedMesh();
 
-	void Setup(char* szFolder, char* szFile);
-	void Update();
-	void Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
-	void Render(LPD3DXFRAME pFrame);
-	void Render(D3DXMATRIXA16 * pmat = NULL) override;
-	void SetupBoneMatrixPtrs(LPD3DXFRAME pFrame);
-	void UpdateSkinnedMesh(LPD3DXFRAME pFrame);
+	virtual void Setup(char* szFolder, char* szFile);
+	virtual void Update();
+	virtual void Update(LPD3DXFRAME pFrame, LPD3DXFRAME pParent);
+	virtual void Render(LPD3DXFRAME pFrame);
+	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
+	virtual void SetupBoneMatrixPtrs(LPD3DXFRAME pFrame);
+	virtual void UpdateSkinnedMesh(LPD3DXFRAME pFrame);
 
-	void SetAnimationIndex(int nIndex);
-	void SetAnimationIndexBlend(int nIndex);
-	LPD3DXANIMATIONCONTROLLER GetAnimationController();
-	virtual void SetAnimationController(char* szFolder, char* szFile);
+	virtual void SetAnimationIndex(int nIndex);
+	virtual void SetAnimationIndexBlend(int nIndex);
+	virtual LPD3DXANIMATIONCONTROLLER GetAnimationController();
 	
 	// >> : obb
 private:
@@ -39,13 +38,14 @@ private:
 public:
 	cSkinnedMesh(char* szFolder, char* szFileName);
 	void Load(char* szFolder, char* szFileName);
-	void Destroy();
+	virtual void Destroy();
 	void UpdateAndRender();
-	void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
+	virtual void Update(ST_BONE* pCurrent, D3DXMATRIXA16* pmatParent);
 	void SetRandomTrackPosition();
 
 	D3DXMATRIXA16 m_matWorldTM;
 	void SetTransform(D3DXMATRIXA16* pmat);
+	D3DXMATRIXA16* GetCombineMatrix();
 	// <<
 };
 

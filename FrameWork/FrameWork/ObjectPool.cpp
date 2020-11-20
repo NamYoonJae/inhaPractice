@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TimerManager.h"
 #include "ObjectPool.h"
-
+#include "EventManager.h"
 
 ObjectPool::ObjectPool()
 {
@@ -90,6 +90,13 @@ void ObjectPool::Revert()
 	vecObjectList.swap(vecNewList);
 	m_nRefcnt = 0;
 
+	//Detech를 해줘야한다
+	for(int i = 0; i < vecUserInterface.size(); i++)
+	{
+		cPopUp* popup = (cPopUp*)vecUserInterface[i];
+		popup->Destroy();
+	}
+	
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
 	
@@ -110,6 +117,8 @@ void ObjectPool::RemoveUIChild(cObject& obj)
 const cObject* ObjectPool::SearchChild(int nTag)
 {
 	int i = 0;
+	if (vecObjectList.empty()) return NULL;
+	
 	while(vecObjectList.at(i)->GetTag() != nTag)
 	{
 		++i;

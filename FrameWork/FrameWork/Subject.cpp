@@ -15,6 +15,6 @@ void cSubject::Detach(cObserver& ob)
 {
 	using namespace std;
 	m_vecObservers.erase(remove(m_vecObservers.begin(),
-		m_vecObservers.end(), &ob));
+		m_vecObservers.end(), &ob),m_vecObservers.end());
 
 }

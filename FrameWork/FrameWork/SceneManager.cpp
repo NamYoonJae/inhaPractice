@@ -37,9 +37,9 @@ void cSceneManager::Setup()
 	InitializeCriticalSection(&cs);
 
 	ObjectManager->Revert();
-	
+
 	m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
-	//m_CurrentScene = m_vecScenes[SceneType::SCENE_BOSS1];
+	
 	m_CurrentScene->Setup();
 }
 
@@ -53,6 +53,7 @@ void cSceneManager::ChangeScene()
 
 void cSceneManager::Destroy()
 {
+	// 게임 종료
 	vector<cScene*> Scenes;
 	m_vecScenes.swap(Scenes);
 	return;

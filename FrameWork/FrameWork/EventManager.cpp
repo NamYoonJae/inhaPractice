@@ -132,7 +132,7 @@ cEventManager::cEventManager()
 	m_mapEvent[0x10] = EventType::EVENT_SHIFT;
 	m_mapEvent[0x11] = EventType::EVENT_CTRL;
 	m_mapEvent[0x12] = EventType::EVENT_ALT;
-	m_mapEvent[0x1B] = EventType::EVENT_MENU; //esc
+	m_mapEvent[0x1B] = EventType::EVENT_ESC;
 	m_mapEvent[0x24] = EventType::EVENT_HOME_WINDOWS;
 
 	m_mapEvent[0x25] = EventType::EVENT_ARROW_LEFT;

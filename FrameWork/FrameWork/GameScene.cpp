@@ -37,29 +37,52 @@ void cGameScene::Setup() // boss1map  boss2map
 {
 	// 
 	{
-		SkyBox* pSkyBox = new SkyBox;
-		pSkyBox->Setup("data/HeightMapData", "Earth.png");
+		SkyBox* pSkyBox;
+
+		if (ObjectManager->SearchChild(Tag::Tag_SkyBox) == NULL)
+		{
+			pSkyBox = new SkyBox;
+			pSkyBox->Setup("data/HeightMapData", "Earth.png");
+		}
+		else
+		{
+			pSkyBox = (SkyBox*)ObjectManager->SearchChild(Tag::Tag_SkyBox);
+		}
+
+		cCamera *pCamera;
+		if (ObjectManager->SearchChild(Tag::Tag_Camera) == NULL)
+		{
+			pCamera = new cCamera;
+			pCamera->Tagging(Tag::Tag_Camera);
+		}
+		else
+		{
+			pCamera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+		}
 		
-
-		cCamera *pCamera = new cCamera;
-
-		pCamera->Tagging(Tag::Tag_Camera);
-
 		pSkyBox->SetPos(pCamera->GetEye());
 		pSkyBox->Tagging(Tag::Tag_SkyBox);
-		EventManager->Attach(pCamera);
+
+		if(ObjectManager->SearchChild(Tag::Tag_Camera) == NULL)
+		{
+			EventManager->Attach(pCamera);
+			ObjectManager->AddStaticChild(pCamera);	
+		}
 
 
-		cArthur* pArthur = new cArthur;
-		pArthur->Setup("data/XFile/Arthur", "arthur_a01.X");
-		pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-		pCamera->Setup(pArthur->GetPos());
-		pArthur->Tagging(Tag::Tag_Player);
+		if(ObjectManager->SearchChild(Tag::Tag_Player) == NULL)
+		{
+			cArthur* pArthur = new cArthur;
+			pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
+			pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+			pCamera->Setup(pArthur->GetPos());
+			pArthur->Tagging(Tag::Tag_Player);
+			ObjectManager->AddStaticChild(pArthur);
+		}
+
 		
-		ObjectManager->AddStaticChild(pCamera);
-		ObjectManager->AddStaticChild(pSkyBox);
 
-		ObjectManager->AddStaticChild(pArthur);
+
 	}
 	// 예외 처리 
 
@@ -69,16 +92,17 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	ObjectManager->AddChild(pGrid);
 
+
 	cPopUp *pPopup = new cPopUp;
-	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 1);
+	pPopup->Setup("data/UI/TitleScene", "배경 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 1, false, false);
 	
 	cButton *pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 674, 40 + 450, 0, 2);
+	pButton->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 674, 40 + 450, 0, 2, false, false);
 	pPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = BtnStartEvent;
 	
 	cButton *pButton2 = new cButton;
-	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 674, 40 + 600, 0, 2);
+	pButton2->Setup("data/UI/TitleScene", "버튼 비활성화 사이즈 조정.png", D3DXVECTOR3(0, 0, 0), 674, 40 + 600, 0, 2, false, false);
 	pPopup->cButtonPushBack(pButton2);
 	pButton2->EventProcess = BtnExitEvent;
 
@@ -88,7 +112,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	//pPopup = new cPopUp;
 	// json 파일 쓸 때 대비해서 주석남겨둠
 	//pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
-	pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2);
+	pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
 
 	//EventManager->Attach(pPopup);
 	//ObjectManager->AddUIChild(pPopup);
@@ -112,8 +136,11 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
-	//m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
+	m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
 	m_pDragon->GetSkinnedMesh().SetAnimationIndex(0);
+
+	m_pDragon->GetWorldMatrix(&matWorld);
+	
 	ObjectManager->AddChild(m_pDragon);
 	//m_pSkinnedUnit->SetTransform();
 

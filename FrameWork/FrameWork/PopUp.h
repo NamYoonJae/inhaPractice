@@ -17,6 +17,8 @@ enum
 class cPopUp  : public cObserver ,public cObject
 {
 protected:
+	bool m_Fixed;//Power OnOff 기능이 있는지 없는지 고정이면 true 고정 아니면 false
+	bool m_Power;
 
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
@@ -26,8 +28,7 @@ protected:
 	D3DXVECTOR3 m_Position;
 	RECT m_Rect;
 
-	vector<cPopUp*> m_vecBtnList;
-	cButton* m_pButton;
+	vector<cPopUp*> m_vecPopupBtnList;
 
 	float m_Percentage;
 
@@ -36,11 +37,11 @@ public:
 	cPopUp();
 	~cPopUp();
 
-	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent);
+	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent, bool powerOnOff, bool fixed);
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void Update() override{};
-	void cButtonPushBack(cButton*);
+	void cButtonPushBack(cPopUp*);
 	virtual int GetState();
 	virtual void SetStateChange(int state);
 	virtual D3DXVECTOR3 GetPosition();
@@ -53,6 +54,10 @@ public:
 	virtual void ChangeSprite(char* szFullPath);
 
 	virtual float GetPercent();
+
+	virtual void PowerOnOff();
+
+	virtual void Destroy();
 
 };
 
