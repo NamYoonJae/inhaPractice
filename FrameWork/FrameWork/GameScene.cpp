@@ -37,29 +37,56 @@ void cGameScene::Setup() // boss1map  boss2map
 {
 	// 
 	{
-		SkyBox* pSkyBox = new SkyBox;
-		pSkyBox->Setup("data/HeightMapData", "Earth.png");
+		SkyBox* pSkyBox;
+
+		if (ObjectManager->SearchChild(Tag::Tag_SkyBox) == NULL)
+		{
+			pSkyBox = new SkyBox;
+			pSkyBox->Setup("data/HeightMapData", "Earth.png");
+		}
+		else
+		{
+			pSkyBox = (SkyBox*)ObjectManager->SearchChild(Tag::Tag_SkyBox);
+		}
+
+		cCamera *pCamera;
+		if (ObjectManager->SearchChild(Tag::Tag_Camera) == NULL)
+		{
+			pCamera = new cCamera;
+			pCamera->Tagging(Tag::Tag_Camera);
+		}
+		else
+		{
+			pCamera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+		}
 		
-
-		cCamera *pCamera = new cCamera;
-
-		pCamera->Tagging(Tag::Tag_Camera);
-
 		pSkyBox->SetPos(pCamera->GetEye());
 		pSkyBox->Tagging(Tag::Tag_SkyBox);
-		EventManager->Attach(pCamera);
 
+		if(ObjectManager->SearchChild(Tag::Tag_Camera) == NULL)
+		{
+			EventManager->Attach(pCamera);
+			ObjectManager->AddStaticChild(pCamera);	
+		}
 
-		cArthur* pArthur = new cArthur;
-		pArthur->Setup("data/XFile/Arthur", "arthur_a01.X");
-		pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-		pCamera->Setup(pArthur->GetPos());
-		pArthur->Tagging(Tag::Tag_Player);
+		if(ObjectManager->SearchChild(Tag::Tag_SkyBox) == NULL)
+		{
+			ObjectManager->AddStaticChild(pSkyBox);		
+		}
 		
-		ObjectManager->AddStaticChild(pCamera);
-		ObjectManager->AddStaticChild(pSkyBox);
+		if(ObjectManager->SearchChild(Tag::Tag_Player) == NULL)
+		{
+			cArthur* pArthur = new cArthur;
+			pArthur->Setup("data/XFile/Arthur", "arthur_a01.X");
+			pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+			pCamera->Setup(pArthur->GetPos());
+			pArthur->Tagging(Tag::Tag_Player);
+			ObjectManager->AddStaticChild(pArthur);
+		}
 
-		ObjectManager->AddStaticChild(pArthur);
+		
+
+
 	}
 	// 예외 처리 
 

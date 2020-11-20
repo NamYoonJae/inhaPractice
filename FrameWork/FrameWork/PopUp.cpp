@@ -186,7 +186,8 @@ void cPopUp::Destroy()
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
-		EventManager->Detach(*m_vecPopupBtnList[i]);
+		m_vecPopupBtnList[i]->Destroy();
+		//EventManager->Detach(*m_vecPopupBtnList[i]);
 	}
 
 	EventManager->Detach(*this);
