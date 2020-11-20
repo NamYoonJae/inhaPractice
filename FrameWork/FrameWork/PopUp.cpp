@@ -9,10 +9,10 @@ cPopUp::cPopUp()
 	, m_pTextureUI(NULL)
 	, m_State(enum_Off)
 	, m_Position(0.0f, 0.0f, 0.0f)
-	, m_pButton(NULL)
 {
 	m_Percentage = 0;
 	m_Power = true;
+	m_Fixed = false;
 }
 
 
@@ -27,14 +27,14 @@ cPopUp::~cPopUp()
 		m_vecPopupBtnList.erase(m_vecPopupBtnList.end());
 	}
 
-	SafeDelete(m_pButton);
 }
 
-void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff)
+void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed)
 {
 	m_Percentage = percent;
 	m_Position = position;
 	m_Power = powerOnOff;
+	m_Fixed = fixed;
 
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
@@ -47,19 +47,32 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float per
 
 void cPopUp::Update(EventType message)
 {
-	if (m_Power == true) 
+	if (!m_Fixed) 
 	{
-		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+		if (message == EventType::EVENT_ESC)
 		{
-			m_vecPopupBtnList[i]->Update(message);
+			PowerOnOff();
+
+			for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+			{
+				m_vecPopupBtnList[i]->PowerOnOff();
+			}
+
 		}
 	}
+
+
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		m_vecPopupBtnList[i]->Update(message);
+	}
+	
 
 }
 
 void cPopUp::Render(D3DXMATRIXA16 * pmat)
 {
-	if (m_Power == true) 
+	if (m_Power) 
 	{
 		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 
@@ -167,4 +180,14 @@ void cPopUp::PowerOnOff()
 	{
 		m_vecPopupBtnList[i]->PowerOnOff();
 	}
+}
+
+void cPopUp::Destroy()
+{
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		EventManager->Detach(*m_vecPopupBtnList[i]);
+	}
+
+	EventManager->Detach(*this);
 }
