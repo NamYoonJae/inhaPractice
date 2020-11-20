@@ -51,7 +51,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 		cArthur* pArthur = new cArthur;
-		pArthur->Setup("data/XFile/Arthur", "arthur_a01.X");
+		pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
 		pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
 		pCamera->Setup(pArthur->GetPos());
 		pArthur->Tagging(Tag::Tag_Player);
