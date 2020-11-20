@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "SkinnedMesh.h"
-#include "SkinnedMeshManager.h"
+#include "TimerManager.h"
 
 #include "Arthur.h"
 
 
 cArthur::cArthur()
-	:m_pMesh(nullptr)
-	,m_vScale(1, 1, 1)
+	:m_vScale(1, 1, 1)
 	,m_fvelocity(0.f)
+	,m_isMoving(false)
 {
 }
 
@@ -20,8 +20,8 @@ cArthur::~cArthur()
 
 void cArthur::Setup(char* szFolder, char* szFile)
 {
-	m_pMesh = new cSkinnedMesh(szFolder, szFile);
-	m_pMesh->SetAnimationIndex(0);
+	cSkinnedMesh::Setup(szFolder, szFile);
+	SetAnimationIndex(0);
 
 	EventManager->Attach(this);
 }
@@ -33,11 +33,49 @@ void cArthur::Update()
 	D3DXMatrixTranslation(&m_matTranse, m_vPos.x, m_vPos.y, m_vPos.z);
 	
 	m_matWorld = m_matScale * m_matRot * m_matTranse;
+	m_matWorldTM = m_matWorld;
 
-	
-	m_pMesh->m_matWorldTM = m_matWorld;
+	if(m_fvelocity != 0 && !m_isMoving)
+	{
+		SetAnimationIndexBlend(2);
+		m_isMoving = true;
+	}
+	else if(m_fvelocity == 0 && m_isMoving)
+	{
+		m_isMoving = false;
+		SetAnimationIndexBlend(0);
+	}
 
-	SafeUpdate(m_pMesh);
+	if (m_isAnimBlend)
+	{
+		m_fPassedBlendTime += g_pTimeManager->GetElapsedTime();
+		if (m_fPassedBlendTime >= m_fBlendTime)
+		{
+			m_isAnimBlend = false;
+			m_pAnimController->SetTrackWeight(0, 1.0f);
+			m_pAnimController->SetTrackEnable(1, false);
+			//m_pAnimController->SetTrackWeight(1, 0.0f);
+		}
+		else
+		{
+			float fWeight = m_fPassedBlendTime / m_fBlendTime;
+			m_pAnimController->SetTrackWeight(0, fWeight);
+			m_pAnimController->SetTrackWeight(1, 1.0f - fWeight);
+		}
+	}
+
+	LPD3DXANIMATIONSET pCurAnimSet = NULL;
+	m_pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
+
+	if (GetTickCount() - m_dAnimStartTime > pCurAnimSet->GetPeriod() * 1000 - m_fBlendTime * 1000)
+	{
+		if(!m_isMoving) 
+			SetAnimationIndexBlend(0);
+	}
+
+	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
+	cSkinnedMesh::Update((ST_BONE*)m_pRoot, &m_matWorldTM);
+	UpdateSkinnedMesh(m_pRoot);
 }
 
 void cArthur::Update(EventType event)
@@ -72,15 +110,6 @@ void cArthur::Update(EventType event)
 		m_vRot.y += 125.0f * delta;
 		isKeyDown = true;
 	}
-	
-	if(!isKeyDown)
-	{
-		//SetSkinnedMesh("data/XFile/Arthur", "arthur_idle01.X");
-	}
-	else
-	{
-		SetSkinnedMesh("data/XFile/Arthur", "arthur_run01.X");
-	}
 
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
 	m_vPos += m_vDir * m_fvelocity;
@@ -90,14 +119,19 @@ void cArthur::Update(EventType event)
 	
 	if(event == EventType::EVENT_LBUTTONDOWN)
 	{
-		//m_pMesh->SetAnimationIndex(n++);
+		SetAnimationIndexBlend(n++);
 		//SetAnimationController("data/XFile/Arthur", "arthur_Attack01.X");
-		SetSkinnedMesh("data/XFile/Arthur", "arthur_Attack01.X");
+		//SetSkinnedMesh("data/XFile/Arthur", "arthur_Attack01.X");
 	}
 	else if (event == EventType::EVENT_RBUTTONDOWN)
 	{
-		SetSkinnedMesh("data/XFile/Arthur", "arthur_a01.X");
+		//SetSkinnedMesh("data/XFile/Arthur", "arthur_a01.X");
 	}
+
+	//if(event == EventType::EVENT_JUMP)
+	//{
+	//	m_pMesh->SetAnimationIndexBlend(0);
+	//}
 }
 
 void cArthur::Render(D3DXMATRIXA16 * pmat)
@@ -106,7 +140,7 @@ void cArthur::Render(D3DXMATRIXA16 * pmat)
 	D3DXMatrixIdentity(&matWorld);
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	SafeRender(m_pMesh);
+	cSkinnedMesh::Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
@@ -114,16 +148,6 @@ void cArthur::SetTranseform(D3DXMATRIXA16* pmat)
 {
 	if(pmat)
 	{
-		m_pMesh->SetTransform(pmat);
+		SetTransform(pmat);
 	}
-}
-
-void cArthur::SetAnimationController(char* szFolder, char* szFile)
-{
-	m_pMesh->SetAnimationController(szFolder, szFile);
-}
-
-void cArthur::SetSkinnedMesh(char* szFolder, char* szFile)
-{
-	m_pMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFile);
 }

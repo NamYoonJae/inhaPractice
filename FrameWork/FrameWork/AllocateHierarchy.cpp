@@ -26,12 +26,12 @@ STDMETHODIMP cAllocateHierarchy::CreateFrame(THIS_ LPCSTR Name, LPD3DXFRAME* ppN
 {
 	ST_BONE* pBone = new ST_BONE;
 	ZeroMemory(pBone, sizeof(ST_BONE));
-
 	if (Name)
 	{
 		pBone->Name = new char[lstrlenA(Name) + 1];
 		UINT length = lstrlenA(Name) + 1;
 		strcpy_s(pBone->Name, length * sizeof(CHAR), Name);
+		cout << pBone->Name << endl;
 	}
 
 	D3DXMatrixIdentity(&pBone->TransformationMatrix);

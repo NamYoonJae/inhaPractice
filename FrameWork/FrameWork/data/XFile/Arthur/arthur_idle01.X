@@ -162,7 +162,7 @@ Frame movement {
   39.370080,0.000000,0.000000,0.000000,0.000000,39.370080,0.000000,0.000000,0.000000,0.000000,39.370080,0.000000,0.000000,0.000000,0.000000,1.000000;;
  }
 
- Frame Bip001__ {
+ Frame Bip001 {
   
 
   FrameTransformMatrix {
@@ -204,21 +204,21 @@ Frame movement {
         0.986425,0.127637,0.103317,0.000000,-0.110864,0.981771,-0.154388,0.000000,-0.121139,0.140838,0.982594,0.000000,0.075872,0.000005,-0.018761,1.000000;;
        }
 
-       Frame hair_fr_01_ {
+       Frame hair_fr_01 {
         
 
         FrameTransformMatrix {
          -0.894443,0.015567,0.446910,0.000000,-0.088915,-0.985630,-0.143623,0.000000,0.438252,-0.168200,0.882974,0.000000,0.159652,-0.119907,0.108295,1.000000;;
         }
 
-        Frame hair_fr_02_ {
+        Frame hair_fr_02 {
          
 
          FrameTransformMatrix {
           0.954925,-0.103077,0.278378,0.000000,0.098968,0.994674,0.028810,0.000000,-0.279865,0.000039,0.960039,0.000000,0.180367,-0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_fr_03_ {
+         Frame hair_fr_03 {
           
 
           FrameTransformMatrix {
@@ -228,21 +228,21 @@ Frame movement {
         }
        }
 
-       Frame hair_r_05_ {
+       Frame hair_r_05 {
         
 
         FrameTransformMatrix {
          0.155346,-0.184852,-0.970411,0.000000,-0.791512,-0.611068,-0.010306,0.000000,-0.591082,0.769692,-0.241239,0.000000,0.177948,-0.125622,-0.061386,1.000000;;
         }
 
-        Frame hair_r_06_ {
+        Frame hair_r_06 {
          
 
          FrameTransformMatrix {
           0.926423,0.256007,0.276047,0.000000,-0.188043,0.949858,-0.249820,0.000000,-0.326161,0.179530,0.928110,0.000000,0.144524,0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_r_07_ {
+         Frame hair_r_07 {
           
 
           FrameTransformMatrix {
@@ -252,28 +252,28 @@ Frame movement {
         }
        }
 
-       Frame hair_r_01_ {
+       Frame hair_r_01 {
         
 
         FrameTransformMatrix {
          -0.201361,-0.545538,-0.813536,0.000000,0.820031,0.360364,-0.444620,0.000000,0.535727,-0.756654,0.374794,0.000000,0.162430,-0.147179,0.020928,1.000000;;
         }
 
-        Frame hair_r_02_ {
+        Frame hair_r_02 {
          
 
          FrameTransformMatrix {
           0.986086,-0.022266,-0.164738,0.000000,0.034949,0.996608,0.074500,0.000000,0.162520,-0.079221,0.983520,0.000000,0.135738,0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_r_03_ {
+         Frame hair_r_03 {
           
 
           FrameTransformMatrix {
            0.998021,0.025946,-0.057285,0.000000,-0.037167,0.978163,-0.204483,0.000000,0.050728,0.206208,0.977193,0.000000,0.129615,-0.000001,-0.000000,1.000000;;
           }
 
-          Frame hair_r_04_ {
+          Frame hair_r_04 {
            
 
            FrameTransformMatrix {
@@ -284,28 +284,28 @@ Frame movement {
         }
        }
 
-       Frame hair_bc_01_ {
+       Frame hair_bc_01 {
         
 
         FrameTransformMatrix {
          -0.634692,-0.000031,-0.772766,0.000000,-0.000003,-1.000000,0.000042,0.000000,-0.772765,0.000029,0.634692,0.000000,0.144506,-0.000015,-0.158677,1.000000;;
         }
 
-        Frame hair_bc_02_ {
+        Frame hair_bc_02 {
          
 
          FrameTransformMatrix {
           0.978332,-0.000000,0.207042,0.000000,-0.000000,1.000000,-0.000000,0.000000,-0.207042,0.000000,0.978332,0.000000,0.149821,-0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_bc_03_ {
+         Frame hair_bc_03 {
           
 
           FrameTransformMatrix {
            0.997566,0.000000,0.069725,0.000000,0.000000,1.000000,0.000000,0.000000,-0.069725,0.000000,0.997566,0.000000,0.215520,0.000000,0.000000,1.000000;;
           }
 
-          Frame hair_bc_04_ {
+          Frame hair_bc_04 {
            
 
            FrameTransformMatrix {
@@ -316,28 +316,28 @@ Frame movement {
         }
        }
 
-       Frame hair_br_01_ {
+       Frame hair_br_01 {
         
 
         FrameTransformMatrix {
          -0.685967,-0.042286,-0.726402,0.000000,-0.337466,-0.865961,0.369091,0.000000,-0.644643,0.498321,0.579751,0.000000,0.172848,-0.073662,-0.182171,1.000000;;
         }
 
-        Frame hair_br_02_ {
+        Frame hair_br_02 {
          
 
          FrameTransformMatrix {
           0.995683,0.000000,-0.092815,0.000000,0.000000,1.000000,0.000000,0.000000,0.092815,-0.000000,0.995683,0.000000,0.132106,0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_br_03_ {
+         Frame hair_br_03 {
           
 
           FrameTransformMatrix {
            0.990734,-0.000000,-0.135817,0.000000,0.000000,1.000000,0.000000,0.000000,0.135817,-0.000000,0.990734,0.000000,0.222769,0.000000,-0.000002,1.000000;;
           }
 
-          Frame hair_br_04_ {
+          Frame hair_br_04 {
            
 
            FrameTransformMatrix {
@@ -348,28 +348,28 @@ Frame movement {
         }
        }
 
-       Frame hair_bl_01_ {
+       Frame hair_bl_01 {
         
 
         FrameTransformMatrix {
          -0.259758,0.266499,-0.928172,0.000000,0.104067,-0.947843,-0.301271,0.000000,-0.960050,-0.174850,0.218476,0.000000,0.171817,0.065989,-0.186043,1.000000;;
         }
 
-        Frame hair_bl_02_ {
+        Frame hair_bl_02 {
          
 
          FrameTransformMatrix {
           0.968089,-0.000000,0.250607,0.000000,-0.000000,1.000000,0.000000,0.000000,-0.250607,0.000000,0.968089,0.000000,0.132106,-0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_bl_03_ {
+         Frame hair_bl_03 {
           
 
           FrameTransformMatrix {
            0.997429,-0.000000,0.071657,0.000000,0.000000,1.000000,0.000000,0.000000,-0.071658,0.000000,0.997429,0.000000,0.222769,0.000000,-0.000002,1.000000;;
           }
 
-          Frame hair_bl_04_ {
+          Frame hair_bl_04 {
            
 
            FrameTransformMatrix {
@@ -380,21 +380,21 @@ Frame movement {
         }
        }
 
-       Frame hair_fl_01_ {
+       Frame hair_fl_01 {
         
 
         FrameTransformMatrix {
          -0.586551,0.266077,0.764958,0.000000,-0.223713,-0.960976,0.162721,0.000000,0.778403,-0.075687,0.623186,0.000000,0.159651,0.119996,0.108285,1.000000;;
         }
 
-        Frame hair_fl_02_ {
+        Frame hair_fl_02 {
          
 
          FrameTransformMatrix {
           0.936052,0.351670,-0.011600,0.000000,-0.351078,0.931259,-0.097478,0.000000,-0.023477,0.095317,0.995170,0.000000,0.180367,0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_fl_03_ {
+         Frame hair_fl_03 {
           
 
           FrameTransformMatrix {
@@ -404,28 +404,28 @@ Frame movement {
         }
        }
 
-       Frame hair_l_01_ {
+       Frame hair_l_01 {
         
 
         FrameTransformMatrix {
          0.394456,-0.505228,0.767561,0.000000,-0.826822,0.169333,0.536370,0.000000,-0.400962,-0.846210,-0.350938,0.000000,0.162429,0.146992,0.020916,1.000000;;
         }
 
-        Frame hair_l_02_ {
+        Frame hair_l_02 {
          
 
          FrameTransformMatrix {
           0.987346,0.158573,0.001764,0.000000,-0.158463,0.986107,0.049831,0.000000,0.006163,-0.049481,0.998756,0.000000,-0.135738,-0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_l_03_ {
+         Frame hair_l_03 {
           
 
           FrameTransformMatrix {
            0.966497,0.232525,-0.108699,0.000000,-0.239104,0.969608,-0.051846,0.000000,0.093340,0.076099,0.992722,0.000000,-0.129615,0.000001,0.000000,1.000000;;
           }
 
-          Frame hair_l_04_ {
+          Frame hair_l_04 {
            
 
            FrameTransformMatrix {
@@ -436,21 +436,21 @@ Frame movement {
         }
        }
 
-       Frame hair_l_05_ {
+       Frame hair_l_05 {
         
 
         FrameTransformMatrix {
          0.299533,0.000817,0.954086,0.000000,0.735179,-0.637567,-0.230262,0.000000,0.608106,0.770395,-0.191573,0.000000,0.177948,0.125989,-0.061397,1.000000;;
         }
 
-        Frame hair_l_06_ {
+        Frame hair_l_06 {
          
 
          FrameTransformMatrix {
           0.932084,-0.081076,-0.353053,0.000000,0.087652,0.996148,0.002650,0.000000,0.351478,-0.033416,0.935600,0.000000,-0.144524,0.000000,0.000000,1.000000;;
          }
 
-         Frame hair_l_07_ {
+         Frame hair_l_07 {
           
 
           FrameTransformMatrix {
@@ -460,7 +460,7 @@ Frame movement {
         }
        }
 
-       Frame mouse_ {
+       Frame mouse {
         
 
         FrameTransformMatrix {
@@ -468,7 +468,7 @@ Frame movement {
         }
        }
 
-       Frame eye_r_ {
+       Frame eye_r {
         
 
         FrameTransformMatrix {
@@ -476,7 +476,7 @@ Frame movement {
         }
        }
 
-       Frame eye_l_ {
+       Frame eye_l {
         
 
         FrameTransformMatrix {
@@ -595,7 +595,7 @@ Frame movement {
          }
         }
 
-        Frame shuolder_l_ {
+        Frame shuolder_l {
          
 
          FrameTransformMatrix {
@@ -715,7 +715,7 @@ Frame movement {
          }
         }
 
-        Frame shuolder_r_ {
+        Frame shuolder_r {
          
 
          FrameTransformMatrix {
@@ -726,28 +726,28 @@ Frame movement {
       }
      }
 
-     Frame cape_r_01_ {
+     Frame cape_r_01 {
       
 
       FrameTransformMatrix {
        -0.963929,-0.089782,-0.250561,0.000000,0.060919,0.841978,-0.536062,0.000000,0.259095,-0.531989,-0.806137,0.000000,0.578337,-0.289499,-0.316410,1.000000;;
       }
 
-      Frame cape_r_02_ {
+      Frame cape_r_02 {
        
 
        FrameTransformMatrix {
         0.995201,0.083538,-0.050950,0.000000,-0.082918,0.996455,0.014176,0.000000,0.051953,-0.009884,0.998601,0.000000,0.501500,0.000000,0.000000,1.000000;;
        }
 
-       Frame cape_r_03_ {
+       Frame cape_r_03 {
         
 
         FrameTransformMatrix {
          0.998701,0.040763,-0.030566,0.000000,-0.041185,0.999063,-0.013281,0.000000,0.029996,0.014523,0.999445,0.000000,0.646157,-0.000003,-0.000001,1.000000;;
         }
 
-        Frame cape_r_04_ {
+        Frame cape_r_04 {
          
 
          FrameTransformMatrix {
@@ -758,28 +758,28 @@ Frame movement {
       }
      }
 
-     Frame cape_c_01_ {
+     Frame cape_c_01 {
       
 
       FrameTransformMatrix {
        -0.935311,0.063489,-0.348085,0.000000,0.103855,0.989699,-0.098545,0.000000,0.338242,-0.128321,-0.932269,0.000000,0.556134,-0.005715,-0.354713,1.000000;;
       }
 
-      Frame cape_c_02_ {
+      Frame cape_c_02 {
        
 
        FrameTransformMatrix {
         0.987991,0.067806,-0.138841,0.000000,-0.066434,0.997686,0.014502,0.000000,0.139503,-0.005105,0.990208,0.000000,0.501500,0.000000,-0.000000,1.000000;;
        }
 
-       Frame cape_c_03_ {
+       Frame cape_c_03 {
         
 
         FrameTransformMatrix {
          0.991022,0.069714,0.114086,0.000000,-0.069677,0.997560,-0.004318,0.000000,-0.114109,-0.003670,0.993461,0.000000,0.646157,-0.000003,-0.000001,1.000000;;
         }
 
-        Frame cape_c_04_ {
+        Frame cape_c_04 {
          
 
          FrameTransformMatrix {
@@ -790,28 +790,28 @@ Frame movement {
       }
      }
 
-     Frame cape_l_01_ {
+     Frame cape_l_01 {
       
 
       FrameTransformMatrix {
        -0.914539,0.214053,-0.343220,0.000000,0.123354,0.955677,0.267332,0.000000,0.385231,0.202148,-0.900407,0.000000,0.578337,0.289000,-0.316410,1.000000;;
       }
 
-      Frame cape_l_02_ {
+      Frame cape_l_02 {
        
 
        FrameTransformMatrix {
         0.988156,0.065312,-0.138864,0.000000,-0.063963,0.997852,0.014155,0.000000,0.139490,-0.005105,0.990210,0.000000,0.501500,0.000000,-0.000000,1.000000;;
        }
 
-       Frame cape_l_03_ {
+       Frame cape_l_03 {
         
 
         FrameTransformMatrix {
          0.989902,0.084160,-0.114062,0.000000,-0.085369,0.996333,-0.005747,0.000000,0.113160,0.015427,0.993457,0.000000,0.646157,-0.000003,-0.000001,1.000000;;
         }
 
-        Frame cape_l_04_ {
+        Frame cape_l_04 {
          
 
          FrameTransformMatrix {
@@ -38986,7 +38986,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bc_01_";
+   "hair_bc_01";
    19;
    1393,
    1394,
@@ -39030,7 +39030,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_r_06_";
+   "hair_r_06";
    15;
    2902,
    2903,
@@ -39066,7 +39066,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_br_01_";
+   "hair_br_01";
    16;
    2968,
    2993,
@@ -41020,7 +41020,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_r_03_";
+   "hair_r_03";
    6;
    2865,
    2868,
@@ -41038,7 +41038,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_fr_02_";
+   "hair_fr_02";
    12;
    2804,
    2806,
@@ -41068,7 +41068,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_br_04_";
+   "hair_br_04";
    25;
    3020,
    3021,
@@ -41124,7 +41124,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_fr_03_";
+   "hair_fr_03";
    15;
    2803,
    2804,
@@ -41160,7 +41160,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_r_07_";
+   "hair_r_07";
    9;
    2904,
    2907,
@@ -41184,7 +41184,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_r_05_";
+   "hair_r_05";
    22;
    2847,
    2849,
@@ -41500,7 +41500,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_fr_01_";
+   "hair_fr_01";
    17;
    2791,
    2792,
@@ -41540,7 +41540,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_r_01_";
+   "hair_r_01";
    15;
    2792,
    2847,
@@ -41576,7 +41576,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_r_04_";
+   "hair_r_04";
    5;
    2869,
    2870,
@@ -41592,7 +41592,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bc_02_";
+   "hair_bc_02";
    29;
    1372,
    1373,
@@ -41656,7 +41656,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_r_02_";
+   "hair_r_02";
    6;
    2865,
    2866,
@@ -41674,7 +41674,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bc_03_";
+   "hair_bc_03";
    30;
    1373,
    1375,
@@ -41740,7 +41740,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bc_04_";
+   "hair_bc_04";
    19;
    1376,
    1379,
@@ -41784,7 +41784,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_br_02_";
+   "hair_br_02";
    12;
    3004,
    3005,
@@ -41814,7 +41814,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_br_03_";
+   "hair_br_03";
    10;
    3009,
    3011,
@@ -41840,7 +41840,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bl_01_";
+   "hair_bl_01";
    17;
    2945,
    2946,
@@ -41880,7 +41880,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bl_03_";
+   "hair_bl_03";
    12;
    2961,
    2962,
@@ -41910,7 +41910,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bl_04_";
+   "hair_bl_04";
    17;
    2974,
    2975,
@@ -41950,7 +41950,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_bl_02_";
+   "hair_bl_02";
    13;
    2956,
    2957,
@@ -42290,7 +42290,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "shuolder_l_";
+   "shuolder_l";
    131;
    1032,
    1033,
@@ -43268,7 +43268,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_l_01_";
+   "hair_l_01";
    10;
    1335,
    1402,
@@ -43294,7 +43294,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_l_03_";
+   "hair_l_03";
    6;
    1420,
    1422,
@@ -43312,7 +43312,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_l_06_";
+   "hair_l_06";
    15;
    1465,
    1466,
@@ -43348,7 +43348,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_l_05_";
+   "hair_l_05";
    17;
    1406,
    1461,
@@ -43388,7 +43388,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "mouse_";
+   "mouse";
    171;
    3838,
    3839,
@@ -43736,7 +43736,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_fl_01_";
+   "hair_fl_01";
    17;
    1334,
    1335,
@@ -43776,7 +43776,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_fl_02_";
+   "hair_fl_02";
    12;
    1347,
    1348,
@@ -43806,7 +43806,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_fl_03_";
+   "hair_fl_03";
    15;
    1346,
    1347,
@@ -43842,7 +43842,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_l_02_";
+   "hair_l_02";
    6;
    1420,
    1421,
@@ -43860,7 +43860,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_l_04_";
+   "hair_l_04";
    5;
    1424,
    1425,
@@ -43876,7 +43876,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "hair_l_07_";
+   "hair_l_07";
    9;
    1467,
    1469,
@@ -43900,7 +43900,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "eye_r_";
+   "eye_r";
    36;
    3905,
    3907,
@@ -43978,7 +43978,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "eye_l_";
+   "eye_l";
    39;
    4298,
    4299,
@@ -46692,7 +46692,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_l_04_";
+   "cape_l_04";
    34;
    173,
    179,
@@ -47126,7 +47126,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_r_03_";
+   "cape_r_03";
    28;
    1672,
    1673,
@@ -47188,7 +47188,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_r_02_";
+   "cape_r_02";
    20;
    1698,
    1699,
@@ -47234,7 +47234,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_c_01_";
+   "cape_c_01";
    16;
    209,
    214,
@@ -47272,7 +47272,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "shuolder_r_";
+   "shuolder_r";
    131;
    2494,
    2495,
@@ -47540,7 +47540,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_c_04_";
+   "cape_c_04";
    26;
    191,
    193,
@@ -47598,7 +47598,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_c_03_";
+   "cape_c_03";
    18;
    198,
    210,
@@ -47640,7 +47640,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_c_02_";
+   "cape_c_02";
    14;
    206,
    208,
@@ -47674,7 +47674,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_r_04_";
+   "cape_r_04";
    32;
    1672,
    1678,
@@ -47744,7 +47744,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_l_02_";
+   "cape_l_02";
    20;
    202,
    203,
@@ -47790,7 +47790,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_l_03_";
+   "cape_l_03";
    28;
    173,
    174,
@@ -48030,7 +48030,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_l_01_";
+   "cape_l_01";
    18;
    207,
    208,
@@ -48072,7 +48072,7 @@ Frame omniknight {
   }
 
   SkinWeights {
-   "cape_r_01_";
+   "cape_r_01";
    18;
    1703,
    1704,
@@ -50396,7 +50396,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { Bip001__ }
+  { Bip001 }
 
   AnimationKey  {
    4;
@@ -50763,7 +50763,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_fr_01_ }
+  { hair_fr_01 }
 
   AnimationKey  {
    4;
@@ -50834,7 +50834,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_fr_02_ }
+  { hair_fr_02 }
 
   AnimationKey  {
    4;
@@ -50905,7 +50905,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_fr_03_ }
+  { hair_fr_03 }
 
   AnimationKey  {
    4;
@@ -50976,7 +50976,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_r_05_ }
+  { hair_r_05 }
 
   AnimationKey  {
    4;
@@ -51047,7 +51047,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_r_06_ }
+  { hair_r_06 }
 
   AnimationKey  {
    4;
@@ -51118,7 +51118,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_r_07_ }
+  { hair_r_07 }
 
   AnimationKey  {
    4;
@@ -51189,7 +51189,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_r_01_ }
+  { hair_r_01 }
 
   AnimationKey  {
    4;
@@ -51260,7 +51260,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_r_02_ }
+  { hair_r_02 }
 
   AnimationKey  {
    4;
@@ -51331,7 +51331,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_r_03_ }
+  { hair_r_03 }
 
   AnimationKey  {
    4;
@@ -51402,7 +51402,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_r_04_ }
+  { hair_r_04 }
 
   AnimationKey  {
    4;
@@ -51473,7 +51473,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bc_01_ }
+  { hair_bc_01 }
 
   AnimationKey  {
    4;
@@ -51544,7 +51544,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bc_02_ }
+  { hair_bc_02 }
 
   AnimationKey  {
    4;
@@ -51615,7 +51615,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bc_03_ }
+  { hair_bc_03 }
 
   AnimationKey  {
    4;
@@ -51686,7 +51686,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bc_04_ }
+  { hair_bc_04 }
 
   AnimationKey  {
    4;
@@ -51757,7 +51757,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_br_01_ }
+  { hair_br_01 }
 
   AnimationKey  {
    4;
@@ -51828,7 +51828,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_br_02_ }
+  { hair_br_02 }
 
   AnimationKey  {
    4;
@@ -51899,7 +51899,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_br_03_ }
+  { hair_br_03 }
 
   AnimationKey  {
    4;
@@ -51970,7 +51970,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_br_04_ }
+  { hair_br_04 }
 
   AnimationKey  {
    4;
@@ -52041,7 +52041,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bl_01_ }
+  { hair_bl_01 }
 
   AnimationKey  {
    4;
@@ -52112,7 +52112,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bl_02_ }
+  { hair_bl_02 }
 
   AnimationKey  {
    4;
@@ -52183,7 +52183,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bl_03_ }
+  { hair_bl_03 }
 
   AnimationKey  {
    4;
@@ -52254,7 +52254,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_bl_04_ }
+  { hair_bl_04 }
 
   AnimationKey  {
    4;
@@ -52325,7 +52325,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_fl_01_ }
+  { hair_fl_01 }
 
   AnimationKey  {
    4;
@@ -52396,7 +52396,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_fl_02_ }
+  { hair_fl_02 }
 
   AnimationKey  {
    4;
@@ -52467,7 +52467,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_fl_03_ }
+  { hair_fl_03 }
 
   AnimationKey  {
    4;
@@ -52538,7 +52538,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_l_01_ }
+  { hair_l_01 }
 
   AnimationKey  {
    4;
@@ -52609,7 +52609,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_l_02_ }
+  { hair_l_02 }
 
   AnimationKey  {
    4;
@@ -52680,7 +52680,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_l_03_ }
+  { hair_l_03 }
 
   AnimationKey  {
    4;
@@ -52751,7 +52751,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_l_04_ }
+  { hair_l_04 }
 
   AnimationKey  {
    4;
@@ -52822,7 +52822,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_l_05_ }
+  { hair_l_05 }
 
   AnimationKey  {
    4;
@@ -52893,7 +52893,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_l_06_ }
+  { hair_l_06 }
 
   AnimationKey  {
    4;
@@ -52964,7 +52964,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { hair_l_07_ }
+  { hair_l_07 }
 
   AnimationKey  {
    4;
@@ -53035,7 +53035,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { mouse_ }
+  { mouse }
 
   AnimationKey  {
    4;
@@ -53047,7 +53047,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { eye_r_ }
+  { eye_r }
 
   AnimationKey  {
    4;
@@ -53059,7 +53059,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { eye_l_ }
+  { eye_l }
 
   AnimationKey  {
    4;
@@ -53475,7 +53475,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { shuolder_l_ }
+  { shuolder_l }
 
   AnimationKey  {
    4;
@@ -53891,7 +53891,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { shuolder_r_ }
+  { shuolder_r }
 
   AnimationKey  {
    4;
@@ -53903,7 +53903,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_r_01_ }
+  { cape_r_01 }
 
   AnimationKey  {
    4;
@@ -53974,7 +53974,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_r_02_ }
+  { cape_r_02 }
 
   AnimationKey  {
    4;
@@ -54045,7 +54045,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_r_03_ }
+  { cape_r_03 }
 
   AnimationKey  {
    4;
@@ -54116,7 +54116,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_r_04_ }
+  { cape_r_04 }
 
   AnimationKey  {
    4;
@@ -54187,7 +54187,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_c_01_ }
+  { cape_c_01 }
 
   AnimationKey  {
    4;
@@ -54258,7 +54258,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_c_02_ }
+  { cape_c_02 }
 
   AnimationKey  {
    4;
@@ -54329,7 +54329,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_c_03_ }
+  { cape_c_03 }
 
   AnimationKey  {
    4;
@@ -54400,7 +54400,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_c_04_ }
+  { cape_c_04 }
 
   AnimationKey  {
    4;
@@ -54471,7 +54471,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_l_01_ }
+  { cape_l_01 }
 
   AnimationKey  {
    4;
@@ -54542,7 +54542,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_l_02_ }
+  { cape_l_02 }
 
   AnimationKey  {
    4;
@@ -54613,7 +54613,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_l_03_ }
+  { cape_l_03 }
 
   AnimationKey  {
    4;
@@ -54684,7 +54684,7 @@ AnimationSet Anim1 {
 
  Animation {
   
-  { cape_l_04_ }
+  { cape_l_04 }
 
   AnimationKey  {
    4;
