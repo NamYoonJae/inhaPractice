@@ -8,10 +8,13 @@ cButton::cButton()
 	m_PreState = enum_Off;
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Percentage = 0;
+	m_Power = true;
 }
 
 cButton::~cButton()
 {
+	SafeRelease(m_pSprite);
+	SafeRelease(m_pTextureUI);
 }
 
 void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent)
@@ -156,6 +159,11 @@ void cButton::SetPreState(int state)
 float cButton::GetPercent()
 {
 	return m_Percentage;
+}
+
+void cButton::PowerOnOff()
+{
+	m_Power = !m_Power;
 }
 
 

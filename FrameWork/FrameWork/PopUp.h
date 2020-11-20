@@ -18,6 +18,8 @@ class cPopUp  : public cObserver ,public cObject
 {
 protected:
 
+	bool m_Power;
+
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
@@ -40,7 +42,7 @@ public:
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void Update() override{};
-	void cButtonPushBack(cButton*);
+	void cButtonPushBack(cPopUp*);
 	virtual int GetState();
 	virtual void SetStateChange(int state);
 	virtual D3DXVECTOR3 GetPosition();
@@ -53,6 +55,8 @@ public:
 	virtual void ChangeSprite(char* szFullPath);
 
 	virtual float GetPercent();
+
+	virtual void PowerOnOff();
 
 };
 

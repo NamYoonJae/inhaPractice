@@ -44,5 +44,6 @@ public:
 
 
 	float GetPercent();
+	void PowerOnOff();
 };
 

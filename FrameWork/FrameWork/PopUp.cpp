@@ -12,6 +12,7 @@ cPopUp::cPopUp()
 	, m_pButton(NULL)
 {
 	m_Percentage = 0;
+	m_Power = true;
 }
 
 
@@ -84,7 +85,7 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 
 }
 
-void cPopUp::cButtonPushBack(cButton* btn)
+void cPopUp::cButtonPushBack(cPopUp* btn)
 {
 	m_vecBtnList.push_back(btn);
 }
@@ -153,4 +154,9 @@ void cPopUp::ChangeSprite(char * szFullPath)
 float cPopUp::GetPercent()
 {
 	return m_Percentage;
+}
+
+void cPopUp::PowerOnOff()
+{
+	m_Power = !m_Power;
 }
