@@ -65,13 +65,6 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 					button->SetPreState(enum_Off);
 				}
 			}
-			/*
-			else if (button->GetState() == enum_Off && button->GetPreState() == enum_Hover)
-			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-				button->SetPreState(enum_Off);
-			}
-			*/
 
 		}//case EVENT_MOVE End:
 
@@ -212,35 +205,55 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+				button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
 				button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-				button->SetPreState(enum_Off);
+				if (button->GetState() == enum_On) 
+				{
+					button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+					button->SetPreState(enum_On);
+				}
+				else if (button->GetState() == enum_Off) 
+				{
+					button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
+					button->SetPreState(enum_Off);
+				}
 			}
-			/*
-			else if (button->GetState() == enum_Off && button->GetPreState() == enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
-			{
-			button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-			button->SetPreState(enum_Off);
-			}
-			*/
+
 
 		}//case EVENT_MOVE End:
 
 		break;
 
-	case EventType::EVENT_LBUTTONUP:
+	case EventType::EVENT_LBUTTONDOWN:
 	{
 		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
-				//상태 변경 후
-				//게임 시작으로 씬 이동
+				button->SetStateChange(enum_On);
+				button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+			}
+		}
+	}
 
+
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		if (button->GetState() == enum_On)
+		{
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+			{
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					button->SetStateChange(enum_Hover);
+					button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
+					//g_pSceneManager->ChangeScene();
+				}
 			}
 		}
 	}
@@ -249,8 +262,6 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 	case EventType::EVENT_WHEELUP:
 	break;
 	case EventType::EVENT_WHEELDOWN:
-	break;
-	case EventType::EVENT_LBUTTONDOWN:
 	break;
 	case EventType::EVENT_LBUTTONDLBC:
 	break;
@@ -314,7 +325,7 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 	switch (message)
 	{
 	case EventType::EVENT_MOVE:
-
+	{
 		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
@@ -347,26 +358,41 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+				button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Over.png");
 				button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-				button->SetPreState(enum_Off);
+
+				if (button->GetState() == enum_On)
+				{
+					button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Pressed.png");
+					button->SetPreState(enum_On);
+				}
+				else if (button->GetState() == enum_Off)
+				{
+					button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Idle.png");
+					button->SetPreState(enum_Off);
+				}
+
 			}
-			/*
-			else if (button->GetState() == enum_Off && button->GetPreState() == enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+
+		}
+	}
+	break;
+	
+	case EventType::EVENT_LBUTTONDOWN: 
+	{
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		{
+			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
-			button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-			button->SetPreState(enum_Off);
+				button->SetStateChange(enum_On);
+				button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Pressed.png");
 			}
-			*/
-
-		}//case EVENT_MOVE End:
-
-		break;
-
+		}
+	}
+	break;
 
 	case EventType::EVENT_LBUTTONUP:
 	{
@@ -374,9 +400,10 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
-				//상태 변경 후
-				//게임 시작으로 씬 이동
-
+				button->SetStateChange(enum_Hover);
+				button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Over.png");
+				//g_pSceneManager->ChangeScene();
+				//설정 팝업 띄우기
 			}
 		}
 	}
@@ -385,8 +412,6 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 	case EventType::EVENT_WHEELUP:
 	break;
 	case EventType::EVENT_WHEELDOWN:
-	break;
-	case EventType::EVENT_LBUTTONDOWN:
 	break;
 	case EventType::EVENT_LBUTTONDLBC:
 	break;
@@ -451,7 +476,7 @@ void EndGameBtnEvent(EventType message, cPopUp* btn)
 	switch (message)
 	{
 	case EventType::EVENT_MOVE:
-
+	{
 		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
@@ -484,25 +509,40 @@ void EndGameBtnEvent(EventType message, cPopUp* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 활성화 사이즈 조정.png");
+				button->ChangeSprite("data/UI/TitleScene/END/NW_EndButton_Over.png");
 				button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-				button->SetPreState(enum_Off);
+				if (button->GetState() == enum_On)
+				{
+					button->ChangeSprite("data/UI/TitleScene/END/NW_EndButton_Pressed.png");
+					button->SetPreState(enum_On);
+				}
+				else if (button->GetState() == enum_Off)
+				{
+					button->ChangeSprite("data/UI/TitleScene/END/NW_EndButton_Idle.png");
+					button->SetPreState(enum_Off);
+				}
+
 			}
-			/*
-			else if (button->GetState() == enum_Off && button->GetPreState() == enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		{
+			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
-			button->ChangeSprite("data/UI/TitleScene/버튼 비활성화 사이즈 조정.png");
-			button->SetPreState(enum_Off);
+				button->SetStateChange(enum_On);
+				button->ChangeSprite("data/UI/TitleScene/END/NW_EndButton_Pressed.png");
 			}
-			*/
-
-		}//case EVENT_MOVE End:
-
-		break;
+		}
+	}
+	break;
 
 
 	case EventType::EVENT_LBUTTONUP:
@@ -513,7 +553,9 @@ void EndGameBtnEvent(EventType message, cPopUp* btn)
 			{
 				//상태 변경 후
 				//게임 시작으로 씬 이동
-
+				button->SetStateChange(enum_Hover);
+				button->ChangeSprite("data/UI/TitleScene/END/NW_EndButton_Over.png");
+				//g_pSceneManager->ChangeScene();
 			}
 		}
 	}
@@ -522,8 +564,6 @@ void EndGameBtnEvent(EventType message, cPopUp* btn)
 	case EventType::EVENT_WHEELUP:
 	break;
 	case EventType::EVENT_WHEELDOWN:
-	break;
-	case EventType::EVENT_LBUTTONDOWN:
 	break;
 	case EventType::EVENT_LBUTTONDLBC:
 	break;

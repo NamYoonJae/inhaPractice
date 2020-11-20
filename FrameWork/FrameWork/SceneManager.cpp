@@ -47,7 +47,6 @@ void cSceneManager::ChangeScene()
 {
 	/// 씬을 바꾸는 법
 	///
-	//씬을 삭제
 	int nRandom = 1;//rand()%2;
 	LoadScene(nRandom);
 }
