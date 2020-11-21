@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "cFont.h"
+#include "FontManager.h"
 
 
 cFont::cFont()

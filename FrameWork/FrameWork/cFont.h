@@ -1,6 +1,7 @@
 #pragma once
 #include "Observer.h"
-#include "FontManager.h"
+
+extern enum eFontType;
 
 class cFont :
 	public cObserver
