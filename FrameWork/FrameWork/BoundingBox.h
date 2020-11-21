@@ -1,5 +1,7 @@
 #pragma once
 
+class cSkinnedMesh;
+
 class cBoundingBox
 {
 private:
@@ -19,8 +21,15 @@ public:
 	~cBoundingBox();
 
 	void Setup(LPD3DXMESH pMesh);
+	void Setup(cSkinnedMesh* pSkinnedMesh);
 	void Update(D3DXMATRIXA16* pmatWorld);
 	void Render(D3DCOLOR c);
 	static bool IsCollision(cBoundingBox* pOBB1, cBoundingBox* pOBB2);
+
+	void SetPivot(D3DXVECTOR3 pivot)
+	{
+		m_vPivot = pivot;
+		m_vCenterPos += m_vPivot;
+	}
 };
 

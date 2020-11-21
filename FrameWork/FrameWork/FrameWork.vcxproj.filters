@@ -127,6 +127,9 @@
     <ClCompile Include="cOBB.cpp">
       <Filter>OBB</Filter>
     </ClCompile>
+    <ClCompile Include="cFont.cpp">
+      <Filter>Code\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -270,8 +273,13 @@
     <ClInclude Include="cOBB.h">
       <Filter>OBB</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Header.h">
       <Filter>Code\UI\test</Filter>
+=======
+    <ClInclude Include="cFont.h">
+      <Filter>Code\UI</Filter>
+>>>>>>> f35137f553765cbfe600fd8359edae1a4a83dfad
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

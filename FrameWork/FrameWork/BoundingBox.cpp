@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "SkinnedMesh.h"
 #include "BoundingBox.h"
 
 
@@ -7,6 +8,7 @@ cBoundingBox::cBoundingBox()
 	,m_vOriCenter(0, 0, 0)
 	,m_vCenterPos(0, 0, 0)
 {
+	D3DXMatrixIdentity(&m_matWorldTM);
 }
 
 
@@ -30,6 +32,28 @@ void cBoundingBox::Setup(LPD3DXMESH pMesh)
 
 	pMesh->UnlockVertexBuffer();
 	
+	m_vOriCenter = (vMin + vMax) / 2.0f;
+	m_vOriCenter += m_vPivot;
+	m_vOriAxisDir[0] = D3DXVECTOR3(1, 0, 0);
+	m_vOriAxisDir[1] = D3DXVECTOR3(0, 1, 0);
+	m_vOriAxisDir[2] = D3DXVECTOR3(0, 0, 1);
+
+	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
+	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
+	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
+
+	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2.0f;
+	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2.0f;
+	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2.0f;
+}
+
+void cBoundingBox::Setup(cSkinnedMesh* pSkinnedMesh)
+{
+	D3DXVECTOR3 vMin(0, 0, 0), vMax(0, 0, 0);
+	
+	vMin = pSkinnedMesh->GetMin();
+	vMax = pSkinnedMesh->GetMax();
+
 	m_vOriCenter = (vMin + vMax) / 2.0f;
 	m_vOriAxisDir[0] = D3DXVECTOR3(1, 0, 0);
 	m_vOriAxisDir[1] = D3DXVECTOR3(0, 1, 0);
@@ -55,7 +79,7 @@ void cBoundingBox::Update(D3DXMATRIXA16* pmatWorld)
 	{
 		D3DXVec3TransformNormal(&m_vAxisDir[i], &m_vOriAxisDir[i], &m_matWorldTM);
 	}
-
+	
 	D3DXVec3TransformCoord(&m_vCenterPos, &m_vOriCenter, &m_matWorldTM);
 }
 
@@ -82,6 +106,7 @@ void cBoundingBox::Render(D3DCOLOR c)
 	for (int i = 0; i < 8; i++)
 	{
 		v[i].c = c;
+		v[i].p += m_vOriCenter;
 		D3DXVec3TransformCoord(&v[i].p, &v[i].p, &m_matWorldTM);
 	}
 
@@ -110,7 +135,7 @@ void cBoundingBox::Render(D3DCOLOR c)
 									&vecVertices[0],
 									sizeof(ST_PC_VERTEX));
 
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 
 bool cBoundingBox::IsCollision(cBoundingBox* pOBB1, cBoundingBox* pOBB2)
