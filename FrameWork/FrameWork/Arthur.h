@@ -2,9 +2,12 @@
 #include "cCharater.h"
 #include "SkinnedMesh.h"
 
+class cBoundingBox;
+
 class cArthur : public cCharater, cSkinnedMesh
 {
 private:
+	cBoundingBox*	m_pOBB;
 	float			m_fvelocity;
 
 	D3DXVECTOR3		m_vScale;
@@ -15,6 +18,9 @@ private:
 	D3DXMATRIXA16	m_matWorld;
 
 	bool			m_isMoving;
+// >>
+	D3DXMATRIXA16	m_matOBB;
+// <<
 public:
 	cArthur();
 	~cArthur() override;

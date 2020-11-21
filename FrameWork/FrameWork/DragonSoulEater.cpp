@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "TextureManager.h"
 #include "DragonSoulEater.h"
 #include "SoulEaterState.h"
 #include "cOBB.h"
@@ -54,10 +55,11 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
 	matWorld = matR * matT;
-	
+	m_pTexture = g_pTextureManager->GetTexture("data/XFile/Dragon/BlueHP.png");
 	g_pD3DDevice->SetTransform(D3DTS_WORLD,&matWorld);
+	g_pD3DDevice->SetTexture(0, m_pTexture);
 	m_pSkinnedUnit->Render();
-
+	g_pD3DDevice->SetTexture(0, NULL);
 	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
 
 }

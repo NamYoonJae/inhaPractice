@@ -43,3 +43,5 @@ struct ST_PN_VERTEX
 	D3DXVECTOR3	n;
 	enum { FVF = D3DFVF_XYZ | D3DFVF_NORMAL };
 };
+
+#define MatrixIdentity D3DXMATRIXA16(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f)

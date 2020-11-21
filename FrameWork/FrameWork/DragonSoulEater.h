@@ -23,6 +23,7 @@ private:
 	float			m_fMaxHeathPoint;
 
 	D3DXMATRIXA16	m_matWorld;
+	LPDIRECT3DTEXTURE9 m_pTexture;
 public:
 	DragonSoulEater();
 	~DragonSoulEater();
