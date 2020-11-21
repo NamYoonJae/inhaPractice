@@ -13,7 +13,6 @@ private:
 	
 	int m_PreState;
 
-
 public:
 	cButton();
 	~cButton();

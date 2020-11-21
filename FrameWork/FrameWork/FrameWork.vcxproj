@@ -162,6 +162,7 @@
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="DragonSoulEater.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />

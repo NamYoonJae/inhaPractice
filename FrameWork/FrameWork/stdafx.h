@@ -61,7 +61,7 @@ extern HWND g_hWnd;
 #include "cDeviceManage.h"
 #include "Logger.h"
 #include "EventManager.h"
-
+#include "SceneManager.h"
 
 #pragma region json
 #ifndef _MSC_VER // json헤더에서 요구

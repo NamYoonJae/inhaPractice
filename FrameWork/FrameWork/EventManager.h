@@ -44,7 +44,6 @@ enum class  EventType
 	EVENT_NUMPAD_3 = 51,
 	EVENT_NUMPAD_4 = 52,
 	EVENT_NUMPAD_5 = 53,
-
 };
 
 class cEventManager
@@ -70,5 +69,5 @@ public:
 	D3DXVECTOR2 GetMouseCurrent();
 	D3DXVECTOR2 GetMousePrev();
 
-
+	
 };

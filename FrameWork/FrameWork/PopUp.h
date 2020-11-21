@@ -17,7 +17,8 @@ enum
 class cPopUp  : public cObserver ,public cObject
 {
 protected:
-	bool m_Fixed;//Power OnOff 기능이 있는지 없는지 고정이면 true 고정 아니면 false
+	bool m_Fixed;
+	//Power OnOff 기능이 있는지 없는지 고정이면 true 고정 아니면 false
 	bool m_Power;
 
 	LPD3DXSPRITE m_pSprite;
@@ -32,8 +33,9 @@ protected:
 
 	float m_Percentage;
 
-
+	cPopUp * pParent;
 public:
+	
 	cPopUp();
 	~cPopUp();
 
@@ -59,5 +61,6 @@ public:
 
 	virtual void Destroy();
 
+	virtual cPopUp* GetForefather();
 };
 

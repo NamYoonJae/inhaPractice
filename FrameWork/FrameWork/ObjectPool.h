@@ -26,7 +26,6 @@ public:
 	void RemoveUIChild(cObject& obj);
 
 	const cObject* SearchChild(int nTag);
-	
 };
 
 struct HitDelay

@@ -16,6 +16,8 @@ cButton::~cButton()
 {
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
+
+	EventManager->Detach(*this); // 씬 이동시 자동으로 이벤트 해제
 }
 
 void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff, bool fixed)

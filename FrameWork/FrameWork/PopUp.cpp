@@ -9,6 +9,7 @@ cPopUp::cPopUp()
 	, m_pTextureUI(NULL)
 	, m_State(enum_Off)
 	, m_Position(0.0f, 0.0f, 0.0f)
+	, pParent(NULL)
 {
 	m_Percentage = 0;
 	m_Power = true;
@@ -20,6 +21,7 @@ cPopUp::~cPopUp()
 {
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
+	SafeDelete(pParent);
 	
 	for (int i = m_vecPopupBtnList.size(); i == 0 ; i--)
 	{
@@ -66,8 +68,6 @@ void cPopUp::Update(EventType message)
 	{
 		m_vecPopupBtnList[i]->Update(message);
 	}
-	
-
 }
 
 void cPopUp::Render(D3DXMATRIXA16 * pmat)
@@ -104,6 +104,7 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 void cPopUp::cButtonPushBack(cPopUp* btn)
 {
 	m_vecPopupBtnList.push_back(btn);
+	btn->pParent = this;
 }
 
 int cPopUp::GetState()
@@ -191,4 +192,16 @@ void cPopUp::Destroy()
 	}
 
 	EventManager->Detach(*this);
+}
+
+cPopUp* cPopUp::GetForefather()
+{
+	cPopUp* pPopup;
+	if (pParent)
+	{
+		pPopup = pParent->GetForefather();
+		return pPopup;
+	}
+	else
+		return this;
 }
