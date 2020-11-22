@@ -1,5 +1,8 @@
 #pragma once
 #include "cObject.h"
+
+#define CullingSize 70
+
 class cTerrain :public cObject
 {
 private:
@@ -37,7 +40,7 @@ public:
 	bool SwapMesh();
 	
 	void cTerrain::callThread();
-	RECT GetCullingRect() { return m_CullingRect; };
+	RECT GetCullingRect();
 
 	float LerpPosition(float, float, float);
 	void GetTarget(D3DXVECTOR3* pvTarget) { m_pvTarget = pvTarget; }

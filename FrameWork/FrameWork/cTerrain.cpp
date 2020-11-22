@@ -91,10 +91,10 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 	RECT InPlayArea = { 0,0,0,0 };
 
 
-	InPlayArea.left   = col - 70 < 0 ? 0 : col - 70;
-	InPlayArea.top    = row - 70 < 0  ? 0 : row - 70;
-	InPlayArea.right  = col + 70 > m_nTile ? m_nTile : col + 70;
-	InPlayArea.bottom = row + 70 > m_nTile ? m_nTile : row + 70;
+	InPlayArea.left   = col - CullingSize < 0 ? 0 : col - CullingSize;
+	InPlayArea.top    = row - CullingSize < 0  ? 0 : row - CullingSize;
+	InPlayArea.right  = col + CullingSize > m_nTile ? m_nTile : col + CullingSize;
+	InPlayArea.bottom = row + CullingSize > m_nTile ? m_nTile : row + CullingSize;
 
 
 	for (int y = InPlayArea.top; y <= InPlayArea.bottom; y++)
@@ -128,7 +128,9 @@ void cTerrain::NewTerrain(D3DXVECTOR3 vec)
 		
 	}
 
-	m_CullingRect = InPlayArea;
+	RECT rc = {vec.x -CullingSize,vec.z - CullingSize
+		,vec.x + CullingSize,vec.z + CullingSize};
+	m_CullingRect = rc;
 	IsSwapMesh = true;
 	LeaveCriticalSection(&cs);
 }
@@ -315,6 +317,12 @@ void cTerrain::callThread()
 		SafeDelete(TerrainThread);
 
 	}
+}
+
+RECT cTerrain::GetCullingRect()
+{
+	RECT rc = m_CullingRect;
+	return rc;
 }
 
 float cTerrain::LerpPosition(float a , float b, float t)

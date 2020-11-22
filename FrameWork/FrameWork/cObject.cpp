@@ -24,13 +24,14 @@ cOBB * cObject::GetOBB()
 
 void cObject::PosInMap(RECT rcVisibleArea)
 {
-	if ((rcVisibleArea.left <= m_vPos.x && m_vPos.x <= rcVisibleArea.right)
-		&& (rcVisibleArea.top <= m_vPos.z && m_vPos.z <= rcVisibleArea.bottom))
-	{
-		IsRender = true;
-	}
-	else
-		IsRender = false;
+	POINT pt = { m_vPos.x,m_vPos.z };
+	IsRender = PtInRect(&rcVisibleArea, pt);
 
-
+	//if ((rcVisibleArea.left <= m_vPos.x && m_vPos.x <= rcVisibleArea.right)
+	//	&& (rcVisibleArea.top <= m_vPos.z && m_vPos.z <= rcVisibleArea.bottom))
+	//{
+	//	IsRender = true;
+	//}
+	//else
+	//	IsRender = false;
 };

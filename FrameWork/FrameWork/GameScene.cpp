@@ -126,7 +126,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
 
 	pTerrain->GetTarget(player->GetPos());
-	ObjectManager->AddChild(pTerrain);
+	ObjectManager->AddStaticChild(pTerrain);
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 

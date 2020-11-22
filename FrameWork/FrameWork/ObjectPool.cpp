@@ -4,6 +4,10 @@
 #include "EventManager.h"
 
 #include "cOBB.h"
+#include "cTerrain.h"
+#include "Arthur.h"
+
+
 ObjectPool::ObjectPool()
 {
 }
@@ -11,14 +15,31 @@ ObjectPool::ObjectPool()
 
 ObjectPool::~ObjectPool()
 {
+	//
+
 }
 
 void ObjectPool::Update()
 {
+	static cTerrain* terrain;
+	if (terrain == NULL)
+		terrain = (cTerrain*)SearchChild(Tag::Tag_Map);
+	
+	
+	RECT rc;
+	if(terrain)
+		rc = terrain->GetCullingRect();
+	
+	
 	for(int i = 0; i< vecObjectList.size(); i++)
 	{
-		//if(vecObjectList.at(i)->GetIsRender())
-			vecObjectList.at(i)->Update();
+		
+		if (terrain != NULL)
+		{
+			vecObjectList.at(i)->PosInMap(rc);
+		}
+
+		vecObjectList.at(i)->Update();
 	}
 
 }
@@ -38,6 +59,9 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 
 	for(int i = 0 ; i < vecObjectList.size(); i++)
 	{
+		if (!vecObjectList.at(i)->GetIsRender() && vecObjectList.size() - m_nRefcnt <= i)
+			continue;
+		
 		vecObjectList.at(i)->Render(&matWorld);
 	}
 
