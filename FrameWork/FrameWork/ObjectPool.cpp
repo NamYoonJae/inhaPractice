@@ -3,6 +3,7 @@
 #include "ObjectPool.h"
 #include "EventManager.h"
 
+#include "cOBB.h"
 ObjectPool::ObjectPool()
 {
 }
@@ -16,7 +17,8 @@ void ObjectPool::Update()
 {
 	for(int i = 0; i< vecObjectList.size(); i++)
 	{
-		vecObjectList.at(i)->Update();
+		//if(vecObjectList.at(i)->GetIsRender())
+			vecObjectList.at(i)->Update();
 	}
 
 }
@@ -103,6 +105,14 @@ void ObjectPool::Revert()
 	return;
 }
 
+const cObject* ObjectPool::GetChlid(int nIndex)
+{
+	if (nIndex < vecObjectList.size())
+		return vecObjectList[nIndex];
+	else
+		return NULL;
+}
+
 void ObjectPool::AddUIChild(cObject* obj)
 {
 	vecUserInterface.push_back(obj);
@@ -130,6 +140,35 @@ const cObject* ObjectPool::SearchChild(int nTag)
 	}
 
 	return vecObjectList.at(i);
+
+}
+
+void ObjectPool::CollisionProcess()
+{
+
+	for (int i = 0; i < vecObjectList.size(); ++i)
+	{
+		if (!vecObjectList.at(i)->GetIsRender() ||
+			vecObjectList.at(i)->GetOBB() == NULL)
+			continue;
+
+		for (int j = i + 1; j < vecObjectList.size(); ++j)
+		{
+			if (!vecObjectList.at(j)->GetIsRender() ||
+				vecObjectList.at(j)->GetOBB() == NULL)
+				continue;
+
+
+			if (cOBB::IsCollision(vecObjectList.at(i)->GetOBB(),
+				vecObjectList.at(j)->GetOBB()))
+			{
+				// 수치 계산
+				
+			}
+
+		}
+
+	}
 
 }
 

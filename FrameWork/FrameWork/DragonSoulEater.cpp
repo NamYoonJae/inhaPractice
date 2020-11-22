@@ -5,9 +5,9 @@
 #include "cOBB.h"
 DragonSoulEater::DragonSoulEater()
 	:m_pSkinnedUnit(NULL)
-	,m_pOBB(NULL)
 	,m_pCurState(NULL)
 {
+	m_pOBB = NULL;
 }
 
 

@@ -43,6 +43,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		{
 			pSkyBox = new SkyBox;
 			pSkyBox->Setup("data/HeightMapData", "Earth.png");
+			ObjectManager->AddStaticChild(pSkyBox);
 		}
 		else
 		{

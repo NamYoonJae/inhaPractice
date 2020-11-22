@@ -13,17 +13,28 @@ const enum Tag
 };
 
 
-
+class cOBB;
 
 class cObject
 {
 protected:
 	int Tag;
+	cOBB*			m_pOBB;
+	bool IsRender;
+
+protected:
+	D3DXVECTOR3 m_vPos;
+	D3DXVECTOR3 m_vDir;
+	D3DXVECTOR3 m_vRot;
+
 public:
 	cObject();
-	~cObject();
+	virtual ~cObject();
 	virtual void Update() = 0;
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL) = 0;
 	void Tagging(int enumTag) { Tag = enumTag;}
 	int GetTag() { return Tag; }
+	const bool GetIsRender() { return IsRender; }
+	cOBB* GetOBB();
+	void PosInMap(RECT rcVisibleArea);
 };

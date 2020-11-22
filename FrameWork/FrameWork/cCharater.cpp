@@ -3,10 +3,7 @@
 #include "EventManager.h"
 
 cCharater::cCharater()
-	:m_vRot(0,0,0)
-	,m_vPos(0,0,0)
-	,m_vDir(0,0,-1)
-	,m_pMesh(NULL)
+	: m_pMesh(NULL)
 {
 	
 }

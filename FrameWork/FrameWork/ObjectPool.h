@@ -19,13 +19,15 @@ public:
 	void AddStaticChild(cObject* obj);
 	void RemoveChild(cObject& obj);
 	void Revert();
-	void GetChlid(int nIndex);
+	const cObject* GetChlid(int nIndex);
 
 	
 	void AddUIChild(cObject* obj);
 	void RemoveUIChild(cObject& obj);
 
 	const cObject* SearchChild(int nTag);
+
+	void CollisionProcess();
 };
 
 struct HitDelay

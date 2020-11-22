@@ -9,13 +9,9 @@ class DragonSoulEater :
 {
 private:
 	cSkinnedMesh*   m_pSkinnedUnit;
-	D3DXVECTOR3		m_vPos;
-	D3DXVECTOR3		m_vDir;
-	D3DXVECTOR3		m_vRot;
-
 	D3DMATERIAL9	m_Mstl;
 
-	cOBB*			m_pOBB;
+	
 	SoulEaterState*	m_pCurState;
 	DWORD			m_dwDelayState;
 
