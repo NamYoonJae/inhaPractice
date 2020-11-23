@@ -28,48 +28,48 @@ void cTitleScene::Setup()
 	cout << "Bottom : " << rc.bottom << endl; //860
 	cout << "Top : " << rc.top << endl; // 0
 
-	float nRight = 0.33;
-	float nBottom = 0.37;
+	float nRight = 0.34;
+	float nBottom = 0.45;
 
 	cPopUp *pBackgroundPopup = new cPopUp;
 	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
-		D3DXVECTOR3(0, 0, 0), 2, true, true);
+		D3DXVECTOR3(0, 0, 0), 1, true, true);
 
 	cPopUp *pTitleImagePopup = new cPopUp;
 	pTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
-		D3DXVECTOR3(370, 0, 0), 2, true, true);
+		D3DXVECTOR3(370, 140, 0), 1, true, true);
 	pBackgroundPopup->cButtonPushBack(pTitleImagePopup);
 
 	cPopUp *pBackGoundBtnPopup = new cPopUp;
 	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "NW_Start_UI_Back.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 2, true, true);
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1, true, true);
 	pBackgroundPopup->cButtonPushBack(pBackGoundBtnPopup);
 
 	//게임시작
 	cButton *pButton = new cButton;
 	pButton->Setup("data/UI/TitleScene/START", "NW_StartButton_Idle.png", 
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 60, 0, 2, true, true);
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 105, 30, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = StartGameBtnEvent;
 
 	//이어하기
 	pButton = new cButton;
 	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png", 
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 160, 0, 2, true, true);
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 105, 110, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ContinueGameBtnEvent;
 
 	//설정
 	pButton = new cButton;
 	pButton->Setup("data/UI/TitleScene/SETTING", "NW_SettingButton_Idle.png", 
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 260, 0, 2, true, true);
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 105, 190, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = SetupGameBtnEvent;
 
 	//게임종료
 	pButton = new cButton;
 	pButton->Setup("data/UI/TitleScene/END", "NW_EndButton_Idle.png", 
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 180, 360, 0, 2, true, true);
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 105, 270, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = EndGameBtnEvent;
 

@@ -231,9 +231,6 @@
     <ClInclude Include="XFileObject.h">
       <Filter>Code\XFile</Filter>
     </ClInclude>
-    <ClInclude Include="ButtonEvent.h">
-      <Filter>Code\UI</Filter>
-    </ClInclude>
     <ClInclude Include="AllocateHierarchy.h">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClInclude>
@@ -276,6 +273,7 @@
     <ClInclude Include="cFont.h">
       <Filter>Code\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

@@ -154,7 +154,6 @@
     <ClInclude Include="basic.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="ButtonEvent.h" />
     <ClInclude Include="AllocateHierarchy.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cCharater.h" />
