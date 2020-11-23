@@ -47,5 +47,7 @@ public:
 	void SetTransform(D3DXMATRIXA16* pmat);
 	D3DXMATRIXA16* GetCombineMatrix();
 	// <<
+
+	D3DXMATRIX* CurrentBoneMatrices;
 };
 

@@ -311,11 +311,17 @@ void cOBB::OBBBOX_Render(D3DXCOLOR c)
 	g_pD3DDevice->SetTexture(0, NULL);
 	for (int i = 0; i < m_vecVertex.size(); i++)
 		m_vecVertex[i].c = c;
-	if(!m_vecDrawingVertex.empty())
-	{
-		g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
-		m_vecDrawingVertex.size() / 2, &m_vecDrawingVertex[0], sizeof(ST_PC_VERTEX));
-	}
+
+	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+		m_vecVertex.size() / 2,
+		&m_vecVertex[0],
+		sizeof(ST_PC_VERTEX));
+
+	//if(!m_vecDrawingVertex.empty())
+	//{
+	//	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
+	//	m_vecDrawingVertex.size() / 2, &m_vecDrawingVertex[0], sizeof(ST_PC_VERTEX));
+	//}
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 

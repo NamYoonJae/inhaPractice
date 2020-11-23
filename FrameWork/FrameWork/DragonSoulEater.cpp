@@ -28,13 +28,24 @@ void DragonSoulEater::Update()
 	{
 		//SetState()
 	}
-	m_pSkinnedUnit->Update();
+	static DWORD  dwTime = GetTickCount();
 
-	D3DXMATRIXA16 matBone,matT = *m_pSkinnedUnit->GetCombineMatrix();
-	D3DXMATRIXA16 matRx;
-	D3DXMatrixRotationX(&matRx, D3DX_PI);
-	matBone = matRx * matT;
+	//if(GetTickCount() - dwTime > 5000.0f)
+		m_pSkinnedUnit->Update();
+
+	D3DXMATRIXA16 matBone;
+	D3DXMATRIXA16* matT = m_pSkinnedUnit->GetCombineMatrix();
+
+	matBone = *(D3DXMATRIXA16*)m_pSkinnedUnit->CurrentBoneMatrices;
+	
+	//D3DXMATRIXA16 matOBB,matR, matT;
+	//D3DXMatrixScaling(&matOBB, 0.05, 0.05, 0.05);
+	//D3DXMatrixRotationX(&matR, D3DX_PI * 0.5);
+	//D3DXMatrixTranslation(&matT, 0,30, 0);
+	//matOBB = matOBB * matR * matT;
 	m_pOBB->Update(&matBone);
+	
+	
 	//if(m_pCurState)
 	//{
 	//	m_pCurState->Update();

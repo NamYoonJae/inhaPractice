@@ -75,7 +75,7 @@ void cSkinnedMesh::Update()
 	}
 
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
-	Update((ST_BONE*)m_pRoot, &m_matWorldTM);
+	Update((ST_BONE*)m_pRoot, &m_matWorldTM); 
 	UpdateSkinnedMesh(m_pRoot);
 }
 
@@ -198,6 +198,8 @@ void cSkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		pBoneMesh->MeshData.pMesh->UnlockVertexBuffer();
 		pBoneMesh->pOrigMesh->UnlockVertexBuffer();
 
+		//Update CurrentBoneMatrix
+		CurrentBoneMatrices = pBoneMesh->pCurrentBoneMatrices;
 	}
 
 
@@ -364,30 +366,15 @@ void cSkinnedMesh::SetTransform(D3DXMATRIXA16* pmat)
 }
 
 D3DXMATRIXA16* cSkinnedMesh::GetCombineMatrix()
-{
-	if (m_pRoot)
+{   
+	LPD3DXFRAME pFrame = m_pRoot;
+	if (pFrame && pFrame->pMeshContainer)
 	{
-		D3DXMATRIXA16 matResult; 
-		LPD3DXANIMATIONSET CurAnim;
-		m_pAnimController->GetTrackAnimationSet(0, &CurAnim);
-
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)m_pRoot->pMeshContainer;
 		
-		
-		D3DXVECTOR3 vecS, vecT;
-		D3DXQUATERNION QuaterRot;
-		ZeroMemory(&QuaterRot, sizeof(D3DXQUATERNION));
-		CurAnim->GetSRT(1.0f,0,&vecS,&QuaterRot,&vecT);
-
-		D3DXMATRIXA16 matS, matT;
-		D3DXMATRIX matR;
-		D3DXMatrixIdentity(&matR);
-		D3DXMatrixRotationQuaternion(&matR, &QuaterRot);
-		D3DXMatrixScaling(&matS, vecS.x, vecS.y, vecS.z);
-		D3DXMatrixTranslation(&matT, vecT.x, vecT.y, vecT.z);
-		matResult = (D3DXMATRIXA16)matR;// *matS * matT;
-		
-		
-		return &matResult;
+		D3DXMATRIXA16 mat;
+		mat = (D3DXMATRIXA16)*pBoneMesh->pCurrentBoneMatrices;
+		return &mat;
 	}
 
 	return NULL;
