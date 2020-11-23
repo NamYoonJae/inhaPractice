@@ -219,6 +219,7 @@
     <ClCompile Include="SoulEater_BasicAttack.cpp" />
     <ClCompile Include="SoulEater_Idle.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TitleSceneBtnEvent.cpp" />
     <ClCompile Include="XFileObject.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="FontManager.cpp" />

@@ -24,6 +24,7 @@ protected:
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
+	float m_Percentage;	//스케일링 할 값
 
 	int m_State;
 	D3DXVECTOR3 m_Position;
@@ -31,7 +32,7 @@ protected:
 
 	vector<cPopUp*> m_vecPopupBtnList;
 
-	float m_Percentage;
+	
 
 	cPopUp * pParent;
 public:
@@ -40,9 +41,9 @@ public:
 	~cPopUp();
 
 	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent, bool powerOnOff, bool fixed);
+	void Update() override {};
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
-	void Update() override{};
 	void cButtonPushBack(cPopUp*);
 	virtual int GetState();
 	virtual void SetStateChange(int state);

@@ -71,7 +71,7 @@ void cTitleScene::Setup()
 	pButton->Setup("data/UI/TitleScene/END", "NW_EndButton_Idle.png", 
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 105, 270, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = EndGameBtnEvent;
+	pButton->EventProcess = ExitGameBtnEvent;
 
 	EventManager->Attach(pBackgroundPopup);
 	ObjectManager->AddUIChild(pBackgroundPopup);

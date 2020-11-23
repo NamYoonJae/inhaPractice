@@ -130,6 +130,9 @@
     <ClCompile Include="cFont.cpp">
       <Filter>Code\UI</Filter>
     </ClCompile>
+    <ClCompile Include="TitleSceneBtnEvent.cpp">
+      <Filter>Code\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -404,9 +407,6 @@
     </Filter>
     <Filter Include="OBB">
       <UniqueIdentifier>{32823407-0e73-4723-bf41-0ce4ae28bc7b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\UI\test">
-      <UniqueIdentifier>{aea53273-c05e-4a94-b12f-2f910fee82ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
