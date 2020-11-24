@@ -46,7 +46,7 @@ void cButton::Update(EventType message)
 {	
 	if (m_Power) 
 	{
-		//if(EventProcess)
+		if(EventProcess)
 		EventProcess(message, this);
 	}
 }

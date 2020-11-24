@@ -5,7 +5,6 @@ void Option_SetBtnEvent(EventType message, cPopUp* btn);
 void Option_ControlBtnEvent(EventType message, cPopUp* btn);
 void Option_CameraBtnEvent(EventType message, cPopUp* btn);
 void Option_AudioBtnEvent(EventType message, cPopUp* btn);
-void Option_ESC_Event(EventType message, cPopUp* btn);
 void Option_ReturnTitle(EventType message, cPopUp* btn);
 
 

@@ -3,6 +3,7 @@
 #include "PopUp.h"
 #include "Button.h"
 #include "ObjectPool.h"
+#include "OptionUIEvent.h"
 #include "TitleSceneUIEvent.h"
 
 cTitleScene::cTitleScene(SceneType T)
@@ -43,7 +44,7 @@ void cTitleScene::Setup()
 	cPopUp *pBackGoundBtnPopup = new cPopUp;
 	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "NW_Start_UI_Back.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1, true, true);
-	pBackgroundPopup->cButtonPushBack(pBackGoundBtnPopup);
+	pTitleImagePopup->cButtonPushBack(pBackGoundBtnPopup);
 
 	//게임시작
 	cButton *pButton = new cButton;
@@ -73,6 +74,8 @@ void cTitleScene::Setup()
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ExitGameBtnEvent;
 
+	Setup_OptionWindow(pBackgroundPopup);
+	
 	EventManager->Attach(pBackgroundPopup);
 	ObjectManager->AddUIChild(pBackgroundPopup);
 }

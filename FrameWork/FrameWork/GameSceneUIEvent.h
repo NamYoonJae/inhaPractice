@@ -1,3 +1,3 @@
 #pragma once
 
-void Ingame_ESC_Event(EventType message, cPopUp* btn);
+void Ingame_UI_Keyboard_Event(EventType message, cPopUp* btn);

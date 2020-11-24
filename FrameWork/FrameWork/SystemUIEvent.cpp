@@ -1,11 +1,13 @@
 #include "stdafx.h"
-#include "SceneManager.h"
-#include "TextureManager.h"
 #include "EventManager.h"
 #include "PopUp.h"
 #include "ObjectPool.h"
 #include "SystemUIEvent.h"
 #include "OptionUIEvent.h"
+
+//#include "SceneManager.h"
+//#include "TextureManager.h"
+
 
 
 void Setup_SystemWindow(cPopUp* btn)
@@ -34,26 +36,70 @@ void Setup_SystemWindow(cPopUp* btn)
 		D3DXVECTOR3(rc.right / 2 - 300, rc.bottom / 2 - 100, 0), 1,
 		true, true);
 	pOptionBackGround->cButtonPushBack(pOptionBtnBackGround);
+	
+	{ // top button
+		cButton *pOption_setButton = new cButton;
+		pOption_setButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), -50, -60, 0, 0.8, true, true);
+		pOptionBtnBackGround->cButtonPushBack(pOption_setButton);
+		pOption_setButton->EventProcess = SysWindow_OptionBtnEvent;
 
-	cButton *pOption_setButton = new cButton;
-	pOption_setButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), -50, -60, 0, 0.8, true, true);
-	pOptionBtnBackGround->cButtonPushBack(pOption_setButton);
-	pOption_setButton->EventProcess = SysWindow_OptionBtnEvent;
+		cButton *pOption_ControlButton = new cButton;
+		pOption_ControlButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 200, -60, 0, 0.8, true, true);
+		pOptionBtnBackGround->cButtonPushBack(pOption_ControlButton);
+		pOption_ControlButton->EventProcess = Option_ReturnTitle;
 
+		cButton *pOption_CameraButton = new cButton;
+		pOption_CameraButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 450, -60, 0, 0.8, true, true);
+		pOptionBtnBackGround->cButtonPushBack(pOption_CameraButton);
+		pOption_CameraButton->EventProcess = SysWindow_ExitGame;
+	}
 
-	cButton *pOption_ControlButton = new cButton;
-	pOption_ControlButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 200, -60, 0, 0.8, true, true);
-	pOptionBtnBackGround->cButtonPushBack(pOption_ControlButton);
-	pOption_ControlButton->EventProcess = Option_ReturnTitle;
+	{ // menu popup & button
+		cPopUp *pSetupNamePopup = new cPopUp;
+		pSetupNamePopup->Setup(
+			"data/UI/ConfigurationSettings",
+			"설정항목 사이즈조정.png",
+			D3DXVECTOR3(rc.right / 2 - 100, rc.bottom / 2 - 50, 0), 1,
+			true, true);
+		pOptionBackGround->cButtonPushBack(pSetupNamePopup);
 
-	cButton *pOption_CameraButton = new cButton;
-	pOption_CameraButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 450, -60, 0, 0.8, true, true);
-	pOptionBtnBackGround->cButtonPushBack(pOption_CameraButton);
-	pOption_CameraButton->EventProcess = SysWindow_ExitGame;
+		cPopUp * pBarGauge= new cPopUp;
+		pBarGauge->Setup(
+			"data/UI/ConfigurationSettings",
+			"설정창 바 게이지 사이즈 조정.png",
+			D3DXVECTOR3(rc.right / 2 - 200, rc.bottom / 2 + 10, 0), 1,
+			true, true);
+		pOptionBackGround->cButtonPushBack(pBarGauge);
 
+		cButton * pBarButton = new cButton;
+		pBarButton->Setup("data/UI/ConfigurationSettings", "설정창 바게이지 조절 버튼 사이즈조정.png",
+			D3DXVECTOR3(rc.right / 2 - 15, rc.bottom / 2 + 5, 0), 0, 0, 0, 1, true, true);
+		pBarGauge->cButtonPushBack(pBarButton);
+		// TODO 이벤트 추가
+		// BarButton->EventProcess = 이벤트
+
+		pSetupNamePopup = new cPopUp;
+		pSetupNamePopup->Setup(
+			"data/UI/ConfigurationSettings",
+			"설정항목 사이즈조정.png",
+			D3DXVECTOR3(rc.right / 2 - 100, rc.bottom / 2 + 50, 0), 1,
+			true, true);
+		pOptionBackGround->cButtonPushBack(pSetupNamePopup);
+
+		cButton * pChkButton = new cButton;
+		pChkButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 on 사이즈조정.png",
+			D3DXVECTOR3(rc.right / 2 - 24, rc.bottom / 2 + 120, 0), 0, 0, 0, 1, true, true);
+		pSetupNamePopup->cButtonPushBack(pChkButton);
+		// TODO 이벤트 추가
+		// BarButton->EventProcess = 이벤트
+	}
+	
+
+	Setup_OptionWindow(pOptionBackGround);
+	
 	if (!btn)
 	{
 		EventManager->Attach(pOptionBackGround);
@@ -61,7 +107,7 @@ void Setup_SystemWindow(cPopUp* btn)
 	}
 	else
 	{
-		pOptionBackGround->PowerOnOff(false);
+		pOptionBackGround->PowerOnOff();
 		btn->cButtonPushBack(pOptionBackGround);
 	}
 }
@@ -142,8 +188,6 @@ void SysWindow_OptionBtnEvent(EventType message, cPopUp* btn)
 			}
 		}
 	}
-
-
 	break;
 
 	case EventType::EVENT_LBUTTONUP:
@@ -154,65 +198,12 @@ void SysWindow_OptionBtnEvent(EventType message, cPopUp* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
-					button->GetForefather()->PowerOnOff();
-					Setup_OptionWindow(btn);
+					button->GetUpPopUp()->GetUpPopUp()->vecListPowerOnOff();
 				}
 			}
 		}
 	}
 	break;
-	/*
-	case EventType::EVENT_WHEELUP:
-	break;
-	case EventType::EVENT_WHEELDOWN:
-	break;
-	case EventType::EVENT_LBUTTONDLBC:
-	break;
-	case EventType::EVENT_RBUTTONDOWN:
-	break;
-	case EventType::EVENT_RBUTTONDLBC:
-	break;
-	case EventType::EVENT_RBUTTONUP:
-	break;
-	case EventType::EVENT_DRAG:
-	break;
-	case EventType::EVENT_JUMP:
-	break;
-	case EventType::EVENT_TAP:
-	break;
-	case EventType::EVENT_ENTER:
-	break;
-	case EventType::EVENT_SHIFT:
-	break;
-	case EventType::EVENT_CTRL:
-	break;
-	case EventType::EVENT_ALT:
-	break;
-	case EventType::EVENT_MENU:
-	break;
-	case EventType::EVENT_HOME_WINDOWS:
-	break;
-	case EventType::EVENT_ARROW_LEFT:
-	break;
-	case EventType::EVENT_ARROW_UP:
-	break;
-	case EventType::EVENT_ARROW_RIGHT:
-	break;
-	case EventType::EVENT_ARROW_DOWN:
-	break;
-	case EventType::EVENT_NUMPAD_1:
-	break;
-	case EventType::EVENT_NUMPAD_2:
-	break;
-	case EventType::EVENT_NUMPAD_3:
-	break;
-	case EventType::EVENT_NUMPAD_4:
-	break;
-	case EventType::EVENT_NUMPAD_5:
-	break;
-	default:
-	break;
-	*/
 	};//switch End
 }
 
@@ -257,7 +248,7 @@ void SysWindow_ExitGame(EventType message, cPopUp* btn)
 
 		if (button->GetPreState() != button->GetState())
 		{
-			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
+			if (button->GetState() == enum_Hover) //m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
 				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
 				button->SetPreState(enum_Hover);
@@ -292,8 +283,6 @@ void SysWindow_ExitGame(EventType message, cPopUp* btn)
 			}
 		}
 	}
-
-
 	break;
 
 	case EventType::EVENT_LBUTTONUP:
@@ -311,57 +300,5 @@ void SysWindow_ExitGame(EventType message, cPopUp* btn)
 		}
 	}
 	break;
-	/*
-	case EventType::EVENT_WHEELUP:
-	break;
-	case EventType::EVENT_WHEELDOWN:
-	break;
-	case EventType::EVENT_LBUTTONDLBC:
-	break;
-	case EventType::EVENT_RBUTTONDOWN:
-	break;
-	case EventType::EVENT_RBUTTONDLBC:
-	break;
-	case EventType::EVENT_RBUTTONUP:
-	break;
-	case EventType::EVENT_DRAG:
-	break;
-	case EventType::EVENT_JUMP:
-	break;
-	case EventType::EVENT_TAP:
-	break;
-	case EventType::EVENT_ENTER:
-	break;
-	case EventType::EVENT_SHIFT:
-	break;
-	case EventType::EVENT_CTRL:
-	break;
-	case EventType::EVENT_ALT:
-	break;
-	case EventType::EVENT_MENU:
-	break;
-	case EventType::EVENT_HOME_WINDOWS:
-	break;
-	case EventType::EVENT_ARROW_LEFT:
-	break;
-	case EventType::EVENT_ARROW_UP:
-	break;
-	case EventType::EVENT_ARROW_RIGHT:
-	break;
-	case EventType::EVENT_ARROW_DOWN:
-	break;
-	case EventType::EVENT_NUMPAD_1:
-	break;
-	case EventType::EVENT_NUMPAD_2:
-	break;
-	case EventType::EVENT_NUMPAD_3:
-	break;
-	case EventType::EVENT_NUMPAD_4:
-	break;
-	case EventType::EVENT_NUMPAD_5:
-	break;
-	default:
-	break;
-	*/
 	};//switch End
 }

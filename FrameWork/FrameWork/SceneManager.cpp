@@ -7,7 +7,7 @@
 #include "Camera.h"
 #include "SkyBox.h"
 #include "TitleScene.h"
-#include "cGameOverScene.h"
+#include "GameOverScene.h"
 
 cSceneManager::cSceneManager()
 	:m_CurrentScene(nullptr)

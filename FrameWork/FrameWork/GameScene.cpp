@@ -21,7 +21,7 @@
 //
 
 #include "SystemUIEvent.h"
-//#include "OptionUIEvent.h"
+#include "OptionUIEvent.h"
 #include "GameSceneUIEvent.h"
 #pragma once
 
@@ -179,17 +179,11 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	
 #pragma region UI
-	//cButton *pButton = new cButton;
-	//pButton->Setup("data/UI/TitleScene/START", "NW_StartButton_Idle.png",
-	//	D3DXVECTOR3(0, 0, 10), 0, 0, 0, 1, true, true);
-	//pButton->EventProcess = SetupGameBtnEvent;
 
+	// 중개자 역할을 수행하는 임시 cPopUp 객체
 	cPopUp * pTmp = new cPopUp();
-	// z값 올려서 화면에 표시 안되게 설정
-	// Setup에 빈값 넣어서 셋업이 가능할까?
-	pTmp->Setup("data/UI/TitleScene", "NW_Titleletter.png",
-		D3DXVECTOR3(0, 0, 10), 1, true, true);
-	pTmp->EventProcess = Ingame_ESC_Event;
+	// 이미지는 임의로 불러옴
+	pTmp->Setup("data/UI/TitleScene", "NW_Titleletter.png",D3DXVECTOR3(-1000, -1000, -100), 1, true, false);
 
 	// TODO 시스템창 불러오기
 	Setup_SystemWindow(pTmp);

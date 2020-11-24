@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "PopUp.h"
-#include "Button.h"
 #include "TextureManager.h"
 #include "EventManager.h"
+#include "Button.h"
 
 cPopUp::cPopUp()
 	: m_pSprite(NULL)
@@ -28,7 +28,6 @@ cPopUp::~cPopUp()
 		delete m_vecPopupBtnList[i];
 		m_vecPopupBtnList.erase(m_vecPopupBtnList.end());
 	}
-
 }
 
 void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed)
@@ -48,30 +47,33 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float per
 
 void cPopUp::Update(EventType message)
 {
-	if (!m_Fixed) 
+// TODO 바꾸거나 삭제할것
+// region으로 묶은 부분 활용해서 GameScene에서 팝업객체에 함수없이 메뉴 OnOff
+#pragma region Fixed_Event
+	if (!m_Fixed)
 	{
 		if (message == EventType::EVENT_ESC)
 		{
-			PowerOnOff();
-
+			// 임시로 주석처리함
+			// PowerOnOff();
 			for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 			{
 				m_vecPopupBtnList[i]->PowerOnOff();
 			}
-
 		}
 	}
+#pragma endregion Fixed_Event
 
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
 		m_vecPopupBtnList[i]->Update(message);
 	}
 
-	if (m_Power)
-	{
-		if (EventProcess)
-			EventProcess(message, this);
-	}
+	//if (m_Power)
+	//{
+	//	if (EventProcess)
+	//		EventProcess(message, this);
+	//}
 }
 
 void cPopUp::Render(D3DXMATRIXA16 * pmat)
@@ -97,7 +99,6 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 
 		m_pSprite->End();
 
-
 		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 		{
 			m_vecPopupBtnList[i]->Render();
@@ -107,8 +108,8 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 
 void cPopUp::cButtonPushBack(cPopUp* btn)
 {
-	m_vecPopupBtnList.push_back(btn);
 	btn->pParent = this;
+	m_vecPopupBtnList.push_back(btn);
 }
 
 int cPopUp::GetState()
@@ -138,7 +139,6 @@ float cPopUp::GetImageInfoHeight()
 
 void cPopUp::LoadTexture(char * szFullPath)
 {
-
 	D3DXCreateTextureFromFileExA(g_pD3DDevice,
 		szFullPath,
 		D3DX_DEFAULT_NONPOW2,
@@ -158,7 +158,6 @@ void cPopUp::LoadTexture(char * szFullPath)
 	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
-
 }
 
 void cPopUp::ChangeSprite(char * szFullPath)
@@ -187,13 +186,11 @@ void cPopUp::PowerOnOff()
 	}
 }
 
-void cPopUp::PowerOnOff(bool state)
+void cPopUp::vecListPowerOnOff()
 {
-	m_Power = state;
-
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
-		m_vecPopupBtnList[i]->PowerOnOff(state);
+		m_vecPopupBtnList[i]->PowerOnOff();
 	}
 }
 
@@ -208,25 +205,39 @@ void cPopUp::Destroy()
 	EventManager->Detach(*this);
 }
 
-cPopUp* cPopUp::GetForefather()
+cPopUp* cPopUp::GetTopPopUp()
 {
 	cPopUp* pPopup;
 	if (pParent)
 	{
-		pPopup = pParent->GetForefather();
+		pPopup = pParent->GetTopPopUp();
 		return pPopup;
 	}
 	else
 		return this;
 }
 
+cPopUp* cPopUp::GetUpPopUp()
+{
+	if (pParent)
+		return pParent;
+	else
+		return NULL;
+}
+
 
 cPopUp* cPopUp::GetPopupBtn()
 {
-	return m_vecPopupBtnList[0];
+	if (0 < m_vecPopupBtnList.size())
+		return m_vecPopupBtnList[0];
+	else
+		return NULL;
 }
 
 cPopUp* cPopUp::GetPopupBtn(int index)
 {
-	return m_vecPopupBtnList[index];
+	if (index < m_vecPopupBtnList.size())
+		return m_vecPopupBtnList[index];
+	else
+		return NULL;
 }

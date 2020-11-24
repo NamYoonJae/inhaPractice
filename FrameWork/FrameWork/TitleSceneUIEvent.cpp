@@ -178,8 +178,6 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 					button->SetPreState(enum_Off);
 				}
 			}
-
-
 		}//case EVENT_MOVE End:
 
 		break;
@@ -215,58 +213,6 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 		}
 	}
 	break;
-	/*
-	case EventType::EVENT_WHEELUP:
-	break;
-	case EventType::EVENT_WHEELDOWN:
-	break;
-	case EventType::EVENT_LBUTTONDLBC:
-	break;
-	case EventType::EVENT_RBUTTONDOWN:
-	break;
-	case EventType::EVENT_RBUTTONDLBC:
-	break;
-	case EventType::EVENT_RBUTTONUP:
-	break;
-	case EventType::EVENT_DRAG:
-	break;
-	case EventType::EVENT_JUMP:
-	break;
-	case EventType::EVENT_TAP:
-	break;
-	case EventType::EVENT_ENTER:
-	break;
-	case EventType::EVENT_SHIFT:
-	break;
-	case EventType::EVENT_CTRL:
-	break;
-	case EventType::EVENT_ALT:
-	break;
-	case EventType::EVENT_MENU:
-	break;
-	case EventType::EVENT_HOME_WINDOWS:
-	break;
-	case EventType::EVENT_ARROW_LEFT:
-	break;
-	case EventType::EVENT_ARROW_UP:
-	break;
-	case EventType::EVENT_ARROW_RIGHT:
-	break;
-	case EventType::EVENT_ARROW_DOWN:
-	break;
-	case EventType::EVENT_NUMPAD_1:
-	break;
-	case EventType::EVENT_NUMPAD_2:
-	break;
-	case EventType::EVENT_NUMPAD_3:
-	break;
-	case EventType::EVENT_NUMPAD_4:
-	break;
-	case EventType::EVENT_NUMPAD_5:
-	break;
-	default:
-	break;
-	*/
 	};//switch End
 }
 
@@ -362,9 +308,10 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Over.png");
 
-					button->GetForefather()->GetPopupBtn()->PowerOnOff();
+					button->GetTopPopUp()->vecListPowerOnOff();
+					
 					// TODO 시스템창 불러오기
-					Setup_SystemWindow(btn);
+					//Setup_SystemWindow(btn);
 					//Setup_OptionWindow();
 				}
 			}

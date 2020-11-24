@@ -1,8 +1,9 @@
 #pragma once
 #include "basic.h"
 #include "Observer.h"
-#include <functional>
 #include "cObject.h"
+#include <functional>
+
 class cButton;
 class cPopUp;
 
@@ -15,7 +16,7 @@ enum
 };
 
 
-class cPopUp : public cObserver ,public cObject
+class cPopUp : public cObserver , public cObject
 {
 protected:
 	bool m_Fixed;
@@ -34,6 +35,7 @@ protected:
 	vector<cPopUp*> m_vecPopupBtnList;
 
 	cPopUp * pParent;
+
 public:
 	
 	cPopUp();
@@ -58,11 +60,13 @@ public:
 	virtual float GetPercent();
 
 	virtual void PowerOnOff();
-	virtual void PowerOnOff(bool state);
+	virtual void vecListPowerOnOff();
 
 	virtual void Destroy();
 
-	virtual cPopUp* GetForefather();
+	virtual cPopUp* GetTopPopUp();
+	virtual cPopUp* GetUpPopUp();
+	
 	virtual cPopUp* GetPopupBtn();
 	virtual cPopUp* GetPopupBtn(int index);
 };

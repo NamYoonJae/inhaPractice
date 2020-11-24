@@ -19,15 +19,6 @@ void Setup_OptionWindow(cPopUp* btn)
 	float nRight = 0.33;
 	float nBottom = 0.37;
 
-	/*
-	cPopUp *pTitleBackGround = new cPopUp;
-	pTitleBackGround->Setup(
-	"data/UI/TitleScene",
-	"NW_Background.png",
-	D3DXVECTOR3(0, 0, 0),
-	2,
-	true, true);
-	*/
 	cPopUp *pOptionBackGround = new cPopUp;
 	pOptionBackGround->Setup(
 		"data/UI/ConfigurationSettings",
@@ -77,8 +68,16 @@ void Setup_OptionWindow(cPopUp* btn)
 	pOptionBtnBackGround->cButtonPushBack(pExitButton);
 	pExitButton->EventProcess = Option_ReturnTitle;
 
-	EventManager->Attach(pOptionBackGround);
-	ObjectManager->AddUIChild(pOptionBackGround);
+	if (!btn)
+	{
+		EventManager->Attach(pOptionBackGround);
+		ObjectManager->AddUIChild(pOptionBackGround);
+	}
+	else
+	{
+		pOptionBackGround->PowerOnOff();
+		btn->cButtonPushBack(pOptionBackGround);
+	}
 }
 
 void Option_SetBtnEvent(EventType message, cPopUp* btn)
@@ -142,8 +141,8 @@ void Option_SetBtnEvent(EventType message, cPopUp* btn)
 			}
 
 
-		}//case EVENT_MOVE End:
-
+		}
+		//case EVENT_MOVE End:
 		break;
 
 	case EventType::EVENT_LBUTTONDOWN:
@@ -157,8 +156,6 @@ void Option_SetBtnEvent(EventType message, cPopUp* btn)
 			}
 		}
 	}
-
-
 	break;
 
 	case EventType::EVENT_LBUTTONUP:
@@ -573,7 +570,9 @@ void Option_ReturnTitle(EventType message, cPopUp* btn)
 					button->SetStateChange(enum_Hover);
 					cout << "Exit Button Clicked" << endl;
 
-					g_pSceneManager->LoadScene(0);
+					cPopUp * pPopup0 = button->GetTopPopUp();
+					if(pPopup0)
+					pPopup0->vecListPowerOnOff();
 				}
 			}
 		}
