@@ -16,7 +16,7 @@ private:
 public:
 	cScene* GetCurrentScene();
 	void Setup();	
-	void ChangeScene();
+	void ChangeScene(int sceneNum);
 	void Destroy();
 	void LoadScene(int SceneType);
 };
