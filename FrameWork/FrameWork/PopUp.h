@@ -41,7 +41,13 @@ public:
 	cPopUp();
 	~cPopUp();
 
-	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent, bool powerOnOff, bool fixed);
+	virtual void Setup(char* root, 
+		char* fileName, 
+		D3DXVECTOR3 positionXYZ, 
+		float percent, 
+		bool powerOnOff, 
+		bool fixed);
+
 	void Update() override {};
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
