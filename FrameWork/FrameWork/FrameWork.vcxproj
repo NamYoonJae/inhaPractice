@@ -158,10 +158,12 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
+    <ClInclude Include="cGameOverScene.h" />
     <ClInclude Include="cFont.h" />
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="DragonSoulEater.h" />
+    <ClInclude Include="GameOverSceneBtnEvent.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="SkinnedMesh.h" />
@@ -207,10 +209,12 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
+    <ClCompile Include="cGameOverScene.cpp" />
     <ClCompile Include="cFont.cpp" />
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="DragonSoulEater.cpp" />
+    <ClCompile Include="GameOverSceneBtnEvent.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />

@@ -133,6 +133,12 @@
     <ClCompile Include="TitleSceneBtnEvent.cpp">
       <Filter>Code\UI</Filter>
     </ClCompile>
+    <ClCompile Include="cGameOverScene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverSceneBtnEvent.cpp">
+      <Filter>Code\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -277,6 +283,12 @@
       <Filter>Code\UI</Filter>
     </ClInclude>
     <ClInclude Include="Header.h" />
+    <ClInclude Include="cGameOverScene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverSceneBtnEvent.h">
+      <Filter>Code\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
