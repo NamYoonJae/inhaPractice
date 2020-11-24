@@ -5,6 +5,7 @@
 #include "PopUp.h"
 #include "ObjectPool.h"
 #include "TitleSceneBtnEvent.h"
+#include "Scene.h"
 
 void StartGameBtnEvent(EventType message, cPopUp* btn)
 {
@@ -96,13 +97,9 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
-					//상태 -> enum_Off 상태로 변경
-					//이미지 enum_Off로 변경
-					//데이터 삭제
-					//게임 시작으로 씬 이동
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Over.png");
-					g_pSceneManager->ChangeScene();
+					g_pSceneManager->ChangeScene(SCENE_BOSS_1);
 				}
 			}
 		}

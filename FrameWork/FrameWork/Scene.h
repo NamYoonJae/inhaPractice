@@ -1,7 +1,17 @@
 #pragma once
 
 
-enum SceneType { SCENE_TITLE = 0, SCENE_BOSS1 = 1, SCENE_BOSS_2 = 2 };
+enum SceneType 
+{ 
+	SCENE_TITLE = 0, 
+	SCENE_BOSS_1 = 1, 
+	SCENE_BOSS_2 = 2,
+
+
+
+	SCENE_GAMEOVER = 3
+
+};
 
 class cScene
 {
