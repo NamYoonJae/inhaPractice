@@ -19,6 +19,10 @@
 #include "ObjectPool.h"
 #include "DragonSoulEater.h"
 //
+
+#include "SystemUIEvent.h"
+#include "OptionUIEvent.h"
+#include "GameSceneUIEvent.h"
 #pragma once
 
 
@@ -92,10 +96,10 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	ObjectManager->AddChild(pGrid);
 
-	//pPopup = new cPopUp;
-	// json 파일 쓸 때 대비해서 주석남겨둠
-	//pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
-	//pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
+	// TODO json 파일 쓸 때 대비해서 주석남겨둠
+	// pPopup = new cPopUp;
+	// pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
+	// pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
 
 	//EventManager->Attach(pPopup);
 	//ObjectManager->AddUIChild(pPopup);
@@ -171,4 +175,27 @@ void cGameScene::Setup() // boss1map  boss2map
 	//	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 	//
 	//#pragma endregion jsonfileload
+
+
+	
+#pragma region UI
+	//cButton *pButton = new cButton;
+	//pButton->Setup("data/UI/TitleScene/START", "NW_StartButton_Idle.png",
+	//	D3DXVECTOR3(0, 0, 10), 0, 0, 0, 1, true, true);
+	//pButton->EventProcess = SetupGameBtnEvent;
+
+	cPopUp * pTmp = new cPopUp();
+	// z값 올려서 화면에 표시 안되게 설정
+	// Setup에 빈값 넣어서 셋업이 가능할까?
+	pTmp->Setup("data/UI/TitleScene", "NW_Titleletter.png",
+		D3DXVECTOR3(0, 0, 10), 1, true, true);
+	pTmp->EventProcess = OnOff_Event;
+	
+	Setup_SystemWindow(pTmp);
+
+	EventManager->Attach(pTmp);
+	ObjectManager->AddUIChild(pTmp);
+	
+#pragma region UI
+	
 }

@@ -40,13 +40,13 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 	fileRoot = fileRoot + string("/") + string(fileName);
 
 	LoadTexture((char*)fileRoot.c_str());
-
 }
 
 void cButton::Update(EventType message)
 {	
 	if (m_Power) 
 	{
+		//if(EventProcess)
 		EventProcess(message, this);
 	}
 }
@@ -75,6 +75,7 @@ void cButton::Render()
 		m_pSprite->End();
 	}
 }
+
 /*
 void cButton::Render(D3DXVECTOR3 position)
 {

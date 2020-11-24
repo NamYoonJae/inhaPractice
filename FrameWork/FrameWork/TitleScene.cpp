@@ -3,7 +3,7 @@
 #include "PopUp.h"
 #include "Button.h"
 #include "ObjectPool.h"
-#include "TitleSceneBtnEvent.h"
+#include "TitleSceneUIEvent.h"
 
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)

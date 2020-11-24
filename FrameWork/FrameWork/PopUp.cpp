@@ -44,7 +44,6 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float per
 	fileRoot = root + string("/") + string(fileName);
 	
 	LoadTexture((char*)fileRoot.c_str());
-
 }
 
 void cPopUp::Update(EventType message)
@@ -63,10 +62,15 @@ void cPopUp::Update(EventType message)
 		}
 	}
 
-
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
 		m_vecPopupBtnList[i]->Update(message);
+	}
+
+	if (m_Power)
+	{
+		if (EventProcess)
+			EventProcess(message, this);
 	}
 }
 
@@ -183,6 +187,16 @@ void cPopUp::PowerOnOff()
 	}
 }
 
+void cPopUp::PowerOnOff(bool state)
+{
+	m_Power = state;
+
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		m_vecPopupBtnList[i]->PowerOnOff(state);
+	}
+}
+
 void cPopUp::Destroy()
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
@@ -204,4 +218,15 @@ cPopUp* cPopUp::GetForefather()
 	}
 	else
 		return this;
+}
+
+
+cPopUp* cPopUp::GetPopupBtn()
+{
+	return m_vecPopupBtnList[0];
+}
+
+cPopUp* cPopUp::GetPopupBtn(int index)
+{
+	return m_vecPopupBtnList[index];
 }

@@ -4,6 +4,7 @@
 #include <functional>
 #include "cObject.h"
 class cButton;
+class cPopUp;
 
 //자식 뿐만 아니라 버튼 이벤트 헤더에서도 사용하기 때문에 전역으로 설정
 enum
@@ -14,7 +15,7 @@ enum
 };
 
 
-class cPopUp  : public cObserver ,public cObject
+class cPopUp : public cObserver ,public cObject
 {
 protected:
 	bool m_Fixed;
@@ -32,8 +33,6 @@ protected:
 
 	vector<cPopUp*> m_vecPopupBtnList;
 
-	
-
 	cPopUp * pParent;
 public:
 	
@@ -48,8 +47,8 @@ public:
 	virtual int GetState();
 	virtual void SetStateChange(int state);
 	virtual D3DXVECTOR3 GetPosition();
-	std::function<void(EventType&, cPopUp*)> EventProcess;
-	
+	function<void(EventType&, cPopUp*)> EventProcess;
+
 	virtual float GetImageInfoWidth();
 	virtual float GetImageInfoHeight();
 
@@ -59,9 +58,12 @@ public:
 	virtual float GetPercent();
 
 	virtual void PowerOnOff();
+	virtual void PowerOnOff(bool state);
 
 	virtual void Destroy();
 
 	virtual cPopUp* GetForefather();
+	virtual cPopUp* GetPopupBtn();
+	virtual cPopUp* GetPopupBtn(int index);
 };
 
