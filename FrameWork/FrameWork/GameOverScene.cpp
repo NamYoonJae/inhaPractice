@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "cGameOverScene.h"
+#include "GameOverScene.h"
 #include "ObjectPool.h"
 #include "GameOverSceneBtnEvent.h"
 

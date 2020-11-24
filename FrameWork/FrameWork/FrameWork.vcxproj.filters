@@ -130,9 +130,6 @@
     <ClCompile Include="cFont.cpp">
       <Filter>Code\UI</Filter>
     </ClCompile>
-    <ClCompile Include="cGameOverScene.cpp">
-      <Filter>Code\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverSceneBtnEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
@@ -147,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="GameSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>Code\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,9 +289,6 @@
       <Filter>Code\UI</Filter>
     </ClInclude>
     <ClInclude Include="Header.h" />
-    <ClInclude Include="cGameOverScene.h">
-      <Filter>Code\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverSceneBtnEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
@@ -306,6 +303,9 @@
     </ClInclude>
     <ClInclude Include="GameSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Code\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
