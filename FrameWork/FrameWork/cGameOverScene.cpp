@@ -3,6 +3,8 @@
 #include "ObjectPool.h"
 #include "GameOverSceneBtnEvent.h"
 
+#pragma once
+
 
 cGameOverScene::cGameOverScene(SceneType T)
 	:cScene(T)

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Camera.h"
 #include "Grid.h"
-#include "TimerManager.h"
-#include "FontManager.h"
-#include "ObjObject.h"
-#include "Observer.h"
+//#include "TimerManager.h"
+//#include "FontManager.h"
+//#include "ObjObject.h"
+//#include "Observer.h"
 #include "cTerrain.h"
 #include "Button.h"
 #include "cCharater.h"
@@ -21,7 +21,7 @@
 //
 
 #include "SystemUIEvent.h"
-#include "OptionUIEvent.h"
+//#include "OptionUIEvent.h"
 #include "GameSceneUIEvent.h"
 #pragma once
 
@@ -189,8 +189,9 @@ void cGameScene::Setup() // boss1map  boss2map
 	// Setup에 빈값 넣어서 셋업이 가능할까?
 	pTmp->Setup("data/UI/TitleScene", "NW_Titleletter.png",
 		D3DXVECTOR3(0, 0, 10), 1, true, true);
-	pTmp->EventProcess = OnOff_Event;
-	
+	pTmp->EventProcess = Ingame_ESC_Event;
+
+	// TODO 시스템창 불러오기
 	Setup_SystemWindow(pTmp);
 
 	EventManager->Attach(pTmp);

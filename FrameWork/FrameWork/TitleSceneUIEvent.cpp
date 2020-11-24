@@ -1,16 +1,17 @@
 #include "stdafx.h"
-#include "SceneManager.h"
+#include "GameOverSceneBtnEvent.h"
 #include "EventManager.h"
 #include "PopUp.h"
+#include "Scene.h"
 #include "TitleSceneUIEvent.h"
 #include "SystemUIEvent.h"
+
+//#include "SceneManager.h"
 //#include "TextureManager.h"
 //#include "ObjectPool.h"
 //#include "OptionEvent.h"
 
 #pragma once
-
-//시스템 팝업을 셋업할때 생각해야허는듸 어떻게하지
 
 void StartGameBtnEvent(EventType message, cPopUp* btn)
 {
@@ -108,7 +109,7 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 					//게임 시작으로 씬 이동
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Over.png");
-					g_pSceneManager->ChangeScene();
+					g_pSceneManager->ChangeScene(SceneType::SCENE_BOSS_1);
 				}
 			}
 		}
@@ -362,7 +363,7 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 					button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Over.png");
 
 					button->GetForefather()->GetPopupBtn()->PowerOnOff();
-					// TODO add function
+					// TODO 시스템창 불러오기
 					Setup_SystemWindow(btn);
 					//Setup_OptionWindow();
 				}
@@ -466,7 +467,7 @@ void ExitGameBtnEvent(EventType message, cPopUp* btn)
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/TitleScene/END/NW_EndButton_Over.png");
 					exit(0);
-					
+
 				}
 			}
 		}
