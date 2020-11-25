@@ -17,7 +17,18 @@ public:
 	cButton();
 	~cButton();
 
-	void Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff, bool fixed);
+	void Setup(
+		char* root,
+		char* fileName,
+		D3DXVECTOR3 position,
+		float x,
+		float y,
+		float z,
+		float percent,
+		bool powerOnOff,
+		bool fixed
+	);
+	
 	void Update(EventType message);
 	void Render();
 	//void Render(D3DXVECTOR3 position);
@@ -40,7 +51,6 @@ public:
 	//bool GetPreHoverCheck() { return preHoverCheck; };
 	//void ChangeHoverCheck() { curHoverCheck = !curHoverCheck; };
 	//void SetPreHoverCheck() { preHoverCheck = curHoverCheck; };
-
 
 	float GetPercent();
 	void PowerOnOff();

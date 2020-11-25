@@ -143,8 +143,6 @@ void cButton::LoadTexture(char * szFullPath)
 
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
-
-
 }
 
 void cButton::ChangeSprite(char * szFullPath)

@@ -57,7 +57,6 @@ private:
 	
 	std::map<int, EventType> m_mapEvent;
 
-	//
 	D3DXVECTOR2 m_vCur;
 	D3DXVECTOR2 m_vPrev;
 	bool		m_IsDrag;
