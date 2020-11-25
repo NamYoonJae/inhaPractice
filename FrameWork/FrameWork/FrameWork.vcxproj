@@ -165,7 +165,6 @@
     <ClInclude Include="DragonSoulEater.h" />
     <ClInclude Include="GameOverSceneBtnEvent.h" />
     <ClInclude Include="GameSceneUIEvent.h" />
-    <ClInclude Include="Header.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="OptionUIEvent.h" />
     <ClInclude Include="SkinnedMesh.h" />
