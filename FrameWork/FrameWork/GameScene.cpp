@@ -128,7 +128,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->GetWorldMatrix(&matWorld);
 	m_pDragon->Tagging(Tag::Tag_Boss);
 	ObjectManager->AddChild(m_pDragon);
-	//
+	//m_pSkinnedUnit->SetTransform();
+
+	
+	//ObjectManager->AddChild(m_pSkinnedUnit);
 
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));

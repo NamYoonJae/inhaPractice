@@ -41,6 +41,11 @@ void DragonSoulEater::Update()
 	m_pOBB->Update(&matOBB);
 	
 	
+	
+	//if(m_pCurState)
+	//{
+	//	m_pCurState->Update();
+	//}
 
 }
 

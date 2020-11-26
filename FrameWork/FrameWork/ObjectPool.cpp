@@ -60,8 +60,6 @@ void ObjectPool::Update()
 		vecObjectList.at(i)->Update();
 	}
 
-
-	//
 	//if (arthur && souleater)
 	//{
 	//	if (souleater->GetOBB() == NULL || arthur->GetOBB() == NULL)

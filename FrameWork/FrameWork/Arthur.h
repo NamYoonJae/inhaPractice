@@ -7,7 +7,6 @@ class cBoundingBox;
 class cArthur : public cCharater, cSkinnedMesh
 {
 private:
-	//cBoundingBox*	m_pOBB;
 	float			m_fvelocity;
 
 	D3DXVECTOR3		m_vScale;
@@ -29,7 +28,7 @@ public:
 	void Update();
 	void Update(EventType event) override;
 	void Render(D3DXMATRIXA16 * pmat = NULL);
-
+	  
 	void SetTranseform(D3DXMATRIXA16* pmat);
 	
 	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; }
