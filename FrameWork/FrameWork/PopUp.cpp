@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "PopUp.h"
-#include "Button.h"
 #include "TextureManager.h"
 #include "EventManager.h"
+#include "Button.h"
 
 cPopUp::cPopUp()
 	: m_pSprite(NULL)
@@ -28,7 +28,6 @@ cPopUp::~cPopUp()
 		delete m_vecPopupBtnList[i];
 		m_vecPopupBtnList.erase(m_vecPopupBtnList.end());
 	}
-
 }
 
 void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed)
@@ -44,30 +43,56 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float per
 	fileRoot = root + string("/") + string(fileName);
 	
 	LoadTexture((char*)fileRoot.c_str());
+}
 
+void cPopUp::Setup(char* root,char* fileName,D3DXVECTOR3 position,float x,float y,float z,float percent,bool powerOnOff,bool fixed)
+{
+	m_Percentage = percent;
+
+	m_Position.x = position.x + x;
+	m_Position.y = position.y + y;
+	m_Position.z = position.z + z;
+
+	m_Power = powerOnOff;
+	m_Fixed = fixed;
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	string fileRoot(root);
+	fileRoot = fileRoot + string("/") + string(fileName);
+
+	LoadTexture((char*)fileRoot.c_str());
 }
 
 void cPopUp::Update(EventType message)
 {
-	if (!m_Fixed) 
+// TODO 바꾸거나 삭제할것
+// region으로 묶은 부분 활용해서 GameScene에서 팝업객체에 함수없이 메뉴 OnOff
+#pragma region Fixed_Event
+	if (!m_Fixed)
 	{
 		if (message == EventType::EVENT_ESC)
 		{
-			PowerOnOff();
-
+			// 임시로 주석처리함
+			// PowerOnOff();
 			for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 			{
 				m_vecPopupBtnList[i]->PowerOnOff();
 			}
-
 		}
 	}
-
+#pragma endregion Fixed_Event
 
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
 		m_vecPopupBtnList[i]->Update(message);
 	}
+
+	//if (m_Power)
+	//{
+	//	if (EventProcess)
+	//		EventProcess(message, this);
+	//}
 }
 
 void cPopUp::Render(D3DXMATRIXA16 * pmat)
@@ -93,7 +118,6 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 
 		m_pSprite->End();
 
-
 		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 		{
 			m_vecPopupBtnList[i]->Render();
@@ -103,8 +127,8 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 
 void cPopUp::cButtonPushBack(cPopUp* btn)
 {
-	m_vecPopupBtnList.push_back(btn);
 	btn->pParent = this;
+	m_vecPopupBtnList.push_back(btn);
 }
 
 int cPopUp::GetState()
@@ -134,7 +158,6 @@ float cPopUp::GetImageInfoHeight()
 
 void cPopUp::LoadTexture(char * szFullPath)
 {
-
 	D3DXCreateTextureFromFileExA(g_pD3DDevice,
 		szFullPath,
 		D3DX_DEFAULT_NONPOW2,
@@ -154,7 +177,6 @@ void cPopUp::LoadTexture(char * szFullPath)
 	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
-
 }
 
 void cPopUp::ChangeSprite(char * szFullPath)
@@ -166,6 +188,16 @@ void cPopUp::ChangeSprite(char * szFullPath)
 
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
+}
+
+void cPopUp::MovePosition(D3DXVECTOR2 distance)
+{
+	m_Position.x += distance.x;
+	m_Position.y += distance.y;
+
+	//// TODO 테스트 후 로그 지우기
+	//cout << "move x  :  " << distance.x << endl;
+	//cout << "move y  :  " << distance.y << endl;
 }
 
 float cPopUp::GetPercent()
@@ -183,6 +215,14 @@ void cPopUp::PowerOnOff()
 	}
 }
 
+void cPopUp::vecListPowerOnOff()
+{
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		m_vecPopupBtnList[i]->PowerOnOff();
+	}
+}
+
 void cPopUp::Destroy()
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
@@ -194,14 +234,39 @@ void cPopUp::Destroy()
 	EventManager->Detach(*this);
 }
 
-cPopUp* cPopUp::GetForefather()
+cPopUp* cPopUp::GetTopPopUp()
 {
 	cPopUp* pPopup;
 	if (pParent)
 	{
-		pPopup = pParent->GetForefather();
+		pPopup = pParent->GetTopPopUp();
 		return pPopup;
 	}
 	else
 		return this;
+}
+
+cPopUp* cPopUp::GetUpPopUp()
+{
+	if (pParent)
+		return pParent;
+	else
+		return NULL;
+}
+
+
+cPopUp* cPopUp::GetPopupBtn()
+{
+	if (0 < m_vecPopupBtnList.size())
+		return m_vecPopupBtnList[0];
+	else
+		return NULL;
+}
+
+cPopUp* cPopUp::GetPopupBtn(int index)
+{
+	if (index < m_vecPopupBtnList.size())
+		return m_vecPopupBtnList[index];
+	else
+		return NULL;
 }

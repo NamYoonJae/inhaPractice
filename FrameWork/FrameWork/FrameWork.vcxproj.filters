@@ -130,8 +130,23 @@
     <ClCompile Include="cFont.cpp">
       <Filter>Code\UI</Filter>
     </ClCompile>
-    <ClCompile Include="TitleSceneBtnEvent.cpp">
-      <Filter>Code\UI</Filter>
+    <ClCompile Include="GameOverSceneBtnEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleSceneUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameSceneUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>Code\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -252,9 +267,6 @@
     <ClInclude Include="TitleScene.h">
       <Filter>Code\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="TitleSceneBtnEvent.h">
-      <Filter>Code\UI</Filter>
-    </ClInclude>
     <ClInclude Include="DragonSoulEater.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater</Filter>
     </ClInclude>
@@ -276,7 +288,24 @@
     <ClInclude Include="cFont.h">
       <Filter>Code\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="GameOverSceneBtnEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSceneUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSceneUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -407,6 +436,9 @@
     </Filter>
     <Filter Include="OBB">
       <UniqueIdentifier>{32823407-0e73-4723-bf41-0ce4ae28bc7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\UI\UIEvent">
+      <UniqueIdentifier>{e8d6d8aa-3d5d-425d-b8b6-67b93a3cf755}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

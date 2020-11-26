@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Camera.h"
 #include "Grid.h"
-#include "TimerManager.h"
-#include "FontManager.h"
-#include "ObjObject.h"
-#include "Observer.h"
+//#include "TimerManager.h"
+//#include "FontManager.h"
+//#include "ObjObject.h"
+//#include "Observer.h"
 #include "cTerrain.h"
 #include "Button.h"
 #include "cCharater.h"
@@ -19,6 +19,10 @@
 #include "ObjectPool.h"
 #include "DragonSoulEater.h"
 //
+
+#include "SystemUIEvent.h"
+#include "OptionUIEvent.h"
+#include "GameSceneUIEvent.h"
 #pragma once
 
 
@@ -92,10 +96,10 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	ObjectManager->AddChild(pGrid);
 
-	//pPopup = new cPopUp;
-	// json 파일 쓸 때 대비해서 주석남겨둠
-	//pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
-	//pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
+	// TODO json 파일 쓸 때 대비해서 주석남겨둠
+	// pPopup = new cPopUp;
+	// pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
+	// pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
 
 	//EventManager->Attach(pPopup);
 	//ObjectManager->AddUIChild(pPopup);
@@ -171,4 +175,22 @@ void cGameScene::Setup() // boss1map  boss2map
 	//	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 	//
 	//#pragma endregion jsonfileload
+
+
+	
+#pragma region UI
+
+	// 중개자 역할을 수행하는 임시 cPopUp 객체
+	cPopUp * pTmp = new cPopUp();
+	// 이미지는 임의로 불러옴
+	pTmp->Setup("data/UI/TitleScene", "NW_Titleletter.png",D3DXVECTOR3(-1000, -1000, -100), 1, true, false);
+
+	// TODO 시스템창 불러오기
+	Setup_SystemWindow(pTmp);
+
+	EventManager->Attach(pTmp);
+	ObjectManager->AddUIChild(pTmp);
+	
+#pragma region UI
+	
 }

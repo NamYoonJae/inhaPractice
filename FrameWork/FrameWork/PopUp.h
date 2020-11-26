@@ -1,9 +1,11 @@
 #pragma once
 #include "basic.h"
 #include "Observer.h"
-#include <functional>
 #include "cObject.h"
+#include <functional>
+
 class cButton;
+class cPopUp;
 
 //자식 뿐만 아니라 버튼 이벤트 헤더에서도 사용하기 때문에 전역으로 설정
 enum
@@ -14,7 +16,7 @@ enum
 };
 
 
-class cPopUp  : public cObserver ,public cObject
+class cPopUp : public cObserver , public cObject
 {
 protected:
 	bool m_Fixed;
@@ -32,15 +34,33 @@ protected:
 
 	vector<cPopUp*> m_vecPopupBtnList;
 
-	
-
 	cPopUp * pParent;
+
 public:
 	
 	cPopUp();
 	~cPopUp();
 
-	virtual void Setup(char* root, char* fileName, D3DXVECTOR3 positionXYZ, float percent, bool powerOnOff, bool fixed);
+	virtual void Setup(
+		char* root, 
+		char* fileName, 
+		D3DXVECTOR3 positionXYZ, 
+		float percent, 
+		bool powerOnOff, 
+		bool fixed
+	);
+	virtual void Setup(
+		char* root,
+		char* fileName,
+		D3DXVECTOR3 position,
+		float x,
+		float y,
+		float z,
+		float percent,
+		bool powerOnOff,
+		bool fixed
+	);
+
 	void Update() override {};
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
@@ -48,20 +68,26 @@ public:
 	virtual int GetState();
 	virtual void SetStateChange(int state);
 	virtual D3DXVECTOR3 GetPosition();
-	std::function<void(EventType&, cPopUp*)> EventProcess;
-	
+	function<void(EventType&, cPopUp*)> EventProcess;
+
 	virtual float GetImageInfoWidth();
 	virtual float GetImageInfoHeight();
 
 	virtual void LoadTexture(char* szFullPath);
 	virtual void ChangeSprite(char* szFullPath);
-
+	virtual void MovePosition(D3DXVECTOR2 distance);
+	
 	virtual float GetPercent();
 
 	virtual void PowerOnOff();
+	virtual void vecListPowerOnOff();
 
 	virtual void Destroy();
 
-	virtual cPopUp* GetForefather();
+	virtual cPopUp* GetTopPopUp();
+	virtual cPopUp* GetUpPopUp();
+	
+	virtual cPopUp* GetPopupBtn();
+	virtual cPopUp* GetPopupBtn(int index);
 };
 

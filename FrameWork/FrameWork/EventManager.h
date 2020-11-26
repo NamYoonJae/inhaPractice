@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include "Subject.h"
 #include "stdafx.h"
+
 #pragma once
 #include <queue>
 #include "Button.h"
@@ -56,7 +57,6 @@ private:
 	
 	std::map<int, EventType> m_mapEvent;
 
-	//
 	D3DXVECTOR2 m_vCur;
 	D3DXVECTOR2 m_vPrev;
 	bool		m_IsDrag;
