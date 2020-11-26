@@ -127,7 +127,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->GetWorldMatrix(&matWorld);
 	m_pDragon->Tagging(Tag::Tag_Boss);
 	ObjectManager->AddChild(m_pDragon);
-	m_pDragon->Tagging(Tag::Tag_Boss);
 	//m_pSkinnedUnit->SetTransform();
 
 	

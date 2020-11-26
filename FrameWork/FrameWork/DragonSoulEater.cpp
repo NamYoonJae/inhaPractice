@@ -3,11 +3,6 @@
 #include "DragonSoulEater.h"
 #include "SoulEaterState.h"
 #include "cOBB.h"
-
-// >> Temp [ For Debug ]
-#include "BoundingBox.h"
-// <<
-
 DragonSoulEater::DragonSoulEater()
 	:m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
@@ -46,6 +41,7 @@ void DragonSoulEater::Update()
 	m_pOBB->Update(&matOBB);
 	
 	
+	
 	//if(m_pCurState)
 	//{
 	//	m_pCurState->Update();
@@ -57,7 +53,7 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 {
 	D3DXMATRIXA16 matWorld, matT,
 	matR, matRx,matRy,matRz;
-	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&matWorld);
 
 	D3DXMatrixRotationX(&matRx,m_vRot.x);
 	D3DXMatrixRotationY(&matRy,m_vRot.y);
@@ -65,20 +61,20 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	matR = matRx * matRy * matRz;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
-	m_matWorld = matR * matT;
+	matWorld = matR * matT;
 	m_pTexture = g_pTextureManager->GetTexture("data/XFile/Dragon/BlueHP.png");
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD,&m_matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD,&matWorld);
 	g_pD3DDevice->SetTexture(0, m_pTexture);
 	m_pSkinnedUnit->Render();
 	g_pD3DDevice->SetTexture(0, NULL);
-	//m_pOBB->OBBBOX_Render(D3DXCOLOR(1.0f,0,0,1.0f));
+	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
+
 }
 
 void DragonSoulEater::Setup(char* szFolder, char* szFileName)
 {
 	m_pSkinnedUnit = new cSkinnedMesh(szFolder, szFileName);
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pSkinnedUnit);
 
 	D3DXMATRIXA16 mat;
 	D3DXMatrixScaling(&mat, 0.2, 0.2, 0.2);

@@ -24,7 +24,7 @@ void cArthur::Setup(char* szFolder, char* szFile)
 {
 	cSkinnedMesh::Setup(szFolder, szFile);
 	SetAnimationIndex(0);
-	m_vPos = D3DXVECTOR3(25, 0, -55);
+	m_vPos = D3DXVECTOR3(20, 0, 30);
 	
 	D3DXMATRIXA16 mat;
 	D3DXMatrixScaling(&mat, 0.1, 0.1, 0.1);
@@ -89,11 +89,13 @@ void cArthur::Update()
 	cSkinnedMesh::Update((ST_BONE*)m_pRoot, &m_matWorldTM);
 	UpdateSkinnedMesh(m_pRoot);
 
-	m_matOBB = (D3DXMATRIXA16)*m_pCurrentBoneMatrices;
+	//m_matOBB = (D3DXMATRIXA16)*m_pCurrentBoneMatrices;
 	//m_matOBB = m_pRoot->TransformationMatrix * m_matRot * m_matTranse;
 	//m_matOBB = m_pRoot->TransformationMatrix * m_matWorld;
 	
 	m_matOBB = m_matRot * m_matTranse;
+	//D3DXMatrixScaling(&m_matOBB, 20, 40, 20);
+	//m_matOBB *= m_matWorldTM;
 	m_pOBB->Update(&m_matOBB);
 }
 

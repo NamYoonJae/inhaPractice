@@ -28,7 +28,7 @@ public:
 	void Update();
 	void Update(EventType event) override;
 	void Render(D3DXMATRIXA16 * pmat = NULL);
-
+	  
 	void SetTranseform(D3DXMATRIXA16* pmat);
 	
 	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; }
@@ -36,7 +36,5 @@ public:
 
 	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
 	D3DXVECTOR3 GetScale() { return m_vScale; }
-
-	//cBoundingBox* GetBoundingBox() { return m_pOBB; }
 };
 

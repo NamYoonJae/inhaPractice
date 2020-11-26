@@ -5,12 +5,9 @@
 
 #include "cOBB.h"
 #include "cTerrain.h"
-
-// >>
-#include "BoundingBox.h"
 #include "Arthur.h"
 #include "DragonSoulEater.h"
-// <<
+
 
 ObjectPool::ObjectPool()
 {

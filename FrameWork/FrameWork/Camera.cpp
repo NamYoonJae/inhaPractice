@@ -14,7 +14,7 @@ cCamera::cCamera()
 	, m_isLccButtonDown(false)
 	, m_vCamRotAngle(0, 0, 0)
 	, m_ptPrevMouse(0, 0)
-	, m_vOriginEye(0, 100, -5)
+	, m_vOriginEye(0, 50, -5)
 {
 }
 

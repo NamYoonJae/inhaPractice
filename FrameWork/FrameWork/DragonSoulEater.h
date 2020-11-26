@@ -4,7 +4,6 @@
 
 class SoulEaterState;
 class cOBB;
-class cBoundingBox;
 class DragonSoulEater :
 	public cObject
 {
@@ -21,7 +20,6 @@ private:
 
 	D3DXMATRIXA16	m_matWorld;
 	LPDIRECT3DTEXTURE9 m_pTexture;
-
 public:
 	DragonSoulEater();
 	~DragonSoulEater();
