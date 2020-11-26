@@ -53,7 +53,8 @@ public:
 	//void SetPreHoverCheck() { preHoverCheck = curHoverCheck; };
 
 	float GetPercent();
-	void PowerOnOff();
+	//void PowerOnOff();
+	//void PowerOnOff(bool state);
 
 	void Destroy();
 };

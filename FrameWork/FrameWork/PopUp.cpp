@@ -73,7 +73,7 @@ void cPopUp::Update(EventType message)
 	{
 		if (message == EventType::EVENT_ESC)
 		{
-			// 임시로 주석처리함
+			// 바로 아랫줄 임시로 주석처리함
 			// PowerOnOff();
 			for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 			{
@@ -83,11 +83,15 @@ void cPopUp::Update(EventType message)
 	}
 #pragma endregion Fixed_Event
 
-	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	if (m_Power)
 	{
-		m_vecPopupBtnList[i]->Update(message);
+		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+		{
+			m_vecPopupBtnList[i]->Update(message);
+		}
 	}
 
+	
 	//if (m_Power)
 	//{
 	//	if (EventProcess)
@@ -200,6 +204,12 @@ void cPopUp::MovePosition(D3DXVECTOR2 distance)
 	//cout << "move y  :  " << distance.y << endl;
 }
 
+void cPopUp::SetPosition(D3DXVECTOR2 position)
+{
+	m_Position.x = position.x;
+	m_Position.y = position.y;
+}
+
 float cPopUp::GetPercent()
 {
 	return m_Percentage;
@@ -215,11 +225,29 @@ void cPopUp::PowerOnOff()
 	}
 }
 
+void cPopUp::PowerOnOff(bool power)
+{
+	m_Power = power;
+
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		m_vecPopupBtnList[i]->PowerOnOff(power);
+	}
+}
+
 void cPopUp::vecListPowerOnOff()
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
 		m_vecPopupBtnList[i]->PowerOnOff();
+	}
+}
+
+void cPopUp::vecListPowerOnOff(bool power)
+{
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		m_vecPopupBtnList[i]->PowerOnOff(power);
 	}
 }
 
@@ -269,4 +297,14 @@ cPopUp* cPopUp::GetPopupBtn(int index)
 		return m_vecPopupBtnList[index];
 	else
 		return NULL;
+}
+
+int cPopUp::GetPopUpListSize()
+{
+	return m_vecPopupBtnList.size();
+}
+
+bool cPopUp::GetPowerState()
+{
+	return m_Power;
 }

@@ -44,13 +44,20 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 
 void cButton::Update(EventType message)
 {	
-	if (m_Power) 
+	if (m_Power)
 	{
 		if(EventProcess)
 		EventProcess(message, this);
+
+		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+		{
+			if (this->m_Power)
+				m_vecPopupBtnList[i]->Update(message);
+		}
 	}
 }
 
+// 현재 동작안하는 메서드니까 확인바람
 void cButton::Render()
 {
 	if (m_Power) 
@@ -96,6 +103,7 @@ void cButton::Render(D3DXVECTOR3 position)
 	m_pSprite->End();
 }
 */
+
 int cButton::GetState()
 {
 	return m_State;
@@ -171,10 +179,22 @@ float cButton::GetPercent()
 	return m_Percentage;
 }
 
-void cButton::PowerOnOff()
-{
-	m_Power = !m_Power;
-}
+//void cButton::PowerOnOff()
+//{
+//	m_Power = !m_Power;
+//
+//	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+//	{
+//		m_vecPopupBtnList[i]->PowerOnOff();
+//	}
+//}
+//
+//void cButton::PowerOnOff(bool state)
+//{
+//	m_Power = state;
+//	
+//}
+
 
 void cButton::Destroy()
 {

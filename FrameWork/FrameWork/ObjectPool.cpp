@@ -74,12 +74,12 @@ void ObjectPool::Update()
 			if (isCrash)
 			{
 				//arthur->GetColor(D3DCOLOR_XRGB(128, 128, 128));
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
+				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
 			}
 			else
 			{
 				//arthur->GetColor(D3DCOLOR_XRGB(0, 255, 250));
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
+				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
 			}
 
 			D3DXVECTOR3 v = arthur->GetPosition();

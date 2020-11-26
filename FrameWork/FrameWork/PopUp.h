@@ -75,12 +75,13 @@ public:
 
 	virtual void LoadTexture(char* szFullPath);
 	virtual void ChangeSprite(char* szFullPath);
-	virtual void MovePosition(D3DXVECTOR2 distance);
 	
 	virtual float GetPercent();
 
 	virtual void PowerOnOff();
+	virtual void PowerOnOff(bool power);
 	virtual void vecListPowerOnOff();
+	virtual void vecListPowerOnOff(bool power);
 
 	virtual void Destroy();
 
@@ -89,5 +90,11 @@ public:
 	
 	virtual cPopUp* GetPopupBtn();
 	virtual cPopUp* GetPopupBtn(int index);
+
+	void MovePosition(D3DXVECTOR2 distance);
+	void SetPosition(D3DXVECTOR2 position);
+	
+	int GetPopUpListSize();
+	bool GetPowerState();
 };
 
