@@ -48,6 +48,6 @@ public:
 	D3DXMATRIXA16* GetCombineMatrix();
 	// <<
 
-	D3DXMATRIX* CurrentBoneMatrices;
+	D3DXMATRIX* m_pCurrentBoneMatrices;
 };
 

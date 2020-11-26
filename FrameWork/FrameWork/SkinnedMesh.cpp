@@ -141,7 +141,7 @@ void cSkinnedMesh::Render(D3DXMATRIXA16 * pmat)
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	Render(LPD3DXFRAME(NULL));
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 }
@@ -199,7 +199,9 @@ void cSkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		pBoneMesh->pOrigMesh->UnlockVertexBuffer();
 
 		//Update CurrentBoneMatrix
-		CurrentBoneMatrices = pBoneMesh->pCurrentBoneMatrices;
+			m_pCurrentBoneMatrices = &pFrame->TransformationMatrix;
+		//
+		//m_pCurrentBoneMatrices = pBoneMesh->pCurrentBoneMatrices;
 	}
 
 

@@ -6,6 +6,7 @@
 #include "cOBB.h"
 #include "cTerrain.h"
 #include "Arthur.h"
+#include "DragonSoulEater.h"
 
 
 ObjectPool::ObjectPool()
@@ -24,11 +25,20 @@ void ObjectPool::Update()
 	static cTerrain* terrain;
 	if (terrain == NULL)
 		terrain = (cTerrain*)SearchChild(Tag::Tag_Map);
-	
-	
+
+	static cArthur* arthur;
+	if (arthur == NULL)
+		arthur = (cArthur*)SearchChild(Tag::Tag_Player);
+
+	static DragonSoulEater* souleater;
+	if (souleater == NULL)
+		souleater = (DragonSoulEater*)SearchChild(Tag::Tag_Boss);
+
 	RECT rc;
 	if(terrain)
+	{
 		rc = terrain->GetCullingRect();
+	}
 	
 	
 	for(int i = 0; i< vecObjectList.size(); i++)
@@ -37,11 +47,45 @@ void ObjectPool::Update()
 		if (terrain != NULL)
 		{
 			vecObjectList.at(i)->PosInMap(rc);
+			if(vecObjectList.size() - m_nRefcnt < i)
+			{
+				D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
+				float h = terrain->getHeight(pos);
+				pos.y = h;
+				vecObjectList[i]->SetPos(pos);
+			}
 		}
 
 		vecObjectList.at(i)->Update();
 	}
 
+
+	//
+	if (arthur && souleater)
+	{
+		if (souleater->GetOBB() == NULL || arthur->GetNewOBB() == NULL)
+		{
+
+		}
+		else
+		{
+			bool isCrash = cOBB::IsCollision(arthur->GetNewOBB(), souleater->GetOBB());
+
+			if (isCrash)
+			{
+				arthur->GetColor(D3DCOLOR_XRGB(128, 128, 128));
+				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
+			}
+			else
+			{
+				arthur->GetColor(D3DCOLOR_XRGB(0, 255, 250));
+				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
+			}
+
+			D3DXVECTOR3 v = arthur->GetPosition();
+			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fff", v.x, v.y, v.z);
+		}
+	}
 }
 
 void ObjectPool::Render(D3DXMATRIXA16* pmat)
@@ -125,6 +169,8 @@ void ObjectPool::Revert()
 	
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
+
+
 	
 	return;
 }
