@@ -1,7 +1,7 @@
 #pragma once
 #include "cObject.h"
 
-#define CullingSize 70
+#define CullingSize 90
 
 class cTerrain :public cObject
 {
@@ -33,7 +33,7 @@ public:
 	void NewTerrain(D3DXVECTOR3 vec);
 	float getHeight(D3DXVECTOR3 vec);
 	void Setup(std::string strFolder, std::string strTex,
-		std::string strRaw, DWORD dwBytesPerPixel =1.0f);
+		std::string strRaw, DWORD dwBytesPerPixel =1.0f,float MaxHegiht = 100.0f);
 	
 	float getHeightMapEntry(int nRow, int nCol) { return m_vecMapVertex[(m_nTile + 1) * nRow + nCol].p.y;};
 	LPD3DXMESH GetTerrainMesh() { return m_pTerrainMesh; }
@@ -44,5 +44,10 @@ public:
 
 	float LerpPosition(float, float, float);
 	void GetTarget(D3DXVECTOR3* pvTarget) { m_pvTarget = pvTarget; }
+
+	//
+	void CreateMaxSizeMeshMap(std::string strFolder, std::string strTex,
+		std::string strRaw, DWORD dwBytesPerPixel, float MaxHeight);
+	
 };
 

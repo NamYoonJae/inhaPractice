@@ -33,7 +33,6 @@ void cArthur::Setup(char* szFolder, char* szFile)
 	if (this->m_pCurrentBoneMatrices)
 		mat *= *this->m_pCurrentBoneMatrices;
 	m_pOBB = new cOBB;
-
 	m_pOBB->Setup(this, &mat);
 
 	EventManager->Attach(this);
@@ -90,7 +89,13 @@ void cArthur::Update()
 	cSkinnedMesh::Update((ST_BONE*)m_pRoot, &m_matWorldTM);
 	UpdateSkinnedMesh(m_pRoot);
 
+	//m_matOBB = (D3DXMATRIXA16)*m_pCurrentBoneMatrices;
+	//m_matOBB = m_pRoot->TransformationMatrix * m_matRot * m_matTranse;
+	//m_matOBB = m_pRoot->TransformationMatrix * m_matWorld;
+	
 	m_matOBB = m_matRot * m_matTranse;
+	//D3DXMatrixScaling(&m_matOBB, 20, 40, 20);
+	//m_matOBB *= m_matWorldTM;
 	m_pOBB->Update(&m_matOBB);
 }
 
@@ -157,7 +162,7 @@ void cArthur::Render(D3DXMATRIXA16 * pmat)
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	cSkinnedMesh::Render();
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	//m_pOBB->Render(D3DCOLOR_XRGB(255, 0, 0));
+	
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 0, 0));
 }
 

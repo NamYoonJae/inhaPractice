@@ -39,7 +39,6 @@ STDMETHODIMP cAllocateHierarchy::CreateFrame(THIS_ LPCSTR Name, LPD3DXFRAME* ppN
 
 	*ppNewFrame = pBone;
 	return S_OK;
-
 };
 
 STDMETHODIMP cAllocateHierarchy::CreateMeshContainer(THIS_

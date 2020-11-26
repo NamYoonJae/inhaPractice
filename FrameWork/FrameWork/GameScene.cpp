@@ -106,7 +106,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 
 	cTerrain* pTerrain = new cTerrain;
-	pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
+	//pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
+	pTerrain->Setup("data/HeightMapData", "Ground_Soil.png", "StageA_Raw.raw",1,600);
 	pTerrain->Tagging(Tag::Tag_Map);
 	
 	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
@@ -127,7 +128,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->GetWorldMatrix(&matWorld);
 	m_pDragon->Tagging(Tag::Tag_Boss);
 	ObjectManager->AddChild(m_pDragon);
-	//
+	//m_pSkinnedUnit->SetTransform();
+
+	
+	//ObjectManager->AddChild(m_pSkinnedUnit);
 
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
@@ -135,7 +139,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_Light.Ambient  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	m_Light.Diffuse  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	D3DXVECTOR3 vDir(1.0f, 1.0f, 1.0f);
+	D3DXVECTOR3 vDir(0.0f, 5.0f, 5.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
 
