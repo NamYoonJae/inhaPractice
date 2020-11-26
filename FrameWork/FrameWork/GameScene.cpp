@@ -116,26 +116,22 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-	//cSkinnedMesh* m_pSkinnedUnit = new cSkinnedMesh("data/XFile/Dragon", "Basic Attack.X");
-	//m_pSkinnedUnit->SetAnimationIndex(0);
-
+	//
 	DragonSoulEater* m_pDragon = new DragonSoulEater;
 	m_pDragon->Setup("data/XFile/Dragon", "Model.X");
-	//m_pDragon->Setup("data/XFile/Dragon", "dasd.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
 	m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
 	m_pDragon->GetSkinnedMesh().SetAnimationIndex(0);
 
 	m_pDragon->GetWorldMatrix(&matWorld);
-	
+	m_pDragon->Tagging(Tag::Tag_Boss);
 	ObjectManager->AddChild(m_pDragon);
 	m_pDragon->Tagging(Tag::Tag_Boss);
 	//m_pSkinnedUnit->SetTransform();
 
 	
 	//ObjectManager->AddChild(m_pSkinnedUnit);
-
 
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));

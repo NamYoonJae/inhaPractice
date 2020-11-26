@@ -7,7 +7,6 @@ class cBoundingBox;
 class cArthur : public cCharater, cSkinnedMesh
 {
 private:
-	cBoundingBox*	m_pOBB;
 	float			m_fvelocity;
 
 	D3DXVECTOR3		m_vScale;
@@ -38,6 +37,6 @@ public:
 	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
 	D3DXVECTOR3 GetScale() { return m_vScale; }
 
-	cBoundingBox* GetBoundingBox() { return m_pOBB; }
+	//cBoundingBox* GetBoundingBox() { return m_pOBB; }
 };
 

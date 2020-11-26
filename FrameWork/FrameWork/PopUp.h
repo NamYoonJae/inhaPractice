@@ -41,12 +41,25 @@ public:
 	cPopUp();
 	~cPopUp();
 
-	virtual void Setup(char* root, 
+	virtual void Setup(
+		char* root, 
 		char* fileName, 
 		D3DXVECTOR3 positionXYZ, 
 		float percent, 
 		bool powerOnOff, 
-		bool fixed);
+		bool fixed
+	);
+	virtual void Setup(
+		char* root,
+		char* fileName,
+		D3DXVECTOR3 position,
+		float x,
+		float y,
+		float z,
+		float percent,
+		bool powerOnOff,
+		bool fixed
+	);
 
 	void Update() override {};
 	virtual void Update(EventType message);
@@ -62,7 +75,8 @@ public:
 
 	virtual void LoadTexture(char* szFullPath);
 	virtual void ChangeSprite(char* szFullPath);
-
+	virtual void MovePosition(D3DXVECTOR2 distance);
+	
 	virtual float GetPercent();
 
 	virtual void PowerOnOff();

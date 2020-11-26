@@ -50,6 +50,6 @@ public:
 	
 	// <<
 
-	D3DXMATRIX* CurrentBoneMatrices;
+	D3DXMATRIX* m_pCurrentBoneMatrices;
 };
 

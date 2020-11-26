@@ -45,6 +45,25 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float per
 	LoadTexture((char*)fileRoot.c_str());
 }
 
+void cPopUp::Setup(char* root,char* fileName,D3DXVECTOR3 position,float x,float y,float z,float percent,bool powerOnOff,bool fixed)
+{
+	m_Percentage = percent;
+
+	m_Position.x = position.x + x;
+	m_Position.y = position.y + y;
+	m_Position.z = position.z + z;
+
+	m_Power = powerOnOff;
+	m_Fixed = fixed;
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	string fileRoot(root);
+	fileRoot = fileRoot + string("/") + string(fileName);
+
+	LoadTexture((char*)fileRoot.c_str());
+}
+
 void cPopUp::Update(EventType message)
 {
 // TODO 바꾸거나 삭제할것
@@ -169,6 +188,16 @@ void cPopUp::ChangeSprite(char * szFullPath)
 
 	m_pTextureUI = g_pTextureManager->GetTexture(szFullPath);
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
+}
+
+void cPopUp::MovePosition(D3DXVECTOR2 distance)
+{
+	m_Position.x += distance.x;
+	m_Position.y += distance.y;
+
+	//// TODO 테스트 후 로그 지우기
+	//cout << "move x  :  " << distance.x << endl;
+	//cout << "move y  :  " << distance.y << endl;
 }
 
 float cPopUp::GetPercent()

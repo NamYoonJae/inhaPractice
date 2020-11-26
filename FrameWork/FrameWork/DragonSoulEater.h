@@ -22,9 +22,6 @@ private:
 	D3DXMATRIXA16	m_matWorld;
 	LPDIRECT3DTEXTURE9 m_pTexture;
 
-// temp [ For Debug ]
-	cBoundingBox* m_pBoundingBox;
-// <<
 public:
 	DragonSoulEater();
 	~DragonSoulEater();
@@ -36,7 +33,5 @@ public:
 
 	void GetWorldMatrix(D3DXMATRIXA16* matWorld);
 
-// <<
-	cBoundingBox* GetBoundingBox() { return m_pBoundingBox; }
 };
 

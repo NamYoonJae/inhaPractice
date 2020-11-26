@@ -37,4 +37,6 @@ public:
 	const bool GetIsRender() { return IsRender; }
 	cOBB* GetOBB();
 	void PosInMap(RECT rcVisibleArea);
+	D3DXVECTOR3 GetPos() { return m_vPos; }
+	void SetPos(D3DXVECTOR3 pos) { m_vPos = pos; }
 };

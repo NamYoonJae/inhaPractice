@@ -55,7 +55,7 @@ void Setup_SystemWindow(cPopUp* btn)
 			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 450, -60, 0, 0.8, true, true);
 		pOptionBtnBackGround->cButtonPushBack(pOption_CameraButton);
 		pOption_CameraButton->EventProcess = SysWindow_ExitGame;
-	}
+	} // top button
 
 	{ // menu popup & button
 		cPopUp *pSetupNamePopup = new cPopUp;
@@ -66,20 +66,7 @@ void Setup_SystemWindow(cPopUp* btn)
 			true, true);
 		pOptionBackGround->cButtonPushBack(pSetupNamePopup);
 
-		cPopUp * pBarGauge= new cPopUp;
-		pBarGauge->Setup(
-			"data/UI/ConfigurationSettings",
-			"설정창 바 게이지 사이즈 조정.png",
-			D3DXVECTOR3(rc.right / 2 - 200, rc.bottom / 2 + 10, 0), 1,
-			true, true);
-		pOptionBackGround->cButtonPushBack(pBarGauge);
-
-		cButton * pBarButton = new cButton;
-		pBarButton->Setup("data/UI/ConfigurationSettings", "설정창 바게이지 조절 버튼 사이즈조정.png",
-			D3DXVECTOR3(rc.right / 2 - 15, rc.bottom / 2 + 5, 0), 0, 0, 0, 1, true, true);
-		pBarGauge->cButtonPushBack(pBarButton);
-		// TODO 이벤트 추가
-		// BarButton->EventProcess = 이벤트
+		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(0,0,0))->EventProcess = Sys_TmpBarMoveEvent;
 
 		pSetupNamePopup = new cPopUp;
 		pSetupNamePopup->Setup(
@@ -95,7 +82,7 @@ void Setup_SystemWindow(cPopUp* btn)
 		pSetupNamePopup->cButtonPushBack(pChkButton);
 		// TODO 이벤트 추가
 		// BarButton->EventProcess = 이벤트
-	}
+	} // menu popup & button
 	
 
 	Setup_OptionWindow(pOptionBackGround);
@@ -298,6 +285,87 @@ void SysWindow_ExitGame(EventType message, cPopUp* btn)
 				}
 			}
 		}
+	}
+	break;
+	};//switch End
+}
+
+// 반환되는 cButton 포인터를 사용하여 셋업한 객체의 Eventprocess에 함수 넣기, 벡터인자는 일단 빈값이어도 됨
+cButton* Setup_BarGaugePopupBtn(cPopUp* popup, D3DXVECTOR3 position)
+{
+	cPopUp * pBarGauge = new cPopUp;
+	pBarGauge->Setup(
+		"data/UI/ConfigurationSettings",
+		"설정창 바 게이지 사이즈 조정.png",
+		popup->GetPosition(),
+		-100, 60, 0, // TODO json 파일 파싱받아서 위치벡터값 넣어주기
+		1,
+		true, true);
+	popup->cButtonPushBack(pBarGauge);
+
+	// TODO UI관련 주석 확인
+	// pBarGauge의 위치를 벡터를 기준으로 pBarButton의 위치를 제한함,
+	// pBarGauge의 위치와 pBarButton의 위치를 기준으로 0 ~ 100의 값을 반환하게 함
+	// 반환하는 시점은 좌클릭업이 시작되는 부분
+	cButton * pBarButton = new cButton;
+	pBarButton->Setup("data/UI/ConfigurationSettings", "설정창 바게이지 조절 버튼 사이즈조정.png",
+		pBarGauge->GetPosition(),
+		385, -8, 0, // << x의 위치만 변화하게
+					// pBarButton의 x값의 범위 -15 ~ 385, 4만큼 움직일때마다 이벤트에서 1만큼 값을 변경하기
+		1, 
+		true, true);
+	pBarGauge->cButtonPushBack(pBarButton);
+
+	return pBarButton;
+}
+
+void Sys_TmpBarMoveEvent(EventType message, cPopUp* btn)
+{
+	cButton* button = (cButton*)btn;
+
+	static D3DXVECTOR2 prev_cur;
+	static D3DXVECTOR2 crnt_cur;
+	crnt_cur = EventManager->GetMouseCurrent();
+
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+	float btn_width = button->GetImageInfoWidth() * button->GetPercent();
+	float btn_height = button->GetImageInfoHeight() *  button->GetPercent();
+
+	switch (message)
+	{
+	case EventType::EVENT_MOVE:
+		if(button->GetState() == enum_On)
+		{
+			if (crnt_cur.x >= btn->GetUpPopUp()->GetPosition().x &&
+				crnt_cur.x <= btn->GetUpPopUp()->GetPosition().x + btn->GetUpPopUp()->GetImageInfoWidth())
+			{
+				D3DXVECTOR2 vec2distance = crnt_cur - prev_cur;
+				vec2distance.y = 0;
+				btn->MovePosition(vec2distance);
+				prev_cur = crnt_cur;
+				// TODO json 여기서 바로 저장할것
+				// 값을 반환해야하나? 그럼 반환한 값은 어디로가지?
+			}
+		}
+	  //case EVENT_MOVE End:
+		break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+		{
+			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+			{
+				prev_cur = EventManager->GetMouseCurrent();
+				button->SetStateChange(enum_On);
+			}
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		button->SetStateChange(enum_Off);
 	}
 	break;
 	};//switch End

@@ -17,13 +17,11 @@ private:
 	D3DXMATRIXA16	m_matWorldTM;
 	std::vector<D3DXVECTOR3> list;
 	std::vector<ST_PC_VERTEX> m_vecVertex;
-	std::vector<ST_PC_VERTEX> m_vecDrawingVertex;
 public:
-	void Setup(cSkinnedMesh* pSkinnedMesh);
+	void Setup(cSkinnedMesh* pSkinnedMesh,D3DXMATRIXA16* pmat = NULL);
 	void Update(D3DXMATRIXA16* pmatWorld);
 	static bool IsCollision(cOBB* pOBB1,cOBB* pOBB);
 
 	void OBBBOX_Render(D3DXCOLOR c);
-	void SetupVertex(D3DXMATRIXA16* pmat);
 };
 
