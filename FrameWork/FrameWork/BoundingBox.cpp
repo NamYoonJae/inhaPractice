@@ -7,6 +7,7 @@ cBoundingBox::cBoundingBox()
 	:m_vPivot(0, 0, 0)
 	,m_vOriCenter(0, 0, 0)
 	,m_vCenterPos(0, 0, 0)
+	,m_Color(D3DCOLOR_XRGB(0, 255, 0))
 {
 	D3DXMatrixIdentity(&m_matWorldTM);
 }
@@ -83,7 +84,7 @@ void cBoundingBox::Update(D3DXMATRIXA16* pmatWorld)
 	D3DXVec3TransformCoord(&m_vCenterPos, &m_vOriCenter, &m_matWorldTM);
 }
 
-void cBoundingBox::Render(D3DCOLOR c)
+void cBoundingBox::Render()
 {
 	vector<ST_PC_VERTEX> vecVertices;
 	ST_PC_VERTEX v[8];
@@ -105,7 +106,7 @@ void cBoundingBox::Render(D3DCOLOR c)
 
 	for (int i = 0; i < 8; i++)
 	{
-		v[i].c = c;
+		v[i].c = m_Color;
 		v[i].p += m_vOriCenter;
 		D3DXVec3TransformCoord(&v[i].p, &v[i].p, &m_matWorldTM);
 	}

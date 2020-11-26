@@ -379,3 +379,8 @@ D3DXMATRIXA16* cSkinnedMesh::GetCombineMatrix()
 
 	return NULL;
 }
+
+D3DXMATRIX cSkinnedMesh::GetTransformMatrix()
+{
+	return m_pRoot->TransformationMatrix;
+}

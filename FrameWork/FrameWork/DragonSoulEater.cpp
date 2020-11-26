@@ -3,11 +3,20 @@
 #include "DragonSoulEater.h"
 #include "SoulEaterState.h"
 #include "cOBB.h"
+
+// >> Temp [ For Debug ]
+#include "BoundingBox.h"
+// <<
+
 DragonSoulEater::DragonSoulEater()
 	:m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
 {
 	m_pOBB = NULL;
+	
+// >> Temp
+	m_pBoundingBox = NULL;
+// <<
 }
 
 
@@ -16,6 +25,10 @@ DragonSoulEater::~DragonSoulEater()
 	SafeDelete(m_pOBB);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
+
+// >> Temp
+	SafeDelete(m_pBoundingBox);
+// <<
 }
 
 void DragonSoulEater::Update()
@@ -45,19 +58,24 @@ void DragonSoulEater::Update()
 	//matOBB = matOBB * matR * matT;
 	m_pOBB->Update(&matBone);
 	
-	
 	//if(m_pCurState)
 	//{
 	//	m_pCurState->Update();
 	//}
 
+// >> Temp
+	D3DXMATRIXA16 matOBB;
+	//matOBB = m_pSkinnedUnit->GetTransformMatrix() * m_pSkinnedUnit->m_matWorldTM * m_matWorld;
+	matOBB = *(D3DXMATRIXA16*)m_pSkinnedUnit->CurrentBoneMatrices;
+	m_pBoundingBox->Update(&matOBB);
+// <<
 }
 
 void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 {
 	D3DXMATRIXA16 matWorld, matT,
 	matR, matRx,matRy,matRz;
-	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&m_matWorld);
 
 	D3DXMatrixRotationX(&matRx,m_vRot.x);
 	D3DXMatrixRotationY(&matRy,m_vRot.y);
@@ -65,14 +83,15 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	matR = matRx * matRy * matRz;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
-	matWorld = matR * matT;
+	m_matWorld = matR * matT;
 	m_pTexture = g_pTextureManager->GetTexture("data/XFile/Dragon/BlueHP.png");
-	g_pD3DDevice->SetTransform(D3DTS_WORLD,&matWorld);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD,&m_matWorld);
 	g_pD3DDevice->SetTexture(0, m_pTexture);
 	m_pSkinnedUnit->Render();
 	g_pD3DDevice->SetTexture(0, NULL);
-	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
-
+	//m_pOBB->OBBBOX_Render(D3DXCOLOR(1.0f,0,0,1.0f));
+	
+	m_pBoundingBox->Render();
 }
 
 void DragonSoulEater::Setup(char* szFolder, char* szFileName)
@@ -80,7 +99,9 @@ void DragonSoulEater::Setup(char* szFolder, char* szFileName)
 	m_pSkinnedUnit = new cSkinnedMesh(szFolder, szFileName);
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pSkinnedUnit);
-	
+
+	m_pBoundingBox = new cBoundingBox;
+	m_pBoundingBox->Setup(m_pSkinnedUnit);
 }
 
 void DragonSoulEater::SetState()

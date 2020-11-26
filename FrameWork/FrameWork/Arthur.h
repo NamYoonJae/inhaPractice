@@ -37,5 +37,7 @@ public:
 
 	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
 	D3DXVECTOR3 GetScale() { return m_vScale; }
+
+	cBoundingBox* GetBoundingBox() { return m_pOBB; }
 };
 

@@ -5,6 +5,7 @@ class cSkinnedMesh;
 class cBoundingBox
 {
 private:
+	D3DCOLOR	m_Color;
 	D3DXVECTOR3 m_vPivot;
 	D3DXVECTOR3 m_vOriCenter;
 	D3DXVECTOR3 m_vOriAxisDir[3];
@@ -23,7 +24,7 @@ public:
 	void Setup(LPD3DXMESH pMesh);
 	void Setup(cSkinnedMesh* pSkinnedMesh);
 	void Update(D3DXMATRIXA16* pmatWorld);
-	void Render(D3DCOLOR c);
+	void Render();
 	static bool IsCollision(cBoundingBox* pOBB1, cBoundingBox* pOBB2);
 
 	void SetPivot(D3DXVECTOR3 pivot)
@@ -31,5 +32,7 @@ public:
 		m_vPivot = pivot;
 		m_vCenterPos += m_vPivot;
 	}
+
+	void SetColor(D3DCOLOR color) { m_Color = color; }
 };
 

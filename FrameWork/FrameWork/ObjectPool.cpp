@@ -5,8 +5,12 @@
 
 #include "cOBB.h"
 #include "cTerrain.h"
-#include "Arthur.h"
 
+// >>
+#include "BoundingBox.h"
+#include "Arthur.h"
+#include "DragonSoulEater.h"
+// <<
 
 ObjectPool::ObjectPool()
 {
@@ -41,7 +45,27 @@ void ObjectPool::Update()
 
 		vecObjectList.at(i)->Update();
 	}
+// >> Temp [ For Debug ]
+	static DragonSoulEater* Boss01;
+	if (Boss01 == NULL) Boss01 = (DragonSoulEater*)SearchChild(Tag::Tag_Boss);
 
+	static cArthur* PlayerChar;
+	if (PlayerChar == NULL) PlayerChar = (cArthur*)SearchChild(Tag::Tag_Player);
+
+	if(Boss01 && PlayerChar)
+	{
+		if(cBoundingBox::IsCollision(Boss01->GetBoundingBox(), PlayerChar->GetBoundingBox()))
+		{
+			Boss01->GetBoundingBox()->SetColor(D3DCOLOR_XRGB(255, 0, 0));
+			PlayerChar->GetBoundingBox()->SetColor(D3DCOLOR_XRGB(255, 0, 0));
+		}
+		else
+		{
+			Boss01->GetBoundingBox()->SetColor(D3DCOLOR_XRGB(0, 255, 0));
+			PlayerChar->GetBoundingBox()->SetColor(D3DCOLOR_XRGB(0, 255, 0));
+		}
+	}
+// <<
 }
 
 void ObjectPool::Render(D3DXMATRIXA16* pmat)
