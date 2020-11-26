@@ -3,7 +3,7 @@
 #include "TimerManager.h"
 #include "BoundingBox.h"
 #include "basic.h"
-
+#include  "cOBB.h"
 #include "Arthur.h"
 
 
@@ -26,9 +26,15 @@ void cArthur::Setup(char* szFolder, char* szFile)
 	SetAnimationIndex(0);
 	m_vPos = D3DXVECTOR3(20, 0, 30);
 	
-	m_pOBB = new cBoundingBox;
-	m_pOBB->Setup(this);
-	m_pOBB->SetPivot(D3DXVECTOR3(0, 0.001f, 0));
+	D3DXMATRIXA16 mat;
+	D3DXMatrixScaling(&mat, 0.1, 0.1, 0.1);
+
+	cSkinnedMesh::Update();
+	if (this->m_pCurrentBoneMatrices)
+		mat *= *this->m_pCurrentBoneMatrices;
+	m_pOBB = new cOBB;
+
+	m_pOBB->Setup(this, &mat);
 
 	EventManager->Attach(this);
 }
@@ -84,8 +90,7 @@ void cArthur::Update()
 	cSkinnedMesh::Update((ST_BONE*)m_pRoot, &m_matWorldTM);
 	UpdateSkinnedMesh(m_pRoot);
 
-	D3DXMatrixScaling(&m_matOBB, 20, 40, 20);
-	m_matOBB *= m_matWorldTM;
+	m_matOBB = m_matRot * m_matTranse;
 	m_pOBB->Update(&m_matOBB);
 }
 
@@ -152,7 +157,8 @@ void cArthur::Render(D3DXMATRIXA16 * pmat)
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	cSkinnedMesh::Render();
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pOBB->Render(D3DCOLOR_XRGB(255, 0, 0));
+	//m_pOBB->Render(D3DCOLOR_XRGB(255, 0, 0));
+	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 0, 0));
 }
 
 void cArthur::SetTranseform(D3DXMATRIXA16* pmat)

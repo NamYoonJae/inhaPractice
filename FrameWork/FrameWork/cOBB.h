@@ -18,7 +18,7 @@ private:
 	std::vector<D3DXVECTOR3> list;
 	std::vector<ST_PC_VERTEX> m_vecVertex;
 public:
-	void Setup(cSkinnedMesh* pSkinnedMesh);
+	void Setup(cSkinnedMesh* pSkinnedMesh,D3DXMATRIXA16* pmat = NULL);
 	void Update(D3DXMATRIXA16* pmatWorld);
 	static bool IsCollision(cOBB* pOBB1,cOBB* pOBB);
 

@@ -63,23 +63,23 @@ void ObjectPool::Update()
 	//
 	if (arthur && souleater)
 	{
-		if (souleater->GetOBB() == NULL || arthur->GetNewOBB() == NULL)
+		if (souleater->GetOBB() == NULL || arthur->GetOBB() == NULL)
 		{
 
 		}
 		else
 		{
-			bool isCrash = cOBB::IsCollision(arthur->GetNewOBB(), souleater->GetOBB());
+			bool isCrash = cOBB::IsCollision(arthur->GetOBB(), souleater->GetOBB());
 
 			if (isCrash)
 			{
-				arthur->GetColor(D3DCOLOR_XRGB(128, 128, 128));
-				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
+				//arthur->GetColor(D3DCOLOR_XRGB(128, 128, 128));
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
 			}
 			else
 			{
-				arthur->GetColor(D3DCOLOR_XRGB(0, 255, 250));
-				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
+				//arthur->GetColor(D3DCOLOR_XRGB(0, 255, 250));
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
 			}
 
 			D3DXVECTOR3 v = arthur->GetPosition();

@@ -12,11 +12,16 @@ cOBB::~cOBB()
 {
 }
 
-void cOBB::Setup(cSkinnedMesh* pSkinnedMesh)
+void cOBB::Setup(cSkinnedMesh* pSkinnedMesh,D3DXMATRIXA16* pmat)
 {
 	D3DXVECTOR3 vMin = pSkinnedMesh->GetMin();
 	D3DXVECTOR3 vMax = pSkinnedMesh->GetMax();
 
+	if(pmat)
+	{
+		D3DXVec3TransformCoord(&vMin, &vMin, pmat);
+		D3DXVec3TransformCoord(&vMax, &vMax, pmat);
+	}
 
 	m_vOriCenterPos = (vMin + vMax) / 2.0f;
 	m_vOriAXidsDir[0] = D3DXVECTOR3(1, 0, 0);
@@ -110,15 +115,16 @@ void cOBB::Setup(cSkinnedMesh* pSkinnedMesh)
 
 	v.p = list[7];	m_vecVertex.push_back(v);
 
-	m_vecDrawingVertex = m_vecVertex;
+
 }
+
 
 void cOBB::Update(D3DXMATRIXA16* pmatWorld)
 {
 	if(pmatWorld)
 	{
 		m_matWorldTM = *pmatWorld;
-		//SetupVertex(pmatWorld);
+		
 	}
 	
 	for(int i = 0; i < 3; i++)
@@ -134,172 +140,109 @@ void cOBB::Update(D3DXMATRIXA16* pmatWorld)
 
 bool cOBB::IsCollision(cOBB* pOBB1, cOBB* pOBB2)
 {
+
 	float cos[3][3];
 	float absCos[3][3];
 	float dist[3];
-	float r0, r1, r2,r;
-
-	const float cutOff = 0.999999f;
+	float r0, r1, r;
+	const float cutoff = 0.999999f;
 	bool existsParallelPair = false;
 
 	D3DXVECTOR3 D = pOBB2->m_vCenterPos - pOBB1->m_vCenterPos;
 
-	for(int a = 0;  a < 3 ; a++)
+	for (int a = 0; a < 3; a++)
 	{
-		for(int b    = 0; b < 3; b++)
+		for (int b = 0; b < 3; b++)
 		{
 			cos[a][b] = D3DXVec3Dot(&pOBB1->m_vAxisDir[a], &pOBB2->m_vAxisDir[b]);
+
 			absCos[a][b] = abs(cos[a][b]);
 
-			if(absCos[a][b] > cutOff)
-			{
+			if (absCos[a][b] > cutoff)
 				existsParallelPair = true;
-			}
 		}
+
+
 		dist[a] = D3DXVec3Dot(&pOBB1->m_vAxisDir[a], &D);
-		r		= abs(dist[a]);
+		r = abs(dist[a]);
+		r0 = pOBB1->m_fAxisHalfLen[a];
+		r1 = pOBB2->m_fAxisHalfLen[0] * absCos[a][0] +
+			pOBB2->m_fAxisHalfLen[1] * absCos[a][1] +
+			pOBB2->m_fAxisHalfLen[2] * absCos[a][2];
 
-		r0		= pOBB1->m_fAxisHalfLen[a];
-		r1		= pOBB1->m_fAxisHalfLen[0] * absCos[a][0] + 
-				  pOBB1->m_fAxisHalfLen[1] * absCos[a][1] + 
-				  pOBB1->m_fAxisHalfLen[2] * absCos[a][2] ;
-
-		if(r > r0 + r1)
-		{
-			return false;
-		}
-
+		if (r > r0 + r1)   return false;
 	}
-	for(int b = 0; b < 3; b++)
-	{
-		r  = abs(D3DXVec3Dot(&pOBB2->m_vAxisDir[b], &D));
-		r1 = pOBB2->m_fAxisHalfLen[b];
-		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[0][b] +
-			 pOBB1->m_fAxisHalfLen[1] * absCos[1][b] +
-			 pOBB1->m_fAxisHalfLen[2] * absCos[2][b];
 
+	for (int b = 0; b < 3; b++)
+	{
+		r = abs(D3DXVec3Dot(&pOBB2->m_vAxisDir[b], &D));
+		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[0][b] +
+			pOBB1->m_fAxisHalfLen[1] * absCos[1][b] +
+			pOBB1->m_fAxisHalfLen[2] * absCos[2][b];
+
+		r1 = pOBB2->m_fAxisHalfLen[b];
+
+		if (r > r0 + r1)   return false;
+	}
+
+
+	if (existsParallelPair) return true;
+
+	/////////////////////////////////////////////////////////////////
+	{
+		// : 0
+		r = abs(dist[0] * cos[2][0] - dist[2] * cos[0][0]);
+		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[2][0] + pOBB1->m_fAxisHalfLen[2] * absCos[0][0];
+		r1 = pOBB2->m_fAxisHalfLen[1] * absCos[1][2] + pOBB2->m_fAxisHalfLen[2] * absCos[1][1];
+		if (r > r0 + r1)   return false;
+
+		r = abs(dist[0] * cos[2][1] - dist[2] * cos[0][1]);
+		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[2][1] + pOBB1->m_fAxisHalfLen[2] * absCos[0][1];
+		r1 = pOBB2->m_fAxisHalfLen[0] * absCos[1][2] + pOBB2->m_fAxisHalfLen[2] * absCos[1][0];
+		if (r > r0 + r1)   return false;
+
+		r = abs(dist[0] * cos[2][2] - dist[2] * cos[0][2]);
+		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[2][2] + pOBB1->m_fAxisHalfLen[2] * absCos[0][2];
+		r1 = pOBB2->m_fAxisHalfLen[0] * absCos[1][1] + pOBB2->m_fAxisHalfLen[1] * absCos[1][0];
 		if (r > r0 + r1)
 			return false;
-	}
 
-	if(existsParallelPair) return true;
+		/////////////////////////////////////////////////////////////////    
+		// : 1 
+		r = abs(dist[1] * cos[0][0] - dist[0] * cos[1][0]);
+		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[1][0] + pOBB1->m_fAxisHalfLen[1] * absCos[0][0];
+		r1 = pOBB2->m_fAxisHalfLen[1] * absCos[2][2] + pOBB2->m_fAxisHalfLen[2] * absCos[2][1];
+		if (r > r0 + r1)   return false;
 
-	//////////////////////////////////////////////////////////////////////
+		r = abs(dist[1] * cos[0][1] - dist[0] * cos[1][1]);
+		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[1][1] + pOBB1->m_fAxisHalfLen[1] * absCos[0][1];
+		r1 = pOBB2->m_fAxisHalfLen[0] * absCos[2][2] + pOBB2->m_fAxisHalfLen[2] * absCos[2][0];
+		if (r > r0 + r1)   return false;
 
-	// : 0
-		
-	{
-		r  = abs(dist[0] * cos[2][0] - dist[2] * cos[0][0]);
-		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[2][0] +
-			 pOBB1->m_fAxisHalfLen[2] * absCos[0][0];
+		r = abs(dist[1] * cos[0][2] - dist[0] * cos[1][2]);
+		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[1][2] + pOBB1->m_fAxisHalfLen[1] * absCos[0][2];
+		r1 = pOBB2->m_fAxisHalfLen[0] * absCos[2][1] + pOBB2->m_fAxisHalfLen[1] * absCos[2][0];
+		if (r > r0 + r1)   return false;
 
-		r1 = pOBB1->m_fAxisHalfLen[1] * absCos[1][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[1][1];
+		/////////////////////////////////////////////////////////////////
+		// : 2 
+		r = abs(dist[2] * cos[1][0] - dist[1] * cos[2][0]);
+		r0 = pOBB1->m_fAxisHalfLen[1] * absCos[2][0] + pOBB1->m_fAxisHalfLen[2] * absCos[1][0];
+		r1 = pOBB2->m_fAxisHalfLen[1] * absCos[0][2] + pOBB2->m_fAxisHalfLen[2] * absCos[0][1];
+		if (r > r0 + r1)   return false;
 
-		if (r > r0 + r1) return false;
-	}
-	
-	{
-		
-		r  = abs(dist[0] * cos[2][1] - dist[2] * cos[0][1]);
-		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[2][1] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[0][1];
+		r = abs(dist[2] * cos[1][1] - dist[1] * cos[2][1]);
+		r0 = pOBB1->m_fAxisHalfLen[1] * absCos[2][1] + pOBB1->m_fAxisHalfLen[2] * absCos[1][1];
+		r1 = pOBB2->m_fAxisHalfLen[0] * absCos[0][2] + pOBB2->m_fAxisHalfLen[2] * absCos[0][0];
+		if (r > r0 + r1)   return false;
 
-		r1 = pOBB1->m_fAxisHalfLen[0] * absCos[1][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[1][0];
+		r = abs(dist[2] * cos[1][2] - dist[1] * cos[2][2]);
+		r0 = pOBB1->m_fAxisHalfLen[1] * absCos[2][2] + pOBB1->m_fAxisHalfLen[2] * absCos[1][2];
+		r1 = pOBB2->m_fAxisHalfLen[0] * absCos[0][1] + pOBB2->m_fAxisHalfLen[1] * absCos[0][0];
+		if (r > r0 + r1)   return false;
+	} // << : 
 
-		if (r > r0 + r1) return false;
-	}
-
-	{
-		
-		r  = abs(dist[0] * cos[2][2] - dist[2] * cos[0][2]);
-		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[2][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[0][2];
-
-		r1 = pOBB1->m_fAxisHalfLen[0] * absCos[1][1] +
-			pOBB1->m_fAxisHalfLen[1] * absCos[1][0];
-
-		if (r > r0 + r1) return false;
-	}
-
-	//////////////////////////////////////////////////////////////////////
-
-	// : 1
-
-	{
-		r  = abs(dist[1] * cos[0][0] - dist[0] * cos[1][0]);
-		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[1][0] +
-			pOBB1->m_fAxisHalfLen[1] * absCos[0][0];
-
-		r1 = pOBB1->m_fAxisHalfLen[1] * absCos[2][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[2][1];
-
-		if (r > r0 + r1) return false;
-	}
-
-	{
-		r  = abs(dist[1] * cos[0][1] - dist[0] * cos[1][1]);
-		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[1][1] +
-			pOBB1->m_fAxisHalfLen[1] * absCos[0][1];
-
-		r1 = pOBB1->m_fAxisHalfLen[0] * absCos[2][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[2][0];
-
-		if (r > r0 + r1) return false;
-	}
-
-	{
-		r  = abs(dist[1] * cos[0][2] - dist[0] * cos[1][2]);
-		r0 = pOBB1->m_fAxisHalfLen[0] * absCos[1][2] +
-			pOBB1->m_fAxisHalfLen[1] * absCos[0][2];
-
-		// 1 .3
-		r1 = pOBB1->m_fAxisHalfLen[0] * absCos[2][1] +
-			pOBB1->m_fAxisHalfLen[1] * absCos[2][0];
-
-		if (r > r0 + r1) return false;
-	}
-
-	/////////////////////////////////////////////////////////////////////
-	
-	// : 2
-	
-	{
-		r  = abs(dist[2] * cos[1][0] - dist[1] * cos[2][0]);
-		r0 = pOBB1->m_fAxisHalfLen[1] * absCos[2][0] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[1][0];
-
-		r1 = pOBB1->m_fAxisHalfLen[1] * absCos[0][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[0][1];
-
-		if (r > r0 + r1) return false;
-	}
-
-	{
-		r  = abs(dist[2] * cos[1][1] - dist[1] * cos[2][1]);
-		r0 = pOBB1->m_fAxisHalfLen[1] * absCos[2][1] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[1][1];
-
-		r1 = pOBB1->m_fAxisHalfLen[0] * absCos[0][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[0][0];
-
-		if (r > r0 + r1) return false;
-	}
-
-	{
-		r  = abs(dist[2] * cos[1][2] - dist[1] * cos[2][2]);
-		r0 = pOBB1->m_fAxisHalfLen[1] * absCos[2][2] +
-			pOBB1->m_fAxisHalfLen[2] * absCos[1][2];
-
-		//
-		r1 = pOBB1->m_fAxisHalfLen[0] * absCos[0][1] +
-			pOBB1->m_fAxisHalfLen[1] * absCos[0][0];
-
-		if (r > r0 + r1) return false;
-	}
-
-	
+	return true;
 }
 
 
@@ -323,12 +266,4 @@ void cOBB::OBBBOX_Render(D3DXCOLOR c)
 	//	m_vecDrawingVertex.size() / 2, &m_vecDrawingVertex[0], sizeof(ST_PC_VERTEX));
 	//}
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-}
-
-void cOBB::SetupVertex(D3DXMATRIXA16* pmat)
-{
-	for(int i =0 ; i < m_vecDrawingVertex.size(); ++i)
-	{
-		D3DXVec3TransformCoord(&m_vecDrawingVertex[i].p, &m_vecVertex[i].p, pmat);
-	}
 }

@@ -7,7 +7,7 @@ class cBoundingBox;
 class cArthur : public cCharater, cSkinnedMesh
 {
 private:
-	cBoundingBox*	m_pOBB;
+	//cBoundingBox*	m_pOBB;
 	float			m_fvelocity;
 
 	D3DXVECTOR3		m_vScale;

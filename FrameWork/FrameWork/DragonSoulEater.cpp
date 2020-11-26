@@ -28,28 +28,19 @@ void DragonSoulEater::Update()
 	{
 		//SetState()
 	}
-	static DWORD  dwTime = GetTickCount();
-
-	//if(GetTickCount() - dwTime > 5000.0f)
-		m_pSkinnedUnit->Update();
-
-	D3DXMATRIXA16 matBone;
-	D3DXMATRIXA16* matT = m_pSkinnedUnit->GetCombineMatrix();
-
-	matBone = *(D3DXMATRIXA16*)m_pSkinnedUnit->CurrentBoneMatrices;
 	
-	//D3DXMATRIXA16 matOBB,matR, matT;
-	//D3DXMatrixScaling(&matOBB, 0.05, 0.05, 0.05);
-	//D3DXMatrixRotationX(&matR, D3DX_PI * 0.5);
-	//D3DXMatrixTranslation(&matT, 0,30, 0);
-	//matOBB = matOBB * matR * matT;
-	m_pOBB->Update(&matBone);
+	m_pSkinnedUnit->Update();
+
+	D3DXMATRIXA16 matOBB,matT,matRy;
+	D3DXMatrixRotationY(&matRy, m_vRot.y);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMATRIXA16 matS;
+	//D3DXMatrixScaling(&matS, 0.2, 0.2, 0.2);
+	matOBB = matRy * matT;
+
+	m_pOBB->Update(&matOBB);
 	
 	
-	//if(m_pCurState)
-	//{
-	//	m_pCurState->Update();
-	//}
 
 }
 
@@ -79,8 +70,16 @@ void DragonSoulEater::Setup(char* szFolder, char* szFileName)
 {
 	m_pSkinnedUnit = new cSkinnedMesh(szFolder, szFileName);
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pSkinnedUnit);
-	
+
+	D3DXMATRIXA16 mat;
+	D3DXMatrixScaling(&mat, 0.2, 0.2, 0.2);
+
+	m_pSkinnedUnit->Update();
+
+	if (m_pSkinnedUnit->m_pCurrentBoneMatrices)
+		mat *= *m_pSkinnedUnit->m_pCurrentBoneMatrices;
+
+	m_pOBB->Setup(m_pSkinnedUnit, &mat);
 }
 
 void DragonSoulEater::SetState()
