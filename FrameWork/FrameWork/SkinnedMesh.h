@@ -49,5 +49,7 @@ public:
 	// <<
 
 	D3DXMATRIX* m_pCurrentBoneMatrices;
+	//
+	std::vector<D3DXMATRIXA16*> SetUpBoneMatrix();
 };
 

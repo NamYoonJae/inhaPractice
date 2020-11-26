@@ -26,20 +26,21 @@ void ObjectPool::Update()
 	if (terrain == NULL)
 		terrain = (cTerrain*)SearchChild(Tag::Tag_Map);
 
-	static cArthur* arthur;
-	if (arthur == NULL)
-		arthur = (cArthur*)SearchChild(Tag::Tag_Player);
+	//static cArthur* arthur;
+	//if (arthur == NULL)
+	//	arthur = (cArthur*)SearchChild(Tag::Tag_Player);
 
-	static DragonSoulEater* souleater;
-	if (souleater == NULL)
-		souleater = (DragonSoulEater*)SearchChild(Tag::Tag_Boss);
+	//static DragonSoulEater* souleater;
+	//if (souleater == NULL)
+	//	souleater = (DragonSoulEater*)SearchChild(Tag::Tag_Boss);
 
 	RECT rc;
-	if(terrain)
+	if (terrain)
 	{
 		rc = terrain->GetCullingRect();
 	}
-	
+	else
+		rc = { 0,0,3000,30000 };
 	
 	for(int i = 0; i< vecObjectList.size(); i++)
 	{
@@ -47,13 +48,13 @@ void ObjectPool::Update()
 		if (terrain != NULL)
 		{
 			vecObjectList.at(i)->PosInMap(rc);
-			if(vecObjectList.size() - m_nRefcnt < i)
-			{
+		if(vecObjectList.size() - m_nRefcnt < i)
+		{
 				D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
 				float h = terrain->getHeight(pos);
 				pos.y = h;
 				vecObjectList[i]->SetPos(pos);
-			}
+		}
 		}
 
 		vecObjectList.at(i)->Update();
@@ -61,31 +62,29 @@ void ObjectPool::Update()
 
 
 	//
-	if (arthur && souleater)
-	{
-		if (souleater->GetOBB() == NULL || arthur->GetOBB() == NULL)
-		{
+	//if (arthur && souleater)
+	//{
+	//	if (souleater->GetOBB() == NULL || arthur->GetOBB() == NULL)
+	//	{
 
-		}
-		else
-		{
-			bool isCrash = cOBB::IsCollision(arthur->GetOBB(), souleater->GetOBB());
+	//	}
+	//	else
+	//	{
+	//		bool isCrash = cOBB::IsCollision(arthur->GetOBB(), souleater->GetOBB());
 
-			if (isCrash)
-			{
-				//arthur->GetColor(D3DCOLOR_XRGB(128, 128, 128));
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
-			}
-			else
-			{
-				//arthur->GetColor(D3DCOLOR_XRGB(0, 255, 250));
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
-			}
+	//		if (isCrash)
+	//		{
+	//			//arthur->GetColor(D3DCOLOR_XRGB(128, 128, 128));
+	//			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
+	//		}
+	//		else
+	//		{
+	//			//arthur->GetColor(D3DCOLOR_XRGB(0, 255, 250));
+	//			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
+	//		}
 
-			D3DXVECTOR3 v = arthur->GetPosition();
-			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fff", v.x, v.y, v.z);
-		}
-	}
+	//	}
+	//}
 }
 
 void ObjectPool::Render(D3DXMATRIXA16* pmat)
@@ -103,17 +102,16 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 
 	for(int i = 0 ; i < vecObjectList.size(); i++)
 	{
-		if (!vecObjectList.at(i)->GetIsRender() && vecObjectList.size() - m_nRefcnt <= i)
-			continue;
-		
-		vecObjectList.at(i)->Render(&matWorld);
+		//if (!vecObjectList.at(i)->GetIsRender() && vecObjectList.size() - m_nRefcnt <= i)
+		//	continue;
+		vecObjectList.at(i)->Render(NULL);
 	}
 
 	g_pTimeManager->DrawFPS();
 
 	for(int i = 0; i < vecUserInterface.size(); i++)
 	{
-		vecUserInterface.at(i)->Render(&matWorld);
+		vecUserInterface.at(i)->Render(NULL);
 	}
 
 	g_pD3DDevice->EndScene();

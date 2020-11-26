@@ -159,6 +159,7 @@ void cSkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 			for (DWORD i = 0; i < dwNumBones; i++) 
 			{
 				ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, pBoneMesh->pSkinInfo->GetBoneName(i));
+				
 				pBoneMesh->ppBoneMatrixPtrs[i] = &(pBone->CombinedTransformationMatrix);
 			}
 		}
@@ -180,10 +181,12 @@ void cSkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		{
 			LPD3DXSKININFO pSkinInfo = pBoneMesh->pSkinInfo;
 			DWORD dwNumBones = pSkinInfo->GetNumBones();
+
 			for (DWORD i = 0; i < dwNumBones; ++i) 
 			{
 				pBoneMesh->pCurrentBoneMatrices[i] = pBoneMesh->pBoneOffsetMatrices[i] * *(pBoneMesh->ppBoneMatrixPtrs[i]);
 			}
+			//
 		}
 
 		BYTE* src = NULL;
@@ -307,6 +310,7 @@ void cSkinnedMesh::Load(char* szFolder, char* szFileName)
 	m_vMin = ah.GetMin();
 	m_vMax = ah.GetMax();
 
+
 	//cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh;
 	//if(m_pRoot)
 	//{
@@ -380,4 +384,31 @@ D3DXMATRIXA16* cSkinnedMesh::GetCombineMatrix()
 	}
 
 	return NULL;
+}
+
+std::vector<D3DXMATRIXA16*> cSkinnedMesh::SetUpBoneMatrix()
+{
+	std::vector<D3DXMATRIXA16*> vecMatrixArray;
+	
+	if (m_pRoot && m_pRoot->pMeshContainer)
+	{
+		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)m_pRoot->pMeshContainer;
+
+		//pBoneMesh->pSkinInfo->GetBoneVertexInfluence(0,0,);
+		if (pBoneMesh->pSkinInfo)
+		{
+			LPD3DXSKININFO pSkinInfo = pBoneMesh->pSkinInfo;
+			DWORD dwNumBones = pSkinInfo->GetNumBones();
+			vecMatrixArray.resize(dwNumBones);
+			for (DWORD i = 0; i < dwNumBones; ++i)
+			{
+				pBoneMesh->pCurrentBoneMatrices[i] = pBoneMesh->pBoneOffsetMatrices[i] * *(pBoneMesh->ppBoneMatrixPtrs[i]);
+				vecMatrixArray[i] = (D3DXMATRIXA16*)&pBoneMesh->pCurrentBoneMatrices[i];
+			}
+
+		}
+		return vecMatrixArray;
+	}
+	else
+		return vecMatrixArray;
 }

@@ -60,10 +60,16 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	m_pTexture = g_pTextureManager->GetTexture("data/XFile/Dragon/BlueHP.png");
 	g_pD3DDevice->SetTransform(D3DTS_WORLD,&matWorld);
 	g_pD3DDevice->SetTexture(0, m_pTexture);
+	
+	//ZeroMemory(&m_Mstl, sizeof(D3DXMATRIXA16));
+//	g_pD3DDevice->SetMaterial(&m_Mstl);
+
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	m_pSkinnedUnit->Render();
+	g_pD3DDevice->SetMaterial(&m_Mstl);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetTexture(0, NULL);
 	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
-
 }
 
 void DragonSoulEater::Setup(char* szFolder, char* szFileName)
@@ -80,6 +86,11 @@ void DragonSoulEater::Setup(char* szFolder, char* szFileName)
 		mat *= *m_pSkinnedUnit->m_pCurrentBoneMatrices;
 
 	m_pOBB->Setup(m_pSkinnedUnit, &mat);
+
+	ZeroMemory(&m_Mstl, sizeof(D3DMATERIAL9));
+	m_Mstl.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
+	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
+	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 }
 
 void DragonSoulEater::SetState()
