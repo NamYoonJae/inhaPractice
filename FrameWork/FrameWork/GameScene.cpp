@@ -173,17 +173,35 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	
 #pragma region UI
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	cout << "Left : " << rc.left << endl; // 0
+	cout << "Right : " << rc.right << endl; // 1584
+	cout << "Bottom : " << rc.bottom << endl; //860
+	cout << "Top : " << rc.top << endl; // 0
 
-	// 중개자 역할을 수행하는 임시 cPopUp 객체
-	cPopUp * pTmp = new cPopUp();
-	// 이미지는 임의로 불러옴
-	pTmp->Setup("data/UI/TitleScene", "NW_Titleletter.png",D3DXVECTOR3(-1000, -1000, -100), 1, true, false);
-
+	float nRight = 0.33;
+	float nBottom = 0.37;
+	
 	// TODO 시스템창 불러오기
-	Setup_SystemWindow(pTmp);
-
-	EventManager->Attach(pTmp);
-	ObjectManager->AddUIChild(pTmp);
+	cButton * pMediator = new cButton;
+	pMediator->Setup(
+		"data/UI/ConfigurationSettings",
+		"Pixel.png",
+		D3DXVECTOR3(-1,-1,0), 
+		0, 0, 0,
+		1,
+		true, true);
+	pMediator->EventProcess = Opton_ESC_Event;
+	
+	cPopUp * pSystemPopUp = Setup_SystemWindow(pMediator);
+	cPopUp * pOptionPopUp = Setup_OptionWindow(pMediator);
+	
+	EventManager->Attach(pMediator);
+	ObjectManager->AddUIChild(pMediator);
+	
+	//ObjectManager->AddUIChild(pSystemPopUp);
+	//ObjectManager->AddUIChild(pOptionPopUp);
 	
 #pragma region UI
 	

@@ -36,6 +36,7 @@ protected:
 
 	cPopUp * pParent;
 
+	string str_filename;
 public:
 	
 	cPopUp();
@@ -82,7 +83,11 @@ public:
 	virtual void PowerOnOff(bool power);
 	virtual void vecListPowerOnOff();
 	virtual void vecListPowerOnOff(bool power);
+	virtual void PowerOnOffSelf();
+	virtual void PowerOnOffSelf(bool power);
 
+	void SetFix(bool Fixed);
+	
 	virtual void Destroy();
 
 	virtual cPopUp* GetTopPopUp();

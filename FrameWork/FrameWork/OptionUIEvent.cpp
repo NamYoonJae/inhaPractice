@@ -9,8 +9,8 @@
 //#include "SceneManager.h"
 //#include "TextureManager.h"
 
-
-void Setup_OptionWindow(cPopUp* btn)
+// 반환되는 포인터는 최상단 팝업의 포인터 좌표
+cPopUp* Setup_OptionWindow(cPopUp* btn)
 {
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
@@ -26,20 +26,25 @@ void Setup_OptionWindow(cPopUp* btn)
 	pOptionBackGround->Setup(
 		"data/UI/ConfigurationSettings",
 		"설정창 배경 사이즈조정.png",
-		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0), 1,
+		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0), 
+		1,
 		true, true);
 
 	cPopUp *pOptionBtnBackGround = new cPopUp;
 	pOptionBtnBackGround->Setup(
 		"data/UI/ConfigurationSettings",
 		"설정 내용 변경 사이즈조정.png",
-		D3DXVECTOR3(rc.right / 2 - 300, rc.bottom / 2 - 100, 0), 1,
+		D3DXVECTOR3(rc.right / 2 - 300, rc.bottom / 2 - 100, 0), 
+		1,
 		true, true);
 	pOptionBackGround->cButtonPushBack(pOptionBtnBackGround);
 
 	cButton *pOption_setButton = new cButton;
 	pOption_setButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), -50, -60, 0, 0.8, true, true);
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0),
+		-50, -60, 0,
+		0.8, 
+		true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_setButton);
 	pOption_setButton->EventProcess = Option_SetBtnEvent;
 	{ // setBtnList
@@ -51,7 +56,7 @@ void Setup_OptionWindow(cPopUp* btn)
 			true, true);
 		pOption_setButton->cButtonPushBack(pSetupNamePopup);
 
-		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(0, 0, 0))->EventProcess = GaugeBarMoveEvent;
+		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent;
 
 		pSetupNamePopup = new cPopUp;
 		pSetupNamePopup->Setup(
@@ -123,7 +128,7 @@ void Setup_OptionWindow(cPopUp* btn)
 			true, true);
 		pOption_CameraButton->cButtonPushBack(pSetupNamePopup);
 
-		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(0, 0, 0))->EventProcess = GaugeBarMoveEvent;
+		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent;
 
 		pSetupNamePopup = new cPopUp;
 		pSetupNamePopup->Setup(
@@ -150,7 +155,7 @@ void Setup_OptionWindow(cPopUp* btn)
 	pOption_AudioButton->EventProcess = Option_AudioBtnEvent;
 	{ // AudioBtnList
 	  // TODO 임시로 움직인거 조정하기
-	  // 시각적 확인을 위해 x축으로 10씩 밀어놨음
+	  // 시각적 확인을 위해 x축으로 조금씩 밀어놨음
 		cPopUp *pSetupNamePopup = new cPopUp;
 		pSetupNamePopup->Setup(
 			"data/UI/ConfigurationSettings",
@@ -159,7 +164,7 @@ void Setup_OptionWindow(cPopUp* btn)
 			true, true);
 		pOption_AudioButton->cButtonPushBack(pSetupNamePopup);
 
-		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(0, 0, 0))->EventProcess = GaugeBarMoveEvent;
+		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent;
 
 		pSetupNamePopup = new cPopUp;
 		pSetupNamePopup->Setup(
@@ -185,18 +190,20 @@ void Setup_OptionWindow(cPopUp* btn)
 	pExitButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 off 사이즈조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 570, -110, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pExitButton);
-	pExitButton->EventProcess = Option_ReturnTitle;
+	pExitButton->EventProcess = Option_ReturnEvent;
 
 	if (!btn)
 	{
 		EventManager->Attach(pOptionBackGround);
 		ObjectManager->AddUIChild(pOptionBackGround);
 	}
-	else
+	else if (btn)
 	{
 		pOptionBackGround->PowerOnOff();
 		btn->cButtonPushBack(pOptionBackGround);
 	}
+
+	return pOptionBackGround;
 }
 
 void Option_SetBtnEvent(EventType message, cPopUp* btn)
@@ -631,7 +638,7 @@ void Option_AudioBtnEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void Option_ReturnTitle(EventType message, cPopUp* btn)
+void Option_ReturnEvent(EventType message, cPopUp* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -710,7 +717,6 @@ void Option_ReturnTitle(EventType message, cPopUp* btn)
 
 
 	break;
-
 	case EventType::EVENT_LBUTTONUP:
 	{
 		if (button->GetState() == enum_On)

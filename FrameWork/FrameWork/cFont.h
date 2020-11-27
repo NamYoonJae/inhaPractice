@@ -4,7 +4,8 @@
 enum eFontType;
 
 class cFont :
-	public cObserver
+	public cPopUp
+	//public cObserver
 {
 	string m_Text;
 	LPD3DXFONT m_pFont;
@@ -19,6 +20,7 @@ public:
 	~cFont();
 
 	void Setup(string text, eFontType fontType);
+	void Setup(string text, eFontType fontType, D3DXVECTOR3 position);
 	void Update();
 	void Render();
 
