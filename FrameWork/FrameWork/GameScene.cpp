@@ -23,6 +23,11 @@
 #include "SystemUIEvent.h"
 #include "OptionUIEvent.h"
 #include "GameSceneUIEvent.h"
+
+//
+#include "ObjObject.h"
+#include "ObjLoader.h"
+
 #pragma once
 
 
@@ -147,8 +152,16 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pD3DDevice->LightEnable(0, true);
 
 
-	
-	//	
+	//vector<cMtlTex*> LavaMtl;
+	//LavaMtl.clear();
+	//cObjLoader ObjLoader;
+	//LPD3DXMESH Lava;
+	//Lava = ObjLoader.LoadMeshOBJ(LavaMtl,"data/OBjFile/LavaGolem","fb.obj");
+
+	cObjMesh *Lava = new cObjMesh;
+	Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
+	Lava->Tagging(Tag::Tag_cObj);
+	ObjectManager->AddChild(Lava);
 	//#pragma region jsonfileload
 	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
 	//	m_p_jsonValue = json_parse_file("data/json/example box test.json");

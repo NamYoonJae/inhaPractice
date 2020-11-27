@@ -121,7 +121,7 @@ void cObjMesh::Setup(const char* folder, const char* file)
 	m_Mesh = Loader.LoadMeshOBJ(m_vecMtlTex, folder, file);
 }
 
-void cObjMesh::Render()
+void cObjMesh::Render(D3DXMATRIXA16* pmat)
 {
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "cObject.h"
 class cGroup;
 class cMtlTex;
 
@@ -53,7 +53,7 @@ public:
 	virtual vector<cGroup*> & GetGroup() { return m_vecGroup; }
 };
 
-class cObjMesh : public cObjDefault
+class cObjMesh : public cObjDefault , public cObject
 {
 private:
 	LPD3DXMESH m_Mesh;
@@ -64,9 +64,12 @@ public:
 
 	virtual void Setup(string folder, string file);
 	virtual void Setup(const char* folder, const char* file) override;
-	virtual void Render() override;
-	
+	virtual void Render(D3DXMATRIXA16* pmat = NULL) override;
+	virtual void Render() {};
 	virtual vector<cMtlTex*> & GetMtlTex() { return m_vecMtlTex; }
 	virtual LPD3DXMESH GetMesh() { return m_Mesh; }
+
+	
+	virtual void Update()override {};
 };
 
