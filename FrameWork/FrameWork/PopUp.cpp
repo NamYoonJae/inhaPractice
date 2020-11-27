@@ -278,10 +278,10 @@ void cPopUp::PowerOnOffSelf(bool power)
 }
 
 // 중개자의 fixed상태를 정의하기위해 사용할 메소드
-void cPopUp::SetFix(bool fixed)
-{
-	m_Fixed = fixed;
-}
+//void cPopUp::SetFix(bool fixed)
+//{
+//	m_Fixed = fixed;
+//}
 
 
 void cPopUp::Destroy()

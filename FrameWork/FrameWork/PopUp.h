@@ -86,7 +86,7 @@ public:
 	virtual void PowerOnOffSelf();
 	virtual void PowerOnOffSelf(bool power);
 
-	void SetFix(bool Fixed);
+	//void SetFix(bool Fixed);
 	
 	virtual void Destroy();
 
