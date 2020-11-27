@@ -124,7 +124,6 @@ void cObjMesh::Setup(const char* folder, const char* file)
 void cObjMesh::Render()
 {
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
-
 	for (size_t i = 0; i < m_vecMtlTex.size(); ++i)
 	{
 		g_pD3DDevice->SetMaterial(&m_vecMtlTex[i]->GetMaterial());

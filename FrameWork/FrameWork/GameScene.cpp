@@ -145,9 +145,6 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
-
-
-	
 	//	
 	//#pragma region jsonfileload
 	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.

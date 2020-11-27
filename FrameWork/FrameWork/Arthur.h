@@ -3,6 +3,7 @@
 #include "SkinnedMesh.h"
 
 class cBoundingBox;
+class cArthurWeapon;
 
 class cArthur : public cCharater, cSkinnedMesh
 {
@@ -36,5 +37,24 @@ public:
 
 	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
 	D3DXVECTOR3 GetScale() { return m_vScale; }
+};
+
+class cArthurWeapon : public cObject
+{
+private:
+// >>
+	D3DXMATRIXA16 m_matOBB;
+// <<
+public:
+	cArthurWeapon();
+	~cArthurWeapon();
+
+	void Setup(D3DXFRAME* pFrame,
+				D3DXMESHCONTAINER* pMesh,
+				D3DXVECTOR3* vecSize,
+				D3DXVECTOR3* vecJointOffset);
+	
+	void Update() override;
+	void Render(D3DXMATRIXA16* pmat) override;
 };
 

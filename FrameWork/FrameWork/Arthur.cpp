@@ -135,24 +135,12 @@ void cArthur::Update(EventType event)
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
 	m_vPos += m_vDir * m_fvelocity;
 
-	//int AnimGroup[3] = { 0, 1, 2 };
 	static int n = 0;
 	
 	if(event == EventType::EVENT_LBUTTONDOWN)
 	{
 		SetAnimationIndexBlend(n++);
-		//SetAnimationController("data/XFile/Arthur", "arthur_Attack01.X");
-		//SetSkinnedMesh("data/XFile/Arthur", "arthur_Attack01.X");
 	}
-	else if (event == EventType::EVENT_RBUTTONDOWN)
-	{
-		//SetSkinnedMesh("data/XFile/Arthur", "arthur_a01.X");
-	}
-
-	//if(event == EventType::EVENT_JUMP)
-	//{
-	//	m_pMesh->SetAnimationIndexBlend(0);
-	//}
 }
 
 void cArthur::Render(D3DXMATRIXA16 * pmat)
@@ -172,4 +160,51 @@ void cArthur::SetTranseform(D3DXMATRIXA16* pmat)
 	{
 		SetTransform(pmat);
 	}
+}
+
+cArthurWeapon::cArthurWeapon()
+{
+	D3DXMatrixIdentity(&m_matOBB);
+}
+
+cArthurWeapon::~cArthurWeapon()
+{
+}
+
+void cArthurWeapon::Setup(D3DXFRAME* pFrame,
+							D3DXMESHCONTAINER* pMesh,
+							D3DXVECTOR3* vecSize,
+							D3DXVECTOR3* vecJointOffset)
+{
+	D3DXVECTOR3 vMin(0, 0, 0);
+	D3DXVECTOR3 vMax(0, 0, 0);
+	
+	DWORD BoneNum = -1;
+	if (pFrame->Name)
+	{
+		ID3DXSkinInfo* pSkin = pMesh->pSkinInfo;
+
+		for (DWORD i = 0; i < pSkin->GetNumBones(); i++)
+		{
+			if (!strcmp(pSkin->GetBoneName(i), pFrame->Name))
+			{
+				BoneNum = i;
+				break;
+			}
+		}
+
+
+		if (BoneNum != -1)
+		{
+			DWORD NumVertice = pSkin->GetNumBoneInfluences(BoneNum);
+		}
+	}
+}
+
+void cArthurWeapon::Update()
+{
+}
+
+void cArthurWeapon::Render(D3DXMATRIXA16* pmat)
+{
 }
