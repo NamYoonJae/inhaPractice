@@ -1,5 +1,5 @@
 #pragma once
-
+#include "cObject.h"
 class cGroup;
 class cMtlTex;
 
@@ -35,9 +35,10 @@ public:
 	virtual D3DXVECTOR3 GetRotation() { return m_vRotateAngle; }
 
 	virtual D3DXMATRIXA16 GetWorldMatrix() { return m_matWorld; }
+	void SetWorldMatrix(D3DXMATRIX* mat) { m_matWorld = *mat; }
 };
 
-class cObjObject : public cObjDefault
+class cObjObject : public cObjDefault, public cObject
 {
 private:
 	vector<cGroup*> m_vecGroup;
@@ -48,12 +49,14 @@ public:
 	virtual void Setup(string folder, string file);
 	virtual void Setup(const char* folder, const char* file) override;
 	virtual void Update();
-	virtual void Render();
+	virtual void Render(D3DXMATRIXA16* pmat = NULL) override;
+	virtual void Render() {};
 
 	virtual vector<cGroup*> & GetGroup() { return m_vecGroup; }
+	
 };
 
-class cObjMesh : public cObjDefault
+class cObjMesh : public cObjDefault , public cObject
 {
 private:
 	LPD3DXMESH m_Mesh;
@@ -64,9 +67,12 @@ public:
 
 	virtual void Setup(string folder, string file);
 	virtual void Setup(const char* folder, const char* file) override;
-	virtual void Render() override;
-	
+	virtual void Render(D3DXMATRIXA16* pmat = NULL) override;
+	virtual void Render() {};
 	virtual vector<cMtlTex*> & GetMtlTex() { return m_vecMtlTex; }
 	virtual LPD3DXMESH GetMesh() { return m_Mesh; }
+
+	
+	virtual void Update()override {};
 };
 

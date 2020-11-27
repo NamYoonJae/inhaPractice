@@ -9,9 +9,6 @@ class ObjectPool : public cObject
 {
 	Singletone(ObjectPool);
 private:
-	// temp
-	cObjMesh* m_pObjMesh;
-	//
 	std::vector<cObject*> vecObjectList;
 	std::vector<cObject*> vecUserInterface;
 	int m_nRefcnt;
