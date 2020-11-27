@@ -151,41 +151,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
 
-
-	//vector<cMtlTex*> LavaMtl;
-	//LavaMtl.clear();
-	//cObjLoader ObjLoader;
-	//LPD3DXMESH Lava;
-	//Lava = ObjLoader.LoadMeshOBJ(LavaMtl,"data/OBjFile/LavaGolem","fb.obj");
-
 	cObjMesh *Lava = new cObjMesh;
 	Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
 	Lava->Tagging(Tag::Tag_cObj);
 	ObjectManager->AddChild(Lava);
-	//#pragma region jsonfileload
-	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
-	//	m_p_jsonValue = json_parse_file("data/json/example box test.json");
-	//	m_p_jsonRootObj = json_value_get_object(m_p_jsonValue);
-	//
-	//	m_p_jsonObjUnit = new cObjMesh;
-	//	m_p_jsonObjUnit->Setup(
-	//		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileDirectory"),
-	//		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileName")
-	//	);
-	//	m_p_jsonObjUnit->SetPosition(
-	//		json_Fuction::get_D3DXVECTOR3(m_p_jsonRootObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
-	//	);
-	//
-	//	m_p_jsonSubObj = json_Fuction::object_get_object(m_p_jsonRootObj, "Box/");
-	//	json_object_set_number(m_p_jsonSubObj, "Pos_x", m_p_jsonObjUnit->GetPosition().x - 5.f);
-	//	json_object_set_number(m_p_jsonSubObj, "Pos_y", m_p_jsonObjUnit->GetPosition().y + 5.f);
-	//	json_object_set_number(m_p_jsonSubObj, "Pos_z", m_p_jsonObjUnit->GetPosition().z - 3.f);
-	//	json_serialize_to_file_pretty(m_p_jsonValue, "data/example box test save.json");
-	//	
-	//	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
-	//
-	//#pragma endregion jsonfileload
-
 
 	
 #pragma region UI

@@ -170,7 +170,7 @@ void cObjLoader::LoadMtlLib(const char* folder, const char* file)
 		char buff[1024];
 		fgets(buff, sizeof(buff), SrcFile);
 
-		if (buff[0] == '#') continue;
+		if (buff[0] == '#' || buff[1] == '#') continue;
 
 		if (buff[0] == 'n')
 		{
@@ -182,12 +182,13 @@ void cObjLoader::LoadMtlLib(const char* folder, const char* file)
 				m_mapMtlTex[MtlName]->SetAttribute(nCnt++);	//nCnt대신 맵사이즈로 해도 된다
 			}
 		}
-		else if (buff[0] == 'K')
+		else if (buff[0] == 'K' || buff[1] == 'K')
 		{
 			float r(0), g(0), b(0);
 			sscanf_s(buff, "%*s %f %f %f", &r, &g, &b);
-
-			switch (buff[1])
+			int k = buff[0] == 'K' ? 1 : 2;
+			
+			switch (buff[k])
 			{
 			case 'a':
 				m_mapMtlTex[MtlName]->GetMaterial().Ambient = D3DXCOLOR(r, g, b, 1.0f);
@@ -200,14 +201,14 @@ void cObjLoader::LoadMtlLib(const char* folder, const char* file)
 				break;
 			}
 		}
-		else if (buff[0] == 'd')
+		else if (buff[0] == 'd' || buff[1] == 'd')
 		{
 			float power = 0.0f;
 			sscanf_s(buff, "%*s %f", &power);
 
 			m_mapMtlTex[MtlName]->GetMaterial().Power = power;
 		}
-		else if (buff[0] == 'm')
+		else if (buff[0] == 'm' || buff[1] == 'm')
 		{
 			sscanf_s(buff, "%*s %s", buff, sizeof(buff));
 			Path = folder + (string("/") + buff);

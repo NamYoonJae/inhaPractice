@@ -7,10 +7,13 @@
 #include "cTerrain.h"
 #include "Arthur.h"
 #include "DragonSoulEater.h"
+#include "ObjObject.h"
 
 
 ObjectPool::ObjectPool()
 {
+	m_pObjMesh = new cObjMesh;
+	m_pObjMesh->Setup("data/ObjFile", "fb.obj");
 }
 
 
@@ -106,6 +109,7 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 	}
 
 	g_pTimeManager->DrawFPS();
+	m_pObjMesh->Render();
 
 	for(int i = 0; i < vecUserInterface.size(); i++)
 	{
