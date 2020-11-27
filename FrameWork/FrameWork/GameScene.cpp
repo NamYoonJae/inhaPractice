@@ -154,6 +154,12 @@ void cGameScene::Setup() // boss1map  boss2map
 	cObjMesh *Lava = new cObjMesh;
 	Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
 	Lava->Tagging(Tag::Tag_cObj);
+	D3DXMATRIX LavaT;
+	D3DXMatrixTranslation(&LavaT, -30,30,0);
+	Lava->SetWorldMatrix(&LavaT);
+	//cObjObject *Lava = new cObjObject;
+	//Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
+	//Lava->Tagging(Tag::Tag_cObj);
 	ObjectManager->AddChild(Lava);
 
 	

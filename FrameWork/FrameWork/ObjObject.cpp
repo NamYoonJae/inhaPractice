@@ -80,15 +80,15 @@ void cObjObject::Update()
 	cObjDefault::Update();
 	
 	for (int groupNum = 0; groupNum < m_vecGroup.size(); groupNum++)
-		for (int i = 0; i < m_vecGroup[groupNum]->GetVertex().size(); i += 3)
+		for (int i = 0; i < m_vecGroup[groupNum]->GetVertex().size(); i ++)
 		{
 			D3DXVec3TransformCoord(&m_vecGroup[groupNum]->GetVertex()[i].p, &m_vecGroup[groupNum]->GetVertex()[i].p, &m_matWorld);
-			D3DXVec3TransformCoord(&m_vecGroup[groupNum]->GetVertex()[i + 1].p, &m_vecGroup[groupNum]->GetVertex()[i + 1].p, &m_matWorld);
-			D3DXVec3TransformCoord(&m_vecGroup[groupNum]->GetVertex()[i + 2].p, &m_vecGroup[groupNum]->GetVertex()[i + 2].p, &m_matWorld);
+			//D3DXVec3TransformCoord(&m_vecGroup[groupNum]->GetVertex()[i + 1].p, &m_vecGroup[groupNum]->GetVertex()[i + 1].p, &m_matWorld);
+			//D3DXVec3TransformCoord(&m_vecGroup[groupNum]->GetVertex()[i + 2].p, &m_vecGroup[groupNum]->GetVertex()[i + 2].p, &m_matWorld);
 		}
 }
 
-void cObjObject::Render()
+void cObjObject::Render(D3DXMATRIXA16* pmat)
 {
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorld);
 

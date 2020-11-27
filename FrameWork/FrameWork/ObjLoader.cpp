@@ -123,11 +123,13 @@ void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, const char* folder, con
 		}
 		else if (buff[0] == 'f')
 		{
-			unsigned int Index[3][3];
+		/*	unsigned int Index[3][3];
 			sscanf_s(buff, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
 				&Index[0][0], &Index[0][1], &Index[0][2],
 				&Index[1][0], &Index[1][1], &Index[1][2],
 				&Index[2][0], &Index[2][1], &Index[2][2]);
+
+
 
 			for (int i = 0; i < 3; i++)
 			{
@@ -136,12 +138,95 @@ void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, const char* folder, con
 				v.t = UVs[Index[i][1] - 1];
 				v.n = normals[Index[i][2] - 1];
 				vertices.push_back(v);
+			}*/
+
+			vector<int> list;
+			int i = 0;
+
+			while (buff[i] != '\r' && buff[i] != '\n')
+			{
+
+				string szIndex;
+
+				while (buff[i] != 'f' &&
+					buff[i] != ' ' &&
+					buff[i] != '/' &&
+					buff[i] != '\r')
+				{
+					szIndex += buff[i];
+					++i;
+				}
+
+				if (!szIndex.empty())
+				{
+					list.push_back(atoi(szIndex.c_str()));
+				}
+				else
+					++i;
+			}
+
+			if (list.size() == 12)
+			{
+				// 4 1
+				// 3 2
+
+
+				ST_PNT_VERTEX v;
+				//2
+				v.p = positions[list[3] - 1];
+				v.t = UVs[list[4] - 1];
+				v.n = normals[list[5] - 1];
+				vertices.push_back(v);
+				//4
+				v.p = positions[list[9] - 1];
+				v.t = UVs[list[10] - 1];
+				v.n = normals[list[11] - 1];
+				vertices.push_back(v);
+				//3
+				v.p = positions[list[6] - 1];
+				v.t = UVs[list[7] - 1];
+				v.n = normals[list[8] - 1];
+				vertices.push_back(v);
+
+				//2
+				v.p = positions[list[3] - 1];
+				v.t = UVs[list[4] - 1];
+				v.n = normals[list[5] - 1];
+				vertices.push_back(v);
+				//1
+				v.p = positions[list[0] - 1];
+				v.t = UVs[list[1] - 1];
+				v.n = normals[list[2] - 1];
+				vertices.push_back(v);
+				//4
+				v.p = positions[list[9] - 1];
+				v.t = UVs[list[10] - 1];
+				v.n = normals[list[11] - 1];
+				vertices.push_back(v);
+
+			}
+			else
+			{
+				for (int i = 0; i < list.size(); i += 3)
+				{
+					ST_PNT_VERTEX v;
+					v.p = positions[list[i + 0] - 1];
+					v.t = UVs[list[i + 1] - 1];
+					v.n = normals[list[i + 2] - 1];
+					vertices.push_back(v);
+				}
 			}
 		}
 	}
 
 	fclose(SrcFile);
 
+	//
+	cGroup* group = new cGroup;
+	group->SetVertices(vertices);
+	group->SetMaterialTexture(m_mapMtlTex[MtlName]);
+	vecGroup.push_back(group);
+	//
 	//for (auto it : m_mapMtlTex)
 	//{
 	//	SafeRelease(it.second->m_Texture);
@@ -287,20 +372,89 @@ LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char*
 		}
 		else if (szTemp[0] == 'f')
 		{
-			int nIndex[3][3];
-			sscanf_s(szTemp, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
-				&nIndex[0][0], &nIndex[0][1], &nIndex[0][2],
-				&nIndex[1][0], &nIndex[1][1], &nIndex[1][2],
-				&nIndex[2][0], &nIndex[2][1], &nIndex[2][2]
-			);
+			//int nIndex[3][3];
+			//sscanf_s(szTemp, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
+			//	&nIndex[0][0], &nIndex[0][1], &nIndex[0][2],
+			//	&nIndex[1][0], &nIndex[1][1], &nIndex[1][2],
+			//	&nIndex[2][0], &nIndex[2][1], &nIndex[2][2]
+			//);
 
-			for (int i = 0; i < 3; ++i)
+			vector<int> list;
+			int i = 0;
+			
+			while (szTemp[i] != '\r' && szTemp[i] != '\n')
 			{
+
+				string szIndex;
+				
+				while(szTemp[i] != 'f' && 
+					szTemp[i] != ' ' &&
+					szTemp[i] != '/' &&
+					szTemp[i] != '\r')
+				{
+					szIndex += szTemp[i];
+					++i;
+				}
+
+				if (!szIndex.empty())
+				{
+					list.push_back(atoi(szIndex.c_str()));
+				}
+				else
+					++i;
+			}
+
+
+			if (list.size() == 12)
+			{
+				// 4 1
+				// 3 2
+
+
 				ST_PNT_VERTEX v;
-				v.p = vecV[nIndex[i][0] - 1];
-				v.t = vecVT[nIndex[i][1] - 1];
-				v.n = vecVN[nIndex[i][2] - 1];
+				//2
+				v.p = vecV[list[3] - 1];
+				v.t = vecVT[list[4] - 1];
+				v.n = vecVN[list[5] - 1];
 				vecVertex.push_back(v);
+				//4
+				v.p = vecV[list[9] - 1];
+				v.t = vecVT[list[10] - 1];
+				v.n = vecVN[list[11] - 1];
+				vecVertex.push_back(v);
+				//3
+				v.p = vecV[list[6] - 1];
+				v.t = vecVT[list[7] - 1];
+				v.n = vecVN[list[8] - 1];
+				vecVertex.push_back(v);
+
+				//2
+				v.p = vecV[list[3] - 1];
+				v.t = vecVT[list[4] - 1];
+				v.n = vecVN[list[5] - 1];
+				vecVertex.push_back(v);
+				//1
+				v.p = vecV[list[0] - 1];
+				v.t = vecVT[list[1] - 1];
+				v.n = vecVN[list[2] - 1];
+				vecVertex.push_back(v);
+				//4
+				v.p = vecV[list[9] - 1];
+				v.t = vecVT[list[10] - 1];
+				v.n = vecVN[list[11] - 1];
+				vecVertex.push_back(v);
+
+			}
+			else
+			{
+				for (int i = 0; i < list.size(); i += 3)
+				{
+					ST_PNT_VERTEX v;
+					v.p = vecV[list[i + 0] - 1];
+					v.t = vecVT[list[i + 1] - 1];
+					v.n = vecVN[list[i + 2] - 1];
+					vecVertex.push_back(v);
+				}
 			}
 
 			vecAttrBuf.push_back(m_mapMtlTex[sMtlName]->GetAttribute());	//속성값을 얻어와서 어트리뷰트에 넣어준다
@@ -317,8 +471,8 @@ LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char*
 	}
 
 	LPD3DXMESH pMesh = NULL;
-	D3DXCreateMeshFVF(vecAttrBuf.size(), vecVertex.size(), D3DXMESH_MANAGED, ST_PNT_VERTEX::FVF, g_pD3DDevice, &pMesh);
-
+	//D3DXCreateMeshFVF(vecAttrBuf.size(), vecVertex.size(), D3DXMESH_MANAGED, ST_PNT_VERTEX::FVF, g_pD3DDevice, &pMesh);
+	D3DXCreateMeshFVF(vecVertex.size() / 3, vecVertex.size(), D3DXMESH_MANAGED, ST_PNT_VERTEX::FVF, g_pD3DDevice, &pMesh);
 	ST_PNT_VERTEX * pV = NULL;
 	pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
 	memcpy(pV, &vecVertex[0], vecVertex.size() * sizeof(ST_PNT_VERTEX));
@@ -332,7 +486,8 @@ LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char*
 
 	DWORD* pA = NULL;
 	pMesh->LockAttributeBuffer(0, &pA);
-	memcpy(pA, &vecAttrBuf[0], vecAttrBuf.size() * sizeof(DWORD));
+	//memcpy(pA, &vecAttrBuf[0], vecAttrBuf.size() * sizeof(DWORD));
+	ZeroMemory(pA, (vecVertex.size() / 3) *sizeof(DWORD));
 	pMesh->UnlockVertexBuffer();
 
 	vector<DWORD> vecAdj(vecVertex.size());
