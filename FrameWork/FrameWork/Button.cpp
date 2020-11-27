@@ -38,6 +38,7 @@ void cButton::Setup(char* root, char* fileName, D3DXVECTOR3 position, float x, f
 
 	string fileRoot(root);
 	fileRoot = fileRoot + string("/") + string(fileName);
+	str_filename = string(fileName);
 
 	LoadTexture((char*)fileRoot.c_str());
 }

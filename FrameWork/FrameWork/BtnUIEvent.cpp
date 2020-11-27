@@ -6,6 +6,7 @@
 //#include "SystemUIEvent.h"
 //#include "OptionUIEvent.h"
 
+// 해당 셋업함수에서 이벤트를 넣지 않습니다.
 cButton* Setup_BarGaugePopupBtn(cPopUp* popup, D3DXVECTOR3 position)
 {
 	cPopUp * pBarGauge = new cPopUp;
@@ -13,9 +14,10 @@ cButton* Setup_BarGaugePopupBtn(cPopUp* popup, D3DXVECTOR3 position)
 		"data/UI/ConfigurationSettings",
 		"설정창 바 게이지 사이즈 조정.png",
 		popup->GetPosition(),
-		-100, 60, 0, // TODO json 파일 파싱받아서 위치벡터값 넣어주기
+		//-100, 60, 0, // TODO json 파일 파싱받아서 위치벡터값 넣어주기
+		position.x, position.y, position.z, // TODO json 파일 파싱받아서 위치벡터값 넣어주기
 		1,
-		true, true);
+		true, false);
 	popup->cButtonPushBack(pBarGauge);
 
 	// TODO UI관련 주석 확인
@@ -25,12 +27,11 @@ cButton* Setup_BarGaugePopupBtn(cPopUp* popup, D3DXVECTOR3 position)
 	cButton * pBarButton = new cButton;
 	pBarButton->Setup("data/UI/ConfigurationSettings", "설정창 바게이지 조절 버튼 사이즈조정.png",
 		pBarGauge->GetPosition(),
-		385, -8, 0, // << x의 위치만 변화하게
+		185, -8, 0, // << x의 위치만 변화하게
 					// pBarButton의 x값의 범위 -15 ~ 385, 4만큼 움직일때마다 이벤트에서 1만큼 값을 변경하기
 		1,
-		true, true);
+		true, false);
 	pBarGauge->cButtonPushBack(pBarButton);
-	pBarButton->EventProcess = GaugeBarMoveEvent;
 
 	return pBarButton;
 }
