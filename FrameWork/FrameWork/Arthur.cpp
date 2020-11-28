@@ -197,8 +197,45 @@ void cArthurWeapon::Setup(D3DXFRAME* pFrame,
 		if (BoneNum != -1)
 		{
 			DWORD NumVertice = pSkin->GetNumBoneInfluences(BoneNum);
+
+			if(NumVertice)
+			{
+				DWORD* Vertices = new DWORD[NumVertice];
+				float* Weights = new float[NumVertice];
+				pSkin->GetBoneInfluence(BoneNum, Vertices, Weights);
+
+				DWORD Stride = D3DXGetFVFVertexSize(pMesh->MeshData.pMesh->GetFVF());
+
+				D3DXMATRIX* matInvBone = pSkin->GetBoneOffsetMatrix(BoneNum);
+
+				char* pVertices;
+				pMesh->MeshData.pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVertices);
+
+				for(DWORD i = 0; i < NumVertice; i++)
+				{
+					D3DXVECTOR3* vecPtr = (D3DXVECTOR3*)(pVertices + Vertices[i] * Stride);
+
+					D3DXVECTOR3 vecPos;
+					D3DXVec3TransformCoord(&vecPos, vecPtr, matInvBone);
+
+					vMin.x = min(vMin.x, vecPos.x);
+					vMin.y = min(vMin.y, vecPos.y);
+					vMin.z = min(vMin.z, vecPos.z);
+
+					vMax.x = max(vMax.x, vecPos.x);
+					vMax.y = max(vMax.y, vecPos.y);
+					vMax.z = max(vMax.z, vecPos.z);
+				}
+
+				pMesh->MeshData.pMesh->UnlockVertexBuffer();
+
+				delete[] Vertices;
+				delete[] Weights;
+			}
 		}
 	}
+
+	
 }
 
 void cArthurWeapon::Update()
