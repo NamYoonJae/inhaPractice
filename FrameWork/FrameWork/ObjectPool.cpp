@@ -157,21 +157,20 @@ void ObjectPool::Revert()
 	m_nRefcnt = 0;
 
 	//Detech를 해줘야한다
-	for(int i = 0; i < vecUserInterface.size(); i++)
+	// 현재 수정해야하는곳
+	 for(int i = 0; i < vecUserInterface.size(); i++)
 	{
 		cPopUp* popup = (cPopUp*)vecUserInterface[i];
 		popup->Destroy();
 	}
-	
+
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
-
-
 	
 	return;
 }
 
-const cObject* ObjectPool::GetChlid(int nIndex)
+const cObject* ObjectPool::GetChild(int nIndex)
 {
 	if (nIndex < vecObjectList.size())
 		return vecObjectList[nIndex];
@@ -190,23 +189,33 @@ void ObjectPool::RemoveUIChild(cObject& obj)
 		vecUserInterface.end(), &obj));
 }
 
+const cObject * ObjectPool::GetUI(int Tag)
+{
+	for(int i = 0;  i < vecUserInterface.size(); ++i)
+	{
+		if (vecUserInterface.at(i)->GetTag() == Tag)
+			return vecUserInterface.at(i);
+	}
+	
+	return NULL;
+}
+
 const cObject* ObjectPool::SearchChild(int nTag)
 {
 	int i = 0;
 	if (vecObjectList.empty()) return NULL;
-	
-	while(vecObjectList.at(i)->GetTag() != nTag)
+
+	while (vecObjectList.at(i)->GetTag() != nTag)
 	{
 		++i;
 
-		if(vecObjectList.size() <= i)
+		if (vecObjectList.size() <= i)
 		{
 			return NULL;
 		}
 	}
 
 	return vecObjectList.at(i);
-
 }
 
 void ObjectPool::CollisionProcess()

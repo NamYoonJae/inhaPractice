@@ -19,13 +19,13 @@ public:
 	void AddStaticChild(cObject* obj);
 	void RemoveChild(cObject& obj);
 	void Revert();
-	const cObject* GetChlid(int nIndex);
+	const cObject* GetChild(int nIndex);
 
 	
 	void AddUIChild(cObject* obj);
 	void RemoveUIChild(cObject& obj);
-
 	const cObject* SearchChild(int nTag);
+	const cObject* GetUI(int TagUI);
 
 	void CollisionProcess();
 };

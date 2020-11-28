@@ -80,3 +80,9 @@ void cTitleScene::Setup()
 	ObjectManager->AddUIChild(pBackgroundPopup);
 }
 
+//
+void cTitleScene::Reset()
+{
+	
+}
+

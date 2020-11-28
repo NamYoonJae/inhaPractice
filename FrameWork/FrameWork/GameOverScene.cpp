@@ -58,3 +58,9 @@ void cGameOverScene::Setup()
 	ObjectManager->AddUIChild(pBackgroundPopup);
 
 }
+
+// 
+void cGameOverScene::Reset()
+{
+	
+}

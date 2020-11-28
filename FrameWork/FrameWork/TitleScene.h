@@ -14,6 +14,7 @@ public:
 	cTitleScene(SceneType);
 	~cTitleScene();
 
-	void Setup();
+	void Setup() override;
+	void Reset() override;
 };
 

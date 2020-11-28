@@ -12,6 +12,11 @@ const enum Tag
 	Tag_cObj
 };
 
+enum TAG_UI
+{
+	TagUI_Title,
+	TagUI_InGame
+};
 
 class cOBB;
 

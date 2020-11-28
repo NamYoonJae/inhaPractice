@@ -191,3 +191,8 @@ void cGameScene::Setup() // boss1map  boss2map
 #pragma region UI
 	
 }
+
+void cGameScene::Reset()
+{
+	
+}

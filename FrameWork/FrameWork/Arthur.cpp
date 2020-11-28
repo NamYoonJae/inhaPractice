@@ -101,13 +101,13 @@ void cArthur::Update()
 
 void cArthur::Update(EventType event)
 {
-	m_fvelocity = 0;
+	//m_fvelocity = 0;
 	D3DXMATRIXA16 TempRot;
 	D3DXMatrixIdentity(&TempRot);
 
 	//float delta = g_pTimeManager->GetElapsedTime();
 	float delta = 0.001f;
-	bool isKeyDown = false;
+	static bool isKeyDown = false;
 	
 	if (event == EventType::EVENT_ARROW_UP)
 	{
@@ -132,6 +132,12 @@ void cArthur::Update(EventType event)
 		isKeyDown = true;
 	}
 
+	if (event == EventType::EVENT_KEYUP && isKeyDown)
+	{
+		m_fvelocity = 0;
+		isKeyDown = false;
+	}
+
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
 	m_vPos += m_vDir * m_fvelocity;
 
@@ -153,6 +159,11 @@ void cArthur::Update(EventType event)
 	//{
 	//	m_pMesh->SetAnimationIndexBlend(0);
 	//}
+
+
+	///
+	/// new Code 11-28
+
 }
 
 void cArthur::Render(D3DXMATRIXA16 * pmat)
