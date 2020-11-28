@@ -8,6 +8,7 @@ cTerrain::cTerrain()
 	, TerrainThread(NULL)
 	, m_pNewTerrainMesh(NULL)
 	, IsSwapMesh(false)
+	, m_pvTarget(NULL)
 {
 	m_CullingRect = { 0,0,0,0 };
 }

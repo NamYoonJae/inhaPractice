@@ -17,8 +17,6 @@ ObjectPool::ObjectPool()
 
 ObjectPool::~ObjectPool()
 {
-	//
-
 }
 
 void ObjectPool::Update()
@@ -27,63 +25,21 @@ void ObjectPool::Update()
 	if (terrain == NULL)
 		terrain = (cTerrain*)SearchChild(Tag::Tag_Map);
 
-	//static cArthur* arthur;
-	//if (arthur == NULL)
-	//	arthur = (cArthur*)SearchChild(Tag::Tag_Player);
 
-	//static DragonSoulEater* souleater;
-	//if (souleater == NULL)
-	//	souleater = (DragonSoulEater*)SearchChild(Tag::Tag_Boss);
-
-	RECT rc;
-	if (terrain)
-	{
-		rc = terrain->GetCullingRect();
-	}
-	else
-		rc = { 0,0,3000,30000 };
 	
-	for(int i = 0; i< vecObjectList.size(); i++)
+	for(int i = 0; i< vecObjectList.size(); ++i)
 	{
-		
-		if (terrain != NULL)
+		if (terrain != NULL && 
+			(vecObjectList[i]->GetTag() >= Tag::Tag_Player ))
 		{
-			vecObjectList.at(i)->PosInMap(rc);
-		if(vecObjectList.size() - m_nRefcnt < i)
-		{
-				D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
-				float h = terrain->getHeight(pos);
-				pos.y = h;
-				vecObjectList[i]->SetPos(pos);
+			D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
+			float h = terrain->getHeight(pos);
+			pos.y = h;
+			vecObjectList[i]->SetPos(pos);
 		}
-		}
-
 		vecObjectList.at(i)->Update();
 	}
 
-	//if (arthur && souleater)
-	//{
-	//	if (souleater->GetOBB() == NULL || arthur->GetOBB() == NULL)
-	//	{
-
-	//	}
-	//	else
-	//	{
-	//		bool isCrash = cOBB::IsCollision(arthur->GetOBB(), souleater->GetOBB());
-
-	//		if (isCrash)
-	//		{
-	//			//arthur->GetColor(D3DCOLOR_XRGB(128, 128, 128));
-	//			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TRUE");
-	//		}
-	//		else
-	//		{
-	//			//arthur->GetColor(D3DCOLOR_XRGB(0, 255, 250));
-	//			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FALSE");
-	//		}
-
-	//	}
-	//}
 }
 
 void ObjectPool::Render(D3DXMATRIXA16* pmat)
@@ -101,8 +57,6 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 
 	for(int i = 0 ; i < vecObjectList.size(); i++)
 	{
-		//if (!vecObjectList.at(i)->GetIsRender() && vecObjectList.size() - m_nRefcnt <= i)
-		//	continue;
 		vecObjectList.at(i)->Render(NULL);
 	}
 
@@ -167,7 +121,7 @@ void ObjectPool::Revert()
 
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
-	
+	//
 	return;
 }
 
@@ -224,17 +178,14 @@ void ObjectPool::CollisionProcess()
 
 	for (int i = 0; i < vecObjectList.size(); ++i)
 	{
-		if (!vecObjectList.at(i)->GetIsRender() ||
-			vecObjectList.at(i)->GetOBB() == NULL)
+		if (vecObjectList.at(i)->GetOBB() == NULL)
 			continue;
 
 		for (int j = i + 1; j < vecObjectList.size(); ++j)
 		{
-			if (!vecObjectList.at(j)->GetIsRender() ||
-				vecObjectList.at(j)->GetOBB() == NULL)
+			if (vecObjectList.at(j)->GetOBB() == NULL)
 				continue;
-
-
+			
 			if (cOBB::IsCollision(vecObjectList.at(i)->GetOBB(),
 				vecObjectList.at(j)->GetOBB()))
 			{

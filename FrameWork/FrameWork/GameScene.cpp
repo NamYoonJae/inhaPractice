@@ -112,12 +112,13 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cTerrain* pTerrain = new cTerrain;
 	//pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
-	pTerrain->Setup("data/HeightMapData", "Ground_Soil.png", "StageA_Raw.raw",1,600);
+	//pTerrain->Setup("data/HeightMapData", "Ground_Soil.png", "StageA_Raw.raw",1,600);
+	pTerrain->Setup("data/HeightMapData", "Ground_ClayRough_Moss.png","StageB_Raw.raw");
 	pTerrain->Tagging(Tag::Tag_Map);
 	
 	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
 
-	pTerrain->GetTarget(player->GetPos());
+	//pTerrain->GetTarget(player->GetPos());
 	ObjectManager->AddStaticChild(pTerrain);
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);

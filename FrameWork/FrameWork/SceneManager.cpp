@@ -42,10 +42,11 @@ void cSceneManager::Setup()
 
 	ObjectManager->Revert();
 
-	m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
 	//m_CurrentScene = m_vecScenes[SceneType::SCENE_GAMEOVER];
 	
-	m_CurrentScene->Setup();
+	//m_CurrentScene->Setup();
+	ChangeScene(0);
 }
 
 void cSceneManager::ChangeScene(int sceneNum)

@@ -37,7 +37,6 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 			
 		m_Queue.push((EventType)0x00);
 		Notify();
-		//Notify();	
 		return;
 	}
 	break;
@@ -48,7 +47,6 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 		m_Queue.push((EventType)0x03);
 		Notify();
-		//Notify();
 		break;
 	case WM_RBUTTONDBLCLK:
 		m_Queue.push(EventType(0x06));
@@ -60,7 +58,6 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_KEYDOWN:
 	{
-		// MK_SHIF , MK_CONTROL not yet
 		m_Queue.push((EventType)wParam);
 		Notify();
 	}
@@ -83,7 +80,6 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_RBUTTONUP:
 		Notify();		
 		break;
-	
 	}
 }
 
