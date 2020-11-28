@@ -81,36 +81,6 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 115, -60, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_ControleButton);
 	pOption_ControleButton->EventProcess = Option_ControlBtnEvent;
-	{ // ControleList
-		//// TODO 임시로 움직인거 조정하기
-		//// 시각적 확인을 위해 x축으로 10씩 밀어놨음
-		//cPopUp *pSetupNamePopup = new cPopUp;
-		//pSetupNamePopup->Setup(
-		//	"data/UI/ConfigurationSettings",
-		//	"설정항목 사이즈조정.png",
-		//	D3DXVECTOR3(rc.right / 2 - 110, rc.bottom / 2 - 50, 0), 1,
-		//	true, true);
-		//pOption_ControleButton->cButtonPushBack(pSetupNamePopup);
-
-		//Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(0, 0, 0))->EventProcess = GaugeBarMoveEvent;
-
-		//pSetupNamePopup = new cPopUp;
-		//pSetupNamePopup->Setup(
-		//	"data/UI/ConfigurationSettings",
-		//	"설정항목 사이즈조정.png",
-		//	D3DXVECTOR3(rc.right / 2 - 110, rc.bottom / 2 + 50, 0), 1,
-		//	true, true);
-		//pOption_ControleButton->cButtonPushBack(pSetupNamePopup);
-
-		//cButton * pChkButton = new cButton;
-		//pChkButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 on 사이즈조정.png",
-		//	D3DXVECTOR3(rc.right / 2 - 34, rc.bottom / 2 + 120, 0), 0, 0, 0, 1, true, true);
-		//pOption_ControleButton->cButtonPushBack(pChkButton);
-		//// TODO 이벤트 추가
-		//// BarButton->EventProcess = 이벤트
-
-		//pChkButton->GetUpPopUp()->vecListPowerOnOff(false);
-	}
 
 	cButton *pOption_CameraButton = new cButton;
 	pOption_CameraButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
@@ -184,7 +154,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 		pChkButton->GetUpPopUp()->vecListPowerOnOff(false);
 	}
 	
-	// TODO 테스트 끝나면 삭제
+	// TODO 정식으로 편입됨..?
 	// 나가기 버튼 임시로 생성
 	cButton *pExitButton = new cButton;
 	pExitButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 off 사이즈조정.png",
