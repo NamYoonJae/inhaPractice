@@ -23,6 +23,11 @@
 #include "SystemUIEvent.h"
 #include "OptionUIEvent.h"
 #include "GameSceneUIEvent.h"
+
+//
+#include "ObjObject.h"
+#include "ObjLoader.h"
+
 #pragma once
 
 
@@ -146,47 +151,48 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
 
-
-	
-	//	
-	//#pragma region jsonfileload
-	//	// json에서 파일, 값을 불러와 렌더하는 테스트 코드니까 삭제해도 됩니다.
-	//	m_p_jsonValue = json_parse_file("data/json/example box test.json");
-	//	m_p_jsonRootObj = json_value_get_object(m_p_jsonValue);
-	//
-	//	m_p_jsonObjUnit = new cObjMesh;
-	//	m_p_jsonObjUnit->Setup(
-	//		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileDirectory"),
-	//		json_Fuction::object_get_pChar(m_p_jsonRootObj, "Box/FileName")
-	//	);
-	//	m_p_jsonObjUnit->SetPosition(
-	//		json_Fuction::get_D3DXVECTOR3(m_p_jsonRootObj, "Box/Pos_x", "Box/Pos_y", "Box/Pos_z")
-	//	);
-	//
-	//	m_p_jsonSubObj = json_Fuction::object_get_object(m_p_jsonRootObj, "Box/");
-	//	json_object_set_number(m_p_jsonSubObj, "Pos_x", m_p_jsonObjUnit->GetPosition().x - 5.f);
-	//	json_object_set_number(m_p_jsonSubObj, "Pos_y", m_p_jsonObjUnit->GetPosition().y + 5.f);
-	//	json_object_set_number(m_p_jsonSubObj, "Pos_z", m_p_jsonObjUnit->GetPosition().z - 3.f);
-	//	json_serialize_to_file_pretty(m_p_jsonValue, "data/example box test save.json");
-	//	
-	//	m_p_jsonObjUnit->SetScale(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
-	//
-	//#pragma endregion jsonfileload
-
+	cObjMesh *Lava = new cObjMesh;
+	Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
+	Lava->Tagging(Tag::Tag_cObj);
+	D3DXMATRIX LavaT;
+	D3DXMatrixTranslation(&LavaT, -30,30,0);
+	Lava->SetWorldMatrix(&LavaT);
+	//cObjObject *Lava = new cObjObject;
+	//Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
+	//Lava->Tagging(Tag::Tag_cObj);
+	ObjectManager->AddChild(Lava);
 
 	
 #pragma region UI
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	cout << "Left : " << rc.left << endl; // 0
+	cout << "Right : " << rc.right << endl; // 1584
+	cout << "Bottom : " << rc.bottom << endl; //860
+	cout << "Top : " << rc.top << endl; // 0
 
-	// 중개자 역할을 수행하는 임시 cPopUp 객체
-	cPopUp * pTmp = new cPopUp();
-	// 이미지는 임의로 불러옴
-	pTmp->Setup("data/UI/TitleScene", "NW_Titleletter.png",D3DXVECTOR3(-1000, -1000, -100), 1, true, false);
-
+	float nRight = 0.33;
+	float nBottom = 0.37;
+	
 	// TODO 시스템창 불러오기
-	Setup_SystemWindow(pTmp);
-
-	EventManager->Attach(pTmp);
-	ObjectManager->AddUIChild(pTmp);
+	cButton * pMediator = new cButton;
+	pMediator->Setup(
+		"data/UI/ConfigurationSettings",
+		"Pixel.png",
+		D3DXVECTOR3(-1,-1,0), 
+		0, 0, 0,
+		1,
+		true, true);
+	pMediator->EventProcess = Opton_ESC_Event;
+	
+	cPopUp * pSystemPopUp = Setup_SystemWindow(pMediator);
+	cPopUp * pOptionPopUp = Setup_OptionWindow(pMediator);
+	
+	EventManager->Attach(pMediator);
+	ObjectManager->AddUIChild(pMediator);
+	
+	//ObjectManager->AddUIChild(pSystemPopUp);
+	//ObjectManager->AddUIChild(pOptionPopUp);
 	
 #pragma region UI
 	

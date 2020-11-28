@@ -36,6 +36,7 @@ protected:
 
 	cPopUp * pParent;
 
+	string str_filename;
 public:
 	
 	cPopUp();
@@ -75,13 +76,18 @@ public:
 
 	virtual void LoadTexture(char* szFullPath);
 	virtual void ChangeSprite(char* szFullPath);
-	virtual void MovePosition(D3DXVECTOR2 distance);
 	
 	virtual float GetPercent();
 
 	virtual void PowerOnOff();
+	virtual void PowerOnOff(bool power);
 	virtual void vecListPowerOnOff();
+	virtual void vecListPowerOnOff(bool power);
+	virtual void PowerOnOffSelf();
+	virtual void PowerOnOffSelf(bool power);
 
+	//void SetFix(bool Fixed);
+	
 	virtual void Destroy();
 
 	virtual cPopUp* GetTopPopUp();
@@ -89,5 +95,11 @@ public:
 	
 	virtual cPopUp* GetPopupBtn();
 	virtual cPopUp* GetPopupBtn(int index);
+
+	void MovePosition(D3DXVECTOR2 distance);
+	void SetPosition(D3DXVECTOR2 position);
+	
+	int GetPopUpListSize();
+	bool GetPowerState();
 };
 

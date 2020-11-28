@@ -3,6 +3,8 @@
 
 #define  ObjectManager ObjectPool::GetInstance()
 
+class cObjMesh;
+
 class ObjectPool : public cObject
 {
 	Singletone(ObjectPool);

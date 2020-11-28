@@ -7,6 +7,7 @@
 #include "cTerrain.h"
 #include "Arthur.h"
 #include "DragonSoulEater.h"
+#include "ObjObject.h"
 
 
 ObjectPool::ObjectPool()

@@ -148,6 +148,9 @@
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Code\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="BtnUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -305,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
       <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BtnUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
