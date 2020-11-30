@@ -30,10 +30,16 @@ void cArthur::Setup(char* szFolder, char* szFile)
 	D3DXMatrixScaling(&mat, 0.1, 0.1, 0.1);
 
 	cSkinnedMesh::Update();
+	
+	m_pWeapon = new cArthurWeapon;
+	m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"), 
+		D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, &mat);
+	
 	if (this->m_pCurrentBoneMatrices)
 		mat *= *this->m_pCurrentBoneMatrices;
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(this, &mat);
+
 
 	EventManager->Attach(this);
 }
@@ -97,6 +103,7 @@ void cArthur::Update()
 	//D3DXMatrixScaling(&m_matOBB, 20, 40, 20);
 	//m_matOBB *= m_matWorldTM;
 	m_pOBB->Update(&m_matOBB);
+	m_pWeapon->Update(&m_matOBB);
 }
 
 void cArthur::Update(EventType event)
@@ -152,6 +159,7 @@ void cArthur::Render(D3DXMATRIXA16 * pmat)
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 0, 0));
+	m_pWeapon->Render(NULL);
 }
 
 void cArthur::SetTranseform(D3DXMATRIXA16* pmat)
@@ -173,8 +181,7 @@ cArthurWeapon::~cArthurWeapon()
 
 void cArthurWeapon::Setup(D3DXFRAME* pFrame,
 							D3DXMESHCONTAINER* pMesh,
-							D3DXVECTOR3* vecSize,
-							D3DXVECTOR3* vecJointOffset)
+							D3DXMATRIXA16* pmat)
 {
 	D3DXVECTOR3 vMin(0, 0, 0);
 	D3DXVECTOR3 vMax(0, 0, 0);
@@ -234,14 +241,16 @@ void cArthurWeapon::Setup(D3DXFRAME* pFrame,
 			}
 		}
 	}
-
-	
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(vMin, vMax, pmat);
 }
 
-void cArthurWeapon::Update()
+void cArthurWeapon::Update(D3DXMATRIXA16* pmat)
 {
+	m_pOBB->Update(pmat);
 }
 
 void cArthurWeapon::Render(D3DXMATRIXA16* pmat)
 {
+	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 }
