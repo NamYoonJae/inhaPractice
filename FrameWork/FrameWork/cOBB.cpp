@@ -32,25 +32,49 @@ void cOBB::Setup(cSkinnedMesh* pSkinnedMesh,D3DXMATRIXA16* pmat)
 	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
 	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
 	
+	BuildVertices();
+}
+
+void cOBB::Setup(D3DXVECTOR3 vmin, D3DXVECTOR3 vmax, D3DXMATRIXA16* pmat)
+{
+	D3DXVECTOR3 vMin = vmin;
+	D3DXVECTOR3 vMax = vmax;
+	
+	if (pmat)
+	{
+		D3DXVec3TransformCoord(&vMin, &vMin, pmat);
+		D3DXVec3TransformCoord(&vMax, &vMax, pmat);
+	}
+
+	m_vOriCenterPos = (vMin + vMax) / 2.0f;
+	m_vOriAXidsDir[0] = D3DXVECTOR3(1, 0, 0);
+	m_vOriAXidsDir[1] = D3DXVECTOR3(0, 1, 0);
+	m_vOriAXidsDir[2] = D3DXVECTOR3(0, 0, 1);
+
+	m_fAxisLen[0] = fabs(vMax.x - vMin.x);
+	m_fAxisLen[1] = fabs(vMax.y - vMin.y);
+	m_fAxisLen[2] = fabs(vMax.z - vMin.z);
+
+	BuildVertices();
+}
+
+void cOBB::BuildVertices()
+{
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2;
 	m_fAxisHalfLen[1] = m_fAxisLen[1] / 2;
 	m_fAxisHalfLen[2] = m_fAxisLen[2] / 2;
 
 	D3DXMatrixIdentity(&m_matWorldTM);
-
-
-	//
-	
 	
 	list.resize(8);
 
 	for (int i = 0; i < 8; i++)
 		list[i] = m_vOriCenterPos;
-	
+
 	list[0].x -= m_fAxisHalfLen[0], list[0].y -= m_fAxisHalfLen[1], list[0].z -= m_fAxisHalfLen[2];
 
 	list[1].x -= m_fAxisHalfLen[0], list[1].y += m_fAxisHalfLen[1], list[1].z -= m_fAxisHalfLen[2];
-	
+
 	list[2].x += m_fAxisHalfLen[0], list[2].y += m_fAxisHalfLen[1], list[2].z -= m_fAxisHalfLen[2];
 
 	list[3].x += m_fAxisHalfLen[0], list[3].y -= m_fAxisHalfLen[1], list[3].z -= m_fAxisHalfLen[2];
@@ -64,8 +88,8 @@ void cOBB::Setup(cSkinnedMesh* pSkinnedMesh,D3DXMATRIXA16* pmat)
 	list[7].x += m_fAxisHalfLen[0], list[7].y -= m_fAxisHalfLen[1], list[7].z += m_fAxisHalfLen[2];
 
 	ST_PC_VERTEX v;
-	v.c = D3DCOLOR_XRGB(255, 255, 255); 
-	
+	v.c = D3DCOLOR_XRGB(255, 255, 255);
+
 	v.p = list[0];	m_vecVertex.push_back(v);
 
 	v.p = list[1];	m_vecVertex.push_back(v);
@@ -114,10 +138,7 @@ void cOBB::Setup(cSkinnedMesh* pSkinnedMesh,D3DXMATRIXA16* pmat)
 	v.p = list[3];	m_vecVertex.push_back(v);
 
 	v.p = list[7];	m_vecVertex.push_back(v);
-
-
 }
-
 
 void cOBB::Update(D3DXMATRIXA16* pmatWorld)
 {
@@ -267,3 +288,4 @@ void cOBB::OBBBOX_Render(D3DXCOLOR c)
 	//}
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
+

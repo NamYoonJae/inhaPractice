@@ -20,6 +20,7 @@ private:
 	bool			m_isMoving;
 // >>
 	D3DXMATRIXA16	m_matOBB;
+	cArthurWeapon*  m_pWeapon;
 // <<
 public:
 	cArthur();
@@ -51,10 +52,9 @@ public:
 
 	void Setup(D3DXFRAME* pFrame,
 				D3DXMESHCONTAINER* pMesh,
-				D3DXVECTOR3* vecSize,
-				D3DXVECTOR3* vecJointOffset);
-	
-	void Update() override;
+				D3DXMATRIXA16* pmat);
+	void Update() {}
+	void Update(D3DXMATRIXA16* pmat);
 	void Render(D3DXMATRIXA16* pmat) override;
 };
 
