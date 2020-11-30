@@ -108,13 +108,13 @@ void cArthur::Update()
 
 void cArthur::Update(EventType event)
 {
-	m_fvelocity = 0;
+	//m_fvelocity = 0;
 	D3DXMATRIXA16 TempRot;
 	D3DXMatrixIdentity(&TempRot);
 
 	//float delta = g_pTimeManager->GetElapsedTime();
 	float delta = 0.001f;
-	bool isKeyDown = false;
+	static bool isKeyDown = false;
 	
 	if (event == EventType::EVENT_ARROW_UP)
 	{
@@ -139,6 +139,13 @@ void cArthur::Update(EventType event)
 		isKeyDown = true;
 	}
 
+	/// new Code 11-28 차현빈 3:#8
+	if (event == EventType::EVENT_KEYUP && isKeyDown)
+	{
+		m_fvelocity = 0;
+		isKeyDown = false;
+	}
+
 	D3DXVec3Normalize(&m_vDir, &m_vDir);
 	m_vPos += m_vDir * m_fvelocity;
 
@@ -148,6 +155,18 @@ void cArthur::Update(EventType event)
 	{
 		SetAnimationIndexBlend(n++);
 	}
+	else if (event == EventType::EVENT_RBUTTONDOWN)
+	{
+		//SetSkinnedMesh("data/XFile/Arthur", "arthur_a01.X");
+	}
+
+	//if(event == EventType::EVENT_JUMP)
+	//{
+	//	m_pMesh->SetAnimationIndexBlend(0);
+	//}
+
+
+
 }
 
 void cArthur::Render(D3DXMATRIXA16 * pmat)

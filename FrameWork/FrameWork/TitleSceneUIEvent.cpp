@@ -309,10 +309,6 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 					button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Over.png");
 
 					button->GetTopPopUp()->vecListPowerOnOff();
-					
-					// TODO 시스템창 불러오기
-					//Setup_SystemWindow(btn);
-					//Setup_OptionWindow();
 				}
 			}
 		}

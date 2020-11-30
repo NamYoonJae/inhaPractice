@@ -22,7 +22,7 @@ public:
 	virtual ~cScene();
 
 	virtual void Setup() = 0;
-	
+	virtual void Reset() = 0; // 
 
 	SceneType GetSceneName() { return Type; }
 };

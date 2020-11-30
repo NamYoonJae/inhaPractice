@@ -35,16 +35,17 @@ enum class  EventType
 	EVENT_ESC = 27,
 	EVENT_HOME_WINDOWS = 36,
 
-	EVENT_ARROW_LEFT = 37,
-	EVENT_ARROW_UP = 38,
-	EVENT_ARROW_RIGHT = 39,
-	EVENT_ARROW_DOWN = 40,
+	EVENT_ARROW_LEFT = 65,
+	EVENT_ARROW_UP = 87,
+	EVENT_ARROW_RIGHT = 68,
+	EVENT_ARROW_DOWN = 83,
 
 	EVENT_NUMPAD_1 = 49,
 	EVENT_NUMPAD_2 = 50,
 	EVENT_NUMPAD_3 = 51,
 	EVENT_NUMPAD_4 = 52,
 	EVENT_NUMPAD_5 = 53,
+	EVENT_KEYUP = 128
 };
 
 class cEventManager
@@ -55,13 +56,14 @@ class cEventManager
 private:
 	std::queue<EventType> m_Queue;
 	
-	std::map<int, EventType> m_mapEvent;
+	//std::map<int, EventType> m_mapEvent;
 
 	D3DXVECTOR2 m_vCur;
 	D3DXVECTOR2 m_vPrev;
 	bool		m_IsDrag;
 
 	std::thread *EventThread;
+
 public:
 	void InputEvent(UINT message, WPARAM wParam, LPARAM lParam);
 	void Notify() override;

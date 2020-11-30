@@ -15,7 +15,7 @@ cSceneManager::cSceneManager()
 	m_vecScenes.resize(4);
 	const std::vector<cScene*>::iterator it = m_vecScenes.begin();
 
-	//*(it + SceneType::SCENE_TITLE)
+
 	*(it + SceneType::SCENE_TITLE) = new cTitleScene(SceneType::SCENE_TITLE);
 	*(it + SceneType::SCENE_BOSS_1) = new cGameScene(SceneType::SCENE_BOSS_1);
 
@@ -42,16 +42,17 @@ void cSceneManager::Setup()
 
 	ObjectManager->Revert();
 
-	m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
 	//m_CurrentScene = m_vecScenes[SceneType::SCENE_GAMEOVER];
 	
-	m_CurrentScene->Setup();
+	//m_CurrentScene->Setup();
+	ChangeScene(0);
 }
 
 void cSceneManager::ChangeScene(int sceneNum)
 {
-	/// 씬을 바꾸는 법
-	///
+	// 씬을 바꾸는 법
+
 	int nRandom = sceneNum;//rand()%2;
 	LoadScene(nRandom);
 }
@@ -66,6 +67,11 @@ void cSceneManager::Destroy()
 
 void cSceneManager::LoadScene(int SceneType)
 {
+
+	// setup
+	//m_CurrentScene->Reset();
+
+	//
 	m_CurrentScene = m_vecScenes[SceneType];
 
 	EnterCriticalSection(&cs);
