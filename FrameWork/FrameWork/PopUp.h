@@ -28,7 +28,7 @@ protected:
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
 	float m_Percentage;	//스케일링 할 값
 
-	int m_State;
+	int m_State;//MouseOn MouseOff Hover
 	D3DXVECTOR3 m_Position;
 	RECT m_Rect;
 

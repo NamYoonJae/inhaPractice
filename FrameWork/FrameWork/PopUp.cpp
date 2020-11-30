@@ -10,6 +10,7 @@ cPopUp::cPopUp()
 	, m_State(enum_Off)
 	, m_Position(0.0f, 0.0f, 0.0f)
 	, pParent(NULL)
+	, EventProcess(NULL)
 {
 	m_Percentage = 0;
 	m_Power = true;

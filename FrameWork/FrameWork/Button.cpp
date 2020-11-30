@@ -10,6 +10,8 @@ cButton::cButton()
 	m_Percentage = 0;
 	m_Power = true;
 	m_Fixed = false;
+	EventProcess = NULL;
+	
 }
 
 cButton::~cButton()

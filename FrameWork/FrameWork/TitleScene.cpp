@@ -78,6 +78,71 @@ void cTitleScene::Setup()
 	
 	EventManager->Attach(pBackgroundPopup);
 	ObjectManager->AddUIChild(pBackgroundPopup);
+
+
+
+	//InGameUI
+
+	nRight = 0.01;
+	nBottom = 0.01;
+
+
+	cPopUp* inGmaePopup = new cPopUp;
+	inGmaePopup->Setup("","",
+		D3DXVECTOR3(0, 0, 0), 1, true, true);
+
+
+	//Hp
+	cButton* hpBarBackground = new cButton;
+	hpBarBackground->Setup("data/UI/InGame", "NW_HP_Bar_Background.png",
+		D3DXVECTOR3(rc.right* nRight, rc.bottom * nBottom, 0), 20, 670, 0, 1, false, true);
+	inGmaePopup->cButtonPushBack(hpBarBackground);
+
+	cButton* hpBar = new cButton;
+	hpBar->Setup("data/UI/InGame", "NW_HP_Bar_Sword.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 50, 676, 0, 1, false, true);
+	hpBarBackground->cButtonPushBack(hpBar);
+
+	cButton* hpBarMark = new cButton;
+	hpBarMark->Setup("data/UI/InGame", "NW_HP_Bar_Mark.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 50, 676, 0, 1, false, true);
+	hpBarBackground->cButtonPushBack(hpBarMark);
+
+	//Staminer
+	cButton* staminerBarBackgound = new cButton;
+	staminerBarBackgound->Setup("data/UI/InGame", "NW_ST_Bar_Background.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 20, 715, 0, 1, false, true);
+	inGmaePopup->cButtonPushBack(staminerBarBackgound);
+
+	cButton* staminerBar = new cButton;
+	staminerBar->Setup("data/UI/InGame", "NW_ST_Sword.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 50, 721, 0, 1, false, true);
+	staminerBarBackgound->cButtonPushBack(staminerBar);
+
+	cButton* staminerBarMark = new cButton;
+	staminerBarMark->Setup("data/UI/InGame", "NW_ST_Bar_Mark.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 50, 721, 0, 1, false, true);
+	staminerBarBackgound->cButtonPushBack(staminerBarMark);
+
+
+	//MiniMap
+	cPopUp* miniMap = new cPopUp;
+	miniMap->Setup("data/UI/InGame", "NW_Minimap_Background.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 0, 0, 1, false, true);
+	inGmaePopup->cButtonPushBack(miniMap);
+
+
+	//보스 분노
+	
+	//보스 상태이상 이미지
+
+	//전리품
+	
+
+
+
+	EventManager->Attach(inGmaePopup);
+	ObjectManager->AddUIChild(inGmaePopup);
 }
 
 //

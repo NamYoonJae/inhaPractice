@@ -44,3 +44,5 @@ void cFont::Render()
 	m_pFont->DrawTextA(NULL, m_Text.c_str(), m_Text.length(), &m_Rect, m_Format, m_Color);
 }
 
+
+
