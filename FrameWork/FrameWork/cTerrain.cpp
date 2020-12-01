@@ -150,6 +150,8 @@ float cTerrain::getHeight(D3DXVECTOR3 vec)
 
 	if (col >= (m_nTile) || row >= (m_nTile))
 		return 0.0f;
+	else if (col <= 0 || row <= 0)
+		return 0.0f;
 
 	float A = getHeightMapEntry(row + 0, col + 0);
 	float B = getHeightMapEntry(row + 0, col + 1);
