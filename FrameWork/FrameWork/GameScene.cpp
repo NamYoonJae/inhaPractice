@@ -102,7 +102,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(pGrid);
 
 	// TODO json 파일 쓸 때 대비해서 주석남겨둠
-	// pPopup = new cPopUp;
+	// pPopup = new cPopup;
 	// pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
 	// pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
 
@@ -186,8 +186,8 @@ void cGameScene::Setup() // boss1map  boss2map
 		true, true);
 	pMediator->EventProcess = Opton_ESC_Event;
 	
-	cPopUp * pSystemPopUp = Setup_SystemWindow(pMediator);
-	cPopUp * pOptionPopUp = Setup_OptionWindow(pMediator);
+	cPopup* pSystemPopUp = Setup_SystemWindow(pMediator);
+	cPopup * pOptionPopUp = Setup_OptionWindow(pMediator);
 	
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);

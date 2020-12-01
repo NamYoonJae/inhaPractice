@@ -1,9 +1,9 @@
 #pragma once
 
-void StartGameBtnEvent(EventType message, cPopUp* btn);
-void ContinueGameBtnEvent(EventType message, cPopUp* btn);
-void SetupGameBtnEvent(EventType message, cPopUp* btn);
-void ExitGameBtnEvent(EventType message, cPopUp* btn);
+void StartGameBtnEvent(EventType message, cPopup* btn);
+void ContinueGameBtnEvent(EventType message, cPopup* btn);
+void SetupGameBtnEvent(EventType message, cPopup* btn);
+void ExitGameBtnEvent(EventType message, cPopup* btn);
 
 
 

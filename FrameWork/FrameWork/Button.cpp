@@ -63,27 +63,33 @@ void cButton::Update(EventType message)
 // 현재 동작안하는 메서드니까 확인바람
 void cButton::Render()
 {
-	if (m_Power) 
-	{
-		m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-		SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
-		D3DXMATRIXA16 matT, matS, matWorld;
-		D3DXMatrixIdentity(&matT);
-		D3DXMatrixIdentity(&matS);
-		D3DXMatrixIdentity(&matWorld);
+	// 부모객체가 없거나 부모객체의 파워가 true인 경우에 렌더하게 변경
+	bool chk_parents = 0;
+	if (pParent)
+		chk_parents = pParent->GetState();
 
-		D3DXMatrixScaling(&matS, m_Percentage, m_Percentage, m_Percentage);
-		D3DXMatrixTranslation(&matT, m_Position.x, m_Position.y, 0);
+	if (chk_parents || !pParent)
+		if (m_Power)
+		{
+			m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
+			SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+			D3DXMATRIXA16 matT, matS, matWorld;
+			D3DXMatrixIdentity(&matT);
+			D3DXMatrixIdentity(&matS);
+			D3DXMatrixIdentity(&matWorld);
+
+			D3DXMatrixScaling(&matS, m_Percentage, m_Percentage, m_Percentage);
+			D3DXMatrixTranslation(&matT, m_Position.x, m_Position.y, 0);
 
 
-		matWorld = matS * matT;
-		m_pSprite->SetTransform(&matWorld);
-		m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0),
-			&D3DXVECTOR3(0, 0, 0),
-			D3DCOLOR_ARGB(255, 255, 255, 255));
+			matWorld = matS * matT;
+			m_pSprite->SetTransform(&matWorld);
+			m_pSprite->Draw(m_pTextureUI, &m_Rect, &D3DXVECTOR3(0, 0, 0),
+				&D3DXVECTOR3(0, 0, 0),
+				D3DCOLOR_ARGB(255, 255, 255, 255));
 
-		m_pSprite->End();
-	}
+			m_pSprite->End();
+		}
 }
 
 /*
@@ -197,7 +203,6 @@ float cButton::GetPercent()
 //	m_Power = state;
 //	
 //}
-
 
 void cButton::Destroy()
 {

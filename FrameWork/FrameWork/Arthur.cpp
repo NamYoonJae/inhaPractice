@@ -4,6 +4,9 @@
 #include "BoundingBox.h"
 #include "basic.h"
 #include  "cOBB.h"
+
+#include "AllocateHierarchy.h"
+
 #include "Arthur.h"
 
 
@@ -30,16 +33,25 @@ void cArthur::Setup(char* szFolder, char* szFile)
 	D3DXMatrixScaling(&mat, 0.1, 0.1, 0.1);
 
 	cSkinnedMesh::Update();
-	
+
 	m_pWeapon = new cArthurWeapon;
-	m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"), 
+	m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"),
 		D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, &mat);
+
+	//m_pWeapon = new cArthurWeapon;
+	//m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"),
+	//	D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, NULL);
+
 	
 	if (this->m_pCurrentBoneMatrices)
 		mat *= *this->m_pCurrentBoneMatrices;
+	
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(this, &mat);
 
+	//m_pWeapon = new cArthurWeapon;
+	//m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"), 
+	//	D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, &mat);
 
 	EventManager->Attach(this);
 }
@@ -98,12 +110,12 @@ void cArthur::Update()
 	//m_matOBB = (D3DXMATRIXA16)*m_pCurrentBoneMatrices;
 	//m_matOBB = m_pRoot->TransformationMatrix * m_matRot * m_matTranse;
 	//m_matOBB = m_pRoot->TransformationMatrix * m_matWorld;
-	
+
 	m_matOBB = m_matRot * m_matTranse;
-	//D3DXMatrixScaling(&m_matOBB, 20, 40, 20);
-	//m_matOBB *= m_matWorldTM;
 	m_pOBB->Update(&m_matOBB);
-	m_pWeapon->Update(&m_matOBB);
+	
+	ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pRoot, "weapon_sub");
+	m_pWeapon->Update(&pBone->CombinedTransformationMatrix);
 }
 
 void cArthur::Update(EventType event)
@@ -266,7 +278,22 @@ void cArthurWeapon::Setup(D3DXFRAME* pFrame,
 
 void cArthurWeapon::Update(D3DXMATRIXA16* pmat)
 {
-	m_pOBB->Update(pmat);
+	D3DXMATRIXA16 matScale;
+	D3DXMatrixScaling(&matScale, 0.02f, 0.20f, 0.02f);
+	D3DXMATRIXA16 matRx;
+	D3DXMatrixRotationX(&matRx, D3DXToRadian(-90));
+	D3DXMATRIXA16 matTr;
+	D3DXMatrixTranslation(&matTr, 0.07f, 0.0f, -0.3f);
+	
+	if (pmat)
+	{
+		m_matOBB = matScale * matRx * matTr * (*pmat);
+		//m_matOBB = matRx * *pmat;
+	}
+	else
+		m_matOBB = matScale * matRx * matTr;
+	
+	m_pOBB->Update(&m_matOBB);
 }
 
 void cArthurWeapon::Render(D3DXMATRIXA16* pmat)

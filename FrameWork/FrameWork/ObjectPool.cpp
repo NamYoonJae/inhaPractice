@@ -115,7 +115,7 @@ void ObjectPool::Revert()
 	// 현재 수정해야하는곳
 	 for(int i = 0; i < vecUserInterface.size(); i++)
 	{
-		cPopUp* popup = (cPopUp*)vecUserInterface[i];
+		cPopup* popup = (cPopup*)vecUserInterface[i];
 		popup->Destroy();
 	}
 

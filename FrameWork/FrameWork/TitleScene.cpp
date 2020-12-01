@@ -33,16 +33,18 @@ void cTitleScene::Setup()
 	float nRight = 0.34;
 	float nBottom = 0.45;
 
-	cPopUp *pBackgroundPopup = new cPopUp;
+	cPopup *pBackgroundPopup = new cPopup;
 	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
 		D3DXVECTOR3(0, -20, 0), 1, true, true);
 
-	cPopUp *pTitleImagePopup = new cPopUp;
+	Setup_OptionWindow(pBackgroundPopup);
+	
+	cPopup *pTitleImagePopup = new cPopup;
 	pTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
 		D3DXVECTOR3(370, 140, 0), 1, true, true);
 	pBackgroundPopup->cButtonPushBack(pTitleImagePopup);
 
-	cPopUp *pBackGoundBtnPopup = new cPopUp;
+	cPopup *pBackGoundBtnPopup = new cPopup;
 	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "NW_Start_UI_Back.png",
 		D3DXVECTOR3(550, 380, 0), 1, true, true);
 	pTitleImagePopup->cButtonPushBack(pBackGoundBtnPopup);
@@ -74,23 +76,19 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(650, 645, 0), 0, 0, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ExitGameBtnEvent;
-
-	Setup_OptionWindow(pBackgroundPopup);
 	
 	EventManager->Attach(pBackgroundPopup);
 	ObjectManager->AddUIChild(pBackgroundPopup);
 
 
-
+	// TODO 에러해결하기
 	//InGameUI
 	nRight = 0.01;
 	nBottom = 0.01;
 
-
-	cPopUp* inGamePopup = new cPopUp;
+	cPopup* inGamePopup = new cPopup;
 	inGamePopup->Setup("","",
 		D3DXVECTOR3(0, 0, 0), 1, true, true);
-
 
 	//Hp
 	cButton* hpBarBackground = new cButton;
@@ -126,46 +124,46 @@ void cTitleScene::Setup()
 
 
 	//캐릭터 상태이상 이미지 좌표 따기위해 적어둠
-	cPopUp* playerDiverf = new cPopUp;
+	cPopup* playerDiverf = new cPopup;
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(60, 680, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(playerDiverf);
 
-	playerDiverf = new cPopUp;
+	playerDiverf = new cPopup;
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(110, 680, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(playerDiverf);
 
-	playerDiverf = new cPopUp;
+	playerDiverf = new cPopup;
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(160, 680, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(playerDiverf);
 
-	playerDiverf = new cPopUp;
+	playerDiverf = new cPopup;
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(210, 680, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(playerDiverf);
 
-	playerDiverf = new cPopUp;
+	playerDiverf = new cPopup;
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(260, 680, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(playerDiverf);
 
-	playerDiverf = new cPopUp;
+	playerDiverf = new cPopup;
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(310, 680, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(playerDiverf);
 
 
+
 	//MiniMap
-	cPopUp* miniMap = new cPopUp;
+	cPopup* miniMap = new cPopup;
 	miniMap->Setup("data/UI/InGame", "NW_Minimap_Background.png",
 		D3DXVECTOR3(1305, 0, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(miniMap);
 
-
 	//보스 분노
-	cPopUp* bossAnger = new cPopUp;
+	cPopup* bossAnger = new cPopup;
 	bossAnger->Setup("data/UI/InGame", "NW_MonAnger_0.png",
 		D3DXVECTOR3(1270, 180, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(bossAnger);
@@ -189,39 +187,38 @@ void cTitleScene::Setup()
 	*/
 
 	//보스 상태이상 이미지 좌표 따기위해 적어둠
-	cPopUp* bossDiverf = new cPopUp;
+	cPopup* bossDiverf = new cPopup;
 	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
 		D3DXVECTOR3(1330, 180, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
-	bossDiverf = new cPopUp;
+
+	bossDiverf = new cPopup;
 	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
 		D3DXVECTOR3(1380, 180, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
-	bossDiverf = new cPopUp;
+	bossDiverf = new cPopup;
 	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
 		D3DXVECTOR3(1430, 180, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
-	bossDiverf = new cPopUp;
+	bossDiverf = new cPopup;
 	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
 		D3DXVECTOR3(1480, 180, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
-	bossDiverf = new cPopUp;
+	bossDiverf = new cPopup;
 	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
 		D3DXVECTOR3(1530, 180, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
 
 	//전리품
-	cPopUp* spoilsBackgound = new cPopUp;
+	cPopup* spoilsBackgound = new cPopup;
 	spoilsBackgound->Setup("data/UI/InGame", "NW_Spoils_Back.png",
 		D3DXVECTOR3(1270, 650, 0), 0, 0, 0, 1, true, true);
 	inGamePopup->cButtonPushBack(spoilsBackgound);
-
-
 
 	//전리품 게이지
 	cButton* attriBarBackground = new cButton;

@@ -7,35 +7,42 @@
 
 
 //이름 수정할 것
-void Opton_ESC_Event(EventType message, cPopUp* btn)
+void Opton_ESC_Event(EventType message, cPopup* btn)
 {
 	bool child_power = 0;
 	
 	switch (message)
 	{
 	case EventType::EVENT_ESC:
+	{
 		for (size_t i = 0; i < btn->GetPopUpListSize(); i++)
 		{
-			cPopUp * pchild = btn->GetPopupBtn(i);
-			if(pchild)
+			cPopup * pchild = btn->GetPopupBtn(i);
+			if (pchild)
 			{
-				if (pchild->GetPowerState())
-					child_power = true;
+				child_power = pchild->GetPowerState();
+
+				if (child_power == true)
 				break; // << for
 			}
 		}
 
 		if (child_power)
 		{
-			btn->GetPopupBtn(0)->PowerOnOffSelf(false);
-			btn->GetPopupBtn(1)->PowerOnOff(false);
+			btn->PowerOnOff_List_OnlySelf(false);
+			
+			//btn->GetPopupBtn(0)->PowerOnOff_OnlySelf(false);
+			//btn->GetPopupBtn(1)->PowerOnOff_OnlySelf(false);
 		}
 		else
 		{
-			btn->GetPopupBtn(0)->PowerOnOff(true);
+			btn->GetPopupBtn(0)->PowerOnOff_OnlySelf(true);
+			btn->GetPopupBtn(1)->PowerOnOff_OnlySelf(false);
 		}
-		
+
 		cout << "ESC pushed" << endl;
+	}
+	break;
 	default:
 		break;
 	}

@@ -4,7 +4,7 @@
 enum eFontType;
 
 class cFont :
-	public cPopUp
+	public cPopup
 	//public cObserver
 {
 	string m_Text;

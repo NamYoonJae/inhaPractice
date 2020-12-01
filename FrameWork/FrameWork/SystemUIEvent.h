@@ -1,6 +1,6 @@
 #pragma once
 
-cPopUp* Setup_SystemWindow(cPopUp* btn);
-void SysWindow_OptionBtnEvent(EventType message, cPopUp* btn);
-void SysWindow_ToTitleEvent(EventType message, cPopUp* btn);
-void SysWindow_ExitGame(EventType message, cPopUp* btn);
+cPopup* Setup_SystemWindow(cPopup* btn);
+void SysWindow_OptionBtnEvent(EventType message, cPopup* btn);
+void SysWindow_ToTitleEvent(EventType message, cPopup* btn);
+void SysWindow_ExitGame(EventType message, cPopup* btn);
