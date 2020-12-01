@@ -24,7 +24,7 @@ class cObject
 {
 protected:
 	
-	int			Tag;
+	int			m_nTag;
 	cOBB*		m_pOBB;
 
 protected:
@@ -38,8 +38,8 @@ public:
 	virtual ~cObject();
 	virtual void Update() = 0;
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL) = 0;
-	void Tagging(int enumTag) { Tag = enumTag;}
-	int GetTag() { return Tag; }
+	void Tagging(int enumTag) { m_nTag = enumTag;}
+	int GetTag() { return m_nTag; }
 	cOBB* GetOBB();
 	D3DXVECTOR3 GetPos() { return m_vPos; }
 	void SetPos(D3DXVECTOR3 pos) { m_vPos = pos; }

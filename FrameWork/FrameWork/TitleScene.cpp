@@ -35,7 +35,7 @@ void cTitleScene::Setup()
 
 	cPopup *pBackgroundPopup = new cPopup;
 	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
-		D3DXVECTOR3(0, -20, 0), 1, true, true);
+		D3DXVECTOR3(0, -20, 0), 1, true, true, TagUI_InGame);
 
 	Setup_OptionWindow(pBackgroundPopup);
 	
@@ -257,5 +257,6 @@ void cTitleScene::Setup()
 void cTitleScene::Reset()
 {
 	//Off 하거나 On 하거나 삭제하거나
+
 }
 

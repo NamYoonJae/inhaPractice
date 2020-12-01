@@ -46,11 +46,12 @@ public:
 	virtual void Setup(
 		char* root, 
 		char* fileName, 
-		D3DXVECTOR3 positionXYZ, 
+		D3DXVECTOR3 position, 
 		float percent, 
 		bool powerOnOff, 
 		bool fixed
 	);
+	
 	virtual void Setup(
 		char* root,
 		char* fileName,
@@ -61,6 +62,34 @@ public:
 		float percent,
 		bool powerOnOff,
 		bool fixed
+	);
+
+
+
+	//태그까지 추가한 Setup //2020-12-01
+
+	virtual void Setup(
+		char* root,
+		char* fileName,
+		D3DXVECTOR3 position,
+		float percent,
+		bool powerOnOff,
+		bool fixed,
+		int tag
+	);
+
+
+	virtual void Setup(
+		char* root,
+		char* fileName,
+		D3DXVECTOR3 position,
+		float x,
+		float y,
+		float z,
+		float percent,
+		bool powerOnOff,
+		bool fixed,
+		int tag
 	);
 
 	void Update() override {};
