@@ -67,6 +67,44 @@ void cPopup::Setup(char* root,char* fileName,D3DXVECTOR3 position,float x,float 
 	LoadTexture((char*)fileRoot.c_str());
 }
 
+void cPopup::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed, int tag)
+{
+	m_Percentage = percent;
+	m_Position = position;
+	m_Power = powerOnOff;
+	m_Fixed = fixed;
+	m_nTag = tag;
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	string fileRoot(root);
+	fileRoot = root + string("/") + string(fileName);
+	str_filename = string(fileName);
+
+	LoadTexture((char*)fileRoot.c_str());
+}
+
+void cPopup::Setup(char * root, char * fileName, D3DXVECTOR3 position, float x, float y, float z, float percent, bool powerOnOff, bool fixed, int tag)
+{
+	m_Percentage = percent;
+
+	m_Position.x = position.x + x;
+	m_Position.y = position.y + y;
+	m_Position.z = position.z + z;
+
+	m_Power = powerOnOff;
+	m_Fixed = fixed;
+	m_nTag = tag;
+
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+
+	string fileRoot(root);
+	fileRoot = fileRoot + string("/") + string(fileName);
+	str_filename = string(fileName);
+
+	LoadTexture((char*)fileRoot.c_str());
+}
+
 void cPopup::Update(EventType message)
 {
 	

@@ -3,6 +3,7 @@
 
 class PopUp;
 class Button;
+enum TAG_UI;
 
 class cTitleScene :
 	public cScene

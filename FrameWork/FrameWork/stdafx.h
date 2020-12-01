@@ -69,4 +69,11 @@ extern HWND g_hWnd;
 #endif
 #include "json parson.h"
 #include "json additional code.h"
-#pragma endregion 
+#pragma endregion
+
+
+inline bool STRCMP(char* str1, char* str2)
+{
+	return strcmp(str1, str2) == 0 ? true : false;
+}
+
