@@ -19,6 +19,7 @@ enum TAG_UI
 };
 
 class cOBB;
+class BoneOBB;
 
 class cObject
 {
@@ -27,6 +28,8 @@ protected:
 	int			m_nTag;
 	cOBB*		m_pOBB;
 
+	vector<BoneOBB*> m_vBoneArray;
+	
 protected:
 	
 	D3DXVECTOR3 m_vPos;
@@ -43,4 +46,21 @@ public:
 	cOBB* GetOBB();
 	D3DXVECTOR3 GetPos() { return m_vPos; }
 	void SetPos(D3DXVECTOR3 pos) { m_vPos = pos; }
+
+	void BuildBoneData(DWORD *BoneNum,
+		D3DXFRAME *Frame,
+		D3DXMESHCONTAINER *pMesh);
+};
+
+void GetBoundingBoxSize(D3DXFRAME *pFrame,
+	D3DXMESHCONTAINER *pMesh,
+	D3DXVECTOR3 *vecSize,
+	D3DXVECTOR3 *vecJointOffset);
+
+struct BoneOBB
+{
+	string szName; // 이걸 통해서 com
+	vector<ST_PC_VERTEX> vPoints;
+	D3DXVECTOR3			vJointOffset;
+	D3DXVECTOR3			vPosition;
 };
