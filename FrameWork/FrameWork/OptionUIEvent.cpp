@@ -22,14 +22,22 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 	float nRight = 0.33;
 	float nBottom = 0.37;
 
+	cPopup *pOptionBack = new cPopup;
+	pOptionBack->Setup(
+		"data/UI/InGameSettingUI",
+		"NW_InGameSetting_Back.png",
+		D3DXVECTOR3(0, 0, 0),
+		1,
+		true, true);
+	
 	cPopup *pOptionBackGround = new cPopup;
+	pOptionBack->cButtonPushBack(pOptionBackGround);
 	pOptionBackGround->Setup(
 		"data/UI/ConfigurationSettings",
 		"NW_Setting_UI.png",
 		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0),
 		1,
 		true, true);
-
 
 	// TODO 아래 바게이지는 나중에 이벤트를 따로 줄 것.
 	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0))->EventProcess = BarSliderMoveEvent;
@@ -50,16 +58,16 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 
 	if (!btn)
 	{
-		EventManager->Attach(pOptionBackGround);
-		ObjectManager->AddUIChild(pOptionBackGround);
+		EventManager->Attach(pOptionBack);
+		ObjectManager->AddUIChild(pOptionBack);
 	}
 	else if (btn)
 	{
-		pOptionBackGround->PowerOnOff_OnlySelf();
-		btn->cButtonPushBack(pOptionBackGround);
+		pOptionBack->PowerOnOff_OnlySelf();
+		btn->cButtonPushBack(pOptionBack);
 	}
 
-	return pOptionBackGround;
+	return pOptionBack;
 }
 
 

@@ -29,14 +29,17 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	pSystemBack->Setup(
 		"data/UI/InGameSettingUI",
 		"NW_InGameSetting_Back.png",
-		D3DXVECTOR3(0, 0, 0), 1,
+		D3DXVECTOR3(0, 0, 0), 
+		1,
 		true, true);
 
 	cPopup *pSystemBackground = new cPopup;
 	pSystemBackground->Setup(
 		"data/UI/InGameSettingUI",
-		"NW_InGameSetting_Background.png",
-		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0), 1,
+		"NW_InGameSetting_Background.png", // 362  421
+		D3DXVECTOR3((rc.right - 362)/ 2 , (rc.bottom - 421 )/ 2, 0),
+		//0, 0, 0,
+		1, 
 		true, true);
 	pSystemBack->cButtonPushBack(pSystemBackground);
 	
@@ -52,39 +55,52 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	//Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 200, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
 	//Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 250, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
 
-	{ // top button
-
+	cPopup *pPauseImage = new cPopup;
+	pPauseImage->Setup(
+		"data/UI/InGameSettingUI",
+		"NW_InGameSetting_PauseText.png", // 362  421
+		D3DXVECTOR3((rc.right - 200) / 2, (rc.bottom - 46) / 2, 0),
+		0, -125, 0,
+		1,
+		true, true);
+	pSystemBack->cButtonPushBack(pPauseImage);
+	
+	{ // button
 		cButton *pSystem_continue = new cButton;
-		pSystem_continue->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
-			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0),
-			200, 200, 0,
-			0.8, true, true);
 		pSystemBackground->cButtonPushBack(pSystem_continue);
+		pSystem_continue->Setup("data/UI/InGameSettingUI/CONTINUE", "NW_InGameSetting_ContinueButton_Idle.png",
+			pSystem_continue->GetUpPopUp()->GetPosition(),
+			30, 140, 0,
+			1,
+			true, true);
 		pSystem_continue->EventProcess = SysWindow_ContinueBtnEvent;
 		
 		cButton *pSystem_OptionBtn = new cButton;
-		pSystem_OptionBtn->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
-			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 
-			200, 200, 0, 
-			0.8, true, true);
 		pSystemBackground->cButtonPushBack(pSystem_OptionBtn);
+		pSystem_OptionBtn->Setup("data/UI/InGameSettingUI/SETTING", "NW_InGameSetting_SettingButton_Idle.png",
+			pSystem_continue->GetUpPopUp()->GetPosition(),
+			30, 200, 0, 
+			1, 
+			true, true);
 		pSystem_OptionBtn->EventProcess = SysWindow_OptionBtnEvent;
 
-		cButton *pSystem_ToTitleBtn= new cButton;
-		pSystem_ToTitleBtn->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
-			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 
-			200, 250, 0, 
-			0.8, true, true);
-		pSystemBackground->cButtonPushBack(pSystem_ToTitleBtn);
-		pSystem_ToTitleBtn->EventProcess = SysWindow_ToTitleEvent;
+		cButton *pSystem_ToStartBtn= new cButton;
+		pSystemBackground->cButtonPushBack(pSystem_ToStartBtn);
+		pSystem_ToStartBtn->Setup("data/UI/InGameSettingUI/BackToStart", "NW_InGameSetting_BackToStartButton_Idle.png",
+			pSystem_continue->GetUpPopUp()->GetPosition(),
+			40, 270, 0, 
+			1, 
+			true, true);
+		pSystem_ToStartBtn->EventProcess = SysWindow_ToStartEvent;
 
-		cButton *pSystem_ExitBtn = new cButton;
-		pSystem_ExitBtn->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
-			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 
-			200, 300, 0, 
-			0.8, true, true);
-		pSystemBackground->cButtonPushBack(pSystem_ExitBtn);
-		pSystem_ExitBtn->EventProcess = SysWindow_ExitGame;
+		cButton *pSystem_END_Btn = new cButton;
+		pSystemBackground->cButtonPushBack(pSystem_END_Btn);
+		pSystem_END_Btn->Setup("data/UI/InGameSettingUI/END", "NW_InGameSetting_EndButton_Idle.png",
+			pSystem_END_Btn->GetUpPopUp()->GetPosition(), 
+			30, 320, 0, 
+			1, 
+			true, true);
+		pSystem_END_Btn->EventProcess = SysWindow_END_Game;
 	} // top button
 
 	// cPopup* pOptionPopUp = Setup_OptionWindow(pOptionBackGround);
@@ -96,11 +112,109 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	}
 	else if (btn)
 	{
-		pSystemBackground->PowerOnOff_OnlySelf();
+		pSystemBack->PowerOnOff_OnlySelf();
 		btn->cButtonPushBack(pSystemBack);
 	}
 	
 	return pSystemBack;
+}
+
+void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
+{
+	cButton* button = (cButton*)btn;
+
+	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+	float width = button->GetImageInfoWidth() * button->GetPercent();
+	float height = button->GetImageInfoHeight() *  button->GetPercent();
+
+	switch (message)
+	{
+	case EventType::EVENT_MOVE:
+	{
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		{
+			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+			{
+				if (button->GetState() == enum_Off)
+				{
+					button->SetStateChange(enum_Hover);	//on상태로 체인지
+				}
+
+			}
+			else
+			{
+				if (button->GetState() != enum_Off)
+				{
+					button->SetStateChange(enum_Off); //off상태로 체인지
+				}
+			}
+		}
+		else
+		{
+			if (button->GetState() != enum_Off)
+			{
+				button->SetStateChange(enum_Off);	//off 상태로 체인지
+			}
+		}
+
+		if (button->GetPreState() != button->GetState())
+		{
+			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
+			{
+				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
+				button->SetPreState(enum_Hover);
+			}
+			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+			{
+				if (button->GetState() == enum_On)
+				{
+					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+					button->SetPreState(enum_On);
+				}
+				else if (button->GetState() == enum_Off)
+				{
+					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
+					button->SetPreState(enum_Off);
+				}
+			}
+
+
+		}//case EVENT_MOVE End:
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		{
+			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+			{
+				button->SetStateChange(enum_On);
+				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+			}
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		if (button->GetState() == enum_On)
+		{
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+			{
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					button->SetStateChange(enum_Off);
+					button->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
+
+					cout << "SysWindow_ContinueBtnEvent is Clicked" << endl;
+				}
+			}
+		}
+	}
+	break;
+	};//switch End
 }
 
 void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
@@ -201,7 +315,7 @@ void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void SysWindow_ToTitleEvent(EventType message, cPopup* btn)
+void SysWindow_ToStartEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -286,7 +400,8 @@ void SysWindow_ToTitleEvent(EventType message, cPopup* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
-					cout << "SysWindow_ToTitleEvent Clicked" << endl;
+					button->SetStateChange(enum_Off);
+					cout << "SysWindow_ToStartEvent Clicked" << endl;
 					g_pSceneManager->ChangeScene(SceneType::SCENE_TITLE);
 				}
 			}
@@ -296,7 +411,7 @@ void SysWindow_ToTitleEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void SysWindow_ExitGame(EventType message, cPopup* btn)
+void SysWindow_END_Game(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -383,6 +498,7 @@ void SysWindow_ExitGame(EventType message, cPopup* btn)
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
 					// TODO exit 있는 부분
+					button->SetStateChange(enum_Off);
 					exit(0);
 				}
 			}
