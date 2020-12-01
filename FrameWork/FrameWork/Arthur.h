@@ -43,10 +43,9 @@ public:
 class cArthurWeapon : public cObject
 {
 private:
-// >>
-	D3DXMATRIXA16 m_matOBB;
-// <<
 public:
+	D3DXMATRIXA16 m_matOBB;
+	
 	cArthurWeapon();
 	~cArthurWeapon();
 
