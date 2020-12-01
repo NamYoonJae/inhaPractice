@@ -5,7 +5,7 @@
 #include <functional>
 
 class cButton;
-class cPopUp;
+class cPopup;
 
 //자식 뿐만 아니라 버튼 이벤트 헤더에서도 사용하기 때문에 전역으로 설정
 enum
@@ -16,12 +16,13 @@ enum
 };
 
 
-class cPopUp : public cObserver , public cObject
+class cPopup : public cObserver , public cObject
 {
 protected:
 	bool m_Fixed;
 	//Power OnOff 기능이 있는지 없는지 고정이면 true 고정 아니면 false
 	bool m_Power;
+	//bool m_EventPower;
 
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
@@ -32,15 +33,15 @@ protected:
 	D3DXVECTOR3 m_Position;
 	RECT m_Rect;
 
-	vector<cPopUp*> m_vecPopupBtnList;
+	vector<cPopup*> m_vecPopupBtnList;
 
-	cPopUp * pParent;
+	cPopup * pParent;
 
 	string str_filename;
 public:
 	
-	cPopUp();
-	~cPopUp();
+	cPopup();
+	~cPopup();
 
 	virtual void Setup(
 		char* root, 
@@ -65,11 +66,11 @@ public:
 	void Update() override {};
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
-	void cButtonPushBack(cPopUp*);
+	void cButtonPushBack(cPopup*);
 	virtual int GetState();
 	virtual void SetStateChange(int state);
 	virtual D3DXVECTOR3 GetPosition();
-	function<void(EventType&, cPopUp*)> EventProcess;
+	function<void(EventType&, cPopup*)> EventProcess;
 
 	virtual float GetImageInfoWidth();
 	virtual float GetImageInfoHeight();
@@ -81,20 +82,22 @@ public:
 
 	virtual void PowerOnOff();
 	virtual void PowerOnOff(bool power);
-	virtual void vecListPowerOnOff();
-	virtual void vecListPowerOnOff(bool power);
-	virtual void PowerOnOffSelf();
-	virtual void PowerOnOffSelf(bool power);
-
+	virtual void PowerOnOff_List();
+	virtual void PowerOnOff_List(bool power);
+	virtual void PowerOnOff_OnlySelf();
+	virtual void PowerOnOff_OnlySelf(bool power);
+	virtual void PowerOnOff_List_OnlySelf();
+	virtual void PowerOnOff_List_OnlySelf(bool power);
+	
 	//void SetFix(bool Fixed);
 	
 	virtual void Destroy();
 
-	virtual cPopUp* GetTopPopUp();
-	virtual cPopUp* GetUpPopUp();
+	virtual cPopup* GetTopPopUp();
+	virtual cPopup* GetUpPopUp();
 	
-	virtual cPopUp* GetPopupBtn();
-	virtual cPopUp* GetPopupBtn(int index);
+	virtual cPopup* GetPopupBtn();
+	virtual cPopup* GetPopupBtn(int index);
 
 	void MovePosition(D3DXVECTOR2 distance);
 	void SetPosition(D3DXVECTOR2 position);

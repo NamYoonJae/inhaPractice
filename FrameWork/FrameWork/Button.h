@@ -1,7 +1,7 @@
 #pragma once
 #include "PopUp.h"
 class cButton :
-	public cPopUp
+	public cPopup
 {
 private:
 	float m_X;

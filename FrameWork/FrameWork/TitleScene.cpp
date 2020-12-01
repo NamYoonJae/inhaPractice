@@ -32,16 +32,18 @@ void cTitleScene::Setup()
 	float nRight = 0.34;
 	float nBottom = 0.45;
 
-	cPopUp *pBackgroundPopup = new cPopUp;
+	cPopup *pBackgroundPopup = new cPopup;
 	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
 		D3DXVECTOR3(0, 0, 0), 1, true, true);
 
-	cPopUp *pTitleImagePopup = new cPopUp;
+	Setup_OptionWindow(pBackgroundPopup);
+	
+	cPopup *pTitleImagePopup = new cPopup;
 	pTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
 		D3DXVECTOR3(370, 140, 0), 1, true, true);
 	pBackgroundPopup->cButtonPushBack(pTitleImagePopup);
 
-	cPopUp *pBackGoundBtnPopup = new cPopUp;
+	cPopup *pBackGoundBtnPopup = new cPopup;
 	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "NW_Start_UI_Back.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1, true, true);
 	pTitleImagePopup->cButtonPushBack(pBackGoundBtnPopup);
@@ -73,8 +75,6 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 105, 270, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ExitGameBtnEvent;
-
-	Setup_OptionWindow(pBackgroundPopup);
 	
 	EventManager->Attach(pBackgroundPopup);
 	ObjectManager->AddUIChild(pBackgroundPopup);
@@ -87,7 +87,7 @@ void cTitleScene::Setup()
 	nBottom = 0.01;
 
 
-	cPopUp* inGmaePopup = new cPopUp;
+	cPopup* inGmaePopup = new cPopup;
 	inGmaePopup->Setup("","",
 		D3DXVECTOR3(0, 0, 0), 1, true, true);
 
@@ -126,7 +126,7 @@ void cTitleScene::Setup()
 
 
 	//MiniMap
-	cPopUp* miniMap = new cPopUp;
+	cPopup* miniMap = new cPopup;
 	miniMap->Setup("data/UI/InGame", "NW_Minimap_Background.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 0, 0, 1, false, true);
 	inGmaePopup->cButtonPushBack(miniMap);

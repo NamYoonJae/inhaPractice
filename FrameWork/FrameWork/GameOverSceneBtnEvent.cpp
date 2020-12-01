@@ -3,7 +3,7 @@
 #include "EventManager.h"
 #include "PopUp.h"
 
-void RetryGameBtnEvent(EventType message, cPopUp* btn)
+void RetryGameBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -99,7 +99,7 @@ void RetryGameBtnEvent(EventType message, cPopUp* btn)
 }
 
 
-void MainMenuBtnEvent(EventType message, cPopUp* btn)
+void MainMenuBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
