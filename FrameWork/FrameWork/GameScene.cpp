@@ -186,7 +186,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		true, true);
 	pMediator->EventProcess = Opton_ESC_Event;
 	
-	cPopup * pSystemPopUp = Setup_SystemWindow(pMediator);
+	cPopup* pSystemPopUp = Setup_SystemWindow(pMediator);
 	cPopup * pOptionPopUp = Setup_OptionWindow(pMediator);
 	
 	EventManager->Attach(pMediator);

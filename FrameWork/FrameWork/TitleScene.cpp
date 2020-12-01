@@ -80,21 +80,14 @@ void cTitleScene::Setup()
 	ObjectManager->AddUIChild(pBackgroundPopup);
 
 
-
+	// TODO 에러해결하기
 	//InGameUI
 	nRight = 0.01;
 	nBottom = 0.01;
 
-
-<<<<<<< HEAD
-	cPopup* inGmaePopup = new cPopup;
-	inGmaePopup->Setup("","",
-=======
-	cPopUp* inGamePopup = new cPopUp;
+	cPopup* inGamePopup = new cPopup;
 	inGamePopup->Setup("","",
->>>>>>> d04387e72d124d93d2b8f61c81209152c961f87f
 		D3DXVECTOR3(0, 0, 0), 1, true, true);
-
 
 	//Hp
 	cButton* hpBarBackground = new cButton;
@@ -128,16 +121,14 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 50, 721, 0, 1, false, true);
 	staminerBarBackgound->cButtonPushBack(staminerBarMark);
 
-
 	//MiniMap
 	cPopup* miniMap = new cPopup;
 	miniMap->Setup("data/UI/InGame", "NW_Minimap_Background.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(miniMap);
 
-
 	//보스 분노
-	cPopUp* bossAnger = new cPopUp;
+	cPopup* bossAnger = new cPopup;
 	bossAnger->Setup("data/UI/InGame", "NW_MonAnger_0.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossAnger);
@@ -162,15 +153,11 @@ void cTitleScene::Setup()
 
 	//보스 상태이상 이미지
 
-
-
 	//전리품
-	cPopUp* spoilsBackgound = new cPopUp;
+	cPopup* spoilsBackgound = new cPopup;
 	spoilsBackgound->Setup("data/UI/InGame", "NW_Spoils_Back.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1340, 600, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(spoilsBackgound);
-
-
 
 	//전리품 게이지
 	/*
