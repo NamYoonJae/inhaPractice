@@ -82,13 +82,12 @@ void cTitleScene::Setup()
 
 
 	//InGameUI
-
 	nRight = 0.01;
 	nBottom = 0.01;
 
 
-	cPopUp* inGmaePopup = new cPopUp;
-	inGmaePopup->Setup("","",
+	cPopUp* inGamePopup = new cPopUp;
+	inGamePopup->Setup("","",
 		D3DXVECTOR3(0, 0, 0), 1, true, true);
 
 
@@ -96,7 +95,7 @@ void cTitleScene::Setup()
 	cButton* hpBarBackground = new cButton;
 	hpBarBackground->Setup("data/UI/InGame", "NW_HP_Bar_Background.png",
 		D3DXVECTOR3(rc.right* nRight, rc.bottom * nBottom, 0), 20, 670, 0, 1, false, true);
-	inGmaePopup->cButtonPushBack(hpBarBackground);
+	inGamePopup->cButtonPushBack(hpBarBackground);
 
 	cButton* hpBar = new cButton;
 	hpBar->Setup("data/UI/InGame", "NW_HP_Bar_Sword.png",
@@ -112,7 +111,7 @@ void cTitleScene::Setup()
 	cButton* staminerBarBackgound = new cButton;
 	staminerBarBackgound->Setup("data/UI/InGame", "NW_ST_Bar_Background.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 20, 715, 0, 1, false, true);
-	inGmaePopup->cButtonPushBack(staminerBarBackgound);
+	inGamePopup->cButtonPushBack(staminerBarBackgound);
 
 	cButton* staminerBar = new cButton;
 	staminerBar->Setup("data/UI/InGame", "NW_ST_Sword.png",
@@ -129,20 +128,57 @@ void cTitleScene::Setup()
 	cPopUp* miniMap = new cPopUp;
 	miniMap->Setup("data/UI/InGame", "NW_Minimap_Background.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 0, 0, 1, false, true);
-	inGmaePopup->cButtonPushBack(miniMap);
+	inGamePopup->cButtonPushBack(miniMap);
 
 
 	//보스 분노
+	cPopUp* bossAnger = new cPopUp;
+	bossAnger->Setup("data/UI/InGame", "NW_MonAnger_0.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, false, true);
+	inGamePopup->cButtonPushBack(bossAnger);
 	
+	/*
+	cButton* anger = new cButton;
+	anger->Setup("data/UI/InGame", "NW_MonAnger_0.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, false, true);
+	bossAnger->cButtonPushBack(anger);
+	*/
+	/* //분노 이미지 테스트
+	anger = new cButton;
+	anger->Setup("data/UI/InGame", "NW_MonAnger_50.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, false, true);
+	bossAnger->cButtonPushBack(anger);
+
+	anger = new cButton;
+	anger->Setup("data/UI/InGame", "NW_MonAnger_100.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, true, true);
+	bossAnger->cButtonPushBack(anger);
+	*/
+
 	//보스 상태이상 이미지
 
+
+
 	//전리품
-	
+	cPopUp* spoilsBackgound = new cPopUp;
+	spoilsBackgound->Setup("data/UI/InGame", "NW_Spoils_Back.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1340, 600, 0, 1, false, true);
+	inGamePopup->cButtonPushBack(spoilsBackgound);
 
 
 
-	EventManager->Attach(inGmaePopup);
-	ObjectManager->AddUIChild(inGmaePopup);
+	//전리품 게이지
+	/*
+	cButton* attriBackground = new cButton;
+	attriBackground->Setup("data/UI/InGame","NW_AttriGauge_Background.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1200, 700, 0, 1, true, true);
+	spoilsBackgound->cButtonPushBack(attriBackground);
+
+	cButton* attri = new cButton;
+	*/
+
+	EventManager->Attach(inGamePopup);
+	ObjectManager->AddUIChild(inGamePopup);
 }
 
 //
