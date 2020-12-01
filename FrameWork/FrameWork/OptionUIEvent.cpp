@@ -63,6 +63,118 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 }
 
 
+void Option_ReturnEvent_whitespace(EventType message, cPopup* btn)
+{
+	
+}
+
+void Option_ReturnEvent(EventType message, cPopup* btn)
+{
+	cButton* button = (cButton*)btn;
+
+	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+	float width = button->GetImageInfoWidth() * button->GetPercent();
+	float height = button->GetImageInfoHeight() *  button->GetPercent();
+
+	switch (message)
+	{
+	case EventType::EVENT_MOVE:
+
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		{
+			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+			{
+				if (button->GetState() == enum_Off)
+				{ 
+					button->SetStateChange(enum_Hover);	//on상태로 체인지
+				}
+
+			}
+			else
+			{
+				if (button->GetState() != enum_Off)
+				{
+					button->SetStateChange(enum_Off); //off상태로 체인지
+				}
+			}
+		}
+		else
+		{
+			if (button->GetState() != enum_Off)
+			{
+				button->SetStateChange(enum_Off);	//off 상태로 체인지
+			}
+		}
+
+		if (button->GetPreState() != button->GetState())
+		{
+			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
+			{
+				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
+				button->SetPreState(enum_Hover);
+			}
+			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+			{
+				if (button->GetState() == enum_On)
+				{
+					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+					button->SetPreState(enum_On);
+				}
+				else if (button->GetState() == enum_Off)
+				{
+					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
+					button->SetPreState(enum_Off);
+				}
+			}
+
+
+		}//case EVENT_MOVE End:
+
+		break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		{
+			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+			{
+				button->SetStateChange(enum_On);
+				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+			}
+		}
+	}
+
+
+	break;
+	case EventType::EVENT_LBUTTONUP:
+	{
+		if (button->GetState() == enum_On)
+		{
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+			{
+				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+				{
+					button->SetStateChange(enum_Hover);
+					cout << "Exit Button Clicked" << endl;
+
+					cPopup * pPopup0 = button->GetTopPopUp();
+					for (size_t i = 0; i < pPopup0->GetPopUpListSize(); i++)
+					{
+						pPopup0->GetPopupBtn(i)->PowerOnOff_OnlySelf();
+					}
+					
+					//if(pPopup0)
+					//pPopup0->PowerOnOff_List();
+				}
+			}
+		}
+	}
+	break;
+	};//switch End
+}
+
+// legacy function
 
 cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 {
@@ -100,7 +212,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 		0.8, 
 		true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_setButton);
-	pOption_setButton->EventProcess = Option_SetBtnEvent;
+	pOption_setButton->EventProcess = Option_SetBtnEvent_Legacy;
 	{ // setBtnList
 		cPopup *pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
@@ -134,13 +246,13 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 	pOption_ControleButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 115, -60, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_ControleButton);
-	pOption_ControleButton->EventProcess = Option_ControlBtnEvent;
+	pOption_ControleButton->EventProcess = Option_ControlBtnEvent_Legacy;
 
 	cButton *pOption_CameraButton = new cButton;
 	pOption_CameraButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 280, -60, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_CameraButton);
-	pOption_CameraButton->EventProcess = Option_CameraBtnEvent;
+	pOption_CameraButton->EventProcess = Option_CameraBtnEvent_Legacy;
 	{ // CameraBtnList
 	  // TODO 임시로 움직인거 조정하기
 	  // 시각적 확인을 위해 x축으로 10씩 밀어놨음
@@ -176,7 +288,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 	pOption_AudioButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 445, -60, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_AudioButton);
-	pOption_AudioButton->EventProcess = Option_AudioBtnEvent;
+	pOption_AudioButton->EventProcess = Option_AudioBtnEvent_Legacy;
 	{ // AudioBtnList
 	  // TODO 임시로 움직인거 조정하기
 	  // 시각적 확인을 위해 x축으로 조금씩 밀어놨음
@@ -230,7 +342,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 	return pOptionBackGround;
 }
 
-void Option_SetBtnEvent(EventType message, cPopup* btn)
+void Option_SetBtnEvent_Legacy(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -337,7 +449,7 @@ void Option_SetBtnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void Option_ControlBtnEvent(EventType message, cPopup* btn)
+void Option_ControlBtnEvent_Legacy(EventType message, cPopup* btn)
 {	
 	cButton* button = (cButton*)btn;
 
@@ -446,7 +558,7 @@ void Option_ControlBtnEvent(EventType message, cPopup* btn)
 
 }
 
-void Option_CameraBtnEvent(EventType message, cPopup* btn)
+void Option_CameraBtnEvent_Legacy(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -554,7 +666,7 @@ void Option_CameraBtnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void Option_AudioBtnEvent(EventType message, cPopup* btn)
+void Option_AudioBtnEvent_Legacy(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -654,112 +766,6 @@ void Option_AudioBtnEvent(EventType message, cPopup* btn)
 					cout << "Option Audio Button Clicked" << endl;
 					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
 					//g_pSceneManager->ChangeScene();
-				}
-			}
-		}
-	}
-	break;
-	};//switch End
-}
-
-void Option_ReturnEvent(EventType message, cPopup* btn)
-{
-	cButton* button = (cButton*)btn;
-
-	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
-	D3DXVECTOR3 btnPosition = button->GetPosition();
-	float width = button->GetImageInfoWidth() * button->GetPercent();
-	float height = button->GetImageInfoHeight() *  button->GetPercent();
-
-	switch (message)
-	{
-	case EventType::EVENT_MOVE:
-
-		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
-		{
-			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
-			{
-				if (button->GetState() == enum_Off)
-				{
-					button->SetStateChange(enum_Hover);	//on상태로 체인지
-				}
-
-			}
-			else
-			{
-				if (button->GetState() != enum_Off)
-				{
-					button->SetStateChange(enum_Off); //off상태로 체인지
-				}
-			}
-		}
-		else
-		{
-			if (button->GetState() != enum_Off)
-			{
-				button->SetStateChange(enum_Off);	//off 상태로 체인지
-			}
-		}
-
-		if (button->GetPreState() != button->GetState())
-		{
-			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
-			{
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
-				button->SetPreState(enum_Hover);
-			}
-			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
-			{
-				if (button->GetState() == enum_On)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-					button->SetPreState(enum_On);
-				}
-				else if (button->GetState() == enum_Off)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
-					button->SetPreState(enum_Off);
-				}
-			}
-
-
-		}//case EVENT_MOVE End:
-
-		break;
-
-	case EventType::EVENT_LBUTTONDOWN:
-	{
-		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
-		{
-			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
-			{
-				button->SetStateChange(enum_On);
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-			}
-		}
-	}
-
-
-	break;
-	case EventType::EVENT_LBUTTONUP:
-	{
-		if (button->GetState() == enum_On)
-		{
-			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
-			{
-				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
-				{
-					button->SetStateChange(enum_Hover);
-					cout << "Exit Button Clicked" << endl;
-
-					cPopup * pPopup0 = button->GetTopPopUp();
-					for (size_t i = 0; i < pPopup0->GetPopUpListSize(); i++)
-					{
-						pPopup0->GetPopupBtn(i)->PowerOnOff_OnlySelf();
-					}
-					
-					//if(pPopup0)
-					//pPopup0->PowerOnOff_List();
 				}
 			}
 		}
