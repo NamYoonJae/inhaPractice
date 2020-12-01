@@ -25,13 +25,21 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	float nRight = 0.33;
 	float nBottom = 0.37;
 
-	cPopup *pSystemBackground = new cPopup;
-	pSystemBackground->Setup(
-		"data/UI/ConfigurationSettings",
-		"설정창 배경 사이즈조정.png",
-		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0), 1,
+	cPopup *pSystemBack = new cPopup;
+	pSystemBack->Setup(
+		"data/UI/InGameSettingUI",
+		"NW_InGameSetting_Back.png",
+		D3DXVECTOR3(0, 0, 0), 1,
 		true, true);
 
+	cPopup *pSystemBackground = new cPopup;
+	pSystemBackground->Setup(
+		"data/UI/InGameSettingUI",
+		"NW_InGameSetting_Background.png",
+		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0), 1,
+		true, true);
+	pSystemBack->cButtonPushBack(pSystemBackground);
+	
 	//cPopup *pOptionBtnBackGround = new cPopup;
 	//pOptionBtnBackGround->Setup(
 	//	"data/UI/ConfigurationSettings",
@@ -40,13 +48,22 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	//	true, true);
 	//pOptionBackGround->cButtonPushBack(pOptionBtnBackGround);
 
-	Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 150, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
-	Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 200, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
-	Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 250, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
+	//Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 150, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
+	//Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 200, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
+	//Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 250, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
 
 	{ // top button
+
+		cButton *pSystem_continue = new cButton;
+		pSystem_continue->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
+			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0),
+			200, 200, 0,
+			0.8, true, true);
+		pSystemBackground->cButtonPushBack(pSystem_continue);
+		pSystem_continue->EventProcess = SysWindow_ContinueBtnEvent;
+		
 		cButton *pSystem_OptionBtn = new cButton;
-		pSystem_OptionBtn->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+		pSystem_OptionBtn->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
 			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 
 			200, 200, 0, 
 			0.8, true, true);
@@ -54,7 +71,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystem_OptionBtn->EventProcess = SysWindow_OptionBtnEvent;
 
 		cButton *pSystem_ToTitleBtn= new cButton;
-		pSystem_ToTitleBtn->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+		pSystem_ToTitleBtn->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
 			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 
 			200, 250, 0, 
 			0.8, true, true);
@@ -62,7 +79,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystem_ToTitleBtn->EventProcess = SysWindow_ToTitleEvent;
 
 		cButton *pSystem_ExitBtn = new cButton;
-		pSystem_ExitBtn->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+		pSystem_ExitBtn->Setup("data/UI/InGameSettingUI", "설정창 탑버튼 사이즈 조정.png",
 			D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 
 			200, 300, 0, 
 			0.8, true, true);
@@ -74,16 +91,16 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	
 	if (!btn)
 	{
-		EventManager->Attach(pSystemBackground);
-		ObjectManager->AddUIChild(pSystemBackground);
+		EventManager->Attach(pSystemBack);
+		ObjectManager->AddUIChild(pSystemBack);
 	}
 	else if (btn)
 	{
 		pSystemBackground->PowerOnOff_OnlySelf();
-		btn->cButtonPushBack(pSystemBackground);
+		btn->cButtonPushBack(pSystemBack);
 	}
 	
-	return pSystemBackground;
+	return pSystemBack;
 }
 
 void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
