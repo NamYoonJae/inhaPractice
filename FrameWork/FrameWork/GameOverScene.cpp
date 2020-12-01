@@ -23,12 +23,12 @@ void cGameOverScene::Setup()
 	float nRight = 0.34;
 	float nBottom = 0.45;
 
-	cPopUp *pBackgroundPopup = new cPopUp;
+	cPopup *pBackgroundPopup = new cPopup;
 	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
 		D3DXVECTOR3(0, 0, 0), 1, true, true);
 
 	
-	cPopUp * pTitleImagePopup = new cPopUp;
+	cPopup * pTitleImagePopup = new cPopup;
 	pTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
 		D3DXVECTOR3(370, 140, 0), 1, true, true);
 	pBackgroundPopup->cButtonPushBack(pTitleImagePopup);

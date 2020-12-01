@@ -1,6 +1,6 @@
 #pragma once
 
-void RetryGameBtnEvent(EventType message, cPopUp* btn);
-void MainMenuBtnEvent(EventType message, cPopUp* btn);
-void ExitGameBtnEvent(EventType message, cPopUp* btn);
+void RetryGameBtnEvent(EventType message, cPopup* btn);
+void MainMenuBtnEvent(EventType message, cPopup* btn);
+void ExitGameBtnEvent(EventType message, cPopup* btn);
 

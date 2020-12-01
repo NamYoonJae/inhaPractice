@@ -37,7 +37,7 @@ void cFont::Update()
 
 }
 
-// cPopUp을 상속받아 렌더하기때문에 objectManager에서 cPopUp::Render(D3DXMATRIXA16 * pmat)가 실행될 것으로 예상됨
+// cPopUp을 상속받아 렌더하기때문에 objectManager에서 cPopup::Render(D3DXMATRIXA16 * pmat)가 실행될 것으로 예상됨
 void cFont::Render()
 {
 

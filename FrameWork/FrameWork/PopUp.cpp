@@ -4,7 +4,7 @@
 #include "EventManager.h"
 #include "Button.h"
 
-cPopUp::cPopUp()
+cPopup::cPopup()
 	: m_pSprite(NULL)
 	, m_pTextureUI(NULL)
 	, m_State(enum_Off)
@@ -18,7 +18,7 @@ cPopUp::cPopUp()
 }
 
 
-cPopUp::~cPopUp()
+cPopup::~cPopup()
 {
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
@@ -31,7 +31,7 @@ cPopUp::~cPopUp()
 	}
 }
 
-void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed)
+void cPopup::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed)
 {
 	m_Percentage = percent;
 	m_Position = position;
@@ -47,7 +47,7 @@ void cPopUp::Setup(char * root, char * fileName, D3DXVECTOR3 position, float per
 	LoadTexture((char*)fileRoot.c_str());
 }
 
-void cPopUp::Setup(char* root,char* fileName,D3DXVECTOR3 position,float x,float y,float z,float percent,bool powerOnOff,bool fixed)
+void cPopup::Setup(char* root,char* fileName,D3DXVECTOR3 position,float x,float y,float z,float percent,bool powerOnOff,bool fixed)
 {
 	m_Percentage = percent;
 
@@ -67,19 +67,19 @@ void cPopUp::Setup(char* root,char* fileName,D3DXVECTOR3 position,float x,float 
 	LoadTexture((char*)fileRoot.c_str());
 }
 
-void cPopUp::Update(EventType message)
+void cPopup::Update(EventType message)
 {
 	
-#pragma region Fixed_Event
-	if (false == m_Fixed)
-	{
-		if (message == EventType::EVENT_ESC)
-		{
-			PowerOnOffSelf();
-			return; // 창을 끌 때 하위객체에 이벤트를 전달하지 않기 위함
-		}
-	}
-#pragma endregion Fixed_Event
+//#pragma region Fixed_Event
+//	if (false == m_Fixed)
+//	{
+//		if (message == EventType::EVENT_ESC)
+//		{
+//			PowerOnOff_OnlySelf();
+//			return; // 창을 끌 때 하위객체에 이벤트를 전달하지 않기 위함
+//		}
+//	}
+//#pragma endregion Fixed_Event
 
 	if (m_Power)
 	{
@@ -89,22 +89,21 @@ void cPopUp::Update(EventType message)
 		}
 	}
 
-	
-	//if (m_Power)
-	//{
-	//	if (EventProcess)
-	//		EventProcess(message, this);
-	//}
+	if (m_Power)
+	{
+		if (EventProcess)
+			EventProcess(message, this);
+	}
 }
 
-void cPopUp::Render(D3DXMATRIXA16 * pmat)
+void cPopup::Render(D3DXMATRIXA16 * pmat)
 {
 	// 부모객체가 없거나 부모객체의 파워가 true인 경우에 렌더하게 변경
 	bool chk_parents = 0;
 	if (pParent)
 		chk_parents = pParent->GetState();
 	
-	if(chk_parents || NULL == pParent)
+	if(chk_parents || !pParent)
 		if (m_Power)
 		{
 			m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
@@ -133,38 +132,38 @@ void cPopUp::Render(D3DXMATRIXA16 * pmat)
 		}
 }
 
-void cPopUp::cButtonPushBack(cPopUp* btn)
+void cPopup::cButtonPushBack(cPopup* btn)
 {
 	btn->pParent = this;
 	m_vecPopupBtnList.push_back(btn);
 }
 
-int cPopUp::GetState()
+int cPopup::GetState()
 {
 	return m_State;
 }
 
-void cPopUp::SetStateChange(int state)
+void cPopup::SetStateChange(int state)
 {
 	m_State = state;
 }
 
-D3DXVECTOR3 cPopUp::GetPosition()
+D3DXVECTOR3 cPopup::GetPosition()
 {
 	return m_Position;
 }
 
-float cPopUp::GetImageInfoWidth()
+float cPopup::GetImageInfoWidth()
 {
 	return (float)m_ImageInfo.Width;
 }
 
-float cPopUp::GetImageInfoHeight()
+float cPopup::GetImageInfoHeight()
 {
 	return (float)m_ImageInfo.Height;
 }
 
-void cPopUp::LoadTexture(char * szFullPath)
+void cPopup::LoadTexture(char * szFullPath)
 {
 	D3DXCreateTextureFromFileExA(g_pD3DDevice,
 		szFullPath,
@@ -187,7 +186,7 @@ void cPopUp::LoadTexture(char * szFullPath)
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
 }
 
-void cPopUp::ChangeSprite(char * szFullPath)
+void cPopup::ChangeSprite(char * szFullPath)
 {
 	if (!g_pTextureManager->GetTexture(szFullPath))
 	{
@@ -198,40 +197,24 @@ void cPopUp::ChangeSprite(char * szFullPath)
 	m_ImageInfo = g_pTextureManager->GetImageInfo(szFullPath);
 }
 
-void cPopUp::MovePosition(D3DXVECTOR2 distance)
+void cPopup::MovePosition(D3DXVECTOR2 distance)
 {
-	if (false == m_Fixed)
-	{
-		m_Position.x += distance.x;
-		m_Position.y += distance.y;
-	}
-	else
-	{
-		// TODO 테스트 후 로그 지우기
-		cout << str_filename << "'s m_Fixed is " << m_Fixed << endl;
-	}
+	m_Position.x += distance.x;
+	m_Position.y += distance.y;
 }
 
-void cPopUp::SetPosition(D3DXVECTOR2 position)
+void cPopup::SetPosition(D3DXVECTOR2 position)
 {
-	if (false == m_Fixed)
-	{
-		m_Position.x = position.x;
-		m_Position.y = position.y;
-	}
-	else
-	{
-		// TODO 테스트 후 로그 지우기
-		cout << str_filename << "'s m_Fixed is " << m_Fixed << endl;
-	}
+	m_Position.x = position.x;
+	m_Position.y = position.y;
 }
 
-float cPopUp::GetPercent()
+float cPopup::GetPercent()
 {
 	return m_Percentage;
 }
 
-void cPopUp::PowerOnOff()
+void cPopup::PowerOnOff()
 {
 	m_Power = !m_Power;
 
@@ -241,7 +224,7 @@ void cPopUp::PowerOnOff()
 	}
 }
 
-void cPopUp::PowerOnOff(bool power)
+void cPopup::PowerOnOff(bool power)
 {
 	m_Power = power;
 
@@ -251,7 +234,7 @@ void cPopUp::PowerOnOff(bool power)
 	}
 }
 
-void cPopUp::vecListPowerOnOff()
+void cPopup::PowerOnOff_List()
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
@@ -259,7 +242,7 @@ void cPopUp::vecListPowerOnOff()
 	}
 }
 
-void cPopUp::vecListPowerOnOff(bool power)
+void cPopup::PowerOnOff_List(bool power)
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
@@ -268,24 +251,43 @@ void cPopUp::vecListPowerOnOff(bool power)
 }
 
 // 객체 자신만 power의 상태 변화
-void cPopUp::PowerOnOffSelf()
+void cPopup::PowerOnOff_OnlySelf()
 {
 	m_Power = !m_Power;
 }
 
-void cPopUp::PowerOnOffSelf(bool power)
+// 객체 자신만 power의 상태 변화
+void cPopup::PowerOnOff_OnlySelf(bool power)
 {
 	m_Power = power;
 }
 
+// 리스트에 등록된 객체들만 상태변화
+void cPopup::PowerOnOff_List_OnlySelf()
+{
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		m_vecPopupBtnList[i]->PowerOnOff_OnlySelf();
+	}
+}
+
+// 리스트에 등록된 객체들만 상태변화
+void cPopup::PowerOnOff_List_OnlySelf(bool power)
+{
+	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
+	{
+		m_vecPopupBtnList[i]->PowerOnOff_OnlySelf(power);
+	}
+}
+
 // 중개자의 fixed상태를 정의하기위해 사용할 메소드
-//void cPopUp::SetFix(bool fixed)
+//void cPopup::SetFix(bool fixed)
 //{
 //	m_Fixed = fixed;
 //}
 
 
-void cPopUp::Destroy()
+void cPopup::Destroy()
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 	{
@@ -297,9 +299,9 @@ void cPopUp::Destroy()
 }
 
 // 최상단에 위치한 부모객체의 포인터 좌표를 반환
-cPopUp* cPopUp::GetTopPopUp()
+cPopup* cPopup::GetTopPopUp()
 {
-	cPopUp* pPopup;
+	cPopup* pPopup;
 	if (pParent)
 	{
 		pPopup = pParent->GetTopPopUp();
@@ -310,7 +312,7 @@ cPopUp* cPopUp::GetTopPopUp()
 }
 
 // 부모객체의 포인터 좌표를 반환, 없을시 NULL값을 반환한다.
-cPopUp* cPopUp::GetUpPopUp()
+cPopup* cPopup::GetUpPopUp()
 {
 	if (pParent)
 		return pParent;
@@ -320,7 +322,7 @@ cPopUp* cPopUp::GetUpPopUp()
 
 // TODO 해당 메서드 삭제 고려중
 // vecList에서 0번 인덱스에 해당하는 cPopUp객체 포인터 반환
-cPopUp* cPopUp::GetPopupBtn()
+cPopup* cPopup::GetPopupBtn()
 {
 	if (0 < m_vecPopupBtnList.size())
 		return m_vecPopupBtnList[0];
@@ -329,7 +331,7 @@ cPopUp* cPopUp::GetPopupBtn()
 }
 
 // vecList에서 index값에 해당하는 cPopUp객체 포인터 반환
-cPopUp* cPopUp::GetPopupBtn(int index)
+cPopup* cPopup::GetPopupBtn(int index)
 {
 	if (index < m_vecPopupBtnList.size())
 		return m_vecPopupBtnList[index];
@@ -337,12 +339,12 @@ cPopUp* cPopUp::GetPopupBtn(int index)
 		return NULL;
 }
 
-int cPopUp::GetPopUpListSize()
+int cPopup::GetPopUpListSize()
 {
 	return m_vecPopupBtnList.size();
 }
 
-bool cPopUp::GetPowerState()
+bool cPopup::GetPowerState()
 {
 	return m_Power;
 }

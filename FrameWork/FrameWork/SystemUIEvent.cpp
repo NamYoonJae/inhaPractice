@@ -13,7 +13,7 @@
 
 
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
-cPopUp* Setup_SystemWindow(cPopUp* btn)
+cPopup* Setup_SystemWindow(cPopup* btn)
 {
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
@@ -25,14 +25,14 @@ cPopUp* Setup_SystemWindow(cPopUp* btn)
 	float nRight = 0.33;
 	float nBottom = 0.37;
 
-	cPopUp *pSystemBackground = new cPopUp;
+	cPopup *pSystemBackground = new cPopup;
 	pSystemBackground->Setup(
 		"data/UI/ConfigurationSettings",
 		"설정창 배경 사이즈조정.png",
 		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0), 1,
-		false, true);
+		true, true);
 
-	//cPopUp *pOptionBtnBackGround = new cPopUp;
+	//cPopup *pOptionBtnBackGround = new cPopup;
 	//pOptionBtnBackGround->Setup(
 	//	"data/UI/ConfigurationSettings",
 	//	"설정 내용 변경 사이즈조정.png",
@@ -40,9 +40,9 @@ cPopUp* Setup_SystemWindow(cPopUp* btn)
 	//	true, true);
 	//pOptionBackGround->cButtonPushBack(pOptionBtnBackGround);
 
-	Setup_BarGaugePopupBtn(pSystemBackground, D3DXVECTOR3(230, 150, 0))->EventProcess = GaugeBarMoveEvent;
-	Setup_BarGaugePopupBtn(pSystemBackground, D3DXVECTOR3(230, 200, 0))->EventProcess = GaugeBarMoveEvent;
-	Setup_BarGaugePopupBtn(pSystemBackground, D3DXVECTOR3(230, 250, 0))->EventProcess = GaugeBarMoveEvent;
+	Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 150, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
+	Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 200, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
+	Setup_BarGaugePopupBtn_Legacy(pSystemBackground, D3DXVECTOR3(230, 250, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
 
 	{ // top button
 		cButton *pSystem_OptionBtn = new cButton;
@@ -70,7 +70,7 @@ cPopUp* Setup_SystemWindow(cPopUp* btn)
 		pSystem_ExitBtn->EventProcess = SysWindow_ExitGame;
 	} // top button
 
-	//cPopUp* pOptionPopUp = Setup_OptionWindow(pOptionBackGround);
+	// cPopup* pOptionPopUp = Setup_OptionWindow(pOptionBackGround);
 	
 	if (!btn)
 	{
@@ -79,14 +79,14 @@ cPopUp* Setup_SystemWindow(cPopUp* btn)
 	}
 	else if (btn)
 	{
-		//pSystemBackground->PowerOnOffSelf();
+		pSystemBackground->PowerOnOff_OnlySelf();
 		btn->cButtonPushBack(pSystemBackground);
 	}
 	
 	return pSystemBackground;
 }
 
-void SysWindow_OptionBtnEvent(EventType message, cPopUp* btn)
+void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -172,7 +172,8 @@ void SysWindow_OptionBtnEvent(EventType message, cPopUp* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
-					button->GetTopPopUp()->vecListPowerOnOff();
+					button->SetStateChange(enum_Off);
+					button->GetTopPopUp()->PowerOnOff_List_OnlySelf();
 					
 					cout << "SysWindow_OptionBtnEvent is Clicked" << endl;
 				}
@@ -183,7 +184,7 @@ void SysWindow_OptionBtnEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void SysWindow_ToTitleEvent(EventType message, cPopUp* btn)
+void SysWindow_ToTitleEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -278,7 +279,7 @@ void SysWindow_ToTitleEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void SysWindow_ExitGame(EventType message, cPopUp* btn)
+void SysWindow_ExitGame(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 

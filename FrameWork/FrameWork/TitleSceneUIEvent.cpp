@@ -13,7 +13,7 @@
 
 #pragma once
 
-void StartGameBtnEvent(EventType message, cPopUp* btn)
+void StartGameBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -119,7 +119,7 @@ void StartGameBtnEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void ContinueGameBtnEvent(EventType message, cPopUp* btn)
+void ContinueGameBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -216,7 +216,7 @@ void ContinueGameBtnEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void SetupGameBtnEvent(EventType message, cPopUp* btn)
+void SetupGameBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -308,7 +308,10 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/TitleScene/SETTING/NW_SettingButton_Over.png");
 
-					button->GetTopPopUp()->vecListPowerOnOff();
+					
+					button->GetTopPopUp()->PowerOnOff_List_OnlySelf();
+					//button->GetTopPopUp()->GetPopupBtn(0)->PowerOnOff();
+					//button->GetTopPopUp()->GetPopupBtn(0)->PowerOnOff_OnlySelf();
 				}
 			}
 		}
@@ -318,7 +321,7 @@ void SetupGameBtnEvent(EventType message, cPopUp* btn)
 
 }
 
-void ExitGameBtnEvent(EventType message, cPopUp* btn)
+void ExitGameBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 

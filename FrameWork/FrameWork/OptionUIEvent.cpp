@@ -10,7 +10,7 @@
 //#include "TextureManager.h"
 
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
-cPopUp* Setup_OptionWindow(cPopUp* btn)
+cPopup* Setup_OptionWindow(cPopup* btn)
 {
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
@@ -22,7 +22,61 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 	float nRight = 0.33;
 	float nBottom = 0.37;
 
-	cPopUp *pOptionBackGround = new cPopUp;
+	cPopup *pOptionBackGround = new cPopup;
+	pOptionBackGround->Setup(
+		"data/UI/ConfigurationSettings",
+		"NW_Setting_UI.png",
+		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0),
+		1,
+		true, true);
+
+
+	// TODO 아래 바게이지는 나중에 이벤트를 따로 줄 것.
+	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0))->EventProcess = BarSliderMoveEvent;
+	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(137, 441, 0))->EventProcess = BarSliderMoveEvent;
+	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(137, 508, 0))->EventProcess = BarSliderMoveEvent;
+
+	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(490, 119, 0))->EventProcess = BarSliderMoveEvent2;
+	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(490, 196, 0))->EventProcess = BarSliderMoveEvent2;
+	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(490, 280, 0))->EventProcess = BarSliderMoveEvent2;
+	
+	// TODO 빈공간 클릭 이벤트 후 삭제
+	// 나가기 버튼 임시로 생성
+	cButton *pExitButton = new cButton;
+	pExitButton->Setup("data/UI/ConfigurationSettings", "임시 나가기 버튼.png",
+		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 620, -110, 0, 0.8, true, true);
+	pOptionBackGround->cButtonPushBack(pExitButton);
+	pExitButton->EventProcess = Option_ReturnEvent;
+
+	if (!btn)
+	{
+		EventManager->Attach(pOptionBackGround);
+		ObjectManager->AddUIChild(pOptionBackGround);
+	}
+	else if (btn)
+	{
+		pOptionBackGround->PowerOnOff_OnlySelf();
+		btn->cButtonPushBack(pOptionBackGround);
+	}
+
+	return pOptionBackGround;
+}
+
+
+
+cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
+{
+	RECT rc;
+	GetClientRect(g_hWnd, &rc);
+	cout << "Left : " << rc.left << endl; // 0
+	cout << "Right : " << rc.right << endl; // 1584
+	cout << "Bottom : " << rc.bottom << endl; //860
+	cout << "Top : " << rc.top << endl; // 0
+
+	float nRight = 0.33;
+	float nBottom = 0.37;
+
+	cPopup *pOptionBackGround = new cPopup;
 	pOptionBackGround->Setup(
 		"data/UI/ConfigurationSettings",
 		"설정창 배경 사이즈조정.png",
@@ -30,7 +84,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 		1,
 		true, true);
 
-	cPopUp *pOptionBtnBackGround = new cPopUp;
+	cPopup *pOptionBtnBackGround = new cPopup;
 	pOptionBtnBackGround->Setup(
 		"data/UI/ConfigurationSettings",
 		"설정 내용 변경 사이즈조정.png",
@@ -48,7 +102,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 	pOptionBtnBackGround->cButtonPushBack(pOption_setButton);
 	pOption_setButton->EventProcess = Option_SetBtnEvent;
 	{ // setBtnList
-		cPopUp *pSetupNamePopup = new cPopUp;
+		cPopup *pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
 			"data/UI/ConfigurationSettings",
 			"설정항목 사이즈조정.png",
@@ -56,9 +110,9 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 			true, true);
 		pOption_setButton->cButtonPushBack(pSetupNamePopup);
 
-		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent;
+		Setup_BarGaugePopupBtn_Legacy(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
 
-		pSetupNamePopup = new cPopUp;
+		pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
 			"data/UI/ConfigurationSettings",
 			"설정항목 사이즈조정.png",
@@ -73,7 +127,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 		// TODO 이벤트 추가
 		// BarButton->EventProcess = 이벤트
 
-		pChkButton->GetUpPopUp()->vecListPowerOnOff(false);
+		pChkButton->GetUpPopUp()->PowerOnOff_List(false);
 	}
 
 	cButton *pOption_ControleButton = new cButton;
@@ -90,7 +144,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 	{ // CameraBtnList
 	  // TODO 임시로 움직인거 조정하기
 	  // 시각적 확인을 위해 x축으로 10씩 밀어놨음
-		cPopUp *pSetupNamePopup = new cPopUp;
+		cPopup *pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
 			"data/UI/ConfigurationSettings",
 			"설정항목 사이즈조정.png",
@@ -98,9 +152,9 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 			true, true);
 		pOption_CameraButton->cButtonPushBack(pSetupNamePopup);
 
-		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent;
+		Setup_BarGaugePopupBtn_Legacy(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
 
-		pSetupNamePopup = new cPopUp;
+		pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
 			"data/UI/ConfigurationSettings",
 			"설정항목 사이즈조정.png",
@@ -115,7 +169,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 		// TODO 이벤트 추가
 		// BarButton->EventProcess = 이벤트
 
-		pChkButton->GetUpPopUp()->vecListPowerOnOff(false);
+		pChkButton->GetUpPopUp()->PowerOnOff_List(false);
 	}
 
 	cButton *pOption_AudioButton = new cButton;
@@ -126,7 +180,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 	{ // AudioBtnList
 	  // TODO 임시로 움직인거 조정하기
 	  // 시각적 확인을 위해 x축으로 조금씩 밀어놨음
-		cPopUp *pSetupNamePopup = new cPopUp;
+		cPopup *pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
 			"data/UI/ConfigurationSettings",
 			"설정항목 사이즈조정.png",
@@ -134,9 +188,9 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 			true, true);
 		pOption_AudioButton->cButtonPushBack(pSetupNamePopup);
 
-		Setup_BarGaugePopupBtn(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent;
+		Setup_BarGaugePopupBtn_Legacy(pSetupNamePopup, D3DXVECTOR3(-100, 60, 0))->EventProcess = GaugeBarMoveEvent_Legacy;
 
-		pSetupNamePopup = new cPopUp;
+		pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
 			"data/UI/ConfigurationSettings",
 			"설정항목 사이즈조정.png",
@@ -151,7 +205,7 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 		// TODO 이벤트 추가
 		// BarButton->EventProcess = 이벤트
 
-		pChkButton->GetUpPopUp()->vecListPowerOnOff(false);
+		pChkButton->GetUpPopUp()->PowerOnOff_List(false);
 	}
 	
 	// TODO 정식으로 편입됨..?
@@ -169,14 +223,14 @@ cPopUp* Setup_OptionWindow(cPopUp* btn)
 	}
 	else if (btn)
 	{
-		pOptionBackGround->PowerOnOff();
+		pOptionBackGround->PowerOnOff_OnlySelf();
 		btn->cButtonPushBack(pOptionBackGround);
 	}
 
 	return pOptionBackGround;
 }
 
-void Option_SetBtnEvent(EventType message, cPopUp* btn)
+void Option_SetBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -265,7 +319,7 @@ void Option_SetBtnEvent(EventType message, cPopUp* btn)
 					for (int i = 0; i < button->GetUpPopUp()->GetPopUpListSize() - 1; i++)
 					{
 						if (button->GetUpPopUp()->GetPopupBtn(i))
-							button->GetUpPopUp()->GetPopupBtn(i)->vecListPowerOnOff(false);
+							button->GetUpPopUp()->GetPopupBtn(i)->PowerOnOff_List(false);
 						else cout << "NULL INDEX" << i << endl; // NULL값 인덱스 체크
 					}
 					button->PowerOnOff(true);
@@ -283,7 +337,7 @@ void Option_SetBtnEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void Option_ControlBtnEvent(EventType message, cPopUp* btn)
+void Option_ControlBtnEvent(EventType message, cPopup* btn)
 {	
 	cButton* button = (cButton*)btn;
 
@@ -374,7 +428,7 @@ void Option_ControlBtnEvent(EventType message, cPopUp* btn)
 					for (int i = 0; i < button->GetUpPopUp()->GetPopUpListSize() - 1; i++)
 					{
 						if (button->GetUpPopUp()->GetPopupBtn(i))
-							button->GetUpPopUp()->GetPopupBtn(i)->vecListPowerOnOff(false);
+							button->GetUpPopUp()->GetPopupBtn(i)->PowerOnOff_List(false);
 						else cout << "NULL INDEX" << i << endl; // NULL값 인덱스 체크
 					}
 					button->PowerOnOff(true);
@@ -392,7 +446,7 @@ void Option_ControlBtnEvent(EventType message, cPopUp* btn)
 
 }
 
-void Option_CameraBtnEvent(EventType message, cPopUp* btn)
+void Option_CameraBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -483,7 +537,7 @@ void Option_CameraBtnEvent(EventType message, cPopUp* btn)
 					for (int i = 0; i < button->GetUpPopUp()->GetPopUpListSize() - 1; i++)
 					{
 						if (button->GetUpPopUp()->GetPopupBtn(i))
-							button->GetUpPopUp()->GetPopupBtn(i)->vecListPowerOnOff(false);
+							button->GetUpPopUp()->GetPopupBtn(i)->PowerOnOff_List(false);
 						else cout << "NULL INDEX" << i << endl; // NULL값 인덱스 체크
 					}
 					button->PowerOnOff(true);
@@ -500,7 +554,7 @@ void Option_CameraBtnEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void Option_AudioBtnEvent(EventType message, cPopUp* btn)
+void Option_AudioBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -591,7 +645,7 @@ void Option_AudioBtnEvent(EventType message, cPopUp* btn)
 					for (int i = 0; i < button->GetUpPopUp()->GetPopUpListSize() - 1; i++)
 					{
 						if (button->GetUpPopUp()->GetPopupBtn(i))
-							button->GetUpPopUp()->GetPopupBtn(i)->vecListPowerOnOff(false);
+							button->GetUpPopUp()->GetPopupBtn(i)->PowerOnOff_List(false);
 						else cout << "NULL INDEX" << i << endl; // NULL값 인덱스 체크
 					}
 					button->PowerOnOff(true);
@@ -608,7 +662,7 @@ void Option_AudioBtnEvent(EventType message, cPopUp* btn)
 	};//switch End
 }
 
-void Option_ReturnEvent(EventType message, cPopUp* btn)
+void Option_ReturnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -698,9 +752,14 @@ void Option_ReturnEvent(EventType message, cPopUp* btn)
 					button->SetStateChange(enum_Hover);
 					cout << "Exit Button Clicked" << endl;
 
-					cPopUp * pPopup0 = button->GetTopPopUp();
-					if(pPopup0)
-					pPopup0->vecListPowerOnOff();
+					cPopup * pPopup0 = button->GetTopPopUp();
+					for (size_t i = 0; i < pPopup0->GetPopUpListSize(); i++)
+					{
+						pPopup0->GetPopupBtn(i)->PowerOnOff_OnlySelf();
+					}
+					
+					//if(pPopup0)
+					//pPopup0->PowerOnOff_List();
 				}
 			}
 		}
