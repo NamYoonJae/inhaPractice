@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "SkinnedMesh.h"
 #include "TimerManager.h"
-#include "BoundingBox.h"
 #include "basic.h"
 #include  "cOBB.h"
 

@@ -79,18 +79,6 @@
     <ClCompile Include="cCharater.cpp">
       <Filter>Code\Object Composite\InstanceObject</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>Code\BoundingBox</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Code\XFile</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceStructure.cpp">
-      <Filter>Code\XFile</Filter>
-    </ClCompile>
-    <ClCompile Include="XFileObject.cpp">
-      <Filter>Code\XFile</Filter>
-    </ClCompile>
     <ClCompile Include="AllocateHierarchy.cpp">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClCompile>
@@ -151,6 +139,10 @@
     <ClCompile Include="BtnUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
+    <ClCompile Include="Paladin.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
+    </ClCompile>
+    <ClCompile Include="PaladinState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -240,18 +232,6 @@
     <ClInclude Include="cCharater.h">
       <Filter>Code\Object Composite\InstanceObject</Filter>
     </ClInclude>
-    <ClInclude Include="BoundingBox.h">
-      <Filter>Code\BoundingBox</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Code\XFile</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceStructure.h">
-      <Filter>Code\XFile</Filter>
-    </ClInclude>
-    <ClInclude Include="XFileObject.h">
-      <Filter>Code\XFile</Filter>
-    </ClInclude>
     <ClInclude Include="AllocateHierarchy.h">
       <Filter>Code\XFile\SkinnedMesh</Filter>
     </ClInclude>
@@ -312,6 +292,10 @@
     <ClInclude Include="BtnUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
+    <ClInclude Include="Paladin.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
+    </ClInclude>
+    <ClInclude Include="PaladinState.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -416,9 +400,6 @@
     <Filter Include="Code\Object Composite\InstanceObject">
       <UniqueIdentifier>{e10df873-3395-4a5e-84bb-91a0f064d73f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\BoundingBox">
-      <UniqueIdentifier>{b99fec29-e773-4999-aeba-20952bf2074f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\XFile">
       <UniqueIdentifier>{ab92c904-01b1-454f-bbb4-492c5a62e76b}</UniqueIdentifier>
     </Filter>
@@ -445,6 +426,12 @@
     </Filter>
     <Filter Include="Code\UI\UIEvent">
       <UniqueIdentifier>{e8d6d8aa-3d5d-425d-b8b6-67b93a3cf755}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\Paladin">
+      <UniqueIdentifier>{8bbd1751-50aa-4dab-9542-37edfd218c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\Paladin\PaladinState">
+      <UniqueIdentifier>{d23276f0-d8db-4b71-8968-fb926515e9d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
