@@ -21,7 +21,7 @@ public:
 	void AddStaticChild(cObject* obj);
 	void RemoveChild(cObject& obj);
 	void Revert();
-	void Revert(int preSceneType, int curSceneType);
+	//void Revert(int preSceneType, int curSceneType);
 	const cObject* GetChild(int nIndex);
 
 	

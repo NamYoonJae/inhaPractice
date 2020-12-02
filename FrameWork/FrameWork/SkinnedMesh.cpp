@@ -15,6 +15,8 @@ cSkinnedMesh::cSkinnedMesh()
 	, m_dAnimStartTime(0)
 	, m_vMin(0, 0, 0)
 	, m_vMax(0, 0, 0)
+	, m_uiDefaultIndex(0)
+	, m_isDefaultAnim(false)
 {
 	D3DXMatrixIdentity(&m_matWorldTM);
 }
@@ -68,10 +70,13 @@ void cSkinnedMesh::Update()
 	
 	LPD3DXANIMATIONSET pCurAnimSet = NULL;
 	m_pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
-	
-	if(GetTickCount() - m_dAnimStartTime > pCurAnimSet->GetPeriod() * 1000 - m_fBlendTime * 1000)
+
+	if(m_isDefaultAnim)
 	{
-		//SetAnimationIndexBlend(0);
+		if(GetTickCount() - m_dAnimStartTime > pCurAnimSet->GetPeriod() * 1000 - m_fBlendTime * 1000)
+		{
+			SetAnimationIndexBlend(m_uiDefaultIndex);
+		}
 	}
 
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
@@ -279,6 +284,8 @@ cSkinnedMesh::cSkinnedMesh(char* szFolder, char* szFileName)
 	, m_dAnimStartTime(0)
 	, m_vMin(0, 0, 0)
 	, m_vMax(0, 0, 0)
+	, m_uiDefaultIndex(0)
+	, m_isDefaultAnim(false)
 {
 	D3DXMatrixIdentity(&m_matWorldTM);
 	cSkinnedMesh* pSkinnedMesh = g_pSkinnedMeshManager->GetSkinnedMesh(szFolder, szFileName);
@@ -309,13 +316,6 @@ void cSkinnedMesh::Load(char* szFolder, char* szFileName)
 
 	m_vMin = ah.GetMin();
 	m_vMax = ah.GetMax();
-
-
-	//cSkinnedMesh* pSkinnedMesh = new cSkinnedMesh;
-	//if(m_pRoot)
-	//{
-	//	pSkinnedMesh->SetupBoneMatrixPtrs(m_pRoot);
-	//}
 
 	SetupBoneMatrixPtrs(m_pRoot);
 }

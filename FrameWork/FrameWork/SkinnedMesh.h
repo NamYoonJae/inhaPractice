@@ -6,14 +6,16 @@ struct ST_BONE;
 class cSkinnedMesh
 {
 protected:
-	LPD3DXFRAME m_pRoot;
+	LPD3DXFRAME		m_pRoot;
 	LPD3DXANIMATIONCONTROLLER m_pAnimController;
 
-	bool m_isAnimBlend;
-	float m_fBlendTime;
-	float m_fPassedBlendTime;
+	bool			m_isAnimBlend;
+	float			m_fPassedBlendTime;
+	DWORD			m_dAnimStartTime;
 	
-	DWORD m_dAnimStartTime;
+	Synthesize(float, m_fBlendTime, BlendTime);
+	Synthesize(bool, m_isDefaultAnim, DefaultAnimState);
+	Synthesize(unsigned int, m_uiDefaultIndex, DefaultAnimIndex);
 public:
 	
 	cSkinnedMesh();
