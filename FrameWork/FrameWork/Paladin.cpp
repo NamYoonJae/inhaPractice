@@ -27,6 +27,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 {
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
+	m_pSkinnedUnit->SetAnimationIndex(9);
 
 	m_pSkinnedUnit->Update();
 
@@ -114,6 +115,14 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	//g_pD3DDevice->SetMaterial(&m_Mstl);
+	m_pSkinnedUnit->Render();
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 0, 0));
 }
 
 void cPaladin::SetTranseform(D3DXMATRIXA16* pmat)

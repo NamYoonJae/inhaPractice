@@ -13,6 +13,7 @@
 // >>
 #include "SkinnedMesh.h"
 #include "Arthur.h"
+#include "Paladin.h"
 // <<
 
 #include "GameScene.h"
@@ -129,7 +130,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	//
 	DragonSoulEater* m_pDragon = new DragonSoulEater;
-	m_pDragon->Setup("data/XFile/Dragon", "Model.X");
+	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
 	m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
@@ -167,6 +168,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	//Lava->Tagging(Tag::Tag_cObj);
 	ObjectManager->AddChild(Lava);
 
+	cPaladin* Paladin = new cPaladin;
+	Paladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
+	Paladin->SetPosition(D3DXVECTOR3(10, 0, 0));
+	ObjectManager->AddChild(Paladin);
 	
 #pragma region Popup UI
 	RECT rc;

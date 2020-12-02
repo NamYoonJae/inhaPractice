@@ -37,20 +37,12 @@ void cArthur::Setup(char* szFolder, char* szFile)
 	m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"),
 		D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, &mat);
 
-	//m_pWeapon = new cArthurWeapon;
-	//m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"),
-	//	D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, NULL);
 
-	
-	if (this->m_pCurrentBoneMatrices)
-		mat *= *this->m_pCurrentBoneMatrices;
+	if (this->m_pTransformationMatrix)
+		mat *= *this->m_pTransformationMatrix;
 	
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(this, &mat);
-
-	//m_pWeapon = new cArthurWeapon;
-	//m_pWeapon->Setup(D3DXFrameFind(m_pRoot, "weapon_sub"), 
-	//	D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, &mat);
 
 	EventManager->Attach(this);
 }
@@ -105,10 +97,6 @@ void cArthur::Update()
 	m_pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
 	cSkinnedMesh::Update((ST_BONE*)m_pRoot, &m_matWorldTM);
 	UpdateSkinnedMesh(m_pRoot);
-
-	//m_matOBB = (D3DXMATRIXA16)*m_pCurrentBoneMatrices;
-	//m_matOBB = m_pRoot->TransformationMatrix * m_matRot * m_matTranse;
-	//m_matOBB = m_pRoot->TransformationMatrix * m_matWorld;
 
 	m_matOBB = m_matRot * m_matTranse;
 	m_pOBB->Update(&m_matOBB);
@@ -166,18 +154,6 @@ void cArthur::Update(EventType event)
 	{
 		SetAnimationIndexBlend(n++);
 	}
-	else if (event == EventType::EVENT_RBUTTONDOWN)
-	{
-		//SetSkinnedMesh("data/XFile/Arthur", "arthur_a01.X");
-	}
-
-	//if(event == EventType::EVENT_JUMP)
-	//{
-	//	m_pMesh->SetAnimationIndexBlend(0);
-	//}
-
-
-
 }
 
 void cArthur::Render(D3DXMATRIXA16 * pmat)
