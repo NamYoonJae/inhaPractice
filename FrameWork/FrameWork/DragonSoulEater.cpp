@@ -24,7 +24,7 @@ void DragonSoulEater::Update()
 	// 플레이어와 통신
 	// 상태에 대한 업데이트
 
-
+	
 	// 분노와 같은 상태를 강제로 바꿔야하는 경우 자신이 상태를 바꿔준다.
 	{
 		//SetState()
@@ -35,23 +35,33 @@ void DragonSoulEater::Update()
 	D3DXMATRIXA16 matOBB,matT,matRy;
 	D3DXMatrixRotationY(&matRy, m_vRot.y);
 	// -15 해주면 뭔가 맞음
-	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z - 15);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.2, 0.2, 0.2);
 	matOBB = matRy * matT;
 
 	m_pOBB->Update(&matOBB);
-	
-	
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matOBB = matS * matRy * matT;
+	matOBB = matS*matRy *matT;
+
+
+
+	ST_BONE* pBone;
 
 	for (int i = 0; i < m_vecBoundingBoxList.size(); ++i)
-		m_vecBoundingBoxList.at(i)->Update(&matOBB);
-	//if(m_pCurState)
-	//{
-	//	m_pCurState->Update();
-	//}
+	{
+		pBone = (ST_BONE*)D3DXFrameFind(m_pSkinnedUnit->GetFrame(),
+			&m_vecBoundingBoxList.at(i).szName[0]);
+		
+		D3DXMatrixScaling(&matS, m_vecBoundingBoxList.at(i).m_vScale.x,
+			m_vecBoundingBoxList.at(i).m_vScale.y, 
+			m_vecBoundingBoxList.at(i).m_vScale.z);
+
+		matOBB = matS * (pBone->CombinedTransformationMatrix) *matRy *matT;
+
+		m_vecBoundingBoxList.at(i).Box->Update(&matOBB);
+	}
+
 
 }
 
@@ -83,7 +93,7 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
 
 	for (int i = 0; i < m_vecBoundingBoxList.size(); i++)
-		m_vecBoundingBoxList.at(i)->OBBBOX_Render(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+		m_vecBoundingBoxList.at(i).Box->OBBBOX_Render(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	
 }
 
@@ -97,8 +107,8 @@ void DragonSoulEater::Setup(char* szFolder, char* szFileName)
 
 	m_pSkinnedUnit->Update();
 
-	if (m_pSkinnedUnit->m_pCurrentBoneMatrices)
-		mat *= *m_pSkinnedUnit->m_pCurrentBoneMatrices;
+	if (m_pSkinnedUnit->m_pTransformationMatrix)
+		mat *= *m_pSkinnedUnit->m_pTransformationMatrix;
 
 	m_pOBB->Setup(m_pSkinnedUnit, &mat);
 
@@ -149,29 +159,28 @@ void DragonSoulEater::SetupBoundingBox()
 		return;
 
 	std::vector<ST_PC_VERTEX> Body, Tail,
-		UpperLeg_R, UpperLeg_L,
-		LowerLeg_R, LowerLeg_L,
+		Leg_R, Leg_L,
+		Arm_R, Arm_L,
 		Wing_R, Wing_L;
 
 
 	ST_BONE* pBone;
 
-	D3DXMATRIXA16 mat;
-
+	D3DXMATRIXA16 mat = *m_pSkinnedUnit->m_pTransformationMatrix;
 	for (int i = 0; i < m_vBoneArray.size(); ++i)
 	{
 		string szName = m_vBoneArray.at(i)->szName;
 
-		pBone = (ST_BONE*)D3DXFrameFind(m_pSkinnedUnit->GetFrame(), szName.c_str());
-		mat = pBone->CombinedTransformationMatrix;
+		//pBone = (ST_BONE*)D3DXFrameFind(m_pSkinnedUnit->GetFrame(), szName.c_str());
+		//mat = pBone->CombinedTransformationMatrix;
 		ST_PC_VERTEX Vertex;
 		Vertex.c = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 		if (STRCMP(&szName[0], "Spine") ||
 			STRCMP(&szName[0], "Chest") ||
-			//STRCMP(&szName[0], "ValleyFat") ||
 			STRCMP(&szName[0], "Neck") ||
 			STRCMP(&szName[0], "Head") ||
 			STRCMP(&szName[0], "NeckFat_Left") ||
+			STRCMP(&szName[0], "NeckFat_Right") ||
 			STRCMP(&szName[0], "UpperMouth") ||
 			STRCMP(&szName[0], "Jaw") ||
 			STRCMP(&szName[0], "Eye_Left") ||
@@ -197,22 +206,28 @@ void DragonSoulEater::SetupBoundingBox()
 				Tail.push_back(Vertex);
 			}
 		}
-		else if (STRCMP(&szName[0], "UpperLeg_Right") ||
-			STRCMP(&szName[0], "UpperArm_Right"))
+		else if (STRCMP(&szName[0], "UpperLeg_Right")||
+			STRCMP(&szName[0], "LowerLeg_Right") || 
+			STRCMP(&szName[0], "ReverseLeg_Right") ||
+			STRCMP(&szName[0], "Feet_Right") ||
+			STRCMP(&szName[0], "Toe_Right"))
 		{
 			for (int j = 0; j < m_vBoneArray.at(i)->vPoints.size(); ++j)
 			{
 				D3DXVec3TransformCoord(&Vertex.p, &m_vBoneArray.at(i)->vPoints.at(j).p, &mat);
-				UpperLeg_R.push_back(Vertex);
+				Leg_R.push_back(Vertex);
 			}
 		}
 		else if (STRCMP(&szName[0], "UpperLeg_Left") ||
-			STRCMP(&szName[0], "UpperArm_Left"))
+			STRCMP(&szName[0], "LowerLeg_Left") ||
+			STRCMP(&szName[0], "ReverseLeg_Left") ||
+			STRCMP(&szName[0], "Feet_Left") ||
+			STRCMP(&szName[0], "Toe_Left"))
 		{
 			for (int j = 0; j < m_vBoneArray.at(i)->vPoints.size(); ++j)
 			{
 				D3DXVec3TransformCoord(&Vertex.p, &m_vBoneArray.at(i)->vPoints.at(j).p, &mat);
-				UpperLeg_L.push_back(Vertex);
+				Leg_L.push_back(Vertex);
 			}
 		}
 		else if (szName[0] == 'W' && szName[szName.size() - 4] == 'L')
@@ -231,33 +246,35 @@ void DragonSoulEater::SetupBoundingBox()
 				Wing_R.push_back(Vertex);
 			}
 		}
-		else if (szName[0] == 'L' && szName[szName.size() - 4] == 'L' ||
-			(STRCMP(&szName[0], "Feet_Left")) ||
-			(STRCMP(&szName[0], "Toe_Left")) ||
-			(STRCMP(&szName[0], "ReverseLeg_Left")))
+		else if (STRCMP(&szName[0],"UpperArm_Right") || 
+			STRCMP(&szName[0], "LowerArm_Right") || 
+			STRCMP(&szName[0], "Hand_Right") || 
+			STRCMP(&szName[0], "HandTip_Right"))
 		{
 			for (int j = 0; j < m_vBoneArray.at(i)->vPoints.size(); ++j)
 			{
 				D3DXVec3TransformCoord(&Vertex.p, &m_vBoneArray.at(i)->vPoints.at(j).p, &mat);
-				LowerLeg_L.push_back(Vertex);
+				Arm_R.push_back(Vertex);
 			}
 		}
-		else if (szName[0] == 'L'  && szName[szName.size() - 5] == 'R' ||
-			(STRCMP(&szName[0], "Feet_Right")) ||
-			(STRCMP(&szName[0], "Toe_Right")) ||
-			(STRCMP(&szName[0], "ReverseLeg_Right")))
+		else if (STRCMP(&szName[0], "UpperArm_Left") ||
+			STRCMP(&szName[0], "LowerArm_Left") ||
+			STRCMP(&szName[0], "Hand_Left") ||
+			STRCMP(&szName[0], "HandTip_Left"))
 		{
 			for (int j = 0; j < m_vBoneArray.at(i)->vPoints.size(); ++j)
 			{
 				D3DXVec3TransformCoord(&Vertex.p, &m_vBoneArray.at(i)->vPoints.at(j).p, &mat);
-				LowerLeg_R.push_back(Vertex);
+				Arm_L.push_back(Vertex);
 			}
 		}
 	}
 
 	std::vector<cOBB*> vecOBBList;
 	D3DXVECTOR3 vMin(0, 0, 0), vMax(0, 0, 0);
-	D3DXMATRIXA16 matS, matT, matW;
+	D3DXMATRIXA16 matT, matW;
+	D3DXMATRIXA16 matS;
+	
 	//body
 	{
 
@@ -299,112 +316,97 @@ void DragonSoulEater::SetupBoundingBox()
 		vecOBBList.push_back(TailOBB);
 	}
 
-	//UpperLeg_Right
+	//Leg_Right
 	{
 		cOBB* UpperLegR = new cOBB;
 		vMax = vMin = D3DXVECTOR3(0, 0, 0);
 
-		for (int i = 0; i < UpperLeg_R.size(); ++i)
+		for (int i = 0; i < Leg_R.size(); ++i)
 		{
-			vMin.x = min(vMin.x, UpperLeg_R.at(i).p.x);
-			vMin.y = min(vMin.y, UpperLeg_R.at(i).p.y);
-			vMin.z = min(vMin.z, UpperLeg_R.at(i).p.z);
+			vMin.x = min(vMin.x, Leg_R.at(i).p.x);
+			vMin.y = min(vMin.y, Leg_R.at(i).p.y);
+			vMin.z = min(vMin.z, Leg_R.at(i).p.z);
 
-			vMax.x = max(vMax.x, UpperLeg_R.at(i).p.x);
-			vMax.y = max(vMax.y, UpperLeg_R.at(i).p.y);
-			vMax.z = max(vMax.z, UpperLeg_R.at(i).p.z);
+			vMax.x = max(vMax.x, Leg_R.at(i).p.x);
+			vMax.y = max(vMax.y, Leg_R.at(i).p.y);
+			vMax.z = max(vMax.z, Leg_R.at(i).p.z);
 		}
+		
+		//D3DXMatrixScaling(&matS, 1, 1, 0.7);
+		//D3DXMatrixTranslation(&matT, 0, 0, -(vMax.z - vMin.z) * 0.5);
 
-		D3DXMatrixScaling(&matS, 1, 1, 0.7);
-		D3DXMatrixTranslation(&matT, 0, 0, -(vMax.z - vMin.z) * 0.5);
-
-		matW = matS * matT;
-		UpperLegR->Setup(vMin, vMax, &matW);
+		//matW =matS * matT;
+		UpperLegR->Setup(vMin, vMax);
 		vecOBBList.push_back(UpperLegR);
-
-
-		//lower
-		D3DXMatrixTranslation(&matT, 0, 0, (vMax.z - vMin.z) * 0.5);
-		cOBB* LowerLegR = new cOBB;
-		matW = matS * matT;
-		LowerLegR->Setup(vMin, vMax, &matW);
-		vecOBBList.push_back(LowerLegR);
 	}
 	//UpperLeg_Left
 	{
 		cOBB* UpperLegL = new cOBB;
 		vMax = vMin = D3DXVECTOR3(0, 0, 0);
 
-		for (int i = 0; i < UpperLeg_L.size(); ++i)
+		for (int i = 0; i < Leg_L.size(); ++i)
 		{
-			vMin.x = min(vMin.x, UpperLeg_L.at(i).p.x);
-			vMin.y = min(vMin.y, UpperLeg_L.at(i).p.y);
-			vMin.z = min(vMin.z, UpperLeg_L.at(i).p.z);
+			vMin.x = min(vMin.x, Leg_L.at(i).p.x);
+			vMin.y = min(vMin.y, Leg_L.at(i).p.y);
+			vMin.z = min(vMin.z, Leg_L.at(i).p.z);
 
-			vMax.x = max(vMax.x, UpperLeg_L.at(i).p.x);
-			vMax.y = max(vMax.y, UpperLeg_L.at(i).p.y);
-			vMax.z = max(vMax.z, UpperLeg_L.at(i).p.z);
+			vMax.x = max(vMax.x, Leg_L.at(i).p.x);
+			vMax.y = max(vMax.y, Leg_L.at(i).p.y);
+			vMax.z = max(vMax.z, Leg_L.at(i).p.z);
 		}
-		D3DXMatrixScaling(&matS, 1, 1, 0.7);
-		D3DXMatrixTranslation(&matT, 0, 0, -(vMax.z - vMin.z) * 0.5);
+		//D3DXMatrixScaling(&matS, 1, 1, 0.7);
+		//D3DXMatrixTranslation(&matT, 0, 0, -(vMax.z - vMin.z) * 0.5);
 
-		matW = matS * matT;
+		//matW =matS * matT;
 
-		UpperLegL->Setup(vMin, vMax, &matW);
+		UpperLegL->Setup(vMin, vMax);
 
 		vecOBBList.push_back(UpperLegL);
-
-		// lower
-		D3DXMatrixTranslation(&matT, 0, 0, (vMax.z - vMin.z) * 0.5);
-		cOBB* LowerLegL = new cOBB;
-		matW = matS * matT;
-		LowerLegL->Setup(vMin, vMax, &matW);
-		vecOBBList.push_back(LowerLegL);
 
 	}
 
 
 
-	////LowerLeg_Right
-	//{
-	//	cOBB* LowerLegR = new cOBB;
-	//	vMax = vMin = D3DXVECTOR3(0, 0, 0);
+	//Arm_Right
+	{
+		cOBB* LowerLegR = new cOBB;
+		vMax = vMin = D3DXVECTOR3(0, 0, 0);
 
-	//	for (int i = 0; i < LowerLeg_R.size(); ++i)
-	//	{
-	//		vMin.x = min(vMin.x, LowerLeg_R.at(i).p.x);
-	//		vMin.y = min(vMin.y, LowerLeg_R.at(i).p.y);
-	//		vMin.z = min(vMin.z, LowerLeg_R.at(i).p.z);
+		for (int i = 0; i < Arm_R.size(); ++i)
+		{
+			vMin.x = min(vMin.x, Arm_R.at(i).p.x);
+			vMin.y = min(vMin.y, Arm_R.at(i).p.y);
+			vMin.z = min(vMin.z, Arm_R.at(i).p.z);
 
-	//		vMax.x = max(vMax.x, LowerLeg_R.at(i).p.x);
-	//		vMax.y = max(vMax.y, LowerLeg_R.at(i).p.y);
-	//		vMax.z = max(vMax.z, LowerLeg_R.at(i).p.z);
-	//	}
+			vMax.x = max(vMax.x, Arm_R.at(i).p.x);
+			vMax.y = max(vMax.y, Arm_R.at(i).p.y);
+			vMax.z = max(vMax.z, Arm_R.at(i).p.z);
+		}
 
-	//	LowerLegR->Setup(vMin, vMax);
-	//	
-	//	vecOBBList.push_back(LowerLegR);
-	//}
-	////LowerLeg_Left
-	//{
-	//	cOBB* LowerLegL = new cOBB;
-	//	vMax = vMin = D3DXVECTOR3(0, 0, 0);
+		LowerLegR->Setup(vMin, vMax);
+		
+		vecOBBList.push_back(LowerLegR);
+	}
+	//Arm_Left
+	{
+		cOBB* LowerLegL = new cOBB;
+		vMax = vMin = D3DXVECTOR3(0, 0, 0);
 
-	//	for (int i = 0; i < LowerLeg_L.size(); ++i)
-	//	{
-	//		vMin.x = min(vMin.x, LowerLeg_L.at(i).p.x);
-	//		vMin.y = min(vMin.y, LowerLeg_L.at(i).p.y);
-	//		vMin.z = min(vMin.z, LowerLeg_L.at(i).p.z);
+		for (int i = 0; i < Arm_L.size(); ++i)
+		{
+			vMin.x = min(vMin.x, Arm_L.at(i).p.x);
+			vMin.y = min(vMin.y, Arm_L.at(i).p.y);
+			vMin.z = min(vMin.z, Arm_L.at(i).p.z);
 
-	//		vMax.x = max(vMax.x, LowerLeg_L.at(i).p.x);
-	//		vMax.y = max(vMax.y, LowerLeg_L.at(i).p.y);
-	//		vMax.z = max(vMax.z, LowerLeg_L.at(i).p.z);
-	//	}
+			vMax.x = max(vMax.x, Arm_L.at(i).p.x);
+			vMax.y = max(vMax.y, Arm_L.at(i).p.y);
+			vMax.z = max(vMax.z, Arm_L.at(i).p.z);
+		}
 
-	//	LowerLegL->Setup(vMin, vMax);
-	//	
-	//	vecOBBList.push_back(LowerLegL);
-	//}
+		LowerLegL->Setup(vMin, vMax);
+		
+		vecOBBList.push_back(LowerLegL);
+	}
 	//Wing_Right
 	{
 		cOBB* WingR = new cOBB;
@@ -457,5 +459,58 @@ void DragonSoulEater::SetupBoundingBox()
 		vecOBBList.push_back(WingL);
 	}
 
-	m_vecBoundingBoxList = vecOBBList;
+	//m_vecBoundingBoxList = vecOBBList;
+	m_vecBoundingBoxList.resize(vecOBBList.size());
+	for (int i = 0; i < vecOBBList.size(); ++i)
+	{
+		if (m_vecBoundingBoxList.size() <= i) break;
+	
+		m_vecBoundingBoxList[i].Box = vecOBBList[i];
+		
+		string szName;
+		D3DXVECTOR3 scale;
+		switch (i)
+		{
+			case 0:
+				szName = "Head";
+				scale = D3DXVECTOR3(3, 4, 2);
+				break;
+			case 1:
+				szName = "TailEnd";
+				scale = D3DXVECTOR3(4, 4, 4);
+				break;
+			case 2:
+				szName = "UpperLeg_Right";
+				scale = D3DXVECTOR3(4, 4, 4);
+				break;
+			case 3:
+				szName = "UpperLeg_Left";
+				scale = D3DXVECTOR3(4, 4, 4);
+				break;
+			case 4:
+				szName = "UpperArm_Right";
+				scale = D3DXVECTOR3(4, 4, 4);
+				break;
+			case 5:
+				szName = "UpperArm_Left";
+				scale = D3DXVECTOR3(4, 4, 4);
+				break;
+			case 6:
+				szName = "Wing02_Right";
+				scale = D3DXVECTOR3(2, 2, 1);
+				break;
+			case 7:
+				szName = "Wing02_Left";
+				scale = D3DXVECTOR3(2, 2, 1);
+				break;
+			default:
+				szName = "NULL";
+				scale = D3DXVECTOR3(1, 1, 1);
+				break;
+		}
+
+		m_vecBoundingBoxList[i].szName = szName;
+		m_vecBoundingBoxList[i].m_vScale = scale;
+		
+	}
 }

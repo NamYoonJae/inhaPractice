@@ -129,7 +129,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	//
 	DragonSoulEater* m_pDragon = new DragonSoulEater;
-	m_pDragon->Setup("data/XFile/Dragon", "Model.X");
+	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
 	m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);

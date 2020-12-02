@@ -22,7 +22,7 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTexture;
 
 	//
-	vector<cOBB*> m_vecBoundingBoxList;
+	vector<BoundingBox> m_vecBoundingBoxList;
 
 public:
 	DragonSoulEater();
@@ -36,6 +36,7 @@ public:
 	void GetWorldMatrix(D3DXMATRIXA16* matWorld);
 
 	void SetupBoundingBox();
-	std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }
+	//std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }
 };
+
 

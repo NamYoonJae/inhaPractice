@@ -202,9 +202,9 @@ void cSkinnedMesh::UpdateSkinnedMesh(LPD3DXFRAME pFrame)
 		pBoneMesh->pOrigMesh->UnlockVertexBuffer();
 
 		//Update CurrentBoneMatrix
-			m_pCurrentBoneMatrices = &pFrame->TransformationMatrix;
+			m_pTransformationMatrix = &pFrame->TransformationMatrix;
 		//
-		//m_pCurrentBoneMatrices = pBoneMesh->pCurrentBoneMatrices;
+			m_pCurrentBoneMatrices = pBoneMesh->pCurrentBoneMatrices;
 	}
 
 

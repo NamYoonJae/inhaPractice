@@ -64,3 +64,11 @@ struct BoneOBB
 	D3DXVECTOR3			vJointOffset;
 	D3DXVECTOR3			vPosition;
 };
+
+struct BoundingBox
+{
+	string szName;
+	cOBB*	Box;
+	D3DXVECTOR3 m_vScale;
+
+};
