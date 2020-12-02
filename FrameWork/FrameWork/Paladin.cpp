@@ -3,15 +3,17 @@
 #include "SkinnedMesh.h"
 #include "PaladinState.h"
 #include "TimerManager.h"
+#include "TextureManager.h"
+#include "ShaderLoader.h"
 
 #include "Paladin.h"
 
 cPaladin::cPaladin()
-	:m_vScale(1, 1, 1)
-	,m_fvelocity(0.0f)
+	:m_fvelocity(0.0f)
 	,m_isMoving(false)
 	,m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
+	,m_pShader(NULL)
 {
 }
 
@@ -21,6 +23,7 @@ cPaladin::~cPaladin()
 	SafeDelete(m_pOBB);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
+	SafeDelete(m_pShader)
 }
 
 void cPaladin::Setup(char* szFolder, char* szFile)
@@ -38,6 +41,42 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Mstl.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
+
+	ShaderSetup();
+}
+
+void cPaladin::ShaderSetup()
+{
+	m_pShader = LoadShader("data/Shader/SpecularMapping.fx");
+
+	//D3DXMATRIXA16	matView;
+	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+
+	//D3DXMATRIXA16	matProjection;
+	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+	//D3DXMATRIXA16	matInvWorld;
+	//D3DXMatrixInverse(&matInvWorld, 0, &m_matWorld);
+
+	D3DLIGHT9   Light;
+	g_pD3DDevice->GetLight(0, &Light);
+	D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
+	//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+	//D3DXVECTOR4 vLightPos = D3DXVECTOR4(500.00, 500.00, -500.00, 1.00);
+	D3DXCOLOR c = Light.Diffuse;
+	D3DXVECTOR4 LightColor = D3DXVECTOR4(c.r, c.g, c.b, c.a);
+
+	//// 쉐이더 전역변수들을 설정
+	//m_pShader->SetMatrix("gWorldMatrix", &m_matWorld);
+	//m_pShader->SetMatrix("gViewMatrix", &matView);
+	//m_pShader->SetMatrix("gProjectionMatrix", &matProjection);
+	//m_pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
+
+	m_pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
+	m_pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
+
+	m_pShader->SetVector("gWorldLightPos", &vLightPos);
+	m_pShader->SetVector("gLightColor", &LightColor);
 }
 
 void cPaladin::Update()
@@ -115,14 +154,49 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
-	D3DXMATRIXA16 matWorld;
-	D3DXMatrixIdentity(&matWorld);
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	//g_pD3DDevice->SetMaterial(&m_Mstl);
-	m_pSkinnedUnit->Render();
+#pragma region NoneShader
+	//D3DXMATRIXA16 matWorld;
+	//D3DXMatrixIdentity(&matWorld);
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	////g_pD3DDevice->SetMaterial(&m_Mstl);
+	//m_pSkinnedUnit->Render();
+	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	//m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 0, 0));
+#pragma endregion 
 
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 0, 0));
+#pragma region UsingShader
+	if(m_pShader)
+	{
+		D3DXMATRIXA16	matView;
+		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+
+		D3DXMATRIXA16	matProjection;
+		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+		D3DXMATRIXA16	matInvWorld;
+		D3DXMatrixInverse(&matInvWorld, 0, &m_matWorld);
+
+		// 쉐이더 전역변수들을 설정
+		m_pShader->SetMatrix("gWorldMatrix", &m_matWorld);
+		m_pShader->SetMatrix("gViewMatrix", &matView);
+		m_pShader->SetMatrix("gProjectionMatrix", &matProjection);
+		m_pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
+		
+		UINT numPasses = 0;
+		m_pShader->Begin(&numPasses, NULL);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				m_pShader->BeginPass(i);
+				{
+					m_pSkinnedUnit->Render();
+				}
+				m_pShader->EndPass();
+			}
+		}
+		m_pShader->End();
+	}
+#pragma endregion 
 }
 
 void cPaladin::SetTranseform(D3DXMATRIXA16* pmat)

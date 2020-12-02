@@ -177,6 +177,7 @@
     <ClInclude Include="OptionUIEvent.h" />
     <ClInclude Include="Paladin.h" />
     <ClInclude Include="PaladinState.h" />
+    <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />
     <ClInclude Include="cTerrain.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="OptionUIEvent.cpp" />
     <ClCompile Include="Paladin.cpp" />
     <ClCompile Include="PaladinState.cpp" />
+    <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />
     <ClCompile Include="cTerrain.cpp" />

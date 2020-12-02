@@ -42,19 +42,18 @@ void cSceneManager::Setup()
 
 	ObjectManager->Revert();
 
-	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+	m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
 	//m_CurrentScene = m_vecScenes[SceneType::SCENE_GAMEOVER];
 	
-	//m_CurrentScene->Setup();
-	ChangeScene(0);
+	m_CurrentScene->Setup();
+	//ChangeScene(TagUI_Title);
 }
 
 void cSceneManager::ChangeScene(int sceneNum)
 {
 	// 씬을 바꾸는 법
-	//boss1이 넘어온다 이건 SceneNumber
-	int nRandom = sceneNum;//rand()%2;
-	LoadScene(nRandom);
+	//rand()%2;
+	LoadScene(sceneNum);
 }
 
 void cSceneManager::Destroy()
@@ -67,17 +66,17 @@ void cSceneManager::Destroy()
 
 void cSceneManager::LoadScene(int SceneType)
 {
-	//SceneTpye 은 씬 종류이다 ->즉, 바뀔 씬Number이자 Type
-	
 	//
 	// setup
-	//m_CurrentScene->Reset();
 
 	//
+	m_CurrentScene->Reset(SceneType);
 	m_CurrentScene = m_vecScenes[SceneType];
+
 
 	EnterCriticalSection(&cs);
 	ObjectManager->Revert();
+
 	m_pThread = new std::thread(&cScene::Setup, m_CurrentScene);
 	if(m_pThread)
 	{

@@ -113,7 +113,7 @@
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
     <ClCompile Include="cOBB.cpp">
-      <Filter>OBB</Filter>
+      <Filter>Code\OBB</Filter>
     </ClCompile>
     <ClCompile Include="cFont.cpp">
       <Filter>Code\UI</Filter>
@@ -168,6 +168,8 @@
     </ClCompile>
     <ClCompile Include="LavaDie.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Code\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -292,7 +294,7 @@
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
     <ClInclude Include="cOBB.h">
-      <Filter>OBB</Filter>
+      <Filter>Code\OBB</Filter>
     </ClInclude>
     <ClInclude Include="cFont.h">
       <Filter>Code\UI</Filter>
@@ -347,6 +349,8 @@
     </ClInclude>
     <ClInclude Include="LavaDie.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Code\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +474,6 @@
     <Filter Include="Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState">
       <UniqueIdentifier>{f580876e-862d-4a5e-a5c7-b9c0d9306a16}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OBB">
-      <UniqueIdentifier>{32823407-0e73-4723-bf41-0ce4ae28bc7b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\UI\UIEvent">
       <UniqueIdentifier>{e8d6d8aa-3d5d-425d-b8b6-67b93a3cf755}</UniqueIdentifier>
     </Filter>
@@ -499,6 +500,11 @@
     </Filter>
     <Filter Include="Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState">
       <UniqueIdentifier>{40642040-aeda-48c3-a26b-1ff1b64ddcff}</UniqueIdentifier>
+    <Filter Include="Code\OBB">
+      <UniqueIdentifier>{32823407-0e73-4723-bf41-0ce4ae28bc7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Shader">
+      <UniqueIdentifier>{3c5bf0d3-abca-4ed6-b3f7-7af4ee01135d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

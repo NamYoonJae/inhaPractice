@@ -5,6 +5,7 @@
 #include "ObjectPool.h"
 #include "OptionUIEvent.h"
 #include "TitleSceneUIEvent.h"
+#include "GameOverSceneBtnEvent.h"
 
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
@@ -30,20 +31,18 @@ void cTitleScene::Setup()
 	cout << "Bottom : " << rc.bottom << endl; //860
 	cout << "Top : " << rc.top << endl; // 0
 
-	float nRight = 0.34;
-	float nBottom = 0.45;
 
 	//TitleUI
-	cPopup *pBackgroundPopup = new cPopup;
-	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
-		D3DXVECTOR3(0, -20, 0), 1, true, true, TagUI_Title);
+	cPopup *pTitleBackgroundPopup = new cPopup;
+	pTitleBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
+		D3DXVECTOR3(0, -20, 0), 1, true, true, TAG_UI::TagUI_Title);
 
-	Setup_OptionWindow(pBackgroundPopup);
+	Setup_OptionWindow(pTitleBackgroundPopup);
 	
 	cPopup *pTitleImagePopup = new cPopup;
 	pTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
 		D3DXVECTOR3(370, 140, 0), 1, true, true);
-	pBackgroundPopup->cButtonPushBack(pTitleImagePopup);
+	pTitleBackgroundPopup->cButtonPushBack(pTitleImagePopup);
 
 	cPopup *pBackGoundBtnPopup = new cPopup;
 	pBackGoundBtnPopup->Setup("data/UI/TitleScene", "NW_Start_UI_Back.png",
@@ -78,15 +77,15 @@ void cTitleScene::Setup()
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ExitGameBtnEvent;
 	
-	EventManager->Attach(pBackgroundPopup);
-	ObjectManager->AddUIChild(pBackgroundPopup);
+	EventManager->Attach(pTitleBackgroundPopup);
+	ObjectManager->AddUIChild(pTitleBackgroundPopup);
 
 
 
 	//InGame UI
 	cPopup* inGamePopup = new cPopup;
 	inGamePopup->Setup("","",
-		D3DXVECTOR3(0, 0, 0), 1, true, true, TagUI_InGame);
+		D3DXVECTOR3(0, 0, 0), 1, false, true, TAG_UI::TagUI_InGame);
 
 	//Hp
 	cButton* hpBarBackground = new cButton;
@@ -249,12 +248,91 @@ void cTitleScene::Setup()
 
 	EventManager->Attach(inGamePopup);
 	ObjectManager->AddUIChild(inGamePopup);
+
+	
+
+	
+	float nRight = 0.34; //GameOver 이미지 작업할 때 제거하기
+	float nBottom = 0.45; //GameOver 이미지 작업할 때 제거하기
+
+	//GameOver UI
+	cPopup* pGameOverBackgroundPopup = new cPopup;
+	pGameOverBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
+		D3DXVECTOR3(0, 0, 0), 1, false, true, TAG_UI::TagUI_GameOver);
+
+
+	cPopup* pGameOverTitleImagePopup = new cPopup;
+	pGameOverTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
+		D3DXVECTOR3(370, 140, 0), 1, false, true);
+	pGameOverBackgroundPopup->cButtonPushBack(pGameOverTitleImagePopup);
+
+	//RETRY
+	pButton = new cButton;
+	pButton->Setup("data/UI/TitleScene/START", "NW_StartButton_Idle.png",
+		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 105, 30, 0, 1, false, true);
+	pGameOverBackgroundPopup->cButtonPushBack(pButton);
+	pButton->EventProcess = RetryGameBtnEvent;
+
+	//처음으로
+	pButton = new cButton;
+	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png",
+		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 105, 150, 0, 1, false, true);
+	pGameOverBackgroundPopup->cButtonPushBack(pButton);
+	pButton->EventProcess = MainMenuBtnEvent;
+
+	//게임종료
+	pButton = new cButton;
+	pButton->Setup("data/UI/TitleScene/END", "NW_EndButton_Idle.png",
+		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 105, 270, 0, 1, false, true);
+	pGameOverBackgroundPopup->cButtonPushBack(pButton);
+	pButton->EventProcess = ExitGameBtnEvent;
+
+	EventManager->Attach(pGameOverBackgroundPopup);
+	ObjectManager->AddUIChild(pGameOverBackgroundPopup);
 }
 
 //
-void cTitleScene::Reset()
+void cTitleScene::Reset(int sceneType)
 {
-	//Off 하거나 On 하거나 삭제하거나
+	cPopup* popup = NULL;
+
+	switch (sceneType)
+	{
+	case SceneType::SCENE_BOSS_1:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+
+	case SceneType::SCENE_BOSS_2:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+
+	case SceneType::SCENE_GAMEOVER:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+
+	default:
+		break;
+	}
+
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Title);
+	if (popup != NULL)
+	{
+		popup->PowerOnOff();
+	}
 
 }
-

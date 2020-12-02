@@ -47,6 +47,19 @@ cGameScene::~cGameScene()
 
 void cGameScene::Setup() // boss1map  boss2map
 {
+	D3DLIGHT9 m_Light;
+	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
+	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
+	m_Light.Ambient = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Diffuse = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	D3DXVECTOR3 vDir(0.0f, 5.0f, 5.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	m_Light.Direction = vDir;
+
+	g_pD3DDevice->SetLight(0, &m_Light);
+	g_pD3DDevice->LightEnable(0, true);
+	
 	// 
 	{
 		SkyBox* pSkyBox;
@@ -125,7 +138,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cObjMap* pMap = new cObjMap("data/ObjFile/NW_Testmap","testmap3.obj");
 	pMap->Tagging(Tag::Tag_Map);
 	
-	pMap->GetScaling(D3DXVECTOR3(0.1f, 1.0f, 0.1f));
+	pMap->SetScale(D3DXVECTOR3(0.1f, 1.0f, 0.1f));
 	ObjectManager->AddStaticChild(pMap);
 
 
@@ -147,6 +160,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	//ObjectManager->AddChild(m_pSkinnedUnit);
 
+
 	D3DLIGHT9 m_Light;
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
 	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
@@ -160,9 +174,14 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
 
+	//cObjObject *Lava = new cObjObject;
+	//Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
+	//Lava->Tagging(Tag::Tag_cObj);
+	ObjectManager->AddChild(Lava);
+
 	cPaladin* Paladin = new cPaladin;
 	Paladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
-	Paladin->SetPosition(D3DXVECTOR3(10, 0, 0));
+	Paladin->SetPosition(D3DXVECTOR3(30, 0, 0));
 	ObjectManager->AddChild(Paladin);
 	
 	cLavaGolem* Lava = new cLavaGolem;
@@ -202,7 +221,41 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 }
 
-void cGameScene::Reset()
+void cGameScene::Reset(int sceneType)
 {
-	
+	cPopup* popup = NULL;
+	switch (sceneType)
+	{
+	case SceneType::SCENE_TITLE:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+
+	case SceneType::SCENE_BOSS_2:
+		//UI 유지 및 데이터 수정
+		break;
+		
+
+	case SceneType::SCENE_GAMEOVER:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+		
+	default:
+		break;
+	}
+
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+	if (popup != NULL)
+	{
+		popup->PowerOnOff();
+	}
 }
