@@ -123,23 +123,6 @@ void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, const char* folder, con
 		}
 		else if (buff[0] == 'f')
 		{
-		/*	unsigned int Index[3][3];
-			sscanf_s(buff, "%*s %d/%d/%d %d/%d/%d %d/%d/%d",
-				&Index[0][0], &Index[0][1], &Index[0][2],
-				&Index[1][0], &Index[1][1], &Index[1][2],
-				&Index[2][0], &Index[2][1], &Index[2][2]);
-
-
-
-			for (int i = 0; i < 3; i++)
-			{
-				ST_PNT_VERTEX v;
-				v.p = positions[Index[i][0] - 1];
-				v.t = UVs[Index[i][1] - 1];
-				v.n = normals[Index[i][2] - 1];
-				vertices.push_back(v);
-			}*/
-
 			vector<int> list;
 			int i = 0;
 
@@ -165,10 +148,65 @@ void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, const char* folder, con
 					++i;
 			}
 
+			if (normals.empty())
+			{
+				if (list.size() == 8)
+				{
+					// 4 1	6 7		0 1
+					// 3 2  4 5     2 3
+
+					ST_PNT_VERTEX v;
+					//2
+					v.p = positions[list[2] - 1];
+					v.t = UVs[list[3] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);// vecVN[list[5] - 1];
+					vertices.push_back(v);
+					//4
+					v.p = positions[list[6] - 1];
+					v.t = UVs[list[7] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vertices.push_back(v);
+					//3
+					v.p = positions[list[4] - 1];
+					v.t = UVs[list[5] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vertices.push_back(v);
+
+					//2
+					v.p = positions[list[2] - 1];
+					v.t = UVs[list[3] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vertices.push_back(v);
+					//1
+					v.p = positions[list[0] - 1];
+					v.t = UVs[list[1] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vertices.push_back(v);
+					//4
+					v.p = positions[list[6] - 1];
+					v.t = UVs[list[7] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vertices.push_back(v);
+
+				}
+				else
+				{
+					for (int i = 0; i < list.size(); i += 2)
+					{
+						ST_PNT_VERTEX v;
+						v.p = positions[list[i + 0] - 1];
+						v.t = UVs[list[i + 1] - 1];
+						v.n = D3DXVECTOR3(0, 1, 0);
+						vertices.push_back(v);
+					}
+				}
+			}
+			else
+			{
 			if (list.size() == 12)
 			{
-				// 4 1
-				// 3 2
+				// 4 1       0 1
+				// 3 2       2 3
 
 
 				ST_PNT_VERTEX v;
@@ -216,17 +254,20 @@ void cObjLoader::LoadOBJ(OUT vector<cGroup*> & vecGroup, const char* folder, con
 					vertices.push_back(v);
 				}
 			}
+			}
 		}
 	}
 
 	fclose(SrcFile);
 
-	//
-	cGroup* group = new cGroup;
-	group->SetVertices(vertices);
-	group->SetMaterialTexture(m_mapMtlTex[MtlName]);
-	vecGroup.push_back(group);
-	//
+	if (!vertices.empty())
+	{
+		cGroup* group = new cGroup;
+		group->SetVertices(vertices);
+		group->SetMaterialTexture(m_mapMtlTex[MtlName]);
+		vecGroup.push_back(group);
+		vertices.clear();
+	}
 	//for (auto it : m_mapMtlTex)
 	//{
 	//	SafeRelease(it.second->m_Texture);
@@ -404,8 +445,63 @@ LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char*
 					++i;
 			}
 
+			if (vecVN.empty())
+			{
+				if (list.size() == 12)
+				{
+					// 4 1
+					// 3 2
 
-			if (list.size() == 12)
+
+					ST_PNT_VERTEX v;
+					//2
+					v.p = vecV[list[2] - 1];
+					v.t = vecVT[list[3] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);// vecVN[list[5] - 1];
+					vecVertex.push_back(v);
+					//4
+					v.p = vecV[list[8] - 1];
+					v.t = vecVT[list[9] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vecVertex.push_back(v);
+					//3
+					v.p = vecV[list[5] - 1];
+					v.t = vecVT[list[6] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vecVertex.push_back(v);
+
+					//2
+					v.p = vecV[list[2] - 1];
+					v.t = vecVT[list[3] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vecVertex.push_back(v);
+					//1
+					v.p = vecV[list[0] - 1];
+					v.t = vecVT[list[1] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vecVertex.push_back(v);
+					//4
+					v.p = vecV[list[8] - 1];
+					v.t = vecVT[list[9] - 1];
+					v.n = D3DXVECTOR3(0, 1, 0);
+					vecVertex.push_back(v);
+
+				}
+				else
+				{
+					for (int i = 0; i < list.size(); i += 2)
+					{
+						ST_PNT_VERTEX v;
+						v.p = vecV[list[i + 0] - 1];
+						v.t = vecVT[list[i + 1] - 1];
+						v.n = D3DXVECTOR3(0,1,0);
+						vecVertex.push_back(v);
+					}
+				}
+			}
+			else
+			{
+				if (list.size() == 12)
 			{
 				// 4 1
 				// 3 2
@@ -445,15 +541,16 @@ LPD3DXMESH cObjLoader::LoadMeshOBJ(OUT vector<cMtlTex*> & vecMtlTex, const char*
 				vecVertex.push_back(v);
 
 			}
-			else
-			{
-				for (int i = 0; i < list.size(); i += 3)
+				else
 				{
-					ST_PNT_VERTEX v;
-					v.p = vecV[list[i + 0] - 1];
-					v.t = vecVT[list[i + 1] - 1];
-					v.n = vecVN[list[i + 2] - 1];
-					vecVertex.push_back(v);
+					for (int i = 0; i < list.size(); i += 3)
+					{
+						ST_PNT_VERTEX v;
+						v.p = vecV[list[i + 0] - 1];
+						v.t = vecVT[list[i + 1] - 1];
+						v.n = vecVN[list[i + 2] - 1];
+						vecVertex.push_back(v);
+					}
 				}
 			}
 

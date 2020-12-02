@@ -1,9 +1,9 @@
 #pragma once
-#include "cObject.h"
+#include "Map.h"
 
 #define CullingSize 90
 
-class cTerrain :public cObject
+class cTerrain :public iMap
 {
 private:
 	std::vector<ST_PNT_VERTEX> m_vecMapVertex;
