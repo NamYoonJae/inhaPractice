@@ -8,7 +8,7 @@
 #include "Arthur.h"
 #include "DragonSoulEater.h"
 #include "ObjObject.h"
-
+#include "Map"
 
 ObjectPool::ObjectPool()
 {
@@ -21,9 +21,9 @@ ObjectPool::~ObjectPool()
 
 void ObjectPool::Update()
 {
-	static cTerrain* terrain;
+	static iMap* terrain;
 	if (terrain == NULL)
-		terrain = (cTerrain*)SearchChild(Tag::Tag_Map);
+		terrain = (iMap*)SearchChild(Tag::Tag_Map);
 
 
 	
