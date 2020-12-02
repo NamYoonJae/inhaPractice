@@ -1,6 +1,6 @@
 #pragma once
 
-cButton* Setup_BarGaugePopupBtn(cPopup* popup, D3DXVECTOR3 position);
+cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position);
 void BarSliderMoveEvent(EventType message, cPopup* btn);
 void BarSliderMoveEvent2(EventType message, cPopup* btn);
 

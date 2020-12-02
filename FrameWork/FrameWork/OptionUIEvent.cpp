@@ -5,6 +5,7 @@
 #include "OptionUIEvent.h"
 
 #include "BtnUIEvent.h"
+#include "jsonManager.h"
 
 //#include "SceneManager.h"
 //#include "TextureManager.h"
@@ -24,7 +25,7 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 
 	cPopup *pOptionBack = new cPopup;
 	pOptionBack->Setup(
-		"data/UI/InGameSettingUI",
+		"data/UI/Settings",
 		"NW_InGameSetting_Back.png",
 		D3DXVECTOR3(0, 0, 0),
 		1,
@@ -33,28 +34,53 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 	cPopup *pOptionBackGround = new cPopup;
 	pOptionBack->cButtonPushBack(pOptionBackGround);
 	pOptionBackGround->Setup(
-		"data/UI/ConfigurationSettings",
+		"data/UI/Settings",
 		"NW_Setting_UI.png",
 		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0),
 		1,
 		true, true);
 
+#pragma region barSilder
 	// TODO 아래 바게이지는 나중에 이벤트를 따로 줄 것.
-	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0))->EventProcess = BarSliderMoveEvent;
-	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(137, 441, 0))->EventProcess = BarSliderMoveEvent;
-	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(137, 508, 0))->EventProcess = BarSliderMoveEvent;
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0))->EventProcess = BarSliderMoveEvent;
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 441, 0))->EventProcess = BarSliderMoveEvent;
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 508, 0))->EventProcess = BarSliderMoveEvent;
 
-	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(490, 119, 0))->EventProcess = BarSliderMoveEvent2;
-	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(490, 196, 0))->EventProcess = BarSliderMoveEvent2;
-	Setup_BarGaugePopupBtn(pOptionBackGround, D3DXVECTOR3(490, 280, 0))->EventProcess = BarSliderMoveEvent2;
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 119, 0))->EventProcess = BarSliderMoveEvent2;
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 196, 0))->EventProcess = BarSliderMoveEvent2;
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 280, 0))->EventProcess = BarSliderMoveEvent2;
+#pragma endregion barSilder
+
+#pragma region chk_Button
+	// TODO json Test
+	// 이미지의 크기는 23 x 23
+	
+	//cButton *pChk_MiniMap = new cButton;
+	//pOptionBackGround->cButtonPushBack(pChk_MiniMap);
+	//// pExitButton->Setup("data/UI/Settings", "NW_Setting_ToggleButton_Off.png",
+	//pChk_MiniMap->Setup(
+	//	json_Fuction::object_get_pChar(g_p_jsonManager->get_json_object_UI(), "UI/Settings/directory"),
+	//	json_Fuction::object_get_pChar(g_p_jsonManager->get_json_object_UI(), "UI/Settings/filename/ToggleButton_On"),
+	//	//D3DXVECTOR3(0, 0, 0), // 생성시 json 파싱받아보기
+	//	pChk_MiniMap->GetUpPopUp()->GetPosition(),
+	//	0, 0, 0,
+	//	1, true, true); // 스케일은 임시로 10
+	
+	// TODO 이벤트 추가
+	// pExitButton->EventProcess = Tmp_CheckEvent;
+#pragma endregion chk_Button
+
+#pragma region exit
 	
 	// TODO 빈공간 클릭 이벤트 후 삭제
 	// 나가기 버튼 임시로 생성
 	cButton *pExitButton = new cButton;
-	pExitButton->Setup("data/UI/ConfigurationSettings", "임시 나가기 버튼.png",
+	pExitButton->Setup("data/UI/Settings", "임시 나가기 버튼.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 620, -110, 0, 0.8, true, true);
 	pOptionBackGround->cButtonPushBack(pExitButton);
 	pExitButton->EventProcess = Option_ReturnEvent;
+	
+#pragma endregion exit
 
 	if (!btn)
 	{
@@ -69,6 +95,7 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 
 	return pOptionBack;
 }
+
 
 void Option_ReturnEvent_whitespace(EventType message, cPopup* btn)
 {
@@ -152,7 +179,6 @@ void Option_ReturnEvent(EventType message, cPopup* btn)
 		}
 	}
 
-
 	break;
 	case EventType::EVENT_LBUTTONUP:
 	{
@@ -197,7 +223,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 
 	cPopup *pOptionBackGround = new cPopup;
 	pOptionBackGround->Setup(
-		"data/UI/ConfigurationSettings",
+		"data/UI/Settings",
 		"설정창 배경 사이즈조정.png",
 		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0), 
 		1,
@@ -205,7 +231,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 
 	cPopup *pOptionBtnBackGround = new cPopup;
 	pOptionBtnBackGround->Setup(
-		"data/UI/ConfigurationSettings",
+		"data/UI/Settings",
 		"설정 내용 변경 사이즈조정.png",
 		D3DXVECTOR3(rc.right / 2 - 300, rc.bottom / 2 - 100, 0), 
 		1,
@@ -213,7 +239,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 	pOptionBackGround->cButtonPushBack(pOptionBtnBackGround);
 
 	cButton *pOption_setButton = new cButton;
-	pOption_setButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+	pOption_setButton->Setup("data/UI/Settings", "설정창 탑버튼 사이즈 조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0),
 		-50, -60, 0,
 		0.8, 
@@ -243,29 +269,29 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 		pChkButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 on 사이즈조정.png",
 			D3DXVECTOR3(rc.right / 2 - 24, rc.bottom / 2 + 120, 0), 0, 0, 0, 1, true, true);
 		pOption_setButton->cButtonPushBack(pChkButton);
-		// TODO 이벤트 추가
+		// TO DO 이벤트 추가
 		// BarButton->EventProcess = 이벤트
 
 		pChkButton->GetUpPopUp()->PowerOnOff_List(false);
 	}
 
 	cButton *pOption_ControleButton = new cButton;
-	pOption_ControleButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+	pOption_ControleButton->Setup("data/UI/Settings", "설정창 탑버튼 사이즈 조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 115, -60, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_ControleButton);
 	pOption_ControleButton->EventProcess = Option_ControlBtnEvent_Legacy;
 
 	cButton *pOption_CameraButton = new cButton;
-	pOption_CameraButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+	pOption_CameraButton->Setup("data/UI/Settings", "설정창 탑버튼 사이즈 조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 280, -60, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_CameraButton);
 	pOption_CameraButton->EventProcess = Option_CameraBtnEvent_Legacy;
 	{ // CameraBtnList
-	  // TODO 임시로 움직인거 조정하기
+	  // TO DO 임시로 움직인거 조정하기
 	  // 시각적 확인을 위해 x축으로 10씩 밀어놨음
 		cPopup *pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
-			"data/UI/ConfigurationSettings",
+			"data/UI/Settings",
 			"설정항목 사이즈조정.png",
 			D3DXVECTOR3(rc.right / 2 - 120, rc.bottom / 2 - 50, 0), 1,
 			true, true);
@@ -275,29 +301,29 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 
 		pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
-			"data/UI/ConfigurationSettings",
+			"data/UI/Settings",
 			"설정항목 사이즈조정.png",
 			D3DXVECTOR3(rc.right / 2 - 120, rc.bottom / 2 + 50, 0), 1,
 			true, true);
 		pOption_CameraButton->cButtonPushBack(pSetupNamePopup);
 
 		cButton * pChkButton = new cButton;
-		pChkButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 on 사이즈조정.png",
+		pChkButton->Setup("data/UI/Settings", "on,off 체크형 백그라운드 on 사이즈조정.png",
 			D3DXVECTOR3(rc.right / 2 - 44, rc.bottom / 2 + 120, 0), 0, 0, 0, 1, true, true);
 		pOption_CameraButton->cButtonPushBack(pChkButton);
-		// TODO 이벤트 추가
+		// TO DO 이벤트 추가
 		// BarButton->EventProcess = 이벤트
 
 		pChkButton->GetUpPopUp()->PowerOnOff_List(false);
 	}
 
 	cButton *pOption_AudioButton = new cButton;
-	pOption_AudioButton->Setup("data/UI/ConfigurationSettings", "설정창 탑버튼 사이즈 조정.png",
+	pOption_AudioButton->Setup("data/UI/Settings", "설정창 탑버튼 사이즈 조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 445, -60, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pOption_AudioButton);
 	pOption_AudioButton->EventProcess = Option_AudioBtnEvent_Legacy;
 	{ // AudioBtnList
-	  // TODO 임시로 움직인거 조정하기
+	  // TO DO 임시로 움직인거 조정하기
 	  // 시각적 확인을 위해 x축으로 조금씩 밀어놨음
 		cPopup *pSetupNamePopup = new cPopup;
 		pSetupNamePopup->Setup(
@@ -321,16 +347,16 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 		pChkButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 on 사이즈조정.png",
 			D3DXVECTOR3(rc.right / 2 - 54, rc.bottom / 2 + 120, 0), 0, 0, 0, 1, true, true);
 		pOption_AudioButton->cButtonPushBack(pChkButton);
-		// TODO 이벤트 추가
+		// TO DO 이벤트 추가
 		// BarButton->EventProcess = 이벤트
 
 		pChkButton->GetUpPopUp()->PowerOnOff_List(false);
 	}
 	
-	// TODO 정식으로 편입됨..?
+	// TO DO 정식으로 편입됨..?
 	// 나가기 버튼 임시로 생성
 	cButton *pExitButton = new cButton;
-	pExitButton->Setup("data/UI/ConfigurationSettings", "on,off 체크형 백그라운드 off 사이즈조정.png",
+	pExitButton->Setup("data/UI/Settings", "on,off 체크형 백그라운드 off 사이즈조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 570, -110, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pExitButton);
 	pExitButton->EventProcess = Option_ReturnEvent;

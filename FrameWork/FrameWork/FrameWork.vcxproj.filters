@@ -142,14 +142,15 @@
     <ClCompile Include="Paladin.cpp">
       <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
     </ClCompile>
-    <ClCompile Include="PaladinState.cpp">
-      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
-    </ClCompile>
+    <ClCompile Include="PaladinState.cpp" />
     <ClCompile Include="Map.cpp">
       <Filter>Code\Map\iMap</Filter>
     </ClCompile>
     <ClCompile Include="ObjMap.cpp">
       <Filter>Code\Map\OBJMap</Filter>
+    </ClCompile>
+    <ClCompile Include="jsonManager.cpp">
+      <Filter>Code\jsonManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -303,14 +304,15 @@
     <ClInclude Include="Paladin.h">
       <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
     </ClInclude>
-    <ClInclude Include="PaladinState.h">
-      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
-    </ClInclude>
+    <ClInclude Include="PaladinState.h" />
     <ClInclude Include="Map.h">
       <Filter>Code\Map\iMap</Filter>
     </ClInclude>
     <ClInclude Include="ObjMap.h">
       <Filter>Code\Map\OBJMap</Filter>
+    </ClInclude>
+    <ClInclude Include="jsonManager.h">
+      <Filter>Code\jsonManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -457,6 +459,9 @@
     </Filter>
     <Filter Include="Code\Map\iMap">
       <UniqueIdentifier>{b7970f5c-034e-4546-8a11-29da703926bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\jsonManager">
+      <UniqueIdentifier>{009df29e-231c-4a26-8273-f7e0697c7369}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@
 
 
 // 셋업함수 종료후 json파일에서 데이터를 불러와 위치이동
-cButton* Setup_BarGaugePopupBtn(cPopup* popup, D3DXVECTOR3 position)
+cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position)
 {
 	// TODO UI관련 주석 확인
 	// pBarGauge의 위치를 벡터를 기준으로 pBarButton의 위치를 제한함,
@@ -16,7 +16,7 @@ cButton* Setup_BarGaugePopupBtn(cPopup* popup, D3DXVECTOR3 position)
 	// 반환하는 시점은 좌클릭업이 시작되는 부분
 	
 	cButton * pBarButton = new cButton;
-	pBarButton->Setup("data/UI/ConfigurationSettings", "NW_Setting_BarSlider.png",
+	pBarButton->Setup("data/UI/Settings", "NW_Setting_BarSlider.png",
 		popup->GetPosition(),
 		position.x, position.y, position.z,
 		1,
@@ -166,13 +166,12 @@ cButton* Setup_BarGaugePopupBtn_Legacy(cPopup* popup, D3DXVECTOR3 position)
 		"data/UI/ConfigurationSettings",
 		"설정창 바 게이지 사이즈 조정.png",
 		popup->GetPosition(),
-		//-100, 60, 0, // TODO json 파일 파싱받아서 위치벡터값 넣어주기
-		position.x, position.y, position.z, // TODO json 파일 파싱받아서 위치벡터값 넣어주기
+		//-100, 60, 0,
+		position.x, position.y, position.z,
 		1,
 		true, false);
 	popup->cButtonPushBack(pBarGauge);
 
-	// TODO UI관련 주석 확인
 	// pBarGauge의 위치를 벡터를 기준으로 pBarButton의 위치를 제한함,
 	// pBarGauge의 위치와 pBarButton의 위치를 기준으로 0 ~ 100의 값을 반환하게 함
 	// 반환하는 시점은 좌클릭업이 시작되는 부분

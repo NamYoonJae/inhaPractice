@@ -165,6 +165,7 @@
     <ClInclude Include="DragonSoulEater.h" />
     <ClInclude Include="GameOverSceneBtnEvent.h" />
     <ClInclude Include="GameSceneUIEvent.h" />
+    <ClInclude Include="jsonManager.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ObjMap.h" />
@@ -219,6 +220,7 @@
     <ClCompile Include="DragonSoulEater.cpp" />
     <ClCompile Include="GameOverSceneBtnEvent.cpp" />
     <ClCompile Include="GameSceneUIEvent.cpp" />
+    <ClCompile Include="jsonManager.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="ObjMap.cpp" />

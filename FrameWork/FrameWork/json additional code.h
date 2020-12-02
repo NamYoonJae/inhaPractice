@@ -1,8 +1,6 @@
 #pragma once
-class json_Fuction;
-class json_Pointer;
 
-
+// json_Fuction으로 정확히 명시해야 사용할수 있게 클래스로 만듬
 class json_Fuction
 {
 private:
@@ -34,26 +32,4 @@ public:
 	
 	
 #pragma save
-};
-
-class json_Pointer
-{
-private:
-	~json_Pointer()
-	{
-		json_value_free(g_p_jsonValue);
-	}
-public:
-	JSON_Value * g_p_jsonValue;
-	JSON_Object * g_p_jsonRootObject;
-	JSON_Object * g_p_jsonSubObject;
-	
-	json_Pointer(const char * FileDirectory)
-	{
-		if (!g_p_jsonValue)
-		{
-			g_p_jsonValue = json_parse_file(FileDirectory);
-			g_p_jsonRootObject = json_value_get_object(g_p_jsonValue);
-		}
-	}
 };

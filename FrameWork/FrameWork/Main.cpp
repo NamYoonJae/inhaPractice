@@ -8,6 +8,8 @@
 #include "FrameWork.h"
 #include "ObjectPool.h"
 
+#include "jsonManager.h"
+
 #define MAX_LOADSTRING 100
 
 
@@ -49,8 +51,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	MSG msg;
 	
+	g_p_jsonManager->Setup(); // 항상 json Manager 먼저 셋업할 것
 	g_pSceneManager->Setup();
 
+	
 	// Main message loop:
 	while (true)
 	{
@@ -78,6 +82,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	g_pSceneManager->Destroy();
+	//g_p_jsonManager->Destroy();
+
 	
 	return (int)msg.wParam;
 }

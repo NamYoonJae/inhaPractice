@@ -324,7 +324,6 @@ void cPopup::PowerOnOff_List_OnlySelf(bool power)
 //	m_Fixed = fixed;
 //}
 
-
 void cPopup::Destroy()
 {
 	for (int i = 0; i < m_vecPopupBtnList.size(); i++)
