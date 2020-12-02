@@ -33,9 +33,10 @@ void cTitleScene::Setup()
 	float nRight = 0.34;
 	float nBottom = 0.45;
 
+	//TitleUI
 	cPopup *pBackgroundPopup = new cPopup;
 	pBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
-		D3DXVECTOR3(0, -20, 0), 1, true, true, TagUI_InGame);
+		D3DXVECTOR3(0, -20, 0), 1, true, true, TagUI_Title);
 
 	Setup_OptionWindow(pBackgroundPopup);
 	
@@ -81,14 +82,11 @@ void cTitleScene::Setup()
 	ObjectManager->AddUIChild(pBackgroundPopup);
 
 
-	// TODO 에러해결하기
-	//InGameUI
-	nRight = 0.01;
-	nBottom = 0.01;
 
+	//InGame UI
 	cPopup* inGamePopup = new cPopup;
 	inGamePopup->Setup("","",
-		D3DXVECTOR3(0, 0, 0), 1, true, true);
+		D3DXVECTOR3(0, 0, 0), 1, true, true, TagUI_InGame);
 
 	//Hp
 	cButton* hpBarBackground = new cButton;
