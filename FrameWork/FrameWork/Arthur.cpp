@@ -38,9 +38,8 @@ void cArthur::Setup(char* szFolder, char* szFile)
 		D3DXFrameFind(m_pRoot, "omniknight")->pMeshContainer, &mat);
 
 
-	if (this->m_pCurrentBoneMatrices)
-		mat *= *this->m_pCurrentBoneMatrices;
->>>>>>> b3a7a2bfdbf56d4505e599c3a6bd65cebcbfe259
+	if (this->m_pTransformationMatrix)
+		mat *= *this->m_pTransformationMatrix;
 	
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(this, &mat);
