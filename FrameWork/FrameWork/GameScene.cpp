@@ -28,7 +28,7 @@
 //
 #include "ObjObject.h"
 #include "ObjLoader.h"
-
+#include "ObjMap.h"
 #pragma once
 
 
@@ -111,16 +111,20 @@ void cGameScene::Setup() // boss1map  boss2map
 	//ObjectManager->AddUIChild(pPopup);
 	
 
-	cTerrain* pTerrain = new cTerrain;
+	//cTerrain* pTerrain = new cTerrain;
 	//pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
 	//pTerrain->Setup("data/HeightMapData", "Ground_Soil.png", "StageA_Raw.raw",1,600);
-	pTerrain->Setup("data/HeightMapData", "Ground_ClayRough_Moss.png","StageB_Raw.raw");
-	pTerrain->Tagging(Tag::Tag_Map);
+	//pTerrain->Setup("data/HeightMapData", "Ground_ClayRough_Moss.png","StageB_Raw.raw");
+	//pTerrain->Tagging(Tag::Tag_Map);
 	
-	cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
+	//cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
+	//ObjectManager->AddStaticChild(pTerrain);
+	cObjMap* pMap = new cObjMap("data/ObjFile/NW_Testmap","testmap3.obj");
+	pMap->Tagging(Tag::Tag_Map);
+	
+	pMap->GetScaling(D3DXVECTOR3(0.1f, 1.0f, 0.1f));
+	ObjectManager->AddStaticChild(pMap);
 
-	//pTerrain->GetTarget(player->GetPos());
-	ObjectManager->AddStaticChild(pTerrain);
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
@@ -169,7 +173,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	Paladin->SetPosition(D3DXVECTOR3(10, 0, 0));
 	ObjectManager->AddChild(Paladin);
 	
-#pragma region UI
+#pragma region Popup UI
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 	cout << "Left : " << rc.left << endl; // 0
@@ -183,8 +187,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	// TODO 시스템창 불러오기
 	cButton * pMediator = new cButton;
 	pMediator->Setup(
-		"data/UI/ConfigurationSettings",
-		"Pixel.png",
+		"",
+		"",
 		D3DXVECTOR3(-1,-1,0), 
 		0, 0, 0,
 		1,
@@ -196,11 +200,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);
-	
-	//ObjectManager->AddUIChild(pSystemPopUp);
-	//ObjectManager->AddUIChild(pOptionPopUp);
-	
-#pragma region UI
+#pragma region Popup UI
 	
 }
 

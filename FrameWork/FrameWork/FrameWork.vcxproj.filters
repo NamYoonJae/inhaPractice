@@ -65,7 +65,7 @@
       <Filter>Code\ObjFile\ObjObject</Filter>
     </ClCompile>
     <ClCompile Include="cTerrain.cpp">
-      <Filter>Code\Terrain</Filter>
+      <Filter>Code\Map\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="json additional code.cpp">
       <Filter>Code\json</Filter>
@@ -145,6 +145,12 @@
     <ClCompile Include="PaladinState.cpp">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Code\Map\iMap</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjMap.cpp">
+      <Filter>Code\Map\OBJMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -220,7 +226,7 @@
       <Filter>Code\ObjFile\ObjObject</Filter>
     </ClInclude>
     <ClInclude Include="cTerrain.h">
-      <Filter>Code\Terrain</Filter>
+      <Filter>Code\Map\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="json additional code.h">
       <Filter>Code\json</Filter>
@@ -299,6 +305,12 @@
     </ClInclude>
     <ClInclude Include="PaladinState.h">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Code\Map\iMap</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjMap.h">
+      <Filter>Code\Map\OBJMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,9 +404,6 @@
     <Filter Include="Code\ObjFile\ObjObject">
       <UniqueIdentifier>{837f631c-c969-4b83-9f08-465eaf21b3c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Terrain">
-      <UniqueIdentifier>{ef7c542d-e971-4c19-92c4-1d3765fe1aa2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\TextureManager">
       <UniqueIdentifier>{38c36455-2c02-4665-9305-f2940292be81}</UniqueIdentifier>
     </Filter>
@@ -436,6 +445,18 @@
     </Filter>
     <Filter Include="Code\Object Composite\InstanceObject\Paladin\PaladinState">
       <UniqueIdentifier>{d23276f0-d8db-4b71-8968-fb926515e9d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Map">
+      <UniqueIdentifier>{b37bb99e-6fd9-4fb0-a256-5749cfd288cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Map\Terrain">
+      <UniqueIdentifier>{ef7c542d-e971-4c19-92c4-1d3765fe1aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Map\OBJMap">
+      <UniqueIdentifier>{a1c215e1-a735-498b-89a1-2c59cd951fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Map\iMap">
+      <UniqueIdentifier>{b7970f5c-034e-4546-8a11-29da703926bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@
 #include "Arthur.h"
 #include "DragonSoulEater.h"
 #include "ObjObject.h"
-
+#include "Map"
 
 ObjectPool::ObjectPool()
 {
@@ -21,9 +21,9 @@ ObjectPool::~ObjectPool()
 
 void ObjectPool::Update()
 {
-	static cTerrain* terrain;
+	static iMap* terrain;
 	if (terrain == NULL)
-		terrain = (cTerrain*)SearchChild(Tag::Tag_Map);
+		terrain = (iMap*)SearchChild(Tag::Tag_Map);
 
 
 	
@@ -113,15 +113,19 @@ void ObjectPool::Revert()
 
 	//Detech를 해줘야한다
 	// 현재 수정해야하는곳
+	
 	 for(int i = 0; i < vecUserInterface.size(); i++)
 	{
 		cPopup* popup = (cPopup*)vecUserInterface[i];
 		popup->Destroy();
 	}
+	 
 
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
+	
 	//
+
 	return;
 }
 
