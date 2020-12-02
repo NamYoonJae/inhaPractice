@@ -60,7 +60,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		"data/UI/InGameSettingUI",
 		"NW_InGameSetting_PauseText.png", // 362  421
 		D3DXVECTOR3((rc.right - 200) / 2, (rc.bottom - 46) / 2, 0),
-		0, -135, 0,
+		0, -150, 0,
 		1,
 		true, true);
 	pSystemBack->cButtonPushBack(pPauseImage);
@@ -70,7 +70,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystemBackground->cButtonPushBack(pSystem_continue);
 		pSystem_continue->Setup("data/UI/InGameSettingUI/CONTINUE", "NW_InGameSetting_ContinueButton_Idle.png",
 			pSystem_continue->GetUpPopUp()->GetPosition(),
-			30, 115, 0,
+			30, 90, 0,
 			1,
 			true, true);
 		pSystem_continue->EventProcess = SysWindow_ContinueBtnEvent;
@@ -79,7 +79,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystemBackground->cButtonPushBack(pSystem_OptionBtn);
 		pSystem_OptionBtn->Setup("data/UI/InGameSettingUI/SETTING", "NW_InGameSetting_SettingButton_Idle.png",
 			pSystem_continue->GetUpPopUp()->GetPosition(),
-			30, 190, 0, 
+			30, 170, 0, 
 			1, 
 			true, true);
 		pSystem_OptionBtn->EventProcess = SysWindow_OptionBtnEvent;
@@ -88,7 +88,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystemBackground->cButtonPushBack(pSystem_ToStartBtn);
 		pSystem_ToStartBtn->Setup("data/UI/InGameSettingUI/BackToStart", "NW_InGameSetting_BackToStartButton_Idle.png",
 			pSystem_continue->GetUpPopUp()->GetPosition(),
-			40, 270, 0, 
+			30, 250, 0, 
 			1, 
 			true, true);
 		pSystem_ToStartBtn->EventProcess = SysWindow_ToStartEvent;
