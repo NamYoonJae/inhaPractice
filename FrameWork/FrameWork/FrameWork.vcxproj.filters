@@ -154,8 +154,23 @@
     <ClCompile Include="ShaderLoader.cpp">
       <Filter>Code\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="jsonManager.cpp">
-      <Filter>Code\jsonManager</Filter>
+    <ClCompile Include="LavaGolem.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaDie.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaIdle.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaRun.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaState.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -321,8 +336,23 @@
     <ClInclude Include="ShaderLoader.h">
       <Filter>Code\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="jsonManager.h">
-      <Filter>Code\jsonManager</Filter>
+    <ClInclude Include="LavaGolem.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaDie.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaIdle.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaRun.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaState.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,8 +503,11 @@
     <Filter Include="Code\Shader">
       <UniqueIdentifier>{3c5bf0d3-abca-4ed6-b3f7-7af4ee01135d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\jsonManager">
-      <UniqueIdentifier>{4ac5f177-7d6c-4723-bd44-871e9fc9781d}</UniqueIdentifier>
+    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem">
+      <UniqueIdentifier>{0be48b74-b8bc-47ae-802e-60a49153813a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState">
+      <UniqueIdentifier>{844aebe2-9021-4ed0-af0b-24d3bcdb3bc2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

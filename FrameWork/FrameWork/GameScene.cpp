@@ -29,6 +29,9 @@
 #include "ObjObject.h"
 #include "ObjLoader.h"
 #include "ObjMap.h"
+
+#include "LavaGolem.h"
+
 #pragma once
 
 
@@ -157,12 +160,20 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	//ObjectManager->AddChild(m_pSkinnedUnit);
 
-	cObjMesh *Lava = new cObjMesh;
-	Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
-	Lava->Tagging(Tag::Tag_cObj);
-	D3DXMATRIX LavaT;
-	D3DXMatrixTranslation(&LavaT, -30,30,0);
-	Lava->SetWorldMatrix(&LavaT);
+
+	D3DLIGHT9 m_Light;
+	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
+	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
+	m_Light.Ambient  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Diffuse  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	D3DXVECTOR3 vDir(0.0f, 5.0f, 5.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	m_Light.Direction = vDir;
+
+	g_pD3DDevice->SetLight(0, &m_Light);
+	g_pD3DDevice->LightEnable(0, true);
+
 	//cObjObject *Lava = new cObjObject;
 	//Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
 	//Lava->Tagging(Tag::Tag_cObj);
@@ -173,6 +184,12 @@ void cGameScene::Setup() // boss1map  boss2map
 	Paladin->SetPosition(D3DXVECTOR3(30, 0, 0));
 	ObjectManager->AddChild(Paladin);
 	
+	cLavaGolem* Lava = new cLavaGolem;
+	Lava->GetScaling(D3DXVECTOR3(0.2, 0.2, 0.2));
+	Lava->Setup("data/XFile/LavaGolem", "LavaGolem.X");
+	Lava->Tagging(Tag::Tag_cObj);
+	ObjectManager->AddChild(Lava);
+
 #pragma region Popup UI
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);

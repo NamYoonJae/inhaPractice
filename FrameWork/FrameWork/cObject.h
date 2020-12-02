@@ -28,14 +28,14 @@ class BoneOBB;
 class cObject
 {
 protected:
-	
+
 	int			m_nTag;
 	cOBB*		m_pOBB;
 
 	vector<BoneOBB*> m_vBoneArray;
-	
+
 protected:
-	
+
 	D3DXVECTOR3 m_vPos;
 	D3DXVECTOR3 m_vDir;
 	D3DXVECTOR3 m_vRot;
@@ -45,7 +45,7 @@ public:
 	virtual ~cObject();
 	virtual void Update() = 0;
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL) = 0;
-	void Tagging(int enumTag) { m_nTag = enumTag;}
+	void Tagging(int enumTag) { m_nTag = enumTag; }
 	int GetTag() { return m_nTag; }
 	cOBB* GetOBB();
 	D3DXVECTOR3 GetPos() { return m_vPos; }
@@ -55,6 +55,11 @@ public:
 	void BuildBoneData(DWORD *BoneNum,
 		D3DXFRAME *Frame,
 		D3DXMESHCONTAINER *pMesh);
+
+	D3DXVECTOR3 GetDirection() { return m_vDir; }
+	void SetDirection(D3DXVECTOR3 dir) { m_vDir = dir; }
+	D3DXVECTOR3 GetRotation() { return m_vRot; }
+	void SetRotation(D3DXVECTOR3 Rot) { m_vRot = Rot; }
 };
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,
