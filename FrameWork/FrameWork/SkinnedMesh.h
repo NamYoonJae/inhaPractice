@@ -51,6 +51,7 @@ public:
 	bool GetIsBlend() { return m_isAnimBlend; }
 	// <<
 
+	D3DXMATRIX* m_pTransformationMatrix;
 	D3DXMATRIX* m_pCurrentBoneMatrices;
 	//
 	std::vector<D3DXMATRIXA16*> SetUpBoneMatrix();

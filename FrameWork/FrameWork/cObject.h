@@ -12,11 +12,15 @@ const enum Tag
 	Tag_cObj
 };
 
+
 enum TAG_UI
 {
 	TagUI_Title,
-	TagUI_InGame
+	TagUI_InGame,
+	TagUI_GameOver,
 };
+
+enum SceneType;
 
 class cOBB;
 class BoneOBB;
@@ -64,4 +68,12 @@ struct BoneOBB
 	vector<ST_PC_VERTEX> vPoints;
 	D3DXVECTOR3			vJointOffset;
 	D3DXVECTOR3			vPosition;
+};
+
+struct BoundingBox
+{
+	string szName;
+	cOBB*	Box;
+	D3DXVECTOR3 m_vScale;
+
 };

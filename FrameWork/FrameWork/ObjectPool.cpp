@@ -113,7 +113,7 @@ void ObjectPool::Revert()
 
 	//Detech를 해줘야한다
 	// 현재 수정해야하는곳
-	
+	/*
 	 for(int i = 0; i < vecUserInterface.size(); i++)
 	{
 		cPopup* popup = (cPopup*)vecUserInterface[i];
@@ -123,11 +123,42 @@ void ObjectPool::Revert()
 
 	std::vector<cObject*> vecNewUIList;
 	vecUserInterface.swap(vecNewUIList);
-	
+	*/
 	//
 
 	return;
 }
+/*
+void ObjectPool::Revert(int curSceneType, int SceneType)
+{
+	int nRevertSize = vecObjectList.size() - m_nRefcnt;
+
+	std::vector<cObject*> vecNewList;
+	vecNewList.resize(nRevertSize);
+
+	for (int i = 0; i < nRevertSize; ++i)
+	{
+		vecNewList.at(i) = vecObjectList.at(i);
+	}
+
+	vecObjectList.swap(vecNewList);
+	m_nRefcnt = 0;
+
+
+
+	
+	cPopup* popup =(cPopup*) ObjectManager->SearchChildUI(curSceneType);
+	if (popup != NULL) 
+	{
+		popup->PowerOnOff();
+	}
+
+	object = ObjectManager->SearchChildUI(SceneType);
+	popup = (cPopup*)object;
+	popup->PowerOnOff();
+	
+}
+*/
 
 const cObject* ObjectPool::GetChild(int nIndex)
 {
@@ -176,6 +207,26 @@ const cObject* ObjectPool::SearchChild(int nTag)
 
 	return vecObjectList.at(i);
 }
+
+const cObject * ObjectPool::SearchChildUI(int nTag)
+{
+	int i = 0;
+	if (vecUserInterface.empty()) return NULL;
+
+	while (vecUserInterface.at(i)->GetTag() != nTag)
+	{
+		++i;
+
+		if (vecUserInterface.size() <= i)
+		{
+			return NULL;
+		}
+	}
+
+	return vecUserInterface.at(i);
+}
+
+
 
 void ObjectPool::CollisionProcess()
 {

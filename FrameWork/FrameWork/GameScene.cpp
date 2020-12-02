@@ -143,7 +143,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	//
 	DragonSoulEater* m_pDragon = new DragonSoulEater;
-	m_pDragon->Setup("data/XFile/Dragon", "Model.X");
+	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);
 	m_pDragon->GetSkinnedMesh().SetTransform(&matWorld);
@@ -204,7 +204,41 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 }
 
-void cGameScene::Reset()
+void cGameScene::Reset(int sceneType)
 {
-	
+	cPopup* popup = NULL;
+	switch (sceneType)
+	{
+	case SceneType::SCENE_TITLE:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+
+	case SceneType::SCENE_BOSS_2:
+		//UI 유지 및 데이터 수정
+		break;
+		
+
+	case SceneType::SCENE_GAMEOVER:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+		
+	default:
+		break;
+	}
+
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+	if (popup != NULL)
+	{
+		popup->PowerOnOff();
+	}
 }

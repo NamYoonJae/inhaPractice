@@ -12,6 +12,6 @@ public:
 	~cGameOverScene();
 
 	void Setup() override;
-	void Reset() override;
+	void Reset(int sceneType) override;
 };
 
