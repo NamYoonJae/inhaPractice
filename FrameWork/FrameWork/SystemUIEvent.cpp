@@ -60,7 +60,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		"data/UI/InGameSettingUI",
 		"NW_InGameSetting_PauseText.png", // 362  421
 		D3DXVECTOR3((rc.right - 200) / 2, (rc.bottom - 46) / 2, 0),
-		0, -125, 0,
+		0, -135, 0,
 		1,
 		true, true);
 	pSystemBack->cButtonPushBack(pPauseImage);
@@ -70,7 +70,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystemBackground->cButtonPushBack(pSystem_continue);
 		pSystem_continue->Setup("data/UI/InGameSettingUI/CONTINUE", "NW_InGameSetting_ContinueButton_Idle.png",
 			pSystem_continue->GetUpPopUp()->GetPosition(),
-			30, 140, 0,
+			30, 115, 0,
 			1,
 			true, true);
 		pSystem_continue->EventProcess = SysWindow_ContinueBtnEvent;
@@ -79,7 +79,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystemBackground->cButtonPushBack(pSystem_OptionBtn);
 		pSystem_OptionBtn->Setup("data/UI/InGameSettingUI/SETTING", "NW_InGameSetting_SettingButton_Idle.png",
 			pSystem_continue->GetUpPopUp()->GetPosition(),
-			30, 200, 0, 
+			30, 190, 0, 
 			1, 
 			true, true);
 		pSystem_OptionBtn->EventProcess = SysWindow_OptionBtnEvent;
@@ -97,7 +97,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		pSystemBackground->cButtonPushBack(pSystem_END_Btn);
 		pSystem_END_Btn->Setup("data/UI/InGameSettingUI/END", "NW_InGameSetting_EndButton_Idle.png",
 			pSystem_END_Btn->GetUpPopUp()->GetPosition(), 
-			30, 320, 0, 
+			30, 330, 0, 
 			1, 
 			true, true);
 		pSystem_END_Btn->EventProcess = SysWindow_END_Game;
@@ -158,29 +158,22 @@ void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
 			}
 		}
 
-		if (button->GetPreState() != button->GetState())
+		if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 		{
-			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
-			{
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
-				button->SetPreState(enum_Hover);
-			}
-			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
-			{
-				if (button->GetState() == enum_On)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-					button->SetPreState(enum_On);
-				}
-				else if (button->GetState() == enum_Off)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
-					button->SetPreState(enum_Off);
-				}
-			}
-
-
-		}//case EVENT_MOVE End:
+			button->ChangeSprite("data/UI/InGameSettingUI/CONTINUE/NW_InGameSetting_ContinueButton_Over.png");
+			button->SetPreState(enum_Hover);
+		}
+		if (button->GetState() == enum_On)
+		{
+			button->ChangeSprite("data/UI/InGameSettingUI/CONTINUE/NW_InGameSetting_ContinueButton_Pressed.png");
+			button->SetPreState(enum_On);
+		}
+		else if (button->GetState() == enum_Off)
+		{
+			button->ChangeSprite("data/UI/InGameSettingUI/CONTINUE/NW_InGameSetting_ContinueButton_Idle.png");
+			button->SetPreState(enum_Off);
+		}
+		//case EVENT_MOVE End:
 	}
 	break;
 
@@ -190,8 +183,8 @@ void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
+				button->ChangeSprite("data/UI/InGameSettingUI/CONTINUE/NW_InGameSetting_ContinueButton_Pressed.png");
 				button->SetStateChange(enum_On);
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
 			}
 		}
 	}
@@ -205,7 +198,9 @@ void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
+					button->ChangeSprite("data/UI/InGameSettingUI/CONTINUE/NW_InGameSetting_ContinueButton_Idle.png");
 					button->SetStateChange(enum_Off);
+
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
 
 					cout << "SysWindow_ContinueBtnEvent is Clicked" << endl;
@@ -256,28 +251,21 @@ void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
 			}
 		}
 
-		if (button->GetPreState() != button->GetState())
+
+		if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 		{
-			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
+			button->ChangeSprite("data/UI/InGameSettingUI/SETTING/NW_InGameSetting_SettingButton_Over.png");
+		}
+		else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+		{
+			if (button->GetState() == enum_On)
 			{
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
-				button->SetPreState(enum_Hover);
+				button->ChangeSprite("data/UI/InGameSettingUI/SETTING/NW_InGameSetting_SettingButton_Pressed.png");
 			}
-			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+			if (button->GetState() == enum_Off)
 			{
-				if (button->GetState() == enum_On)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-					button->SetPreState(enum_On);
-				}
-				else if (button->GetState() == enum_Off)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
-					button->SetPreState(enum_Off);
-				}
+				button->ChangeSprite("data/UI/InGameSettingUI/SETTING/NW_InGameSetting_SettingButton_Idle.png");
 			}
-
-
 		}//case EVENT_MOVE End:
 	}
 	break;
@@ -288,8 +276,8 @@ void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
+				button->ChangeSprite("data/UI/InGameSettingUI/SETTING/NW_InGameSetting_SettingButton_Pressed.png");
 				button->SetStateChange(enum_On);
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
 			}
 		}
 	}
@@ -303,7 +291,9 @@ void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
+					button->ChangeSprite("data/UI/InGameSettingUI/SETTING/NW_InGameSetting_SettingButton_Idle.png");
 					button->SetStateChange(enum_Off);
+					
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf();
 					
 					cout << "SysWindow_OptionBtnEvent is Clicked" << endl;
@@ -353,28 +343,21 @@ void SysWindow_ToStartEvent(EventType message, cPopup* btn)
 			}
 		}
 
-		if (button->GetPreState() != button->GetState())
+		
+		if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 		{
-			if (button->GetState() == enum_Hover) //m_State는 Hover이면서 m_PreState는 On/Off일 경우
+			button->ChangeSprite("data/UI/InGameSettingUI/BackToStart/NW_InGameSetting_BackToStartButton_Over.png");
+		}
+		else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+		{
+			if (button->GetState() == enum_On)
 			{
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
-				button->SetPreState(enum_Hover);
+				button->ChangeSprite("data/UI/InGameSettingUI/BackToStart/NW_InGameSetting_BackToStartButton_Pressed.png");
 			}
-			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+			if (button->GetState() == enum_Off)
 			{
-				if (button->GetState() == enum_On)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-					button->SetPreState(enum_On);
-				}
-				else if (button->GetState() == enum_Off)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
-					button->SetPreState(enum_Off);
-				}
+				button->ChangeSprite("data/UI/InGameSettingUI/BackToStart/NW_InGameSetting_BackToStartButton_Idle.png");
 			}
-
-
 		}//case EVENT_MOVE End:
 
 		break;
@@ -385,8 +368,8 @@ void SysWindow_ToStartEvent(EventType message, cPopup* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
+				button->ChangeSprite("data/UI/InGameSettingUI/BackToStart/NW_InGameSetting_BackToStartButton_Pressed.png");
 				button->SetStateChange(enum_On);
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
 			}
 		}
 	}
@@ -400,8 +383,11 @@ void SysWindow_ToStartEvent(EventType message, cPopup* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
+					button->ChangeSprite("data/UI/InGameSettingUI/BackToStart/NW_InGameSetting_BackToStartButton_Idle.png");
 					button->SetStateChange(enum_Off);
+					
 					cout << "SysWindow_ToStartEvent Clicked" << endl;
+					
 					g_pSceneManager->ChangeScene(SceneType::SCENE_TITLE);
 				}
 			}
@@ -450,28 +436,20 @@ void SysWindow_END_Game(EventType message, cPopup* btn)
 			}
 		}
 
-		if (button->GetPreState() != button->GetState())
+		if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 		{
-			if (button->GetState() == enum_Hover) //m_State는 Hover이면서 m_PreState는 On/Off일 경우
+			button->ChangeSprite("data/UI/InGameSettingUI/END/NW_InGameSetting_EndButton_Over.png");
+		}
+		else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+		{
+			if (button->GetState() == enum_On)
 			{
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
-				button->SetPreState(enum_Hover);
+				button->ChangeSprite("data/UI/InGameSettingUI/END/NW_InGameSetting_EndButton_Pressed.png");
 			}
-			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
+			if (button->GetState() == enum_Off)
 			{
-				if (button->GetState() == enum_On)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-					button->SetPreState(enum_On);
-				}
-				else if (button->GetState() == enum_Off)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
-					button->SetPreState(enum_Off);
-				}
+				button->ChangeSprite("data/UI/InGameSettingUI/END/NW_InGameSetting_EndButton_Idle.png");
 			}
-
-
 		}//case EVENT_MOVE End:
 
 		break;
@@ -482,8 +460,8 @@ void SysWindow_END_Game(EventType message, cPopup* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
+				button->ChangeSprite("data/UI/InGameSettingUI/END/NW_InGameSetting_EndButton_Pressed.png");
 				button->SetStateChange(enum_On);
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
 			}
 		}
 	}
@@ -497,8 +475,10 @@ void SysWindow_END_Game(EventType message, cPopup* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
-					// TODO exit 있는 부분
+					button->ChangeSprite("data/UI/InGameSettingUI/END/NW_InGameSetting_EndButton_Idle.png");
 					button->SetStateChange(enum_Off);
+					
+					// TODO exit 있는 부분
 					exit(0);
 				}
 			}

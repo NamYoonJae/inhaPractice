@@ -70,7 +70,6 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 	return pOptionBack;
 }
 
-
 void Option_ReturnEvent_whitespace(EventType message, cPopup* btn)
 {
 	

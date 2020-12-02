@@ -168,7 +168,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(Lava);
 
 	
-#pragma region UI
+#pragma region Popup UI
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 	cout << "Left : " << rc.left << endl; // 0
@@ -182,8 +182,8 @@ void cGameScene::Setup() // boss1map  boss2map
 	// TODO 시스템창 불러오기
 	cButton * pMediator = new cButton;
 	pMediator->Setup(
-		"data/UI/ConfigurationSettings",
-		"Pixel.png",
+		"",
+		"",
 		D3DXVECTOR3(-1,-1,0), 
 		0, 0, 0,
 		1,
@@ -195,11 +195,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);
-	
-	//ObjectManager->AddUIChild(pSystemPopUp);
-	//ObjectManager->AddUIChild(pOptionPopUp);
-	
-#pragma region UI
+#pragma region Popup UI
 	
 }
 
