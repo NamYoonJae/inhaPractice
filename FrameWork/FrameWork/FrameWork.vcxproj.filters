@@ -142,7 +142,9 @@
     <ClCompile Include="Paladin.cpp">
       <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
     </ClCompile>
-    <ClCompile Include="PaladinState.cpp" />
+    <ClCompile Include="PaladinState.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -295,7 +297,9 @@
     <ClInclude Include="Paladin.h">
       <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
     </ClInclude>
-    <ClInclude Include="PaladinState.h" />
+    <ClInclude Include="PaladinState.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

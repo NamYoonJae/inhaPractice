@@ -13,6 +13,7 @@
 // >>
 #include "SkinnedMesh.h"
 #include "Arthur.h"
+#include "Paladin.h"
 // <<
 
 #include "GameScene.h"
@@ -163,6 +164,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	//Lava->Tagging(Tag::Tag_cObj);
 	ObjectManager->AddChild(Lava);
 
+	cPaladin* Paladin = new cPaladin;
+	Paladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
+	Paladin->SetPosition(D3DXVECTOR3(10, 0, 0));
+	ObjectManager->AddChild(Paladin);
 	
 #pragma region UI
 	RECT rc;
