@@ -142,17 +142,20 @@
     <ClCompile Include="Paladin.cpp">
       <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
     </ClCompile>
-    <ClCompile Include="PaladinState.cpp" />
+    <ClCompile Include="PaladinState.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Code\Map\iMap</Filter>
     </ClCompile>
     <ClCompile Include="ObjMap.cpp">
       <Filter>Code\Map\OBJMap</Filter>
     </ClCompile>
-    <ClCompile Include="jsonManager.cpp">
-      <Filter>Code\jsonManager</Filter>
     <ClCompile Include="ShaderLoader.cpp">
       <Filter>Code\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="jsonManager.cpp">
+      <Filter>Code\jsonManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,17 +309,20 @@
     <ClInclude Include="Paladin.h">
       <Filter>Code\Object Composite\InstanceObject\Paladin</Filter>
     </ClInclude>
-    <ClInclude Include="PaladinState.h" />
+    <ClInclude Include="PaladinState.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Code\Map\iMap</Filter>
     </ClInclude>
     <ClInclude Include="ObjMap.h">
       <Filter>Code\Map\OBJMap</Filter>
     </ClInclude>
-    <ClInclude Include="jsonManager.h">
-      <Filter>Code\jsonManager</Filter>
     <ClInclude Include="ShaderLoader.h">
       <Filter>Code\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="jsonManager.h">
+      <Filter>Code\jsonManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -461,13 +467,14 @@
     <Filter Include="Code\Map\iMap">
       <UniqueIdentifier>{b7970f5c-034e-4546-8a11-29da703926bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\jsonManager">
-      <UniqueIdentifier>{009df29e-231c-4a26-8273-f7e0697c7369}</UniqueIdentifier>
     <Filter Include="Code\OBB">
       <UniqueIdentifier>{32823407-0e73-4723-bf41-0ce4ae28bc7b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Shader">
       <UniqueIdentifier>{3c5bf0d3-abca-4ed6-b3f7-7af4ee01135d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\jsonManager">
+      <UniqueIdentifier>{4ac5f177-7d6c-4723-bd44-871e9fc9781d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
