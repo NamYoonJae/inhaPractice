@@ -204,7 +204,41 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 }
 
-void cGameScene::Reset()
+void cGameScene::Reset(int sceneType)
 {
-	
+	cPopup* popup = NULL;
+	switch (sceneType)
+	{
+	case SceneType::SCENE_TITLE:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+
+	case SceneType::SCENE_BOSS_2:
+		//UI 유지 및 데이터 수정
+		break;
+		
+
+	case SceneType::SCENE_GAMEOVER:
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+		break;
+
+		
+	default:
+		break;
+	}
+
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+	if (popup != NULL)
+	{
+		popup->PowerOnOff();
+	}
 }

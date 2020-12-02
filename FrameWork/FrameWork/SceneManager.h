@@ -10,7 +10,6 @@ class cSceneManager
 private:
 	vector<cScene*> m_vecScenes;
 	cScene* m_CurrentScene;
-	
 	CRITICAL_SECTION	cs;
 	std::thread*		m_pThread;
 public:

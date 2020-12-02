@@ -12,11 +12,15 @@ const enum Tag
 	Tag_cObj
 };
 
+
 enum TAG_UI
 {
 	TagUI_Title,
-	TagUI_InGame
+	TagUI_InGame,
+	TagUI_GameOver,
 };
+
+enum SceneType;
 
 class cOBB;
 class BoneOBB;
