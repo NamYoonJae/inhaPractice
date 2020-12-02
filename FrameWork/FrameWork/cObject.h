@@ -35,7 +35,7 @@ protected:
 	D3DXVECTOR3 m_vPos;
 	D3DXVECTOR3 m_vDir;
 	D3DXVECTOR3 m_vRot;
-
+	D3DXVECTOR3 m_vScale;
 public:
 	cObject();
 	virtual ~cObject();
@@ -46,7 +46,7 @@ public:
 	cOBB* GetOBB();
 	D3DXVECTOR3 GetPos() { return m_vPos; }
 	void SetPos(D3DXVECTOR3 pos) { m_vPos = pos; }
-
+	void GetScaling(D3DXVECTOR3 scale) { m_vScale = scale; }
 	void BuildBoneData(DWORD *BoneNum,
 		D3DXFRAME *Frame,
 		D3DXMESHCONTAINER *pMesh);

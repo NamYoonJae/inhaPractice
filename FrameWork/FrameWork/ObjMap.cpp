@@ -21,7 +21,7 @@ float cObjMap::getHeight(D3DXVECTOR3 pos)
 void cObjMap::Render(D3DXMATRIXA16 * pmat)
 {
 	D3DXMATRIXA16 matW,matS,matR, matT;
-	D3DXMatrixScaling(&matS,0.1,1,0.1);
+	D3DXMatrixScaling(&matS,m_vScale.x,m_vScale.y,m_vScale.z);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	matW = matS * matR * matT;

@@ -120,7 +120,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	//ObjectManager->AddStaticChild(pTerrain);
 	cObjMap* pMap = new cObjMap("data/ObjFile/NW_Testmap","testmap3.obj");
 	pMap->Tagging(Tag::Tag_Map);
+	
+	pMap->GetScaling(D3DXVECTOR3(0.1f, 1.0f, 0.1f));
 	ObjectManager->AddStaticChild(pMap);
+
 
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
