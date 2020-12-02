@@ -46,7 +46,8 @@ public:
 	cOBB* GetOBB();
 	D3DXVECTOR3 GetPos() { return m_vPos; }
 	void SetPos(D3DXVECTOR3 pos) { m_vPos = pos; }
-	void GetScaling(D3DXVECTOR3 scale) { m_vScale = scale; }
+	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
+	D3DXVECTOR3 GetScale() { return m_vScale; }
 	void BuildBoneData(DWORD *BoneNum,
 		D3DXFRAME *Frame,
 		D3DXMESHCONTAINER *pMesh);

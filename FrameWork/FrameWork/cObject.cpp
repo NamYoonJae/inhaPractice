@@ -4,6 +4,7 @@
 
 cObject::cObject()
 	: m_pOBB(NULL)
+	, m_vScale(1, 1, 1)
 	, m_vRot(0, 0, 0)
 	, m_vPos(0, 0, 0)
 	, m_vDir(0, 0, -1)

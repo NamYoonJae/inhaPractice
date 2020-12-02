@@ -10,8 +10,6 @@ private:
 	cSkinnedMesh*	m_pSkinnedUnit;
 	float			m_fvelocity;
 
-	D3DXVECTOR3		m_vScale;
-
 	D3DXMATRIXA16	m_matScale;
 	D3DXMATRIXA16	m_matRot;
 	D3DXMATRIXA16	m_matTranse;
@@ -21,11 +19,14 @@ private:
 
 	cPaladinState*	m_pCurState;
 	DWORD			m_dwDelayState;
+
+	LPD3DXEFFECT	m_pShader;
 public:
 	cPaladin();
 	~cPaladin();
 
 	void Setup(char* szFolder, char* szFile);
+	void ShaderSetup();
 	void Update();
 	void Update(EventType event) override;
 	void Render(D3DXMATRIXA16 * pmat = NULL);
@@ -34,9 +35,6 @@ public:
 
 	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; }
 	D3DXVECTOR3 GetPosition() { return m_vPos; }
-
-	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
-	D3DXVECTOR3 GetScale() { return m_vScale; }
 
 	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; }
 };

@@ -44,6 +44,19 @@ cGameScene::~cGameScene()
 
 void cGameScene::Setup() // boss1map  boss2map
 {
+	D3DLIGHT9 m_Light;
+	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
+	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
+	m_Light.Ambient = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Diffuse = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	D3DXVECTOR3 vDir(0.0f, 5.0f, 5.0f);
+	D3DXVec3Normalize(&vDir, &vDir);
+	m_Light.Direction = vDir;
+
+	g_pD3DDevice->SetLight(0, &m_Light);
+	g_pD3DDevice->LightEnable(0, true);
+	
 	// 
 	{
 		SkyBox* pSkyBox;
@@ -122,7 +135,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cObjMap* pMap = new cObjMap("data/ObjFile/NW_Testmap","testmap3.obj");
 	pMap->Tagging(Tag::Tag_Map);
 	
-	pMap->GetScaling(D3DXVECTOR3(0.1f, 1.0f, 0.1f));
+	pMap->SetScale(D3DXVECTOR3(0.1f, 1.0f, 0.1f));
 	ObjectManager->AddStaticChild(pMap);
 
 
@@ -144,19 +157,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	//ObjectManager->AddChild(m_pSkinnedUnit);
 
-	D3DLIGHT9 m_Light;
-	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
-	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
-	m_Light.Ambient  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	m_Light.Diffuse  = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	D3DXVECTOR3 vDir(0.0f, 5.0f, 5.0f);
-	D3DXVec3Normalize(&vDir, &vDir);
-	m_Light.Direction = vDir;
-
-	g_pD3DDevice->SetLight(0, &m_Light);
-	g_pD3DDevice->LightEnable(0, true);
-
 	cObjMesh *Lava = new cObjMesh;
 	Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
 	Lava->Tagging(Tag::Tag_cObj);
@@ -170,7 +170,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cPaladin* Paladin = new cPaladin;
 	Paladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
-	Paladin->SetPosition(D3DXVECTOR3(10, 0, 0));
+	Paladin->SetPosition(D3DXVECTOR3(30, 0, 0));
 	ObjectManager->AddChild(Paladin);
 	
 #pragma region Popup UI
