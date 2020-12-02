@@ -151,25 +151,26 @@
     <ClCompile Include="ObjMap.cpp">
       <Filter>Code\Map\OBJMap</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Code\Shader</Filter>
+    </ClCompile>
     <ClCompile Include="LavaGolem.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
     </ClCompile>
-    <ClCompile Include="LavaState.cpp">
+    <ClCompile Include="LavaAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaDie.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClCompile>
     <ClCompile Include="LavaIdle.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClCompile>
-    <ClCompile Include="LavaAttack.cpp">
-      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
-    </ClCompile>
     <ClCompile Include="LavaRun.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClCompile>
-    <ClCompile Include="LavaDie.cpp">
+    <ClCompile Include="LavaState.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
-    <ClCompile Include="ShaderLoader.cpp">
-      <Filter>Code\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,25 +333,26 @@
     <ClInclude Include="ObjMap.h">
       <Filter>Code\Map\OBJMap</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Code\Shader</Filter>
+    </ClInclude>
     <ClInclude Include="LavaGolem.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
     </ClInclude>
-    <ClInclude Include="LavaState.h">
+    <ClInclude Include="LavaAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaDie.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClInclude>
     <ClInclude Include="LavaIdle.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClInclude>
-    <ClInclude Include="LavaAttack.h">
-      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
-    </ClInclude>
     <ClInclude Include="LavaRun.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClInclude>
-    <ClInclude Include="LavaDie.h">
+    <ClInclude Include="LavaState.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
-    <ClInclude Include="ShaderLoader.h">
-      <Filter>Code\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -495,16 +497,17 @@
     <Filter Include="Code\Map\iMap">
       <UniqueIdentifier>{b7970f5c-034e-4546-8a11-29da703926bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem">
-      <UniqueIdentifier>{74694084-8d1a-4e78-a9b5-9cf5a4a487c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState">
-      <UniqueIdentifier>{40642040-aeda-48c3-a26b-1ff1b64ddcff}</UniqueIdentifier>
     <Filter Include="Code\OBB">
       <UniqueIdentifier>{32823407-0e73-4723-bf41-0ce4ae28bc7b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Shader">
       <UniqueIdentifier>{3c5bf0d3-abca-4ed6-b3f7-7af4ee01135d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem">
+      <UniqueIdentifier>{0be48b74-b8bc-47ae-802e-60a49153813a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState">
+      <UniqueIdentifier>{844aebe2-9021-4ed0-af0b-24d3bcdb3bc2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
