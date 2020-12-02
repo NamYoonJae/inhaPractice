@@ -172,6 +172,9 @@
     <ClCompile Include="LavaState.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClCompile>
+    <ClCompile Include="jsonManager.cpp">
+      <Filter>Code\jsonManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -354,6 +357,9 @@
     <ClInclude Include="LavaState.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
     </ClInclude>
+    <ClInclude Include="jsonManager.h">
+      <Filter>Code\jsonManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -508,6 +514,9 @@
     </Filter>
     <Filter Include="Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState">
       <UniqueIdentifier>{844aebe2-9021-4ed0-af0b-24d3bcdb3bc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\jsonManager">
+      <UniqueIdentifier>{781111a7-817e-4e4a-9c0d-1ac8f10cb73d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

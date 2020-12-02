@@ -13,6 +13,8 @@
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
 cPopup* Setup_OptionWindow(cPopup* btn)
 {
+	JSON_Object * p_json_object_UI = g_p_jsonManager->get_json_object_UI();
+	
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 	cout << "Left : " << rc.left << endl; // 0
@@ -55,16 +57,16 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 	// TODO json Test
 	// 이미지의 크기는 23 x 23
 	
-	//cButton *pChk_MiniMap = new cButton;
-	//pOptionBackGround->cButtonPushBack(pChk_MiniMap);
-	//// pExitButton->Setup("data/UI/Settings", "NW_Setting_ToggleButton_Off.png",
-	//pChk_MiniMap->Setup(
-	//	json_Fuction::object_get_pChar(g_p_jsonManager->get_json_object_UI(), "UI/Settings/directory"),
-	//	json_Fuction::object_get_pChar(g_p_jsonManager->get_json_object_UI(), "UI/Settings/filename/ToggleButton_On"),
-	//	//D3DXVECTOR3(0, 0, 0), // 생성시 json 파싱받아보기
-	//	pChk_MiniMap->GetUpPopUp()->GetPosition(),
-	//	0, 0, 0,
-	//	1, true, true); // 스케일은 임시로 10
+	cButton *pChk_MiniMap = new cButton;
+	pOptionBackGround->cButtonPushBack(pChk_MiniMap);
+	// pExitButton->Setup("data/UI/Settings", "NW_Setting_ToggleButton_Off.png",
+	pChk_MiniMap->Setup(
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/filename/ToggleButton_On"),
+		//D3DXVECTOR3(0, 0, 0), // 생성시 json 파싱받아보기
+		pChk_MiniMap->GetUpPopUp()->GetPosition(),
+		0, 0, 0,
+		1, true, true); // 스케일은 임시로 10
 	
 	// TODO 이벤트 추가
 	// pExitButton->EventProcess = Tmp_CheckEvent;
