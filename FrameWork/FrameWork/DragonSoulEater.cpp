@@ -86,8 +86,8 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 //	g_pD3DDevice->SetMaterial(&m_Mstl);
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
-	m_pSkinnedUnit->Render();
 	g_pD3DDevice->SetMaterial(&m_Mstl);
+	m_pSkinnedUnit->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pD3DDevice->SetTexture(0, NULL);
 	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));

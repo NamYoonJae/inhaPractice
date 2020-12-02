@@ -151,6 +151,24 @@
     <ClCompile Include="ObjMap.cpp">
       <Filter>Code\Map\OBJMap</Filter>
     </ClCompile>
+    <ClCompile Include="LavaGolem.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaState.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaIdle.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaRun.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaDie.cpp">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -312,6 +330,24 @@
     <ClInclude Include="ObjMap.h">
       <Filter>Code\Map\OBJMap</Filter>
     </ClInclude>
+    <ClInclude Include="LavaGolem.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaState.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaIdle.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaRun.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaDie.h">
+      <Filter>Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -457,6 +493,12 @@
     </Filter>
     <Filter Include="Code\Map\iMap">
       <UniqueIdentifier>{b7970f5c-034e-4546-8a11-29da703926bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem">
+      <UniqueIdentifier>{74694084-8d1a-4e78-a9b5-9cf5a4a487c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\LavaGolem\LavaGolemState">
+      <UniqueIdentifier>{40642040-aeda-48c3-a26b-1ff1b64ddcff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
