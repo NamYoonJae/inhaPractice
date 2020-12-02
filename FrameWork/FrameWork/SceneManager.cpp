@@ -52,7 +52,7 @@ void cSceneManager::Setup()
 void cSceneManager::ChangeScene(int sceneNum)
 {
 	// 씬을 바꾸는 법
-
+	//boss1이 넘어온다 이건 SceneNumber
 	int nRandom = sceneNum;//rand()%2;
 	LoadScene(nRandom);
 }
@@ -67,7 +67,9 @@ void cSceneManager::Destroy()
 
 void cSceneManager::LoadScene(int SceneType)
 {
-
+	//SceneTpye 은 씬 종류이다 ->즉, 바뀔 씬Number이자 Type
+	
+	//
 	// setup
 	//m_CurrentScene->Reset();
 

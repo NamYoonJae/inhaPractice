@@ -126,8 +126,23 @@ void ObjectPool::Revert()
 	
 	//
 
+	/*
+	cPopup* popup = (cPopup*)ObjectManager->SearchChildUI(preSceneType);
+	popup->PowerOnOff();
+
+
+	popup = (cPopup*)ObjectManager->SearchChildUI(curSceneType);
+	popup->PowerOnOff();
+	*/
+
 	return;
 }
+
+void ObjectPool::Revert(int preSceneType, int curSceneType)
+{
+
+}
+
 
 const cObject* ObjectPool::GetChild(int nIndex)
 {
@@ -176,6 +191,26 @@ const cObject* ObjectPool::SearchChild(int nTag)
 
 	return vecObjectList.at(i);
 }
+
+const cObject * ObjectPool::SearchChildUI(int nTag)
+{
+	int i = 0;
+	if (vecUserInterface.empty()) return NULL;
+
+	while (vecUserInterface.at(i)->GetTag() != nTag)
+	{
+		++i;
+
+		if (vecUserInterface.size() <= i)
+		{
+			return NULL;
+		}
+	}
+
+	return vecUserInterface.at(i);
+}
+
+
 
 void ObjectPool::CollisionProcess()
 {
