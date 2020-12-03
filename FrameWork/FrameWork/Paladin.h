@@ -19,8 +19,6 @@ private:
 
 	cPaladinState*	m_pCurState;
 	DWORD			m_dwDelayState;
-
-	LPD3DXEFFECT	m_pShader;
 public:
 	cPaladin();
 	~cPaladin();
