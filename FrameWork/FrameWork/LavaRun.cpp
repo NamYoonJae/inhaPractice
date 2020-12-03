@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include "LavaRun.h"
 #include "LavaGolem.h"
-#include "SkinnedMesh.h"
-#include "TimerManager.h"
 #pragma once
 cLavaRun::cLavaRun(cLavaGolem* pLavaGolem)
 	:cLavaState(pLavaGolem)
 {
+	m_nStateIndex = 1;
 }
 
 

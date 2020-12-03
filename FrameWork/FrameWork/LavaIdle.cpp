@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "LavaIdle.h"
-#include "LavaGolem.h"
 #pragma once
 
 cLavaIdle::cLavaIdle(cLavaGolem* pLavaGolem)
 	:cLavaState(pLavaGolem)
 	, m_ElapsedTime(GetTickCount())
 {
-
+	m_nStateIndex = 0;
 }
 
 

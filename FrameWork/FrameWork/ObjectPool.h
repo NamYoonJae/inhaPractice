@@ -11,9 +11,9 @@ class ObjectPool : public cObject
 private:
 	std::vector<cObject*> vecObjectList;
 	std::vector<cObject*> vecUserInterface;
+	std::vector<cObject*> DeleteObject;
 	int m_nRefcnt;
 public:
-
 	void Update() override;
 	void Render(D3DXMATRIXA16* pmat = 0) override;
 

@@ -25,8 +25,6 @@ void ObjectPool::Update()
 	if (terrain == NULL)
 		terrain = (iMap*)SearchChild(Tag::Tag_Map);
 
-
-	
 	for(int i = 0; i< vecObjectList.size(); ++i)
 	{
 		if (terrain != NULL && 
@@ -38,6 +36,23 @@ void ObjectPool::Update()
 			vecObjectList[i]->SetPos(pos);
 		}
 		vecObjectList.at(i)->Update();
+	}
+
+
+	for (int i = 0; i < vecObjectList.size(); ++i)
+	{
+
+	}
+
+	std::vector<cObject*>::iterator it;
+	it = vecObjectList.begin();
+
+	for (; it != vecObjectList.end();)
+	{
+		if ((*it)->m_isDelete)
+			it = vecObjectList.erase(it);
+		else
+			++it;
 	}
 
 }
@@ -226,8 +241,6 @@ const cObject * ObjectPool::SearchChildUI(int nTag)
 
 	return vecUserInterface.at(i);
 }
-
-
 
 void ObjectPool::CollisionProcess()
 {

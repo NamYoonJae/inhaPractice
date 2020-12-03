@@ -9,6 +9,7 @@ cObject::cObject()
 	, m_vPos(0, 0, 0)
 	, m_vDir(0, 0, -1)
 	, m_nTag(999)
+	, m_isDelete(false)
 {
 }
 
