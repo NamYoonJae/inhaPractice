@@ -69,7 +69,7 @@ public:
 	void SetRotation(D3DXVECTOR3 Rot) { m_vRot = Rot; }
 
 	bool m_isDelete;
-	virtual void CollisionProcess(cObject* pObject,int nTag, DWORD dwDelayTime) {};
+	virtual void CollisionProcess(cObject* pObject, DWORD dwDelayTime) {};
 };
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,

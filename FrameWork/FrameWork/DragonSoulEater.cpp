@@ -517,10 +517,11 @@ void DragonSoulEater::SetupBoundingBox()
 	}
 }
 
-void DragonSoulEater::CollisionProcess(cObject* pObject, int nTag, DWORD dwDelayTime)
+void DragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 {
 	cOBB* pOBB = pObject->GetOBB();
 
+	int nTag = pObject->GetTag();
 	if(mapCollisionList.find(nTag) != mapCollisionList.end())
 	{
 		// find 
