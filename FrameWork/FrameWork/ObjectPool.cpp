@@ -242,7 +242,7 @@ const cObject * ObjectPool::SearchChildUI(int nTag)
 	return vecUserInterface.at(i);
 }
 
-void ObjectPool::CollisionProcess()
+void ObjectPool::CollisionDetection()
 {
 
 	for (int i = 0; i < vecObjectList.size(); ++i)
@@ -259,7 +259,12 @@ void ObjectPool::CollisionProcess()
 				vecObjectList.at(j)->GetOBB()))
 			{
 				// 수치 계산
-				
+				vecObjectList.at(i)->CollisionProcess(vecObjectList.at(j),
+					vecObjectList.at(j)->GetTag(), 1500.0f);
+
+				vecObjectList.at(j)->CollisionProcess(vecObjectList.at(i),
+					vecObjectList.at(j)->GetTag(), 1500.0f);
+
 			}
 
 		}

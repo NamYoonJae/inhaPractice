@@ -66,6 +66,11 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		m_Queue.push((EventType)0x80);
 		Notify();
+		if (GetAsyncKeyState(wParam) & 0x81)
+		{
+			cout << "Stay";
+		}
+
 	}
 	case WM_LBUTTONUP:
 	{

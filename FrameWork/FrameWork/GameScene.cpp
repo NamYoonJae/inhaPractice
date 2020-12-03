@@ -165,7 +165,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	//cLavaGolem* Lava = new cLavaGolem;
 	//Lava->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
 	//Lava->Setup("data/XFile/LavaGolem", "LavaGolem.X");
-	//Lava->Tagging(Tag::Tag_cObj);
+	//Lava->Tagging(Tag_LavaGolem);
 	//ObjectManager->AddChild(Lava);
 
 

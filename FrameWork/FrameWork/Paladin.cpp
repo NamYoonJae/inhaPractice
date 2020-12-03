@@ -4,7 +4,7 @@
 #include "PaladinState.h"
 #include "TimerManager.h"
 #include "TextureManager.h"
-#include "ShaderLoader.h"
+#include "ShaderManager.h"
 
 #include "Paladin.h"
 
@@ -13,7 +13,6 @@ cPaladin::cPaladin()
 	,m_isMoving(false)
 	,m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
-	,m_pShader(NULL)
 {
 }
 
@@ -23,7 +22,6 @@ cPaladin::~cPaladin()
 	SafeDelete(m_pOBB);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
-	SafeDelete(m_pShader)
 }
 
 void cPaladin::Setup(char* szFolder, char* szFile)
@@ -47,16 +45,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 void cPaladin::ShaderSetup()
 {
-	m_pShader = LoadShader("data/Shader/SpecularMapping.fx");
-
-	//D3DXMATRIXA16	matView;
-	//g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-
-	//D3DXMATRIXA16	matProjection;
-	//g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-
-	//D3DXMATRIXA16	matInvWorld;
-	//D3DXMatrixInverse(&matInvWorld, 0, &m_matWorld);
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular);
 
 	D3DLIGHT9   Light;
 	g_pD3DDevice->GetLight(0, &Light);
@@ -66,17 +55,8 @@ void cPaladin::ShaderSetup()
 	D3DXCOLOR c = Light.Diffuse;
 	D3DXVECTOR4 LightColor = D3DXVECTOR4(c.r, c.g, c.b, c.a);
 
-	//// 쉐이더 전역변수들을 설정
-	//m_pShader->SetMatrix("gWorldMatrix", &m_matWorld);
-	//m_pShader->SetMatrix("gViewMatrix", &matView);
-	//m_pShader->SetMatrix("gProjectionMatrix", &matProjection);
-	//m_pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
-
-	m_pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
-	m_pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
-
-	m_pShader->SetVector("gWorldLightPos", &vLightPos);
-	m_pShader->SetVector("gLightColor", &LightColor);
+	pShader->SetVector("gWorldLightPos", &vLightPos);
+	pShader->SetVector("gLightColor", &LightColor);
 }
 
 void cPaladin::Update()
@@ -165,7 +145,9 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 #pragma endregion 
 
 #pragma region UsingShader
-	if(m_pShader)
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular);
+	
+	if(pShader)
 	{
 		D3DXMATRIXA16	matView;
 		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
@@ -177,24 +159,27 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 		D3DXMatrixInverse(&matInvWorld, 0, &m_matWorld);
 
 		// 쉐이더 전역변수들을 설정
-		m_pShader->SetMatrix("gWorldMatrix", &m_matWorld);
-		m_pShader->SetMatrix("gViewMatrix", &matView);
-		m_pShader->SetMatrix("gProjectionMatrix", &matProjection);
-		m_pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
+		pShader->SetMatrix("gWorldMatrix", &m_matWorld);
+		pShader->SetMatrix("gViewMatrix", &matView);
+		pShader->SetMatrix("gProjectionMatrix", &matProjection);
+		pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
+
+		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
+		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
 		
 		UINT numPasses = 0;
-		m_pShader->Begin(&numPasses, NULL);
+		pShader->Begin(&numPasses, NULL);
 		{
 			for (UINT i = 0; i < numPasses; ++i)
 			{
-				m_pShader->BeginPass(i);
+				pShader->BeginPass(i);
 				{
 					m_pSkinnedUnit->Render();
 				}
-				m_pShader->EndPass();
+				pShader->EndPass();
 			}
 		}
-		m_pShader->End();
+		pShader->End();
 	}
 #pragma endregion 
 }
