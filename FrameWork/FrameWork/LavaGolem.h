@@ -18,6 +18,7 @@ private:
 	float		m_fMaxHP;
 
 	float		m_fDist;
+	D3DXMATRIXA16 m_matR;
 public:
 	cLavaGolem();
 	~cLavaGolem();
@@ -32,6 +33,8 @@ public:
 	float GetCurrentHP() { return m_fCurrentHP; }
 	D3DXVECTOR3* GetTarget() { return m_pvTarget; }
 	float GetDist() { return m_fDist; }
+	D3DXMATRIXA16* GetRotationMatrix() { return &m_matR; };
+	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
 };
 
 // 공격 이동 죽음 IDLE
