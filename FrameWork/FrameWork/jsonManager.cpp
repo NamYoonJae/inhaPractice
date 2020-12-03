@@ -10,6 +10,8 @@ jsonManager::jsonManager()
 	, m_rootObject_Skill(nullptr)
 	, m_rootValue_UI(nullptr)
 	, m_rootObject_UI(nullptr)
+	, m_rootValue_Setting(nullptr)
+	, m_rootObject_Setting(nullptr)
 {
 	//vector<JSON_Value*> m_rootValue_BOSS; // 임시
 	//vector<JSON_Object*> m_rootObject_BOSS; // 임시
@@ -30,9 +32,13 @@ void jsonManager::Setup()
 	m_rootObject_UI = json_value_get_object(m_rootValue_UI);
 
 	if (!m_rootObject_UI)
-		cout << "파일 비었음..." << endl;
+		cout << "json 파일 비었음..." << endl;
 
-	
+	m_rootValue_Setting = json_parse_file("data/json/Setting.json");
+	m_rootObject_Setting = json_value_get_object(m_rootValue_Setting);;
+
+	if (!m_rootObject_UI)
+		cout << "json 파일 비었음..." << endl;
 }
 
 void jsonManager::Destroy()
@@ -50,9 +56,16 @@ void jsonManager::Destroy()
 			json_value_free(m_rootValue_stage[i]);
 	
 	json_value_free(m_rootValue_UI);
+	json_value_free(m_rootValue_Setting);
 }
 
 JSON_Object* jsonManager::get_json_object_UI()
 {
 	return m_rootObject_UI;
 }
+
+JSON_Object* jsonManager::get_json_object_Setting()
+{
+	return m_rootObject_Setting;
+}
+

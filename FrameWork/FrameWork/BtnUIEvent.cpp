@@ -3,6 +3,8 @@
 #include "PopUp.h"
 #include "ObjectPool.h"
 #include "BtnUIEvent.h"
+
+#include "jsonManager.h"
 //#include "SystemUIEvent.h"
 //#include "OptionUIEvent.h"
 
@@ -29,9 +31,15 @@ cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position)
 // 이 함수를 템플릿으로 사용할 예정
 void BarSliderMoveEvent(EventType message, cPopup* btn)
 {
+	// json object 포인터 생성
+	static JSON_Object * p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	
 	cButton* button = (cButton*)btn;
 
 	const int movement_range = 290;
+	//const int tick = movement_range / 10;
+	const int tick = json_Fuction::object_get_double(p_json_object_setting, "BarSliderTick");
+
 	// 생성시 버튼의 위치를 기억함
 	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
 	D3DXVECTOR3 btnPosition = button->GetPosition();
@@ -86,6 +94,8 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
 		if (btnPosition.x > startBtnPosition.x + movement_range)
 			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+
+		json_object_set_number(p_json_object_setting, "BarSliderMoveEvent", (btnPosition.x - startBtnPosition.x) / tick);
 	}
 	break;
 	};//switch End

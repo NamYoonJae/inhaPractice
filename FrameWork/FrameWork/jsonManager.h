@@ -26,14 +26,17 @@ private:
 	vector<JSON_Value*> m_rootValue_stage; // 임시
 	vector<JSON_Object*> m_rootObject_stage; // 임시
 
-	
 	JSON_Value* m_rootValue_UI;
 	JSON_Object* m_rootObject_UI;
 
+	JSON_Value* m_rootValue_Setting;
+	JSON_Object* m_rootObject_Setting;
+	
 public:
 	void Setup();
 	void Destroy();
 
 	JSON_Object* get_json_object_UI();
+	JSON_Object* get_json_object_Setting();
 };
 
