@@ -161,7 +161,7 @@
     <ClInclude Include="jsonManager.h" />
     <ClInclude Include="LavaAttack.h" />
     <ClInclude Include="GameOverScene.h" />
-    <ClInclude Include="cFont.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="cOBB.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="DragonSoulEater.h" />
@@ -223,7 +223,7 @@
     <ClCompile Include="jsonManager.cpp" />
     <ClCompile Include="LavaAttack.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
-    <ClCompile Include="cFont.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="cOBB.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="DragonSoulEater.cpp" />

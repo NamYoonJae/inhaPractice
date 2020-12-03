@@ -115,9 +115,6 @@
     <ClCompile Include="cOBB.cpp">
       <Filter>Code\OBB</Filter>
     </ClCompile>
-    <ClCompile Include="cFont.cpp">
-      <Filter>Code\UI</Filter>
-    </ClCompile>
     <ClCompile Include="GameOverSceneBtnEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
@@ -172,6 +169,9 @@
     <ClCompile Include="jsonManager.cpp">
       <Filter>Code\jsonManager</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Code\UI</Filter>
+	</ClCompile>
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Code\Shader</Filter>
     </ClCompile>
@@ -300,9 +300,6 @@
     <ClInclude Include="cOBB.h">
       <Filter>Code\OBB</Filter>
     </ClInclude>
-    <ClInclude Include="cFont.h">
-      <Filter>Code\UI</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverSceneBtnEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
@@ -357,6 +354,9 @@
     <ClInclude Include="jsonManager.h">
       <Filter>Code\jsonManager</Filter>
     </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Code\UI</Filter>
+	</ClInclude>
     <ClInclude Include="ShaderManager.h">
       <Filter>Code\Shader</Filter>
     </ClInclude>

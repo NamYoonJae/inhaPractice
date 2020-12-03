@@ -106,6 +106,7 @@ void StartGameBtnEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Over.png");
 					g_pSceneManager->ChangeScene(SceneType::SCENE_BOSS_1);
+					//g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
 				}
 			}
 		}
@@ -417,4 +418,3 @@ void ExitGameBtnEvent(EventType message, cPopup* btn)
 	break;
 	};//switch End
 }
-
