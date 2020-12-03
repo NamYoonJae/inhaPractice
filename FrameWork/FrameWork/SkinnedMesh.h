@@ -49,6 +49,7 @@ public:
 	void SetTransform(D3DXMATRIXA16* pmat);
 	D3DXMATRIXA16* GetCombineMatrix();
 	bool GetIsBlend() { return m_isAnimBlend; }
+	void SetIsBlend(bool b) { m_isAnimBlend = b; }
 	// <<
 
 	D3DXMATRIX* m_pTransformationMatrix;
@@ -56,5 +57,10 @@ public:
 	//
 	std::vector<D3DXMATRIXA16*> SetUpBoneMatrix();
 	D3DXFRAME* GetFrame() { return m_pRoot; }
+
+	float	GetPassedBlendTime(){ return m_fPassedBlendTime; }
+	void	SetPassedBlendTime(float time) { m_fPassedBlendTime = time; }
+	DWORD	GetAnimStartTime() { return m_dAnimStartTime; }
+	void	SetAnimStartTime(DWORD time) { m_dAnimStartTime = time; }
 };
 

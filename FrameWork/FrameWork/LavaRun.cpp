@@ -18,23 +18,13 @@ void cLavaRun::Handle()
 {
 	if (m_pGolem)
 	{
-		D3DXVECTOR3 vTarget		= *m_pGolem->GetTarget();
-		D3DXVECTOR3 vCurrentDir = m_pGolem->GetDirection();
-		D3DXVECTOR3 vPosition   = m_pGolem->GetPos();
-
-		D3DXVECTOR3 vDirection = vTarget - vPosition;
+		D3DXVECTOR3 goal		 = *m_pGolem->GetTarget();
+		D3DXVECTOR3 currentPos   = m_pGolem->GetPos();
+		D3DXVECTOR3 vUp(0, 1, 0);
+		D3DXVECTOR3 vDirection = (goal - currentPos);
 		m_pGolem->SetDirection(vDirection);
-
-		D3DXVECTOR2 vT = D3DXVECTOR2(vTarget.x, vTarget.z);
-		D3DXVECTOR2 vP = D3DXVECTOR2(vPosition.x, vPosition.z);
+		D3DXMATRIXA16 matR;
 		
-		float RotY = acos(D3DXVec2Dot(&vT, &vP));
-		D3DXVECTOR3 vRotation = m_pGolem->GetRotation();
-		vRotation.y = RotY;
-		//m_pGolem->SetRotation(vRotation);
-
-
-
 		if (m_pGolem->GetDist() <= 10.0f)
 		{
 			m_pGolem->Request(2);
@@ -42,8 +32,8 @@ void cLavaRun::Handle()
 		}
 		else
 		{
-			vPosition += vDirection * 0.01f;
-			m_pGolem->SetPos(vPosition);
+			currentPos += vDirection * 0.01f;
+			m_pGolem->SetPos(currentPos);
 		}
 
 		
@@ -52,16 +42,10 @@ void cLavaRun::Handle()
 			LPD3DXANIMATIONCONTROLLER pAnimController = m_pGolem->GetSkinnedMesh().GetAnimationController();
 			LPD3DXANIMATIONSET pCurAnimSet = NULL;
 			pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
-			if (GetTickCount() - m_dwAnimStartTime > pCurAnimSet->GetPeriod() * 1000.0f - m_dwBlendTime * 1000.0f)
+			if (GetTickCount() - m_pGolem->GetSkinnedMesh().GetAnimStartTime()
+				 > pCurAnimSet->GetPeriod() * 1000.0f - m_pGolem->GetSkinnedMesh().GetBlendTime() * 1000.0f)
 			{
 				m_pGolem->GetSkinnedMesh().SetAnimationIndexBlend(0);
-				m_dwAnimStartTime = GetTickCount();
-
-				pAnimController->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
-				m_pGolem->GetSkinnedMesh().Update((ST_BONE*)m_pGolem->GetSkinnedMesh().GetFrame(),
-					&m_pGolem->GetSkinnedMesh().m_matWorldTM);
-				m_pGolem->GetSkinnedMesh().UpdateSkinnedMesh(m_pGolem->GetSkinnedMesh().GetFrame());
-
 			}
 		}
 
