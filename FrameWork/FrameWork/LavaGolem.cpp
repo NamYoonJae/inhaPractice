@@ -8,8 +8,9 @@
 #include "ObjectPool.h"
 
 #include "LavaState.h"
- 
-#pragma once;
+#include "TimerManager.h"
+
+#pragma once
 
 cLavaGolem::cLavaGolem()
 	:m_pState(NULL)
@@ -43,10 +44,45 @@ void cLavaGolem::Setup(char* szFolder, char* szFileName)
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
 	m_pState = new cLavaIdle(this);
+
+	D3DXMatrixIdentity(&m_matR);
+
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	m_pSkinnedMesh->SetTransform(&matWorld);
+	
 }
 
 void cLavaGolem::Update()
 {
+	if (m_pSkinnedMesh)
+	{
+		if (m_pSkinnedMesh->GetIsBlend())
+		{
+			float fPassedBlendTime = m_pSkinnedMesh->GetPassedBlendTime();
+			fPassedBlendTime += g_pTimeManager->GetElapsedTime();
+			m_pSkinnedMesh->SetPassedBlendTime(fPassedBlendTime);
+
+			if (fPassedBlendTime >= m_pSkinnedMesh->GetBlendTime())
+			{
+				m_pSkinnedMesh->SetIsBlend(false);
+				m_pSkinnedMesh->GetAnimationController()->SetTrackWeight(0, 1.0f);
+				m_pSkinnedMesh->GetAnimationController()->SetTrackEnable(1, false);
+			}
+			else
+			{
+				float fWeight = fPassedBlendTime / m_pSkinnedMesh->GetBlendTime();
+				m_pSkinnedMesh->GetAnimationController()->SetTrackWeight(0, fWeight);
+				m_pSkinnedMesh->GetAnimationController()->SetTrackWeight(1, 1.0f - fWeight);
+			}
+		}
+
+		m_pSkinnedMesh->GetAnimationController()->AdvanceTime(g_pTimeManager->GetElapsedTime(), NULL);
+		this->GetSkinnedMesh().Update((ST_BONE*)this->GetSkinnedMesh().GetFrame()
+			, &this->GetSkinnedMesh().m_matWorldTM);
+		m_pSkinnedMesh->UpdateSkinnedMesh(m_pSkinnedMesh->GetFrame());
+	}
+
 	// ¿¹ºñ
 	cCharater* m_player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
 	if (m_player)
@@ -55,19 +91,47 @@ void cLavaGolem::Update()
 
 		m_fDist = (sqrt(pow(m_pvTarget->x - m_vPos.x, 2) +
 			pow(m_pvTarget->z - m_vPos.z, 2)));
+
+		D3DXVECTOR3 goal = *m_pvTarget;
+		D3DXVECTOR3 currentPos = m_vPos;
+		D3DXVECTOR3 vUp(0, 1, 0);
+		D3DXVECTOR3 vDirection = (goal - currentPos);
+		m_vDir = vDirection;
+
+		D3DXMATRIXA16 matR,matRy;
+		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &(goal - currentPos), &vUp);
+		D3DXMatrixTranspose(&matR, &matR);
+		D3DXMatrixRotationY(&matRy, D3DX_PI);
+		
+		matR = matR * matRy;
+		SetRotationMatrix(&matR);
+		
 	}
 
 	//
 	if (m_pState)
 		m_pState->Handle();
 
-
-
-
 	if (m_fCurrentHP <= 0.0f)
 	{
 		Request(3);
 	}
+
+	D3DXMATRIXA16 matWorld, matT,
+		matR, matRx, matRy, matRz, matS;
+	D3DXMatrixIdentity(&matWorld);
+
+	D3DXMatrixRotationX(&matRx, m_vRot.x);
+	D3DXMatrixRotationY(&matRy, m_vRot.y);
+	D3DXMatrixRotationZ(&matRz, m_vRot.z);
+	matR = matRx * matRy * matRz;
+	if (m_matR)
+		matR = m_matR;
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+	matWorld = matR * matT;
+
+	m_pOBB->Update(&matWorld);
 }
 
 void cLavaGolem::Render(D3DXMATRIXA16 * pmat)
@@ -80,6 +144,8 @@ void cLavaGolem::Render(D3DXMATRIXA16 * pmat)
 	D3DXMatrixRotationY(&matRy, m_vRot.y);
 	D3DXMatrixRotationZ(&matRz, m_vRot.z);
 	matR = matRx * matRy * matRz;
+	if (m_matR)
+		matR = m_matR;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	matWorld = matS * matR * matT;
