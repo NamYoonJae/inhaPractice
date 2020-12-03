@@ -19,6 +19,8 @@ enum TAG_UI
 	TagUI_InGame,
 	TagUI_GameOver,
 
+	TagUI_ESC_Menu,
+	
 	TagUI_InGameObject
 };
 

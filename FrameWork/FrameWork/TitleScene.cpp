@@ -6,6 +6,8 @@
 #include "OptionUIEvent.h"
 #include "TitleSceneUIEvent.h"
 #include "GameOverSceneBtnEvent.h"
+#include "GameSceneUIEvent.h"
+#include "SystemUIEvent.h"
 
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
@@ -20,7 +22,6 @@ cTitleScene::~cTitleScene()
 
 void cTitleScene::Setup()
 {
-
 	//클라이언트 값을 받아와서
 	//비율화
 
@@ -31,7 +32,7 @@ void cTitleScene::Setup()
 	cout << "Bottom : " << rc.bottom << endl; //860
 	cout << "Top : " << rc.top << endl; // 0
 
-
+#pragma region UI TAG::Title
 	//TitleUI
 	cPopup *pTitleBackgroundPopup = new cPopup;
 	pTitleBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
@@ -79,9 +80,10 @@ void cTitleScene::Setup()
 	
 	EventManager->Attach(pTitleBackgroundPopup);
 	ObjectManager->AddUIChild(pTitleBackgroundPopup);
+#pragma endregion << UI TAG::Title
 
 
-
+#pragma region UI TAG::InGame
 	//InGame UI
 	cPopup* inGamePopup = new cPopup;
 	inGamePopup->Setup("","",
@@ -253,8 +255,10 @@ void cTitleScene::Setup()
 
 	EventManager->Attach(inGamePopup);
 	ObjectManager->AddUIChild(inGamePopup);
+#pragma endregion << UI TAG::InGame
 
 
+#pragma region UI TAG::GameObject
 	//오브젝트 게이지
 	cPopup* obectBar = new cPopup;
 	obectBar->Setup("", "", D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, false, true, TagUI_InGameObject);
@@ -270,11 +274,13 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(972.5, 445, 0), 0, 0, 0, 1, false, true);
 	interactionBarBackground->cButtonPushBack(interactionBarGauge);
 	*/
+	
 	EventManager->Attach(obectBar);
 	ObjectManager->AddUIChild(obectBar);
-	
+#pragma endregion << UI TAG::GameObject
 
-	
+
+#pragma region UI TAG::GameOver
 	float nRight = 0.34; //GameOver 이미지 작업할 때 제거하기
 	float nBottom = 0.45; //GameOver 이미지 작업할 때 제거하기
 
@@ -282,7 +288,6 @@ void cTitleScene::Setup()
 	cPopup* pGameOverBackgroundPopup = new cPopup;
 	pGameOverBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
 		D3DXVECTOR3(0, 0, 0), 1, false, true, TAG_UI::TagUI_GameOver);
-
 
 	cPopup* pGameOverTitleImagePopup = new cPopup;
 	pGameOverTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
@@ -312,6 +317,35 @@ void cTitleScene::Setup()
 
 	EventManager->Attach(pGameOverBackgroundPopup);
 	ObjectManager->AddUIChild(pGameOverBackgroundPopup);
+#pragma endregion << UI TAG::GameOver
+
+
+#pragma region UI TAG::ESC_Menu
+	// TODO json 파일 쓸 때 대비해서 주석남겨둠
+	// pPopup = new cPopup;
+	// pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
+	// pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
+
+	//EventManager->Attach(pPopup);
+	//ObjectManager->AddUIChild(pPopup);
+
+	// TODO 시스템창 불러오기
+	cPopup * pMediator = new cPopup;
+	pMediator->Setup(
+		"",
+		"",
+		D3DXVECTOR3(-1, -1, 0),
+		0, 0, 0,
+		1,
+		true, true, TAG_UI::TagUI_ESC_Menu);
+	pMediator->EventProcess = Opton_ESC_Event;
+
+	cPopup* pSystemPopUp = Setup_SystemWindow(pMediator);
+	cPopup * pOptionPopUp = Setup_OptionWindow(pMediator);
+
+	EventManager->Attach(pMediator);
+	ObjectManager->AddUIChild(pMediator);
+#pragma endregion << UI TAG::ESC_Menu
 }
 
 //
@@ -326,7 +360,6 @@ void cTitleScene::Reset(int sceneType)
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
-			
 		}
 		break;
 
