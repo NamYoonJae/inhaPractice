@@ -88,10 +88,15 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(0, 0, 0), 1, false, true, TAG_UI::TagUI_InGame);
 
 	//Hp
+	cButton* hpBar = new cButton;
+	hpBar->Setup("data/UI/InGame", "NW_HP_Gauge.png",
+		D3DXVECTOR3(61, 736, 0), 0, 0, 0, 1, false, true);
+	inGamePopup->cButtonPushBack(hpBar);
+
 	cButton* hpBarBackground = new cButton;
 	hpBarBackground->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
 		D3DXVECTOR3(30, 730, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(hpBarBackground);
+	hpBar->cButtonPushBack(hpBarBackground);
 
 	/* 이전버전소스 keep
 	cButton* hpBarBackground = new cButton;
@@ -112,10 +117,16 @@ void cTitleScene::Setup()
 	*/
 
 	//Staminer
+
+	cButton* staminerBar = new cButton;
+	staminerBar->Setup("data/UI/InGame", "NW_ST_Gauge.png",
+		D3DXVECTOR3(61, 786, 0), 0, 0, 0, 1, false, true); // 
+	inGamePopup->cButtonPushBack(staminerBar);
+
 	cButton* staminerBarBackgound = new cButton;
 	staminerBarBackgound->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
 		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(staminerBarBackgound);
+	staminerBar->cButtonPushBack(staminerBarBackgound);
 
 	/* 이전버전 소스 keep
 	cButton* staminerBarBackgound = new cButton;
@@ -280,35 +291,38 @@ void cTitleScene::Setup()
 
 	//GameOver UI
 	cPopup* pGameOverBackgroundPopup = new cPopup;
-	pGameOverBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
-		D3DXVECTOR3(0, 0, 0), 1, false, true, TAG_UI::TagUI_GameOver);
+	pGameOverBackgroundPopup->Setup("data/UI/GameOver", "NW_GameOver_BackGround.png",
+		D3DXVECTOR3(0, -80, 0), 1, false, true, TAG_UI::TagUI_GameOver);
 
-
+	/*
 	cPopup* pGameOverTitleImagePopup = new cPopup;
 	pGameOverTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
 		D3DXVECTOR3(370, 140, 0), 1, false, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pGameOverTitleImagePopup);
-
+	*/
 	//RETRY
+
+	
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene/START", "NW_StartButton_Idle.png",
-		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 105, 30, 0, 1, false, true);
+	pButton->Setup("data/UI/GameOver", "NW_GameOver_Re_Idle.png",
+		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 155, 150, 0, 1, false, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = RetryGameBtnEvent;
-
-	//처음으로
+	
+	/*
+	//메인메뉴
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png",
-		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 105, 150, 0, 1, false, true);
+	pButton->Setup("data/UI/GameOver", "NW_GameOver_Re_Idle.png",
+		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 155, 150, 0, 1, false, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = MainMenuBtnEvent;
-
-	//게임종료
+	*/
+	//종료
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene/END", "NW_EndButton_Idle.png",
-		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 105, 270, 0, 1, false, true);
+	pButton->Setup("data/UI/GameOver", "NW_GameOver_End_Idle.png",
+		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 155, 270, 0, 1, false, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = ExitGameBtnEvent;
+	pButton->EventProcess = ExitGameOverBtnEvent;
 
 	EventManager->Attach(pGameOverBackgroundPopup);
 	ObjectManager->AddUIChild(pGameOverBackgroundPopup);
