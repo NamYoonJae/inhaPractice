@@ -1,6 +1,8 @@
 #pragma once
-
-class cLavaGolem;
+#include "LavaGolem.h"
+#include "SkinnedMesh.h"
+#include "TimerManager.h"
+#include "LavaGolem.h"
 
 class cLavaState
 {
@@ -8,11 +10,13 @@ protected:
 	cLavaGolem* m_pGolem;
 	DWORD		m_dwAnimStartTime;
 	DWORD		m_dwBlendTime;
+	int			m_nStateIndex;
 public:
 	cLavaState(cLavaGolem*);
 	~cLavaState();
 
 	virtual void Handle() = 0;
+	int GetStateIndex() { return m_nStateIndex; }
 };
 
 #include "LavaAttack.h"

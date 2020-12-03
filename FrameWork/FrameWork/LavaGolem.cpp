@@ -85,7 +85,7 @@ void cLavaGolem::Update()
 
 	// 예비
 	cCharater* m_player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
-	if (m_player)
+	if (m_player && m_pState->GetStateIndex() != 3)
 	{
 		m_pvTarget = m_player->GetPos();
 
@@ -109,12 +109,13 @@ void cLavaGolem::Update()
 	}
 
 	//
-	if (m_pState)
-		m_pState->Handle();
 
-	if (m_fCurrentHP <= 0.0f)
+	static DWORD Timer = GetTickCount();
+	if ((m_fCurrentHP <= 0.0f || GetTickCount() - Timer > 16000.0f)
+		&& m_pState->GetStateIndex() != 3)
 	{
 		Request(3);
+		return;
 	}
 
 	D3DXMATRIXA16 matWorld, matT,
@@ -132,6 +133,9 @@ void cLavaGolem::Update()
 	matWorld = matR * matT;
 
 	m_pOBB->Update(&matWorld);
+
+	if (m_pState)
+		m_pState->Handle();
 }
 
 void cLavaGolem::Render(D3DXMATRIXA16 * pmat)
@@ -181,7 +185,8 @@ void cLavaGolem::Request(int state)
 		m_pState = new cLavaDie(this);
 		break;
 	case 4:
-		//삭제
+		//안전하게 제거하기 위해선
+		m_isDelete = true;
 		return;
 	}
 

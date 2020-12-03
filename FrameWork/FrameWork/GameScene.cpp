@@ -170,11 +170,11 @@ void cGameScene::Setup() // boss1map  boss2map
 	Paladin->SetPosition(D3DXVECTOR3(30, 0, 0));
 	ObjectManager->AddChild(Paladin);
 	
-	cLavaGolem* Lava = new cLavaGolem;
-	Lava->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
-	Lava->Setup("data/XFile/LavaGolem", "LavaGolem.X");
-	Lava->Tagging(Tag::Tag_cObj);
-	ObjectManager->AddChild(Lava);
+	//cLavaGolem* Lava = new cLavaGolem;
+	//Lava->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
+	//Lava->Setup("data/XFile/LavaGolem", "LavaGolem.X");
+	//Lava->Tagging(Tag::Tag_cObj);
+	//ObjectManager->AddChild(Lava);
 
 #pragma region Popup UI
 	RECT rc;

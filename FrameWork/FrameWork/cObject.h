@@ -30,18 +30,17 @@ class BoneOBB;
 class cObject
 {
 protected:
-
 	int			m_nTag;
 	cOBB*		m_pOBB;
-
 	vector<BoneOBB*> m_vBoneArray;
-
 protected:
 
 	D3DXVECTOR3 m_vPos;
 	D3DXVECTOR3 m_vDir;
 	D3DXVECTOR3 m_vRot;
 	D3DXVECTOR3 m_vScale;
+
+
 public:
 	cObject();
 	virtual ~cObject();
@@ -62,6 +61,8 @@ public:
 	void SetDirection(D3DXVECTOR3 dir) { m_vDir = dir; }
 	D3DXVECTOR3 GetRotation() { return m_vRot; }
 	void SetRotation(D3DXVECTOR3 Rot) { m_vRot = Rot; }
+
+	bool m_isDelete;
 };
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,

@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "LavaAttack.h"
-#include "SkinnedMesh.h"
-#include "LavaGolem.h"
-#include "TimerManager.h"
 #pragma once
 cLavaAttack::cLavaAttack(cLavaGolem* pLavaGolem)
 	:cLavaState(pLavaGolem)
-
 {
+	m_nStateIndex = 2;
 }
 
 
