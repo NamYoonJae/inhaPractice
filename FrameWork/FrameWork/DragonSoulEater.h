@@ -36,6 +36,7 @@ public:
 	void GetWorldMatrix(D3DXMATRIXA16* matWorld);
 
 	void SetupBoundingBox();
+	virtual void CollisionProcess(cObject* pObject, int nTag, DWORD dwCollsionTime) override;
 	//std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }
 };
 

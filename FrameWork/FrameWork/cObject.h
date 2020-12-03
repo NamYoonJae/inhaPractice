@@ -8,7 +8,7 @@ const enum Tag
 	Tag_Map,
 	Tag_Player,
 	Tag_Boss,
-	Tag_NormalEnemy,
+	Tag_LavaGolem,
 	Tag_cObj
 };
 
@@ -27,19 +27,25 @@ enum SceneType;
 class cOBB;
 class BoneOBB;
 
+struct CollisionInfo
+{
+	DWORD dwCollsionTime;
+	DWORD dwDelayTime;
+};
+
 class cObject
 {
 protected:
 	int			m_nTag;
 	cOBB*		m_pOBB;
 	vector<BoneOBB*> m_vBoneArray;
+	std::map<int, CollisionInfo> mapCollisionList; // 
 protected:
 
 	D3DXVECTOR3 m_vPos;
 	D3DXVECTOR3 m_vDir;
 	D3DXVECTOR3 m_vRot;
 	D3DXVECTOR3 m_vScale;
-
 
 public:
 	cObject();
@@ -63,6 +69,7 @@ public:
 	void SetRotation(D3DXVECTOR3 Rot) { m_vRot = Rot; }
 
 	bool m_isDelete;
+	virtual void CollisionProcess(cObject* pObject,int nTag, DWORD dwDelayTime) {};
 };
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,
@@ -85,3 +92,4 @@ struct BoundingBox
 	D3DXVECTOR3 m_vScale;
 
 };
+
