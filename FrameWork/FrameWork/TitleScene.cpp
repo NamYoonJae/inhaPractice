@@ -89,10 +89,17 @@ void cTitleScene::Setup()
 
 	//Hp
 	cButton* hpBarBackground = new cButton;
-	hpBarBackground->Setup("data/UI/InGame", "NW_HP_Bar_Background.png",
+	hpBarBackground->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
 		D3DXVECTOR3(30, 730, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(hpBarBackground);
 
+	/* 이전버전소스 keep
+	cButton* hpBarBackground = new cButton;
+	hpBarBackground->Setup("data/UI/InGame", "NW_HP_BarBackground.png",
+		D3DXVECTOR3(30, 730, 0), 0, 0, 0, 1, false, true);
+	inGamePopup->cButtonPushBack(hpBarBackground);
+
+	
 	cButton* hpBar = new cButton;
 	hpBar->Setup("data/UI/InGame", "NW_HP_Bar_Sword.png",
 		D3DXVECTOR3(60, 736, 0), 0, 0, 0, 1, false, true);
@@ -102,13 +109,21 @@ void cTitleScene::Setup()
 	hpBarMark->Setup("data/UI/InGame", "NW_HP_Bar_Mark.png",
 		D3DXVECTOR3(60, 736, 0), 0, 0, 0, 1, false, true);
 	hpBarBackground->cButtonPushBack(hpBarMark);
+	*/
 
 	//Staminer
 	cButton* staminerBarBackgound = new cButton;
-	staminerBarBackgound->Setup("data/UI/InGame", "NW_ST_Bar_Background.png",
+	staminerBarBackgound->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
 		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(staminerBarBackgound);
 
+	/* 이전버전 소스 keep
+	cButton* staminerBarBackgound = new cButton;
+	staminerBarBackgound->Setup("data/UI/InGame", "NW_ST_BarBackground.png",
+		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
+	inGamePopup->cButtonPushBack(staminerBarBackgound);
+
+	
 	cButton* staminerBar = new cButton;
 	staminerBar->Setup("data/UI/InGame", "NW_ST_Sword.png",
 		D3DXVECTOR3(60, 786, 0), 0, 0, 0, 1, false, true);
@@ -118,6 +133,7 @@ void cTitleScene::Setup()
 	staminerBarMark->Setup("data/UI/InGame", "NW_ST_Bar_Mark.png",
 		D3DXVECTOR3(60, 786, 0), 0, 0, 0, 1, false, true);
 	staminerBarBackgound->cButtonPushBack(staminerBarMark);
+	*/
 
 
 	//캐릭터 상태이상 이미지 좌표 따기위해 적어둠
@@ -171,6 +187,7 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, false, true);
 	bossAnger->cButtonPushBack(anger);
 	*/
+
 	/* //분노 이미지 테스트
 	anger = new cButton;
 	anger->Setup("data/UI/InGame", "NW_MonAnger_50.png",
@@ -219,10 +236,10 @@ void cTitleScene::Setup()
 
 	//전리품 게이지
 	cButton* attriBarBackground = new cButton;
-	attriBarBackground->Setup("data/UI/InGame","NW_AttriGauge_Background.png",
-		D3DXVECTOR3(1130, 760, 0), 0, 0, 0, 1, false, true);
+	attriBarBackground->Setup("data/UI/InGame","NW_Attri_BarBackground.png",
+		D3DXVECTOR3(1130, 780, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(attriBarBackground);
-
+	/*
 	cButton* attriBar = new cButton;
 	attriBar->Setup("data/UI/InGame", "NW_Attri_Gauge.png",
 		D3DXVECTOR3(1162, 765, 0), 0, 0, 0, 1, false, true);
@@ -232,23 +249,29 @@ void cTitleScene::Setup()
 	attriMark->Setup("data/UI/InGame", "NW_AttriGauge_Mark.png",
 		D3DXVECTOR3(1162, 768, 0), 0, 0, 0, 1, false, true);
 	attriBarBackground->cButtonPushBack(attriMark);
-
-
-	//오브젝트 게이지
-	cButton* interactionBarBackground = new cButton;
-	interactionBarBackground->Setup("data/UI/InGame", "NW_InteractionGauge_Background.png",
-		D3DXVECTOR3(970, 420, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(interactionBarBackground);
-
-	cButton* interactionBarGauge = new cButton;
-	interactionBarGauge->Setup("data/UI/InGame", "NW_Interaction_Gauge.png",
-		D3DXVECTOR3(972.5, 445, 0), 0, 0, 0, 1, false, true);
-	interactionBarBackground->cButtonPushBack(interactionBarGauge);
-
+	*/
 
 	EventManager->Attach(inGamePopup);
 	ObjectManager->AddUIChild(inGamePopup);
 
+
+	//오브젝트 게이지
+	cPopup* obectBar = new cPopup;
+	obectBar->Setup("", "", D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, false, true, TagUI_InGameObject);
+
+	cButton* interactionBarBackground = new cButton;
+	interactionBarBackground->Setup("data/UI/InGame", "NW_InteractionGauge_Background.png",
+		D3DXVECTOR3(970, 300, 0), 0, 0, 0, 1, false, true);
+	obectBar->cButtonPushBack(interactionBarBackground);
+
+	/*
+	cButton* interactionBarGauge = new cButton;
+	interactionBarGauge->Setup("data/UI/InGame", "NW_Interaction_Gauge.png",
+		D3DXVECTOR3(972.5, 445, 0), 0, 0, 0, 1, false, true);
+	interactionBarBackground->cButtonPushBack(interactionBarGauge);
+	*/
+	EventManager->Attach(obectBar);
+	ObjectManager->AddUIChild(obectBar);
 	
 
 	
@@ -303,6 +326,7 @@ void cTitleScene::Reset(int sceneType)
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
+			
 		}
 		break;
 
