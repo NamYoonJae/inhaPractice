@@ -151,9 +151,6 @@
     <ClCompile Include="ObjMap.cpp">
       <Filter>Code\Map\OBJMap</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderLoader.cpp">
-      <Filter>Code\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="LavaGolem.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="jsonManager.cpp">
       <Filter>Code\jsonManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Code\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -336,9 +336,6 @@
     <ClInclude Include="ObjMap.h">
       <Filter>Code\Map\OBJMap</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderLoader.h">
-      <Filter>Code\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="LavaGolem.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
     </ClInclude>
@@ -359,6 +356,9 @@
     </ClInclude>
     <ClInclude Include="jsonManager.h">
       <Filter>Code\jsonManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Code\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -203,7 +203,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);
-#pragma region Popup UI
+#pragma endregion 
 	
 }
 
