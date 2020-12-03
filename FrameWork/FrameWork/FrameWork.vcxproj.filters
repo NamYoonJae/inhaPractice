@@ -529,7 +529,4 @@
       <Filter>Resource</Filter>
     </Text>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
-  </ItemGroup>
 </Project>

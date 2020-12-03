@@ -1,8 +1,8 @@
 #pragma once
 
 cPopup* Setup_OptionWindow(cPopup* btn);
-void Option_ReturnEvent(EventType message, cPopup* btn);
-
+void Option_ReturnEvent_whitespace(EventType message, cPopup* popup);
+void Option_ReturnEvent(EventType message, cPopup* Popup);
 
 
 

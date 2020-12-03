@@ -15,12 +15,14 @@
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
 cPopup* Setup_SystemWindow(cPopup* btn)
 {
+	cout << "Setup_SystemWindow called" << endl;
+	
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
-	cout << "Left : " << rc.left << endl; // 0
-	cout << "Right : " << rc.right << endl; // 1584
-	cout << "Bottom : " << rc.bottom << endl; //860
-	cout << "Top : " << rc.top << endl; // 0
+	//cout << "Left : " << rc.left << endl; // 0
+	//cout << "Right : " << rc.right << endl; // 1584
+	//cout << "Bottom : " << rc.bottom << endl; //860
+	//cout << "Top : " << rc.top << endl; // 0
 
 	float nRight = 0.33;
 	float nBottom = 0.37;
@@ -34,6 +36,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		true, true);
 
 	cPopup *pSystemBackground = new cPopup;
+	pSystemBack->cButtonPushBack(pSystemBackground);
 	pSystemBackground->Setup(
 		"data/UI/ESCMenu",
 		"NW_InGameSetting_Background.png", // 362  421
@@ -41,7 +44,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		//0, 0, 0,
 		1, 
 		true, true);
-	pSystemBack->cButtonPushBack(pSystemBackground);
+	pSystemBackground->EventProcess = SysWindow_ReturnEvent_whitespace;
 	
 	//cPopup *pOptionBtnBackGround = new cPopup;
 	//pOptionBtnBackGround->Setup(
@@ -117,6 +120,43 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	}
 	
 	return pSystemBack;
+}
+
+void SysWindow_ReturnEvent_whitespace(EventType message, cPopup* popup)
+{
+	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
+	D3DXVECTOR3 btnPosition = popup->GetPosition();
+	float width = popup->GetImageInfoWidth() * popup->GetPercent();
+	float height = popup->GetImageInfoHeight() *  popup->GetPercent();
+
+	switch (message)
+	{
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+			btnPosition.y > cur.y || cur.y > btnPosition.y + height)
+		{
+			{
+				popup->SetStateChange(enum_On);
+			}
+		}
+	}
+
+	break;
+	case EventType::EVENT_LBUTTONUP:
+	{
+		if (popup->GetState() == enum_On)
+		{
+			if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+				btnPosition.y > cur.y || cur.y > btnPosition.y + height)
+			{
+				popup->SetStateChange(enum_Off);
+				popup->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
+			}
+		}
+	}
+	break;
+	};//switch End
 }
 
 void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
