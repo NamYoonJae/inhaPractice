@@ -4,6 +4,8 @@
 #include "SoulEaterState.h"
 #include "cOBB.h"
 #include "AllocateHierarchy.h"
+
+#pragma once
 DragonSoulEater::DragonSoulEater()
 	:m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
@@ -512,5 +514,37 @@ void DragonSoulEater::SetupBoundingBox()
 		m_vecBoundingBoxList[i].szName = szName;
 		m_vecBoundingBoxList[i].m_vScale = scale;
 		
+	}
+}
+
+void DragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
+{
+	cOBB* pOBB = pObject->GetOBB();
+
+	int nTag = pObject->GetTag();
+	if(mapCollisionList.find(nTag) != mapCollisionList.end())
+	{
+		// find 
+		return;
+	}
+	else
+	{
+		for (int i = 0; i < m_vecBoundingBoxList.size(); ++i)
+		{
+			if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(i).Box))
+			{
+				// leg, wing, head etc collision  detect
+
+				break;
+			}
+
+		}
+
+		CollisionInfo info;
+		info.dwCollsionTime = GetTickCount();
+		info.dwDelayTime = dwDelayTime;
+
+		mapCollisionList.insert(pair<int, CollisionInfo>(nTag,info));
+
 	}
 }

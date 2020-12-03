@@ -118,13 +118,6 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	ObjectManager->AddChild(pGrid);
 
-	// TODO json 파일 쓸 때 대비해서 주석남겨둠
-	// pPopup = new cPopup;
-	// pPopup->Setup(파일위치, D3DXVECTOR3(x축 중앙 - 이미지 x크기 - 위치조정, y축 중앙 - 이미지 y 크기 - 위치조정, 0), 배율);
-	// pPopup->Setup("data/UI/TitleScene", "게임 타이틀 사이즈 조정.png", D3DXVECTOR3(800 - 450, 450 - 150 - 200, 0), 2, false, false);
-
-	//EventManager->Attach(pPopup);
-	//ObjectManager->AddUIChild(pPopup);
 	
 
 	//cTerrain* pTerrain = new cTerrain;
@@ -157,7 +150,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(m_pDragon);
 	//m_pSkinnedUnit->SetTransform();
 
-	
 	//ObjectManager->AddChild(m_pSkinnedUnit);
 
 	//cObjObject *Lava = new cObjObject;
@@ -173,38 +165,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	//cLavaGolem* Lava = new cLavaGolem;
 	//Lava->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
 	//Lava->Setup("data/XFile/LavaGolem", "LavaGolem.X");
-	//Lava->Tagging(Tag::Tag_cObj);
+	//Lava->Tagging(Tag_LavaGolem);
 	//ObjectManager->AddChild(Lava);
 
-#pragma region Popup UI
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-	cout << "Left : " << rc.left << endl; // 0
-	cout << "Right : " << rc.right << endl; // 1584
-	cout << "Bottom : " << rc.bottom << endl; //860
-	cout << "Top : " << rc.top << endl; // 0
 
-	float nRight = 0.33;
-	float nBottom = 0.37;
-	
-	// TODO 시스템창 불러오기
-	cButton * pMediator = new cButton;
-	pMediator->Setup(
-		"",
-		"",
-		D3DXVECTOR3(-1,-1,0), 
-		0, 0, 0,
-		1,
-		true, true);
-	pMediator->EventProcess = Opton_ESC_Event;
-	
-	cPopup* pSystemPopUp = Setup_SystemWindow(pMediator);
-	cPopup * pOptionPopUp = Setup_OptionWindow(pMediator);
-	
-	EventManager->Attach(pMediator);
-	ObjectManager->AddUIChild(pMediator);
-#pragma region Popup UI
-	
 }
 
 void cGameScene::Reset(int sceneType)

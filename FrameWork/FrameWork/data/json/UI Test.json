@@ -2,21 +2,35 @@
   "UI": {
     "Settings": {
       "directory": "data/UI/Settings",
-      "filename": {
-        "UI": "NW_Setting_UI.png",
-        "ToggleButton_On": "NW_Setting_ToggleButton_On.png",
-        "ToggleButton_Off": "NW_Setting_ToggleButton_Off.png",
-        "BarSlider": "NW_Setting_BarSlider.png",
-        "Controller": "NW_Setting_Controller.png"
+      "UI": {
+        "filename" : "NW_Setting_UI.png"
+      },
+      "ToggleButton_On": {
+        "filename" : "NW_Setting_ToggleButton_On.png"
+      },
+      "ToggleButton_Off": {
+        "filename" : "NW_Setting_ToggleButton_Off.png"
+      },
+      "BarSlider": {
+        "filename" : "NW_Setting_BarSlider.png"
+      },
+      "Controller": {
+        "filename" : "NW_Setting_Controller.png"
       }
     },
     "roading": {
       "directory": "data/UI/roading",
-      "background": "전투 도입 배경 원본.png"
+      "background": {
+        "filename" : "전투 도입 배경 원본.png"
+      }
     },
-    "InGame": {},
-    "ESCMenu": {},
-    "TitleScene": {}
-  },
-  "": ""
+    "InGame": {
+
+    },
+    "ESCMenu": {
+
+    },
+    "TitleScene": {
+    }
+  }
 }

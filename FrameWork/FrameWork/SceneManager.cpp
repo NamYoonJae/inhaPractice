@@ -15,10 +15,9 @@ cSceneManager::cSceneManager()
 	m_vecScenes.resize(4);
 	const std::vector<cScene*>::iterator it = m_vecScenes.begin();
 
-
 	*(it + SceneType::SCENE_TITLE) = new cTitleScene(SceneType::SCENE_TITLE);
 	*(it + SceneType::SCENE_BOSS_1) = new cGameScene(SceneType::SCENE_BOSS_1);
-
+	//*(it + SceneType::SCENE_BOSS_1) = new cGameScene(SceneType::SCENE_BOSS_2);
 
 	*(it + SceneType::SCENE_GAMEOVER) = new cGameOverScene(SceneType::SCENE_GAMEOVER);
 }
@@ -28,7 +27,7 @@ cSceneManager::~cSceneManager()
 {
 	//SafeDelete(m_CurrentScene);
 	Destroy();
-	
+
 }
 
 cScene* cSceneManager::GetCurrentScene()
@@ -42,9 +41,9 @@ void cSceneManager::Setup()
 
 	ObjectManager->Revert();
 
-	//m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
-	m_CurrentScene = m_vecScenes[SceneType::SCENE_GAMEOVER];
-	
+	m_CurrentScene = m_vecScenes[SceneType::SCENE_TITLE];
+	//m_CurrentScene = m_vecScenes[SceneType::SCENE_GAMEOVER];
+
 	m_CurrentScene->Setup();
 	//ChangeScene(TagUI_Title);
 }
@@ -52,7 +51,7 @@ void cSceneManager::Setup()
 void cSceneManager::ChangeScene(int sceneNum)
 {
 	// 씬을 바꾸는 법
-	//rand()%2;
+	// rand()%2;
 	LoadScene(sceneNum);
 }
 
@@ -66,25 +65,32 @@ void cSceneManager::Destroy()
 
 void cSceneManager::LoadScene(int SceneType)
 {
+	m_CurrentSceneType = SceneType; // 선행해서 실행되어야 함
+
 	//
 	// setup
-
+	
 	//
 	m_CurrentScene->Reset(SceneType);
 	m_CurrentScene = m_vecScenes[SceneType];
 
-
+	
 	EnterCriticalSection(&cs);
 	ObjectManager->Revert();
 
 	m_pThread = new std::thread(&cScene::Setup, m_CurrentScene);
-	if(m_pThread)
+	if (m_pThread)
 	{
 		m_pThread->join();
-		while(m_pThread->joinable())
+		while (m_pThread->joinable())
 		{
 			// 로딩창
 		}
 	}
 	LeaveCriticalSection(&cs);
+}
+
+int cSceneManager::GetCurrentSceneType()
+{
+	return m_CurrentSceneType;
 }

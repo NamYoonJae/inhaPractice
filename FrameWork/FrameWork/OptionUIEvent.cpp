@@ -14,7 +14,8 @@
 cPopup* Setup_OptionWindow(cPopup* btn)
 {
 	JSON_Object * p_json_object_UI = g_p_jsonManager->get_json_object_UI();
-	
+	JSON_Object * p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 	cout << "Left : " << rc.left << endl; // 0
@@ -62,7 +63,7 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 	// pExitButton->Setup("data/UI/Settings", "NW_Setting_ToggleButton_Off.png",
 	pChk_MiniMap->Setup(
 		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/filename/ToggleButton_On"),
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/ToggleButton_On/filename"),
 		//D3DXVECTOR3(0, 0, 0), // 생성시 json 파싱받아보기
 		pChk_MiniMap->GetUpPopUp()->GetPosition(),
 		0, 0, 0,

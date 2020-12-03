@@ -143,6 +143,7 @@ void ObjectPool::Revert()
 
 	return;
 }
+
 /*
 void ObjectPool::Revert(int curSceneType, int SceneType)
 {
@@ -241,7 +242,7 @@ const cObject * ObjectPool::SearchChildUI(int nTag)
 	return vecUserInterface.at(i);
 }
 
-void ObjectPool::CollisionProcess()
+void ObjectPool::CollisionDetection()
 {
 
 	for (int i = 0; i < vecObjectList.size(); ++i)
@@ -258,7 +259,10 @@ void ObjectPool::CollisionProcess()
 				vecObjectList.at(j)->GetOBB()))
 			{
 				// 수치 계산
-				
+				vecObjectList.at(i)->CollisionProcess(vecObjectList.at(j), 1500.0f);
+
+				vecObjectList.at(j)->CollisionProcess(vecObjectList.at(i), 1500.0f);
+
 			}
 
 		}

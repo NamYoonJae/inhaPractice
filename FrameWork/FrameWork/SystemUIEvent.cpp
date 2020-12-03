@@ -385,6 +385,7 @@ void SysWindow_ToStartEvent(EventType message, cPopup* btn)
 				{
 					button->ChangeSprite("data/UI/ESCMenu/BackToStart/NW_InGameSetting_BackToStartButton_Idle.png");
 					button->SetStateChange(enum_Off);
+					button->GetTopPopUp()->PowerOnOff();
 					
 					cout << "SysWindow_ToStartEvent Clicked" << endl;
 					

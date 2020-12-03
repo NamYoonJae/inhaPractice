@@ -31,13 +31,5 @@ public:
 	const cObject* SearchChildUI(int nTag);
 	const cObject* GetUI(int TagUI);
 
-	void CollisionProcess();
+	void ObjectPool::CollisionDetection();
 };
-
-struct HitDelay
-{
-	DWORD dwHitTime;
-	DWORD dwDelayTime;
-	Tag	  CrashObjectTag;
-};
-

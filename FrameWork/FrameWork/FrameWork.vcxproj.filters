@@ -148,9 +148,6 @@
     <ClCompile Include="ObjMap.cpp">
       <Filter>Code\Map\OBJMap</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderLoader.cpp">
-      <Filter>Code\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="LavaGolem.cpp">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
     </ClCompile>
@@ -174,6 +171,9 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Code\UI</Filter>
+	</ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Code\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -333,9 +333,6 @@
     <ClInclude Include="ObjMap.h">
       <Filter>Code\Map\OBJMap</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderLoader.h">
-      <Filter>Code\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="LavaGolem.h">
       <Filter>Code\Object Composite\InstanceObject\LavaGolem</Filter>
     </ClInclude>
@@ -359,6 +356,9 @@
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Code\UI</Filter>
+	</ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Code\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -530,6 +530,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

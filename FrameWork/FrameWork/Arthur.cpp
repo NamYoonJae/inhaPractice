@@ -138,7 +138,6 @@ void cArthur::Update(EventType event)
 		isKeyDown = true;
 	}
 
-	/// new Code 11-28 차현빈 3:#8
 	if (event == EventType::EVENT_KEYUP && isKeyDown)
 	{
 		m_fvelocity = 0;

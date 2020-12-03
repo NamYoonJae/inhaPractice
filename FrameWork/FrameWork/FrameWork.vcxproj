@@ -178,7 +178,7 @@
     <ClInclude Include="OptionUIEvent.h" />
     <ClInclude Include="Paladin.h" />
     <ClInclude Include="PaladinState.h" />
-    <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="SkinnedMesh.h" />
     <ClInclude Include="SkinnedMeshManager.h" />
     <ClInclude Include="cTerrain.h" />
@@ -240,7 +240,7 @@
     <ClCompile Include="OptionUIEvent.cpp" />
     <ClCompile Include="Paladin.cpp" />
     <ClCompile Include="PaladinState.cpp" />
-    <ClCompile Include="ShaderLoader.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="SkinnedMesh.cpp" />
     <ClCompile Include="SkinnedMeshManager.cpp" />
     <ClCompile Include="cTerrain.cpp" />
@@ -285,7 +285,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
