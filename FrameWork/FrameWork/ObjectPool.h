@@ -31,5 +31,8 @@ public:
 	const cObject* SearchChildUI(int nTag);
 	const cObject* GetUI(int TagUI);
 
+	int	GetUISize() { return vecUserInterface.size(); }
+	int	GetObjectListSize() { return vecObjectList.size(); }
+	
 	void ObjectPool::CollisionDetection();
 };

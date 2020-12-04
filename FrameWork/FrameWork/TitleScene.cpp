@@ -22,6 +22,13 @@ cTitleScene::~cTitleScene()
 
 void cTitleScene::Setup()
 {
+	//예외 추가
+	if(ObjectManager->GetUISize() > 0)
+	{
+		return;
+	}
+	//
+
 	//클라이언트 값을 받아와서
 	//비율화
 
@@ -355,9 +362,9 @@ void cTitleScene::Setup()
 		1,
 		true, true, TAG_UI::TagUI_ESC_Menu);
 	pMediator->EventProcess = Opton_ESC_Event;
-
-	cPopup* pSystemPopUp = Setup_SystemWindow(pMediator);
-	cPopup * pOptionPopUp = Setup_OptionWindow(pMediator);
+	
+	cPopup *pSystemPopUp = Setup_SystemWindow(pMediator);
+	cPopup *pOptionPopUp = Setup_OptionWindow(pMediator);
 
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);

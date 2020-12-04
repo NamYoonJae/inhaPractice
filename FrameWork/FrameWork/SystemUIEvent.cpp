@@ -10,8 +10,6 @@
 #include "SceneManager.h"
 //#include "TextureManager.h"
 
-
-
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
 cPopup* Setup_SystemWindow(cPopup* btn)
 {

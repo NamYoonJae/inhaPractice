@@ -65,8 +65,8 @@ void cSceneManager::Destroy()
 
 void cSceneManager::LoadScene(int SceneType)
 {
-	m_CurrentSceneType = SceneType; // 선행해서 실행되어야 함
 
+	m_CurrentSceneType = SceneType; // 선행해서 실행되어야 함
 	//
 	// setup
 	
@@ -77,7 +77,7 @@ void cSceneManager::LoadScene(int SceneType)
 	
 	EnterCriticalSection(&cs);
 	ObjectManager->Revert();
-
+	
 	m_pThread = new std::thread(&cScene::Setup, m_CurrentScene);
 	if (m_pThread)
 	{
@@ -86,6 +86,7 @@ void cSceneManager::LoadScene(int SceneType)
 		{
 			// 로딩창
 		}
+		SafeDelete(m_pThread);
 	}
 	LeaveCriticalSection(&cs);
 }

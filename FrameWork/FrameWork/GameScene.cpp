@@ -177,7 +177,7 @@ void cGameScene::Reset(int sceneType)
 	switch (sceneType)
 	{
 	case SceneType::SCENE_TITLE:
-		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Title);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
