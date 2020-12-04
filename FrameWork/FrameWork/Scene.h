@@ -6,10 +6,10 @@ enum SceneType
 	SCENE_TITLE = 0, 
 	SCENE_BOSS_1 = 1, 
 	SCENE_BOSS_2 = 2,
+	SCENE_TROPHIES = 3,
 
 
-
-	SCENE_GAMEOVER = 3
+	SCENE_GAMEOVER = 4
 
 };
 

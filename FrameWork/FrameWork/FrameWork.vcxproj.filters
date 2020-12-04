@@ -121,12 +121,6 @@
     <ClCompile Include="TitleSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
-    <ClCompile Include="SystemUIEvent.cpp">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionUIEvent.cpp">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClCompile>
     <ClCompile Include="GameSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
@@ -174,6 +168,18 @@
     </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Code\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="InGamePauseMenuUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectTrophiesScene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TrophiesSceneUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,12 +312,6 @@
     <ClInclude Include="TitleSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
-    <ClInclude Include="SystemUIEvent.h">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="OptionUIEvent.h">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClInclude>
     <ClInclude Include="GameSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
@@ -359,6 +359,18 @@
     </ClInclude>
     <ClInclude Include="ShaderManager.h">
       <Filter>Code\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="InGamePauseMenuUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectTrophiesScene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TrophiesSceneUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

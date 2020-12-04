@@ -2,25 +2,25 @@
 #include "EventManager.h"
 #include "PopUp.h"
 #include "ObjectPool.h"
-#include "SystemUIEvent.h"
-#include "OptionUIEvent.h"
+#include "InGamePauseMenuUIEvent.h"
+#include "SettingUIEvent.h"
 #include "BtnUIEvent.h"
 #include "Scene.h"
 
 #include "SceneManager.h"
 //#include "TextureManager.h"
 
-
-
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
-cPopup* Setup_SystemWindow(cPopup* btn)
+cPopup* Setup_InGamePauseMenu(cPopup* btn)
 {
+	cout << "Setup_InGamePauseMenu called" << endl;
+	
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
-	cout << "Left : " << rc.left << endl; // 0
-	cout << "Right : " << rc.right << endl; // 1584
-	cout << "Bottom : " << rc.bottom << endl; //860
-	cout << "Top : " << rc.top << endl; // 0
+	//cout << "Left : " << rc.left << endl; // 0
+	//cout << "Right : " << rc.right << endl; // 1584
+	//cout << "Bottom : " << rc.bottom << endl; //860
+	//cout << "Top : " << rc.top << endl; // 0
 
 	float nRight = 0.33;
 	float nBottom = 0.37;
@@ -34,6 +34,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		true, true);
 
 	cPopup *pSystemBackground = new cPopup;
+	pSystemBack->cButtonPushBack(pSystemBackground);
 	pSystemBackground->Setup(
 		"data/UI/ESCMenu",
 		"NW_InGameSetting_Background.png", // 362  421
@@ -41,7 +42,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 		//0, 0, 0,
 		1, 
 		true, true);
-	pSystemBack->cButtonPushBack(pSystemBackground);
+	pSystemBackground->EventProcess = InGamePauseMenu_returnEvent_whitespace;
 	
 	//cPopup *pOptionBtnBackGround = new cPopup;
 	//pOptionBtnBackGround->Setup(
@@ -73,7 +74,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 			30, 90, 0,
 			1,
 			true, true);
-		pSystem_continue->EventProcess = SysWindow_ContinueBtnEvent;
+		pSystem_continue->EventProcess = InGamePauseMenu_returnEvent;
 		
 		cButton *pSystem_OptionBtn = new cButton;
 		pSystemBackground->cButtonPushBack(pSystem_OptionBtn);
@@ -82,7 +83,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 			30, 170, 0, 
 			1, 
 			true, true);
-		pSystem_OptionBtn->EventProcess = SysWindow_OptionBtnEvent;
+		pSystem_OptionBtn->EventProcess = InGamePauseMenu_OptionBtnEvent;
 
 		cButton *pSystem_ToStartBtn= new cButton;
 		pSystemBackground->cButtonPushBack(pSystem_ToStartBtn);
@@ -91,7 +92,7 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 			30, 250, 0, 
 			1, 
 			true, true);
-		pSystem_ToStartBtn->EventProcess = SysWindow_ToStartEvent;
+		pSystem_ToStartBtn->EventProcess = InGamePauseMenu_ToStartEvent;
 
 		cButton *pSystem_END_Btn = new cButton;
 		pSystemBackground->cButtonPushBack(pSystem_END_Btn);
@@ -100,10 +101,10 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 			30, 330, 0, 
 			1, 
 			true, true);
-		pSystem_END_Btn->EventProcess = SysWindow_END_Game;
+		pSystem_END_Btn->EventProcess = InGamePauseMenu_END_Game;
 	} // top button
 
-	// cPopup* pOptionPopUp = Setup_OptionWindow(pOptionBackGround);
+	// cPopup* pOptionPopUp = Setup_Setting_popup(pOptionBackGround);
 	
 	if (!btn)
 	{
@@ -119,7 +120,44 @@ cPopup* Setup_SystemWindow(cPopup* btn)
 	return pSystemBack;
 }
 
-void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
+void InGamePauseMenu_returnEvent_whitespace(EventType message, cPopup* popup)
+{
+	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
+	D3DXVECTOR3 btnPosition = popup->GetPosition();
+	float width = popup->GetImageInfoWidth() * popup->GetPercent();
+	float height = popup->GetImageInfoHeight() *  popup->GetPercent();
+
+	switch (message)
+	{
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+			btnPosition.y > cur.y || cur.y > btnPosition.y + height)
+		{
+			{
+				popup->SetStateChange(enum_On);
+			}
+		}
+	}
+
+	break;
+	case EventType::EVENT_LBUTTONUP:
+	{
+		if (popup->GetState() == enum_On)
+		{
+			if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+				btnPosition.y > cur.y || cur.y > btnPosition.y + height)
+			{
+				popup->SetStateChange(enum_Off);
+				popup->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
+			}
+		}
+	}
+	break;
+	};//switch End
+}
+
+void InGamePauseMenu_returnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -203,7 +241,7 @@ void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
 
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
 
-					cout << "SysWindow_ContinueBtnEvent is Clicked" << endl;
+					cout << "InGamePauseMenu_returnEvent is Clicked" << endl;
 				}
 			}
 		}
@@ -212,7 +250,7 @@ void SysWindow_ContinueBtnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
+void InGamePauseMenu_OptionBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -296,7 +334,7 @@ void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
 					
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf();
 					
-					cout << "SysWindow_OptionBtnEvent is Clicked" << endl;
+					cout << "InGamePauseMenu_OptionBtnEvent is Clicked" << endl;
 				}
 			}
 		}
@@ -305,7 +343,7 @@ void SysWindow_OptionBtnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void SysWindow_ToStartEvent(EventType message, cPopup* btn)
+void InGamePauseMenu_ToStartEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -385,9 +423,9 @@ void SysWindow_ToStartEvent(EventType message, cPopup* btn)
 				{
 					button->ChangeSprite("data/UI/ESCMenu/BackToStart/NW_InGameSetting_BackToStartButton_Idle.png");
 					button->SetStateChange(enum_Off);
-					button->GetTopPopUp()->PowerOnOff();
-					
-					cout << "SysWindow_ToStartEvent Clicked" << endl;
+					button->GetUpPopUp()->GetUpPopUp()->PowerOnOff_OnlySelf(false);
+
+					cout << "InGamePauseMenu_ToStartEvent Clicked" << endl;
 					
 					g_pSceneManager->ChangeScene(SceneType::SCENE_TITLE);
 				}
@@ -398,7 +436,7 @@ void SysWindow_ToStartEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void SysWindow_END_Game(EventType message, cPopup* btn)
+void InGamePauseMenu_END_Game(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 

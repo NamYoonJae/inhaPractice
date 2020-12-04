@@ -2,7 +2,7 @@
 #include "EventManager.h"
 #include "PopUp.h"
 #include "ObjectPool.h"
-#include "OptionUIEvent.h"
+#include "SettingUIEvent.h"
 
 #include "BtnUIEvent.h"
 #include "jsonManager.h"
@@ -11,8 +11,10 @@
 //#include "TextureManager.h"
 
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
-cPopup* Setup_OptionWindow(cPopup* btn)
+cPopup* Setup_Setting_popup(cPopup* btn)
 {
+	cout << "Setup_Setting_popup called" << endl;
+	
 	JSON_Object * p_json_object_UI = g_p_jsonManager->get_json_object_UI();
 	JSON_Object * p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
 
@@ -42,6 +44,7 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0),
 		1,
 		true, true);
+	pOptionBackGround->EventProcess = Setting_popup_ReturnEvent_whitespace;
 
 #pragma region barSilder
 	// TODO 아래 바게이지는 나중에 이벤트를 따로 줄 것.
@@ -75,13 +78,13 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 
 #pragma region exit
 	
-	// TODO 빈공간 클릭 이벤트 후 삭제
-	// 나가기 버튼 임시로 생성
-	cButton *pExitButton = new cButton;
-	pExitButton->Setup("data/UI/Settings", "임시 나가기 버튼.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 620, -110, 0, 0.8, true, true);
-	pOptionBackGround->cButtonPushBack(pExitButton);
-	pExitButton->EventProcess = Option_ReturnEvent;
+	//// TODO 빈공간 클릭 이벤트 후 삭제
+	//// 나가기 버튼 임시로 생성
+	//cButton *pExitButton = new cButton;
+	//pExitButton->Setup("data/UI/Settings", "임시 나가기 버튼.png",
+	//	D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 620, -110, 0, 0.8, true, true);
+	//pOptionBackGround->cButtonPushBack(pExitButton);
+	//pExitButton->EventProcess = Setting_popup_ReturnEvent;
 	
 #pragma endregion exit
 
@@ -100,84 +103,22 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 }
 
 
-void Option_ReturnEvent_whitespace(EventType message, cPopup* btn)
+void Setting_popup_ReturnEvent_whitespace(EventType message, cPopup* popup)
 {
-	
-}
-
-void Option_ReturnEvent(EventType message, cPopup* btn)
-{
-	cButton* button = (cButton*)btn;
-
 	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
-	D3DXVECTOR3 btnPosition = button->GetPosition();
-	float width = button->GetImageInfoWidth() * button->GetPercent();
-	float height = button->GetImageInfoHeight() *  button->GetPercent();
+	D3DXVECTOR3 btnPosition = popup->GetPosition();
+	float width = popup->GetImageInfoWidth() * popup->GetPercent();
+	float height = popup->GetImageInfoHeight() *  popup->GetPercent();
 
 	switch (message)
 	{
-	case EventType::EVENT_MOVE:
-
-		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
-		{
-			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
-			{
-				if (button->GetState() == enum_Off)
-				{ 
-					button->SetStateChange(enum_Hover);	//on상태로 체인지
-				}
-
-			}
-			else
-			{
-				if (button->GetState() != enum_Off)
-				{
-					button->SetStateChange(enum_Off); //off상태로 체인지
-				}
-			}
-		}
-		else
-		{
-			if (button->GetState() != enum_Off)
-			{
-				button->SetStateChange(enum_Off);	//off 상태로 체인지
-			}
-		}
-
-		if (button->GetPreState() != button->GetState())
-		{
-			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
-			{
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
-				button->SetPreState(enum_Hover);
-			}
-			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
-			{
-				if (button->GetState() == enum_On)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-					button->SetPreState(enum_On);
-				}
-				else if (button->GetState() == enum_Off)
-				{
-					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
-					button->SetPreState(enum_Off);
-				}
-			}
-
-
-		}//case EVENT_MOVE End:
-
-		break;
-
 	case EventType::EVENT_LBUTTONDOWN:
 	{
-		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+		if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+			btnPosition.y > cur.y || cur.y > btnPosition.y + height)
 		{
-			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
-				button->SetStateChange(enum_On);
-				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+				popup->SetStateChange(enum_On);
 			}
 		}
 	}
@@ -185,23 +126,18 @@ void Option_ReturnEvent(EventType message, cPopup* btn)
 	break;
 	case EventType::EVENT_LBUTTONUP:
 	{
-		if (button->GetState() == enum_On)
+		if (popup->GetState() == enum_On)
 		{
-			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width)
+			if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+				btnPosition.y > cur.y || cur.y > btnPosition.y + height)
 			{
-				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
-				{
-					button->SetStateChange(enum_Hover);
-					cout << "Exit Button Clicked" << endl;
+				popup->SetStateChange(enum_Off);
+				cout << "Setting Return Event Active... " << endl;
 
-					cPopup * pPopup0 = button->GetTopPopUp();
-					for (size_t i = 0; i < pPopup0->GetPopUpListSize(); i++)
-					{
-						pPopup0->GetPopupBtn(i)->PowerOnOff_OnlySelf();
-					}
-					
-					//if(pPopup0)
-					//pPopup0->PowerOnOff_List();
+				cPopup * pPopup0 = popup->GetTopPopUp();
+				for (size_t i = 0; i < pPopup0->GetPopUpListSize(); i++)
+				{
+					pPopup0->GetPopupBtn(i)->PowerOnOff_OnlySelf();
 				}
 			}
 		}
@@ -210,8 +146,51 @@ void Option_ReturnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-// legacy function
+void Setting_popup_ReturnEvent(EventType message, cPopup* popup)
+{
+	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
+	D3DXVECTOR3 btnPosition = popup->GetPosition();
+	float width = popup->GetImageInfoWidth() * popup->GetPercent();
+	float height = popup->GetImageInfoHeight() *  popup->GetPercent();
 
+	switch (message)
+	{
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width &&
+			btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+		{
+			{
+				popup->SetStateChange(enum_On);
+			}
+		}
+	}
+
+	break;
+	case EventType::EVENT_LBUTTONUP:
+	{
+		if (popup->GetState() == enum_On)
+		{
+			if (btnPosition.x <= cur.x && cur.x <= btnPosition.x + width &&
+				btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
+			{
+				popup->SetStateChange(enum_Off);
+				cout << "Exit Button Clicked" << endl;
+
+				cPopup * pPopup0 = popup->GetTopPopUp();
+				for (size_t i = 0; i < pPopup0->GetPopUpListSize(); i++)
+				{
+					pPopup0->GetPopupBtn(i)->PowerOnOff_OnlySelf();
+				}
+			}
+		}
+	}
+	break;
+	};//switch End
+}
+
+
+// legacy function
 cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 {
 	RECT rc;
@@ -362,7 +341,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 	pExitButton->Setup("data/UI/Settings", "on,off 체크형 백그라운드 off 사이즈조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 570, -110, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pExitButton);
-	pExitButton->EventProcess = Option_ReturnEvent;
+	pExitButton->EventProcess = Setting_popup_ReturnEvent;
 
 	if (!btn)
 	{

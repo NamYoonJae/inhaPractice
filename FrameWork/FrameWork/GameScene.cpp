@@ -21,8 +21,8 @@
 #include "DragonSoulEater.h"
 //
 
-#include "SystemUIEvent.h"
-#include "OptionUIEvent.h"
+#include "InGamePauseMenuUIEvent.h"
+#include "SettingUIEvent.h"
 #include "GameSceneUIEvent.h"
 
 //
@@ -53,7 +53,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_Light.Ambient = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	m_Light.Diffuse = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	D3DXVECTOR3 vDir(0.0f, 5.0f, 5.0f);
+	D3DXVECTOR3 vDir(0.0f, -15.0f, 0.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
 
@@ -177,7 +177,7 @@ void cGameScene::Reset(int sceneType)
 	switch (sceneType)
 	{
 	case SceneType::SCENE_TITLE:
-		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Title);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
@@ -198,7 +198,9 @@ void cGameScene::Reset(int sceneType)
 		}
 		break;
 
-		
+	case SceneType::SCENE_TROPHIES:
+
+		break;
 	default:
 		break;
 	}
@@ -207,5 +209,11 @@ void cGameScene::Reset(int sceneType)
 	if (popup != NULL)
 	{
 		popup->PowerOnOff();
+	}
+
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_ESC_Menu);
+	if (popup != NULL)
+	{
+		popup->PowerOnOff_OnlySelf(false);
 	}
 }

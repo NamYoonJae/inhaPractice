@@ -158,6 +158,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
+    <ClInclude Include="SelectTrophiesScene.h" />
     <ClInclude Include="jsonManager.h" />
     <ClInclude Include="LavaAttack.h" />
     <ClInclude Include="GameOverScene.h" />
@@ -175,7 +176,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ObjMap.h" />
-    <ClInclude Include="OptionUIEvent.h" />
+    <ClInclude Include="SettingUIEvent.h" />
     <ClInclude Include="Paladin.h" />
     <ClInclude Include="PaladinState.h" />
     <ClInclude Include="ShaderManager.h" />
@@ -185,7 +186,7 @@
     <ClInclude Include="SoulEaterState.h" />
     <ClInclude Include="SoulEater_BasicAttack.h" />
     <ClInclude Include="SoulEater_Idle.h" />
-    <ClInclude Include="SystemUIEvent.h" />
+    <ClInclude Include="InGamePauseMenuUIEvent.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TitleSceneUIEvent.h" />
     <ClInclude Include="EventManager.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimerManager.h" />
+    <ClInclude Include="TrophiesSceneUIEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arthur.cpp" />
@@ -220,6 +222,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
+    <ClCompile Include="SelectTrophiesScene.cpp" />
     <ClCompile Include="jsonManager.cpp" />
     <ClCompile Include="LavaAttack.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
@@ -237,7 +240,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="ObjMap.cpp" />
-    <ClCompile Include="OptionUIEvent.cpp" />
+    <ClCompile Include="SettingUIEvent.cpp" />
     <ClCompile Include="Paladin.cpp" />
     <ClCompile Include="PaladinState.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
@@ -247,7 +250,7 @@
     <ClCompile Include="SoulEaterState.cpp" />
     <ClCompile Include="SoulEater_BasicAttack.cpp" />
     <ClCompile Include="SoulEater_Idle.cpp" />
-    <ClCompile Include="SystemUIEvent.cpp" />
+    <ClCompile Include="InGamePauseMenuUIEvent.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TitleSceneUIEvent.cpp" />
     <ClCompile Include="EventManager.cpp" />
@@ -276,6 +279,7 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimerManager.cpp" />
+    <ClCompile Include="TrophiesSceneUIEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork.rc" />

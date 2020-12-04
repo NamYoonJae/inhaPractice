@@ -517,8 +517,10 @@ void DragonSoulEater::SetupBoundingBox()
 	}
 }
 
+
 void DragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 {
+	//나는 내가 공격중 // 
 	cOBB* pOBB = pObject->GetOBB();
 
 	int nTag = pObject->GetTag();

@@ -264,11 +264,8 @@ void ObjectPool::CollisionDetection()
 				vecObjectList.at(j)->CollisionProcess(vecObjectList.at(i), 1500.0f);
 
 			}
-
 		}
-
 	}
-
 }
 
 void ObjectPool::RemoveChild(cObject& obj)
