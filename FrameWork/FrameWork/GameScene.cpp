@@ -208,4 +208,10 @@ void cGameScene::Reset(int sceneType)
 	{
 		popup->PowerOnOff();
 	}
+
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_ESC_Menu);
+	if (popup != NULL)
+	{
+		popup->PowerOnOff_OnlySelf(false);
+	}
 }

@@ -362,7 +362,7 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(-1, -1, 0),
 		0, 0, 0,
 		1,
-		true, true, TAG_UI::TagUI_ESC_Menu);
+		false, true, TAG_UI::TagUI_ESC_Menu);
 	pMediator->EventProcess = Opton_ESC_Event;
 	
 	cPopup *pSystemPopUp = Setup_SystemWindow(pMediator);
@@ -386,6 +386,12 @@ void cTitleScene::Reset(int sceneType)
 		{
 			popup->PowerOnOff();
 		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_ESC_Menu);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff_OnlySelf(true);
+		}
 		break;
 
 
@@ -394,6 +400,12 @@ void cTitleScene::Reset(int sceneType)
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
+		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_ESC_Menu);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff_OnlySelf(true);
 		}
 		break;
 
