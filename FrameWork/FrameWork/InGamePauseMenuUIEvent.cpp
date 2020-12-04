@@ -423,8 +423,8 @@ void InGamePauseMenu_ToStartEvent(EventType message, cPopup* btn)
 				{
 					button->ChangeSprite("data/UI/ESCMenu/BackToStart/NW_InGameSetting_BackToStartButton_Idle.png");
 					button->SetStateChange(enum_Off);
-					button->GetTopPopUp()->PowerOnOff();
-					
+					button->GetUpPopUp()->GetUpPopUp()->PowerOnOff_OnlySelf(false);
+
 					cout << "InGamePauseMenu_ToStartEvent Clicked" << endl;
 					
 					g_pSceneManager->ChangeScene(SceneType::SCENE_TITLE);
