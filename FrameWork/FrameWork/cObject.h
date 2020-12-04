@@ -17,11 +17,12 @@ enum TAG_UI
 {
 	TagUI_Title,
 	TagUI_InGame,
-	TagUI_GameOver,
+	TagUI_Trophies,
 
 	TagUI_ESC_Menu,
 	
-	TagUI_InGameObject
+	TagUI_InGameObject,
+	TagUI_GameOver,
 };
 
 enum SceneType;

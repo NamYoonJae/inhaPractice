@@ -198,7 +198,9 @@ void cGameScene::Reset(int sceneType)
 		}
 		break;
 
-		
+	case SceneType::SCENE_TROPHIES:
+
+		break;
 	default:
 		break;
 	}

@@ -175,6 +175,12 @@
     <ClCompile Include="InGamePauseMenuUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
+    <ClCompile Include="SelectTrophiesScene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TrophiesSceneUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -358,6 +364,12 @@
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
     <ClInclude Include="InGamePauseMenuUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectTrophiesScene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TrophiesSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,30 +1,26 @@
 #include "stdafx.h"
-#include "GameOverScene.h"
+#include "SelectTrophiesScene.h"
 #include "ObjectPool.h"
 
-#pragma once
 
 
-cGameOverScene::cGameOverScene(SceneType T)
+cSelectTrophiesScene::cSelectTrophiesScene(SceneType T)
 	:cScene(T)
 {
 }
 
-cGameOverScene::~cGameOverScene()
+cSelectTrophiesScene::~cSelectTrophiesScene()
 {
 }
 
-void cGameOverScene::Setup()
+void cSelectTrophiesScene::Setup()
 {
-
-
 }
 
-// 
-void cGameOverScene::Reset(int sceneType)
+void cSelectTrophiesScene::Reset(int SceneType)
 {
 	cPopup* popup = NULL;
-	switch (sceneType)
+	switch (SceneType)
 	{
 	case SceneType::SCENE_TITLE:
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Title);
@@ -42,7 +38,6 @@ void cGameOverScene::Reset(int sceneType)
 		}
 		break;
 
-
 	case SceneType::SCENE_BOSS_2:
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
 		if (popup != NULL)
@@ -52,14 +47,15 @@ void cGameOverScene::Reset(int sceneType)
 		break;
 
 
-
 	default:
 		break;
 	}
 
-	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
-	if (popup != NULL)
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies);
+	if (popup != NULL) 
 	{
 		popup->PowerOnOff();
 	}
+
+
 }

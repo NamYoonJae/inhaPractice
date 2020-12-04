@@ -2,7 +2,6 @@
 #include "Scene.h"
 
 class Popup;
-class Button;
 
 class cGameOverScene :
 	public cScene

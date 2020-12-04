@@ -8,17 +8,19 @@
 #include "SkyBox.h"
 #include "TitleScene.h"
 #include "GameOverScene.h"
+#include "SelectTrophiesScene.h"
 
 cSceneManager::cSceneManager()
 	:m_CurrentScene(nullptr)
 {
-	m_vecScenes.resize(4);
+	m_vecScenes.resize(5);
 	const std::vector<cScene*>::iterator it = m_vecScenes.begin();
 
 	*(it + SceneType::SCENE_TITLE) = new cTitleScene(SceneType::SCENE_TITLE);
 	*(it + SceneType::SCENE_BOSS_1) = new cGameScene(SceneType::SCENE_BOSS_1);
 	//*(it + SceneType::SCENE_BOSS_2) = new cGameScene(SceneType::SCENE_BOSS_2);
 
+	*(it + SceneType::SCENE_TROPHIES) = new cSelectTrophiesScene(SceneType::SCENE_TROPHIES);
 	*(it + SceneType::SCENE_GAMEOVER) = new cGameOverScene(SceneType::SCENE_GAMEOVER);
 }
 

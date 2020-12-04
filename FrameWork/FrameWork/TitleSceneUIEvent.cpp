@@ -85,9 +85,6 @@ void StartGameBtnEvent(EventType message, cPopup* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
-				//상태 -> enum_On 상태로 변경
-				//이미지 enum_On으로 변경
-				//이미지 변경
 				button->SetStateChange(enum_On);
 				button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Pressed.png");
 			}
@@ -107,6 +104,7 @@ void StartGameBtnEvent(EventType message, cPopup* btn)
 					button->ChangeSprite("data/UI/TitleScene/START/NW_StartButton_Over.png");
 					g_pSceneManager->ChangeScene(SceneType::SCENE_BOSS_1);
 					//g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+					//g_pSceneManager->ChangeScene(SceneType::SCENE_TROPHIES);
 				}
 			}
 		}
