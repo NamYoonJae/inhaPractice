@@ -53,7 +53,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_Light.Ambient = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	m_Light.Diffuse = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
 	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	D3DXVECTOR3 vDir(0.0f, 5.0f, 5.0f);
+	D3DXVECTOR3 vDir(0.0f, -15.0f, 0.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
 
