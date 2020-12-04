@@ -121,12 +121,6 @@
     <ClCompile Include="TitleSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
-    <ClCompile Include="SystemUIEvent.cpp">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionUIEvent.cpp">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClCompile>
     <ClCompile Include="GameSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
@@ -171,9 +165,15 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Code\UI</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Code\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameMenuUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,12 +306,6 @@
     <ClInclude Include="TitleSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
-    <ClInclude Include="SystemUIEvent.h">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClInclude>
-    <ClInclude Include="OptionUIEvent.h">
-      <Filter>Code\UI\UIEvent</Filter>
-    </ClInclude>
     <ClInclude Include="GameSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
@@ -356,9 +350,15 @@
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Code\UI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="ShaderManager.h">
       <Filter>Code\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameMenuUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

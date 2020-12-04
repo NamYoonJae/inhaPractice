@@ -2,7 +2,7 @@
 #include "EventManager.h"
 #include "PopUp.h"
 #include "ObjectPool.h"
-#include "OptionUIEvent.h"
+#include "SettingUIEvent.h"
 
 #include "BtnUIEvent.h"
 #include "jsonManager.h"
@@ -11,9 +11,9 @@
 //#include "TextureManager.h"
 
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
-cPopup* Setup_OptionWindow(cPopup* btn)
+cPopup* Setup_Setting_popup(cPopup* btn)
 {
-	cout << "Setup_OptionWindow called" << endl;
+	cout << "Setup_Setting_popup called" << endl;
 	
 	JSON_Object * p_json_object_UI = g_p_jsonManager->get_json_object_UI();
 	JSON_Object * p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
@@ -44,7 +44,7 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0),
 		1,
 		true, true);
-	pOptionBackGround->EventProcess = Option_ReturnEvent_whitespace;
+	pOptionBackGround->EventProcess = Setting_popup_ReturnEvent_whitespace;
 
 #pragma region barSilder
 	// TODO 아래 바게이지는 나중에 이벤트를 따로 줄 것.
@@ -84,7 +84,7 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 	//pExitButton->Setup("data/UI/Settings", "임시 나가기 버튼.png",
 	//	D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 620, -110, 0, 0.8, true, true);
 	//pOptionBackGround->cButtonPushBack(pExitButton);
-	//pExitButton->EventProcess = Option_ReturnEvent;
+	//pExitButton->EventProcess = Setting_popup_ReturnEvent;
 	
 #pragma endregion exit
 
@@ -103,7 +103,7 @@ cPopup* Setup_OptionWindow(cPopup* btn)
 }
 
 
-void Option_ReturnEvent_whitespace(EventType message, cPopup* popup)
+void Setting_popup_ReturnEvent_whitespace(EventType message, cPopup* popup)
 {
 	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
 	D3DXVECTOR3 btnPosition = popup->GetPosition();
@@ -132,7 +132,7 @@ void Option_ReturnEvent_whitespace(EventType message, cPopup* popup)
 				btnPosition.y > cur.y || cur.y > btnPosition.y + height)
 			{
 				popup->SetStateChange(enum_Off);
-				cout << "Exit Button Clicked" << endl;
+				cout << "Setting Return Event Active... " << endl;
 
 				cPopup * pPopup0 = popup->GetTopPopUp();
 				for (size_t i = 0; i < pPopup0->GetPopUpListSize(); i++)
@@ -146,7 +146,7 @@ void Option_ReturnEvent_whitespace(EventType message, cPopup* popup)
 	};//switch End
 }
 
-void Option_ReturnEvent(EventType message, cPopup* popup)
+void Setting_popup_ReturnEvent(EventType message, cPopup* popup)
 {
 	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
 	D3DXVECTOR3 btnPosition = popup->GetPosition();
@@ -341,7 +341,7 @@ cPopup* Setup_OptionWindow_Legacy(cPopup* btn)
 	pExitButton->Setup("data/UI/Settings", "on,off 체크형 백그라운드 off 사이즈조정.png",
 		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 570, -110, 0, 0.8, true, true);
 	pOptionBtnBackGround->cButtonPushBack(pExitButton);
-	pExitButton->EventProcess = Option_ReturnEvent;
+	pExitButton->EventProcess = Setting_popup_ReturnEvent;
 
 	if (!btn)
 	{

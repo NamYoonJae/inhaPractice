@@ -21,8 +21,8 @@
 #include "DragonSoulEater.h"
 //
 
-#include "SystemUIEvent.h"
-#include "OptionUIEvent.h"
+#include "InGameMenuUIEvent.h"
+#include "SettingUIEvent.h"
 #include "GameSceneUIEvent.h"
 
 //

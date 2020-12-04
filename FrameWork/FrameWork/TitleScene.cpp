@@ -3,11 +3,11 @@
 #include "PopUp.h"
 #include "Button.h"
 #include "ObjectPool.h"
-#include "OptionUIEvent.h"
+#include "SettingUIEvent.h"
 #include "TitleSceneUIEvent.h"
 #include "GameOverSceneBtnEvent.h"
 #include "GameSceneUIEvent.h"
-#include "SystemUIEvent.h"
+#include "InGameMenuUIEvent.h"
 
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
@@ -45,7 +45,7 @@ void cTitleScene::Setup()
 	pTitleBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
 		D3DXVECTOR3(0, -20, 0), 1, true, true, TAG_UI::TagUI_Title);
 
-	Setup_OptionWindow(pTitleBackgroundPopup);
+	Setup_Setting_popup(pTitleBackgroundPopup);
 	
 	cPopup *pTitleImagePopup = new cPopup;
 	pTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
@@ -360,11 +360,11 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(-1, -1, 0),
 		0, 0, 0,
 		1,
-		false, true, TAG_UI::TagUI_ESC_Menu);
+		true, true, TAG_UI::TagUI_ESC_Menu);
 	pMediator->EventProcess = Opton_ESC_Event;
 	
-	cPopup *pSystemPopUp = Setup_SystemWindow(pMediator);
-	cPopup *pOptionPopUp = Setup_OptionWindow(pMediator);
+	cPopup *pSystemPopUp = Setup_InGameMenu(pMediator);
+	cPopup *pOptionPopUp = Setup_Setting_popup(pMediator);
 
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);
