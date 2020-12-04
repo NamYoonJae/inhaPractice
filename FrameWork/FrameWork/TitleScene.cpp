@@ -88,6 +88,49 @@ void cTitleScene::Setup()
 	
 	EventManager->Attach(pTitleBackgroundPopup);
 	ObjectManager->AddUIChild(pTitleBackgroundPopup);
+
+	/*
+	//이미지 크기 요청해서 수정 필요
+	//게임시작 버튼 누를시 확인창
+	cPopup* pNewGameCheckPopup = new cPopup;
+	pNewGameCheckPopup->Setup("data/UI/Check", "NW_StartCheck_Background.png",
+		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true, TAG_UI::TagUI_NewGameCheck);
+
+	cButton* pNewGameCheckPopupYesBtn = new cButton;
+	pNewGameCheckPopupYesBtn->Setup("data/UI/Check/YES", "NW_Check_Yesbutton_Idle.png",
+		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true);
+	pNewGameCheckPopup->cButtonPushBack(pNewGameCheckPopupYesBtn);
+	//pNewGameCheckPopupYesBtn->EventProcess = ;
+
+	cButton* pNewGameCheckPopupNoBtn = new cButton;
+	pNewGameCheckPopupNoBtn->Setup("data/UI/check/NO", "NW_Check_Nobutton_Idle.png",
+		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true);
+	pNewGameCheckPopup->cButtonPushBack(pNewGameCheckPopupNoBtn);
+	//pNewGameCheckPopupNoBtn->EventProcess = ;
+
+	EventManager->Attach(pNewGameCheckPopup);
+	ObjectManager->AddUIChild(pNewGameCheckPopup);
+	
+
+	//게임종료 버튼 누를시 확인창
+	cPopup* pExitCheckPopup = new cPopup;
+	pExitCheckPopup->Setup("data/UI/Check", "NW_EndCheck_Background.png",
+		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true, TagUI_ExitCheck);
+	
+	cButton* pExitCheckPopupYesBtn = new cButton;
+	pExitCheckPopupYesBtn->Setup("data/UI/Check/YES", "NW_Check_Yesbutton_Idle.png",
+		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true);
+	pExitCheckPopup->cButtonPushBack(pExitCheckPopupYesBtn);
+
+	cButton* pExitCheckPopupNoBtn = new cButton;
+	pExitCheckPopupNoBtn->Setup("data/UI/Check/NO", "NW_Check_Nobutton_Idle.png",
+		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true);
+	pExitCheckPopup->cButtonPushBack(pExitCheckPopupNoBtn);
+
+	EventManager->Attach(pExitCheckPopup);
+	ObjectManager->AddUIChild(pExitCheckPopup);
+	*/
+
 #pragma endregion << UI TAG::Title
 
 
@@ -429,9 +472,6 @@ void cTitleScene::Setup()
 
 	EventManager->Attach(pTrophiesSelectSceneBackground);
 	ObjectManager->AddUIChild(pTrophiesSelectSceneBackground);
-
-//확인창
-
 
 
 }
