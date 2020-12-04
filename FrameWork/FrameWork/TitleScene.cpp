@@ -292,8 +292,6 @@ void cTitleScene::Setup()
 
 
 #pragma region UI TAG::GameOver
-	float nRight = 0.34; //GameOver 이미지 작업할 때 제거하기
-	float nBottom = 0.45; //GameOver 이미지 작업할 때 제거하기
 
 	//GameOver UI
 	cPopup* pGameOverBackgroundPopup = new cPopup;
@@ -313,7 +311,7 @@ void cTitleScene::Setup()
 	//RETRY
 	pButton = new cButton;
 	pButton->Setup("data/UI/GameOver", "NW_GameOver_Re_Idle.png",
-		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 155, 150, 0, 1, false, true);
+		D3DXVECTOR3(675, 540, 0), 0, 0, 0, 1, false, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = RetryGameBtnEvent;
 	
@@ -329,7 +327,7 @@ void cTitleScene::Setup()
 	//종료
 	pButton = new cButton;
 	pButton->Setup("data/UI/GameOver", "NW_GameOver_End_Idle.png",
-		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 155, 270, 0, 1, false, true);
+		D3DXVECTOR3(675, 660, 0), 0, 0, 0, 1, false, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ExitGameOverBtnEvent;
 

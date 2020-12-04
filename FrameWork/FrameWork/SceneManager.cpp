@@ -17,7 +17,7 @@ cSceneManager::cSceneManager()
 
 	*(it + SceneType::SCENE_TITLE) = new cTitleScene(SceneType::SCENE_TITLE);
 	*(it + SceneType::SCENE_BOSS_1) = new cGameScene(SceneType::SCENE_BOSS_1);
-	//*(it + SceneType::SCENE_BOSS_1) = new cGameScene(SceneType::SCENE_BOSS_2);
+	//*(it + SceneType::SCENE_BOSS_2) = new cGameScene(SceneType::SCENE_BOSS_2);
 
 	*(it + SceneType::SCENE_GAMEOVER) = new cGameOverScene(SceneType::SCENE_GAMEOVER);
 }
