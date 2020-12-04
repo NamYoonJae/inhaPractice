@@ -249,16 +249,16 @@ void cTitleScene::Setup()
 
 
 	//전리품
-	cPopup* spoilsBackgound = new cPopup;
-	spoilsBackgound->Setup("data/UI/InGame", "NW_Spoils_Back.png",
+	cPopup* trophiesBackgound = new cPopup;
+	trophiesBackgound->Setup("data/UI/InGame", "NW_trophies_Back.png",
 		D3DXVECTOR3(1270, 650, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(spoilsBackgound);
+	inGamePopup->cButtonPushBack(trophiesBackgound);
 
 	//전리품 게이지
-	cButton* attriBarBackground = new cButton;
-	attriBarBackground->Setup("data/UI/InGame","NW_Attri_BarBackground.png",
+	cButton* trophiesBarBackground = new cButton;
+	trophiesBarBackground->Setup("data/UI/InGame","NW_Attri_BarBackground.png",
 		D3DXVECTOR3(1130, 780, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(attriBarBackground);
+	inGamePopup->cButtonPushBack(trophiesBarBackground);
 	/*
 	cButton* attriBar = new cButton;
 	attriBar->Setup("data/UI/InGame", "NW_Attri_Gauge.png",
