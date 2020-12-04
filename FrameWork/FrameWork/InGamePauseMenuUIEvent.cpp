@@ -2,7 +2,7 @@
 #include "EventManager.h"
 #include "PopUp.h"
 #include "ObjectPool.h"
-#include "InGameMenuUIEvent.h"
+#include "InGamePauseMenuUIEvent.h"
 #include "SettingUIEvent.h"
 #include "BtnUIEvent.h"
 #include "Scene.h"
@@ -11,9 +11,9 @@
 //#include "TextureManager.h"
 
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
-cPopup* Setup_InGameMenu(cPopup* btn)
+cPopup* Setup_InGamePauseMenu(cPopup* btn)
 {
-	cout << "Setup_InGameMenu called" << endl;
+	cout << "Setup_InGamePauseMenu called" << endl;
 	
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
@@ -42,7 +42,7 @@ cPopup* Setup_InGameMenu(cPopup* btn)
 		//0, 0, 0,
 		1, 
 		true, true);
-	pSystemBackground->EventProcess = InGameMenu_returnEvent_whitespace;
+	pSystemBackground->EventProcess = InGamePauseMenu_returnEvent_whitespace;
 	
 	//cPopup *pOptionBtnBackGround = new cPopup;
 	//pOptionBtnBackGround->Setup(
@@ -74,7 +74,7 @@ cPopup* Setup_InGameMenu(cPopup* btn)
 			30, 90, 0,
 			1,
 			true, true);
-		pSystem_continue->EventProcess = InGameMenu_returnEvent;
+		pSystem_continue->EventProcess = InGamePauseMenu_returnEvent;
 		
 		cButton *pSystem_OptionBtn = new cButton;
 		pSystemBackground->cButtonPushBack(pSystem_OptionBtn);
@@ -83,7 +83,7 @@ cPopup* Setup_InGameMenu(cPopup* btn)
 			30, 170, 0, 
 			1, 
 			true, true);
-		pSystem_OptionBtn->EventProcess = InGameMenu_OptionBtnEvent;
+		pSystem_OptionBtn->EventProcess = InGamePauseMenu_OptionBtnEvent;
 
 		cButton *pSystem_ToStartBtn= new cButton;
 		pSystemBackground->cButtonPushBack(pSystem_ToStartBtn);
@@ -92,7 +92,7 @@ cPopup* Setup_InGameMenu(cPopup* btn)
 			30, 250, 0, 
 			1, 
 			true, true);
-		pSystem_ToStartBtn->EventProcess = InGameMenu_ToStartEvent;
+		pSystem_ToStartBtn->EventProcess = InGamePauseMenu_ToStartEvent;
 
 		cButton *pSystem_END_Btn = new cButton;
 		pSystemBackground->cButtonPushBack(pSystem_END_Btn);
@@ -101,7 +101,7 @@ cPopup* Setup_InGameMenu(cPopup* btn)
 			30, 330, 0, 
 			1, 
 			true, true);
-		pSystem_END_Btn->EventProcess = InGameMenu_END_Game;
+		pSystem_END_Btn->EventProcess = InGamePauseMenu_END_Game;
 	} // top button
 
 	// cPopup* pOptionPopUp = Setup_Setting_popup(pOptionBackGround);
@@ -120,7 +120,7 @@ cPopup* Setup_InGameMenu(cPopup* btn)
 	return pSystemBack;
 }
 
-void InGameMenu_returnEvent_whitespace(EventType message, cPopup* popup)
+void InGamePauseMenu_returnEvent_whitespace(EventType message, cPopup* popup)
 {
 	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
 	D3DXVECTOR3 btnPosition = popup->GetPosition();
@@ -157,7 +157,7 @@ void InGameMenu_returnEvent_whitespace(EventType message, cPopup* popup)
 	};//switch End
 }
 
-void InGameMenu_returnEvent(EventType message, cPopup* btn)
+void InGamePauseMenu_returnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -241,7 +241,7 @@ void InGameMenu_returnEvent(EventType message, cPopup* btn)
 
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
 
-					cout << "InGameMenu_returnEvent is Clicked" << endl;
+					cout << "InGamePauseMenu_returnEvent is Clicked" << endl;
 				}
 			}
 		}
@@ -250,7 +250,7 @@ void InGameMenu_returnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void InGameMenu_OptionBtnEvent(EventType message, cPopup* btn)
+void InGamePauseMenu_OptionBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -334,7 +334,7 @@ void InGameMenu_OptionBtnEvent(EventType message, cPopup* btn)
 					
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf();
 					
-					cout << "InGameMenu_OptionBtnEvent is Clicked" << endl;
+					cout << "InGamePauseMenu_OptionBtnEvent is Clicked" << endl;
 				}
 			}
 		}
@@ -343,7 +343,7 @@ void InGameMenu_OptionBtnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void InGameMenu_ToStartEvent(EventType message, cPopup* btn)
+void InGamePauseMenu_ToStartEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -425,7 +425,7 @@ void InGameMenu_ToStartEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Off);
 					button->GetTopPopUp()->PowerOnOff();
 					
-					cout << "InGameMenu_ToStartEvent Clicked" << endl;
+					cout << "InGamePauseMenu_ToStartEvent Clicked" << endl;
 					
 					g_pSceneManager->ChangeScene(SceneType::SCENE_TITLE);
 				}
@@ -436,7 +436,7 @@ void InGameMenu_ToStartEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void InGameMenu_END_Game(EventType message, cPopup* btn)
+void InGamePauseMenu_END_Game(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 

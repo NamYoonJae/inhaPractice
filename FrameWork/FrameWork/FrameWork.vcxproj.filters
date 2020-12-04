@@ -169,10 +169,10 @@
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Code\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="InGameMenuUIEvent.cpp">
+    <ClCompile Include="SettingUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
-    <ClCompile Include="SettingUIEvent.cpp">
+    <ClCompile Include="InGamePauseMenuUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
   </ItemGroup>
@@ -354,10 +354,10 @@
     <ClInclude Include="ShaderManager.h">
       <Filter>Code\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="InGameMenuUIEvent.h">
+    <ClInclude Include="SettingUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
-    <ClInclude Include="SettingUIEvent.h">
+    <ClInclude Include="InGamePauseMenuUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
   </ItemGroup>

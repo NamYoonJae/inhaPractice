@@ -7,7 +7,7 @@
 #include "TitleSceneUIEvent.h"
 #include "GameOverSceneBtnEvent.h"
 #include "GameSceneUIEvent.h"
-#include "InGameMenuUIEvent.h"
+#include "InGamePauseMenuUIEvent.h"
 
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
@@ -363,7 +363,7 @@ void cTitleScene::Setup()
 		true, true, TAG_UI::TagUI_ESC_Menu);
 	pMediator->EventProcess = Opton_ESC_Event;
 	
-	cPopup *pSystemPopUp = Setup_InGameMenu(pMediator);
+	cPopup *pSystemPopUp = Setup_InGamePauseMenu(pMediator);
 	cPopup *pOptionPopUp = Setup_Setting_popup(pMediator);
 
 	EventManager->Attach(pMediator);

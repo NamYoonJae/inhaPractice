@@ -4,7 +4,7 @@
 #include "PopUp.h"
 #include "Scene.h"
 #include "TitleSceneUIEvent.h"
-#include "InGameMenuUIEvent.h"
+#include "InGamePauseMenuUIEvent.h"
 
 //#include "SceneManager.h"
 //#include "TextureManager.h"

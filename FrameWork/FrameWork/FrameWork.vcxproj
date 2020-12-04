@@ -185,7 +185,7 @@
     <ClInclude Include="SoulEaterState.h" />
     <ClInclude Include="SoulEater_BasicAttack.h" />
     <ClInclude Include="SoulEater_Idle.h" />
-    <ClInclude Include="InGameMenuUIEvent.h" />
+    <ClInclude Include="InGamePauseMenuUIEvent.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TitleSceneUIEvent.h" />
     <ClInclude Include="EventManager.h" />
@@ -247,7 +247,7 @@
     <ClCompile Include="SoulEaterState.cpp" />
     <ClCompile Include="SoulEater_BasicAttack.cpp" />
     <ClCompile Include="SoulEater_Idle.cpp" />
-    <ClCompile Include="InGameMenuUIEvent.cpp" />
+    <ClCompile Include="InGamePauseMenuUIEvent.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TitleSceneUIEvent.cpp" />
     <ClCompile Include="EventManager.cpp" />
