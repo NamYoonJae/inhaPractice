@@ -18,11 +18,14 @@ LPD3DXEFFECT cShaderManager::GetShader(eShader type)
 	{
 		switch(type)
 		{
-		case Texture:
+		case Texture_D:
 			m_vecShader[type] = LoadShader("data/Shader/TextureMapping.fx");
 			break;
-		case Specular:
+		case Specular_DSL:
 			m_vecShader[type] = LoadShader("data/Shader/SpecularMapping.fx");
+			break;
+		case Normal_DSNL:
+			m_vecShader[type] = LoadShader("data/Shader/NormalMapping.fx");
 			break;
 		default:
 			cout << "Invailed Shader Type!" << endl;

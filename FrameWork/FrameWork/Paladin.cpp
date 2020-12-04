@@ -45,7 +45,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 void cPaladin::ShaderSetup()
 {
-	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular);
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Normal_DSNL);
 
 	D3DLIGHT9   Light;
 	g_pD3DDevice->GetLight(0, &Light);
@@ -145,7 +145,8 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 #pragma endregion 
 
 #pragma region UsingShader
-	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular);
+	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Normal_DSNL);
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
 	
 	if(pShader)
 	{
@@ -155,17 +156,22 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 		D3DXMATRIXA16	matProjection;
 		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
 
-		D3DXMATRIXA16	matInvWorld;
-		D3DXMatrixInverse(&matInvWorld, 0, &m_matWorld);
+		//D3DXMATRIXA16	matInvWorld;
+		//D3DXMatrixInverse(&matInvWorld, 0, &m_matWorld);
+
+		D3DXMATRIXA16	matWVP;
+		matWVP = m_matWorld * matView * matProjection;
 
 		// 쉐이더 전역변수들을 설정
 		pShader->SetMatrix("gWorldMatrix", &m_matWorld);
-		pShader->SetMatrix("gViewMatrix", &matView);
-		pShader->SetMatrix("gProjectionMatrix", &matProjection);
-		pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
+		pShader->SetMatrix("gWorldViewProjectionMatrix", &matWVP);
+		//pShader->SetMatrix("gViewMatrix", &matView);
+		//pShader->SetMatrix("gProjectionMatrix", &matProjection);
+		//pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
 
-		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
+		pShader->SetTexture("DiffuseMap_Tex",	g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
 		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
+		pShader->SetTexture("NormalMap_Tex",	g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_normal.png"));
 		
 		UINT numPasses = 0;
 		pShader->Begin(&numPasses, NULL);

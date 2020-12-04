@@ -2,11 +2,17 @@
 
 #define g_pShaderManager cShaderManager::GetInstance()
 
+// D: DiffuseMap
+// L: Light
+// S: SpecularMap
+// N: NormalMap
 enum eShader
 {
-	Texture = 0,
-	Specular,
-
+	Texture_D = 0,
+	Texture_DL,
+	Specular_DSL,
+	Normal_DSNL,
+	
 
 
 

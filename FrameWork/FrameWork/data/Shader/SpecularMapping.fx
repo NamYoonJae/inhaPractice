@@ -7,8 +7,7 @@
 //--------------------------------------------------------------//
 
 float4x4 gWorldMatrix : World;
-float4x4 gViewMatrix : View;
-float4x4 gProjectionMatrix : Projection;
+float4x4 gWorldViewProjectionMatrix : WorldViewProjection;
 
 float4 gWorldLightPos = float4( 500.00, 500.00, -500.00, 1.00 );
 float4 gWorldCameraPos : ViewPosition;
@@ -34,24 +33,20 @@ VS_OUTPUT VS( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
-   Output.mPosition = mul( Input.mPosition, gWorldMatrix);
-   
+   Output.mPosition = mul( Input.mPosition, gWorldViewProjectionMatrix);
+   Output.mUV = Input.mUV;
+
    float3 lightDir = Output.mPosition.xyz - gWorldLightPos.xyz;
    lightDir = normalize(lightDir);
    
    float3 viewDir = normalize(Output.mPosition.xyz - gWorldCameraPos.xyz);
    Output.mViewDir = viewDir;
    
-   Output.mPosition = mul( Output.mPosition, gViewMatrix);
-   Output.mPosition = mul( Output.mPosition, gProjectionMatrix);
-   
    float3  worldNormal = mul(Input.mNormal, (float3x3)gWorldMatrix);
    worldNormal = normalize(worldNormal);
    
    Output.mDiffuse = dot(-lightDir, worldNormal);
    Output.mReflection = reflect(lightDir, worldNormal);
-   
-   Output.mUV = Input.mUV;
    
    return( Output );
    
@@ -98,9 +93,9 @@ float4 PS(PS_INPUT Input) : COLOR0
       float4 specularIntensity = tex2D(SpecularSampler, Input.mUV);
       specular *= specularIntensity.rgb * gLightColor.rgb;
    }
-   float3 ambient = float3(0.1f, 0.1f, 0.1f);
+   float3 ambient = float3(0.02f, 0.02f, 0.02f);
    
-   return float4( diffuse + specular, 1.0f ) ;
+   return float4(ambient + diffuse + specular, 1.0f ) ;
 }
 
 

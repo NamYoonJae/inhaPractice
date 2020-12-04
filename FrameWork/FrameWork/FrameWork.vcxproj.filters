@@ -171,7 +171,7 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Code\UI</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Code\Shader</Filter>
     </ClCompile>
@@ -356,7 +356,7 @@
     </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Code\UI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="ShaderManager.h">
       <Filter>Code\Shader</Filter>
     </ClInclude>
@@ -518,6 +518,9 @@
     <Filter Include="Code\jsonManager">
       <UniqueIdentifier>{781111a7-817e-4e4a-9c0d-1ac8f10cb73d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Code\Shader\fxFile">
+      <UniqueIdentifier>{3941f28c-55f3-499e-8ed3-67de11838fb5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork.rc">
@@ -531,5 +534,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="data\Shader\SpecularMapping.fx">
+      <Filter>Code\Shader\fxFile</Filter>
+    </FxCompile>
+    <FxCompile Include="data\Shader\NormalMapping.fx">
+      <Filter>Code\Shader\fxFile</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
