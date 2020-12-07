@@ -40,7 +40,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	EventManager->Attach(this);
 
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pSkinnedUnit, NULL);
+	m_pOBB->Setup(m_pSkinnedUnit, &m_matWorld);
 
 	ZeroMemory(&m_Mstl, sizeof(D3DMATERIAL9));
 	m_Mstl.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
@@ -142,6 +142,7 @@ void cPaladin::Update(EventType event)
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
 	ShaderRender();
+	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void cPaladin::ShaderRender()
@@ -168,7 +169,6 @@ void cPaladin::ShaderRender()
 		
 		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
 		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
-		pShader->SetTexture("NormalMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_normal.png"));
 		
 		UINT numPasses = 0;
 		pShader->Begin(&numPasses, NULL);
