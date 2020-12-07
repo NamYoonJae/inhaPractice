@@ -8,12 +8,15 @@
 
 #include "Paladin.h"
 
+#include "AllocateHierarchy.h"
+
 cPaladin::cPaladin()
 	:m_fvelocity(0.0f)
 	,m_isMoving(false)
 	,m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
 {
+	D3DXMatrixIdentity(&m_matWorld);
 }
 
 
@@ -30,7 +33,11 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(9);
 
+	m_vPos = D3DXVECTOR3(20, 0, 30);
+	m_vScale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+
 	m_pSkinnedUnit->Update();
+	EventManager->Attach(this);
 
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pSkinnedUnit, NULL);
@@ -134,44 +141,34 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
-#pragma region NoneShader
-	//D3DXMATRIXA16 matWorld;
-	//D3DXMatrixIdentity(&matWorld);
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	////g_pD3DDevice->SetMaterial(&m_Mstl);
-	//m_pSkinnedUnit->Render();
-	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
-	//m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 0, 0));
-#pragma endregion 
+	ShaderRender();
+}
 
-#pragma region UsingShader
-	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Normal_DSNL);
+void cPaladin::ShaderRender()
+{
 	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
-	
-	if(pShader)
+
+	if (pShader)
 	{
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		
 		D3DXMATRIXA16	matView;
 		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
 
 		D3DXMATRIXA16	matProjection;
 		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
 
-		//D3DXMATRIXA16	matInvWorld;
-		//D3DXMatrixInverse(&matInvWorld, 0, &m_matWorld);
-
 		D3DXMATRIXA16	matWVP;
-		matWVP = m_matWorld * matView * matProjection;
+		matWVP = matView * matProjection * m_matScale;
 
 		// 쉐이더 전역변수들을 설정
-		pShader->SetMatrix("gWorldMatrix", &m_matWorld);
+		pShader->SetMatrix("gWorldMatrix", &m_matScale);
 		pShader->SetMatrix("gWorldViewProjectionMatrix", &matWVP);
-		//pShader->SetMatrix("gViewMatrix", &matView);
-		//pShader->SetMatrix("gProjectionMatrix", &matProjection);
-		//pShader->SetMatrix("gInvWorldMatrix", &matInvWorld);
-
-		pShader->SetTexture("DiffuseMap_Tex",	g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
+		
+		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
 		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
-		pShader->SetTexture("NormalMap_Tex",	g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_normal.png"));
+		pShader->SetTexture("NormalMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_normal.png"));
 		
 		UINT numPasses = 0;
 		pShader->Begin(&numPasses, NULL);
@@ -187,7 +184,6 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 		}
 		pShader->End();
 	}
-#pragma endregion 
 }
 
 void cPaladin::SetTranseform(D3DXMATRIXA16* pmat)

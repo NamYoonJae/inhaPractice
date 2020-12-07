@@ -28,6 +28,7 @@ public:
 	void Update();
 	void Update(EventType event) override;
 	void Render(D3DXMATRIXA16 * pmat = NULL);
+	void ShaderRender();
 
 	void SetTranseform(D3DXMATRIXA16* pmat);
 

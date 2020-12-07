@@ -554,5 +554,8 @@
     <FxCompile Include="data\Shader\NormalMapping.fx">
       <Filter>Code\Shader\fxFile</Filter>
     </FxCompile>
+    <FxCompile Include="data\Shader\TextureMapping.fx">
+      <Filter>Code\Shader\fxFile</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

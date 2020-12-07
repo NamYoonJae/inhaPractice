@@ -14,7 +14,7 @@ float4 gWorldCameraPos : ViewPosition;
 
 struct VS_INPUT 
 {
-   float4 mPosition : POSITION0;
+   float4 mPosition : POSITION;
    float3 mNormal   : NORMAL;
    float2 mUV       : TEXCOORD0;
    
@@ -22,7 +22,7 @@ struct VS_INPUT
 
 struct VS_OUTPUT 
 {
-   float4 mPosition   : POSITION0;
+   float4 mPosition   : POSITION;
    float2 mUV         : TEXCOORD0;
    float3 mDiffuse    : TEXCOORD1;
    float3 mViewDir    : TEXCOORD2;
@@ -61,14 +61,14 @@ struct PS_INPUT
    float3 mReflection : TEXCOORD3;
 };
 
-texture DiffuseMap_Tex;
 
+texture DiffuseMap_Tex;
 sampler2D DiffuseSampler = sampler_state
 {
    Texture = (DiffuseMap_Tex);
 };
-texture SpecularMap_Tex;
 
+texture SpecularMap_Tex;
 sampler2D SpecularSampler = sampler_state
 {
    Texture = (SpecularMap_Tex);

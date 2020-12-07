@@ -96,17 +96,24 @@ void cGameScene::Setup() // boss1map  boss2map
 		}
 
 
+		//if(ObjectManager->SearchChild(Tag::Tag_Player) == NULL)
+		//{
+		//	cArthur* pArthur = new cArthur;
+		//	pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
+		//	pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
+		//	pCamera->Setup(pArthur->GetPos());
+		//	pArthur->Tagging(Tag::Tag_Player);
+		//	ObjectManager->AddStaticChild(pArthur);
+		//}
+
 		if(ObjectManager->SearchChild(Tag::Tag_Player) == NULL)
 		{
-			cArthur* pArthur = new cArthur;
-			pArthur->Setup("data/XFile/Arthur", "arthur_TBorn.X");
-			pArthur->SetScale(D3DXVECTOR3(0.1f, 0.1f, 0.1f));
-			pCamera->Setup(pArthur->GetPos());
-			pArthur->Tagging(Tag::Tag_Player);
-			ObjectManager->AddStaticChild(pArthur);
+			cPaladin* pPaladin = new cPaladin;
+			pPaladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
+			pCamera->Setup(pPaladin->GetPos());
+			pPaladin->Tagging(Tag::Tag_Player);
+			ObjectManager->AddStaticChild(pPaladin);
 		}
-
-		
 
 
 	}
@@ -157,10 +164,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	//Lava->Tagging(Tag::Tag_cObj);
 	//ObjectManager->AddChild(Lava);
 
-	cPaladin* Paladin = new cPaladin;
-	Paladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
-	Paladin->SetPosition(D3DXVECTOR3(30, 0, 0));
-	ObjectManager->AddChild(Paladin);
+	//cPaladin* Paladin = new cPaladin;
+	//Paladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
+	//Paladin->SetPosition(D3DXVECTOR3(30, 0, 0));
+	//ObjectManager->AddChild(Paladin);
 	
 	//cLavaGolem* Lava = new cLavaGolem;
 	//Lava->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
