@@ -20,7 +20,9 @@ enum TAG_UI
 	TagUI_Trophies,
 
 	TagUI_ESC_Menu,
-	
+	TagUI_NewGameCheck,
+	TagUI_ExitCheck,
+
 	TagUI_InGameObject,
 	TagUI_GameOver,
 };
