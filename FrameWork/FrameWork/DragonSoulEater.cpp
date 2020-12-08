@@ -6,7 +6,7 @@
 #include "AllocateHierarchy.h"
 
 #pragma once
-DragonSoulEater::DragonSoulEater()
+cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
 {
@@ -14,14 +14,14 @@ DragonSoulEater::DragonSoulEater()
 }
 
 
-DragonSoulEater::~DragonSoulEater()
+cDragonSoulEater::~cDragonSoulEater()
 {
 	SafeDelete(m_pOBB);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
 }
 
-void DragonSoulEater::Update()
+void cDragonSoulEater::Update()
 {
 	// 플레이어와 통신
 	// 상태에 대한 업데이트
@@ -67,7 +67,7 @@ void DragonSoulEater::Update()
 
 }
 
-void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
+void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 {
 	D3DXMATRIXA16 matWorld, matT,
 	matR, matRx,matRy,matRz;
@@ -99,7 +99,7 @@ void DragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	
 }
 
-void DragonSoulEater::Setup(char* szFolder, char* szFileName)
+void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 {
 	m_pSkinnedUnit = new cSkinnedMesh(szFolder, szFileName);
 	m_pOBB = new cOBB;
@@ -134,7 +134,7 @@ void DragonSoulEater::Setup(char* szFolder, char* szFileName)
 	SetupBoundingBox();
 }
 
-void DragonSoulEater::SetState()
+void cDragonSoulEater::SetState()
 {
 	if(true)
 	{
@@ -150,12 +150,12 @@ void DragonSoulEater::SetState()
 	}
 }
 
-void DragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
+void cDragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
 {
 	m_matWorld = *matWorld;
 }
 
-void DragonSoulEater::SetupBoundingBox()
+void cDragonSoulEater::SetupBoundingBox()
 {
 	if (m_vBoneArray.empty())
 		return;
@@ -518,7 +518,7 @@ void DragonSoulEater::SetupBoundingBox()
 }
 
 
-void DragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
+void cDragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 {
 	//나는 내가 공격중 // 
 	cOBB* pOBB = pObject->GetOBB();
@@ -549,4 +549,10 @@ void DragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 		mapCollisionList.insert(pair<int, CollisionInfo>(nTag,info));
 
 	}
+}
+
+void cDragonSoulEater::Request()
+{
+
+	
 }
