@@ -141,15 +141,18 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(0, 0, 0), 1, false, true, TAG_UI::TagUI_InGame);
 
 	//Hp
-	cButton* hpBar = new cButton;
+	cPopup* hpBar = new cPopup;
 	hpBar->Setup("data/UI/InGame", "NW_HP_Gauge.png",
-		D3DXVECTOR3(61, 736, 0), 0, 0, 0, 1, false, true);
+		D3DXVECTOR3(61, 736, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_HpBar);
 	inGamePopup->cButtonPushBack(hpBar);
+	hpBar->EventProcess = HpGuageEvent;
 
-	cButton* hpBarBackground = new cButton;
+
+	cPopup* hpBarBackground = new cPopup;
 	hpBarBackground->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
-		D3DXVECTOR3(30, 730, 0), 0, 0, 0, 1, false, true);
+		D3DXVECTOR3(30, 730, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_Staminer);
 	hpBar->cButtonPushBack(hpBarBackground);
+
 
 	/* 이전버전소스 keep
 	cButton* hpBarBackground = new cButton;
@@ -169,14 +172,15 @@ void cTitleScene::Setup()
 	hpBarBackground->cButtonPushBack(hpBarMark);
 	*/
 
-	//Staminer
 
-	cButton* staminerBar = new cButton;
+	//Staminer
+	cPopup* staminerBar = new cPopup;
 	staminerBar->Setup("data/UI/InGame", "NW_ST_Gauge.png",
 		D3DXVECTOR3(61, 786, 0), 0, 0, 0, 1, false, true); // 
 	inGamePopup->cButtonPushBack(staminerBar);
+	staminerBar->EventProcess = StaminerGuageEvent;
 
-	cButton* staminerBarBackgound = new cButton;
+	cPopup* staminerBarBackgound = new cPopup;
 	staminerBarBackgound->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
 		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
 	staminerBar->cButtonPushBack(staminerBarBackgound);

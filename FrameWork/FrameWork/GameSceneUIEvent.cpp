@@ -6,6 +6,7 @@
 #include "Scene.h"
 
 #include "Button.h"
+#include "ObjectPool.h"
 
 
 //이름 수정할 것
@@ -52,3 +53,30 @@ void Opton_ESC_Event(EventType message, cPopup* btn)
 		break;
 	}
 }
+
+void HpGuageEvent(EventType message, cPopup * btn)
+{
+	/*
+	static cPopup* hpGuage = NULL;
+	if (hpGuage == NULL)
+	{
+		hpGuage = (cPopup*)ObjectManager->SearchChildUI(TagUI_HpBar);
+	}
+	*/
+
+}
+
+void StaminerGuageEvent(EventType message, cPopup * btn)
+{
+	/*
+	static cPopup* staminerGuage = NULL;
+	if (staminerGuage == NULL) 
+	{
+		staminerGuage = (cPopup*)ObjectManager->SearchChildUI(TagUI_Staminer);
+	}
+	*/
+
+}
+
+
+

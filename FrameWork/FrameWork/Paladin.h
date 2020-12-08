@@ -19,6 +19,10 @@ private:
 
 	cPaladinState*	m_pCurState;
 	DWORD			m_dwDelayState;
+
+	int m_Hp;
+	int m_Staminer;
+
 public:
 	cPaladin();
 	~cPaladin();
