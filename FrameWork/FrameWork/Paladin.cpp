@@ -15,6 +15,7 @@ cPaladin::cPaladin()
 	,m_isMoving(false)
 	,m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
+	,m_pWeaponOBB(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -23,6 +24,7 @@ cPaladin::cPaladin()
 cPaladin::~cPaladin()
 {
 	SafeDelete(m_pOBB);
+	SafeDelete(m_pWeaponOBB);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
 }
@@ -39,8 +41,18 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_pSkinnedUnit->Update();
 	EventManager->Attach(this);
 
+	D3DXMATRIXA16 mat;
+	D3DXMatrixScaling(&mat, m_vScale.x, m_vScale.y, m_vScale.z);
+	
+	m_pWeaponOBB = new cOBB;
+	m_pWeaponOBB->Setup(D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Sword_joint"), 
+		D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Paladin_J_Nordstrom_Sword")->pMeshContainer, &mat);
+
+	if (m_pSkinnedUnit->m_pTransformationMatrix)
+		mat *= *m_pSkinnedUnit->m_pTransformationMatrix;
+	
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_pSkinnedUnit, &m_matWorld);
+	m_pOBB->Setup(m_pSkinnedUnit, &mat);
 
 	ZeroMemory(&m_Mstl, sizeof(D3DMATERIAL9));
 	m_Mstl.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
@@ -52,7 +64,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 void cPaladin::ShaderSetup()
 {
-	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Normal_DSNL);
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
 
 	D3DLIGHT9   Light;
 	g_pD3DDevice->GetLight(0, &Light);
@@ -86,7 +98,17 @@ void cPaladin::Update()
 
 	m_pSkinnedUnit->Update();
 
-	m_pOBB->Update(&m_matWorld);
+	D3DXMATRIXA16 matScale;
+	D3DXMatrixScaling(&matScale, 0.5f, 0.5f, 0.5f);
+	D3DXMATRIXA16 matRx = MatrixIdentity;
+	D3DXMatrixRotationX(&matRx, D3DXToRadian(90));
+	D3DXMATRIXA16 matTr;
+	D3DXMatrixTranslation(&matTr, 0.0f, 0.0f, 0.0f);
+	
+	ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Sword_joint");
+	m_matWeapon = matScale * matRx * matTr * pBone->CombinedTransformationMatrix;
+	//m_matWeapon = pBone->CombinedTransformationMatrix;
+	m_pWeaponOBB->Update(&m_matWeapon);
 }
 
 void cPaladin::Update(EventType event)
@@ -94,8 +116,8 @@ void cPaladin::Update(EventType event)
 	D3DXMATRIXA16 TempRot;
 	D3DXMatrixIdentity(&TempRot);
 
-	//float delta = g_pTimeManager->GetElapsedTime();
-	float delta = 0.001f;
+	float delta = g_pTimeManager->GetElapsedTime();
+	//float delta = 0.001f;
 	static bool isKeyDown = false;
 
 	if (event == EventType::EVENT_ARROW_UP)
@@ -143,6 +165,9 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
 	ShaderRender();
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &MatrixIdentity);
+	m_pWeaponOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 }
 
 void cPaladin::ShaderRender()
@@ -163,12 +188,17 @@ void cPaladin::ShaderRender()
 		D3DXMATRIXA16	matWVP;
 		matWVP = matView * matProjection * m_matScale;
 
+		pShader->SetMatrix("gViewMatrix", &matView);
+		pShader->SetMatrix("gProjectionMatrix", &matProjection);
+		
 		// 쉐이더 전역변수들을 설정
 		pShader->SetMatrix("gWorldMatrix", &m_matScale);
 		pShader->SetMatrix("gWorldViewProjectionMatrix", &matWVP);
 		
 		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
 		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
+
+		//g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, true);
 		
 		UINT numPasses = 0;
 		pShader->Begin(&numPasses, NULL);
