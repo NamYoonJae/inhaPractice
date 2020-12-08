@@ -1,16 +1,22 @@
 #pragma once
 
+class cDragonSoulEater;
+
+
 enum{NONE_BATTLE,IDLE,RUN,BATTLE,BASIC_ATTACK};
 
 
-class SoulEaterState
+// Head, TailEnd, UpperLeg_Right, UpperLeg_Left, UpperArm_Right, UpperArm_Left,
+
+class cSoulEaterState
 {
 protected:
-	bool IsChangeState;
+	cDragonSoulEater *m_pDragon;
 public:
-	SoulEaterState();
-	~SoulEaterState();
-	virtual void Update() = 0;
-
+	cSoulEaterState();
+	cSoulEaterState(cDragonSoulEater*);
+	~cSoulEaterState();
+	virtual void handle() = 0;
+	void GetDragon(cDragonSoulEater* pDragon);
 };
 

@@ -46,8 +46,8 @@ enum class  EventType
 	EVENT_NUMPAD_4 = 52,
 	EVENT_NUMPAD_5 = 53,
 
-	EVENT_KEYUP = 128, // 0x80
-
+	EVENT_KEYUP = 128, // 0x80 
+	EVENT_HP = 129
 };
 
 class cEventManager

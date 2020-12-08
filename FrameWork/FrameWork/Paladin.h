@@ -22,6 +22,9 @@ private:
 	
 	cOBB*			m_pWeaponOBB;
 	D3DXMATRIXA16	m_matWeapon;
+
+	int m_Hp;
+	int m_Staminer;
 public:
 	cPaladin();
 	~cPaladin();

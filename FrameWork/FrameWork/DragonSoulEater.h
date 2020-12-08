@@ -2,31 +2,30 @@
 #include "cObject.h"
 #include "SkinnedMesh.h"
 
-class SoulEaterState;
+class cSoulEaterState;
 class cOBB;
-class DragonSoulEater :
+class cDragonSoulEater :
 	public cObject
 {
 private:
-	cSkinnedMesh*   m_pSkinnedUnit;
-	D3DMATERIAL9	m_Mstl;
+	cSkinnedMesh*		m_pSkinnedUnit;
+	D3DMATERIAL9		m_Mstl;
 
 	
-	SoulEaterState*	m_pCurState;
-	DWORD			m_dwDelayState;
+	cSoulEaterState*	m_pCurState;
+	DWORD				m_dwDelayState;
 
-	float			m_fCurHeathpoint;
-	float			m_fMaxHeathPoint;
+	float				m_fCurHeathpoint;
+	float				m_fMaxHeathPoint;
 
-	D3DXMATRIXA16	m_matWorld;
-	LPDIRECT3DTEXTURE9 m_pTexture;
+	D3DXMATRIXA16		m_matWorld;
+	LPDIRECT3DTEXTURE9	m_pTexture;
 
-	//
 	vector<BoundingBox> m_vecBoundingBoxList;
 
 public:
-	DragonSoulEater();
-	~DragonSoulEater();
+	cDragonSoulEater();
+	~cDragonSoulEater();
 	void Update() override;
 	void Render(D3DXMATRIXA16* pmat) override;
 	void Setup(char* szFolder, char* szFileName);
@@ -38,6 +37,8 @@ public:
 	void SetupBoundingBox();
 	virtual void CollisionProcess(cObject* pObject,DWORD dwCollsionTime) override;
 	//std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }
+
+	void Request();
 };
 
 
