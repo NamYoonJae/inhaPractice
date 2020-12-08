@@ -15,6 +15,8 @@ cPaladin::cPaladin()
 	,m_isMoving(false)
 	,m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
+	, m_Hp(0)
+	, m_Staminer(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -29,6 +31,8 @@ cPaladin::~cPaladin()
 
 void cPaladin::Setup(char* szFolder, char* szFile)
 {
+	m_Hp = 1000;
+	m_Staminer = 1000;
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(9);
