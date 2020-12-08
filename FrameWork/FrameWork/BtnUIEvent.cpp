@@ -24,6 +24,9 @@ cButton* Setup_CheckBtn(cPopup* popup, D3DXVECTOR3 position, function<void(Event
 		true, true);
 	popup->cButtonPushBack(pChkButton);
 
+	// TODO 생성시 파일 불러올 것 -> 이벤트 함수로 옮기는 것 고려
+	pChkButton->SetStateChange(enum_On);
+
 	if (EventFuction)
 		pChkButton->EventProcess = EventFuction;
 	else

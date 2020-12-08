@@ -10,7 +10,7 @@
 
 
 //이름 수정할 것
-void Opton_ESC_Event(EventType message, cPopup* btn)
+void InGamePause_Event(EventType message, cPopup* btn)
 {
 	bool child_power = 0;
 	int currentSceneType = g_pSceneManager->GetCurrentSceneType();

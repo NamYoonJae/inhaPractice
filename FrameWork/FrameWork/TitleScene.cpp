@@ -409,7 +409,7 @@ void cTitleScene::Setup()
 		0, 0, 0,
 		1,
 		true, true, TAG_UI::TagUI_ESC_Menu);
-	pMediator->EventProcess = Opton_ESC_Event;
+	pMediator->EventProcess = InGamePause_Event;
 	
 	cPopup *pSystemPopUp = Setup_InGamePauseMenu(pMediator);
 	cPopup *pOptionPopUp = Setup_Setting_popup(pMediator);
