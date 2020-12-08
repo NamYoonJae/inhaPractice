@@ -58,6 +58,70 @@ void cOBB::Setup(D3DXVECTOR3 vmin, D3DXVECTOR3 vmax, D3DXMATRIXA16* pmat)
 	BuildVertices();
 }
 
+void cOBB::Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat)
+{
+	D3DXVECTOR3 vMin(0, 0, 0);
+	D3DXVECTOR3 vMax(0, 0, 0);
+
+	DWORD BoneNum = -1;
+	if (pFrame->Name)
+	{
+		ID3DXSkinInfo* pSkin = pMesh->pSkinInfo;
+
+		for (DWORD i = 0; i < pSkin->GetNumBones(); i++)
+		{
+			if (!strcmp(pSkin->GetBoneName(i), pFrame->Name))
+			{
+				BoneNum = i;
+				break;
+			}
+		}
+
+
+		if (BoneNum != -1)
+		{
+			DWORD NumVertice = pSkin->GetNumBoneInfluences(BoneNum);
+
+			if (NumVertice)
+			{
+				DWORD* Vertices = new DWORD[NumVertice];
+				float* Weights = new float[NumVertice];
+				pSkin->GetBoneInfluence(BoneNum, Vertices, Weights);
+
+				DWORD Stride = D3DXGetFVFVertexSize(pMesh->MeshData.pMesh->GetFVF());
+
+				D3DXMATRIX* matInvBone = pSkin->GetBoneOffsetMatrix(BoneNum);
+
+				char* pVertices;
+				pMesh->MeshData.pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVertices);
+
+				for (DWORD i = 0; i < NumVertice; i++)
+				{
+					D3DXVECTOR3* vecPtr = (D3DXVECTOR3*)(pVertices + Vertices[i] * Stride);
+
+					D3DXVECTOR3 vecPos;
+					D3DXVec3TransformCoord(&vecPos, vecPtr, matInvBone);
+
+					vMin.x = min(vMin.x, vecPos.x);
+					vMin.y = min(vMin.y, vecPos.y);
+					vMin.z = min(vMin.z, vecPos.z);
+
+					vMax.x = max(vMax.x, vecPos.x);
+					vMax.y = max(vMax.y, vecPos.y);
+					vMax.z = max(vMax.z, vecPos.z);
+				}
+
+				pMesh->MeshData.pMesh->UnlockVertexBuffer();
+
+				delete[] Vertices;
+				delete[] Weights;
+			}
+		}
+	}
+
+	Setup(vMin, vMax, pmat);
+}
+
 void cOBB::BuildVertices()
 {
 	m_fAxisHalfLen[0] = m_fAxisLen[0] / 2;

@@ -1,13 +1,24 @@
 #include "stdafx.h"
 #include "SoulEaterState.h"
+#include "DragonSoulEater.h"
 
+#pragma once
 
-SoulEaterState::SoulEaterState()
-	:IsChangeState(false)
+cSoulEaterState::cSoulEaterState()
 {
 }
 
-
-SoulEaterState::~SoulEaterState()
+cSoulEaterState::cSoulEaterState(cDragonSoulEater *pDragon)
 {
+	m_pDragon = pDragon;
+}
+
+
+cSoulEaterState::~cSoulEaterState()
+{
+}
+
+void cSoulEaterState::GetDragon(cDragonSoulEater* pDragon)
+{
+	m_pDragon = pDragon;
 }

@@ -181,6 +181,9 @@
     <ClCompile Include="TrophiesSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
+    <ClCompile Include="cSoulEater_TailAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -371,6 +374,9 @@
     </ClInclude>
     <ClInclude Include="TrophiesSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="cSoulEater_TailAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

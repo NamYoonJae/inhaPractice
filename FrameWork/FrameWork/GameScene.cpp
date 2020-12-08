@@ -145,7 +145,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
 	//
-	DragonSoulEater* m_pDragon = new DragonSoulEater;
+	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
 	m_pDragon->Setup("data/XFile/Dragon", "Basic Attack.X");
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixScaling(&matWorld, 0.2f, 0.2f, 0.2f);

@@ -11,9 +11,8 @@ SoulEater_Idle::~SoulEater_Idle()
 {
 }
 
-void SoulEater_Idle::Update()
-{
 
-	// 현재 프레임 , 플레이어 위치,
-	// 
+void SoulEater_Idle::handle()
+{
+	
 }

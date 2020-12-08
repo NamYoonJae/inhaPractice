@@ -11,9 +11,7 @@ SoulEater_BasicAttack::~SoulEater_BasicAttack()
 {
 }
 
-void SoulEater_BasicAttack::Update()
+void SoulEater_BasicAttack::handle()
 {
-	// 업데이트 문
-
-	//
+	
 }
