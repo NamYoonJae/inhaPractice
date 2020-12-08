@@ -46,34 +46,44 @@ cPopup* Setup_Setting_popup(cPopup* btn)
 		true, true);
 	pOptionBackGround->EventProcess = Setting_popup_ReturnEvent_whitespace;
 
+
 #pragma region barSilder
 	// TODO 아래 바게이지는 나중에 이벤트를 따로 줄 것.
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0))->EventProcess = BarSliderMoveEvent;
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 441, 0))->EventProcess = BarSliderMoveEvent;
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 508, 0))->EventProcess = BarSliderMoveEvent;
+	// 이전 코드
+	// Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0))->EventProcess = BarSliderMoveEvent;
 
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 119, 0))->EventProcess = BarSliderMoveEvent2;
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 196, 0))->EventProcess = BarSliderMoveEvent2;
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 280, 0))->EventProcess = BarSliderMoveEvent2;
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0), BarSliderMoveEvent);
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 441, 0), BarSliderMoveEvent);
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 508, 0), BarSliderMoveEvent);
+
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 119, 0), BarSliderMoveEvent2);
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 196, 0), BarSliderMoveEvent2);
+	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 280, 0), BarSliderMoveEvent2);
+
 #pragma endregion barSilder
 
 #pragma region chk_Button
 	// TODO json Test
 	// 이미지의 크기는 23 x 23
 	
-	cButton *pChk_MiniMap = new cButton;
-	pOptionBackGround->cButtonPushBack(pChk_MiniMap);
-	// pExitButton->Setup("data/UI/Settings", "NW_Setting_ToggleButton_Off.png",
-	pChk_MiniMap->Setup(
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/ToggleButton_On/filename"),
-		//D3DXVECTOR3(0, 0, 0), // 생성시 json 파싱받아보기
-		pChk_MiniMap->GetUpPopUp()->GetPosition(),
-		0, 0, 0,
-		1, true, true); // 스케일은 임시로 10
+	////cButton *pChk_MiniMap = new cButton;
+	////pOptionBackGround->cButtonPushBack(pChk_MiniMap);
+	////// pExitButton->Setup("data/UI/Settings", "NW_Setting_ToggleButton_Off.png",
+	////pChk_MiniMap->Setup(
+	////	json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+	////	json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/ToggleButton_On/filename"),
+	////	//D3DXVECTOR3(0, 0, 0), // 생성시 json 파싱받아보기
+	////	pChk_MiniMap->GetUpPopUp()->GetPosition(),
+	////	0, 0, 0,
+	////	1, true, true); // 스케일은 임시로 10
 	
 	// TODO 이벤트 추가
 	// pExitButton->EventProcess = Tmp_CheckEvent;
+
+	Setup_CheckBtn(pOptionBackGround, D3DXVECTOR3(190, 175, 0), CheckBtnEvent);
+	Setup_CheckBtn(pOptionBackGround, D3DXVECTOR3(190, 215, 0), CheckBtnEvent);
+	Setup_CheckBtn(pOptionBackGround, D3DXVECTOR3(190, 255, 0), CheckBtnEvent);
+
 #pragma endregion chk_Button
 
 #pragma region exit

@@ -97,7 +97,7 @@ public:
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void cButtonPushBack(cPopup*);
 	virtual int GetState();
-	virtual void SetStateChange(int state);
+	virtual void SetStateChange(int state); // TODO SetState 로 이름변경할것
 	virtual D3DXVECTOR3 GetPosition();
 	function<void(EventType&, cPopup*)> EventProcess;
 

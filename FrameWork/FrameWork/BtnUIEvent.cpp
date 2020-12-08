@@ -9,8 +9,108 @@
 //#include "OptionUIEvent.h"
 
 
+cButton* Setup_CheckBtn(cPopup* popup, D3DXVECTOR3 position, function<void(EventType&, cPopup*)> EventFuction)
+{
+	JSON_Object* p_json_object_UI = g_p_jsonManager->get_json_object_UI();
+	JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+
+	cButton* pChkButton = new cButton;
+	pChkButton->Setup(
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/ToggleButton_On/filename"),
+		popup->GetPosition(),
+		position.x, position.y, position.z,
+		1,
+		true, true);
+	popup->cButtonPushBack(pChkButton);
+
+	if (EventFuction)
+		pChkButton->EventProcess = EventFuction;
+	else
+		cout << "Setup_CheckBtn() EventFuction is NULL" << endl;
+
+	return pChkButton;
+}
+
+void CheckBtnEvent(EventType message, cPopup* btn)
+{
+	// json object 포인터 생성
+	static JSON_Object* p_json_object_UI = g_p_jsonManager->get_json_object_UI();
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+
+	cButton* button = (cButton*)btn;
+
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+
+	// 변할값이 아니기에 static 선언, static 삭제 고려할 것
+	static float btn_width = button->GetImageInfoWidth() * button->GetPercent();
+	static float btn_height = button->GetImageInfoHeight() * button->GetPercent();
+
+	// 마우스 위치를 기억해야하기때문에 static 선언
+	static D3DXVECTOR2 prev_cur;
+	static D3DXVECTOR2 crnt_cur;
+	crnt_cur = EventManager->GetMouseCurrent();
+
+	switch (message)
+	{
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+		{
+			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+			{
+				prev_cur = EventManager->GetMouseCurrent();
+			}
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+		{
+			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+			{
+				if (button->GetState() == enum_On)
+					button->SetStateChange(enum_Off);
+				else if (button->GetState() == enum_Off)
+					button->SetStateChange(enum_On);
+
+				if (button->GetState() == enum_On)
+				{
+					string full_path = json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/directory")
+						+ '/' + json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/ToggleButton_On/filename");
+					char c_path[200] = { 0 };
+					strcpy(c_path, full_path.c_str());
+
+					button->ChangeSprite(c_path);
+					// TODO 세팅 저장하기
+				}
+				else if (button->GetState() == enum_Off) {
+					string full_path = json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/directory")
+						+ '/' + json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/ToggleButton_Off/filename");
+					char c_path[200] = { 0 };
+					strcpy(c_path, full_path.c_str());
+
+					button->ChangeSprite(c_path);
+					// TODO 세팅 저장하기
+				}
+
+
+			}
+		}
+	}
+	break;
+
+	default:
+		break;
+	}
+
+}
+
+
 // 셋업함수 종료후 json파일에서 데이터를 불러와 위치이동
-cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position)
+cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position, function<void(EventType&, cPopup*)> EventFuction)
 {
 	// TODO UI관련 주석 확인
 	// pBarGauge의 위치를 벡터를 기준으로 pBarButton의 위치를 제한함,
@@ -24,6 +124,11 @@ cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position)
 		1,
 		true, true);
 	popup->cButtonPushBack(pBarButton);
+
+	if (EventFuction)
+		pBarButton->EventProcess = EventFuction;
+	else
+		cout << "Setup_BarSliderPopupBtn() EventFuction is NULL" << endl;
 
 	return pBarButton;
 }
@@ -95,6 +200,7 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 		if (btnPosition.x > startBtnPosition.x + movement_range)
 			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
 
+		// TODO json 저장 테스트
 		json_object_set_number(p_json_object_setting, "BarSliderMoveEvent", (btnPosition.x - startBtnPosition.x) / tick);
 	}
 	break;

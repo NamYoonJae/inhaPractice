@@ -1,6 +1,9 @@
 #pragma once
 
-cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position);
+cButton* Setup_CheckBtn(cPopup* popup, D3DXVECTOR3 position, function<void(EventType&, cPopup*)> EventFuction);
+void CheckBtnEvent(EventType message, cPopup* btn);
+
+cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position, function<void(EventType&, cPopup*)> EventFuction);
 void BarSliderMoveEvent(EventType message, cPopup* btn);
 void BarSliderMoveEvent2(EventType message, cPopup* btn);
 
