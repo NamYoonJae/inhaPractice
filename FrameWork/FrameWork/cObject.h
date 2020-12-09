@@ -20,7 +20,7 @@ enum TAG_UI
 	TagUI_InGame,
 	TagUI_Trophies,
 	TagUI_Hp,
-	TagUI_Staminer,
+	TagUI_Stamina,
 
 	TagUI_ESC_Menu,
 	TagUI_NewGameCheck,

@@ -173,36 +173,36 @@ void cTitleScene::Setup()
 	*/
 
 
-	//Staminer
-	cPopup* staminerBar = new cPopup;
-	staminerBar->Setup("data/UI/InGame", "NW_ST_Gauge.png",
-		D3DXVECTOR3(61, 786, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_Staminer); // 
-	staminerBar->EventProcess = StaminerGaugeEvent;
+	//Stamina
+	cPopup* staminaBar = new cPopup;
+	staminaBar->Setup("data/UI/InGame", "NW_ST_Gauge.png",
+		D3DXVECTOR3(61, 786, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_Stamina); // 
+	staminaBar->EventProcess = StaminaGaugeEvent;
 
-	cPopup* staminerBarBackgound = new cPopup;
-	staminerBarBackgound->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
+	cPopup* staminaBarBackgound = new cPopup;
+	staminaBarBackgound->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
 		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
-	staminerBar->cButtonPushBack(staminerBarBackgound);
+	staminaBar->cButtonPushBack(staminaBarBackgound);
 
-	EventManager->Attach(staminerBar);
-	ObjectManager->AddUIChild(staminerBar);
+	EventManager->Attach(staminaBar);
+	ObjectManager->AddUIChild(staminaBar);
 
 	/* 이전버전 소스 keep
-	cButton* staminerBarBackgound = new cButton;
-	staminerBarBackgound->Setup("data/UI/InGame", "NW_ST_BarBackground.png",
+	cButton* staminaBarBackgound = new cButton;
+	staminaBarBackgound->Setup("data/UI/InGame", "NW_ST_BarBackground.png",
 		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(staminerBarBackgound);
+	inGamePopup->cButtonPushBack(staminaBarBackgound);
 
 	
-	cButton* staminerBar = new cButton;
-	staminerBar->Setup("data/UI/InGame", "NW_ST_Sword.png",
+	cButton* staminaBar = new cButton;
+	staminaBar->Setup("data/UI/InGame", "NW_ST_Sword.png",
 		D3DXVECTOR3(60, 786, 0), 0, 0, 0, 1, false, true);
-	staminerBarBackgound->cButtonPushBack(staminerBar);
+	staminaBarBackgound->cButtonPushBack(staminaBar);
 
-	cButton* staminerBarMark = new cButton;
-	staminerBarMark->Setup("data/UI/InGame", "NW_ST_Bar_Mark.png",
+	cButton* staminaBarMark = new cButton;
+	staminaBarMark->Setup("data/UI/InGame", "NW_ST_Bar_Mark.png",
 		D3DXVECTOR3(60, 786, 0), 0, 0, 0, 1, false, true);
-	staminerBarBackgound->cButtonPushBack(staminerBarMark);
+	staminaBarBackgound->cButtonPushBack(staminaBarMark);
 	*/
 
 
@@ -502,7 +502,7 @@ void cTitleScene::Reset(int sceneType)
 			popup->PowerOnOff();
 		}
 
-		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Staminer);
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Stamina);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();

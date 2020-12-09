@@ -17,7 +17,9 @@ cPaladin::cPaladin()
 	,m_pCurState(NULL)
 	,m_pWeaponOBB(NULL)
 	, m_Hp(0)
-	, m_Staminer(0)
+	, m_Stamina(0)
+	, m_MaxHp(1000)
+	, m_MaxStamina(500)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -33,8 +35,11 @@ cPaladin::~cPaladin()
 
 void cPaladin::Setup(char* szFolder, char* szFile)
 {
+	m_MaxHp = 1000;
+	m_MaxStamina = 500;
+
 	m_Hp = 1000;
-	m_Staminer = 500;
+	m_Stamina = 500;
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(9);
@@ -229,7 +234,17 @@ int cPaladin::GetHp()
 	return m_Hp;
 }
 
-int cPaladin::GetStaminer()
+int cPaladin::GetStamina()
 {
-	return m_Staminer;
+	return m_Stamina;
+}
+
+int cPaladin::GetMaxHp()
+{
+	return m_MaxHp;
+}
+
+int cPaladin::GetMaxStamina()
+{
+	return m_MaxStamina;
 }
