@@ -11,10 +11,11 @@ cPopup::cPopup()
 	, m_Position(0.0f, 0.0f, 0.0f)
 	, pParent(NULL)
 	, EventProcess(NULL)
+	, m_Percentage(0)
+	, m_Power(true)
+	, m_Fixed(false)
+	, m_pPaladin(NULL)
 {
-	m_Percentage = 0;
-	m_Power = true;
-	m_Fixed = false;
 }
 
 
@@ -127,11 +128,14 @@ void cPopup::Update(EventType message)
 		}
 	}
 
+	
 	if (m_Power)
 	{
 		if (EventProcess)
 			EventProcess(message, this);
 	}
+	
+
 }
 
 void cPopup::Render(D3DXMATRIXA16 * pmat)
@@ -146,7 +150,7 @@ void cPopup::Render(D3DXMATRIXA16 * pmat)
 		{
 			m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
 
-			SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+			SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
 			D3DXMATRIXA16 matT, matS, matWorld;
 			D3DXMatrixIdentity(&matT);
 			D3DXMatrixIdentity(&matS);
@@ -218,8 +222,10 @@ void cPopup::LoadTexture(char * szFullPath)
 		NULL,
 		&m_pTextureUI
 	);
-
-	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+	m_ImageInfoWidth = m_ImageInfo.Width;
+	m_ImageInfoHeight = m_ImageInfo.Height;
+	SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
+	
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);
 }
@@ -384,4 +390,14 @@ int cPopup::GetPopUpListSize()
 bool cPopup::GetPowerState()
 {
 	return m_Power;
+}
+
+void cPopup::SetPaladinReference(cPaladin* paladin)
+{
+	m_pPaladin = paladin;
+}
+
+cPaladin * cPopup::GetPaladinReference()
+{
+	return m_pPaladin;
 }

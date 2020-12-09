@@ -47,7 +47,15 @@ enum class  EventType
 	EVENT_NUMPAD_5 = 53,
 
 	EVENT_KEYUP = 128, // 0x80 
-	EVENT_HP = 129
+
+	EVENT_CREATE_PALADIN = 129,
+
+	EVENT_PLUS_HP = 130,
+	EVENT_MINUS_HP = 131,
+
+	EVENT_PLUS_STAMINER = 132,
+	EVENT_MINUS_STAMINER = 133,
+
 };
 
 class cEventManager
@@ -72,6 +80,7 @@ public:
 	//now
 	D3DXVECTOR2 GetMouseCurrent();
 	D3DXVECTOR2 GetMousePrev();
+	void PushQueue(EventType message);
 
 	
 };
