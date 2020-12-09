@@ -1,0 +1,31 @@
+{
+  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
+  
+  "HeightMapData": {
+    "directory": "data/HeightMapData",
+    "terrain.jpg": {
+      "filename": "terrain.jpg"
+    },
+    "Earth": {
+      "filename": "Earth.png"
+    },
+    "Ground_ClayRough_Moss": {
+      "filename": "Ground_ClayRough_Moss.png"
+    },
+    "Ground_Soil": {
+      "filename": "Ground_Soil.png"
+    },
+    "skyhorizon": {
+      "filename": "skyhorizon.png"
+    },
+    "HeightMap": {
+      "filename": "HeightMap.raw"
+    },
+    "StageA_Raw": {
+      "filename": "StageA_Raw.raw"
+    },
+    "StageB_Raw": {
+      "filename": "StageB_Raw.raw"
+    }
+  }
+}

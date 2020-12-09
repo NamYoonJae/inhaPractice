@@ -174,8 +174,7 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 				vec2distance.y = 0; // y값은 이동하지 않게 한다
 				button->MovePosition(vec2distance);
 				prev_cur = crnt_cur;
-				// TODO json 여기서 바로 저장할것
-				// 값을 반환해야하나? 반환한다면 반환한 값은 어디로가지?
+
 			}
 		}
 		//case EVENT_MOVE End:
@@ -204,6 +203,7 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
 
 		// TODO json 저장 테스트
+		// json 여기서 바로 저장할것
 		json_object_set_number(p_json_object_setting, "BarSliderMoveEvent", (btnPosition.x - startBtnPosition.x) / tick);
 	}
 	break;
@@ -242,7 +242,6 @@ void BarSliderMoveEvent2(EventType message, cPopup* btn)
 				button->MovePosition(vec2distance);
 				prev_cur = crnt_cur;
 				// TODO json 여기서 바로 저장할것
-				// 값을 반환해야하나? 반환한다면 반환한 값은 어디로가지?
 			}
 		}
 		//case EVENT_MOVE End:
@@ -338,7 +337,6 @@ void GaugeBarMoveEvent_Legacy(EventType message, cPopup* btn)
 				button->MovePosition(vec2distance);
 				prev_cur = crnt_cur;
 				// TODO json 여기서 바로 저장할것
-				// 값을 반환해야하나? 반환한다면 반환한 값은 어디로가지?
 			}
 		}
 		//case EVENT_MOVE End:

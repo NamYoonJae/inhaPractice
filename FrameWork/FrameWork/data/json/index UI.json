@@ -1,6 +1,6 @@
 {
-  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요"
-  ,
+  "memo": "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
+  
   "UI": {
     "Check": {
       "directory": "data/UI/Check",
@@ -148,8 +148,8 @@
       "InGameSetting_Back": {
         "filename": "NW_InGameSetting_Back.png",
         "scale": 1,
-        "position_x": "",
-        "position_y": ""
+        "position_x": 0,
+        "position_y": 0
       },
       "InGameSetting_Background": {
         "filename": "NW_InGameSetting_Background.png",
@@ -402,20 +402,26 @@
     },
     "Settings": {
       "directory": "data/UI/Settings",
+      "Option": {
+        "filename": "NW_Setting_Option.png",
+        "scale": 1,
+        "position_x": 300,
+        "position_y": 150
+      },
+      "Control": {
+        "filename": "NW_Setting_SettingController.png",
+        "scale": 1,
+        "position_x": 800,
+        "position_y": 143
+      },
+      "Text": {
+        "filename": "NW_Setting_Text.png",
+        "scale": 1,
+        "position_x": 400,
+        "position_y": 750
+      },
       "UI": {
         "filename": "NW_Setting_UI.png",
-        "scale": 1,
-        "position_x": "",
-        "position_y": ""
-      },
-      "ToggleButton_On": {
-        "filename": "NW_Setting_ToggleButton_On.png",
-        "scale": 1,
-        "position_x": "",
-        "position_y": ""
-      },
-      "ToggleButton_Off": {
-        "filename": "NW_Setting_ToggleButton_Off.png",
         "scale": 1,
         "position_x": "",
         "position_y": ""
@@ -428,6 +434,18 @@
       },
       "Controller": {
         "filename": "NW_Setting_Controller.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ToggleButton_On": {
+        "filename": "NW_Setting_ToggleButton_On.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ToggleButton_Off": {
+        "filename": "NW_Setting_ToggleButton_Off.png",
         "scale": 1,
         "position_x": "",
         "position_y": ""

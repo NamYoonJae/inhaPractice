@@ -1,4 +1,6 @@
 {
+  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
+  
   "BarSliderMoveEvent" : 5,
   "BarSliderTick" : 29
 }

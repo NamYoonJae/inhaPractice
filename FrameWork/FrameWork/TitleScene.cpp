@@ -402,7 +402,6 @@ void cTitleScene::Setup()
 	//EventManager->Attach(pPopup);
 	//ObjectManager->AddUIChild(pPopup);
 
-	// TODO 시스템창 불러오기
 	cPopup * pMediator = new cPopup;
 	pMediator->Setup(
 		"",

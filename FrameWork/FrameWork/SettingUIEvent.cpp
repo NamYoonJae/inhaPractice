@@ -28,91 +28,83 @@ cPopup* Setup_Setting_popup(cPopup* btn)
 	float nRight = 0.33;
 	float nBottom = 0.37;
 
-	cPopup *pOptionBack = new cPopup;
-	pOptionBack->Setup(
-		"data/UI/Settings",
-		"NW_InGameSetting_Back.png",
+	cPopup *pBack = new cPopup;
+	pBack->Setup(
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/InGamePauseMenu/directory"),
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/InGamePauseMenu/InGameSetting_Back/filename"),
 		D3DXVECTOR3(0, 0, 0),
-		1,
+		json_Fuction::object_get_double(p_json_object_UI, "UI/InGamePauseMenu/InGameSetting_Back/scale"),
 		true, true);
 	
-	cPopup *pOptionBackGround = new cPopup;
-	pOptionBack->cButtonPushBack(pOptionBackGround);
-	pOptionBackGround->Setup(
-		"data/UI/Settings",
-		"NW_Setting_UI.png",
-		D3DXVECTOR3(rc.right / 2 - 400, rc.bottom / 2 - 256, 0),
-		1,
+	cPopup *pOption = new cPopup;
+	pBack->cButtonPushBack(pOption);
+	pOption->Setup(
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/Option/filename"),
+		D3DXVECTOR3(
+			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Option/position_x"),
+			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Option/position_y"),
+			0),
+		json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Option/scale"),
 		true, true);
-	pOptionBackGround->EventProcess = Setting_popup_ReturnEvent_whitespace;
+	// 이벤트에서 상수 인덱스로 pControl를 참조하니까 수정시 유의
+	pOption->EventProcess = Setting_popup_ReturnEvent_whitespace;
 
+	cPopup* pControl = new cPopup;
+	pBack->cButtonPushBack(pControl);
+	pControl->Setup(
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/Control/filename"),
+		D3DXVECTOR3(
+			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Control/position_x"),
+			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Control/position_y"),
+			0),
+		json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Control/scale"),
+		true, true);
+
+	cPopup* pText = new cPopup;
+	pBack->cButtonPushBack(pText);
+	pText->Setup(
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/Text/filename"),
+		D3DXVECTOR3(
+			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Text/position_x"),
+			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Text/position_y"),
+			0),
+		json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Text/scale"),
+		true, true);
 
 #pragma region barSilder
-	// TODO 아래 바게이지는 나중에 이벤트를 따로 줄 것.
-	// 이전 코드
-	// Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0))->EventProcess = BarSliderMoveEvent;
-
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 378, 0), BarSliderMoveEvent);
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 441, 0), BarSliderMoveEvent);
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(137, 508, 0), BarSliderMoveEvent);
-
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 119, 0), BarSliderMoveEvent2);
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 196, 0), BarSliderMoveEvent2);
-	Setup_BarSliderPopupBtn(pOptionBackGround, D3DXVECTOR3(490, 280, 0), BarSliderMoveEvent2);
-
+	// TODO json Test
+	// TODO 이벤트 세분화
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 123, 0), BarSliderMoveEvent);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 192, 0), BarSliderMoveEvent);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 325, 0), BarSliderMoveEvent2);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 389, 0), BarSliderMoveEvent2);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 455, 0), BarSliderMoveEvent2);
 #pragma endregion barSilder
 
 #pragma region chk_Button
-	// TODO json Test
-	// 이미지의 크기는 23 x 23
-	
-	////cButton *pChk_MiniMap = new cButton;
-	////pOptionBackGround->cButtonPushBack(pChk_MiniMap);
-	////// pExitButton->Setup("data/UI/Settings", "NW_Setting_ToggleButton_Off.png",
-	////pChk_MiniMap->Setup(
-	////	json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
-	////	json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/ToggleButton_On/filename"),
-	////	//D3DXVECTOR3(0, 0, 0), // 생성시 json 파싱받아보기
-	////	pChk_MiniMap->GetUpPopUp()->GetPosition(),
-	////	0, 0, 0,
-	////	1, true, true); // 스케일은 임시로 10
-	
-	// TODO 이벤트 추가
-	// pExitButton->EventProcess = Tmp_CheckEvent;
-
-	Setup_CheckBtn(pOptionBackGround, D3DXVECTOR3(190, 175, 0), CheckBtnEvent);
-	Setup_CheckBtn(pOptionBackGround, D3DXVECTOR3(190, 215, 0), CheckBtnEvent);
-	Setup_CheckBtn(pOptionBackGround, D3DXVECTOR3(190, 255, 0), CheckBtnEvent);
-
+	//Setup_CheckBtn(pOption, D3DXVECTOR3(190, 175, 0), CheckBtnEvent);
+	//Setup_CheckBtn(pOption, D3DXVECTOR3(190, 215, 0), CheckBtnEvent);
+	//Setup_CheckBtn(pOption, D3DXVECTOR3(190, 255, 0), CheckBtnEvent);
 #pragma endregion chk_Button
-
-#pragma region exit
-	
-	//// TODO 빈공간 클릭 이벤트 후 삭제
-	//// 나가기 버튼 임시로 생성
-	//cButton *pExitButton = new cButton;
-	//pExitButton->Setup("data/UI/Settings", "임시 나가기 버튼.png",
-	//	D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 620, -110, 0, 0.8, true, true);
-	//pOptionBackGround->cButtonPushBack(pExitButton);
-	//pExitButton->EventProcess = Setting_popup_ReturnEvent;
-	
-#pragma endregion exit
 
 	if (!btn)
 	{
-		EventManager->Attach(pOptionBack);
-		ObjectManager->AddUIChild(pOptionBack);
+		EventManager->Attach(pBack);
+		ObjectManager->AddUIChild(pBack);
 	}
 	else if (btn)
 	{
-		pOptionBack->PowerOnOff_OnlySelf();
-		btn->cButtonPushBack(pOptionBack);
+		pBack->PowerOnOff_OnlySelf();
+		btn->cButtonPushBack(pBack);
 	}
 
-	return pOptionBack;
+	return pBack;
 }
 
-
+// TODO 함수명 좀 더 간략하게 다음 풀 받을때 바로 수정하기
 void Setting_popup_ReturnEvent_whitespace(EventType message, cPopup* popup)
 {
 	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
@@ -120,12 +112,20 @@ void Setting_popup_ReturnEvent_whitespace(EventType message, cPopup* popup)
 	float width = popup->GetImageInfoWidth() * popup->GetPercent();
 	float height = popup->GetImageInfoHeight() *  popup->GetPercent();
 
+	cPopup* pControl = popup->GetUpPopUp()->GetPopupBtn(1);
+	D3DXVECTOR3 control_position = pControl->GetPosition();
+	float control_width = pControl->GetImageInfoWidth() * pControl->GetPercent();
+	float control_height = pControl->GetImageInfoHeight() * pControl->GetPercent();
+
 	switch (message)
 	{
 	case EventType::EVENT_LBUTTONDOWN:
 	{
-		if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
-			btnPosition.y > cur.y || cur.y > btnPosition.y + height)
+		if ((btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+				btnPosition.y > cur.y || cur.y > btnPosition.y + height) 
+			&&
+			(control_position.x > cur.x || cur.x > control_position.x + control_width ||
+				control_position.y > cur.y || cur.y > control_position.y + control_height))
 		{
 			{
 				popup->SetStateChange(enum_On);
@@ -138,8 +138,11 @@ void Setting_popup_ReturnEvent_whitespace(EventType message, cPopup* popup)
 	{
 		if (popup->GetState() == enum_On)
 		{
-			if (btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
+			if ((btnPosition.x > cur.x || cur.x > btnPosition.x + width ||
 				btnPosition.y > cur.y || cur.y > btnPosition.y + height)
+				&&
+				(control_position.x > cur.x || cur.x > control_position.x + control_width ||
+					control_position.y > cur.y || cur.y > control_position.y + control_height))
 			{
 				popup->SetStateChange(enum_Off);
 				cout << "Setting Return Event Active... " << endl;

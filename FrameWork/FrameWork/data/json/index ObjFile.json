@@ -1,0 +1,58 @@
+{
+  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
+  
+  "ObjFile": {
+    "directory": "data/ObjFile",
+    "box": {
+      "directory": "data/ObjFile/box",
+      "mtl": {
+        "filename": "box.mtl"
+      },
+      "image": {
+        "filename": "box.jpg"
+      }
+    },
+    "LavaGolem": {
+      "directory": "data/ObjFile/LavaGolem",
+      "obj": {
+        "filename": "fb.obj"
+      },
+      "mtl": {
+        "filename": "fb.mtl"
+      },
+      "image": {
+        "filename": "LavaGolem_03.png"
+      }
+    },
+    "Map": {
+      "directory": "data/ObjFile/Map",
+      "mtl": {
+        "filename": "Map.mtl"
+      },
+      "dds": {
+        "filename": "seafloor.dds"
+      }
+    },
+    "Testmap": {
+      "directory": "data/ObjFile/NW_Testmap",
+      "iamge": {
+        "filename": "Ground_ClayRough_Moss.png"
+      },
+      "mtl": {
+        "filename": "testmap3.mtl"
+      },
+      "obj": {
+        "filename": "testmap3.obj"
+      }
+    },
+    "SampleRoom": {
+      "directory": "data/ObjFile/SampleRoom",
+      "mtl": {
+        "filename": "SampleRoom.mtl"
+      }
+    },
+    "stones": {
+      "filename": "stones.png"
+    }
+  }
+}

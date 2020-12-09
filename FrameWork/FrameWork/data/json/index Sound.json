@@ -1,0 +1,13 @@
+{
+  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
+  
+  "Sound": {
+    "directory": "data/Sound",
+    "SFX": {
+      "directory": "data/Sound/SFX",
+      "explode": {
+        "filename": "explode.wav"
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
+  
+  "XFile": {
+    "directory": "data/XFile",
+    "Arthur": {
+      "directory" : "data/XFile/Arthur",
+      "diffuse texture": "arthur_01.png",
+      "icon": "ui_icon_hero_arthur.png",
+      
+      "Model": "arthur_a01.X",
+      "Idle": "arthur_idle01.X",
+      "Attack": "arthur_Attack01.X",
+      "Die": "arthur_die01.X",
+      "Passive01": "arthur_passive01.X",
+      "Run01": "arthur_run01.X",
+      "TBron": "arthur_TBorn.X"
+    },
+    "Bandage": {
+      "directory" : "data/XFile/Bandage",
+      "Model" : "Bandage.X",
+      "fxfile" : "SM_emergencyBangadeBig_01.fx",
+      "Diffuse Texture": "T_SM_emergencyBangadeBig_D.tga",
+      "Normal Texture" : "T_SM_emergencyBangadeBig_N.tga"
+    },
+    "Dragon": {
+      "directory" : "data/XFile/Dragon",
+      "Diffuse Texture BlueHP" : "BlueHP.png",
+      "Diffuse Texture GreenHP" : "GreenHP.png",
+      "Model" : "Model.X",
+      "Basic Attack" : "Basic Attack.X",
+      "Idle" : "Idle.X",
+      "Idle2" : "Idle2.X",
+      "Defend" : "Defend.X",
+      "Die" : "Die.X",
+      "Get Hit" : "Get Hit.X",
+      "dasd" : "dasd.X"
+    },
+    "LavaGolem": {
+      "directory" : "data/XFile/LavaGolem",
+      
+      "Model" : "LavaGolem.X",
+      "Diffuse Texture": "LavaGolem_04.png"
+    },
+    "Paladin": {
+      "directory" : "data/XFile/Paladin",
+      
+      "Model" : "Pal_Merge.X",
+      "Diffuse Texture" : "Paladin_diffuse.png",
+      "Normal Texture" : "Paladin_normal.png",
+      "Specular Texture" : "Paladin_specular.png"
+    },
+    "Zealot": {
+      "directory" : "data/XFile/Zealot",
+      
+      "Model" : "zealot.X",
+      "Diffuse Texture" : "Zealot_Diffuse.bmp",
+      "WarpLines" : "WarpLines2_grey.bmp"
+    }
+  }
+}

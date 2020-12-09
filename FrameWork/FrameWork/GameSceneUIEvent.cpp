@@ -16,8 +16,6 @@ void InGamePause_Event(EventType message, cPopup* btn)
 	bool child_power = 0;
 	int currentSceneType = g_pSceneManager->GetCurrentSceneType();
 
-	// TODO 디버깅용 코드
-	
 	switch (message)
 	{
 	case EventType::EVENT_ESC:
