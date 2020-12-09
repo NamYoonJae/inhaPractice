@@ -4,8 +4,9 @@
 class cSoulEater_Idle :
 	public cSoulEaterState
 {
+protected:
+	
 private:
-	DWORD m_dwElapsedTime;
 	bool  m_IsAnimBlend;
 public:
 	cSoulEater_Idle();

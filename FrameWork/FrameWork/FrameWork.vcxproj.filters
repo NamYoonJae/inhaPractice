@@ -187,6 +187,9 @@
     <ClCompile Include="SoulEater_Rush.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
+    <ClCompile Include="SoulEater_Scream.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -382,6 +385,9 @@
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
     <ClInclude Include="SoulEater_Rush.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Scream.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,7 @@
 
 class cSkinnedMesh;
 class cPaladinState;
+class cPaladinWeapon;
 
 class cPaladin : public cCharater
 {
@@ -20,9 +21,8 @@ private:
 	cPaladinState*	m_pCurState;
 	DWORD			m_dwDelayState;
 	
-	cOBB*			m_pWeaponOBB;
-	D3DXMATRIXA16	m_matWeapon;
-
+	cPaladinWeapon* m_pWeapon;
+	
 	int m_Hp;
 	int m_Staminer;
 public:
@@ -36,6 +36,7 @@ public:
 	void Render(D3DXMATRIXA16 * pmat = NULL);
 	void ShaderRender();
 
+	void CollisionProcess(cObject* pObject, DWORD dwDelayTime) override;
 	void SetTranseform(D3DXMATRIXA16* pmat);
 
 	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; };
@@ -47,3 +48,26 @@ public:
 	int GetStaminer();
 };
 
+class cPaladinWeapon
+{
+private:
+	cOBB*			m_pWeaponOBB;
+	Synthesize(D3DCOLOR, m_color, Color);
+
+	D3DXVECTOR3		m_vPos;
+	D3DXVECTOR3		m_vRot;
+	D3DXVECTOR3		m_vScale;
+
+	D3DXMATRIXA16	m_matScale;
+	D3DXMATRIXA16	m_matRot;
+	D3DXMATRIXA16	m_matTranse;
+	D3DXMATRIXA16	m_matWorld;
+
+public:
+	cPaladinWeapon();
+	~cPaladinWeapon();
+
+	void Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat);
+	void Update(D3DXMATRIXA16* pmat);
+	void Render();
+};

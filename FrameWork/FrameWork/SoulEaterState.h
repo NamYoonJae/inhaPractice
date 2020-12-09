@@ -11,6 +11,8 @@ protected:
 	int m_nCurentIndex;
 	D3DXVECTOR3 m_vTarget;
 	D3DXVECTOR3 m_vDir;
+
+	DWORD m_dwElapsedTime;
 public:
 	cSoulEaterState();
 	cSoulEaterState(cDragonSoulEater*);
