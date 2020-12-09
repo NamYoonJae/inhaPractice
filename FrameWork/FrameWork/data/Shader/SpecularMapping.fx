@@ -9,7 +9,16 @@
 float4x4 gWorldMatrix : World;
 float4x4 gWorldViewProjectionMatrix : WorldViewProjection;
 
-float4 gWorldLightPos = float4( 500.00, 500.00, -500.00, 1.00 );
+float4 gWorldLightPos
+<
+	string UIName = "gWorldLightPos";
+	string UIWidget = "Direction";
+	bool UIVisible = false;
+	float4 UIMin = float4(-10.00, -10.00, -10.00, -10.00);
+	float4 UIMax = float4(10.00, 10.00, 10.00, 10.00);
+	bool Normalize = false;
+> = float4( 500.00, 500.00, -500.00, 1.00 );
+
 float4 gWorldCameraPos : ViewPosition;
 
 struct VS_INPUT 
@@ -74,9 +83,16 @@ sampler2D SpecularSampler = sampler_state
    Texture = (SpecularMap_Tex);
 };
 
-float3 gLightColor = float3(0.7f, 0.7f, 1.0f);
+float3 gLightColor
+<
+	string UIName = "gLightColor";
+	string UIWidget = "Numeric";
+	bool UIVisible = false;
+	float UIMin = -1.00;
+	float UIMax = 1.00;
+> = float3(0.7f, 0.7f, 1.0f);
 
-float4 PS(PS_INPUT Input) : COLOR0
+float4 PS(PS_INPUT Input) : COLOR
 {   
    float4 albedo = tex2D(DiffuseSampler, Input.mUV);
    
