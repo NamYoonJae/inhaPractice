@@ -28,13 +28,13 @@ void jsonManager::Setup()
 {
 	// 현재 UI 임시파일만 불러옴
 	// 이후 모든 json파일 파싱해서 object 생성하기
-	m_rootValue_UI = json_parse_file("data/json/UI Test.json");      // JSON 파일을 읽어서 파싱
+	m_rootValue_UI = json_parse_file("data/json/UI index.json");      // JSON 파일을 읽어서 파싱
 	m_rootObject_UI = json_value_get_object(m_rootValue_UI);
 
 	if (!m_rootObject_UI)
 		cout << "json 파일 비었음..." << endl;
 
-	m_rootValue_Setting = json_parse_file("data/json/Setting.json");
+	m_rootValue_Setting = json_parse_file("data/json/Game Setting.json");
 	m_rootObject_Setting = json_value_get_object(m_rootValue_Setting);;
 
 	if (!m_rootObject_UI)

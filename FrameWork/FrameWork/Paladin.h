@@ -36,12 +36,16 @@ public:
 	void Render(D3DXMATRIXA16 * pmat = NULL);
 	void ShaderRender();
 
-	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; }
-	D3DXVECTOR3 GetPosition() { return m_vPos; }
-
-	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; }
-
 	void CollisionProcess(cObject* pObject, DWORD dwDelayTime) override;
+	void SetTranseform(D3DXMATRIXA16* pmat);
+
+	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; };
+	D3DXVECTOR3 GetPosition() { return m_vPos; };
+
+	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; };
+
+	int GetHp();
+	int GetStaminer();
 };
 
 class cPaladinWeapon

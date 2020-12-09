@@ -181,7 +181,10 @@
     <ClCompile Include="TrophiesSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
-    <ClCompile Include="cSoulEater_TailAttack.cpp">
+    <ClCompile Include="SoulEater_TailAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEater_Rush.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
   </ItemGroup>
@@ -375,7 +378,10 @@
     <ClInclude Include="TrophiesSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
-    <ClInclude Include="cSoulEater_TailAttack.h">
+    <ClInclude Include="SoulEater_TailAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Rush.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
   </ItemGroup>

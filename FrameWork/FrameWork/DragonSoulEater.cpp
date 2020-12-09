@@ -1,16 +1,24 @@
 #include "stdafx.h"
 #include "TextureManager.h"
 #include "DragonSoulEater.h"
-#include "SoulEaterState.h"
 #include "cOBB.h"
 #include "AllocateHierarchy.h"
+#include "ObjectPool.h"
+#include "cCharater.h"
 
+#include "SoulEaterState.h"
+#include "SoulEater_Idle.h"
+#include "SoulEater_BasicAttack.h"
+#include "SoulEater_TailAttack.h"
 #pragma once
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
-	,m_pCurState(NULL)
+	, m_pCurState(NULL)
+	, m_pvTarget(NULL)
+	, m_nPrevStateIndex(0)
 {
 	m_pOBB = NULL;
+	D3DXMatrixIdentity(&m_matRotation);
 }
 
 
@@ -22,29 +30,20 @@ cDragonSoulEater::~cDragonSoulEater()
 }
 
 void cDragonSoulEater::Update()
-{
-	// 플레이어와 통신
-	// 상태에 대한 업데이트
-
-	
-	// 분노와 같은 상태를 강제로 바꿔야하는 경우 자신이 상태를 바꿔준다.
-	{
-		//SetState()
-	}
-	
+{	
 	m_pSkinnedUnit->Update();
 
-	D3DXMATRIXA16 matOBB,matT,matRy;
-	D3DXMatrixRotationY(&matRy, m_vRot.y);
-	// -15 해주면 뭔가 맞음
+	D3DXMATRIXA16 matOBB,matT;
+	
+
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.2, 0.2, 0.2);
-	matOBB = matRy * matT;
+	matOBB = m_matRotation * matT;
 
 	m_pOBB->Update(&matOBB);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matOBB = matS*matRy *matT;
+	matOBB = matS *m_matRotation *matT;
 
 
 
@@ -59,11 +58,20 @@ void cDragonSoulEater::Update()
 			m_vecBoundingBoxList.at(i).m_vScale.y, 
 			m_vecBoundingBoxList.at(i).m_vScale.z);
 
-		matOBB = matS * (pBone->CombinedTransformationMatrix) *matRy *matT;
+		matOBB = matS * (pBone->CombinedTransformationMatrix) *m_matRotation *matT;
 
 		m_vecBoundingBoxList.at(i).Box->Update(&matOBB);
 	}
 
+
+	if (m_pvTarget == NULL)
+	{
+		cCharater* pObj = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
+		m_pvTarget = pObj->GetpPos();
+	}
+
+	if (m_pCurState)
+		m_pCurState->handle();
 
 }
 
@@ -76,7 +84,7 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	D3DXMatrixRotationX(&matRx,m_vRot.x);
 	D3DXMatrixRotationY(&matRy,m_vRot.y);
 	D3DXMatrixRotationZ(&matRz, m_vRot.z);
-	matR = matRx * matRy * matRz;
+	matR = matRx * m_matRotation * matRz;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
 	matWorld = matR * matT;
@@ -119,6 +127,7 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
+	// obb
 	D3DXVECTOR3 vecSize;
 	D3DXVECTOR3 vecJointOffset;
 
@@ -129,26 +138,12 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 		&vecJointOffset);
 
 	BuildBoneData(0, pFrame, pFrame->pMeshContainer);
-
-
 	SetupBoundingBox();
+
+	//state
+	m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
 }
 
-void cDragonSoulEater::SetState()
-{
-	if(true)
-	{
-		// 강제적으로 상태가 변화해야할때 분노후 페이즈 변화
-	}
-	else if(true)
-	{
-		
-	}
-	else
-	{
-		// 패턴을 정한다.
-	}
-}
 
 void cDragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
 {
@@ -520,39 +515,75 @@ void cDragonSoulEater::SetupBoundingBox()
 
 void cDragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 {
-	//나는 내가 공격중 // 
 	cOBB* pOBB = pObject->GetOBB();
-
 	int nTag = pObject->GetTag();
-	if(mapCollisionList.find(nTag) != mapCollisionList.end())
+
+	// 내가 때릴것
+	if (m_pCurState)
 	{
-		// find 
+		int nCurStateIndex = m_pCurState->GetIndex();
+		switch (nCurStateIndex)
+		{
+		case 1:
+		{
+			if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(0).Box))
+			{
+				//상대방 공격 히트
+				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
+				{
+					CollisionInfo info;
+					info.dwCollsionTime = GetTickCount();
+					info.dwDelayTime = 1500;
+					AddCollisionInfo(m_nTag, info);
+					break;
+				}
+			}
+		}
+		break;
+		}
+	}
+
+	// 내가 맞을것
+	if (mapCollisionList.find(nTag) != mapCollisionList.end())
+	{
+		// 이미 맞았다면
 		return;
 	}
 	else
 	{
+		// 어느 부위에 맞을것인지
 		for (int i = 0; i < m_vecBoundingBoxList.size(); ++i)
 		{
 			if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(i).Box))
 			{
-				// leg, wing, head etc collision  detect
-
 				break;
 			}
-
 		}
 
 		CollisionInfo info;
 		info.dwCollsionTime = GetTickCount();
 		info.dwDelayTime = dwDelayTime;
 
-		mapCollisionList.insert(pair<int, CollisionInfo>(nTag,info));
+		mapCollisionList.insert(pair<int, CollisionInfo>(nTag, info));
 
 	}
+
+
 }
 
 void cDragonSoulEater::Request()
 {
+	//  조건
+
 
 	
+	
+}
+
+D3DXVECTOR3 * cDragonSoulEater::GetTarget()
+{
+	if (m_pvTarget)
+		return m_pvTarget;
+
+	return nullptr;
 }

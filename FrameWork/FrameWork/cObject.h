@@ -9,6 +9,7 @@ const enum Tag
 	Tag_Player,
 	Tag_Boss,
 	Tag_LavaGolem,
+	Tag_RunStone,
 	Tag_cObj
 };
 
@@ -18,7 +19,7 @@ enum TAG_UI
 	TagUI_Title,
 	TagUI_InGame,
 	TagUI_Trophies,
-	TagUI_HpBar,
+	TagUI_Hp,
 	TagUI_Staminer,
 
 	TagUI_ESC_Menu,
@@ -64,6 +65,7 @@ public:
 	cOBB* GetOBB();
 	D3DXVECTOR3 GetPos() { return m_vPos; }
 	void SetPos(D3DXVECTOR3 pos) { m_vPos = pos; }
+	D3DXVECTOR3* GetpPos() { return &m_vPos; }
 	void SetScale(D3DXVECTOR3 scale) { m_vScale = scale; }
 	D3DXVECTOR3 GetScale() { return m_vScale; }
 	void BuildBoneData(DWORD *BoneNum,
@@ -77,6 +79,8 @@ public:
 
 	bool m_isDelete;
 	virtual void CollisionProcess(cObject* pObject, DWORD dwDelayTime) {};
+	void AddCollisionInfo(int,CollisionInfo);
+	CollisionInfo* GetCollsionInfo(int nTag);
 };
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,

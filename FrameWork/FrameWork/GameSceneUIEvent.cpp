@@ -4,13 +4,14 @@
 #include "PopUp.h"
 #include "SceneManager.h"
 #include "Scene.h"
-
+#include "PopUp.h"
 #include "Button.h"
 #include "ObjectPool.h"
+#include "Paladin.h"
 
 
 //이름 수정할 것
-void Opton_ESC_Event(EventType message, cPopup* btn)
+void InGamePause_Event(EventType message, cPopup* btn)
 {
 	bool child_power = 0;
 	int currentSceneType = g_pSceneManager->GetCurrentSceneType();
@@ -54,27 +55,77 @@ void Opton_ESC_Event(EventType message, cPopup* btn)
 	}
 }
 
-void HpGuageEvent(EventType message, cPopup * btn)
+void HpGaugeEvent(EventType message, cPopup * btn)
 {
-	/*
-	static cPopup* hpGuage = NULL;
-	if (hpGuage == NULL)
+	switch (message)
 	{
-		hpGuage = (cPopup*)ObjectManager->SearchChildUI(TagUI_HpBar);
+	case EventType::EVENT_CREATE_PALADIN:
+		{
+			if (btn->GetPaladinReference() == NULL)
+			{
+				cPaladin *paladin = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
+				btn->SetPaladinReference(paladin);
+				cout << "팔라딘 Hp: " << btn->GetPaladinReference()->GetHp() << endl;
+			}
+		}
+		break;
+
+	case EventType::EVENT_PLUS_HP:
+		break;
+
+	case EventType::EVENT_MINUS_HP:
+		break;
+
+	default:
+		break;
+	}
+
+	if (btn->GetPaladinReference() != NULL)
+	{
+		btn->GetPaladinReference()->GetHp();
+		//팔라딘의 HP를 가져오기
+		//만약 HP 가 0보다 작으면 게임 오버
+		
+		//현재 HP / 최대 HP * 100
+		//ImageInfoWidth 에 비율 넣어서 새로 셋팅
+		
+
+		
+	}
+
+	/*
+	if (btn->GetPaladinReference() != NULL) 
+	{
+		//HP와 Staminer 값 뽑아서 퍼센트화 시키고 이미지에 적용
+
 	}
 	*/
-
 }
 
-void StaminerGuageEvent(EventType message, cPopup * btn)
+void StaminerGaugeEvent(EventType message, cPopup * btn)
 {
-	/*
-	static cPopup* staminerGuage = NULL;
-	if (staminerGuage == NULL) 
+	switch (message)
 	{
-		staminerGuage = (cPopup*)ObjectManager->SearchChildUI(TagUI_Staminer);
+	case EventType::EVENT_CREATE_PALADIN:
+	{
+		if (btn->GetPaladinReference() == NULL)
+		{
+			cPaladin *paladin = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
+			btn->SetPaladinReference(paladin);
+			cout << "팔라딘 Staminer: " << btn->GetPaladinReference()->GetStaminer() << endl;
+		}
 	}
-	*/
+	break;
+
+	case EventType::EVENT_PLUS_STAMINER:
+		break;
+
+	case EventType::EVENT_MINUS_STAMINER:
+		break;
+
+	default:
+		break;
+	}
 
 }
 
