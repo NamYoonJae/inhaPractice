@@ -111,9 +111,7 @@ void cLavaGolem::Update()
 
 	//
 
-	static DWORD Timer = GetTickCount();
-	if ((m_fCurrentHP <= 0.0f || GetTickCount() - Timer > 16000.0f)
-		&& m_pState->GetStateIndex() != 3)
+	if (m_fCurrentHP <= 0.0f)
 	{
 		Request(3);
 		return;

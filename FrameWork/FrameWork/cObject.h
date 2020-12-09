@@ -81,6 +81,7 @@ public:
 	virtual void CollisionProcess(cObject* pObject, DWORD dwDelayTime) {};
 	void AddCollisionInfo(int,CollisionInfo);
 	CollisionInfo* GetCollsionInfo(int nTag);
+	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
 };
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,
