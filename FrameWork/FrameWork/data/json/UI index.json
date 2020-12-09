@@ -1,0 +1,611 @@
+{
+  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요"
+  ,
+  "UI": {
+    "Check": {
+      "directory": "data/UI/Check",
+      "EndCheck_BackGround": {
+        "filename": "NW_EndCheck_Background",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "StartCheck_BackGround": {
+        "filename": "NW_StartCheck_Background",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "NO": {
+        "directory": "data/UI/Check/NO",
+        "Check_Nobutton_Idle": {
+          "filename": "NW_Check_Nobutton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "Check_Nobutton_Over": {
+          "filename": "NW_Check_Nobutton_Overk_Nobutton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "Check_Nobutton_Pressed": {
+          "filename": "NW_Check_Nobutton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "YES": {
+        "directory": "data/UI/Check/YES",
+        "Check_Yesbutton_Idle": {
+          "filename": "NW_Check_Yesbutton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "Check_Yesbutton_Over": {
+          "filename": "NW_Check_Yesbutton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "Check_Yesbutton_Pressed": {
+          "filename": "NW_Check_Yesbutton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      }
+    },
+    "ESCMenu": {
+      "directory": "data/UI/ESCMenu",
+      "BackToStart": {
+        "directory": "data/UI/ESCMenu/BackToStart",
+        "Check_Nobutton_Idle": {
+          "filename": "NW_InGameSetting_BackToStartButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "Check_Nobutton_Over": {
+          "filename": "NW_InGameSetting_BackToStartButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "Check_Nobutton_Pressed": {
+          "filename": "NW_InGameSetting_BackToStartButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "CONTINUE": {
+        "directory": "data/UI/ESCMenu/CONTINUE",
+        "InGameSetting_ContinueButton_Idle": {
+          "filename": "NW_InGameSetting_ContinueButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "InGameSetting_ContinueButton_Over": {
+          "filename": "NW_InGameSetting_ContinueButton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "InGameSetting_ContinueButton_Pressed": {
+          "filename": "NW_InGameSetting_ContinueButton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "END": {
+        "directory": "data/UI/ESCMenu/END",
+        "InGameSetting_EndButton_Idle": {
+          "filename": "NW_InGameSetting_EndButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "InGameSetting_EndButton_Over": {
+          "filename": "NW_InGameSetting_EndButton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "InGameSetting_EndButton_Pressed": {
+          "filename": "NW_InGameSetting_EndButton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "SETTING": {
+        "directory": "data/UI/ESCMenu/SETTING",
+        "InGameSetting_SettingButton_Idle": {
+          "filename": "NW_InGameSetting_SettingButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "InGameSetting_SettingButton_Over": {
+          "filename": "NW_InGameSetting_SettingButton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "InGameSetting_SettingButton_Pressed": {
+          "filename": "NW_InGameSetting_SettingButton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "InGameSetting_Back": {
+        "filename": "NW_InGameSetting_Back.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "InGameSetting_Background": {
+        "filename": "NW_InGameSetting_Background.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "InGameSetting_PauseText": {
+        "filename": "NW_InGameSetting_PauseText.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      }
+    },
+    "GameOver": {
+      "GameOver_BackGround": {
+        "filename": "NW_GameOver_BackGround.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "GameOver_End_Idle": {
+        "filename": "NW_GameOver_End_Idle.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "GameOver_End_Over": {
+        "filename": "NW_GameOver_End_Over.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "GameOver_End_Pressed": {
+        "filename": "NW_GameOver_End_Pressed.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "GameOver_Re_Idle": {
+        "filename": "NW_GameOver_Re_Idle.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "GameOver_Re_Over": {
+        "filename": "NW_GameOver_Re_Over.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "GameOver_Re_Pressed": {
+        "filename": "NW_GameOver_Re_Pressed.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      }
+    },
+    "InGame": {
+      "directory": "data/UI/InGame",
+      "Aim": {
+        "filename": "NW_Aim.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attri_BarBackground": {
+        "filename": "NW_Attri_BarBackground.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attri_Gauge": {
+        "filename": "NW_Attri_Gauge.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ComName_Back": {
+        "filename": "NW_ComName_Back.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Condition_Paralyz": {
+        "filename": "NW_Condition_Paralyz.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Condition_Sturn": {
+        "filename": "NW_Condition_Sturn.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Damage_Size": {
+        "filename": "NW_Damage_Size.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "DamageCritical_Image": {
+        "filename": "NW_DamageCritical_Image.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "DamageFont30_Size": {
+        "filename": "NW_DamageFont30_Size.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "HP_Bar_Mark": {
+        "filename": "NW_HP_Bar_Mark.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "NW_HP_Bar_Sword": {
+        "filename": "NW_HP_Bar_Sword.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "HP_BarBackground": {
+        "filename": "NW_HP_BarBackground.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "HP_Erase": {
+        "filename": "NW_HP_Erase.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "HP_Gauge": {
+        "filename": "NW_HP_Gauge.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "HPST_BarBackground": {
+        "filename": "NW_HPST_BarBackground.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Interaction_Gauge": {
+        "filename": "NW_Interaction_Gauge.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "InteractionGauge_Background": {
+        "filename": "NW_InteractionGauge_Background.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "InteractionName36_Size": {
+        "filename": "NW_InteractionName36_Size.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Minimap_Background": {
+        "filename": "NW_Minimap_Background.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "MonAnger_0": {
+        "filename": "NW_MonAnger_0.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "MonAnger_50": {
+        "filename": "NW_MonAnger_50.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "MonAnger_100": {
+        "filename": "NW_MonAnger_100.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Spoils_img": {
+        "filename": "NW_Spoils_img.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Spoils_NameBack": {
+        "filename": "NW_Spoils_NameBack.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ST_Bar_Background": {
+        "filename": "NW_ST_Bar_Background.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ST_Bar_Mark": {
+        "filename": "NW_ST_Bar_Mark.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ST_BarBackground": {
+        "filename": "NW_ST_BarBackground.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ST_Erase": {
+        "filename": "NW_ST_Erase.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ST_Gauge": {
+        "filename": "NW_ST_Gauge.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ST_Sword": {
+        "filename": "NW_ST_Sword.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      }
+    },
+    "roading": {
+      "directory": "data/UI/roading",
+      "background": {
+        "filename": "전투 도입 배경 원본.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      }
+    },
+    "Settings": {
+      "directory": "data/UI/Settings",
+      "UI": {
+        "filename": "NW_Setting_UI.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ToggleButton_On": {
+        "filename": "NW_Setting_ToggleButton_On.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "ToggleButton_Off": {
+        "filename": "NW_Setting_ToggleButton_Off.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "BarSlider": {
+        "filename": "NW_Setting_BarSlider.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Controller": {
+        "filename": "NW_Setting_Controller.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      }
+    },
+    "TitleScene": {
+      "directory": "data/UI/TitleScene",
+      "CONTINUE": {
+        "directory": "data/UI/TitleScene",
+        "ContinueButton_Disable": {
+          "filename": "NW_ContinueButton_Disable.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "ContinueButton_Idle": {
+          "filename": "NW_ContinueButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "ContinueButton_Over": {
+          "filename": "NW_ContinueButton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "ContinueButton_Pressed": {
+          "filename": "NW_ContinueButton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "END": {
+        "directory": "data/UI/TitleScene/END",
+        "EndButton_Idle": {
+          "filename": "NW_EndButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "EndButton_Over": {
+          "filename": "NW_EndButton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "EndButton_Pressed": {
+          "filename": "NW_EndButton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "SETTING": {
+        "directory": "data/UI/TitleScene/SETTING",
+        "SettingButton_Idle": {
+          "filename": "NW_SettingButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "SettingButton_Over": {
+          "filename": "NW_SettingButton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "SettingButton_Pressed": {
+          "filename": "NW_SettingButton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "START": {
+        "directory": "data/UI/TitleScene/START",
+        "StartButton_Idle": {
+          "filename": "NW_StartButton_Idle.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "StartButton_Over": {
+          "filename": "NW_StartButton_Over.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        },
+        "StartButton_Pressed": {
+          "filename": "NW_StartButton_Pressed.png",
+          "scale": 1,
+          "position_x": "",
+          "position_y": ""
+        }
+      },
+      "Background": {
+        "filename": "NW_Background.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Button_Off": {
+        "filename": "NW_Button_Off.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Button_On": {
+        "filename": "NW_Button_On.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Start_UI_Back": {
+        "filename": "NW_Start_UI_Back.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Titleletter": {
+        "filename": "NW_Titleletter.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      }
+    },
+    "Trophies": {
+      "directory": "data/UI/Trophies",
+      "Attriselect_Attri": {
+        "filename": "NW_Attriselect_Attri.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attriselect_Back": {
+        "filename": "NW_Attriselect_Back.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attriselect_Bizz_Off ": {
+        "filename": "NW_Attriselect_Bizz_Off .png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attriselect_Bizz_On": {
+        "filename": "NW_Attriselect_Bizz_On.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attriselect_SelectButton_Idle": {
+        "filename": "NW_Attriselect_SelectButton_Idle.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attriselect_SelectButton_Off": {
+        "filename": "NW_Attriselect_SelectButton_Off.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attriselect_SelectButton_Over": {
+        "filename": "NW_Attriselect_SelectButton_Over.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
+      "Attriselect_SelectButton_Pressed": {
+        "filename": "NW_Attriselect_SelectButton_Pressed.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      }
+    }
+  }
+}
