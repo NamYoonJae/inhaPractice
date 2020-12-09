@@ -32,13 +32,13 @@ void cTitleScene::Setup()
 
 	//클라이언트 값을 받아와서
 	//비율화
-
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-	cout << "Left : " << rc.left << endl; // 0
-	cout << "Right : " << rc.right << endl; // 1584
-	cout << "Bottom : " << rc.bottom << endl; //860
-	cout << "Top : " << rc.top << endl; // 0
+	cout << "cTitleScene Setup" << endl;
+	//RECT rc;
+	//GetClientRect(g_hWnd, &rc);
+	//cout << "Left : " << rc.left << endl; // 0
+	//cout << "Right : " << rc.right << endl; // 1584
+	//cout << "Bottom : " << rc.bottom << endl; //860
+	//cout << "Top : " << rc.top << endl; // 0
 
 #pragma region UI TAG::Title
 	//TitleUI
@@ -143,16 +143,16 @@ void cTitleScene::Setup()
 	//Hp
 	cPopup* hpBar = new cPopup;
 	hpBar->Setup("data/UI/InGame", "NW_HP_Gauge.png",
-		D3DXVECTOR3(61, 736, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_HpBar);
-	inGamePopup->cButtonPushBack(hpBar);
-	hpBar->EventProcess = HpGuageEvent;
-
+		D3DXVECTOR3(61, 736, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_Hp);
+	hpBar->EventProcess = HpGaugeEvent;
 
 	cPopup* hpBarBackground = new cPopup;
 	hpBarBackground->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
-		D3DXVECTOR3(30, 730, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_Staminer);
+		D3DXVECTOR3(30, 730, 0), 0, 0, 0, 1, false, true);
 	hpBar->cButtonPushBack(hpBarBackground);
 
+	EventManager->Attach(hpBar);
+	ObjectManager->AddUIChild(hpBar);
 
 	/* 이전버전소스 keep
 	cButton* hpBarBackground = new cButton;
@@ -176,14 +176,16 @@ void cTitleScene::Setup()
 	//Staminer
 	cPopup* staminerBar = new cPopup;
 	staminerBar->Setup("data/UI/InGame", "NW_ST_Gauge.png",
-		D3DXVECTOR3(61, 786, 0), 0, 0, 0, 1, false, true); // 
-	inGamePopup->cButtonPushBack(staminerBar);
-	staminerBar->EventProcess = StaminerGuageEvent;
+		D3DXVECTOR3(61, 786, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_Staminer); // 
+	staminerBar->EventProcess = StaminerGaugeEvent;
 
 	cPopup* staminerBarBackgound = new cPopup;
 	staminerBarBackgound->Setup("data/UI/InGame", "NW_HPST_BarBackground.png",
 		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
 	staminerBar->cButtonPushBack(staminerBarBackgound);
+
+	EventManager->Attach(staminerBar);
+	ObjectManager->AddUIChild(staminerBar);
 
 	/* 이전버전 소스 keep
 	cButton* staminerBarBackgound = new cButton;
@@ -489,6 +491,18 @@ void cTitleScene::Reset(int sceneType)
 	{
 	case SceneType::SCENE_BOSS_1:
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Hp);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Staminer);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();

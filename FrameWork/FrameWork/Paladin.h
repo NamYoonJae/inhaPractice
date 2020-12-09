@@ -38,9 +38,12 @@ public:
 
 	void SetTranseform(D3DXMATRIXA16* pmat);
 
-	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; }
-	D3DXVECTOR3 GetPosition() { return m_vPos; }
+	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; };
+	D3DXVECTOR3 GetPosition() { return m_vPos; };
 
-	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; }
+	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; };
+
+	int GetHp();
+	int GetStaminer();
 };
 

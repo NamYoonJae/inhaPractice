@@ -11,6 +11,7 @@ cButton::cButton()
 	m_Power = true;
 	m_Fixed = false;
 	EventProcess = NULL;
+	m_pPaladin = NULL;
 	
 }
 
@@ -72,7 +73,7 @@ void cButton::Render()
 		if (m_Power)
 		{
 			m_pSprite->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_SORT_TEXTURE);
-			SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+			SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
 			D3DXMATRIXA16 matT, matS, matWorld;
 			D3DXMatrixIdentity(&matT);
 			D3DXMatrixIdentity(&matS);
@@ -156,7 +157,10 @@ void cButton::LoadTexture(char * szFullPath)
 		&m_pTextureUI
 	);
 
-	SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
+	m_ImageInfoWidth = m_ImageInfo.Width;
+	m_ImageInfoHeight = m_ImageInfo.Height;
+	SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
+	//SetRect(&m_Rect, 0, 0, m_ImageInfo.Width, m_ImageInfo.Height);
 
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
 	g_pTextureManager->AddImageInfo(szFullPath, m_ImageInfo);

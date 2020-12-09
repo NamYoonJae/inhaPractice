@@ -113,6 +113,7 @@ void cGameScene::Setup() // boss1map  boss2map
 			pCamera->Setup(pPaladin->GetPos());
 			pPaladin->Tagging(Tag::Tag_Player);
 			ObjectManager->AddStaticChild(pPaladin);
+			EventManager->PushQueue(EventType::EVENT_CREATE_PALADIN);
 		}
 
 

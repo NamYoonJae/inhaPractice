@@ -90,6 +90,7 @@ void cEventManager::Notify()
 	{
 		for (int i = 0; i < m_vecObservers.size(); ++i)
 		{
+			//cout << static_cast<int>(m_Queue.front()) << endl;
 			m_vecObservers.at(i)->Update(m_Queue.front());
 		}
 		m_Queue.pop();	
@@ -105,6 +106,11 @@ D3DXVECTOR2 cEventManager::GetMouseCurrent()
 D3DXVECTOR2 cEventManager::GetMousePrev()
 {
 	return m_vPrev;
+}
+
+void cEventManager::PushQueue(EventType message)
+{
+	m_Queue.push(message);
 }
 
 

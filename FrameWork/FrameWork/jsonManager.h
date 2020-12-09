@@ -38,5 +38,8 @@ public:
 
 	JSON_Object* get_json_object_UI();
 	JSON_Object* get_json_object_Setting();
+
+	// void save_json_UI();
+	// void save_json_Setting();
 };
 
