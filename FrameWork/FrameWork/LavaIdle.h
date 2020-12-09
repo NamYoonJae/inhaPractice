@@ -4,7 +4,7 @@ class cLavaIdle :
 	public cLavaState
 {
 private:
-	DWORD m_ElapsedTime;
+	DWORD m_dwElapsedTime;
 public:
 	cLavaIdle(cLavaGolem*);
 	~cLavaIdle();

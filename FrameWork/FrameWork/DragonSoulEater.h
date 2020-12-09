@@ -22,6 +22,11 @@ private:
 	LPDIRECT3DTEXTURE9	m_pTexture;
 
 	vector<BoundingBox> m_vecBoundingBoxList;
+	
+	// >> new
+	D3DXVECTOR3*			m_pvTarget;
+	int						m_nPrevStateIndex;
+	D3DXMATRIXA16			m_matRotation;
 
 public:
 	cDragonSoulEater();
@@ -29,7 +34,6 @@ public:
 	void Update() override;
 	void Render(D3DXMATRIXA16* pmat) override;
 	void Setup(char* szFolder, char* szFileName);
-	void SetState();
 	cSkinnedMesh& GetSkinnedMesh() { return *m_pSkinnedUnit; }
 
 	void GetWorldMatrix(D3DXMATRIXA16* matWorld);
@@ -38,7 +42,11 @@ public:
 	virtual void CollisionProcess(cObject* pObject,DWORD dwCollsionTime) override;
 	//std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }
 
+	//new
 	void Request();
+	D3DXVECTOR3* GetTarget();
+	D3DXMATRIXA16* GetRotation() { return &m_matRotation; }
+	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }
 };
 
 

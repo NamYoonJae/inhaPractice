@@ -1,11 +1,12 @@
 #pragma once
 #include "SoulEaterState.h"
-class SoulEater_BasicAttack :
+class cSoulEater_BasicAttack :
 	public cSoulEaterState
 {
 public:
-	SoulEater_BasicAttack();
-	~SoulEater_BasicAttack();
+	cSoulEater_BasicAttack();
+	cSoulEater_BasicAttack(cDragonSoulEater*);
+	~cSoulEater_BasicAttack();
 	void handle() override;
 };
 

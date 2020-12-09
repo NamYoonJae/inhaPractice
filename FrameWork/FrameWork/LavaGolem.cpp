@@ -85,9 +85,10 @@ void cLavaGolem::Update()
 
 	// ¿¹ºñ
 	cCharater* m_player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
+	//
 	if (m_player && m_pState->GetStateIndex() != 3)
 	{
-		m_pvTarget = m_player->GetPos();
+		m_pvTarget = m_player->GetpPos();
 
 		m_fDist = (sqrt(pow(m_pvTarget->x - m_vPos.x, 2) +
 			pow(m_pvTarget->z - m_vPos.z, 2)));
@@ -126,6 +127,7 @@ void cLavaGolem::Update()
 	D3DXMatrixRotationY(&matRy, m_vRot.y);
 	D3DXMatrixRotationZ(&matRz, m_vRot.z);
 	matR = matRx * matRy * matRz;
+
 	if (m_matR)
 		matR = m_matR;
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);

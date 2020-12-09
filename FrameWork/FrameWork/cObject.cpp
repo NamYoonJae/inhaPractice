@@ -292,6 +292,22 @@ void cObject::BuildBoneData(DWORD *BoneNum,
 		BuildBoneData(BoneNum, (D3DXFRAME*)Frame->pFrameFirstChild, pMesh);
 }
 
+void cObject::AddCollisionInfo(int nTag, CollisionInfo Info)
+{
+	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
+}
+
+CollisionInfo * cObject::GetCollsionInfo(int nTag)
+{
+	
+	if (mapCollisionList.find(nTag) != mapCollisionList.end())
+	{
+		return &mapCollisionList.at(nTag);
+	}
+
+	return nullptr;
+}
+
 
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,
