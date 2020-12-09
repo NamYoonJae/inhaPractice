@@ -62,22 +62,6 @@ struct PS_INPUT
 float4 PS( PS_INPUT Input ) : COLOR
 {
    float4 albedo = tex2D(DiffuseSampler, Input.mTexCoord);
-   
-   if(0.24f < Input.mTexCoord.y && Input.mTexCoord.y < 0.25f)
-      albedo = 1;
-   else if(0.49f < Input.mTexCoord.y && Input.mTexCoord.y < 0.50f)
-      albedo = float4(1, 0, 0, 1);
-   else if(0.74f < Input.mTexCoord.y && Input.mTexCoord.y < 0.75f)
-      albedo = 1;
-      
-   if(0.24f < Input.mTexCoord.x && Input.mTexCoord.x < 0.25f)
-      albedo = 1;
-   else if(0.49f < Input.mTexCoord.x && Input.mTexCoord.x < 0.50f)
-      albedo = 1;
-   else if(0.74f < Input.mTexCoord.x && Input.mTexCoord.x < 0.75f)
-      albedo = 1;
-   else if(0.99f < Input.mTexCoord.x && Input.mTexCoord.x < 1.0f)
-      albedo = 1;
       
    return albedo.rgba;
 }
