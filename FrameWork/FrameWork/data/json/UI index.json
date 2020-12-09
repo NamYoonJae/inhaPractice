@@ -59,10 +59,10 @@
         }
       }
     },
-    "ESCMenu": {
-      "directory": "data/UI/ESCMenu",
+    "InGamePauseMenu": {
+      "directory": "data/UI/InGamePauseMenu",
       "BackToStart": {
-        "directory": "data/UI/ESCMenu/BackToStart",
+        "directory": "data/UI/InGamePauseMenu/BackToStart",
         "Check_Nobutton_Idle": {
           "filename": "NW_InGameSetting_BackToStartButton_Idle.png",
           "scale": 1,
@@ -83,7 +83,7 @@
         }
       },
       "CONTINUE": {
-        "directory": "data/UI/ESCMenu/CONTINUE",
+        "directory": "data/UI/InGamePauseMenu/CONTINUE",
         "InGameSetting_ContinueButton_Idle": {
           "filename": "NW_InGameSetting_ContinueButton_Idle.png",
           "scale": 1,
@@ -104,7 +104,7 @@
         }
       },
       "END": {
-        "directory": "data/UI/ESCMenu/END",
+        "directory": "data/UI/InGamePauseMenu/END",
         "InGameSetting_EndButton_Idle": {
           "filename": "NW_InGameSetting_EndButton_Idle.png",
           "scale": 1,
@@ -125,7 +125,7 @@
         }
       },
       "SETTING": {
-        "directory": "data/UI/ESCMenu/SETTING",
+        "directory": "data/UI/InGamePauseMenu/SETTING",
         "InGameSetting_SettingButton_Idle": {
           "filename": "NW_InGameSetting_SettingButton_Idle.png",
           "scale": 1,
