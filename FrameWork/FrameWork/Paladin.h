@@ -21,10 +21,16 @@ private:
 	cPaladinState*	m_pCurState;
 	DWORD			m_dwDelayState;
 	
+	cOBB*			m_pWeaponOBB;
+	D3DXMATRIXA16	m_matWeapon;
+
+	int m_MaxHp;
+	int m_MaxStamina;
 	cPaladinWeapon* m_pWeapon;
 	
 	int m_Hp;
-	int m_Staminer;
+	int m_Stamina;
+
 public:
 	cPaladin();
 	~cPaladin();
@@ -45,7 +51,10 @@ public:
 	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; };
 
 	int GetHp();
-	int GetStaminer();
+	int GetStamina();
+	int GetMaxHp();
+	int GetMaxStamina();
+
 };
 
 class cPaladinWeapon

@@ -58,13 +58,18 @@ void HpGaugeEvent(EventType message, cPopup * btn)
 	switch (message)
 	{
 	case EventType::EVENT_CREATE_PALADIN:
+	{
+		if (btn->GetPaladinReference() == NULL)
 		{
-			if (btn->GetPaladinReference() == NULL)
-			{
-				cPaladin *paladin = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
-				btn->SetPaladinReference(paladin);
-				cout << "팔라딘 Hp: " << btn->GetPaladinReference()->GetHp() << endl;
-			}
+			cPaladin *paladin = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
+			btn->SetPaladinReference(paladin);
+
+			/*
+			int hp = btn->GetPaladinReference()->GetHp();
+			int maxHp = btn->GetPaladinReference()->GetMaxHp();
+			float result = ((float)hp / (float)maxHp) * 100;
+			btn->SetImageInfoWidth(result);
+			*/
 		}
 		break;
 
@@ -77,30 +82,22 @@ void HpGaugeEvent(EventType message, cPopup * btn)
 	default:
 		break;
 	}
+			
+	}//switchEnd
 
-	if (btn->GetPaladinReference() != NULL)
-	{
-		btn->GetPaladinReference()->GetHp();
-		//팔라딘의 HP를 가져오기
-		//만약 HP 가 0보다 작으면 게임 오버
-		
-		//현재 HP / 최대 HP * 100
-		//ImageInfoWidth 에 비율 넣어서 새로 셋팅
-		
-
-		
-	}
-
-	/*
+	//실시간으로 변동 가능하게 해둠 / 만약 호출 렉이 발생할 경우 switch문 안에서 hp가 변동이 있을 때만 부르도록 수정할 것
 	if (btn->GetPaladinReference() != NULL) 
 	{
-		//HP와 Staminer 값 뽑아서 퍼센트화 시키고 이미지에 적용
-
+		int hp = btn->GetPaladinReference()->GetHp();
+		int maxHp = btn->GetPaladinReference()->GetMaxHp();
+		float result = ((float)hp / (float)maxHp) * 100;
+		btn->SetImageInfoWidth(result);
 	}
-	*/
+
+
 }
 
-void StaminerGaugeEvent(EventType message, cPopup * btn)
+void StaminaGaugeEvent(EventType message, cPopup * btn)
 {
 	switch (message)
 	{
@@ -110,21 +107,28 @@ void StaminerGaugeEvent(EventType message, cPopup * btn)
 		{
 			cPaladin *paladin = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
 			btn->SetPaladinReference(paladin);
-			cout << "팔라딘 Staminer: " << btn->GetPaladinReference()->GetStaminer() << endl;
+			cout << "팔라딘 Stamina: " << btn->GetPaladinReference()->GetStamina() << endl;
 		}
 	}
 	break;
 
-	case EventType::EVENT_PLUS_STAMINER:
+	case EventType::EVENT_PLUS_STAMINA:
 		break;
 
-	case EventType::EVENT_MINUS_STAMINER:
+	case EventType::EVENT_MINUS_STAMINA:
 		break;
 
 	default:
 		break;
 	}
 
+	if (btn->GetPaladinReference() != NULL)
+	{
+		int stamina = btn->GetPaladinReference()->GetStamina();
+		int maxStamina = btn->GetPaladinReference()->GetMaxStamina();
+		float result = ((float)stamina / (float)maxStamina) * 100;
+		btn->SetImageInfoWidth(result);
+	}
 }
 
 

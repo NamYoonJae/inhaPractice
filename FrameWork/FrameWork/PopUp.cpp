@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include "EventManager.h"
 #include "Button.h"
+#include "Scene.h"
 
 cPopup::cPopup()
 	: m_pSprite(NULL)
@@ -224,6 +225,8 @@ void cPopup::LoadTexture(char * szFullPath)
 	);
 	m_ImageInfoWidth = m_ImageInfo.Width;
 	m_ImageInfoHeight = m_ImageInfo.Height;
+	cout << "m_ImageInfoWidth: " << m_ImageInfoWidth << endl;
+	cout << "m_ImageInfoHeight: " << m_ImageInfoHeight << endl;
 	SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
 	
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
@@ -400,4 +403,20 @@ void cPopup::SetPaladinReference(cPaladin* paladin)
 cPaladin * cPopup::GetPaladinReference()
 {
 	return m_pPaladin;
+}
+
+void cPopup::SetImageInfoWidth(float percent)
+{
+	float result = m_ImageInfo.Width * percent / 100;
+
+	if (percent <= 0 || result <= 0)
+	{
+		m_ImageInfoWidth = 0;
+		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+	}
+	else
+	{
+		m_ImageInfoWidth = result;
+	}
+	
 }

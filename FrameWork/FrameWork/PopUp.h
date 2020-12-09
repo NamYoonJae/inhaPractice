@@ -27,8 +27,8 @@ protected:
 
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
-	UINT m_ImageInfoWidth;
-	UINT m_ImageInfoHeight;
+	float m_ImageInfoWidth;
+	float m_ImageInfoHeight;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
 	float m_Percentage;	//스케일링 할 값
 
@@ -142,5 +142,6 @@ public:
 
 	void SetPaladinReference(cPaladin*);
 	cPaladin* GetPaladinReference();
+	void SetImageInfoWidth(float percent);
 };
 
