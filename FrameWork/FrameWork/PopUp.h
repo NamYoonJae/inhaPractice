@@ -6,6 +6,7 @@
 
 class cButton;
 class cPopup;
+class cPaladin;
 
 //자식 뿐만 아니라 버튼 이벤트 헤더에서도 사용하기 때문에 전역으로 설정
 enum
@@ -26,6 +27,8 @@ protected:
 
 	LPD3DXSPRITE m_pSprite;
 	D3DXIMAGE_INFO m_ImageInfo;
+	UINT m_ImageInfoWidth;
+	UINT m_ImageInfoHeight;
 	LPDIRECT3DTEXTURE9 m_pTextureUI;
 	float m_Percentage;	//스케일링 할 값
 
@@ -38,6 +41,9 @@ protected:
 	cPopup * pParent;
 
 	string str_filename;
+
+	cPaladin * m_pPaladin; //다른 클래스의 값을 가져오기 위해 사용(ex> 팔라딘 체력/스테미나)
+
 public:
 	
 	cPopup();
@@ -133,5 +139,8 @@ public:
 	
 	int GetPopUpListSize();
 	bool GetPowerState();
+
+	void SetPaladinReference(cPaladin*);
+	cPaladin* GetPaladinReference();
 };
 

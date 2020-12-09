@@ -19,7 +19,7 @@ enum TAG_UI
 	TagUI_Title,
 	TagUI_InGame,
 	TagUI_Trophies,
-	TagUI_HpBar,
+	TagUI_Hp,
 	TagUI_Staminer,
 
 	TagUI_ESC_Menu,

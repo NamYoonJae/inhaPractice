@@ -34,7 +34,7 @@ cPaladin::~cPaladin()
 void cPaladin::Setup(char* szFolder, char* szFile)
 {
 	m_Hp = 1000;
-	m_Staminer = 1000;
+	m_Staminer = 500;
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(9);
@@ -222,4 +222,14 @@ void cPaladin::ShaderRender()
 
 void cPaladin::SetTranseform(D3DXMATRIXA16* pmat)
 {
+}
+
+int cPaladin::GetHp()
+{
+	return m_Hp;
+}
+
+int cPaladin::GetStaminer()
+{
+	return m_Staminer;
 }
