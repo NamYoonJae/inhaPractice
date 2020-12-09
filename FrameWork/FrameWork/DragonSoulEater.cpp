@@ -10,6 +10,8 @@
 #include "SoulEater_Idle.h"
 #include "SoulEater_BasicAttack.h"
 #include "SoulEater_TailAttack.h"
+#include "SoulEater_Rush.h"
+#include "SoulEater_Scream.h"
 #pragma once
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -95,10 +97,10 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	//ZeroMemory(&m_Mstl, sizeof(D3DXMATRIXA16));
 //	g_pD3DDevice->SetMaterial(&m_Mstl);
 
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetMaterial(&m_Mstl);
-	m_pSkinnedUnit->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	m_pSkinnedUnit->Render();
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTexture(0, NULL);
 	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
 
@@ -573,11 +575,57 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 
 void cDragonSoulEater::Request()
 {
-	//  Á¶°Ç
+	
+	if (m_pCurState && m_pCurState->GetIndex() != 0)
+	{
+		SafeDelete(m_pCurState);
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
+		return;
+	}
+	
+	m_nPrevStateIndex = m_pCurState->GetIndex();
+	
+	//..
+	//..  150 ~ 210µµ
+
+	static DWORD dwTimer = GetTickCount();
+	if (GetTickCount() - dwTimer >= 15000.0f)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+		return;
+	}
+
+	if (m_pvTarget)
+	{
+		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
+		D3DXVec3Normalize(&vCurDir, &vCurDir);
+		D3DXVECTOR3 vPrevDir = D3DXVECTOR3(0, 0, -1);
+		D3DXVec3TransformNormal(&vPrevDir,&vPrevDir,&m_matRotation);
+
+		float Radian = acos(D3DXVec3Dot(&vPrevDir, &vCurDir));
+		float distance = sqrt(pow(m_vPos.x - (*m_pvTarget).x, 2) + pow(m_vPos.z - (*m_pvTarget).z, 2));
+		
+		if (distance >= 100.0f && m_nPrevStateIndex != 3)
+		{
+			//
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
+			return;
+		}
+		else if (Radian >= D3DX_PI - D3DX_PI * 0.33 && Radian <= D3DX_PI + D3DX_PI * 0.33
+			&& distance <= 55
+			&& m_nPrevStateIndex != 2)
+		{
+			// 55
+			m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
+			return;
+		}
+		else 
+		{
+			m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
+		}
 
 
-	
-	
+	}
 }
 
 D3DXVECTOR3 * cDragonSoulEater::GetTarget()

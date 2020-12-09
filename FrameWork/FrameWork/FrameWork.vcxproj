@@ -159,6 +159,7 @@
     <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="SoulEater_Rush.h" />
+    <ClInclude Include="SoulEater_Scream.h" />
     <ClInclude Include="SoulEater_TailAttack.h" />
     <ClInclude Include="SelectTrophiesScene.h" />
     <ClInclude Include="jsonManager.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="SoulEater_Rush.cpp" />
+    <ClCompile Include="SoulEater_Scream.cpp" />
     <ClCompile Include="SoulEater_TailAttack.cpp" />
     <ClCompile Include="SelectTrophiesScene.cpp" />
     <ClCompile Include="jsonManager.cpp" />

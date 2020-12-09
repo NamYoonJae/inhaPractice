@@ -4,12 +4,14 @@
 
 cSoulEater_BasicAttack::cSoulEater_BasicAttack()
 	:cSoulEaterState()
+	,m_IsAnimBlend(false)
 {
 	m_nCurentIndex = 1;
 }
 
 cSoulEater_BasicAttack::cSoulEater_BasicAttack(cDragonSoulEater *pDragon)
 	:cSoulEaterState(pDragon)
+	,m_IsAnimBlend(false)
 {
 
 }
@@ -33,16 +35,24 @@ void cSoulEater_BasicAttack::handle()
 	
 	//
 	float distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
-
+	
 	if (distance <= 10.0f)
 	{
-		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Basic_Attack);
-		m_pDragon->Request();
-		// 딜레이 줘야하는데 어떻게하면좋을까
-		return;
+		if (!m_IsAnimBlend)
+		{
+			m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Basic_Attack);
+			m_dwElapsedTime = GetTickCount();
+			m_IsAnimBlend = true;
+		}
+		else if(GetTickCount() - m_dwElapsedTime >= 500.0f && m_IsAnimBlend)
+		{
+			m_pDragon->Request();
+			return;
+		}
 	}
 	else
 	{
-		pos += m_vDir * 0.01f;
+		pos += m_vDir * 0.003f;
+		m_pDragon->SetPos(pos);
 	}
 }
