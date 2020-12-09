@@ -158,7 +158,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
-    <ClInclude Include="cSoulEater_TailAttack.h" />
+    <ClInclude Include="SoulEater_Rush.h" />
+    <ClInclude Include="SoulEater_TailAttack.h" />
     <ClInclude Include="SelectTrophiesScene.h" />
     <ClInclude Include="jsonManager.h" />
     <ClInclude Include="LavaAttack.h" />
@@ -223,7 +224,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
-    <ClCompile Include="cSoulEater_TailAttack.cpp" />
+    <ClCompile Include="SoulEater_Rush.cpp" />
+    <ClCompile Include="SoulEater_TailAttack.cpp" />
     <ClCompile Include="SelectTrophiesScene.cpp" />
     <ClCompile Include="jsonManager.cpp" />
     <ClCompile Include="LavaAttack.cpp" />

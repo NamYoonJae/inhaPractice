@@ -110,7 +110,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		{
 			cPaladin* pPaladin = new cPaladin;
 			pPaladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
-			pCamera->Setup(pPaladin->GetPos());
+			pCamera->Setup(pPaladin->GetpPos());
 			pPaladin->Tagging(Tag::Tag_Player);
 			ObjectManager->AddStaticChild(pPaladin);
 		}
