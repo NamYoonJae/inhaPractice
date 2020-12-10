@@ -131,5 +131,19 @@ void StaminaGaugeEvent(EventType message, cPopup * btn)
 	}
 }
 
+void TrophiseGaugeEvent(EventType message, cPopup* btn)
+{
+	switch (message)
+	{
+	case EventType::EVENT_NULL:
+		break;
+	case EventType::EVENT_MOVE:
+		break;
+
+
+	default:
+		break;
+	}
+}
 
 

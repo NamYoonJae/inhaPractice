@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SelectTrophiesScene.h"
 #include "ObjectPool.h"
-
+#include "TrophiesSceneUIEvent.h"
 
 
 cSelectTrophiesScene::cSelectTrophiesScene(SceneType T)
@@ -15,47 +15,93 @@ cSelectTrophiesScene::~cSelectTrophiesScene()
 
 void cSelectTrophiesScene::Setup()
 {
+	//전리품 선택
+	cPopup* pTrophiesSelectSceneBackground = new cPopup;
+	pTrophiesSelectSceneBackground->Setup("data/UI/Trophies", "NW_Attriselect_Back.png",
+		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true, TAG_UI::TagUI_SelectTrophies);
+
+	//하늘의 구슬
+	cButton* pTropiesBizzButton = new cButton;
+	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off.png",
+		D3DXVECTOR3(280, 230, 0), 0, 0, 0, 1, true, true);
+	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
+	pTropiesBizzButton->EventProcess = FirstBizzBtnEvent;
+
+	cButton* pTrophiesImage = new cButton;
+	pTrophiesImage->Setup("data/UI/Trophies", "NW_Attriselect_SkyOrb.png",
+		D3DXVECTOR3(435, 375, 0), 0, 0, 0, 1, true, true);
+	pTropiesBizzButton->cButtonPushBack(pTrophiesImage);
+
+
+	//용발
+	pTropiesBizzButton = new cButton;
+	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off.png",
+		D3DXVECTOR3(890, 230, 0), 0, 0, 0, 1, true, true);
+	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
+
+	pTrophiesImage = new cButton;
+	pTrophiesImage->Setup("data/UI/Trophies", "NW_Attriselect_Dragonfoot.png",
+		D3DXVECTOR3(1045, 375, 0), 0, 0, 0, 1, true, true);
+	pTropiesBizzButton->cButtonPushBack(pTrophiesImage);
+	pTropiesBizzButton->EventProcess = SecondBizzBtnEvent;
+
+	EventManager->Attach(pTrophiesSelectSceneBackground);
+	ObjectManager->AddUIChild(pTrophiesSelectSceneBackground);
+
 }
 
 void cSelectTrophiesScene::Reset(int SceneType)
 {
+	
 	cPopup* popup = NULL;
 	switch (SceneType)
 	{
-	case SceneType::SCENE_TITLE:
-		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Title);
-		if (popup != NULL)
-		{
-			popup->PowerOnOff();
-		}
-		break;
-
 	case SceneType::SCENE_BOSS_1:
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
 		}
-		break;
 
-	case SceneType::SCENE_BOSS_2:
-		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Hp);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
 		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Stamina);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_TrophiesGauge);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_ESC_Menu);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff_OnlySelf(true);
+		}
+
 		break;
-
-
 	default:
 		break;
 	}
 
-	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies);
+	
+	//전리품 선택씬의 UI들을 삭제하는 소스 추가하고 제거하기
+	//ObjectPool에서 삭제하고 Observer Detach 작업
+	//=======================================
+	popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_SelectTrophies);
 	if (popup != NULL) 
 	{
 		popup->PowerOnOff();
 	}
-
+	//=======================================
+	
 
 }
