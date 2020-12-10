@@ -1,12 +1,154 @@
 {
-  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
-  
   "Sound": {
-    "directory": "data/Sound",
-    "SFX": {
-      "directory": "data/Sound/SFX",
-      "explode": {
-        "filename": "explode.wav"
+    "Directory" : "data/Sound",
+    "Charactor": {
+      "Directory" : "data/Sound",
+      "Voice": {
+        "Attack 1": "NW_Attack_Voice 1",
+        "Attack 2": "NW_Attack_Voice 2",
+        "Attack 3": "NW_Attack_Voice 3",
+        "Attack 4": "NW_Attack_Voice 4",
+        "Death": "NW_Death_Voice",
+        "Faint": "NW_Faint_Voice",
+        "Hit 1": "NW_Hit_Voice 1",
+        "Hit 2": "NW_Hit_Voice 2",
+        "Hit 3": "NW_Hit_Voice 3",
+        "Hit 4": "NW_Hit_Voice 4",
+        "Roll": "NW_Roll_Voice"
+      },
+      "Effect": {
+        "Attack 1": "NW_Attack_Effect 1",
+        "Attack 2": "NW_Attack_Effect 2",
+        "Attack 3": "NW_Attack_Effect 3",
+        "Attack 4": "NW_Attack_Effect 4",
+        "Swish 1": "NW_Attack_Swish 1",
+        "Swish 2": "NW_Attack_Swish 2",
+        "Swish 3": "NW_Attack_Swish 3",
+        "Death 1": "NW_Death_Effect 1",
+        "Death 2": "NW_Death_Effect 2",
+        "Hit 1": "NW_Hit_Effect 1",
+        "Hit 2": "NW_Hit_Effect 2",
+        "Hit 3": "NW_Hit_Effect 3",
+        "Hit 4": "NW_Hit_Effect 4",
+        "Roll": "NW_Roll_Effect",
+        "Move 1": "NW_Move 1",
+        "Move 2": "NW_Move 2",
+        "Move 3": "NW_Move 3",
+        "Move 4": "NW_Move 4",
+        "Move 5": "NW_Move 5",
+        "Move 6": "NW_Move 6",
+        "Move 7": "NW_Move 7",
+        "Move 8": "NW_Move 8"
+      }
+    },
+    "Trophy": {
+      "Directory" : "data/Sound",
+      "SkyObb": "NW_Pokemon_Voice",
+      "DragonFoot": "NW_Sky_Voice",
+      "포켓몬스터": "NW_Dragon_Voice",
+      "용용이의 함성": "NW_Shout_Voice"
+    },
+    "Stage A": {
+      "Directory" : "data/Sound",
+      "BOSS": {
+        "Voice": {
+          "Attack 1": "NW_Golem_Attack 1_Voice",
+          "Attack 2": "NW_Golem_Attack 2",
+          "Meteo": "NW_Golem_Meteo",
+          "Die": "NW_Golem_Die",
+          "Idle": "NW_Golem_Idle",
+          "Shout": "NW_Golem_Shout",
+          "Skill 1": "NW_Golem_Skill 1",
+          "Hit 1": "NW_Golem_Hit 1 ~ 4",
+          "Hit 2": "NW_Golem_Hit 1 ~ 4",
+          "Hit 3": "NW_Golem_Hit 1 ~ 4",
+          "Hit 4": "NW_Golem_Hit 1 ~ 4",
+          "Skill 3": "NW_Golem_Skill 3_Voice",
+          "Stun": "NW_Golem_Stun"
+        },
+        "Effect": {
+          "Attack 1": "NW_Golem_Attack 1_Effect",
+          "Hit 1": "NW_Attack_Effect 1",
+          "Hit 2": "NW_Attack_Effect 2",
+          "Hit 3": "NW_Attack_Effect 3",
+          "Hit 4": "NW_Attack_Effect 4",
+          "Skill 3": "NW_Golem_Skill 3_Effect"
+        },
+        "Skill": {
+          "Skill 1": "NW_Golem_Skill 1",
+          "Skill 2": "NW_Golem_Skill 2",
+          "Skill 3": "NW_Golem_Skill 3",
+          "Skill 4": "NW_Golem_Skill 4",
+          "Skill 5": "NW_Golem_Skill 5",
+          "Skill 6": "NW_Golem_Skill 6",
+          "Skill 7": "NW_Golem_Skill 7",
+          "Skill 8": "NW_Golem_Skill 8",
+          "Skill 9": "NW_Golem_Skill 9",
+          "Skill 10": "NW_Golem_Skill 10"
+        }
+      },
+      "Sub Monster": {
+        "Voice": {
+          "Attack": "NW_Sub_Attack",
+          "Die": "NW_Sub_Die"
+        }
+      }
+    },
+    "Stage B": {
+      "BOSS": {
+      "Directory" : "data/Sound",
+        "Voice": {
+          "Basic Attack": "NW_Dragon_Basic Attack",
+          "Die": "NW_Dragon_Die_Voice",
+          "Breath": "NW_Dragon_Breath",
+          "Hit 1": "NW_Dragon_Hit 1",
+          "Hit 2": "NW_Dragon_Hit 2",
+          "Hit 3": "NW_Dragon_Hit 3",
+          "Shout": "NW_Dragon_Shout",
+          "HP": "NW_Dragon_HP",
+          "Stun": "NW_Dragon_Stun",
+          "Rigid": "NW_Dragon_Rigid",
+          "Fly Breath": "NW_Dragon_Fly Breath_Voice"
+        },
+        "Effect": {
+          "Basic Attack": "NW_Dragon_Basic Attack",
+          "Die": "NW_Dragon_Die_Effect",
+          "Hit 1": "NW_Attack_Effect 1",
+          "Hit 2": "NW_Attack_Effect 2",
+          "Hit 3": "NW_Attack_Effect 3",
+          "Hit 4": "NW_Attack_Effect 4",
+          "Tail Attack": "NW_Dragon_Tail Attack",
+          "Move 1": "NW_Dragon_Move 1",
+          "Move 2": "NW_Dragon_Move 2",
+          "Move 3": "NW_Dragon_Move 3",
+          "Move 4": "NW_Dragon_Move 4",
+          "Move 5": "NW_Dragon_Move 5",
+          "Move 6": "NW_Dragon_Move 6",
+          "Move 7": "NW_Dragon_Move 7",
+          "Move 8": "NW_Dragon_Move 8",
+          "Move 9": "NW_Dragon_Move 9",
+          "Move 10": "NW_Dragon_Move 10",
+          "Collision": "NW_Dragon_Collision",
+          "Fly 1": "NW_Dragon_Fly 1",
+          "Fly 2": "NW_Dragon_Fly 2",
+          "Fly 3": "NW_Dragon_Fly 3"
+        }
+      }
+    },
+    "UI": {
+      "Directory" : "data/Sound",
+      "BGM": {
+        "Lobby": "NW_Lobby_BGM",
+        "Battle": "NW_Battle_BGM",
+        "GameOver": "NW_GameOver_BGM",
+        "Trophy": "NW_Trophy_BGM"
+      },
+      "Effect": {
+        "Trophy Click": "NW_Trophy_Click",
+        "Drag": "NW_Drag",
+        "Button Click": "NW_Click",
+        "Start Click": "NW_Start_Click",
+        "Obect Effect": "NW_Object_Effect"
       }
     }
   }

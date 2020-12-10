@@ -1,0 +1,38 @@
+{
+  "Charactor": {
+    "Max HP": "",
+    "Attack": {
+      "Melee": "Int",
+      "Elemental": "Int",
+      "Stun rate": "Int",
+      "Rigid rate": "Int",
+      "Combo time limit": "Float",
+      "Critical rate": "Int",
+      "Critical additional damage": "Int"
+    },
+    "Defense": {
+      "Melee": "Int",
+      "Elemental": "Int"
+    },
+    "Stamina": {
+      "Stamina": "Int",
+      "Restore": "Int"
+    },
+    "Dot damage": {
+      "Poison": {
+        "Rate reduce": "Int",
+        "Damage": "Int",
+        "Duration time": "Int"
+      }
+    },
+    "Stun": {
+      "Rate reduce": "Int",
+      "Duration time": "Int"
+    },
+    "Scream": {
+      "Duration time": "Int"
+    },
+    "Aggro": 1,
+    "Move speed": "Int"
+  }
+}

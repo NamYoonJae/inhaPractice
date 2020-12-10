@@ -1,0 +1,31 @@
+{
+  "Trophy": {
+    "SkyObb": {
+      "Gauge cost": "Unsigned int",
+      "Gauge restore": "N",
+      "Passive": {
+        "Cooldown": "N",
+        "Require HP": "N",
+        "Restore HP rate": "N",
+        "Duration time": "N"
+      },
+      "Active": {
+        "Additional melee": "N",
+        "Additional Elemental": "N",
+        "Tripping additional rate": "N"
+      }
+    },
+    "DragonFoot": {
+      "Gauge cost": "Unsigned int",
+      "Gauge restore": "N",
+      "Passive": {
+        "Increase speed": "N"
+      },
+      "Active": {
+        "Additional melee": "N",
+        "Additional Elemental": "N",
+        "Knockback distance": "N"
+      }
+    }
+  }
+}
