@@ -8,7 +8,6 @@
 #include "GameOverSceneBtnEvent.h"
 #include "GameSceneUIEvent.h"
 #include "InGamePauseMenuUIEvent.h"
-#include "TrophiesSceneUIEvent.h"
 
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
@@ -298,17 +297,20 @@ void cTitleScene::Setup()
 	inGamePopup->cButtonPushBack(bossDiverf);
 
 
-	//전리품
-	cPopup* pInGameTrophiesBackgound = new cPopup;
-	pInGameTrophiesBackgound->Setup("data/UI/InGame", "NW_trophies_Back.png",
-		D3DXVECTOR3(1270, 650, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(pInGameTrophiesBackgound);
-
 	//전리품 게이지
+	cPopup* pInGameTropiesGauge = new cPopup;
+	pInGameTropiesGauge->Setup("data/UI/InGame", "NW_Attri_Gauge.png",
+		D3DXVECTOR3(1163, 785, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_TrophiesGauge);
+	//pInGameTropiesGauge->EventProcess = ;
+
+	//전리품 배경
 	cButton* pInGameTrophiesBarBackground = new cButton;
 	pInGameTrophiesBarBackground->Setup("data/UI/InGame","NW_Attri_BarBackground.png",
 		D3DXVECTOR3(1130, 780, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(pInGameTrophiesBarBackground);
+	pInGameTropiesGauge->cButtonPushBack(pInGameTrophiesBarBackground);
+	EventManager->Attach(pInGameTropiesGauge);
+	ObjectManager->AddUIChild(pInGameTropiesGauge);
+
 	/*
 	cButton* attriBar = new cButton;
 	attriBar->Setup("data/UI/InGame", "NW_Attri_Gauge.png",
@@ -419,66 +421,6 @@ void cTitleScene::Setup()
 	ObjectManager->AddUIChild(pMediator);
 #pragma endregion << UI TAG::ESC_Menu
 
-
-//전리품 선택
-	cPopup* pTrophiesSelectSceneBackground = new cPopup;
-	pTrophiesSelectSceneBackground->Setup("data/UI/Trophies", "NW_Attriselect_Back.png",
-		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_Trophies);
-
-	/*
-	cButton* pNextButton = new cButton;
-	pNextButton->Setup("data/UI/Trophies", "NW_Attriselect_SelectButton_Idle.png", 
-		D3DXVECTOR3(1000, 0, 0), 0, 0, 0, 1, true, true);
-	pTrophiesSelectSceneBackground->cButtonPushBack(pNextButton);
-	//pNextButton->EventProcess = nextBtnTrophiesEvent;
-	*/
-
-	cButton* pTropiesBizzButton = new cButton;
-	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Bizz_Off .png",
-		D3DXVECTOR3(280, 230, 0), 0, 0, 0, 1, false, true);
-	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
-	pTropiesBizzButton->EventProcess = FirstBizzBtnEvent;
-
-	cButton* pTrophiesImage = new cButton;
-	pTrophiesImage->Setup("data/UI/Trophies", "NW_Attriselect_Attri.png",
-		D3DXVECTOR3(435, 375, 0), 0, 0, 0, 1, false, true);
-	pTropiesBizzButton->cButtonPushBack(pTrophiesImage);
-	
-
-
-
-
-
-	pTropiesBizzButton = new cButton;
-	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Bizz_Off .png",
-		D3DXVECTOR3(890, 230, 0), 0, 0, 0, 1, false, true);
-	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
-
-	pTrophiesImage = new cButton;
-	pTrophiesImage->Setup("data/UI/Trophies", "NW_Attriselect_Attri.png",
-		D3DXVECTOR3(1045, 375, 0), 0, 0, 0, 1, false, true);
-	pTropiesBizzButton->cButtonPushBack(pTrophiesImage);
-	pTropiesBizzButton->EventProcess = SecondBizzBtnEvent;
-
-	/*
-	pSelectButton = new cButton;
-	pSelectButton->Setup("data/UI/Trophies", "NW_Attriselect_Bizz_Off.png",
-		D3DXVECTOR3(890, 250, 0), 0, 0, 0, 1, true, true);
-	pTropiesButtonBackgound->cButtonPushBack(pSelectButton);
-	//pSelectButton->EventProcess = ;
-
-	 pTrophiesImage = new cButton;
-	pTrophiesImage->Setup("data/UI/Trophies", "NW_Attriselect_Attri.png",
-		D3DXVECTOR3(890, 360, 0), 0, 0, 0, 1, true, true);
-	pTropiesButtonBackgound->cButtonPushBack(pTrophiesImage);
-	*/
-
-
-
-	EventManager->Attach(pTrophiesSelectSceneBackground);
-	ObjectManager->AddUIChild(pTrophiesSelectSceneBackground);
-
-
 }
 
 //
@@ -488,6 +430,8 @@ void cTitleScene::Reset(int sceneType)
 
 	switch (sceneType)
 	{
+	//게임 씬으로 이동 할 때
+	/*
 	case SceneType::SCENE_BOSS_1:
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
 		if (popup != NULL)
@@ -506,6 +450,12 @@ void cTitleScene::Reset(int sceneType)
 		{
 			popup->PowerOnOff();
 		}
+		
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_TrophiesGauge);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
 
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_ESC_Menu);
 		if (popup != NULL)
@@ -513,8 +463,9 @@ void cTitleScene::Reset(int sceneType)
 			popup->PowerOnOff_OnlySelf(true);
 		}
 		break;
-
-
+		*/
+	//스테이지 축소로 인해 주석
+	/*
 	case SceneType::SCENE_BOSS_2:
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_InGame);
 		if (popup != NULL)
@@ -528,8 +479,10 @@ void cTitleScene::Reset(int sceneType)
 			popup->PowerOnOff_OnlySelf(true);
 		}
 		break;
+	*/
 
-
+	//게임 오버 씬으로 이동할 때
+	/*
 	case SceneType::SCENE_GAMEOVER:
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
 		if (popup != NULL)
@@ -537,14 +490,7 @@ void cTitleScene::Reset(int sceneType)
 			popup->PowerOnOff();
 		}
 		break;
-
-	case SceneType::SCENE_TROPHIES:
-		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies);
-		if (popup != NULL)
-		{
-			popup->PowerOnOff();
-		}
-		break;
+		*/
 
 	default:
 		break;

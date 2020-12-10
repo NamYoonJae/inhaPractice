@@ -190,6 +190,7 @@
     <ClCompile Include="SoulEater_Scream.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
+    <ClCompile Include="Trophies.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -390,6 +391,7 @@
     <ClInclude Include="SoulEater_Scream.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
+    <ClInclude Include="Trophies.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

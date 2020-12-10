@@ -18,10 +18,10 @@ enum TAG_UI
 {
 	TagUI_Title,
 	TagUI_InGame,
-	TagUI_Trophies,
+	TagUI_SelectTrophies,
 	TagUI_Hp,
 	TagUI_Stamina,
-
+	TagUI_TrophiesGauge,
 	TagUI_ESC_Menu,
 	TagUI_NewGameCheck,
 	TagUI_ExitCheck,

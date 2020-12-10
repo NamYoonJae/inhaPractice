@@ -215,6 +215,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TimerManager.h" />
+    <ClInclude Include="Trophies.h" />
     <ClInclude Include="TrophiesSceneUIEvent.h" />
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +286,7 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="TimerManager.cpp" />
+    <ClCompile Include="Trophies.cpp" />
     <ClCompile Include="TrophiesSceneUIEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
