@@ -17,7 +17,6 @@ cPaladin::cPaladin()
 	,m_isMoving(false)
 	,m_pSkinnedUnit(NULL)
 	,m_pCurState(NULL)
-	,m_pWeapon(NULL)
 	, m_Hp(0)
 	, m_Stamina(0)
 	, m_MaxHp(1000)
@@ -31,9 +30,14 @@ cPaladin::cPaladin()
 cPaladin::~cPaladin()
 {
 	SafeDelete(m_pOBB);
-	SafeDelete(m_pWeapon);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
+
+	for (cParts* parts : m_vecParts)
+	{
+		SafeDelete(parts);
+	}
+	m_vecParts.clear();
 }
 
 void cPaladin::Setup(char* szFolder, char* szFile)
@@ -62,13 +66,20 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_pSkinnedUnit->Update();
 	EventManager->Attach(this);
 
-	m_pWeapon = new cPaladinWeapon;
-	m_pWeapon->Setup(D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Sword_joint"),
+	cParts* pWeapon = new cPaladinWeapon;
+	pWeapon->Setup(D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Sword_joint"),
 		D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Paladin_J_Nordstrom_Sword")->pMeshContainer, &m_matWorld);
+	m_vecParts.push_back(pWeapon);
+
+	//cParts* pBody = new cPaladinBody;
+	//pBody->Setup(m_pSkinnedUnit, &MatrixIdentity);
+	//m_vecParts.push_back(pBody);
 
 	D3DXMATRIXA16 mat;
+	D3DXMatrixScaling(&mat, 1, 3, 1.5f);
+	
 	if (m_pSkinnedUnit->m_pTransformationMatrix)
-		mat = *m_pSkinnedUnit->m_pTransformationMatrix;
+		mat *= *m_pSkinnedUnit->m_pTransformationMatrix;
 	
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(m_pSkinnedUnit, &mat);
@@ -118,8 +129,11 @@ void cPaladin::Update()
 	m_pSkinnedUnit->Update();
 
 	m_pOBB->Update(&m_matWorld);
-	ST_BONE* pBone = (ST_BONE*)D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Sword_joint");
-	m_pWeapon->Update(&pBone->CombinedTransformationMatrix);
+	
+	for(cParts* parts : m_vecParts)
+	{
+		parts->Update(NULL);
+	}
 }
 
 void cPaladin::Update(EventType event)
@@ -179,7 +193,10 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &MatrixIdentity);
 
-	m_pWeapon->Render();
+	for (cParts* parts : m_vecParts)
+	{
+		parts->Render();
+	}
 }
 
 void cPaladin::ShaderRender()
@@ -222,70 +239,93 @@ void cPaladin::ShaderRender()
 
 void cPaladin::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 {
-	
+	cOBB* pOtherOBB = pObject->GetOBB();
+	int	  iOtherTag = pObject->GetTag();
+
+	// 상태 체크 
+	if(m_pCurState)
+	{
+		//if(m_pCurState) 어떤 상태인지 검사
+	}
 }
 
-cPaladinWeapon::cPaladinWeapon()
-	:m_pWeaponOBB(NULL)
-	,m_color(D3DCOLOR_XRGB(255, 255, 255))
-	,m_vPos(0, 0, 0)
-	,m_vScale(1, 1, 1)
+cParts::cParts()
+	:m_pOBB(NULL)
+	, m_pBone(NULL)
+	, m_color(D3DCOLOR_XRGB(255, 255, 255))
+	, m_vPos(0, 0, 0)
+	, m_vScale(1, 1, 1)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
 
-cPaladinWeapon::~cPaladinWeapon()
+cParts::~cParts()
 {
-	SafeDelete(m_pWeaponOBB);
+	SafeDelete(m_pOBB);
 }
 
-void cPaladinWeapon::Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat)
+void cParts::Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat)
 {
-	m_pWeaponOBB = new cOBB;
-	m_pWeaponOBB->Setup(pFrame, pMesh, pmat);
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(pFrame, pMesh, pmat);
 
-	m_vScale = D3DXVECTOR3(1.0f, 1.0f, 2.5f);
-	m_vRot	 = D3DXVECTOR3(D3DXToRadian(-90), 0.0f, 0.0f);
-	m_vPos	 = D3DXVECTOR3(-30.0f, 10.0f, 0.0f);
+	m_pBone = (ST_BONE*)pFrame;
 }
 
-void cPaladinWeapon::Update(D3DXMATRIXA16* pmat)
+void cParts::Setup(cSkinnedMesh* pSkinnedMesh, D3DXMATRIXA16* pmat)
+{
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(pSkinnedMesh, pmat);
+}
+
+void cParts::Update(D3DXMATRIXA16* pmat)
 {
 	D3DXMatrixScaling(&m_matScale, m_vScale.x, m_vScale.y, m_vScale.z);
-	D3DXMatrixRotationX(&m_matRot, m_vRot.x);
+
+	D3DXMATRIXA16 matRx, matRy, matRz;
+	D3DXMatrixRotationX(&matRx, D3DXToRadian(m_vRot.x));
+	D3DXMatrixRotationY(&matRy, D3DXToRadian(m_vRot.y));
+	D3DXMatrixRotationZ(&matRz, D3DXToRadian(m_vRot.z));
+	m_matRot = matRx * matRy * matRz;
 	D3DXMatrixTranslation(&m_matTranse, m_vPos.x, m_vPos.y, m_vPos.z);
 
 	m_matWorld = m_matScale * m_matRot * m_matTranse;
 
-	if (pmat) 
+	if (pmat)
 		m_matWorld *= *pmat;
 
-	m_pWeaponOBB->Update(&m_matWorld);
+	m_pOBB->Update(&m_matWorld);
 }
 
-void cPaladinWeapon::Render()
+void cParts::Render()
 {
-	m_pWeaponOBB->OBBBOX_Render(m_color);
+	m_pOBB->OBBBOX_Render(m_color);
 }
 
-int cPaladin::GetHp()
+void cPaladinWeapon::Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat)
 {
-	return m_Hp;
+	cParts::Setup(pFrame, pMesh, pmat);
+	m_vScale = D3DXVECTOR3(0.4f, 1.0f, 2.5f);
+	m_vRot	 = D3DXVECTOR3(-93, -8.0f, 15.0f);
+	m_vPos	 = D3DXVECTOR3(-13.0f, 5.0f, 1.0f);
 }
 
-int cPaladin::GetStamina()
+void cPaladinWeapon::Update(D3DXMATRIXA16* pmat)
 {
-	return m_Stamina;
+	cParts::Update(&m_pBone->CombinedTransformationMatrix);
 }
 
-int cPaladin::GetMaxHp()
+void cPaladinBody::Setup(cSkinnedMesh* pSkinnedMesh, D3DXMATRIXA16* pmat)
 {
-	return m_MaxHp;
+	cParts::Setup(pSkinnedMesh, pmat);
+	//m_vScale = D3DXVECTOR3(0.4f, 1.0f, 2.5f);
+	//m_vRot = D3DXVECTOR3(-93, -8.0f, 15.0f);
+	//m_vPos = D3DXVECTOR3(-13.0f, 5.0f, 1.0f);
 }
 
-int cPaladin::GetMaxStamina()
+void cPaladinBody::Update(D3DXMATRIXA16* pmat)
 {
-	return m_MaxStamina;
+	cParts::Update(NULL);
 }
 
 void cPaladin::CreateTrophies(EventType message)

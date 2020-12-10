@@ -3,8 +3,12 @@
 
 class cSkinnedMesh;
 class cPaladinState;
+
+class cParts;
 class cPaladinWeapon;
 class cTrophies;
+class cPaladinBody;
+struct ST_BONE;
 
 class cPaladin : public cCharater
 {
@@ -26,12 +30,18 @@ private:
 	D3DXMATRIXA16	m_matWeapon;
 	cPaladinWeapon* m_pWeapon;
 
+	vector<cParts*> m_vecParts;
+
+
 	int m_MaxHp;
 	int m_MaxStamina;
 	
 	int m_Hp;
 	int m_Stamina;
+
 	cTrophies* m_pTrophies;
+
+
 
 
 public:
@@ -53,22 +63,22 @@ public:
 
 	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; };
 
-	int GetHp();
-	int GetStamina();
-	int GetMaxHp();
-	int GetMaxStamina();
-
 	void CreateTrophies(EventType message);
 
+	int GetHp() { return m_Hp; }
+	int GetStamina() { return m_Stamina; }
+	int GetMaxHp() { return m_MaxHp; }
+	int GetMaxStamina() { return m_MaxStamina; }
 
 };
 
-class cPaladinWeapon
+class cParts
 {
-private:
-	cOBB*			m_pWeaponOBB;
+protected:
+	cOBB*			m_pOBB;
+	ST_BONE*		m_pBone;
 	Synthesize(D3DCOLOR, m_color, Color);
-
+	
 	D3DXVECTOR3		m_vPos;
 	D3DXVECTOR3		m_vRot;
 	D3DXVECTOR3		m_vScale;
@@ -77,12 +87,35 @@ private:
 	D3DXMATRIXA16	m_matRot;
 	D3DXMATRIXA16	m_matTranse;
 	D3DXMATRIXA16	m_matWorld;
-
 public:
-	cPaladinWeapon();
-	~cPaladinWeapon();
+	cParts();
+	virtual ~cParts();
 
-	void Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat);
-	void Update(D3DXMATRIXA16* pmat);
-	void Render();
+	virtual void Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat);
+	virtual void Setup(cSkinnedMesh* pSkinnedMesh, D3DXMATRIXA16* pmat);
+	virtual void Update(D3DXMATRIXA16* pmat);
+	virtual void Render();
+	
+	cOBB* GetOBB() { return m_pOBB; }
+};
+
+
+class cPaladinWeapon : public cParts
+{
+public:
+	cPaladinWeapon(){};
+	~cPaladinWeapon() = default;
+
+	void Setup(D3DXFRAME* pFrame, D3DXMESHCONTAINER* pMesh, D3DXMATRIXA16* pmat) override;
+	void Update(D3DXMATRIXA16* pmat) override;
+};
+
+class cPaladinBody : public cParts
+{
+public:
+	cPaladinBody(){};
+	~cPaladinBody() = default;
+
+	void Setup(cSkinnedMesh* pSkinnedMesh, D3DXMATRIXA16* pmat) override;
+	void Update(D3DXMATRIXA16* pmat) override;
 };

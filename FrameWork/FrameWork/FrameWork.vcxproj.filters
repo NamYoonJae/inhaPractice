@@ -192,6 +192,9 @@
     </ClCompile>
     <ClCompile Include="Trophies.cpp">
       <Filter>Code\UI</Filter>
+	</ClCompile>
+    <ClCompile Include="LavaFlood.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -395,6 +398,9 @@
     </ClInclude>
     <ClInclude Include="Trophies.h">
       <Filter>Code\UI</Filter>
+	</ClInclude>
+    <ClInclude Include="LavaFlood.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +562,9 @@
     </Filter>
     <Filter Include="Code\Shader\fxFile">
       <UniqueIdentifier>{3941f28c-55f3-499e-8ed3-67de11838fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader">
+      <UniqueIdentifier>{9e814031-df30-4321-8ee7-03c8147710e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

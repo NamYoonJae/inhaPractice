@@ -158,6 +158,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cCharater.h" />
     <ClInclude Include="cDeviceManage.h" />
+    <ClInclude Include="LavaFlood.h" />
     <ClInclude Include="SoulEater_Rush.h" />
     <ClInclude Include="SoulEater_Scream.h" />
     <ClInclude Include="SoulEater_TailAttack.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cCharater.cpp" />
     <ClCompile Include="cDeviceManage.cpp" />
+    <ClCompile Include="LavaFlood.cpp" />
     <ClCompile Include="SoulEater_Rush.cpp" />
     <ClCompile Include="SoulEater_Scream.cpp" />
     <ClCompile Include="SoulEater_TailAttack.cpp" />
