@@ -2,6 +2,8 @@
 #include "cObject.h"
 #include "SkinnedMesh.h"
 
+
+//
 class cSoulEaterState;
 class cOBB;
 class cDragonSoulEater :
@@ -27,6 +29,8 @@ private:
 	D3DXVECTOR3*			m_pvTarget;
 	int						m_nPrevStateIndex;
 	D3DXMATRIXA16			m_matRotation;
+
+	//
 
 public:
 	cDragonSoulEater();

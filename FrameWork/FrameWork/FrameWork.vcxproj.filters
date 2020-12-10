@@ -191,6 +191,9 @@
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
     <ClCompile Include="Trophies.cpp" />
+    <ClCompile Include="LavaFlood.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -392,6 +395,9 @@
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
     <ClInclude Include="Trophies.h" />
+    <ClInclude Include="LavaFlood.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -552,6 +558,9 @@
     </Filter>
     <Filter Include="Code\Shader\fxFile">
       <UniqueIdentifier>{3941f28c-55f3-499e-8ed3-67de11838fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader">
+      <UniqueIdentifier>{9e814031-df30-4321-8ee7-03c8147710e0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
