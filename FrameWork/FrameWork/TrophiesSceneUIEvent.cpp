@@ -92,10 +92,11 @@ void FirstBizzBtnEvent(EventType message, cPopup * btn)
 				{
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/Trophies/NW_Attriselect_Backgound_On.png");
-					//하늘의 구슬에 관한 전리품 객체 생성
 					//팔라딘에게 TROPIES::TROPIES_Beez 전송(EVENTTYPE::TROPIES_Beez 발생 시켜 팔라딘의 Update에서 받을 생각)
+					//하늘의 구슬에 관한 전리품 객체 생성
 					//그후 Reset에서 전리품 선택씬에 관한 popup /button 모두 제거
 					g_pSceneManager->ChangeScene(SceneType::SCENE_BOSS_1);
+					EventManager->PushQueue(EventType::EVENT_SKYBEEZ);
 				}
 			}
 		}

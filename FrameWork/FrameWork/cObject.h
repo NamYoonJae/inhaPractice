@@ -22,6 +22,9 @@ enum TAG_UI
 	TagUI_Hp,
 	TagUI_Stamina,
 	TagUI_TrophiesGauge,
+	TagUI_Trophies_SkyBeez,
+	TagUI_Trophies_DragonFoot,
+
 	TagUI_ESC_Menu,
 	TagUI_NewGameCheck,
 	TagUI_ExitCheck,

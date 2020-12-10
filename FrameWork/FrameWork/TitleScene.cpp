@@ -186,24 +186,6 @@ void cTitleScene::Setup()
 	EventManager->Attach(staminaBar);
 	ObjectManager->AddUIChild(staminaBar);
 
-	/* 이전버전 소스 keep
-	cButton* staminaBarBackgound = new cButton;
-	staminaBarBackgound->Setup("data/UI/InGame", "NW_ST_BarBackground.png",
-		D3DXVECTOR3(30, 780, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(staminaBarBackgound);
-
-	
-	cButton* staminaBar = new cButton;
-	staminaBar->Setup("data/UI/InGame", "NW_ST_Sword.png",
-		D3DXVECTOR3(60, 786, 0), 0, 0, 0, 1, false, true);
-	staminaBarBackgound->cButtonPushBack(staminaBar);
-
-	cButton* staminaBarMark = new cButton;
-	staminaBarMark->Setup("data/UI/InGame", "NW_ST_Bar_Mark.png",
-		D3DXVECTOR3(60, 786, 0), 0, 0, 0, 1, false, true);
-	staminaBarBackgound->cButtonPushBack(staminaBarMark);
-	*/
-
 
 	//캐릭터 상태이상 이미지 좌표 따기위해 적어둠
 	cPopup* playerDiverf = new cPopup;
@@ -296,14 +278,19 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(1530, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
+	//전리품 배경
+	cPopup* pInGameTrophiesBackgound = new cPopup;
+	pInGameTrophiesBackgound->Setup("data/UI/InGame", "NW_trophies_Back.png",
+		D3DXVECTOR3(1270, 650, 0), 0, 0, 0, 1, false, true);
+	inGamePopup->cButtonPushBack(pInGameTrophiesBackgound);
 
 	//전리품 게이지
 	cPopup* pInGameTropiesGauge = new cPopup;
 	pInGameTropiesGauge->Setup("data/UI/InGame", "NW_Attri_Gauge.png",
 		D3DXVECTOR3(1163, 785, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_TrophiesGauge);
-	//pInGameTropiesGauge->EventProcess = ;
+	pInGameTropiesGauge->EventProcess = TrophiseGaugeEvent;
 
-	//전리품 배경
+	//전리품 게이지 배경
 	cButton* pInGameTrophiesBarBackground = new cButton;
 	pInGameTrophiesBarBackground->Setup("data/UI/InGame","NW_Attri_BarBackground.png",
 		D3DXVECTOR3(1130, 780, 0), 0, 0, 0, 1, false, true);

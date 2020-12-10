@@ -9,6 +9,8 @@
 #include "Paladin.h"
 
 #include "AllocateHierarchy.h"
+#include "ObjectPool.h"
+#include "Trophies.h"
 
 cPaladin::cPaladin()
 	:m_fvelocity(0.0f)
@@ -20,6 +22,7 @@ cPaladin::cPaladin()
 	, m_Stamina(0)
 	, m_MaxHp(1000)
 	, m_MaxStamina(500)
+	, m_pTrophies(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -167,6 +170,7 @@ void cPaladin::Update(EventType event)
 	{
 		m_pSkinnedUnit->SetAnimationIndexBlend(n++);
 	}
+
 }
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
@@ -282,4 +286,23 @@ int cPaladin::GetMaxHp()
 int cPaladin::GetMaxStamina()
 {
 	return m_MaxStamina;
+}
+
+void cPaladin::CreateTrophies(EventType message)
+{
+
+	if (message == EventType::EVENT_SKYBEEZ)
+	{
+		m_pTrophies = new cTrophies;
+		m_pTrophies->Setup("data/UI/Trophies", "NW_Attriselect_SkyOrb.png", D3DXVECTOR3(1310, 653, 0), 0.8, true, true, TAG_UI::TagUI_Trophies_SkyBeez, 1000, 1000);
+
+		EventManager->Attach((cObserver*)m_pTrophies);
+		ObjectManager->AddUIChild((cObject*)m_pTrophies);
+
+	}
+
+	if (message == EventType::EVENT_DRAGONFOOT)
+	{
+
+	}
 }

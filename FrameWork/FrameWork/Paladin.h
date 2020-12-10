@@ -4,6 +4,7 @@
 class cSkinnedMesh;
 class cPaladinState;
 class cPaladinWeapon;
+class cTrophies;
 
 class cPaladin : public cCharater
 {
@@ -23,13 +24,15 @@ private:
 	
 	cOBB*			m_pWeaponOBB;
 	D3DXMATRIXA16	m_matWeapon;
+	cPaladinWeapon* m_pWeapon;
 
 	int m_MaxHp;
 	int m_MaxStamina;
-	cPaladinWeapon* m_pWeapon;
 	
 	int m_Hp;
 	int m_Stamina;
+	cTrophies* m_pTrophies;
+
 
 public:
 	cPaladin();
@@ -54,6 +57,9 @@ public:
 	int GetStamina();
 	int GetMaxHp();
 	int GetMaxStamina();
+
+	void CreateTrophies(EventType message);
+
 
 };
 

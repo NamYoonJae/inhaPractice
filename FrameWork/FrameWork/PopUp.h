@@ -7,6 +7,7 @@
 class cButton;
 class cPopup;
 class cPaladin;
+class cTrophies;
 
 //자식 뿐만 아니라 버튼 이벤트 헤더에서도 사용하기 때문에 전역으로 설정
 enum
@@ -43,6 +44,7 @@ protected:
 	string str_filename;
 
 	cPaladin * m_pPaladin; //다른 클래스의 값을 가져오기 위해 사용(ex> 팔라딘 체력/스테미나)
+	cTrophies* m_pTrophies;
 
 public:
 	
@@ -143,5 +145,8 @@ public:
 	void SetPaladinReference(cPaladin*);
 	cPaladin* GetPaladinReference();
 	void SetImageInfoWidth(float percent);
+
+	virtual void SetTrophiesReference(cTrophies*);
+	virtual cTrophies* GetTrophiesReference();
 };
 
