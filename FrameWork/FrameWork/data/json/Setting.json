@@ -1,6 +1,12 @@
 {
   "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
   
-  "BarSliderMoveEvent" : 5,
-  "BarSliderTick" : 29
+  "BGM" : 5,
+  "BGM Max" : 100,
+  "total AimPerInch" : 5,
+  "total AimPerInch Max" : 5,
+  "normal AimPerInch" : 5,
+  "normal AimPerInch Max" : 5,
+  "special AimPerInch" : 5,
+  "special AimPerInch Max" : 5
 }
