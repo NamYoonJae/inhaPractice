@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Trophies.h"
 
-void FirstBizzBtnEvent(EventType message, cPopup * btn)
+void SelectSkyBizzEvent(EventType message, cPopup * btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -106,7 +106,7 @@ void FirstBizzBtnEvent(EventType message, cPopup * btn)
 	};//switch End
 }
 
-void SecondBizzBtnEvent(EventType message, cPopup * btn)
+void SelectDragonFootEvent(EventType message, cPopup * btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -195,9 +195,8 @@ void SecondBizzBtnEvent(EventType message, cPopup * btn)
 				{
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/Trophies/NW_Attriselect_Backgound_On.png");
-					//팔라딘에게 TROPIES::TROPIES_DragonFoot 전송
 					g_pSceneManager->ChangeScene(SceneType::SCENE_BOSS_1);
-					//선택한 전리품 가지고 보스씬으로 이동
+					EventManager->PushQueue(EventType::EVENT_DRAGONFOOT);
 				}
 			}
 		}

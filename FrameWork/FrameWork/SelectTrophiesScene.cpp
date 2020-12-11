@@ -25,7 +25,7 @@ void cSelectTrophiesScene::Setup()
 	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off.png",
 		D3DXVECTOR3(280, 230, 0), 0, 0, 0, 1, true, true);
 	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
-	pTropiesBizzButton->EventProcess = FirstBizzBtnEvent;
+	pTropiesBizzButton->EventProcess = SelectSkyBizzEvent;
 
 	cButton* pTrophiesImage = new cButton;
 	pTrophiesImage->Setup("data/UI/Trophies", "NW_Attriselect_SkyOrb.png",
@@ -38,12 +38,12 @@ void cSelectTrophiesScene::Setup()
 	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off.png",
 		D3DXVECTOR3(890, 230, 0), 0, 0, 0, 1, true, true);
 	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
+	pTropiesBizzButton->EventProcess = SelectDragonFootEvent;
 
 	pTrophiesImage = new cButton;
 	pTrophiesImage->Setup("data/UI/Trophies", "NW_Attriselect_Dragonfoot.png",
 		D3DXVECTOR3(1045, 375, 0), 0, 0, 0, 1, true, true);
 	pTropiesBizzButton->cButtonPushBack(pTrophiesImage);
-	pTropiesBizzButton->EventProcess = SecondBizzBtnEvent;
 
 	EventManager->Attach(pTrophiesSelectSceneBackground);
 	ObjectManager->AddUIChild(pTrophiesSelectSceneBackground);

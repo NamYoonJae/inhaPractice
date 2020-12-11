@@ -1,5 +1,5 @@
 #pragma once
 
 
-void FirstBizzBtnEvent(EventType message, cPopup* btn);
-void SecondBizzBtnEvent(EventType message, cPopup* btn);
+void SelectSkyBizzEvent(EventType message, cPopup* btn);
+void SelectDragonFootEvent(EventType message, cPopup* btn);
