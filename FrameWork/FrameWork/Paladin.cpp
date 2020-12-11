@@ -68,9 +68,10 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		D3DXFrameFind(m_pSkinnedUnit->GetFrame(), "Paladin_J_Nordstrom_Sword")->pMeshContainer, &m_matWorld);
 	m_vecParts.push_back(pWeapon);
 
-	//cParts* pBody = new cPaladinBody;
-	//pBody->Setup(m_pSkinnedUnit, &MatrixIdentity);
-	//m_vecParts.push_back(pBody);
+	cParts* pBody = new cPaladinBody;
+	pBody->Setup(m_pSkinnedUnit, (D3DXMATRIXA16*)m_pSkinnedUnit->m_pTransformationMatrix);
+	pBody->SetColor(D3DCOLOR_XRGB(255, 0, 0));
+	m_vecParts.push_back(pBody);
 
 	D3DXMATRIXA16 mat;
 	D3DXMatrixScaling(&mat, 1, 3, 1.5f);
@@ -129,7 +130,7 @@ void cPaladin::Update()
 	
 	for(cParts* parts : m_vecParts)
 	{
-		parts->Update(NULL);
+		parts->Update(&m_matWorld);
 	}
 }
 
@@ -181,13 +182,45 @@ void cPaladin::Update(EventType event)
 	{
 		m_pSkinnedUnit->SetAnimationIndexBlend(n++);
 	}
+
+	//if (event == EventType::EVENT_NUMPAD_7)
+	//{
+	//	m_vecParts[1]->m_vPos.x += 0.1f;
+	//	cout << "m_vPos.x: " << m_vecParts[1]->m_vPos.x << endl;
+	//}
+	//if (event == EventType::EVENT_NUMPAD_4)
+	//{
+	//	m_vecParts[1]->m_vPos.x -= 0.1f;
+	//	cout << "m_vPos.x: " << m_vecParts[1]->m_vPos.x << endl;
+	//}
+
+	//if (event == EventType::EVENT_NUMPAD_8)
+	//{
+	//	m_vecParts[1]->m_vPos.y += 0.1f;
+	//	cout << "m_vPos.y: " << m_vecParts[1]->m_vPos.y << endl;
+	//}
+	//if (event == EventType::EVENT_NUMPAD_5)
+	//{
+	//	m_vecParts[1]->m_vPos.y -= 0.1f;
+	//	cout << "m_vPos.y: " << m_vecParts[1]->m_vPos.y << endl;
+	//}
+
+	//if (event == EventType::EVENT_NUMPAD_9)
+	//{
+	//	m_vecParts[1]->m_vPos.z += 0.1f;
+	//	cout << "m_vPos.z: " << m_vecParts[1]->m_vPos.z << endl;
+	//}
+	//if (event == EventType::EVENT_NUMPAD_6)
+	//{
+	//	m_vecParts[1]->m_vPos.z -= 0.1f;
+	//	cout << "m_vPos.z: " << m_vecParts[1]->m_vPos.z << endl;
+	//}
 }
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
 	ShaderRender();
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &MatrixIdentity);
 
 	for (cParts* parts : m_vecParts)
 	{
@@ -242,6 +275,28 @@ void cPaladin::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 	if(m_pCurState)
 	{
 		//if(m_pCurState) 어떤 상태인지 검사
+	}
+
+	// 내가 맞을것
+	if (mapCollisionList.find(iOtherTag) != mapCollisionList.end())
+	{
+		// 이미 맞았다면
+		return;
+	}
+	else
+	{
+		// 어느 부위에 맞을것인지
+		if (cOBB::IsCollision(pOtherOBB, m_vecParts[1]->GetOBB()))
+		{
+			cout << "Body Hit" << endl;
+		}
+
+		CollisionInfo info;
+		info.dwCollsionTime = GetTickCount();
+		info.dwDelayTime = dwDelayTime;
+
+		mapCollisionList.insert(pair<int, CollisionInfo>(iOtherTag, info));
+
 	}
 }
 
@@ -314,12 +369,12 @@ void cPaladinWeapon::Update(D3DXMATRIXA16* pmat)
 void cPaladinBody::Setup(cSkinnedMesh* pSkinnedMesh, D3DXMATRIXA16* pmat)
 {
 	cParts::Setup(pSkinnedMesh, pmat);
-	//m_vScale = D3DXVECTOR3(0.4f, 1.0f, 2.5f);
-	//m_vRot = D3DXVECTOR3(-93, -8.0f, 15.0f);
-	//m_vPos = D3DXVECTOR3(-13.0f, 5.0f, 1.0f);
+	m_vScale = D3DXVECTOR3(0.2f, 0.7f, 0.3f);
+	m_vRot	 = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_vPos   = D3DXVECTOR3(0.0f, 13.0f, 0.0f);
 }
 
 void cPaladinBody::Update(D3DXMATRIXA16* pmat)
 {
-	cParts::Update(NULL);
+	cParts::Update(pmat);
 }
