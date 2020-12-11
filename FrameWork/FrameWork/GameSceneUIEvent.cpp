@@ -8,6 +8,7 @@
 #include "Button.h"
 #include "ObjectPool.h"
 #include "Paladin.h"
+#include "Trophies.h"
 
 
 //이름 수정할 것
@@ -135,14 +136,37 @@ void TrophiseGaugeEvent(EventType message, cPopup* btn)
 {
 	switch (message)
 	{
-	case EventType::EVENT_NULL:
+	case EventType::EVENT_SKYBEEZ:
+		{
+		cPaladin* pal = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
+		pal->CreateTrophies(EventType::EVENT_SKYBEEZ);
+
+		cTrophies* trophies = (cTrophies*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies_SkyBeez);
+		btn->SetTrophiesReference(trophies);
+
 		break;
-	case EventType::EVENT_MOVE:
+		}
+	case EventType::EVENT_DRAGONFOOT:
+		{
+		cPaladin* pal = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
+		pal->CreateTrophies(EventType::EVENT_DRAGONFOOT);
+
+		cTrophies* trophies = (cTrophies*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies_DragonFoot);
+		btn->SetTrophiesReference(trophies);
+		}
 		break;
 
 
 	default:
 		break;
+	}
+
+	if (btn->GetTrophiesReference() != NULL) 
+	{
+		int trophiesGauge = btn->GetTrophiesReference()->GetGauge();
+		int trophiesMaxGauge = btn->GetTrophiesReference()->GetMaxGauge();
+		float result = ((float)trophiesGauge / (float)trophiesMaxGauge) * 100;
+		btn->SetImageInfoWidth(result);
 	}
 }
 

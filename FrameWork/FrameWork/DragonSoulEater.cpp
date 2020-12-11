@@ -12,6 +12,8 @@
 #include "SoulEater_TailAttack.h"
 #include "SoulEater_Rush.h"
 #include "SoulEater_Scream.h"
+
+#include "LavaFlood.h"
 #pragma once
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -21,6 +23,8 @@ cDragonSoulEater::cDragonSoulEater()
 {
 	m_pOBB = NULL;
 	D3DXMatrixIdentity(&m_matRotation);
+
+
 }
 
 
@@ -107,6 +111,7 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	for (int i = 0; i < m_vecBoundingBoxList.size(); i++)
 		m_vecBoundingBoxList.at(i).Box->OBBBOX_Render(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	
+
 }
 
 void cDragonSoulEater::Setup(char* szFolder, char* szFileName)

@@ -9,9 +9,10 @@ cButton::cButton()
 	m_Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_Percentage = 0;
 	m_Power = true;
-	m_Fixed = false;
+	m_Fixed = true;
 	EventProcess = NULL;
 	m_pPaladin = NULL;
+	m_pTrophies = NULL;
 	
 }
 

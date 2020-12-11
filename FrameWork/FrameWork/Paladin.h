@@ -6,6 +6,7 @@ class cPaladinState;
 
 class cParts;
 class cPaladinWeapon;
+class cTrophies;
 class cPaladinBody;
 struct ST_BONE;
 
@@ -25,13 +26,24 @@ private:
 	cPaladinState*	m_pCurState;
 	DWORD			m_dwDelayState;
 	
+	cOBB*			m_pWeaponOBB;
+	D3DXMATRIXA16	m_matWeapon;
+	cPaladinWeapon* m_pWeapon;
+
 	vector<cParts*> m_vecParts;
+
 
 	int m_MaxHp;
 	int m_MaxStamina;
 	
 	int m_Hp;
 	int m_Stamina;
+
+	cTrophies* m_pTrophies;
+
+
+
+
 public:
 	cPaladin();
 	~cPaladin();
@@ -51,10 +63,13 @@ public:
 
 	cSkinnedMesh* GetSkinnedMesh() { return m_pSkinnedUnit; };
 
+	void CreateTrophies(EventType message);
+
 	int GetHp() { return m_Hp; }
 	int GetStamina() { return m_Stamina; }
 	int GetMaxHp() { return m_MaxHp; }
 	int GetMaxStamina() { return m_MaxStamina; }
+
 };
 
 class cParts

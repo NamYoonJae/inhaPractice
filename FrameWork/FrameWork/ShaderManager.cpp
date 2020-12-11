@@ -27,6 +27,9 @@ LPD3DXEFFECT cShaderManager::GetShader(eShader type)
 		case Normal_DSNL:
 			m_vecShader[type] = LoadShader("data/Shader/NormalMapping.fx");
 			break;
+		case LavaEffect:
+			m_vecShader[type] = LoadShader("data/Shader/Lava.fx");
+			break;
 		default:
 			cout << "Invailed Shader Type!" << endl;
 			break;

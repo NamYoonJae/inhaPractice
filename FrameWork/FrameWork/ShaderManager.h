@@ -12,7 +12,7 @@ enum eShader
 	Texture_DL,
 	Specular_DSL,
 	Normal_DSNL,
-	
+	LavaEffect,
 
 
 

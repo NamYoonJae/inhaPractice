@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Trophies.h"
 
-void FirstBizzBtnEvent(EventType message, cPopup * btn)
+void SelectSkyBizzEvent(EventType message, cPopup * btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -92,10 +92,11 @@ void FirstBizzBtnEvent(EventType message, cPopup * btn)
 				{
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/Trophies/NW_Attriselect_Backgound_On.png");
-					//하늘의 구슬에 관한 전리품 객체 생성
 					//팔라딘에게 TROPIES::TROPIES_Beez 전송(EVENTTYPE::TROPIES_Beez 발생 시켜 팔라딘의 Update에서 받을 생각)
+					//하늘의 구슬에 관한 전리품 객체 생성
 					//그후 Reset에서 전리품 선택씬에 관한 popup /button 모두 제거
 					g_pSceneManager->ChangeScene(SceneType::SCENE_BOSS_1);
+					EventManager->PushQueue(EventType::EVENT_SKYBEEZ);
 				}
 			}
 		}
@@ -105,7 +106,7 @@ void FirstBizzBtnEvent(EventType message, cPopup * btn)
 	};//switch End
 }
 
-void SecondBizzBtnEvent(EventType message, cPopup * btn)
+void SelectDragonFootEvent(EventType message, cPopup * btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -194,9 +195,8 @@ void SecondBizzBtnEvent(EventType message, cPopup * btn)
 				{
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/Trophies/NW_Attriselect_Backgound_On.png");
-					//팔라딘에게 TROPIES::TROPIES_DragonFoot 전송
 					g_pSceneManager->ChangeScene(SceneType::SCENE_BOSS_1);
-					//선택한 전리품 가지고 보스씬으로 이동
+					EventManager->PushQueue(EventType::EVENT_DRAGONFOOT);
 				}
 			}
 		}

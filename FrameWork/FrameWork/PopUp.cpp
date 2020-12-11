@@ -14,8 +14,9 @@ cPopup::cPopup()
 	, EventProcess(NULL)
 	, m_Percentage(0)
 	, m_Power(true)
-	, m_Fixed(false)
+	, m_Fixed(true)
 	, m_pPaladin(NULL)
+	, m_pTrophies(NULL)
 {
 }
 
@@ -225,8 +226,6 @@ void cPopup::LoadTexture(char * szFullPath)
 	);
 	m_ImageInfoWidth = m_ImageInfo.Width;
 	m_ImageInfoHeight = m_ImageInfo.Height;
-	cout << "m_ImageInfoWidth: " << m_ImageInfoWidth << endl;
-	cout << "m_ImageInfoHeight: " << m_ImageInfoHeight << endl;
 	SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
 	
 	g_pTextureManager->AddTexture(szFullPath, m_pTextureUI);
@@ -419,4 +418,14 @@ void cPopup::SetImageInfoWidth(float percent)
 		m_ImageInfoWidth = result;
 	}
 	
+}
+
+void cPopup::SetTrophiesReference(cTrophies* trophies)
+{
+	m_pTrophies = trophies;
+}
+
+cTrophies* cPopup::GetTrophiesReference()
+{
+	return m_pTrophies;
 }
