@@ -49,7 +49,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Stamina = 500;
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
-	m_pSkinnedUnit->SetAnimationIndex(9);
+	m_pSkinnedUnit->SetAnimationIndex(0);
 	m_pSkinnedUnit->SetDefaultAnimIndex(9);
 	m_pSkinnedUnit->SetDefaultAnimState(true);
 
@@ -91,6 +91,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
 	ShaderSetup();
+
+	m_pCurState = new cPaladinState(this);
 }
 
 void cPaladin::ShaderSetup()
@@ -184,6 +186,7 @@ void cPaladin::Update(EventType event)
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
 		m_pSkinnedUnit->SetAnimationIndexBlend(n++);
+		cout << n << endl;
 	}
 
 	//if (event == EventType::EVENT_NUMPAD_7)
