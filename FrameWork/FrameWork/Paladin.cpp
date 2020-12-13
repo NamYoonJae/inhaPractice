@@ -334,7 +334,15 @@ void cPaladin::CreateTrophies(EventType message)
 	if (message == EventType::EVENT_SKYBEEZ)
 	{
 		m_pTrophies = new cTrophies;
-		m_pTrophies->Setup("data/UI/Trophies", "NW_Attriselect_SkyOrb.png", D3DXVECTOR3(1310, 653, 0), 0.8, true, true, TAG_UI::TagUI_Trophies_SkyBeez, 1000, 1000);
+		m_pTrophies->Setup("data/UI/Trophies",
+			"NW_Attriselect_SkyOrb.png", 
+			D3DXVECTOR3(1310, 633, 0), 
+			1.0, 
+			true, 
+			true,
+			TAG_UI::TagUI_Trophies_SkyBeez, 
+			1000, 
+			1000);
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
@@ -344,7 +352,14 @@ void cPaladin::CreateTrophies(EventType message)
 	if (message == EventType::EVENT_DRAGONFOOT)
 	{
 		m_pTrophies = new cTrophies;
-		m_pTrophies->Setup("data/UI/Trophies", "NW_Attriselect_Dragonfoot.png", D3DXVECTOR3(1310, 653, 0), 0.8, true, true, TAG_UI::TagUI_Trophies_DragonFoot, 1000, 1000);
+		m_pTrophies->Setup("data/UI/Trophies", 
+			"NW_Attriselect_Dragonfoot.png", 
+			D3DXVECTOR3(1310, 633, 0), 
+			1.0, 
+			true, true, 
+			TAG_UI::TagUI_Trophies_DragonFoot, 
+			1000, 
+			1000);
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
