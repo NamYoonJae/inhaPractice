@@ -208,6 +208,9 @@
     <ClCompile Include="PaladinMove.cpp">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
     </ClCompile>
+    <ClCompile Include="FireBall.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -425,6 +428,9 @@
     </ClInclude>
     <ClInclude Include="PaladinEvade.h">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBall.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

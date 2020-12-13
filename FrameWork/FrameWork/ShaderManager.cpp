@@ -30,6 +30,8 @@ LPD3DXEFFECT cShaderManager::GetShader(eShader type)
 		case LavaEffect:
 			m_vecShader[type] = LoadShader("data/Shader/Lava.fx");
 			break;
+		case FireBall:
+			m_vecShader[type] = LoadShader("data/Shader/fireBall.fx");
 		default:
 			cout << "Invailed Shader Type!" << endl;
 			break;
