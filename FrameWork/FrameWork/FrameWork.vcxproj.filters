@@ -192,9 +192,21 @@
     </ClCompile>
     <ClCompile Include="Trophies.cpp">
       <Filter>Code\UI</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="LavaFlood.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClCompile>
+    <ClCompile Include="PaladinIdle.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClCompile>
+    <ClCompile Include="PaladinAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClCompile>
+    <ClCompile Include="PaladinEvade.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClCompile>
+    <ClCompile Include="PaladinMove.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -398,9 +410,21 @@
     </ClInclude>
     <ClInclude Include="Trophies.h">
       <Filter>Code\UI</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="LavaFlood.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClInclude>
+    <ClInclude Include="PaladinIdle.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
+    <ClInclude Include="PaladinAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
+    <ClInclude Include="PaladinMove.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
+    <ClInclude Include="PaladinEvade.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
