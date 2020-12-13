@@ -278,12 +278,13 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(1530, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
+	
 	//전리품 배경
 	cPopup* pInGameTrophiesBackgound = new cPopup;
 	pInGameTrophiesBackgound->Setup("data/UI/InGame", "NW_trophies_Back.png",
-		D3DXVECTOR3(1270, 650, 0), 0, 0, 0, 1, false, true);
+		D3DXVECTOR3(1270, 620, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(pInGameTrophiesBackgound);
-
+	
 	//전리품 게이지
 	cPopup* pInGameTropiesGauge = new cPopup;
 	pInGameTropiesGauge->Setup("data/UI/InGame", "NW_Attri_Gauge.png",

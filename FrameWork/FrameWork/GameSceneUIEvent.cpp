@@ -141,7 +141,9 @@ void TrophiseGaugeEvent(EventType message, cPopup* btn)
 		cPaladin* pal = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
 		pal->CreateTrophies(EventType::EVENT_SKYBEEZ);
 
-		cTrophies* trophies = (cTrophies*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies_SkyBeez);
+		cTrophies* trophies = 
+			(cTrophies*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies_SkyBeez);
+
 		btn->SetTrophiesReference(trophies);
 
 		break;
@@ -151,7 +153,9 @@ void TrophiseGaugeEvent(EventType message, cPopup* btn)
 		cPaladin* pal = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
 		pal->CreateTrophies(EventType::EVENT_DRAGONFOOT);
 
-		cTrophies* trophies = (cTrophies*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies_DragonFoot);
+		cTrophies* trophies = 
+			(cTrophies*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Trophies_DragonFoot);
+
 		btn->SetTrophiesReference(trophies);
 		}
 		break;
