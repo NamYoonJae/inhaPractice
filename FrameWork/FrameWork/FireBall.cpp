@@ -2,6 +2,7 @@
 #include "FireBall.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
+#include "cOBB.h"
 #include <random>
 #include <iostream>
 #define once
@@ -18,6 +19,7 @@ cFireBall::cFireBall()
 	, m_pShader(NULL)
 	, m_pTexcoord(NULL)
 {
+	m_pOBB = NULL;
 }
 
 
@@ -29,9 +31,21 @@ void cFireBall::Setup()
 {
 	m_vDir = D3DXVECTOR3(0, 0, -1);
 	m_vPos = D3DXVECTOR3(0, 10, 0);
+	m_vScale = D3DXVECTOR3(0.1, 0.1, 0.1);
+	
+	// obb
+	D3DXVECTOR3 vMin(25,25,25), 
+				vMax(-25,-25,-25);
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(vMin,vMax,&matS);
 
+	//shader
 	m_pShader = g_pShaderManager->GetShader(eShader::FireBall);
 
+
+	// xfile
 	using namespace std;
 	string szFullPathX = "data/XFile/Sphere/Sphere.x";
 
@@ -74,8 +88,10 @@ void cFireBall::Setup()
 	D3DXCreateTextureFromFileA(g_pD3DDevice,
 		"data/Texture/alpha_tex.tga", &m_pParticle);
 
-	m_vecVertexParticle.resize(500);
+	//  particle
 
+	m_vecVertexParticle.resize(500);
+	
 	using namespace std;
 	random_device rd;
 	mt19937_64 mtRand(rd());
@@ -109,6 +125,8 @@ void cFireBall::Setup()
 
 		m_vecVertexParticle[i].p += m_vPos;
 	}
+
+
 
 }
 
@@ -189,14 +207,21 @@ void cFireBall::Update()
 		m_FlowParticle.swap(vecNewFlowParticle);
 	}
 
+
+	D3DXMATRIXA16 matWorld, matS, matT;
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	matWorld = matS * matT;
+	m_pOBB->Update(&matT);
 }
 
-void cFireBall::Render()
+void cFireBall::Render(D3DXMATRIXA16 *pmat)
 {
 
 	D3DXMATRIXA16 matWorld, matS, matT;
 	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixScaling(&matS, 0.1, 0.1, 0.1);
+	D3DXMatrixScaling(&matS, m_vScale.x,m_vScale.y,m_vScale.z);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	matWorld = matS * matT;
 
@@ -243,6 +268,9 @@ void cFireBall::Render()
 	}
 
 	ParticleRender();
+
+	if (m_pOBB)
+		m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255,255, 0, 0));
 }
 
 void cFireBall::ParticleRender()
