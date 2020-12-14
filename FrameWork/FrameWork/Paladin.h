@@ -69,7 +69,6 @@ public:
 	int GetStamina() { return m_Stamina; }
 	int GetMaxHp() { return m_MaxHp; }
 	int GetMaxStamina() { return m_MaxStamina; }
-
 };
 
 class cParts

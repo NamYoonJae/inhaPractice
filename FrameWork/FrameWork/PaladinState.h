@@ -11,6 +11,8 @@ public:
 	cPaladinState(cPaladin*);
 	virtual ~cPaladinState();
 
+	virtual void StateUpdate() = 0;
+	
 	enum eAnimationSet
 	{
 		Die = 0,
