@@ -10,3 +10,7 @@ cPaladinAttack::cPaladinAttack(cPaladin* pPaladin)
 cPaladinAttack::~cPaladinAttack()
 {
 }
+
+void cPaladinAttack::StateUpdate()
+{
+}

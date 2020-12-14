@@ -6,5 +6,7 @@ class cPaladinIdle : public cPaladinState
 public:
 	cPaladinIdle(cPaladin*);
 	~cPaladinIdle();
+
+	void StateUpdate() override;
 };
 

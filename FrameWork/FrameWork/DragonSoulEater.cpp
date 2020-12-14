@@ -12,6 +12,7 @@
 #include "SoulEater_TailAttack.h"
 #include "SoulEater_Rush.h"
 #include "SoulEater_Scream.h"
+#include "SoulEater_FireBall.h"
 
 #include "LavaFlood.h"
 #pragma once
@@ -593,10 +594,11 @@ void cDragonSoulEater::Request()
 	//..
 	//..  150 ~ 210도
 
+	// 실험용 
 	static DWORD dwTimer = GetTickCount();
-	if (GetTickCount() - dwTimer >= 15000.0f)
+	if (GetTickCount() - dwTimer >= 10000.0f)
 	{
-		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
 		return;
 	}
 

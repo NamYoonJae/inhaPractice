@@ -4,7 +4,7 @@
 #define  ObjectManager ObjectPool::GetInstance()
 
 class cObjMesh;
-
+class cFireBall;
 class ObjectPool : public cObject
 {
 	Singletone(ObjectPool);
@@ -13,6 +13,7 @@ private:
 	std::vector<cObject*> vecUserInterface;
 	std::vector<cObject*> DeleteObject;
 	int m_nRefcnt;
+
 public:
 	void Update() override;
 	void Render(D3DXMATRIXA16* pmat = 0) override;

@@ -13,7 +13,7 @@ enum eShader
 	Specular_DSL,
 	Normal_DSNL,
 	LavaEffect,
-
+	FireBall,
 
 
 	ShaderSize

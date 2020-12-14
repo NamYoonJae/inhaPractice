@@ -12,6 +12,11 @@
 #include "ObjectPool.h"
 #include "Trophies.h"
 
+#include "PaladinAttack.h"
+#include "PaladinEvade.h"
+#include "PaladinIdle.h"
+#include "PaladinMove.h"
+
 cPaladin::cPaladin()
 	:m_fvelocity(0.0f)
 	,m_isMoving(false)
@@ -94,7 +99,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 	ShaderSetup();
 
-	m_pCurState = new cPaladinState(this);
+	m_pCurState = new cPaladinIdle(this);
 }
 
 void cPaladin::ShaderSetup()
@@ -175,6 +180,9 @@ void cPaladin::Update()
 	default:
 		break;
 	}
+
+	if (m_pCurState)
+		m_pCurState->StateUpdate();
 }
 
 void cPaladin::Update(EventType event)
@@ -223,8 +231,14 @@ void cPaladin::Update(EventType event)
 
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
-		m_pSkinnedUnit->SetAnimationIndexBlend(n++);
-		cout << n << endl;
+		SafeDelete(m_pCurState);
+		m_pCurState = new cPaladinAttack(this);
+	}
+
+	if(event == EventType::EVENT_JUMP)
+	{
+		SafeDelete(m_pCurState);
+		m_pCurState = new cPaladinEvade(this);
 	}
 
 	//if (event == EventType::EVENT_NUMPAD_7)

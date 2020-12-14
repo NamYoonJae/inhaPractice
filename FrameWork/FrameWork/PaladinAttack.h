@@ -6,5 +6,7 @@ class cPaladinAttack : public cPaladinState
 public:
 	cPaladinAttack(cPaladin* pPaladin);
 	~cPaladinAttack();
+
+	void StateUpdate() override;
 };
 
