@@ -26,6 +26,7 @@ cPopup::~cPopup()
 	SafeRelease(m_pSprite);
 	SafeRelease(m_pTextureUI);
 	SafeDelete(pParent);
+	SafeDelete(m_pTrophies);
 	
 	for (int i = m_vecPopupBtnList.size(); i == 0 ; i--)
 	{

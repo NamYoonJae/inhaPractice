@@ -10,6 +10,14 @@ class cTrophies;
 class cPaladinBody;
 struct ST_BONE;
 
+enum eDebuff_Player 
+{
+	enum_Idle,
+	enum_Poison,
+	enum_Sturn,
+	enum_Roar,
+};
+
 class cPaladin : public cCharater
 {
 private:
@@ -41,7 +49,10 @@ private:
 
 	cTrophies* m_pTrophies;
 
-
+	int m_Debuff;
+	//int m_Debuff_Time;
+	time_t m_StartTime;
+	time_t m_EndTime;
 
 
 public:
@@ -70,6 +81,7 @@ public:
 	int GetMaxHp() { return m_MaxHp; }
 	int GetMaxStamina() { return m_MaxStamina; }
 
+	void SetDebuff(int debuff);
 };
 
 class cParts

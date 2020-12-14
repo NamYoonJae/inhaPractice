@@ -187,12 +187,15 @@ void cTitleScene::Setup()
 	ObjectManager->AddUIChild(staminaBar);
 
 
-	//캐릭터 상태이상 이미지 좌표 따기위해 적어둠
-	cPopup* playerDiverf = new cPopup;
-	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
-		D3DXVECTOR3(60, 680, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(playerDiverf);
+	//캐릭터 디버프
+	cPopup* playerDebuff = new cPopup;
+	playerDebuff->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
+		D3DXVECTOR3(60, 680, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_player_Debuff);
 
+	EventManager->Attach(playerDebuff);
+	ObjectManager->AddUIChild(playerDebuff);
+
+	/*
 	playerDiverf = new cPopup;
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(110, 680, 0), 0, 0, 0, 1, false, true);
@@ -217,14 +220,15 @@ void cTitleScene::Setup()
 	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
 		D3DXVECTOR3(310, 680, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(playerDiverf);
+	*/
 
-
-
+	
 	//MiniMap
 	cPopup* miniMap = new cPopup;
 	miniMap->Setup("data/UI/InGame", "NW_Minimap_Background.png",
 		D3DXVECTOR3(1305, 0, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(miniMap);
+
 
 	//보스 분노
 	cPopup* bossAnger = new cPopup;
