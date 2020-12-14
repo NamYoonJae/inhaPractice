@@ -14,8 +14,6 @@ private:
 	std::vector<cObject*> DeleteObject;
 	int m_nRefcnt;
 
-	cFireBall *m_pFireBall;
-
 public:
 	void Update() override;
 	void Render(D3DXMATRIXA16* pmat = 0) override;

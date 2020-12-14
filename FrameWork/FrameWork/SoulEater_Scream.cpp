@@ -8,13 +8,14 @@ cSoulEater_Scream::cSoulEater_Scream()
 	:cSoulEaterState()
 	, m_IsAnimBlend(false)
 {
+	m_nCurentIndex = 4;
 }
 
 cSoulEater_Scream::cSoulEater_Scream(cDragonSoulEater * pDragon)
 	: cSoulEaterState(pDragon)
 	, m_IsAnimBlend(false)
 {
-
+	m_nCurentIndex = 4;
 }
 
 

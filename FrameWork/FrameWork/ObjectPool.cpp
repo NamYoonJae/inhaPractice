@@ -14,7 +14,7 @@
 
 ObjectPool::ObjectPool()
 {
-	m_pFireBall = NULL;
+	
 }
 
 
@@ -24,18 +24,6 @@ ObjectPool::~ObjectPool()
 
 void ObjectPool::Update()
 {
-	if (m_pFireBall == NULL)
-	{
-		m_pFireBall = new cFireBall;
-		m_pFireBall->Setup();
-		//m_pFireBall->SetDir(D3DXVECTOR3(0,0,0.1));
-	}
-	else
-	{
-		static DWORD time = GetTickCount();
-		if(GetTickCount() - time > 10000.0f)
-			m_pFireBall->Update();
-	}
 
 	static iMap* terrain;
 	if (terrain == NULL)
@@ -43,14 +31,14 @@ void ObjectPool::Update()
 
 	for(int i = 0; i< vecObjectList.size(); ++i)
 	{
-		if (terrain != NULL && 
-			(vecObjectList[i]->GetTag() >= Tag::Tag_Player ))
-		{
-			D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
-			float h = terrain->getHeight(pos);
-			pos.y = h;
-			vecObjectList[i]->SetPos(pos);
-		}
+		//if (terrain != NULL && 
+		//	(vecObjectList[i]->GetTag() >= Tag::Tag_Player ))
+		//{
+		//	D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
+		//	float h = terrain->getHeight(pos);
+		//	pos.y = h;
+		//	vecObjectList[i]->SetPos(pos);
+		//}
 		vecObjectList.at(i)->Update();
 	}
 
@@ -97,10 +85,6 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 	{
 		vecUserInterface.at(i)->Render(NULL);
 	}
-
-	if (m_pFireBall)
-		m_pFireBall->Render();
-
 
 	g_pD3DDevice->EndScene();
 	g_pD3DDevice->Present(NULL, NULL, NULL, NULL);

@@ -29,8 +29,8 @@ cFireBall::~cFireBall()
 
 void cFireBall::Setup()
 {
-	m_vDir = D3DXVECTOR3(0, 0, -1);
-	m_vPos = D3DXVECTOR3(0, 10, 0);
+	//m_vDir = D3DXVECTOR3(0, 0, -1);
+	//m_vPos = D3DXVECTOR3(0, 10, 0);
 	m_vScale = D3DXVECTOR3(0.1, 0.1, 0.1);
 	
 	// obb
@@ -192,8 +192,7 @@ void cFireBall::Update()
 
 			float dir = 0.5 + d * 3;
 			pc.p += m_vPos - m_vDir * (dir);
-			pc.c =
-				D3DCOLOR_ARGB(255, 255, 70, 0);
+			pc.c = D3DCOLOR_ARGB(255, 255, 70, 0);
 
 			m_FlowParticle.push_back(pc);
 		}
@@ -223,6 +222,7 @@ void cFireBall::Render(D3DXMATRIXA16 *pmat)
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixScaling(&matS, m_vScale.x,m_vScale.y,m_vScale.z);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	
 	matWorld = matS * matT;
 
 	for (int i = 0; i < m_vecMtls.size(); ++i)
