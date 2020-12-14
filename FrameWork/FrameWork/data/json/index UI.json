@@ -1,6 +1,6 @@
 {
   "memo": "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
-
+  
   "UI": {
     "Check": {
       "directory": "data/UI/Check",
@@ -576,6 +576,12 @@
     },
     "Trophies": {
       "directory": "data/UI/Trophies",
+      "Attriselect_Attri": {
+        "filename": "NW_Attriselect_Attri.png",
+        "scale": 1,
+        "position_x": "",
+        "position_y": ""
+      },
       "Attriselect_Back": {
         "filename": "NW_Attriselect_Back.png",
         "scale": 1,
@@ -590,18 +596,6 @@
       },
       "Attriselect_Bizz_On": {
         "filename": "NW_Attriselect_Bizz_On.png",
-        "scale": 1,
-        "position_x": "",
-        "position_y": ""
-      },
-      "Attriselect_Dragonfoot": {
-        "filename": "NW_Attriselect_Dragonfoot.png",
-        "scale": 1,
-        "position_x": "",
-        "position_y": ""
-      },
-      "Attriselect_SkyOrb": {
-        "filename": "NW_Attriselect_SkyOrb.png",
         "scale": 1,
         "position_x": "",
         "position_y": ""

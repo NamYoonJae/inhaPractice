@@ -1,0 +1,195 @@
+{
+  "memo": "NW_스테이지A사양서_1208.xlsx을 기반으로 제작되었습니다.",
+  
+  "Stage A": {
+    "BOSS": {
+      "Attack": {
+        "Melee": "int",
+        "Elemental": "int",
+        "Cooldown": "float"
+      },
+      "Defence": {
+        "Melee": "int",
+        "Elemental": "int"
+      },
+      "Rage": {
+        "Rate": "int",
+        "Duration": "int",
+        "Decrease Defence": "float",
+        "Increase Attack": "float"
+      },
+      "Rigid": {
+        "Rate": "int",
+        "Decrease value": "int",
+        "Duration": "int",
+        "Decrease Defence": "float",
+        "Special Addtional Rate": "float"
+      },
+      "Move Speed": "int"
+    },
+    "BOSS SKILL": {
+      "SKILL 1": {
+        "name": "용암 폭발",
+        "1-N": "float N",
+        "2-null": null,
+        "3-N": "float N",
+        "4-N": "float N",
+        "5-M": "int M"
+      },
+      "SKILL 2": {
+        "name": "메테오 날리기",
+        "1-null": null,
+        "2-N": "float N",
+        "3-N": "float N",
+        "3-n": "float N",
+        "3-M": "float M",
+        "4-k": "int K"
+      },
+      "SKILL 3": {
+        "name": "메테오 폭격",
+        "1-t": "float t",
+        "1-i": "int i",
+        "1-k": "flot N",
+        "1-l": "float N",
+        "1-M": "int N",
+        "1-N": "int N",
+        "2-null": null,
+        "3-n": "float n",
+        "3-N": "float N",
+        "3-k": "float k"
+      },
+      "SKILL 4": {
+        "name": "서브몬 소환",
+        "1-position1": {
+          "x": "float x1",
+          "y": "float y1",
+          "z": "float z1"
+        },
+        "1-position2": {
+          "x": "float x2",
+          "y": "float y2",
+          "z": "float z2"
+        },
+        "2-position3": {
+          "x": "float x3",
+          "y": "float y3",
+          "z": "float z3"
+        },
+        "2-position4": {
+          "x": "float x4",
+          "y": "float y4",
+          "z": "float z4"
+        },
+        "3-null": null
+      },
+      "SKILL 5": {
+        "name": "강화 용암 폭발",
+        "1-N": "float N",
+        "2-null": null,
+        "3-N": "float N",
+        "4-N": "float N",
+        "5-M": "int M",
+        "extra-N": "float N"
+      },
+      "SKILL 6": {
+        "name": "강화 메테오 날리기",
+        "1-null": null,
+        "2-N": "float N",
+        "3-N": "float N",
+        "3-M": "float M",
+        "4-k": "int K",
+        "extra-n": "float n",
+        "extra-m": "int m",
+        "extra-t": "float t",
+        "extra-k": "float k"
+      },
+      "SKILL 7": {
+        "name": "메테오 뿌리기",
+        "1-n": "int n",
+        "2-n": "float n",
+        "2-m": "int m",
+        "3-p": "float p",
+        "3-k": "int k",
+        "4-null": null,
+        "5-null": null
+      },
+      "SKILL 8": {
+        "name": "강화 서브몬 소환",
+        "sub1": {
+          "1-t": "float t",
+          "1-i": "int i",
+          "1-N": "int N",
+          "2-null": null,
+          "3-n": "float n",
+          "3-N": "float N",
+          "3-k": "float k"
+        },
+        "sub2": {
+          "horizon": "float M",
+          "vertical": "float M",
+          "N": "float N",
+          "M": "float N",
+          "S" : "float N"
+        },
+        "sub3": {
+          "name": "용암 폭발",
+          "1-N": "float N",
+          "2-null": null,
+          "3-N": "float N",
+          "4-N": "float N",
+          "5-M": "int M"
+        },
+        "1-null": null,
+        "5-null": null,
+        "6-null": null
+      },
+      "Share": {
+        "name": "밀쳐내기 (공통 스킬)",
+        "1-M": "float M",
+        "2-null": null
+      }
+    },
+    "Sub Monster": {
+      "HP": "int N",
+      "Attack": {
+        "Melee": "unsigned short N",
+        "Elemental": null
+      },
+      "Defence": {
+        "Melee": "unsigned short N",
+        "Elemental": "unsigned short N"
+      },
+      "Reach": "float N",
+      "Move Speed": "Unsigned Short N",
+      "Activation change time": "float N",
+      "Time after Die ": "float N"
+    },
+    "Object": {
+      "1": {
+        "name": "Meteo_Move.obj",
+        "Move Speed": "float N"
+      },
+      "2": {
+        "name": "FireFloor.png",
+        "Create Time": "float N",
+        "Delete Tiem": "float N"
+      },
+      "3": {
+        "name": "inActiveNCircle.png, ActiveNCircle.png"
+      },
+      "4": {
+        "name": "RockFor.obj(Active), RockFlat.obj(inActive)"
+      },
+      "5": {
+        "name": "inActiveRCircle.png, ActiveRCircleA.png, ActiveRCircleB.png, ActiveRCircleC.png"
+      },
+      "6": {
+        "name": "Cris_Active.obj, Cris_inActive.obj",
+        "Damaged Value": "int N"
+      },
+      "7": {
+        "name": "ZoneCircle, ZoneSquare"
+      }
+    }
+  }
+}
