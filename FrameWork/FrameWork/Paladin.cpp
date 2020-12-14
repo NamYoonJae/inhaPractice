@@ -12,6 +12,11 @@
 #include "ObjectPool.h"
 #include "Trophies.h"
 
+#include "PaladinAttack.h"
+#include "PaladinEvade.h"
+#include "PaladinIdle.h"
+#include "PaladinMove.h"
+
 cPaladin::cPaladin()
 	:m_fvelocity(0.0f)
 	,m_isMoving(false)
@@ -22,6 +27,8 @@ cPaladin::cPaladin()
 	, m_MaxHp(1000)
 	, m_MaxStamina(500)
 	, m_pTrophies(NULL)
+	, m_Debuff(enum_Idle)
+	//, m_Debuff_Time(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -32,7 +39,7 @@ cPaladin::~cPaladin()
 	SafeDelete(m_pOBB);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
-
+	SafeDelete(m_pTrophies);
 	for (cParts* parts : m_vecParts)
 	{
 		SafeDelete(parts);
@@ -92,7 +99,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 	ShaderSetup();
 
-	m_pCurState = new cPaladinState(this);
+	m_pCurState = new cPaladinIdle(this);
 }
 
 void cPaladin::ShaderSetup()
@@ -137,6 +144,45 @@ void cPaladin::Update()
 	{
 		parts->Update(&m_matWorld);
 	}
+
+	//디버프에 따른 효과 적용
+	//현재 디버프 지속시간이 20초라 가정
+	switch (m_Debuff)
+	{
+	case enum_Poison:
+		{
+
+			m_EndTime = time(NULL);
+			if ((double)m_EndTime - m_StartTime > 20)
+			{
+				SetDebuff(enum_Idle);
+			}
+			break;
+		}
+	case enum_Sturn:
+		{
+			m_EndTime = time(NULL);
+			if ((double)m_EndTime - m_StartTime > 20)
+			{
+				SetDebuff(enum_Idle);
+			}
+			break;
+		}
+	case enum_Roar:
+		{
+			m_EndTime = time(NULL);
+			if ((double)m_EndTime - m_StartTime > 20)
+			{
+				SetDebuff(enum_Idle);
+			}
+			break;
+		}
+	default:
+		break;
+	}
+
+	if (m_pCurState)
+		m_pCurState->StateUpdate();
 }
 
 void cPaladin::Update(EventType event)
@@ -185,8 +231,14 @@ void cPaladin::Update(EventType event)
 
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
-		m_pSkinnedUnit->SetAnimationIndexBlend(n++);
-		cout << n << endl;
+		SafeDelete(m_pCurState);
+		m_pCurState = new cPaladinAttack(this);
+	}
+
+	if(event == EventType::EVENT_JUMP)
+	{
+		SafeDelete(m_pCurState);
+		m_pCurState = new cPaladinEvade(this);
 	}
 
 	//if (event == EventType::EVENT_NUMPAD_7)
@@ -221,6 +273,24 @@ void cPaladin::Update(EventType event)
 	//	m_vecParts[1]->m_vPos.z -= 0.1f;
 	//	cout << "m_vPos.z: " << m_vecParts[1]->m_vPos.z << endl;
 	//}
+
+	//팔라딘 디버프 상태 테스트
+	if (event == EventType::EVENT_NUMPAD_6)
+	{
+		SetDebuff(enum_Idle);
+	}
+	if (event == EventType::EVENT_NUMPAD_7)
+	{
+		SetDebuff(enum_Poison);
+	}
+	if (event == EventType::EVENT_NUMPAD_8)
+	{
+		SetDebuff(enum_Sturn);
+	}
+	if (event == EventType::EVENT_NUMPAD_9)
+	{
+		SetDebuff(enum_Roar);
+	}
 }
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
@@ -421,4 +491,46 @@ void cPaladin::CreateTrophies(EventType message)
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
 	}
+}
+
+void cPaladin::SetDebuff(int debuff)
+{
+	cPopup* popup = (cPopup*)ObjectManager->SearchChildUI(TagUI_player_Debuff);
+
+	if (m_Debuff == enum_Idle) 
+	{
+		m_Debuff = debuff;
+		switch (debuff)
+		{
+
+		case enum_Poison:
+			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
+			popup->PowerOnOff_OnlySelf();
+			m_StartTime = time(NULL);
+			break;
+
+		case enum_Sturn:
+			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Sturn.png");
+			popup->PowerOnOff_OnlySelf();
+			m_StartTime = time(NULL);
+			break;
+
+		case enum_Roar:
+			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
+			popup->PowerOnOff_OnlySelf();
+			m_StartTime = time(NULL);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	if (m_Debuff != enum_Idle && debuff == enum_Idle)
+	{
+		m_Debuff = debuff;
+		popup->PowerOnOff_OnlySelf();
+	}
+	
+	
 }

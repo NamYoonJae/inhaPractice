@@ -10,3 +10,7 @@ cPaladinIdle::cPaladinIdle(cPaladin* pPaladin)
 cPaladinIdle::~cPaladinIdle()
 {
 }
+
+void cPaladinIdle::StateUpdate()
+{
+}

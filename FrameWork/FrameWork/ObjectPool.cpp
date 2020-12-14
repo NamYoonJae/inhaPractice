@@ -9,9 +9,12 @@
 #include "DragonSoulEater.h"
 #include "ObjObject.h"
 #include "Map"
+//
+#include "FireBall.h"
 
 ObjectPool::ObjectPool()
 {
+	
 }
 
 
@@ -21,20 +24,21 @@ ObjectPool::~ObjectPool()
 
 void ObjectPool::Update()
 {
+
 	static iMap* terrain;
 	if (terrain == NULL)
 		terrain = (iMap*)SearchChild(Tag::Tag_Map);
 
 	for(int i = 0; i< vecObjectList.size(); ++i)
 	{
-		if (terrain != NULL && 
-			(vecObjectList[i]->GetTag() >= Tag::Tag_Player ))
-		{
-			D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
-			float h = terrain->getHeight(pos);
-			pos.y = h;
-			vecObjectList[i]->SetPos(pos);
-		}
+		//if (terrain != NULL && 
+		//	(vecObjectList[i]->GetTag() >= Tag::Tag_Player ))
+		//{
+		//	D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
+		//	float h = terrain->getHeight(pos);
+		//	pos.y = h;
+		//	vecObjectList[i]->SetPos(pos);
+		//}
 		vecObjectList.at(i)->Update();
 	}
 
@@ -61,6 +65,7 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 {
 	g_pD3DDevice->Clear(0, 0, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	g_pD3DDevice->BeginScene();
+
 
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
