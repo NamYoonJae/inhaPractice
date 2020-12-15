@@ -24,7 +24,10 @@ enum TAG_UI
 	TagUI_TrophiesGauge,
 	TagUI_Trophies_SkyBeez,
 	TagUI_Trophies_DragonFoot,
-	TagUI_player_Debuff,
+	TagUI_player_Debuff1,
+	TagUI_player_Debuff2,
+	TagUI_Dragon_Anger,
+	Tag_UI_Dragon_Debuff,
 
 	TagUI_ESC_Menu,
 	TagUI_NewGameCheck,
