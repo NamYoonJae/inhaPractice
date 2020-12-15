@@ -1,0 +1,195 @@
+{
+  "memo": "NW_스테이지A사양서_1208.xlsx을 기반으로 제작되었습니다.",
+  
+  "Stage A": {
+    "BOSS": {
+      "Attack": {
+        "Melee": "int",
+        "Elemental": "int",
+        "Cooldown": "float"
+      },
+      "Defence": {
+        "Melee": "int",
+        "Elemental": "int"
+      },
+      "Rage": {
+        "Rate": "int",
+        "Duration": "int",
+        "Decrease Defence": "float",
+        "Increase Attack": "float"
+      },
+      "Rigid": {
+        "Rate": "int",
+        "Decrease value": "int",
+        "Duration": "int"
+      },
+      "Stun": {
+        "Rate": "int",
+        "Decrease value": "int",
+        "Duration": "int"
+      },
+      "Initial Position" :
+      {
+        "x" : "float",
+        "y" : "float",
+        "z" : "float"
+      },
+      "Move Speed": "int",
+      "SKILL Weight": {
+        "1" : "int",
+        "2" : "int",
+        "3" : "int",
+        "4" : "int"
+      }
+    },
+    "BOSS SKILL": {
+      "SKILL 1": {
+        "name": "용암 폭발",
+        "1-N": "float N",
+        "2-null": null,
+        "3-N": "float N",
+        "4-N": "float N",
+        "5-M": "int M"
+      },
+      "SKILL 2": {
+        "name": "메테오 날리기",
+        "1-null": null,
+        "2-N": "float N",
+        "3-N": "float N",
+        "3-n": "float N",
+        "3-M": "float M",
+        "4-k": "int K"
+      },
+      "SKILL 3": {
+        "name": "메테오 폭격",
+        "1-t": "float t",
+        "1-i": "int i",
+        "1-k": "flot N",
+        "1-l": "float N",
+        "1-M": "int N",
+        "1-N": "int N",
+        "2-null": null,
+        "3-n": "float n",
+        "3-N": "float N",
+        "3-k": "float k"
+      },
+      "SKILL 4": {
+        "name": "서브몬 소환",
+        "1-position1": {
+          "x": "float x1",
+          "y": "float y1",
+          "z": "float z1"
+        },
+        "1-position2": {
+          "x": "float x2",
+          "y": "float y2",
+          "z": "float z2"
+        },
+        "2-position3": {
+          "x": "float x3",
+          "y": "float y3",
+          "z": "float z3"
+        },
+        "2-position4": {
+          "x": "float x4",
+          "y": "float y4",
+          "z": "float z4"
+        },
+        "3-null": null
+      },
+      "Share": {
+        "name": "밀쳐내기 (공통 스킬)",
+        "1-M": "float M",
+        "2-null": null
+      }
+    },
+    "Sub Monster": {
+      "HP": "int N",
+      "Attack": {
+        "Melee": "unsigned short N",
+        "Elemental": null
+      },
+      "Defence": {
+        "Melee": "unsigned short N",
+        "Elemental": "unsigned short N"
+      },
+      "Attack Reach": "float N",
+      "Move Speed": "Unsigned Short N"
+    },
+    "Object": {
+      "1": {
+        "memo": "동선 방해 오브젝트",
+        "name": "바위Rock",
+        "Stun" : 5,
+        "Attribute": {
+          "Area": "int N",
+          "Require": {
+            "1" : "int n",
+            "2" : null
+          }
+        },
+        "Status":{
+          "Size": "float n",
+          "Scale": "float n",
+          "Earth HP": "int N"
+        }
+        
+      },
+      "2": {
+        "memo": "맵 고정장판",
+        "name": "늪Swap",
+        "Attribute": {
+          "Area": null,
+          "Require": {
+            "1" : 60,
+            "2" : null,
+            "3" : null
+          }
+        },
+        "Status":{
+          "Size": "float n",
+          "Scale": "float n",
+          "Duration": "float n",
+          "Decrease Speed": "float n"
+        }
+      },
+      "3": {
+        "memo" :"상호 작용 오브젝트",
+        "name": "룬스톤",
+        "Invincibility": "float n",
+        "Status":{
+          "Size": "float n",
+          "Scale": "float n",
+          "Gauge": "float n",
+          "Active method": null
+        }
+      },
+      "4": {
+        "memo": "영역 오브젝트",
+        "name": "오브Orb",
+        "Pick up Orb":{
+          "n" : "int n",
+          "m" : "float m"
+        },
+        "Attribute": {
+          "Area": null,
+          "Require": {
+            "1" : 300,
+            "2" : null,
+            "3" : null
+          },
+          "Remove":{
+            "1": 100,
+            "2": null
+          },
+          "Status":{
+            "Size": "float n",
+            "Scale": "float n",
+            "Gauge": "float n",
+            "Active method": null
+          }
+        }
+      }
+    }
+  }
+}
