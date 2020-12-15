@@ -160,7 +160,7 @@ void cPaladin::Update()
 			}
 			break;
 		}
-	case enum_Sturn:
+	case enum_Stun:
 		{
 			m_EndTime = time(NULL);
 			if ((double)m_EndTime - m_StartTime > 20)
@@ -286,7 +286,7 @@ void cPaladin::Update(EventType event)
 	}
 	if (event == EventType::EVENT_NUMPAD_8)
 	{
-		SetDebuff(enum_Sturn);
+		SetDebuff(enum_Stun);
 	}
 	if (event == EventType::EVENT_NUMPAD_9)
 	{
@@ -510,8 +510,8 @@ void cPaladin::SetDebuff(int debuff)
 			m_StartTime = time(NULL);
 			break;
 
-		case enum_Sturn:
-			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Sturn.png");
+		case enum_Stun:
+			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
 			popup->PowerOnOff_OnlySelf();
 			m_StartTime = time(NULL);
 			break;

@@ -6,6 +6,13 @@
 //
 class cSoulEaterState;
 class cOBB;
+
+enum eDebuff_Dragon 
+{
+	enum_Stun_Dragon,
+	enum_Trip_Dragon,
+};
+
 class cDragonSoulEater :
 	public cObject
 {
@@ -31,6 +38,8 @@ private:
 	D3DXMATRIXA16			m_matRotation;
 
 	//
+	int m_Anger;
+	int m_Debuff;
 
 public:
 	cDragonSoulEater();

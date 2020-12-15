@@ -196,39 +196,12 @@ void cTitleScene::Setup()
 	ObjectManager->AddUIChild(playerDebuff);
 
 	/*
-	playerDiverf = new cPopup;
-	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
-		D3DXVECTOR3(110, 680, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(playerDiverf);
-
-	playerDiverf = new cPopup;
-	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
-		D3DXVECTOR3(160, 680, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(playerDiverf);
-
-	playerDiverf = new cPopup;
-	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
-		D3DXVECTOR3(210, 680, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(playerDiverf);
-
-	playerDiverf = new cPopup;
-	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
-		D3DXVECTOR3(260, 680, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(playerDiverf);
-
-	playerDiverf = new cPopup;
-	playerDiverf->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
-		D3DXVECTOR3(310, 680, 0), 0, 0, 0, 1, false, true);
-	inGamePopup->cButtonPushBack(playerDiverf);
-	*/
-
-	
 	//MiniMap
 	cPopup* miniMap = new cPopup;
 	miniMap->Setup("data/UI/InGame", "NW_Minimap_Background.png",
 		D3DXVECTOR3(1305, 0, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(miniMap);
-
+	*/
 
 	//보스 분노
 	cPopup* bossAnger = new cPopup;
@@ -236,52 +209,34 @@ void cTitleScene::Setup()
 		D3DXVECTOR3(1270, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossAnger);
 	
-	/*
-	cButton* anger = new cButton;
-	anger->Setup("data/UI/InGame", "NW_MonAnger_0.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, false, true);
-	bossAnger->cButtonPushBack(anger);
-	*/
-
-	/* //분노 이미지 테스트
-	anger = new cButton;
-	anger->Setup("data/UI/InGame", "NW_MonAnger_50.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, false, true);
-	bossAnger->cButtonPushBack(anger);
-
-	anger = new cButton;
-	anger->Setup("data/UI/InGame", "NW_MonAnger_100.png",
-		D3DXVECTOR3(rc.right * nRight, rc.bottom * nBottom, 0), 1230, 180, 0, 1, true, true);
-	bossAnger->cButtonPushBack(anger);
-	*/
 
 	//보스 상태이상 이미지 좌표 따기위해 적어둠
 	cPopup* bossDiverf = new cPopup;
-	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
+	bossDiverf->Setup("data/UI/InGame/Monster_Condition", "NW_Stun.png",
 		D3DXVECTOR3(1330, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
-
+	/*
 	bossDiverf = new cPopup;
-	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
+	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Stun.png",
 		D3DXVECTOR3(1380, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
 	bossDiverf = new cPopup;
-	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
+	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Stun.png",
 		D3DXVECTOR3(1430, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
 	bossDiverf = new cPopup;
-	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
+	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Stun.png",
 		D3DXVECTOR3(1480, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
 
 	bossDiverf = new cPopup;
-	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Sturn.png",
+	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Stun.png",
 		D3DXVECTOR3(1530, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
-
+	*/
 	
 	//전리품 배경
 	cPopup* pInGameTrophiesBackgound = new cPopup;

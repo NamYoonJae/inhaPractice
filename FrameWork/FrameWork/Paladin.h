@@ -14,7 +14,7 @@ enum eDebuff_Player
 {
 	enum_Idle,
 	enum_Poison,
-	enum_Sturn,
+	enum_Stun,
 	enum_Roar,
 };
 
