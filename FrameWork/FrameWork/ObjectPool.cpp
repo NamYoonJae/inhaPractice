@@ -25,24 +25,35 @@ ObjectPool::~ObjectPool()
 void ObjectPool::Update()
 {
 
-	static iMap* terrain;
-	if (terrain == NULL)
-		terrain = (iMap*)SearchChild(Tag::Tag_Map);
+	static iMap* pMap;
+	if (pMap == NULL)
+		pMap = (iMap*)SearchChild(Tag::Tag_Map);
 
 	for(int i = 0; i< vecObjectList.size(); ++i)
 	{
-		//if (terrain != NULL && 
-		//	(vecObjectList[i]->GetTag() >= Tag::Tag_Player ))
-		//{
-		//	D3DXVECTOR3 pos = vecObjectList[i]->GetPos();
-		//	float h = terrain->getHeight(pos);
-		//	pos.y = h;
-		//	vecObjectList[i]->SetPos(pos);
-		//}
 		vecObjectList.at(i)->Update();
+
+		if(pMap != NULL && vecObjectList.at(i)->GetTag() >= Tag::Tag_Player)
+		{
+			D3DXVECTOR3 pos = vecObjectList.at(i)->GetPos();
+			bool IsCheckInMap = pMap->CheckInMap(pos);
+			
+			if(!IsCheckInMap)
+			{
+				
+				D3DXVECTOR3 Dir = -vecObjectList.at(i)->GetDirection();
+				while(!pMap->CheckInMap(pos))
+				{
+					pos += Dir * 0.1;
+				}
+
+				vecObjectList.at(i)->SetPos(pos);
+			}
+			
+		}
+
 	}
-
-
+	
 	for (int i = 0; i < vecObjectList.size(); ++i)
 	{
 

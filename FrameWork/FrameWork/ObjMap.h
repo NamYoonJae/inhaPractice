@@ -14,5 +14,6 @@ public:
 	virtual float getHeight(D3DXVECTOR3 pos) override;
 	virtual void Render(D3DXMATRIXA16 *pmat = NULL) override;
 	virtual void Update() override;
+	virtual bool CheckInMap(D3DXVECTOR3 pos) override;
 };
 

@@ -13,6 +13,7 @@
 #include "SoulEater_Rush.h"
 #include "SoulEater_Scream.h"
 #include "SoulEater_FireBall.h"
+#include "SoulEater_Sleep.h"
 
 #include "LavaFlood.h"
 #pragma once
@@ -596,9 +597,10 @@ void cDragonSoulEater::Request()
 
 	// ½ÇÇè¿ë 
 	static DWORD dwTimer = GetTickCount();
-	if (GetTickCount() - dwTimer >= 10000.0f)
+	if (GetTickCount() - dwTimer >= 3000.0f)
 	{
-		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+			//(cSoulEaterState*)new cSoulEater_FireBall(this);
 		return;
 	}
 

@@ -24,7 +24,7 @@ void cLavaRun::Handle()
 		m_pGolem->SetDirection(vDirection);
 		D3DXMATRIXA16 matR;
 		
-		if (m_pGolem->GetDist() <= 10.0f)
+		if (m_pGolem->GetDist() <= 30.0f)
 		{
 			m_pGolem->Request(2);
 			return;

@@ -211,7 +211,12 @@
     <ClCompile Include="FireBall.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClCompile>
-    <ClCompile Include="SoulEater_FireBall.cpp" />
+    <ClCompile Include="SoulEater_FireBall.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEater_Sleep.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -433,7 +438,12 @@
     <ClInclude Include="FireBall.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClInclude>
-    <ClInclude Include="SoulEater_FireBall.h" />
+    <ClInclude Include="SoulEater_FireBall.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Sleep.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

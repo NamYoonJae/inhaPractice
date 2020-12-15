@@ -48,6 +48,7 @@ public:
 	//
 	void CreateMaxSizeMeshMap(std::string strFolder, std::string strTex,
 		std::string strRaw, DWORD dwBytesPerPixel, float MaxHeight);
-	
+	virtual bool CheckInMap(D3DXVECTOR3 pos) override { return false; };
+
 };
 

@@ -3,6 +3,7 @@
 #include "DragonSoulEater.h"
 #include "FireBall.h"
 #include "ObjectPool.h"
+#include "AllocateHierarchy.h"
 #pragma once
 
 cSoulEater_FireBall::cSoulEater_FireBall()
@@ -52,45 +53,53 @@ void cSoulEater_FireBall::handle()
 	if (GetTickCount() - m_pDragon->GetSkinnedMesh().GetAnimStartTime()
 		- pCurAnimSet->GetPeriod() * 1000.0f - m_pDragon->GetSkinnedMesh().GetBlendTime() * 1000.0f)
 	{
-		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(m_nIndex--);
-
-		m_dwPrevTime  = GetTickCount();
+		m_dwPrevTime = GetTickCount();
 		m_dwDelayTime = 500.0f;
-
-
+		
 		switch (m_nIndex)
 		{
 		case 4:
-			{
-				cFireBall* mFireBall;
-				mFireBall = new cFireBall;
-				D3DXVECTOR3 vDir,vPos;
-				D3DXMATRIXA16 matCurrentAnimMatrix;
-				matCurrentAnimMatrix = *m_pDragon->GetSkinnedMesh().m_pCurrentBoneMatrices;
-				vPos = m_pDragon->GetPos();// +m_pDragon->GetDirection();
+		{
+			cFireBall* mFireBall;
+			mFireBall = new cFireBall;
+			D3DXVECTOR3 vDir, vPos;
+			D3DXMATRIXA16 matCurrentAnimMatrix;
 
-				vPos.x += matCurrentAnimMatrix._41;
-				vPos.y += matCurrentAnimMatrix._42;
-				vPos.z += matCurrentAnimMatrix._43;
-				
-				vDir = m_vTarget - vPos;
-				D3DXVec3Normalize(&vDir, &vDir);
-		
-				mFireBall->SetDirection(vDir);
-				mFireBall->SetPos(vPos);
-				mFireBall->Setup();
+			vPos = m_pDragon->GetPos();// +m_pDragon->GetDirection();
 
-				mFireBall->SetDirection(vDir);
-				mFireBall->SetPos(vPos);
-				mFireBall->Tagging(Tag::Tag_cObj);
-				ObjectManager->AddChild(mFireBall);
-				m_dwDelayTime = 1000.0f;
-			}
-			break;
+			// ¸Ó¸® 
+
+			ST_BONE *pBone = (ST_BONE*)D3DXFrameFind(m_pDragon->GetSkinnedMesh().GetFrame(), "Head");
+			matCurrentAnimMatrix = pBone->CombinedTransformationMatrix;
+
+
+
+			vPos.x += matCurrentAnimMatrix._41;
+			vPos.y += matCurrentAnimMatrix._42;
+			vPos.z += matCurrentAnimMatrix._43;
+
+			vDir = m_vTarget - vPos;
+			
+			D3DXVec3Normalize(&vDir, &vDir);
+
+			mFireBall->SetDirection(vDir);
+			mFireBall->SetPos(vPos);
+			mFireBall->Setup();
+
+			mFireBall->SetDirection(vDir);
+			mFireBall->SetPos(vPos);
+			mFireBall->Tagging(Tag::Tag_cObj);
+			ObjectManager->AddChild(mFireBall);
+			m_dwDelayTime = 1000.0f;
+		}
+		break;
 		case 3:
 			m_dwDelayTime = 1000.0f;
 			break;
 		};
+		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(m_nIndex--);
+
+
 
 	}
 

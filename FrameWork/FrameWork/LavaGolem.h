@@ -1,5 +1,6 @@
-#pragma once
 #include "cObject.h"
+#include "SoulEater_Sleep.h"
+#pragma once
 
 class cSkinnedMesh;
 class cLavaState;
@@ -19,6 +20,8 @@ private:
 
 	float		m_fDist;
 	D3DXMATRIXA16 m_matR;
+
+	cSoulEater_Sleep *m_pMaster;
 public:
 	cLavaGolem();
 	~cLavaGolem();
@@ -35,6 +38,9 @@ public:
 	float GetDist() { return m_fDist; }
 	D3DXMATRIXA16* GetRotationMatrix() { return &m_matR; };
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
+
+	//
+	void SetMater(cSoulEater_Sleep *Master) { m_pMaster = Master; }
 };
 
 // 공격 이동 죽음 IDLE

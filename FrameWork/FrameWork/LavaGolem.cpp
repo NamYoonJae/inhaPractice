@@ -187,6 +187,9 @@ void cLavaGolem::Request(int state)
 	case 4:
 		//안전하게 제거하기 위해선
 		m_isDelete = true;
+
+		if (m_pMaster)
+			m_pMaster->SubtractGolem();
 		return;
 	}
 
