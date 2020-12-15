@@ -58,8 +58,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(0);
-	m_pSkinnedUnit->SetDefaultAnimIndex(9);
-	m_pSkinnedUnit->SetDefaultAnimState(true);
+	//m_pSkinnedUnit->SetDefaultAnimIndex(9);
+	//m_pSkinnedUnit->SetDefaultAnimState(true);
 
 	m_vPos = D3DXVECTOR3(20, 0, 30);
 	m_vScale = D3DXVECTOR3(0.25f, 0.25f, 0.25f);
@@ -230,10 +230,21 @@ void cPaladin::Update(EventType event)
 
 	static int n = 0;
 
+	//if (event == EventType::EVENT_LBUTTONDOWN && 
+	//	m_pCurState->GetStateIndex() != m_pCurState->Attack1)
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
-		SafeDelete(m_pCurState);
-		m_pCurState = new cPaladinAttack(this);
+		if(m_pCurState->GetStateIndex() == m_pCurState->Attack1 ||
+			m_pCurState->GetStateIndex() == m_pCurState->Attack2 ||
+			m_pCurState->GetStateIndex() == m_pCurState->Attack3)
+		{
+			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
+		}
+		else
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinAttack(this);
+		}
 	}
 
 	if(event == EventType::EVENT_JUMP)
@@ -241,39 +252,6 @@ void cPaladin::Update(EventType event)
 		SafeDelete(m_pCurState);
 		m_pCurState = new cPaladinEvade(this);
 	}
-
-	//if (event == EventType::EVENT_NUMPAD_7)
-	//{
-	//	m_vecParts[1]->m_vPos.x += 0.1f;
-	//	cout << "m_vPos.x: " << m_vecParts[1]->m_vPos.x << endl;
-	//}
-	//if (event == EventType::EVENT_NUMPAD_4)
-	//{
-	//	m_vecParts[1]->m_vPos.x -= 0.1f;
-	//	cout << "m_vPos.x: " << m_vecParts[1]->m_vPos.x << endl;
-	//}
-
-	//if (event == EventType::EVENT_NUMPAD_8)
-	//{
-	//	m_vecParts[1]->m_vPos.y += 0.1f;
-	//	cout << "m_vPos.y: " << m_vecParts[1]->m_vPos.y << endl;
-	//}
-	//if (event == EventType::EVENT_NUMPAD_5)
-	//{
-	//	m_vecParts[1]->m_vPos.y -= 0.1f;
-	//	cout << "m_vPos.y: " << m_vecParts[1]->m_vPos.y << endl;
-	//}
-
-	//if (event == EventType::EVENT_NUMPAD_9)
-	//{
-	//	m_vecParts[1]->m_vPos.z += 0.1f;
-	//	cout << "m_vPos.z: " << m_vecParts[1]->m_vPos.z << endl;
-	//}
-	//if (event == EventType::EVENT_NUMPAD_6)
-	//{
-	//	m_vecParts[1]->m_vPos.z -= 0.1f;
-	//	cout << "m_vPos.z: " << m_vecParts[1]->m_vPos.z << endl;
-	//}
 
 	//팔라딘 디버프 상태 테스트
 	if (event == EventType::EVENT_NUMPAD_6)
@@ -375,6 +353,12 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		mapCollisionList.insert(pair<int, CollisionInfo>(iOtherTag, info));
 
 	}
+}
+
+void cPaladin::StateFeedback()
+{
+	SafeDelete(m_pCurState);
+	m_pCurState = new cPaladinIdle(this);
 }
 
 cParts::cParts()

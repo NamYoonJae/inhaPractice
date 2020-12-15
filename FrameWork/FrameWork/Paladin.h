@@ -67,8 +67,8 @@ public:
 	void ShaderRender();
 
 	void CollisionProcess(cObject* pObject) override;
-	void SetTranseform(D3DXMATRIXA16* pmat);
-
+	void StateFeedback();
+	
 	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; };
 	D3DXVECTOR3 GetPosition() { return m_vPos; };
 
