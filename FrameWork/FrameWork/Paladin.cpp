@@ -27,7 +27,9 @@ cPaladin::cPaladin()
 	, m_MaxHp(1000)
 	, m_MaxStamina(500)
 	, m_pTrophies(NULL)
-	, m_Debuff(enum_Idle)
+	, m_vecDebuff(NULL)
+	, m_pDebuff1(NULL)
+	, m_pDebuff2(NULL)
 	//, m_Debuff_Time(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
@@ -58,8 +60,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(0);
-	m_pSkinnedUnit->SetDefaultAnimIndex(9);
-	m_pSkinnedUnit->SetDefaultAnimState(true);
+	//m_pSkinnedUnit->SetDefaultAnimIndex(9);
+	//m_pSkinnedUnit->SetDefaultAnimState(true);
 
 	m_vPos = D3DXVECTOR3(20, 0, 30);
 	m_vScale = D3DXVECTOR3(0.25f, 0.25f, 0.25f);
@@ -101,6 +103,14 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	ShaderSetup();
 
 	m_pCurState = new cPaladinIdle(this);
+
+	//if (m_pDebuff1 == NULL || m_pDebuff2 == NULL)
+	{
+		cPopup* popup1 = (cPopup*)ObjectManager->SearchChildUI(TagUI_player_Debuff1);
+		cPopup* popup2 = (cPopup*)ObjectManager->SearchChildUI(TagUI_player_Debuff2);
+		m_pDebuff1 = popup1;
+		m_pDebuff2 = popup2;
+	}
 }
 
 void cPaladin::ShaderSetup()
@@ -148,6 +158,7 @@ void cPaladin::Update()
 
 	//디버프에 따른 효과 적용
 	//현재 디버프 지속시간이 20초라 가정
+	/*
 	switch (m_Debuff)
 	{
 	case enum_Poison:
@@ -160,7 +171,7 @@ void cPaladin::Update()
 			}
 			break;
 		}
-	case enum_Sturn:
+	case enum_Stun:
 		{
 			m_EndTime = time(NULL);
 			if ((double)m_EndTime - m_StartTime > 20)
@@ -181,6 +192,7 @@ void cPaladin::Update()
 	default:
 		break;
 	}
+	*/
 
 	if (m_pCurState)
 		m_pCurState->StateUpdate();
@@ -230,10 +242,21 @@ void cPaladin::Update(EventType event)
 
 	static int n = 0;
 
+	//if (event == EventType::EVENT_LBUTTONDOWN && 
+	//	m_pCurState->GetStateIndex() != m_pCurState->Attack1)
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
-		SafeDelete(m_pCurState);
-		m_pCurState = new cPaladinAttack(this);
+		if(m_pCurState->GetStateIndex() == m_pCurState->Attack1 ||
+			m_pCurState->GetStateIndex() == m_pCurState->Attack2 ||
+			m_pCurState->GetStateIndex() == m_pCurState->Attack3)
+		{
+			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
+		}
+		else
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinAttack(this);
+		}
 	}
 
 	if(event == EventType::EVENT_JUMP)
@@ -241,39 +264,6 @@ void cPaladin::Update(EventType event)
 		SafeDelete(m_pCurState);
 		m_pCurState = new cPaladinEvade(this);
 	}
-
-	//if (event == EventType::EVENT_NUMPAD_7)
-	//{
-	//	m_vecParts[1]->m_vPos.x += 0.1f;
-	//	cout << "m_vPos.x: " << m_vecParts[1]->m_vPos.x << endl;
-	//}
-	//if (event == EventType::EVENT_NUMPAD_4)
-	//{
-	//	m_vecParts[1]->m_vPos.x -= 0.1f;
-	//	cout << "m_vPos.x: " << m_vecParts[1]->m_vPos.x << endl;
-	//}
-
-	//if (event == EventType::EVENT_NUMPAD_8)
-	//{
-	//	m_vecParts[1]->m_vPos.y += 0.1f;
-	//	cout << "m_vPos.y: " << m_vecParts[1]->m_vPos.y << endl;
-	//}
-	//if (event == EventType::EVENT_NUMPAD_5)
-	//{
-	//	m_vecParts[1]->m_vPos.y -= 0.1f;
-	//	cout << "m_vPos.y: " << m_vecParts[1]->m_vPos.y << endl;
-	//}
-
-	//if (event == EventType::EVENT_NUMPAD_9)
-	//{
-	//	m_vecParts[1]->m_vPos.z += 0.1f;
-	//	cout << "m_vPos.z: " << m_vecParts[1]->m_vPos.z << endl;
-	//}
-	//if (event == EventType::EVENT_NUMPAD_6)
-	//{
-	//	m_vecParts[1]->m_vPos.z -= 0.1f;
-	//	cout << "m_vPos.z: " << m_vecParts[1]->m_vPos.z << endl;
-	//}
 
 	//팔라딘 디버프 상태 테스트
 	if (event == EventType::EVENT_NUMPAD_6)
@@ -286,7 +276,7 @@ void cPaladin::Update(EventType event)
 	}
 	if (event == EventType::EVENT_NUMPAD_8)
 	{
-		SetDebuff(enum_Sturn);
+		SetDebuff(enum_Stun);
 	}
 	if (event == EventType::EVENT_NUMPAD_9)
 	{
@@ -375,6 +365,12 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		mapCollisionList.insert(pair<int, CollisionInfo>(iOtherTag, info));
 
 	}
+}
+
+void cPaladin::StateFeedback()
+{
+	SafeDelete(m_pCurState);
+	m_pCurState = new cPaladinIdle(this);
 }
 
 cParts::cParts()
@@ -496,8 +492,7 @@ void cPaladin::CreateTrophies(EventType message)
 
 void cPaladin::SetDebuff(int debuff)
 {
-	cPopup* popup = (cPopup*)ObjectManager->SearchChildUI(TagUI_player_Debuff);
-
+	/*
 	if (m_Debuff == enum_Idle) 
 	{
 		m_Debuff = debuff;
@@ -510,8 +505,8 @@ void cPaladin::SetDebuff(int debuff)
 			m_StartTime = time(NULL);
 			break;
 
-		case enum_Sturn:
-			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Sturn.png");
+		case enum_Stun:
+			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
 			popup->PowerOnOff_OnlySelf();
 			m_StartTime = time(NULL);
 			break;
@@ -532,8 +527,135 @@ void cPaladin::SetDebuff(int debuff)
 		m_Debuff = debuff;
 		popup->PowerOnOff_OnlySelf();
 	}
+	*/
+	
+
+	switch (debuff)
+	{
+	case enum_Poison:
+		{
+			if (vecDebuffFind(enum_Poison) == NULL) 
+			{
+				m_vecDebuff.push_back(enum_Poison);
+			}
+
+		}
+		break;
+
+	case enum_Stun:
+		{
+			if ((vecDebuffFind(enum_Stun) == NULL))	//스턴이 없을 경우
+			{
+				if (vecDebuffFind(enum_Roar) == NULL) //스턴이 없고 로어도 없을 경우
+				{
+					m_vecDebuff.push_back(enum_Stun);
+				}
+				else if (vecDebuffFind(enum_Roar) != NULL) //스턴 없고 로어 있을 경우
+				{
+					//m_vecDebuff[vecDebuffFind(enum_Roar)] 로어부분 삭제하고
+					m_vecDebuff.push_back(enum_Stun);
+				}
+			}
+			
+		}
+		break;
+
+	case enum_Roar:
+		{
+			if ((vecDebuffFind(enum_Roar) == NULL) && (vecDebuffFind(enum_Stun) == NULL)) //로어와 스턴 둘 다 없을 경우
+			{
+				m_vecDebuff.push_back(enum_Roar);
+			}
+	
+		}
+		break;
+
+	default:
+		break;
+	}
 	
 	
+	if (m_vecDebuff.size() > 0)
+	{
+		switch (m_vecDebuff[0])
+		{
+		case enum_Idle:
+		{
+			m_pDebuff1->ChangeSprite("");
+		}
+		break;
+
+		case enum_Poison:
+		{
+			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
+		}
+		break;
+
+		case enum_Stun:
+		{
+			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
+		}
+		break;
+
+		case enum_Roar:
+		{
+			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
+		}
+		break;
+
+		default:
+			break;
+		}
+	}
+
+	else if (m_vecDebuff.size() > 1)
+	{
+		switch (m_vecDebuff[1])
+		{
+		case enum_Idle:
+		{
+			m_pDebuff2->ChangeSprite("");
+		}
+		break;
+
+		case enum_Poison:
+		{
+			m_pDebuff2->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
+		}
+		break;
+
+		case enum_Stun:
+		{
+			m_pDebuff2->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
+		}
+		break;
+
+		case enum_Roar:
+		{
+			m_pDebuff2->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
+		}
+		break;
+
+		default:
+			break;
+		}
+	}
+
+
+
+	
+}
+
+int cPaladin::vecDebuffFind(int debuff)
+{
+	for(int i = 0; i < m_vecDebuff.size(); i++)
+	{
+		if (m_vecDebuff[i] == debuff)
+		{
+			return i;
+		}
+	}
+	return NULL;
 }
 
 int cPaladin::GetStateIndex()

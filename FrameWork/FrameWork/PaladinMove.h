@@ -6,6 +6,7 @@ class cPaladinMove : public cPaladinState
 public:
 	cPaladinMove(cPaladin*);
 	~cPaladinMove();
-	
+
+	void StateUpdate() override;
 };
 

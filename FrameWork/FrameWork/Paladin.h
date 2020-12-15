@@ -14,7 +14,7 @@ enum eDebuff_Player
 {
 	enum_Idle,
 	enum_Poison,
-	enum_Sturn,
+	enum_Stun,
 	enum_Roar,
 };
 
@@ -49,11 +49,13 @@ private:
 
 	cTrophies* m_pTrophies;
 
-	int m_Debuff;
+	vector<int> m_vecDebuff;
 	//int m_Debuff_Time;
 	time_t m_StartTime;
 	time_t m_EndTime;
 
+	cPopup* m_pDebuff1;
+	cPopup* m_pDebuff2;
 
 public:
 	cPaladin();
@@ -67,8 +69,8 @@ public:
 	void ShaderRender();
 
 	void CollisionProcess(cObject* pObject) override;
-	void SetTranseform(D3DXMATRIXA16* pmat);
-
+	void StateFeedback();
+	
 	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; };
 	D3DXVECTOR3 GetPosition() { return m_vPos; };
 
@@ -82,7 +84,7 @@ public:
 	int GetMaxStamina() { return m_MaxStamina; }
 
 	void SetDebuff(int debuff);
-
+	int vecDebuffFind(int debuff);
 	//
 	int GetStateIndex();
 };
