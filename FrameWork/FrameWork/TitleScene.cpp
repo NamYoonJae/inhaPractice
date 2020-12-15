@@ -188,13 +188,21 @@ void cTitleScene::Setup()
 
 
 	//캐릭터 디버프
-	cPopup* playerDebuff = new cPopup;
-	playerDebuff->Setup("data/UI/InGame", "NW_Condition_Paralyz.png",
-		D3DXVECTOR3(60, 680, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_player_Debuff);
+	cPopup* playerDebuff1 = new cPopup;
+	playerDebuff1->Setup("", "",
+		D3DXVECTOR3(60, 680, 0), 0, 0, 0, 1, true, true, TAG_UI::TagUI_player_Debuff1);
 
-	EventManager->Attach(playerDebuff);
-	ObjectManager->AddUIChild(playerDebuff);
+	EventManager->Attach(playerDebuff1);
+	ObjectManager->AddUIChild(playerDebuff1);
 
+	cPopup* playerDebuff2 = new cPopup;
+	playerDebuff2->Setup("", "",
+		D3DXVECTOR3(120, 680, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_player_Debuff2);
+	EventManager->Attach(playerDebuff2);
+	ObjectManager->AddUIChild(playerDebuff2);
+
+
+	//미니맵 삭제에 따른 주석
 	/*
 	//MiniMap
 	cPopup* miniMap = new cPopup;
@@ -203,6 +211,8 @@ void cTitleScene::Setup()
 	inGamePopup->cButtonPushBack(miniMap);
 	*/
 
+	//분노와 상태이상 표현 삭제에 따른 주석처리 변경 있을 수 있기떄문에 삭제x
+	/*
 	//보스 분노
 	cPopup* bossAnger = new cPopup;
 	bossAnger->Setup("data/UI/InGame", "NW_MonAnger_0.png",
@@ -215,7 +225,7 @@ void cTitleScene::Setup()
 	bossDiverf->Setup("data/UI/InGame/Monster_Condition", "NW_Stun.png",
 		D3DXVECTOR3(1330, 180, 0), 0, 0, 0, 1, false, true);
 	inGamePopup->cButtonPushBack(bossDiverf);
-
+	*/
 	/*
 	bossDiverf = new cPopup;
 	bossDiverf->Setup("data/UI/InGame", "NW_Condition_Stun.png",

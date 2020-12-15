@@ -13,6 +13,7 @@ enum eDebuff_Dragon
 	enum_Trip_Dragon,
 };
 
+
 class cDragonSoulEater :
 	public cObject
 {

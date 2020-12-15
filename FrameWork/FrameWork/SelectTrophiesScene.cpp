@@ -63,6 +63,18 @@ void cSelectTrophiesScene::Reset(int SceneType)
 			popup->PowerOnOff();
 		}
 
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_player_Debuff1);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+
+		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_player_Debuff2);
+		if (popup != NULL)
+		{
+			popup->PowerOnOff();
+		}
+
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_Hp);
 		if (popup != NULL)
 		{

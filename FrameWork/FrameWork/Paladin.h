@@ -49,11 +49,13 @@ private:
 
 	cTrophies* m_pTrophies;
 
-	int m_Debuff;
+	vector<int> m_vecDebuff;
 	//int m_Debuff_Time;
 	time_t m_StartTime;
 	time_t m_EndTime;
 
+	cPopup* m_pDebuff1;
+	cPopup* m_pDebuff2;
 
 public:
 	cPaladin();
@@ -82,7 +84,7 @@ public:
 	int GetMaxStamina() { return m_MaxStamina; }
 
 	void SetDebuff(int debuff);
-
+	int vecDebuffFind(int debuff);
 	//
 	int GetStateIndex();
 };
