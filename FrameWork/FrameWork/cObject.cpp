@@ -309,11 +309,31 @@ CollisionInfo * cObject::GetCollsionInfo(int nTag)
 }
 
 
+void cObject::CollisionInfoCheck()
+{
+
+	std::map<int, CollisionInfo>::iterator it;
+
+	for(it = mapCollisionList.begin(); it != mapCollisionList.end();)
+	{
+		if (GetTickCount() - (*it).second.dwCollsionTime >
+			(*it).second.dwDelayTime)
+		{
+			mapCollisionList.erase(it++);
+		}
+		else
+			it++;
+		
+	}
+	
+
+	
+}
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,
-	D3DXMESHCONTAINER *pMesh,
-	D3DXVECTOR3 *vecSize,
-	D3DXVECTOR3 *vecJointOffset)
+                        D3DXMESHCONTAINER *pMesh,
+                        D3DXVECTOR3 *vecSize,
+                        D3DXVECTOR3 *vecJointOffset)
 {
 	// Set default min and max coordinates   
 	D3DXVECTOR3 vecMin = D3DXVECTOR3(0.0f, 0.0f, 0.0f);

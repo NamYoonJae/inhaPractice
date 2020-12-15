@@ -75,9 +75,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 			ObjectManager->Update();
 			ObjectManager->Render();
+			ObjectManager->CollisionDetection();
 
 			g_pTimeManager->Update();
-			
 		}
 	}
 

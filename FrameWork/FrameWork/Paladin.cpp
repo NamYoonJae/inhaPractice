@@ -54,6 +54,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 	m_Hp = 1000;
 	m_Stamina = 500;
+	
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(0);
@@ -533,4 +534,9 @@ void cPaladin::SetDebuff(int debuff)
 	}
 	
 	
+}
+
+int cPaladin::GetStateIndex()
+{
+	return m_pCurState->GetStateIndex();
 }

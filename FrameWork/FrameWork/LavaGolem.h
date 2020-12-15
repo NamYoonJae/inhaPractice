@@ -39,8 +39,8 @@ public:
 	D3DXMATRIXA16* GetRotationMatrix() { return &m_matR; };
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
 
-	//
 	void SetMater(cSoulEater_Sleep *Master) { m_pMaster = Master; }
+	virtual void CollisionProcess(cObject* pObject) override;
 };
 
 // 공격 이동 죽음 IDLE

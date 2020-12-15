@@ -55,6 +55,8 @@ void ObjectPool::Update()
 				}
 
 			}
+
+			vecObjectList.at(i)->CollisionInfoCheck();
 			
 		}
 

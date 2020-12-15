@@ -82,6 +82,9 @@ public:
 	int GetMaxStamina() { return m_MaxStamina; }
 
 	void SetDebuff(int debuff);
+
+	//
+	int GetStateIndex();
 };
 
 class cParts

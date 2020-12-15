@@ -10,6 +10,9 @@
 #include "LavaState.h"
 #include "TimerManager.h"
 
+//
+#include "Paladin.h"
+#include "PaladinState.h"
 #pragma once
 
 cLavaGolem::cLavaGolem()
@@ -197,4 +200,41 @@ void cLavaGolem::Request(int state)
 
 	
 
+}
+
+void cLavaGolem::CollisionProcess(cObject* pObject)
+{
+	cOBB *pOBB = pObject->GetOBB();
+	int nTag = pObject->GetTag();
+
+	if(nTag == Tag::Tag_Player)
+	{
+		if(m_pState->GetStateIndex() == 2 )
+		{
+			//attack
+			// damege
+			
+		}
+
+		if(mapCollisionList.find(nTag) != mapCollisionList.end())
+		{
+			return;
+		}
+		else
+		{
+			cPaladin* Paladin = (cPaladin*)pObject;
+
+			if (cPaladinState::eAnimationSet::Attack3 <= Paladin->GetStateIndex())
+			{
+				// 팔라딘 데미지 수치 가져와서 체력깍음
+				CollisionInfo info;
+				info.dwCollsionTime = GetTickCount();
+				info.dwDelayTime = 500.0f;
+
+				mapCollisionList.insert(pair<int, CollisionInfo>(nTag, info));
+			}
+			
+		}
+	}
+	
 }

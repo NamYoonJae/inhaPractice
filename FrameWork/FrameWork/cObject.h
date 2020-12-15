@@ -86,6 +86,9 @@ public:
 	void AddCollisionInfo(int,CollisionInfo);
 	CollisionInfo* GetCollsionInfo(int nTag);
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
+	void CollisionInfoCheck();
+
+	//
 };
 
 void GetBoundingBoxSize(D3DXFRAME *pFrame,
