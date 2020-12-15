@@ -15,13 +15,18 @@ private:
 
 	D3DXVECTOR3* m_pvTarget;
 
-	float		m_fCurrentHP;
-	float		m_fMaxHP;
+
 
 	float		m_fDist;
 	D3DXMATRIXA16 m_matR;
 
 	cSoulEater_Sleep *m_pMaster;
+
+	float		m_fCurrentHP;
+	float		m_fMaxHP;
+	float		m_fDamege;
+	
+	
 public:
 	cLavaGolem();
 	~cLavaGolem();

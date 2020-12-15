@@ -26,7 +26,15 @@ cDragonSoulEater::cDragonSoulEater()
 	m_pOBB = NULL;
 	D3DXMatrixIdentity(&m_matRotation);
 
+	m_fCurHeathpoint = m_fMaxHeathPoint = 4500;
 
+	m_fElementalDefence = 30;
+	m_fPhysicDamage = 70;
+	
+	m_fElementalDamage = 200;
+	m_fPhysicDamage = 200;
+	m_IsRage = false;
+	m_nPhase = 1;
 }
 
 
@@ -604,6 +612,14 @@ void cDragonSoulEater::Request()
 	//	return;
 	//}
 
+	if ((m_fCurHeathpoint <= m_fMaxHeathPoint * 0.8 && m_nPhase == 1) ||
+		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.5 && m_nPhase == 2))
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+		return;
+	}
+
+	
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;

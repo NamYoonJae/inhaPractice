@@ -18,10 +18,11 @@
 cLavaGolem::cLavaGolem()
 	:m_pState(NULL)
 	,m_pSkinnedMesh(NULL)
-	,m_fMaxHP(10000.0f)
 	,m_fDist(INT_MAX)
 {
+	m_fMaxHP = 1000.0f;
 	m_fCurrentHP = m_fMaxHP;
+	m_fDamege = 50.0f;
 }
 
 
@@ -209,12 +210,7 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 
 	if(nTag == Tag::Tag_Player)
 	{
-		if(m_pState->GetStateIndex() == 2 )
-		{
-			//attack
-			// damege
-			
-		}
+		cPaladin* Paladin = (cPaladin*)pObject;
 
 		if(mapCollisionList.find(nTag) != mapCollisionList.end())
 		{
@@ -222,11 +218,8 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 		}
 		else
 		{
-			cPaladin* Paladin = (cPaladin*)pObject;
-
 			if (cPaladinState::eAnimationSet::Attack3 <= Paladin->GetStateIndex())
 			{
-				// ÆÈ¶óµò µ¥¹ÌÁö ¼öÄ¡ °¡Á®¿Í¼­ Ã¼·Â±ïÀ½
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 500.0f;
@@ -236,5 +229,25 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 			
 		}
 	}
+
+	//
+	D3DXVECTOR3 vOtherPos = pObject->GetPos();
+	float dist = pow(m_vPos.x - vOtherPos.x, 2)
+		+ pow(m_vPos.z - vOtherPos.z, 2);
+
+
+	//
+	if(dist < 50)
+	{
+		while(dist < 50)
+		{
+			m_vPos -= m_vDir * 0.5;
+			
+			dist = pow(m_vPos.x - vOtherPos.x, 2)
+				+ pow(m_vPos.z - vOtherPos.z, 2);
+		}
+		
+	}
+	
 	
 }

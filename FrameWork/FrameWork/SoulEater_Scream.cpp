@@ -47,7 +47,7 @@ void cSoulEater_Scream::handle()
 
 			D3DXVECTOR3 pos = m_pDragon->GetPos();
 			float distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
-
+			//  
 			m_dwElapsedTime = GetTickCount();
 			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", distance);
 			if (distance <= Radius)

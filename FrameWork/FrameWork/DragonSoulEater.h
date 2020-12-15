@@ -17,9 +17,6 @@ private:
 	cSoulEaterState*	m_pCurState;
 	DWORD				m_dwDelayState;
 
-	float				m_fCurHeathpoint;
-	float				m_fMaxHeathPoint;
-
 	D3DXMATRIXA16		m_matWorld;
 	LPDIRECT3DTEXTURE9	m_pTexture;
 
@@ -31,7 +28,16 @@ private:
 	D3DXMATRIXA16			m_matRotation;
 
 	//
-
+	//
+	float				m_fCurHeathpoint;
+	float				m_fMaxHeathPoint;
+	float				m_fElementalDefence;
+	float				m_fPhysicsDefence;
+	float				m_fPhysicDamage;
+	float				m_fElementalDamage;
+	bool				m_IsRage;
+	int					m_nPhase;
+	
 public:
 	cDragonSoulEater();
 	~cDragonSoulEater();
