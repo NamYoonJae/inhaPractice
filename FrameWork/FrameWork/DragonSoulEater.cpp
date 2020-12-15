@@ -522,7 +522,7 @@ void cDragonSoulEater::SetupBoundingBox()
 }
 
 
-void cDragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
+void cDragonSoulEater::CollisionProcess(cObject* pObject)
 {
 	cOBB* pOBB = pObject->GetOBB();
 	int nTag = pObject->GetTag();
@@ -571,7 +571,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 
 		CollisionInfo info;
 		info.dwCollsionTime = GetTickCount();
-		info.dwDelayTime = dwDelayTime;
+		info.dwDelayTime = 500.0f;
 
 		mapCollisionList.insert(pair<int, CollisionInfo>(nTag, info));
 
@@ -596,13 +596,13 @@ void cDragonSoulEater::Request()
 	//..  150 ~ 210도
 
 	// 실험용 
-	static DWORD dwTimer = GetTickCount();
-	if (GetTickCount() - dwTimer >= 3000.0f)
-	{
-		m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
-			//(cSoulEaterState*)new cSoulEater_FireBall(this);
-		return;
-	}
+	//static DWORD dwTimer = GetTickCount();
+	//if (GetTickCount() - dwTimer >= 3000.0f)
+	//{
+	//	m_pCurState = //(cSoulEaterState*)new cSoulEater_Sleep(this);
+	//		(cSoulEaterState*)new cSoulEater_FireBall(this);
+	//	return;
+	//}
 
 	if (m_pvTarget)
 	{

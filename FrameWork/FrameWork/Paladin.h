@@ -66,7 +66,7 @@ public:
 	void Render(D3DXMATRIXA16 * pmat = NULL);
 	void ShaderRender();
 
-	void CollisionProcess(cObject* pObject, DWORD dwDelayTime) override;
+	void CollisionProcess(cObject* pObject) override;
 	void SetTranseform(D3DXMATRIXA16* pmat);
 
 	void SetPosition(D3DXVECTOR3 pos) { m_vPos = pos; };

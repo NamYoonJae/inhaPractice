@@ -82,7 +82,7 @@ public:
 	void SetRotation(D3DXVECTOR3 Rot) { m_vRot = Rot; }
 
 	bool m_isDelete;
-	virtual void CollisionProcess(cObject* pObject, DWORD dwDelayTime) {};
+	virtual void CollisionProcess(cObject* pObject) {};
 	void AddCollisionInfo(int,CollisionInfo);
 	CollisionInfo* GetCollsionInfo(int nTag);
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }

@@ -342,7 +342,7 @@ void cPaladin::ShaderRender()
 	}
 }
 
-void cPaladin::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
+void cPaladin::CollisionProcess(cObject* pObject)
 {
 	cOBB* pOtherOBB = pObject->GetOBB();
 	int	  iOtherTag = pObject->GetTag();
@@ -369,7 +369,7 @@ void cPaladin::CollisionProcess(cObject* pObject, DWORD dwDelayTime)
 
 		CollisionInfo info;
 		info.dwCollsionTime = GetTickCount();
-		info.dwDelayTime = dwDelayTime;
+		info.dwDelayTime = 1500.0f;
 
 		mapCollisionList.insert(pair<int, CollisionInfo>(iOtherTag, info));
 

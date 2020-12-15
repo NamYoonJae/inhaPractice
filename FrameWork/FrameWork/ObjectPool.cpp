@@ -276,7 +276,7 @@ void ObjectPool::CollisionDetection()
 				vecObjectList.at(j)->GetOBB()))
 			{
 				// 수치 계산
-				vecObjectList.at(i)->CollisionProcess(vecObjectList.at(j), 1500.0f);
+				vecObjectList.at(i)->CollisionProcess(vecObjectList.at(j));
 			}
 		}
 	}

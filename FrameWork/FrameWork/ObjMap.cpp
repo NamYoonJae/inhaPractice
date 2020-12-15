@@ -42,7 +42,7 @@ void cObjMap::Update()
 bool cObjMap::CheckInMap(D3DXVECTOR3 pos)
 {
 
-	pos.y += 100;
+	pos.y += 10;
 	
 	std::vector<ST_PNT_VERTEX> list;
 	//IntersectTri
