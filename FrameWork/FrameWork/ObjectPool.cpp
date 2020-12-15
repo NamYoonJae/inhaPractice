@@ -40,24 +40,26 @@ void ObjectPool::Update()
 			
 			if(!IsCheckInMap)
 			{
-				
-				D3DXVECTOR3 Dir = -vecObjectList.at(i)->GetDirection();
-				while(!pMap->CheckInMap(pos))
+				if(vecObjectList.at(i)->GetTag() == Tag::Tag_cObj)
 				{
-					pos += Dir * 0.1;
+					vecObjectList.at(i)->m_isDelete = true;
+				}
+				else
+				{
+					D3DXVECTOR3 Dir = -vecObjectList.at(i)->GetDirection();
+					while(!pMap->CheckInMap(pos))
+					{
+						pos += Dir * 0.1;
+					}
+					vecObjectList.at(i)->SetPos(pos);				
 				}
 
-				vecObjectList.at(i)->SetPos(pos);
 			}
 			
 		}
 
 	}
-	
-	for (int i = 0; i < vecObjectList.size(); ++i)
-	{
 
-	}
 
 	std::vector<cObject*>::iterator it;
 	it = vecObjectList.begin();
