@@ -16,6 +16,7 @@
 #include "SoulEater_Sleep.h"
 
 #include "LavaFlood.h"
+#include "Map.h"
 #pragma once
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -589,8 +590,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 }
 
 void cDragonSoulEater::Request()
-{
-	
+{	
 	if (m_pCurState && m_pCurState->GetIndex() != 0)
 	{
 		SafeDelete(m_pCurState);
@@ -615,6 +615,14 @@ void cDragonSoulEater::Request()
 	if ((m_fCurHeathpoint <= m_fMaxHeathPoint * 0.8 && m_nPhase == 1) ||
 		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.5 && m_nPhase == 2))
 	{
+		if (m_nPhase == 1)
+		{
+			m_IsRage = true;
+			iMap *map = (iMap*)ObjectManager->GetChild(Tag::Tag_Map);
+			map->RenderTrigger();
+		}
+
+		++m_nPhase;
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
 		return;
 	}

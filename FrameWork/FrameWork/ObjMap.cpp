@@ -4,6 +4,7 @@
 #pragma once
 
 cObjMap::cObjMap(string folder, string file)
+	:iMap()
 {
 	cObjLoader objLoader;
 	objLoader.LoadOBJ(m_vecGroup,folder.c_str(), file.c_str());

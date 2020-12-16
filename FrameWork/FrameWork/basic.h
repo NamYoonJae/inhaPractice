@@ -12,7 +12,8 @@
 #include <cstdarg>
 #include<process.h>
 #include <thread>
-
+#include <random>
+#include <iostream>
 using namespace std;
 
 struct ST_PC_VERTEX
