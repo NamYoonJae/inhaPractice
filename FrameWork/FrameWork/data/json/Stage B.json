@@ -1,101 +1,120 @@
 {
-  "memo": "NW_스테이지A사양서_1208.xlsx을 기반으로 제작되었습니다.",
-  
-  "Stage A": {
+  "memo": "스테이지B 사양서 기반으로 제작되었습니다.",
+  "memo2": "스테이지B 데이터테이블을 참고해 객체 속성이 추가되었습니다.",
+  "memo3": "매직 넘버의 경우json 목차, 맵기믹 사양서를 참조하시면됩니다.",
+
+  "Stage B": {
     "BOSS": {
+      "Name": "swarm dragon",
+      "HP": 4500,
       "Attack": {
-        "Melee": "int",
-        "Elemental": "int",
-        "Cooldown": "float"
+        "Melee": 200,
+        "Elemental": 200,
+        "Cooldown": 2
       },
       "Defence": {
-        "Melee": "int",
-        "Elemental": "int"
+        "Melee": 70,
+        "Elemental": 30
       },
       "Rage": {
-        "Rate": "int",
-        "Duration": "int",
-        "Decrease Defence": "float",
-        "Increase Attack": "float"
+        "Rate": 0.07,
+        "Duration": 60,
+        "Decrease Defence": 0.8,
+        "Increase Attack": 1.1
       },
       "Rigid": {
         "Rate": "int",
-        "Decrease value": "int",
-        "Duration": "int"
+        "Decrease value": 1,
+        "Duration": 15
       },
       "Stun": {
         "Rate": "int",
         "Decrease value": "int",
-        "Duration": "int"
+        "Duration": 8
       },
-      "Initial Position" :
-      {
-        "x" : "float",
-        "y" : "float",
-        "z" : "float"
+      "Initial Position": {
+        "x": "float",
+        "y": "float",
+        "z": "float"
       },
-      "Move Speed": "int",
+      "Move Speed": 150,
       "SKILL Weight": {
-        "1" : "int",
-        "2" : "int",
-        "3" : "int",
-        "4" : "int"
+        "1": 2,
+        "2": 2,
+        "3": 1,
+        "4": 1,
+        "memo ": "3, 4는 상수, 이하 값은 초기 값"
       }
     },
     "BOSS SKILL": {
       "SKILL 1": {
-        "name": "용암 폭발",
-        "1-N": "float N",
-        "2-null": null,
-        "3-N": "float N",
-        "4-N": "float N",
-        "5-M": "int M"
+        "Identification value": 1,
+        "memo": "물기 or 꼬리",
+        "Attribute 1": {
+          "memo": "기본 공격",
+          "name": "Basic Attack",
+          "Melee rate": 1,
+          "Elemental rate": 0
+        },
+        "Attribute 2": {
+          "memo": "꼬리 공격",
+          "name": "Tail Attack",
+          "Melee rate": 1.1,
+          "Elemental rate": 0
+        }
       },
       "SKILL 2": {
-        "name": "메테오 날리기",
-        "1-null": null,
-        "2-N": "float N",
-        "3-N": "float N",
-        "3-n": "float N",
-        "3-M": "float M",
-        "4-k": "int K"
+        "Identification value": 2,
+        "memo": "돌진",
+        "name": "Charge",
+        "Attribute": {
+          "Range": "float n",
+          "Melee rate": 0,
+          "Elemental rate": 1.1
+        }
       },
       "SKILL 3": {
-        "name": "메테오 폭격",
-        "1-t": "float t",
-        "1-i": "int i",
-        "1-k": "flot N",
-        "1-l": "float N",
-        "1-M": "int N",
-        "1-N": "int N",
-        "2-null": null,
-        "3-n": "float n",
-        "3-N": "float N",
-        "3-k": "float k"
+        "Identification value": 4,
+        "memo": "장판",
+        "name": "",
+        "Attribute": {
+          "Range": "float n",
+          "Duration": 5,
+          "Melee rate": 0.6,
+          "Elemental rate": 0,
+          "Condition": "Poison",
+          "Condition rate": 0.2,
+          "Radius": "float N"
+        }
       },
       "SKILL 4": {
-        "name": "서브몬 소환",
-        "1-position1": {
-          "x": "float x1",
-          "y": "float y1",
-          "z": "float z1"
-        },
-        "1-position2": {
-          "x": "float x2",
-          "y": "float y2",
-          "z": "float z2"
-        },
-        "2-position3": {
-          "x": "float x3",
-          "y": "float y3",
-          "z": "float z3"
-        },
-        "2-position4": {
-          "x": "float x4",
-          "y": "float y4",
-          "z": "float z4"
-        },
-        "3-null": null
+        "Identification value": 6,
+        "memo": "브레스, 범위기",
+        "Attribute": {
+          "Range": "float n",
+          "Duration": 5,
+          "Melee rate": 1.8,
+          "Elemental rate": 0,
+          "Condition": "Poison",
+          "Condition Rate": 0.2,
+          "Radius": "float N"
+        }
+      }
+    },
+    "임시 패턴 객체": {
+      "즉사기 패턴": {
+        "Attribute": {
+          "Identification value": 5,
+          "Range": "float n",
+          "Melee rate": 10,
+          "Elemental rate": 10
+        }
+      },
+      "HP 회복패턴": {
+        "Attribute": {
+          "Identification value": 7,
+          "Duration": 10
+        }
       },
       "Share": {
         "name": "밀쳐내기 (공통 스킬)",
@@ -104,89 +123,123 @@
       }
     },
     "Sub Monster": {
-      "HP": "int N",
+      "name": "lava",
+      "HP": 3,
       "Attack": {
-        "Melee": "unsigned short N",
-        "Elemental": null
+        "Melee": 120,
+        "Elemental": 0
       },
       "Defence": {
-        "Melee": "unsigned short N",
-        "Elemental": "unsigned short N"
+        "Melee": null,
+        "Elemental": null
       },
       "Attack Reach": "float N",
-      "Move Speed": "Unsigned Short N"
+      "Move Speed": 80
     },
     "Object": {
+      "memo": "기본적으로 맵기믹 사양서를 바탕으로 제작하였습니다.",
       "1": {
         "memo": "동선 방해 오브젝트",
         "name": "바위Rock",
-        "Stun" : 5,
+        "Stun Rate": 50,
+        "Rigid Rate": 15,
         "Attribute": {
-          "Area": "int N",
-          "Require": {
-            "1" : "int n",
-            "2" : null
+          "Area": 15,
+          "Generation condition": {
+            "1": 5,
+            "2": 15
           }
         },
-        "Status":{
-          "Size": "float n",
-          "Scale": "float n",
-          "Earth HP": "int N"
+        "Status": {
+          "Size": {
+            "x": "float n",
+            "y": "float n",
+            "z": "float n"
+          },
+          "Scale": {
+            "x": "float n",
+            "y": "float n",
+            "z": "float n"
+          },
+          "Earth HP": 1
         }
-        
       },
       "2": {
         "memo": "맵 고정장판",
         "name": "늪Swap",
         "Attribute": {
-          "Area": null,
-          "Require": {
-            "1" : 60,
-            "2" : null,
-            "3" : null
+          "Area": 10,
+          "Generation condition": {
+            "1": 60,
+            "2": null,
+            "3": null
           }
         },
-        "Status":{
-          "Size": "float n",
-          "Scale": "float n",
-          "Duration": "float n",
-          "Decrease Speed": "float n"
+        "Status": {
+          "Size": {
+            "x": "float n",
+            "y": "float n",
+            "z": "float n"
+          },
+          "Scale": null,
+          "Duration": 10,
+          "Decrease Speed": -50
         }
       },
       "3": {
-        "memo" :"상호 작용 오브젝트",
+        "memo": "상호 작용 오브젝트",
         "name": "룬스톤",
-        "Invincibility": "float n",
-        "Status":{
-          "Size": "float n",
-          "Scale": "float n",
-          "Gauge": "float n",
+        "Invincibility duration": 15,
+        "Attribute": {
+          "Area": 4
+        },
+        "Status": {
+          "Size": {
+            "x": "float n",
+            "y": "float n",
+            "z": "float n"
+          },
+          "Scale": {
+            "x": "float n",
+            "y": "float n",
+            "z": "float n"
+          },
+          "Gauge": 100,
+          "Gauge recharge": 20,
           "Active method": null
         }
       },
       "4": {
         "memo": "영역 오브젝트",
         "name": "오브Orb",
-        "Pick up Orb":{
-          "n" : "int n",
-          "m" : "float m"
+        "Pick up Orb": {
+          "n": 30,
+          "m": 7
         },
         "Attribute": {
-          "Area": null,
-          "Require": {
-            "1" : 300,
-            "2" : null,
-            "3" : null
+          "Area": 5,
+          "Generation condition": {
+            "1": 300,
+            "2": null,
+            "3": null
           },
-          "Remove":{
+          "Remove": {
             "1": 100,
             "2": null
           },
-          "Status":{
-            "Size": "float n",
-            "Scale": "float n",
-            "Gauge": "float n",
-            "Active method": null
+          "Status": {
+            "Size": {
+              "x": "float n",
+              "y": "float n",
+              "z": "float n"
+            },
+            "Scale": {
+              "x": "float n",
+              "y": "float n",
+              "z": "float n"
+            },
+            "Holding time": 15,
+            "Duration": 7
           }
         }
       }
