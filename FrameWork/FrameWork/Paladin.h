@@ -54,6 +54,7 @@ private:
 	time_t m_StartTime;
 	time_t m_EndTime;
 
+	vector<cPopup*> m_vecDebuff_UI;
 	cPopup* m_pDebuff1;
 	cPopup* m_pDebuff2;
 

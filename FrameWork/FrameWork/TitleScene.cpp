@@ -189,14 +189,13 @@ void cTitleScene::Setup()
 
 	//캐릭터 디버프
 	cPopup* playerDebuff1 = new cPopup;
-	playerDebuff1->Setup("", "",
-		D3DXVECTOR3(60, 680, 0), 0, 0, 0, 1, true, true, TAG_UI::TagUI_player_Debuff1);
-
+	playerDebuff1->Setup("data/UI/InGame/Player_Condition", "Condition_None.png",
+		D3DXVECTOR3(60, 680, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_player_Debuff1);
 	EventManager->Attach(playerDebuff1);
 	ObjectManager->AddUIChild(playerDebuff1);
 
 	cPopup* playerDebuff2 = new cPopup;
-	playerDebuff2->Setup("", "",
+	playerDebuff2->Setup("data/UI/InGame/Player_Condition", "Condition_None.png",
 		D3DXVECTOR3(120, 680, 0), 0, 0, 0, 1, false, true, TAG_UI::TagUI_player_Debuff2);
 	EventManager->Attach(playerDebuff2);
 	ObjectManager->AddUIChild(playerDebuff2);

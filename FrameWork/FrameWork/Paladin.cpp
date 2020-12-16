@@ -492,6 +492,7 @@ void cPaladin::CreateTrophies(EventType message)
 
 void cPaladin::SetDebuff(int debuff)
 {
+
 	/*
 	if (m_Debuff == enum_Idle) 
 	{
@@ -528,13 +529,12 @@ void cPaladin::SetDebuff(int debuff)
 		popup->PowerOnOff_OnlySelf();
 	}
 	*/
-	
 
 	switch (debuff)
 	{
 	case enum_Poison:
 		{
-			if (vecDebuffFind(enum_Poison) == NULL) 
+			if (vecDebuffFind(enum_Poison) == -1) 
 			{
 				m_vecDebuff.push_back(enum_Poison);
 			}
@@ -544,13 +544,13 @@ void cPaladin::SetDebuff(int debuff)
 
 	case enum_Stun:
 		{
-			if ((vecDebuffFind(enum_Stun) == NULL))	//스턴이 없을 경우
+			if ((vecDebuffFind(enum_Stun) == -1))	//스턴이 없을 경우
 			{
-				if (vecDebuffFind(enum_Roar) == NULL) //스턴이 없고 로어도 없을 경우
+				if (vecDebuffFind(enum_Roar) == -1) //스턴이 없고 로어도 없을 경우
 				{
 					m_vecDebuff.push_back(enum_Stun);
 				}
-				else if (vecDebuffFind(enum_Roar) != NULL) //스턴 없고 로어 있을 경우
+				else if (vecDebuffFind(enum_Roar) != -1) //스턴 없고 로어 있을 경우
 				{
 					//m_vecDebuff[vecDebuffFind(enum_Roar)] 로어부분 삭제하고
 					m_vecDebuff.push_back(enum_Stun);
@@ -562,7 +562,7 @@ void cPaladin::SetDebuff(int debuff)
 
 	case enum_Roar:
 		{
-			if ((vecDebuffFind(enum_Roar) == NULL) && (vecDebuffFind(enum_Stun) == NULL)) //로어와 스턴 둘 다 없을 경우
+			if ((vecDebuffFind(enum_Roar) == -1) && (vecDebuffFind(enum_Stun) == -1)) //로어와 스턴 둘 다 없을 경우
 			{
 				m_vecDebuff.push_back(enum_Roar);
 			}
@@ -574,8 +574,27 @@ void cPaladin::SetDebuff(int debuff)
 		break;
 	}
 	
-	
-	if (m_vecDebuff.size() > 0)
+	if (m_vecDebuff.size() == 1)
+	{
+		if (m_vecDebuff[0] == enum_Idle) 
+		{
+			m_pDebuff1->ChangeSprite("");
+		}
+		else if (m_vecDebuff[0] == enum_Poison)
+		{
+			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
+		}
+		else if (m_vecDebuff[0] == enum_Stun)
+		{
+			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
+		}
+		else if (m_vecDebuff[0] == enum_Roar)
+		{
+			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
+		}
+
+	}
+	else if (m_vecDebuff.size() == 2)
 	{
 		switch (m_vecDebuff[0])
 		{
@@ -606,10 +625,7 @@ void cPaladin::SetDebuff(int debuff)
 		default:
 			break;
 		}
-	}
 
-	else if (m_vecDebuff.size() > 1)
-	{
 		switch (m_vecDebuff[1])
 		{
 		case enum_Idle:
@@ -643,19 +659,27 @@ void cPaladin::SetDebuff(int debuff)
 
 
 
-	
+
+	for (int i = 0; i < m_vecDebuff.size(); i++) 
+	{
+		cout << "vecDebuff [" << i << "] :" << m_vecDebuff[i] << endl;
+
+	}
 }
 
 int cPaladin::vecDebuffFind(int debuff)
 {
-	for(int i = 0; i < m_vecDebuff.size(); i++)
+	if (m_vecDebuff.size() > 0)
 	{
-		if (m_vecDebuff[i] == debuff)
+		for (int i = 0; i < m_vecDebuff.size(); i++)
 		{
-			return i;
+			if (m_vecDebuff[i] == debuff)
+			{
+				return i;
+			}
 		}
 	}
-	return NULL;
+	return -1;
 }
 
 int cPaladin::GetStateIndex()
