@@ -3,8 +3,6 @@
 #include "TextureManager.h"
 #include "ShaderManager.h"
 #include "cOBB.h"
-#include <random>
-#include <iostream>
 #define once
 #define X_Radian 25.0f
 #pragma once

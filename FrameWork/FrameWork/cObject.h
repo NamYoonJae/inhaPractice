@@ -3,14 +3,17 @@
 
 const enum Tag
 {
-	Tag_Camera,
 	Tag_SkyBox,
-	Tag_Map,
+	Tag_Camera,
 	Tag_Player,
+	Tag_Map,
 	Tag_Boss,
 	Tag_LavaGolem,
+	Tag_cObj,
+	Tag_FireBall,
+	Tag_Swamp,
 	Tag_RunStone,
-	Tag_cObj
+	Tag_Breath
 };
 
 
