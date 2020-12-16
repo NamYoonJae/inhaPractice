@@ -22,7 +22,7 @@ void cSelectTrophiesScene::Setup()
 
 	//하늘의 구슬
 	cButton* pTropiesBizzButton = new cButton;
-	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off.png",
+	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off_SkyOrb.png",
 		D3DXVECTOR3(280, 230, 0), 0, 0, 0, 1, true, true);
 	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
 	pTropiesBizzButton->EventProcess = SelectSkyBizzEvent;
@@ -35,7 +35,7 @@ void cSelectTrophiesScene::Setup()
 
 	//용발
 	pTropiesBizzButton = new cButton;
-	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off.png",
+	pTropiesBizzButton->Setup("data/UI/Trophies", "NW_Attriselect_Backgound_Off_DragonFoot.png",
 		D3DXVECTOR3(890, 230, 0), 0, 0, 0, 1, true, true);
 	pTrophiesSelectSceneBackground->cButtonPushBack(pTropiesBizzButton);
 	pTropiesBizzButton->EventProcess = SelectDragonFootEvent;
