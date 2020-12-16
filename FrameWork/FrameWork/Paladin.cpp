@@ -27,11 +27,7 @@ cPaladin::cPaladin()
 	, m_MaxHp(1000)
 	, m_MaxStamina(500)
 	, m_pTrophies(NULL)
-	, m_vecDebuff(NULL)
-	, m_pDebuff1(NULL)
-	, m_pDebuff2(NULL)
 	,m_fSpeed(300.0f)
-	//, m_Debuff_Time(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 }
@@ -107,8 +103,9 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	{
 		cPopup* popup1 = (cPopup*)ObjectManager->SearchChildUI(TagUI_player_Debuff1);
 		cPopup* popup2 = (cPopup*)ObjectManager->SearchChildUI(TagUI_player_Debuff2);
-		m_pDebuff1 = popup1;
-		m_pDebuff2 = popup2;
+
+		m_vecDebuff_UI.push_back(popup1);
+		m_vecDebuff_UI.push_back(popup2);
 	}
 }
 
@@ -155,43 +152,53 @@ void cPaladin::Update()
 		parts->Update(&m_matWorld);
 	}
 
-	//디버프에 따른 효과 적용
-	//현재 디버프 지속시간이 20초라 가정
-	/*
-	switch (m_Debuff)
-	{
-	case enum_Poison:
-		{
+	long endTime = GetTickCount();
 
-			m_EndTime = time(NULL);
-			if ((double)m_EndTime - m_StartTime > 20)
-			{
-				SetDebuff(enum_Idle);
-			}
-			break;
-		}
-	case enum_Stun:
+	for (int i = 0; i < m_vecDebuff.size(); i++) 
+	{
+		switch (m_vecDebuff[i])
 		{
-			m_EndTime = time(NULL);
-			if ((double)m_EndTime - m_StartTime > 20)
+		case enum_Idle:
+			break;
+
+		case enum_Poison:
+			if (endTime - m_vecStartTime[i] >= 5000)
 			{
-				SetDebuff(enum_Idle);
+				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff.erase(m_vecDebuff.begin() + i);
+				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				ReloadSpriteDebuff();
+				
 			}
 			break;
-		}
-	case enum_Roar:
-		{
-			m_EndTime = time(NULL);
-			if ((double)m_EndTime - m_StartTime > 20)
+
+		case enum_Stun:
+			if (endTime - m_vecStartTime[i] >= 5000)
 			{
-				SetDebuff(enum_Idle);
+				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff.erase(m_vecDebuff.begin() + i);
+				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				ReloadSpriteDebuff();
+				
 			}
 			break;
+
+		case enum_Roar:
+			if (endTime - m_vecStartTime[i] >= 5000)
+			{
+				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff.erase(m_vecDebuff.begin() + i);
+				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				ReloadSpriteDebuff();
+				
+			}
+			break;
+
+		default:
+			break;
 		}
-	default:
-		break;
 	}
-	*/
+
 
 	if (m_pCurState)
 		m_pCurState->StateUpdate();
@@ -365,7 +372,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		// 어느 부위에 맞을것인지
 		if (cOBB::IsCollision(pOtherOBB, m_vecParts[1]->GetOBB()))
 		{
-			cout << "Body Hit" << endl;
+			//cout << "Body Hit" << endl;
 		}
 
 		CollisionInfo info;
@@ -503,43 +510,6 @@ void cPaladin::CreateTrophies(EventType message)
 void cPaladin::SetDebuff(int debuff)
 {
 
-	/*
-	if (m_Debuff == enum_Idle) 
-	{
-		m_Debuff = debuff;
-		switch (debuff)
-		{
-
-		case enum_Poison:
-			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
-			popup->PowerOnOff_OnlySelf();
-			m_StartTime = time(NULL);
-			break;
-
-		case enum_Stun:
-			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
-			popup->PowerOnOff_OnlySelf();
-			m_StartTime = time(NULL);
-			break;
-
-		case enum_Roar:
-			popup->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
-			popup->PowerOnOff_OnlySelf();
-			m_StartTime = time(NULL);
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	if (m_Debuff != enum_Idle && debuff == enum_Idle)
-	{
-		m_Debuff = debuff;
-		popup->PowerOnOff_OnlySelf();
-	}
-	*/
-
 	switch (debuff)
 	{
 	case enum_Poison:
@@ -547,10 +517,10 @@ void cPaladin::SetDebuff(int debuff)
 			if (vecDebuffFind(enum_Poison) == -1) 
 			{
 				m_vecDebuff.push_back(enum_Poison);
+				m_vecStartTime.push_back(GetTickCount());
 			}
-
 		}
-		break;
+	break;
 
 	case enum_Stun:
 		{
@@ -559,122 +529,41 @@ void cPaladin::SetDebuff(int debuff)
 				if (vecDebuffFind(enum_Roar) == -1) //스턴이 없고 로어도 없을 경우
 				{
 					m_vecDebuff.push_back(enum_Stun);
+					m_vecStartTime.push_back(GetTickCount());
 				}
 				else if (vecDebuffFind(enum_Roar) != -1) //스턴 없고 로어 있을 경우
 				{
-					//m_vecDebuff[vecDebuffFind(enum_Roar)] 로어부분 삭제하고
+					int n = vecDebuffFind(enum_Roar);
+					m_vecDebuff.erase(m_vecDebuff.begin() + n);
+					m_vecStartTime.erase(m_vecStartTime.begin() + n);
+					
 					m_vecDebuff.push_back(enum_Stun);
+					m_vecStartTime.push_back(GetTickCount());
 				}
 			}
 			
 		}
-		break;
+	break;
 
 	case enum_Roar:
 		{
 			if ((vecDebuffFind(enum_Roar) == -1) && (vecDebuffFind(enum_Stun) == -1)) //로어와 스턴 둘 다 없을 경우
 			{
 				m_vecDebuff.push_back(enum_Roar);
+				m_vecStartTime.push_back(GetTickCount());
 			}
 	
 		}
-		break;
+	break;
 
 	default:
 		break;
 	}
-	
-	if (m_vecDebuff.size() == 1)
-	{
-		if (m_vecDebuff[0] == enum_Idle) 
-		{
-			m_pDebuff1->ChangeSprite("");
-		}
-		else if (m_vecDebuff[0] == enum_Poison)
-		{
-			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
-		}
-		else if (m_vecDebuff[0] == enum_Stun)
-		{
-			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
-		}
-		else if (m_vecDebuff[0] == enum_Roar)
-		{
-			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
-		}
-
-	}
-	else if (m_vecDebuff.size() == 2)
-	{
-		switch (m_vecDebuff[0])
-		{
-		case enum_Idle:
-		{
-			m_pDebuff1->ChangeSprite("");
-		}
-		break;
-
-		case enum_Poison:
-		{
-			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
-		}
-		break;
-
-		case enum_Stun:
-		{
-			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
-		}
-		break;
-
-		case enum_Roar:
-		{
-			m_pDebuff1->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
-		}
-		break;
-
-		default:
-			break;
-		}
-
-		switch (m_vecDebuff[1])
-		{
-		case enum_Idle:
-		{
-			m_pDebuff2->ChangeSprite("");
-		}
-		break;
-
-		case enum_Poison:
-		{
-			m_pDebuff2->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
-		}
-		break;
-
-		case enum_Stun:
-		{
-			m_pDebuff2->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
-		}
-		break;
-
-		case enum_Roar:
-		{
-			m_pDebuff2->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
-		}
-		break;
-
-		default:
-			break;
-		}
-	}
 
 
+	ReloadSpriteDebuff();
 
 
-	for (int i = 0; i < m_vecDebuff.size(); i++) 
-	{
-		cout << "vecDebuff [" << i << "] :" << m_vecDebuff[i] << endl;
-
-	}
 }
 
 int cPaladin::vecDebuffFind(int debuff)
@@ -690,6 +579,28 @@ int cPaladin::vecDebuffFind(int debuff)
 		}
 	}
 	return -1;
+}
+
+void cPaladin::ReloadSpriteDebuff()
+{
+	for (int i = 0; i < m_vecDebuff.size(); i++)
+	{
+		if (m_vecDebuff[i] == enum_Idle)
+		{
+		}
+		else if (m_vecDebuff[i] == enum_Poison)
+		{
+			m_vecDebuff_UI[i]->ChangeSprite("data/UI/InGame/Player_Condition/NW_Poison.png");
+		}
+		else if (m_vecDebuff[i] == enum_Stun)
+		{
+			m_vecDebuff_UI[i]->ChangeSprite("data/UI/InGame/Player_Condition/NW_Stun.png");
+		}
+		else if (m_vecDebuff[i] == enum_Roar)
+		{
+			m_vecDebuff_UI[i]->ChangeSprite("data/UI/InGame/Player_Condition/NW_Roar.png");
+		}
+	}
 }
 
 int cPaladin::GetStateIndex()

@@ -51,13 +51,8 @@ private:
 	cTrophies* m_pTrophies;
 
 	vector<int> m_vecDebuff;
-	//int m_Debuff_Time;
-	time_t m_StartTime;
-	time_t m_EndTime;
-
 	vector<cPopup*> m_vecDebuff_UI;
-	cPopup* m_pDebuff1;
-	cPopup* m_pDebuff2;
+	vector<long> m_vecStartTime;
 
 public:
 	cPaladin();
@@ -87,6 +82,8 @@ public:
 
 	void SetDebuff(int debuff);
 	int vecDebuffFind(int debuff);
+	void ReloadSpriteDebuff();
+
 	//
 	int GetStateIndex();
 };

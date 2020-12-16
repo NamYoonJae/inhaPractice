@@ -220,6 +220,9 @@
     <ClCompile Include="Swamp.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClCompile>
+    <ClCompile Include="DragonBreathe.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -448,6 +451,9 @@
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
     <ClInclude Include="Swamp.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClInclude>
+    <ClInclude Include="DragonBreathe.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClInclude>
   </ItemGroup>
