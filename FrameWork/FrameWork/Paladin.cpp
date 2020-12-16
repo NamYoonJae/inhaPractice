@@ -30,6 +30,7 @@ cPaladin::cPaladin()
 	, m_vecDebuff(NULL)
 	, m_pDebuff1(NULL)
 	, m_pDebuff2(NULL)
+	,m_fSpeed(300.0f)
 	//, m_Debuff_Time(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
@@ -60,8 +61,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(0);
-	//m_pSkinnedUnit->SetDefaultAnimIndex(9);
-	//m_pSkinnedUnit->SetDefaultAnimState(true);
 
 	m_vPos = D3DXVECTOR3(20, 0, 30);
 	m_vScale = D3DXVECTOR3(0.25f, 0.25f, 0.25f);
@@ -207,9 +206,24 @@ void cPaladin::Update(EventType event)
 	//float delta = 0.001f;
 	static bool isKeyDown = false;
 
+	
+	if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+	{
+		m_fSpeed = 300.f * 0.1f;
+	}
+	else
+	{
+		m_fSpeed = 300.0f;
+	}
+
 	if (event == EventType::EVENT_ARROW_UP)
 	{
-		m_fvelocity = 300.0f * delta;
+		if(m_pCurState->GetStateIndex() == m_pCurState->Idle)
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinMove(this);
+		}
+		m_fvelocity = m_fSpeed * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_LEFT)
@@ -220,7 +234,7 @@ void cPaladin::Update(EventType event)
 	}
 	if (event == EventType::EVENT_ARROW_DOWN)
 	{
-		m_fvelocity = -118.5f * delta;
+		m_fvelocity = m_fSpeed * -0.5f * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_RIGHT)
@@ -242,13 +256,9 @@ void cPaladin::Update(EventType event)
 
 	static int n = 0;
 
-	//if (event == EventType::EVENT_LBUTTONDOWN && 
-	//	m_pCurState->GetStateIndex() != m_pCurState->Attack1)
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
-		if(m_pCurState->GetStateIndex() == m_pCurState->Attack1 ||
-			m_pCurState->GetStateIndex() == m_pCurState->Attack2 ||
-			m_pCurState->GetStateIndex() == m_pCurState->Attack3)
+		if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
 		}

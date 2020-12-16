@@ -23,6 +23,7 @@ class cPaladin : public cCharater
 private:
 	cSkinnedMesh*	m_pSkinnedUnit;
 	float			m_fvelocity;
+	float			m_fSpeed;
 
 	D3DXMATRIXA16	m_matScale;
 	D3DXMATRIXA16	m_matRot;
