@@ -41,9 +41,15 @@ private:
 	float				m_fPhysicsDefence;
 	float				m_fPhysicDamage;
 	float				m_fElementalDamage;
-	bool				m_IsRage;
+
 	int					m_nPhase;
 	int m_Debuff;
+	
+	float				m_fRagegauge;
+	bool				m_IsRage;
+
+	DWORD				m_dwSwampCreateCoolTime;
+	DWORD				m_dwSwampElapsedTime;
 
 public:
 	cDragonSoulEater();
