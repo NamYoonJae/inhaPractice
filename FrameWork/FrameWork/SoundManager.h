@@ -14,6 +14,25 @@
 
 using namespace FMOD;
 
+enum eSoundList
+{
+	Paladin_Move1 = 0,
+	Paladin_Move2,
+	Paladin_Move3,
+	Paladin_Move4,
+	Paladin_Move5,
+	Paladin_Move6,
+	Paladin_Move7,
+	Paladin_Move8,
+
+
+
+
+
+	
+	SoundListSize
+};
+
 class cSoundManager
 {
 private:
@@ -22,17 +41,17 @@ private:
 	Channel* m_cbgmChannel;
 
 	Sound* m_sbgm;
-	map<string, Sound*> m_mapsoundHash;
+	vector<Sound*> m_vecSounds;
 	float	m_fVolume;
 public:
 	void init();
-	void AddSFX(string path, string soundName);
+	void AddSFX(string path, unsigned soundindex);
 	void AddBGM(string path);
 
-	void Add3DSFX(string path, string soundName);
+	void Add3DSFX(string path, unsigned soundindex);
 	
-	void PlaySFX(string soundName);
-	void Play3DSFX(string soundName,FMOD_VECTOR ListenerPos,FMOD_VECTOR ChannelPos,FMOD_VECTOR ListenerVel = FMOD_VECTOR{0,0,0});
+	void PlaySFX(unsigned soundindex);
+	void Play3DSFX(unsigned soundindex, FMOD_VECTOR ListenerPos,FMOD_VECTOR ChannelPos, FMOD_VECTOR ListenerVel = FMOD_VECTOR{0,0,0});
 	void PlayBGM();
 
 	void Stop();

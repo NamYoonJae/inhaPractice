@@ -6,7 +6,7 @@
 cPaladinAttack::cPaladinAttack(cPaladin* pPaladin)
 	:cPaladinState(pPaladin)
 	,m_dAnimStartTime(0)
-	,m_nComboTimeLimit(1300)
+	,m_nComboTimeLimit(1000)
 	,m_IsComboAttack(false)
 {
 	m_nStateIndex = eAnimationSet::Attack1;
@@ -47,9 +47,7 @@ void cPaladinAttack::StateUpdate()
 		}
 	}
 
-	if (m_pPaladin->GetStateIndex() == eAnimationSet::Attack1 ||
-		m_pPaladin->GetStateIndex() == eAnimationSet::Attack2 ||
-		m_pPaladin->GetStateIndex() == eAnimationSet::Attack3)
+	if (m_pPaladin->GetStateIndex() >= eAnimationSet::Attack3)
 	{
 		pAnimController->GetTrackAnimationSet(0, &pNextAnimSet);
 		fAnimPeriod = (pNextAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
@@ -66,13 +64,21 @@ void cPaladinAttack::StateUpdate()
 
 void cPaladinAttack::ComboAttack()
 {
-	cout << GetTickCount() - m_dAnimStartTime << endl;
+	//cout << GetTickCount() - m_dAnimStartTime << endl;
 	if(GetTickCount() - m_dAnimStartTime <= m_nComboTimeLimit)
 	{
-		if (m_nStateIndex != eAnimationSet::Casting)
+		if (m_nStateIndex > eAnimationSet::Attack3 && !m_IsComboAttack)
+		{
 			m_nStateIndex--;
+			m_IsComboAttack = true;
+		}
+		else if (m_nStateIndex == eAnimationSet::Attack3)
+		{
+			m_nStateIndex = eAnimationSet::Attack1;
+			
+		}
 		
-		cout << m_nStateIndex << endl;
-		m_IsComboAttack = true;
+		//cout << m_nStateIndex << endl;
+		
 	}
 }
