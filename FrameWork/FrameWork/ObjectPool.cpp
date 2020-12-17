@@ -230,16 +230,13 @@ const cObject * ObjectPool::GetUI(int Tag)
 	return NULL;
 }
 
-std::vector<cObject*> ObjectPool::FindAllObjectsWithTag(int nTag)
+void ObjectPool::FindAllObjectsWithTag(int nTag,OUT std::vector<cObject*>& list)
 {
-	std::vector<cObject*> objectSubList;
-	for(int i = 0; i < vecObjectList.size(); i++)
+for (int i = 0; i < vecObjectList.size(); i++)
 	{
 		if (vecObjectList.at(i)->GetTag() == nTag)
-			objectSubList.push_back(vecObjectList.at(i));
+			list.push_back(vecObjectList.at(i));
 	}
-
-	return objectSubList;
 }
 
 const cObject* ObjectPool::SearchChild(int nTag)

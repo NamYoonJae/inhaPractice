@@ -15,7 +15,7 @@
 #include "SoulEater_FireBall.h"
 #include "SoulEater_Sleep.h"
 #include "SoulEater_Breath.h"
-
+#include "SoulEater_Flood.h"
 #include "LavaFlood.h"
 #include "Map.h"
 #pragma once
@@ -106,13 +106,13 @@ void cDragonSoulEater::Update()
 			m_dwSwampElapsedTime = GetTickCount();
 	}
 
-	if (m_nPhase >= 2 &&
-		GetTickCount() - m_dwSwampElapsedTime >= m_dwSwampCreateCoolTime)
-	{
-		iMap *map = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
-		map->CreateSwamp();
-		map->RenderTrigger();
-	}
+	//if (m_nPhase >= 2 &&
+	//	GetTickCount() - m_dwSwampElapsedTime >= m_dwSwampCreateCoolTime)
+	//{
+	//	iMap *map = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+	//	map->CreateSwamp();
+	//	map->RenderTrigger();
+	//}
 	
 	if (m_nPhase == 3)
 	{
@@ -627,8 +627,8 @@ void cDragonSoulEater::Request()
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
 		return;
 	}
-
-	if (m_fRagegauge >= 1000)
+	
+	if (m_fRagegauge >= 1000 && !m_IsRage)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
 		m_IsRage = true;
@@ -640,9 +640,22 @@ void cDragonSoulEater::Request()
 		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
 		return;
 	}
-	//
-	//랜덤함수 장판 생성
-	//
+
+	if (m_fCurHeathpoint <= m_fMaxHeathPoint * 0.2 && m_nPhase >= 3 && m_IsBreathe == false)
+	{
+		m_IsBreathe = true;
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+		return;
+	}
+
+
+
+	if (m_nPhase >= 2 && (rand() % 255 / 255 > 0.80))
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
+		return;
+	}
+	
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
@@ -657,12 +670,6 @@ void cDragonSoulEater::Request()
 		{
 			//
 			m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
-			return;
-		}
-		if (m_fCurHeathpoint <= m_fMaxHeathPoint * 0.2 && m_nPhase >= 3 && m_IsBreathe == false)
-		{
-			m_IsBreathe = true;
-			m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
 			return;
 		}
 		else if (Radian >= D3DX_PI - D3DX_PI * 0.33 && Radian <= D3DX_PI + D3DX_PI * 0.33
