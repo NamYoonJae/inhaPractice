@@ -229,6 +229,9 @@
     <ClCompile Include="SoulEater_Flood.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
+    <ClCompile Include="BackViewCamera.cpp">
+      <Filter>Code\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -467,6 +470,9 @@
     </ClInclude>
     <ClInclude Include="SoulEater_Flood.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="BackViewCamera.h">
+      <Filter>Code\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
