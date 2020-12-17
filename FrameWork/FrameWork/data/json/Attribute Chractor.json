@@ -1,38 +1,48 @@
 {
   "Charactor": {
-    "Max HP": "",
+    "Name": "paladin",
+    "Max HP": 500,
     "Attack": {
-      "Melee": "Int",
-      "Elemental": "Int",
-      "Stun rate": "Int",
-      "Rigid rate": "Int",
-      "Combo time limit": "Float",
-      "Critical rate": "Int",
-      "Critical additional damage": "Int"
+      "Melee": 100,
+      "Melee 1 rate": 1.0,
+      "Melee 2 rate": 1.1,
+      "Melee 3 rate": 1.3,
+      "Elemental": 50,
+      "Stun rate": 0,
+      "Rigid rate": 0.05,
+      "Combo time limit": 0.3,
+      "Critical probability": 0.1,
+      "Critical additional damage": 30
     },
     "Defense": {
-      "Melee": "Int",
-      "Elemental": "Int"
+      "Melee": 100,
+      "Elemental": 50
     },
     "Stamina": {
-      "Stamina": "Int",
-      "Restore": "Int"
+      "Stamina": 100.0,
+      "Restore": 1.1
     },
     "Dot damage": {
       "Poison": {
-        "Rate reduce": "Int",
-        "Damage": "Int",
-        "Duration time": "Int"
+        "Rate reduce": null,
+        "Damage": 5,
+        "Duration time": 10
       }
     },
     "Stun": {
-      "Rate reduce": "Int",
-      "Duration time": "Int"
+      "Rate reduce": 1,
+      "Duration time": 4
     },
     "Scream": {
-      "Duration time": "Int"
+      "Duration time": 2
+    },
+    "Invincibility": {
+      "Duration time" : 15
+    },
+    "Flinch": {
+      "Rate" : 115
     },
     "Aggro": 1,
-    "Move speed": "Int"
+    "Move speed": "Int N"
   }
 }

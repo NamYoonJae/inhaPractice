@@ -23,6 +23,7 @@ class cPaladin : public cCharater
 private:
 	cSkinnedMesh*	m_pSkinnedUnit;
 	float			m_fvelocity;
+	float			m_fSpeed;
 
 	D3DXMATRIXA16	m_matScale;
 	D3DXMATRIXA16	m_matRot;
@@ -50,12 +51,8 @@ private:
 	cTrophies* m_pTrophies;
 
 	vector<int> m_vecDebuff;
-	//int m_Debuff_Time;
-	time_t m_StartTime;
-	time_t m_EndTime;
-
-	cPopup* m_pDebuff1;
-	cPopup* m_pDebuff2;
+	vector<cPopup*> m_vecDebuff_UI;
+	vector<long> m_vecStartTime;
 
 public:
 	cPaladin();
@@ -85,6 +82,8 @@ public:
 
 	void SetDebuff(int debuff);
 	int vecDebuffFind(int debuff);
+	void ReloadSpriteDebuff();
+
 	//
 	int GetStateIndex();
 };

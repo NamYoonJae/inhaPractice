@@ -10,11 +10,11 @@
 #include "ObjObject.h"
 #include "Map"
 //
-#include "FireBall.h"
+#include "Swamp.h"
 
 ObjectPool::ObjectPool()
 {
-	
+
 }
 
 
@@ -40,7 +40,7 @@ void ObjectPool::Update()
 			
 			if(!IsCheckInMap)
 			{
-				if(vecObjectList.at(i)->GetTag() == Tag::Tag_cObj)
+				if(vecObjectList.at(i)->GetTag() >= Tag::Tag_cObj)
 				{
 					vecObjectList.at(i)->m_isDelete = true;
 				}
@@ -95,6 +95,8 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 	}
 
 	g_pTimeManager->DrawFPS();
+
+
 
 	for(int i = 0; i < vecUserInterface.size(); i++)
 	{
@@ -197,10 +199,12 @@ void ObjectPool::Revert(int curSceneType, int SceneType)
 
 const cObject* ObjectPool::GetChild(int nIndex)
 {
-	if (nIndex < vecObjectList.size())
-		return vecObjectList[nIndex];
-	else
-		return NULL;
+	for (int i = 0; i < vecObjectList.size(); i++)
+	{
+		if (vecObjectList[i]->GetTag() == nIndex)
+			return vecObjectList[i];
+	}
+	return NULL;
 }
 
 void ObjectPool::AddUIChild(cObject* obj)

@@ -9,6 +9,7 @@ cTerrain::cTerrain()
 	, m_pNewTerrainMesh(NULL)
 	, IsSwapMesh(false)
 	, m_pvTarget(NULL)
+	,iMap()
 {
 	m_CullingRect = { 0,0,0,0 };
 }

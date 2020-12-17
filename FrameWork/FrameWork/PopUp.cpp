@@ -33,6 +33,7 @@ cPopup::~cPopup()
 		delete m_vecPopupBtnList[i];
 		m_vecPopupBtnList.erase(m_vecPopupBtnList.end());
 	}
+	m_vecPopupBtnList.clear();
 }
 
 void cPopup::Setup(char * root, char * fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed)

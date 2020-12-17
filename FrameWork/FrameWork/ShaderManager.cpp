@@ -32,6 +32,10 @@ LPD3DXEFFECT cShaderManager::GetShader(eShader type)
 			break;
 		case FireBall:
 			m_vecShader[type] = LoadShader("data/Shader/fireBall.fx");
+			break;
+		case Swamp:
+			m_vecShader[type] = LoadShader("data/Shader/Swamp.fx");
+			break;
 		default:
 			cout << "Invailed Shader Type!" << endl;
 			break;

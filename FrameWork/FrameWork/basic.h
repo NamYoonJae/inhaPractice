@@ -12,7 +12,8 @@
 #include <cstdarg>
 #include<process.h>
 #include <thread>
-
+#include <random>
+#include <iostream>
 using namespace std;
 
 struct ST_PC_VERTEX
@@ -45,3 +46,15 @@ struct ST_PN_VERTEX
 };
 
 #define MatrixIdentity D3DXMATRIXA16(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f)
+
+template <typename T>
+T GenerateRandomNum(T minRange, T maxRange)
+{
+	srand(time(NULL));
+
+	random_device rd;
+	mt19937_64 gen(rd());
+	uniform_int_distribution<T> randNum(minRange, maxRange);
+
+	return randNum(gen);
+}

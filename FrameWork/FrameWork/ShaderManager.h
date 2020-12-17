@@ -14,7 +14,7 @@ enum eShader
 	Normal_DSNL,
 	LavaEffect,
 	FireBall,
-
+	Swamp,
 
 	ShaderSize
 };

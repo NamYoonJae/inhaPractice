@@ -32,8 +32,20 @@ void cSoundManager::init()
 {
 	System_Create(&m_fmodSystem);
 	m_fmodSystem->init(4, FMOD_INIT_NORMAL, NULL);
+
+	m_vecSounds.resize(eSoundList::SoundListSize);
 	
-	AddSFX("data/Sound/SFX/explode.wav", "Boom");
+	{
+		string szFullPath;
+		string szPathHead = "data/Sound/SFX/Paladin/NW_Move ";
+		string szPathTail = ".mp3";
+		
+		for(int i = Paladin_Move1; i <= Paladin_Move8; i++)
+		{
+			szFullPath = szPathHead + to_string(i) + szPathTail;
+			AddSFX(szFullPath, i);
+		}
+	}
 }
 
 void cSoundManager::AddBGM(string path)
@@ -41,15 +53,15 @@ void cSoundManager::AddBGM(string path)
 	m_fmodSystem->createStream(path.c_str(), FMOD_LOOP_NORMAL, NULL, &m_sbgm);
 }
 
-void cSoundManager::Add3DSFX(string path, string soundName)
+void cSoundManager::Add3DSFX(string path, unsigned soundindex)
 {
 	m_fmodSystem->createSound(path.c_str(), FMOD_3D, 
-		NULL, &m_mapsoundHash[soundName]);
+		NULL, &m_vecSounds[soundindex]);
 }
 
-void cSoundManager::AddSFX(string path, string soundName)
+void cSoundManager::AddSFX(string path, unsigned soundindex)
 {
-	m_fmodSystem->createSound(path.c_str(), FMOD_DEFAULT, NULL, &m_mapsoundHash[soundName]);
+	m_fmodSystem->createSound(path.c_str(), FMOD_DEFAULT, NULL, &m_vecSounds[soundindex]);
 }
 
 void cSoundManager::PlayBGM()
@@ -57,23 +69,23 @@ void cSoundManager::PlayBGM()
 	m_fmodSystem->playSound(FMOD_CHANNEL_REUSE, m_sbgm, false, &m_cbgmChannel);
 }
 
-void cSoundManager::PlaySFX(string soundName)
+void cSoundManager::PlaySFX(unsigned soundindex)
 {
-	if (m_mapsoundHash[soundName] != NULL)
+	if (m_vecSounds[soundindex] != NULL)
 	{
 		Channel* m_csfxChannel = 0;	
-		m_fmodSystem->playSound(FMOD_CHANNEL_FREE, m_mapsoundHash[soundName], false, &m_csfxChannel);
+		m_fmodSystem->playSound(FMOD_CHANNEL_FREE, m_vecSounds[soundindex], false, &m_csfxChannel);
 	}
 }
 
-void cSoundManager::Play3DSFX(string soundName, FMOD_VECTOR ListenerPos, FMOD_VECTOR ChannelPos,
+void cSoundManager::Play3DSFX(unsigned soundindex, FMOD_VECTOR ListenerPos, FMOD_VECTOR ChannelPos,
 	FMOD_VECTOR ListenerVel)
 {
-	if(m_mapsoundHash[soundName] != NULL)
+	if(m_vecSounds[soundindex] != NULL)
 	{
 		Channel * m_csfxChannel = 0; 
 		m_fmodSystem->playSound(FMOD_CHANNEL_FREE,
-			m_mapsoundHash[soundName],
+			m_vecSounds[soundindex],
 			false,
 			&m_csfxChannel);
 		m_csfxChannel->setVolume(m_fVolume);

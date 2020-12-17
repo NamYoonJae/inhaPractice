@@ -16,6 +16,7 @@
 #include "SoulEater_Sleep.h"
 
 #include "LavaFlood.h"
+#include "Map.h"
 #pragma once
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -34,8 +35,13 @@ cDragonSoulEater::cDragonSoulEater()
 	m_fElementalDamage = 200;
 	m_fPhysicDamage = 200;
 	m_IsRage = false;
+	m_fRagegauge = 0;
 	m_nPhase = 1;
+
 	m_IsBreathe = false;
+
+	m_dwSwampCreateCoolTime = 15000.0f;
+	m_dwSwampElapsedTime = 0.0f;
 }
 
 
@@ -89,6 +95,28 @@ void cDragonSoulEater::Update()
 
 	if (m_pCurState)
 		m_pCurState->handle();
+
+	if(	(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.8 && m_nPhase == 1) ||
+		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.5 && m_nPhase == 2) ||
+		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.3 && m_nPhase == 3))
+	{
+		++m_nPhase;
+		if (m_nPhase == 2)
+			m_dwSwampElapsedTime = GetTickCount();
+	}
+
+	if (m_nPhase >= 2 &&
+		GetTickCount() - m_dwSwampElapsedTime >= m_dwSwampCreateCoolTime)
+	{
+		iMap *map = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+		map->CreateSwamp();
+		map->RenderTrigger();
+	}
+	
+	if (m_nPhase == 3)
+	{
+		// ·é½ºÅæ È°¼ºÈ­
+	}
 
 }
 
@@ -590,8 +618,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 }
 
 void cDragonSoulEater::Request()
-{
-	
+{	
 	if (m_pCurState && m_pCurState->GetIndex() != 0)
 	{
 		m_nPrevStateIndex = m_pCurState->GetIndex();
@@ -600,14 +627,13 @@ void cDragonSoulEater::Request()
 		return;
 	}
 
-	if ((m_fCurHeathpoint <= m_fMaxHeathPoint * 0.8 && m_nPhase == 1) ||
-		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.5 && m_nPhase == 2))
+	if (m_fRagegauge >= 1000)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+		m_IsRage = true;
 		return;
 	}
 
-	
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
