@@ -223,6 +223,13 @@
     <ClCompile Include="DragonBreathe.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClCompile>
+    <ClCompile Include="Orb.cpp">
+      <Filter>Code\Map\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Rune.cpp">
+      <Filter>Code\Map\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -456,6 +463,13 @@
     <ClInclude Include="DragonBreathe.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClInclude>
+    <ClInclude Include="Orb.h">
+      <Filter>Code\Map\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Rune.h">
+      <Filter>Code\Map\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -619,6 +633,9 @@
     </Filter>
     <Filter Include="Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader">
       <UniqueIdentifier>{9e814031-df30-4321-8ee7-03c8147710e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Map\MapObject">
+      <UniqueIdentifier>{01b926b5-0aea-40e0-9bbb-ce552655db75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

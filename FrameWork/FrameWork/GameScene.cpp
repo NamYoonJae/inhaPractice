@@ -32,6 +32,11 @@
 
 #include "LavaGolem.h"
 
+
+//
+#include "Orb.h"
+#include "Rune.h"
+#include "Wall.h"
 #pragma once
 
 
@@ -147,6 +152,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
 	//
+	
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
 	m_pDragon->Setup("data/XFile/Dragon", "Merge.X");
 	D3DXMATRIXA16 matWorld;
@@ -157,6 +163,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->GetWorldMatrix(&matWorld);
 	m_pDragon->Tagging(Tag::Tag_Boss);
 	ObjectManager->AddChild(m_pDragon);
+	
 	//m_pSkinnedUnit->SetTransform();
 
 	//ObjectManager->AddChild(m_pSkinnedUnit);
@@ -177,7 +184,23 @@ void cGameScene::Setup() // boss1map  boss2map
 	//Lava->Tagging(Tag_LavaGolem);
 	//ObjectManager->AddChild(Lava);
 
+	/*
+	cOrb* orb = new cOrb;
+	orb->Setup();
+	ObjectManager->AddChild(orb);
+	*/
 
+	/*
+	cRune* rune = new cRune;
+	rune->Setup();
+	ObjectManager->AddChild(rune);
+	*/
+
+	/*
+	cWall* wall = new cWall;
+	wall->Setup();
+	ObjectManager->AddChild(wall);
+	*/
 }
 
 void cGameScene::Reset(int sceneType)

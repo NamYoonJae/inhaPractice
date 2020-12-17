@@ -160,11 +160,13 @@
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="DragonBreathe.h" />
     <ClInclude Include="FireBall.h" />
+    <ClInclude Include="Orb.h" />
     <ClInclude Include="PaladinAttack.h" />
     <ClInclude Include="PaladinEvade.h" />
     <ClInclude Include="PaladinIdle.h" />
     <ClInclude Include="PaladinMove.h" />
     <ClInclude Include="LavaFlood.h" />
+    <ClInclude Include="Rune.h" />
     <ClInclude Include="SoulEater_FireBall.h" />
     <ClInclude Include="SoulEater_Rush.h" />
     <ClInclude Include="SoulEater_Scream.h" />
@@ -227,6 +229,7 @@
     <ClInclude Include="TimerManager.h" />
     <ClInclude Include="Trophies.h" />
     <ClInclude Include="TrophiesSceneUIEvent.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arthur.cpp" />
@@ -238,11 +241,13 @@
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="DragonBreathe.cpp" />
     <ClCompile Include="FireBall.cpp" />
+    <ClCompile Include="Orb.cpp" />
     <ClCompile Include="PaladinAttack.cpp" />
     <ClCompile Include="PaladinEvade.cpp" />
     <ClCompile Include="PaladinIdle.cpp" />
     <ClCompile Include="PaladinMove.cpp" />
     <ClCompile Include="LavaFlood.cpp" />
+    <ClCompile Include="Rune.cpp" />
     <ClCompile Include="SoulEater_FireBall.cpp" />
     <ClCompile Include="SoulEater_Rush.cpp" />
     <ClCompile Include="SoulEater_Scream.cpp" />
@@ -308,6 +313,7 @@
     <ClCompile Include="TimerManager.cpp" />
     <ClCompile Include="Trophies.cpp" />
     <ClCompile Include="TrophiesSceneUIEvent.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FrameWork.rc" />
