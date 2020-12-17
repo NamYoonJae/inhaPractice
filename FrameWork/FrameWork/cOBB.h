@@ -26,5 +26,7 @@ public:
 	static bool IsCollision(cOBB* pOBB1,cOBB* pOBB);
 
 	void OBBBOX_Render(D3DXCOLOR c);
+	D3DXMATRIXA16 GetWorldMatrix() { return m_matWorldTM; }
+	std::vector<D3DXVECTOR3> GetList() { return list; }
 };
 

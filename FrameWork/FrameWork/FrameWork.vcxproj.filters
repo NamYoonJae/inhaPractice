@@ -223,6 +223,12 @@
     <ClCompile Include="DragonBreathe.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClCompile>
+    <ClCompile Include="SoulEater_Breath.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEater_Flood.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -455,6 +461,12 @@
     </ClInclude>
     <ClInclude Include="DragonBreathe.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Breath.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Flood.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

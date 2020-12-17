@@ -30,7 +30,7 @@ public:
 	const cObject* SearchChild(int nTag);
 	const cObject* SearchChildUI(int nTag);
 	const cObject* GetUI(int TagUI);
-
+	std::vector<cObject*> FindAllObjectsWithTag(int nTag);
 	int	GetUISize() { return vecUserInterface.size(); }
 	int	GetObjectListSize() { return vecObjectList.size(); }
 	

@@ -14,6 +14,7 @@
 #include "SoulEater_Scream.h"
 #include "SoulEater_FireBall.h"
 #include "SoulEater_Sleep.h"
+#include "SoulEater_Breath.h"
 
 #include "LavaFlood.h"
 #include "Map.h"
@@ -39,7 +40,7 @@ cDragonSoulEater::cDragonSoulEater()
 	m_nPhase = 1;
 
 	m_IsBreathe = false;
-
+	m_IsFireball = false;
 	m_dwSwampCreateCoolTime = 15000.0f;
 	m_dwSwampElapsedTime = 0.0f;
 }
@@ -634,6 +635,14 @@ void cDragonSoulEater::Request()
 		return;
 	}
 
+	if(m_IsRage && m_nPhase >= 3 && m_nPrevStateIndex == 4)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+		return;
+	}
+	//
+	//랜덤함수 장판 생성
+	//
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
@@ -650,9 +659,11 @@ void cDragonSoulEater::Request()
 			m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
 			return;
 		}
-		if (distance >= 100.0f && m_nPhase == 3 && m_IsBreathe == false)
+		if (m_fCurHeathpoint <= m_fMaxHeathPoint * 0.2 && m_nPhase >= 3 && m_IsBreathe == false)
 		{
-			//m_pCurState = (cSoulE)
+			m_IsBreathe = true;
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+			return;
 		}
 		else if (Radian >= D3DX_PI - D3DX_PI * 0.33 && Radian <= D3DX_PI + D3DX_PI * 0.33
 			&& distance <= 55

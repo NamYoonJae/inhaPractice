@@ -27,7 +27,7 @@ public:
 	enum AnimationSet {
 		Sleeping,
 		Idle,
-		FirBall_Shot,
+		FireBall_Shot,
 		Land,
 		FlyGlide,
 		FlyFireBallShoot,

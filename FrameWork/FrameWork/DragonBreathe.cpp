@@ -3,17 +3,18 @@
 #include <random>
 #include <iostream>
 #include "FireBall.h"
-
+#include "cOBB.h"
 #pragma once
 
 cDragonBreathe::cDragonBreathe()
-	:m_dwDuration(10000.0f)
-	,m_dwStartTime(GetTickCount())
+	:m_dwStartTime(GetTickCount())
 	,m_pvTarget(NULL)
+	,cObject()
 {
 	D3DXCreateTextureFromFileA(g_pD3DDevice,
-		"data/Texture/Lava.png", &m_pParticle);
+		"data/Texture/alpha_tex.tga", &m_pParticle);
 	m_vPos = D3DXVECTOR3(0, 0, 0);
+	m_dwDurationTime = 10000.0f;
 }
 
 
@@ -23,8 +24,11 @@ cDragonBreathe::~cDragonBreathe()
 
 void cDragonBreathe::Update()
 {
-	if (GetTickCount() - m_dwStartTime > m_dwDuration)
+	if (GetTickCount() - m_dwStartTime > m_dwDurationTime)
+	{
+		m_isDelete = true;
 		return;
+	}
 
 	if (m_pvTarget)
 	{
@@ -35,11 +39,11 @@ void cDragonBreathe::Update()
 		mt19937_64 mtRand(rd());
 		uniform_real_distribution<float> dis(1.0f, 3.0f);
 
-		for (int i = 0; i < 150; i++)
+		for (int i = 0; i < 50; i++)
 		{
 			ST_PC_VERTEX pc;
 			float fDist = dis(rd);
-			pc.p = m_vPos + fDist * vDir;
+			pc.p = D3DXVECTOR3(0, fDist, fDist);
 			float RadiusX = D3DXToRadian(rand() % 360);
 			float RadiusZ = D3DXToRadian(rand() % 360);
 			float RadiusY = D3DXToRadian(rand() % 360);
@@ -56,6 +60,7 @@ void cDragonBreathe::Update()
 				&matWorld);
 
 			pc.c = D3DCOLOR_ARGB(255, 255, 0, 0);
+			pc.p += (m_vPos + vDir * 2.0f);
 
 			m_vecPosList.push_back(pc);
 			m_vecDirList.push_back(vDir);
@@ -64,30 +69,32 @@ void cDragonBreathe::Update()
 
 	for (int i = 0; i < m_vecPosList.size(); ++i)
 	{
-		m_vecPosList[i].p += m_vecDirList[i] * 0.8;
+		m_vecPosList[i].p += m_vecDirList[i] * 0.6f;
 	}
 
 	if (m_vecPosList.size() > 50000)
 	{
-		std::vector<ST_PC_VERTEX> vecPosList;
-		std::vector<D3DXVECTOR3> vecDirList;
-
-		vecPosList.assign(m_vecPosList.begin() + 500,
-			m_vecPosList.end());
-		m_vecPosList.swap(vecPosList);
-
-		vecDirList.assign(m_vecDirList.begin() + 500,
-			m_vecDirList.end());
-		m_vecDirList.swap(vecDirList);
+		m_vecPosList.erase(m_vecPosList.begin(), m_vecPosList.begin() + 500);
+		m_vecDirList.erase(m_vecDirList.begin(), m_vecDirList.begin() + 500);
 	}
 	//
 
+	if(m_pOBB != NULL)
+	{
+		SafeDelete(m_pOBB);
+	}
 
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(m_vecPosList[0].p, m_vecPosList[m_vecPosList.size() - 1].p);
+	
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	m_pOBB->Update(&matWorld);
 }
 
-void cDragonBreathe::Render()
+void cDragonBreathe::Render(D3DXMATRIXA16 *pmat)
 {
-	if (GetTickCount() - m_dwStartTime > m_dwDuration)
+	if (GetTickCount() - m_dwStartTime > m_dwDurationTime)
 		return;
 	else if (m_pvTarget == NULL)
 		return;
@@ -140,6 +147,51 @@ void cDragonBreathe::Render()
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG0, D3DTA_DIFFUSE);
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 
+	if (m_pOBB)
+		m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 128, 128, 0));
+}
+
+void cDragonBreathe::CollisionProcess(cObject* pObject)
+{
+
+	
+	int nTag = pObject->GetTag();
+	cOBB* pOBB = pObject->GetOBB();
+	
+	if(nTag == Tag::Tag_RunStone)
+	{
+		int i = 0;
+		std::vector<D3DXVECTOR3> list = pOBB->GetList();
+		D3DXMATRIXA16 matWorld = pOBB->GetWorldMatrix();
+		D3DXVECTOR3 pos;
+		pos.x = matWorld._41; pos.y = matWorld._42; pos.z = matWorld._43;
+
+		for (i = m_vecPosList.size() - 1; i > 0; --i)
+		{
+			if ((m_vecPosList[i].p.z <= pos.z + list[4].z && m_vecPosList[i].p.z >= pos.z + list[0].z) &&
+				(m_vecPosList[i].p.x <= pos.x + list[2].x && m_vecPosList[i].p.x >= pos.x + list[0].x) &&
+				(m_vecPosList[i].p.y <= pos.y + list[1].y && m_vecPosList[i].p.y >= pos.y + list[0].y))
+			{
+				break;
+			}
+
+		}
+
+		if (i == 0)
+			return;
+		else
+		{
+			m_vecPosList.erase(m_vecPosList.begin(), m_vecPosList.begin() + i);
+			m_vecDirList.erase(m_vecDirList.begin(), m_vecDirList.begin() + i);
+
+		}
+	}
+
+	if(Tag::Tag_Player)
+	{
+
+		
+	}
 }
 
 void cDragonBreathe::SetUp()

@@ -53,6 +53,7 @@ private:
 	Synthesize(float, m_fMaxHeathPoint, MAXHP);
 	Synthesize(float, m_fCurHeathpoint, CURHP);
 	bool m_IsBreathe;
+	bool m_IsFireball;
 public:
 	cDragonSoulEater();
 	~cDragonSoulEater();
