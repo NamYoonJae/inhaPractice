@@ -43,7 +43,7 @@ void cSoulEater_Idle::handle()
 		}
 
 	}
-	if (dwCurrentTime - m_dwElapsedTime >= 1500.0f
+	if (dwCurrentTime - m_dwElapsedTime >= 1000.0f
 		&& m_pDragon->GetTarget())
 	{
 		m_pDragon->Request();

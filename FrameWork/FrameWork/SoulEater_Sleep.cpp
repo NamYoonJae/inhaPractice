@@ -8,6 +8,9 @@ cSoulEater_Sleep::cSoulEater_Sleep()
 {
 	m_nCurentIndex = 6;
 	m_IsSleep = false;
+	m_fDamagetaken = 0.0f;
+	m_fHealingAmount = 0.0f;
+	m_dwHealingCoolTime = 1500.0f;
 }
 
 cSoulEater_Sleep::cSoulEater_Sleep(cDragonSoulEater* pDragon)
@@ -15,6 +18,9 @@ cSoulEater_Sleep::cSoulEater_Sleep(cDragonSoulEater* pDragon)
 {
 	m_nCurentIndex = 6;
 	m_IsSleep = false;
+	m_fDamagetaken = 0.0f;
+	m_fHealingAmount = 0.0f;
+	m_dwHealingCoolTime = 1500.0f;
 }
 
 
@@ -51,15 +57,8 @@ void cSoulEater_Sleep::handle()
 			ObjectManager->AddChild(pGolem1);
 			pGolem1->SetMater(this);
 					
-			pGolem2 = new cLavaGolem;
-			pGolem2->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
-			pGolem2->Setup("data/XFile/LavaGolem", "LavaGolem.X");
-			pGolem2->Tagging(Tag::Tag_LavaGolem);
-			pGolem1->SetPos(vPos2);
-			ObjectManager->AddChild(pGolem2);
-			pGolem2->SetMater(this);
-
 			m_nliveGolem = 1;
+			m_dwElapsedTime = GetTickCount();
 		}
 
 	}
@@ -67,14 +66,27 @@ void cSoulEater_Sleep::handle()
 	{
 
 		// È¸º¹
-		
-		//
-		if (m_nliveGolem == 0)
+		if(m_pDragon)
 		{
-			m_pDragon->Request();
-			return;
+			if(GetTickCount() - m_dwElapsedTime >= m_dwHealingCoolTime)
+			{
+				m_fHealingAmount += m_pDragon->GetMAXHP() * 0.15 * 0.05;
+				m_dwElapsedTime = GetTickCount();
+			}
+
+			if (m_fDamagetaken >= 1500)
+			{
+				m_pDragon->Request();
+				return;
+			}
+			else if(m_fHealingAmount > m_pDragon->GetMAXHP() * 0.15)
+			{
+				m_pDragon->Request();
+				return;
+			}
 		}
 		
+		//		
 	}
 	
 }

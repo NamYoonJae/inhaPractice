@@ -6,8 +6,8 @@
 
 cSoulEaterState::cSoulEaterState()
 	: m_pDragon(NULL)
-	, m_vTarget(0,0,0)
-	, m_vDir(0,0,0)
+	, m_vTarget(0, 0, 0)
+	, m_vDir(0, 0, 0)
 	, m_dwElapsedTime(GetTickCount())
 {
 }

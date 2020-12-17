@@ -7,6 +7,11 @@ class cSoulEater_Sleep :
 private:
 	bool m_IsSleep;
 	int	 m_nliveGolem;
+
+	float m_fDamagetaken;
+	float m_fHealingAmount;
+
+	DWORD	m_dwHealingCoolTime;
 public:
 	cSoulEater_Sleep();
 	cSoulEater_Sleep(cDragonSoulEater*);

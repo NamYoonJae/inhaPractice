@@ -35,6 +35,7 @@ cDragonSoulEater::cDragonSoulEater()
 	m_fPhysicDamage = 200;
 	m_IsRage = false;
 	m_nPhase = 1;
+	m_IsBreathe = false;
 }
 
 
@@ -593,24 +594,11 @@ void cDragonSoulEater::Request()
 	
 	if (m_pCurState && m_pCurState->GetIndex() != 0)
 	{
+		m_nPrevStateIndex = m_pCurState->GetIndex();
 		SafeDelete(m_pCurState);
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
 		return;
 	}
-	
-	m_nPrevStateIndex = m_pCurState->GetIndex();
-	
-	//..
-	//..  150 ~ 210도
-
-	// 실험용 
-	//static DWORD dwTimer = GetTickCount();
-	//if (GetTickCount() - dwTimer >= 3000.0f)
-	//{
-	//	m_pCurState = //(cSoulEaterState*)new cSoulEater_Sleep(this);
-	//		(cSoulEaterState*)new cSoulEater_FireBall(this);
-	//	return;
-	//}
 
 	if ((m_fCurHeathpoint <= m_fMaxHeathPoint * 0.8 && m_nPhase == 1) ||
 		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.5 && m_nPhase == 2))
@@ -625,16 +613,20 @@ void cDragonSoulEater::Request()
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
 		D3DXVec3Normalize(&vCurDir, &vCurDir);
 		D3DXVECTOR3 vPrevDir = D3DXVECTOR3(0, 0, -1);
-		D3DXVec3TransformNormal(&vPrevDir,&vPrevDir,&m_matRotation);
+		D3DXVec3TransformNormal(&vPrevDir, &vPrevDir, &m_matRotation);
 
 		float Radian = acos(D3DXVec3Dot(&vPrevDir, &vCurDir));
 		float distance = sqrt(pow(m_vPos.x - (*m_pvTarget).x, 2) + pow(m_vPos.z - (*m_pvTarget).z, 2));
-		
+
 		if (distance >= 100.0f && m_nPrevStateIndex != 3)
 		{
 			//
 			m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
 			return;
+		}
+		if (distance >= 100.0f && m_nPhase == 3 && m_IsBreathe == false)
+		{
+			//m_pCurState = (cSoulE)
 		}
 		else if (Radian >= D3DX_PI - D3DX_PI * 0.33 && Radian <= D3DX_PI + D3DX_PI * 0.33
 			&& distance <= 55
