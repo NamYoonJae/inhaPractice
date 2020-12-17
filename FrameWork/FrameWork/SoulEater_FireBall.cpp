@@ -72,8 +72,6 @@ void cSoulEater_FireBall::handle()
 			ST_BONE *pBone = (ST_BONE*)D3DXFrameFind(m_pDragon->GetSkinnedMesh().GetFrame(), "Head");
 			matCurrentAnimMatrix = pBone->CombinedTransformationMatrix;
 
-
-
 			vPos.x += matCurrentAnimMatrix._41;
 			vPos.y += matCurrentAnimMatrix._42;
 			vPos.z += matCurrentAnimMatrix._43;

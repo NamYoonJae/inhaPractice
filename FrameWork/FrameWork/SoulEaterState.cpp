@@ -6,8 +6,8 @@
 
 cSoulEaterState::cSoulEaterState()
 	: m_pDragon(NULL)
-	, m_vTarget(0,0,0)
-	, m_vDir(0,0,0)
+	, m_vTarget(0, 0, 0)
+	, m_vDir(0, 0, 0)
 	, m_dwElapsedTime(GetTickCount())
 {
 }
@@ -36,7 +36,7 @@ void cSoulEaterState::TargetCapture()
 
 	D3DXVECTOR3 pos = m_pDragon->GetPos();
 
-	if (m_pDragon->GetTarget() && m_vTarget == D3DXVECTOR3(0, 0, 0))
+	if (m_pDragon->GetTarget())
 	{
 		m_vTarget = *m_pDragon->GetTarget();
 		m_vDir = m_vTarget - m_pDragon->GetPos();

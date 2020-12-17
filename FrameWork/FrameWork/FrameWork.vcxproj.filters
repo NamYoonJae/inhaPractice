@@ -229,7 +229,18 @@
     <ClCompile Include="Rune.cpp">
       <Filter>Code\Map\MapObject</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Wall.cpp">
+	  <Filter>Code\Map\MapObject</Filter>
+	</ClCompile>
+    <ClCompile Include="SoulEater_Breath.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEater_Flood.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
+    <ClCompile Include="BackViewCamera.cpp">
+      <Filter>Code\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -469,7 +480,18 @@
     <ClInclude Include="Rune.h">
       <Filter>Code\Map\MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Wall.h" >
+	  <Filter>Code\Map\MapObject</Filter>
+	</ClInclude>
+    <ClInclude Include="SoulEater_Breath.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Flood.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="BackViewCamera.h">
+      <Filter>Code\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

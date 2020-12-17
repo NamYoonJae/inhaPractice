@@ -35,8 +35,7 @@ private:
 	int						m_nPrevStateIndex;
 	D3DXMATRIXA16			m_matRotation;
 
-	float				m_fCurHeathpoint;
-	float				m_fMaxHeathPoint;
+	
 	float				m_fElementalDefence;
 	float				m_fPhysicsDefence;
 	float				m_fPhysicDamage;
@@ -51,6 +50,10 @@ private:
 	DWORD				m_dwSwampCreateCoolTime;
 	DWORD				m_dwSwampElapsedTime;
 
+	Synthesize(float, m_fMaxHeathPoint, MAXHP);
+	Synthesize(float, m_fCurHeathpoint, CURHP);
+	bool m_IsBreathe;
+	bool m_IsFireball;
 public:
 	cDragonSoulEater();
 	~cDragonSoulEater();

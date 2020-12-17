@@ -14,7 +14,8 @@
 #include "SoulEater_Scream.h"
 #include "SoulEater_FireBall.h"
 #include "SoulEater_Sleep.h"
-
+#include "SoulEater_Breath.h"
+#include "SoulEater_Flood.h"
 #include "LavaFlood.h"
 #include "Map.h"
 #pragma once
@@ -37,6 +38,9 @@ cDragonSoulEater::cDragonSoulEater()
 	m_IsRage = false;
 	m_fRagegauge = 0;
 	m_nPhase = 1;
+
+	m_IsBreathe = false;
+	m_IsFireball = false;
 	m_dwSwampCreateCoolTime = 15000.0f;
 	m_dwSwampElapsedTime = 0.0f;
 }
@@ -102,13 +106,13 @@ void cDragonSoulEater::Update()
 			m_dwSwampElapsedTime = GetTickCount();
 	}
 
-	if (m_nPhase >= 2 &&
-		GetTickCount() - m_dwSwampElapsedTime >= m_dwSwampCreateCoolTime)
-	{
-		iMap *map = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
-		map->CreateSwamp();
-		map->RenderTrigger();
-	}
+	//if (m_nPhase >= 2 &&
+	//	GetTickCount() - m_dwSwampElapsedTime >= m_dwSwampCreateCoolTime)
+	//{
+	//	iMap *map = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+	//	map->CreateSwamp();
+	//	map->RenderTrigger();
+	//}
 	
 	if (m_nPhase == 3)
 	{
@@ -618,42 +622,50 @@ void cDragonSoulEater::Request()
 {	
 	if (m_pCurState && m_pCurState->GetIndex() != 0)
 	{
+		m_nPrevStateIndex = m_pCurState->GetIndex();
 		SafeDelete(m_pCurState);
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
 		return;
 	}
 	
-	m_nPrevStateIndex = m_pCurState->GetIndex();
-	
-	//..
-	//..  150 ~ 210도
-
-	// 실험용 
-	//static DWORD dwTimer = GetTickCount();
-	//if (GetTickCount() - dwTimer >= 3000.0f)
-	//{
-	//	m_pCurState = //(cSoulEaterState*)new cSoulEater_Sleep(this);
-	//		(cSoulEaterState*)new cSoulEater_FireBall(this);
-	//	return;
-	//}
-
-	if (m_fRagegauge >= 1000)
+	if (m_fRagegauge >= 1000 && !m_IsRage)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
 		m_IsRage = true;
 		return;
 	}
 
+	if(m_IsRage && m_nPhase >= 3 && m_nPrevStateIndex == 4)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+		return;
+	}
+
+	if (m_fCurHeathpoint <= m_fMaxHeathPoint * 0.2 && m_nPhase >= 3 && m_IsBreathe == false)
+	{
+		m_IsBreathe = true;
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+		return;
+	}
+
+
+
+	if (m_nPhase >= 2 && (rand() % 255 / 255 > 0.80))
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
+		return;
+	}
+	
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
 		D3DXVec3Normalize(&vCurDir, &vCurDir);
 		D3DXVECTOR3 vPrevDir = D3DXVECTOR3(0, 0, -1);
-		D3DXVec3TransformNormal(&vPrevDir,&vPrevDir,&m_matRotation);
+		D3DXVec3TransformNormal(&vPrevDir, &vPrevDir, &m_matRotation);
 
 		float Radian = acos(D3DXVec3Dot(&vPrevDir, &vCurDir));
 		float distance = sqrt(pow(m_vPos.x - (*m_pvTarget).x, 2) + pow(m_vPos.z - (*m_pvTarget).z, 2));
-		
+
 		if (distance >= 100.0f && m_nPrevStateIndex != 3)
 		{
 			//

@@ -53,7 +53,7 @@ private:
 	vector<int> m_vecDebuff;
 	vector<cPopup*> m_vecDebuff_UI;
 	vector<long> m_vecStartTime;
-
+	
 public:
 	cPaladin();
 	~cPaladin();
@@ -86,6 +86,11 @@ public:
 
 	//
 	int GetStateIndex();
+
+
+	// backviewCamera
+	void SetCameraRot(D3DXVECTOR3 CameraRot) { m_vCameraRot = CameraRot; }
+	void SetCameraDir(D3DXVECTOR3 CameraDir) { m_vCameraDir = CameraDir; }
 };
 
 class cParts

@@ -41,7 +41,7 @@ void cSoulEater_Scream::handle()
 	{
 		if (m_IsAnimBlend == false)
 		{
-			m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::FirBall_Shot);
+			m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::FireBall_Shot);
 			m_IsAnimBlend = true;
 
 

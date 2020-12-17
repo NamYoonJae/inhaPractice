@@ -63,6 +63,7 @@ void ObjectPool::Update()
 	}
 
 
+	//
 	std::vector<cObject*>::iterator it;
 	it = vecObjectList.begin();
 
@@ -227,6 +228,15 @@ const cObject * ObjectPool::GetUI(int Tag)
 	}
 	
 	return NULL;
+}
+
+void ObjectPool::FindAllObjectsWithTag(int nTag,OUT std::vector<cObject*>& list)
+{
+for (int i = 0; i < vecObjectList.size(); i++)
+	{
+		if (vecObjectList.at(i)->GetTag() == nTag)
+			list.push_back(vecObjectList.at(i));
+	}
 }
 
 const cObject* ObjectPool::SearchChild(int nTag)

@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arthur.h" />
+    <ClInclude Include="BackViewCamera.h" />
     <ClInclude Include="basic.h" />
     <ClInclude Include="BtnUIEvent.h" />
     <ClInclude Include="Button.h" />
@@ -167,7 +168,9 @@
     <ClInclude Include="PaladinMove.h" />
     <ClInclude Include="LavaFlood.h" />
     <ClInclude Include="Rune.h" />
+    <ClInclude Include="SoulEater_Breath.h" />
     <ClInclude Include="SoulEater_FireBall.h" />
+    <ClInclude Include="SoulEater_Flood.h" />
     <ClInclude Include="SoulEater_Rush.h" />
     <ClInclude Include="SoulEater_Scream.h" />
     <ClInclude Include="SoulEater_Sleep.h" />
@@ -233,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Arthur.cpp" />
+    <ClCompile Include="BackViewCamera.cpp" />
     <ClCompile Include="BtnUIEvent.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="AllocateHierarchy.cpp" />
@@ -248,7 +252,9 @@
     <ClCompile Include="PaladinMove.cpp" />
     <ClCompile Include="LavaFlood.cpp" />
     <ClCompile Include="Rune.cpp" />
+    <ClCompile Include="SoulEater_Breath.cpp" />
     <ClCompile Include="SoulEater_FireBall.cpp" />
+    <ClCompile Include="SoulEater_Flood.cpp" />
     <ClCompile Include="SoulEater_Rush.cpp" />
     <ClCompile Include="SoulEater_Scream.cpp" />
     <ClCompile Include="SoulEater_Sleep.cpp" />

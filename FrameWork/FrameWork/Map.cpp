@@ -36,7 +36,7 @@ void iMap::CreateSwamp(int nSize)
 		cSwamp *pSwamp = new cSwamp;
 		
 		pSwamp->Setup();
-		pSwamp->Tagging(Tag::Tag_Swamp);
+		pSwamp->Tagging(Tag::Tag_SwampA);
 		m_vecSwampList[i] = pSwamp;
 	}
 }

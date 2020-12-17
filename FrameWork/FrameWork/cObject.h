@@ -11,7 +11,8 @@ const enum Tag
 	Tag_LavaGolem,
 	Tag_cObj,
 	Tag_FireBall,
-	Tag_Swamp,
+	Tag_SwampA,
+	Tag_SwampB,
 	Tag_RunStone,
 	Tag_Breath
 };

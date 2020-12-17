@@ -22,7 +22,7 @@ void cSwamp::Setup()
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
 	m_vPos = D3DXVECTOR3(0, 0.0, 0);
-	
+	m_vRot = D3DXVECTOR3(0.3, 0.001, 0.3);
 	// xfile
 	{
 
@@ -96,7 +96,7 @@ void cSwamp::Render(D3DXMATRIXA16 *pmat)
 {
 	D3DXMATRIXA16 matWorld, matS, matT;
 	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixScaling(&matS,0.3,0.001,0.3);
+	D3DXMatrixScaling(&matS,m_vRot.x,m_vRot.y,m_vRot.z);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	matWorld = matS * matT;
 
