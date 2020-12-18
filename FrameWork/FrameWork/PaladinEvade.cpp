@@ -8,6 +8,7 @@ cPaladinEvade::cPaladinEvade(cPaladin* pPaladin)
 {
 	m_nStateIndex = eAnimationSet::Roll;
 	m_pPaladin->GetSkinnedMesh()->SetAnimationIndexBlend(m_nStateIndex);
+	m_dAnimStartTime = GetTickCount();
 }
 
 cPaladinEvade::~cPaladinEvade()
@@ -16,4 +17,24 @@ cPaladinEvade::~cPaladinEvade()
 
 void cPaladinEvade::StateUpdate()
 {
+	if (m_pPaladin == NULL) return;
+
+	LPD3DXANIMATIONCONTROLLER pAnimController = m_pPaladin->GetSkinnedMesh()->GetAnimationController();
+	LPD3DXANIMATIONSET pCurAnimSet = NULL;
+	float fAnimPeriod;
+	float fAnimBlendingTime = 0.3f;
+
+	if (m_pPaladin->GetStateIndex() == eAnimationSet::Roll)
+	{
+		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
+		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
+	}
+
+	if (m_dAnimStartTime && pCurAnimSet)
+	{
+		if (GetTickCount() - m_dAnimStartTime >= fAnimPeriod)
+		{
+			m_pPaladin->StateFeedback();
+		}
+	}
 }

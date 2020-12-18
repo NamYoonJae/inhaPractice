@@ -3,6 +3,8 @@
 
 class cPaladinEvade : public cPaladinState
 {
+private:
+	DWORD m_dAnimStartTime;
 public:
 	cPaladinEvade(cPaladin*);
 	~cPaladinEvade();
