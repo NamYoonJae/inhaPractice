@@ -149,11 +149,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	pMap->SetScale(D3DXVECTOR3(0.2f, 1.0f, 0.2f));
 	ObjectManager->AddStaticChild(pMap);
-
-
-	//cBackViewCamera* Camera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
-
-	//
 	
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
 	m_pDragon->Setup("data/XFile/Dragon", "Merge.X");
@@ -192,12 +187,12 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(orb);
 	*/
 
-	/*
+	
 	cRune* rune = new cRune;
 	rune->Setup();
+	rune->Tagging(Tag::Tag_cObj);
 	ObjectManager->AddChild(rune);
-	*/
-
+	
 	/*
 	cWall* wall = new cWall;
 	wall->Setup();

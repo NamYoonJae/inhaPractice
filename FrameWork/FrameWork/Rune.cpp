@@ -41,6 +41,17 @@ void cRune::Setup()
 		vMax.z = max(vMax.z, list.at(i).p.z);
 	}
 
+	for (int i = 0; i < m_vecGroup.size(); ++i)
+	{
+		vector<ST_PNT_VERTEX> Group = m_vecGroup.at(i)->GetVertex();
+		for (int j = 0; j < m_vecGroup.at(i)->GetVertex().size(); ++j)
+		{
+			Group.at(j).t.x = 1 - Group.at(j).t.x;
+		}
+
+		m_vecGroup.at(i)->SetVertices(Group);
+	}
+
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(vMin, vMax);
 }
