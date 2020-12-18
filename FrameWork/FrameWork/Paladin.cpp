@@ -30,6 +30,7 @@ cPaladin::cPaladin()
 	,m_fSpeed(300.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&TempRot);
 }
 
 
