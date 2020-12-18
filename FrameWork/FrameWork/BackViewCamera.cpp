@@ -114,7 +114,9 @@ void cBackViewCamera::Update()
 		 //m_vCamRotAngle.y += fDeltaX * D3DX_PI * 0.01;
 		 
 		 JSON_Object* p_mouseSensitivity = g_p_jsonManager->get_json_object_Setting();
-		 m_vCamRotAngle.y += fDeltaX * D3DX_PI * 0.0001 * json_Function::object_get_double(p_mouseSensitivity, "Mouse sensitivity/total");
+		 m_vCamRotAngle.y += fDeltaX * D3DX_PI * 0.0001
+			 * json_Function::object_get_double(p_mouseSensitivity, "Mouse sensitivity/total")
+			 * json_Function::object_get_double(p_mouseSensitivity, "Mouse sensitivity/normal") * 0.01;
 
 		 m_ptPrevMouse = ptCurMouse;
 	 }
