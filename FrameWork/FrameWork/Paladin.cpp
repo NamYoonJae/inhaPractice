@@ -128,14 +128,14 @@ void cPaladin::ShaderSetup()
 
 void cPaladin::Update()
 {
-	if (m_fvelocity != 0)
+	//if (m_fvelocity != 0)
 	{
 		m_vDir = D3DXVECTOR3(0, 0, -1);
 
 		D3DXVec3TransformNormal(&m_vDir, &m_vDir, &TempRot);
-		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ffff",
-			TempRot._11, TempRot._13,
-			TempRot._31, TempRot._33);
+		//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ffff",
+		//	TempRot._11, TempRot._13,
+		//	TempRot._31, TempRot._33);
 		D3DXMATRIXA16 matView;
 		D3DXMatrixLookAtRH(&matView, &D3DXVECTOR3(0, 0, 0),
 			&m_vDir, &D3DXVECTOR3(0, 1, 0));
