@@ -15,6 +15,11 @@ private:
 	D3DXVECTOR3 m_vDir;
 	D3DXMATRIXA16 m_matParent; // 플레어의 매트릭스
 	cCharater *m_pPlayer;
+
+	float	m_fScrollY;
+	
+	Synthesize(float, m_fVibrationValue, VibrationValue);
+	Synthesize(bool, m_IsVibration, Vibration);
 public:
 	cBackViewCamera();
 	~cBackViewCamera();
