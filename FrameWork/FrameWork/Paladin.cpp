@@ -125,13 +125,37 @@ void cPaladin::ShaderSetup()
 	pShader->SetVector("gLightColor", &LightColor);
 }
 
+
 void cPaladin::Update()
 {
-	D3DXMatrixScaling(&m_matScale, m_vScale.x, m_vScale.y, m_vScale.z);
-	D3DXMatrixRotationY(&m_matRot, m_vRot.y);
-	D3DXMatrixTranslation(&m_matTranse, m_vPos.x, m_vPos.y, m_vPos.z);
+	if (m_fvelocity != 0)
+	{
+		m_vDir = D3DXVECTOR3(0, 0, -1);
 
-	m_matWorld = m_matScale * m_matRot * m_matTranse;
+		D3DXVec3TransformNormal(&m_vDir, &m_vDir, &TempRot);
+		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ffff",
+			TempRot._11, TempRot._13,
+			TempRot._31, TempRot._33);
+		D3DXMATRIXA16 matView;
+		D3DXMatrixLookAtRH(&matView, &D3DXVECTOR3(0, 0, 0),
+			&m_vDir, &D3DXVECTOR3(0, 1, 0));
+		D3DXMatrixInverse(&matView, NULL, &matView);
+		D3DXMATRIXA16 matR;
+		D3DXMatrixRotationY(&matR, m_vCameraRot.y);
+
+		D3DXVec3TransformNormal(&m_vDir, &m_vDir, &matR);
+		//
+		m_vPos += m_vDir * m_fvelocity;
+
+		D3DXMatrixScaling(&m_matScale, m_vScale.x, m_vScale.y, m_vScale.z);
+
+		D3DXMatrixTranslation(&m_matTranse, m_vPos.x, m_vPos.y, m_vPos.z);
+
+		m_matWorld = m_matScale * matView * matR * m_matTranse;
+	}
+
+
+
 	m_pSkinnedUnit->m_matWorldTM = m_matWorld;
 
 	if (m_fvelocity != 0 && !m_isMoving)
@@ -146,15 +170,15 @@ void cPaladin::Update()
 	m_pSkinnedUnit->Update();
 
 	m_pOBB->Update(&m_matWorld);
-	
-	for(cParts* parts : m_vecParts)
+
+	for (cParts* parts : m_vecParts)
 	{
 		parts->Update(&m_matWorld);
 	}
 
 	long endTime = GetTickCount();
 
-	for (int i = 0; i < m_vecDebuff.size(); i++) 
+	for (int i = 0; i < m_vecDebuff.size(); i++)
 	{
 		switch (m_vecDebuff[i])
 		{
@@ -164,33 +188,33 @@ void cPaladin::Update()
 		case enum_Poison:
 			if (endTime - m_vecStartTime[i] >= 5000)
 			{
-				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
 				m_vecStartTime.erase(m_vecStartTime.begin() + i);
 				ReloadSpriteDebuff();
-				
+
 			}
 			break;
 
 		case enum_Stun:
 			if (endTime - m_vecStartTime[i] >= 5000)
 			{
-				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
 				m_vecStartTime.erase(m_vecStartTime.begin() + i);
 				ReloadSpriteDebuff();
-				
+
 			}
 			break;
 
 		case enum_Roar:
 			if (endTime - m_vecStartTime[i] >= 5000)
 			{
-				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
 				m_vecStartTime.erase(m_vecStartTime.begin() + i);
 				ReloadSpriteDebuff();
-				
+
 			}
 			break;
 
@@ -206,15 +230,15 @@ void cPaladin::Update()
 
 void cPaladin::Update(EventType event)
 {
-	D3DXMATRIXA16 TempRot;
-	D3DXMatrixIdentity(&TempRot);
+	//D3DXMATRIXA16 TempRot;
+	//D3DXMatrixIdentity(&TempRot);
 
-	float delta = g_pTimeManager->GetElapsedTime();
-	//float delta = 0.001f;
+	//float delta = g_pTimeManager->GetElapsedTime();
+	float delta = 0.003f;
 	static bool isKeyDown = false;
 
-	
-	if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+
+	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 	{
 		m_fSpeed = 300.f * 0.1f;
 	}
@@ -225,47 +249,52 @@ void cPaladin::Update(EventType event)
 
 	if (event == EventType::EVENT_ARROW_UP)
 	{
-		if(m_pCurState->GetStateIndex() == m_pCurState->Idle)
+		if (m_pCurState->GetStateIndex() == m_pCurState->Idle)
 		{
 			SafeDelete(m_pCurState);
 			m_pCurState = new cPaladinMove(this);
 		}
+		m_vDir = D3DXVECTOR3(0, 0, -1);
+		D3DXMatrixRotationY(&TempRot, 0);
 		m_fvelocity = m_fSpeed * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_LEFT)
 	{
-		D3DXVec3TransformNormal(&m_vDir, &m_vDir, D3DXMatrixRotationY(&TempRot, -125.0f * delta));
-		m_vRot.y -= 125.0f * delta;
+		m_vDir = D3DXVECTOR3(0, 0, -1);
+		D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5);
+		m_fvelocity = m_fSpeed * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_DOWN)
 	{
-		m_fvelocity = m_fSpeed * -0.5f * delta;
+		m_vDir = D3DXVECTOR3(0, 0, -1);
+		D3DXMatrixRotationY(&TempRot, D3DX_PI);
+		m_fvelocity = m_fSpeed * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_RIGHT)
 	{
-		D3DXVec3TransformNormal(&m_vDir, &m_vDir, D3DXMatrixRotationY(&TempRot, 125.0f * delta));
-		m_vRot.y += 125.0f * delta;
+		m_vDir = D3DXVECTOR3(0, 0, -1);
+		m_fvelocity = m_fSpeed * delta;
+		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5);
 		isKeyDown = true;
 	}
 
-	/// new Code 11-28 Â÷Çöºó 3:#8
 	if (event == EventType::EVENT_KEYUP && isKeyDown)
 	{
 		m_fvelocity = 0;
 		isKeyDown = false;
 	}
 
-	D3DXVec3Normalize(&m_vDir, &m_vDir);
-	m_vPos += m_vDir * m_fvelocity;
+	//D3DXVec3Normalize(&m_vDir, &m_vDir);
+	//m_vPos += m_vDir * m_fvelocity;
 
 	static int n = 0;
 
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
-		if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
 		}
@@ -276,7 +305,7 @@ void cPaladin::Update(EventType event)
 		}
 	}
 
-	if(event == EventType::EVENT_JUMP)
+	if (event == EventType::EVENT_JUMP)
 	{
 		SafeDelete(m_pCurState);
 		m_pCurState = new cPaladinEvade(this);
@@ -299,7 +328,9 @@ void cPaladin::Update(EventType event)
 	{
 		SetDebuff(enum_Roar);
 	}
+
 }
+
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
@@ -607,3 +638,184 @@ int cPaladin::GetStateIndex()
 {
 	return m_pCurState->GetStateIndex();
 }
+
+
+
+//Legacy
+/*
+void cPaladin::Update()
+{
+	D3DXMatrixScaling(&m_matScale, m_vScale.x, m_vScale.y, m_vScale.z);
+	D3DXMatrixRotationY(&m_matRot, m_vRot.y);
+	D3DXMatrixTranslation(&m_matTranse, m_vPos.x, m_vPos.y, m_vPos.z);
+
+	m_matWorld = m_matScale * m_matRot * m_matTranse;
+	m_pSkinnedUnit->m_matWorldTM = m_matWorld;
+
+	if (m_fvelocity != 0 && !m_isMoving)
+	{
+		m_isMoving = true;
+	}
+	else if (m_fvelocity == 0 && m_isMoving)
+	{
+		m_isMoving = false;
+	}
+
+	m_pSkinnedUnit->Update();
+
+	m_pOBB->Update(&m_matWorld);
+
+	for(cParts* parts : m_vecParts)
+	{
+		parts->Update(&m_matWorld);
+	}
+
+	long endTime = GetTickCount();
+
+	for (int i = 0; i < m_vecDebuff.size(); i++)
+	{
+		switch (m_vecDebuff[i])
+		{
+		case enum_Idle:
+			break;
+
+		case enum_Poison:
+			if (endTime - m_vecStartTime[i] >= 5000)
+			{
+				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff.erase(m_vecDebuff.begin() + i);
+				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				ReloadSpriteDebuff();
+
+			}
+			break;
+
+		case enum_Stun:
+			if (endTime - m_vecStartTime[i] >= 5000)
+			{
+				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff.erase(m_vecDebuff.begin() + i);
+				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				ReloadSpriteDebuff();
+
+			}
+			break;
+
+		case enum_Roar:
+			if (endTime - m_vecStartTime[i] >= 5000)
+			{
+				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
+				m_vecDebuff.erase(m_vecDebuff.begin() + i);
+				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				ReloadSpriteDebuff();
+
+			}
+			break;
+
+		default:
+			break;
+		}
+	}
+
+
+	if (m_pCurState)
+		m_pCurState->StateUpdate();
+}
+
+void cPaladin::Update(EventType event)
+{
+	D3DXMATRIXA16 TempRot;
+	D3DXMatrixIdentity(&TempRot);
+
+	float delta = g_pTimeManager->GetElapsedTime();
+	//float delta = 0.001f;
+	static bool isKeyDown = false;
+
+
+	if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+	{
+		m_fSpeed = 300.f * 0.1f;
+	}
+	else
+	{
+		m_fSpeed = 300.0f;
+	}
+
+	if (event == EventType::EVENT_ARROW_UP)
+	{
+		if(m_pCurState->GetStateIndex() == m_pCurState->Idle)
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinMove(this);
+		}
+		m_fvelocity = m_fSpeed * delta;
+		isKeyDown = true;
+	}
+	if (event == EventType::EVENT_ARROW_LEFT)
+	{
+		D3DXVec3TransformNormal(&m_vDir, &m_vDir, D3DXMatrixRotationY(&TempRot, -125.0f * delta));
+		m_vRot.y -= 125.0f * delta;
+		isKeyDown = true;
+	}
+	if (event == EventType::EVENT_ARROW_DOWN)
+	{
+		m_fvelocity = m_fSpeed * -0.5f * delta;
+		isKeyDown = true;
+	}
+	if (event == EventType::EVENT_ARROW_RIGHT)
+	{
+		D3DXVec3TransformNormal(&m_vDir, &m_vDir, D3DXMatrixRotationY(&TempRot, 125.0f * delta));
+		m_vRot.y += 125.0f * delta;
+		isKeyDown = true;
+	}
+
+	/// new Code 11-28 Â÷Çöºó 3:#8
+	if (event == EventType::EVENT_KEYUP && isKeyDown)
+	{
+		m_fvelocity = 0;
+		isKeyDown = false;
+	}
+
+	D3DXVec3Normalize(&m_vDir, &m_vDir);
+	m_vPos += m_vDir * m_fvelocity;
+
+	static int n = 0;
+
+	if (event == EventType::EVENT_LBUTTONDOWN)
+	{
+		if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+		{
+			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
+		}
+		else
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinAttack(this);
+		}
+	}
+
+	if(event == EventType::EVENT_JUMP)
+	{
+		SafeDelete(m_pCurState);
+		m_pCurState = new cPaladinEvade(this);
+	}
+
+	//ÆÈ¶óµò µð¹öÇÁ »óÅÂ Å×½ºÆ®
+	if (event == EventType::EVENT_NUMPAD_6)
+	{
+		SetDebuff(enum_Idle);
+	}
+	if (event == EventType::EVENT_NUMPAD_7)
+	{
+		SetDebuff(enum_Poison);
+	}
+	if (event == EventType::EVENT_NUMPAD_8)
+	{
+		SetDebuff(enum_Stun);
+	}
+	if (event == EventType::EVENT_NUMPAD_9)
+	{
+		SetDebuff(enum_Roar);
+	}
+}
+*/

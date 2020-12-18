@@ -50,8 +50,9 @@ void cBackViewCamera::Update()
 	if (m_pPlayer)
 	{
 		DirectionCalculation();
+		m_pPlayer->SetCameraDir(m_vDir);
+		m_pPlayer->SetCameraRot(m_vCamRotAngle);
 		D3DXVECTOR3 pos = m_pPlayer->GetPosition();
-
 		m_vLookAt = pos;
 		m_vEye += pos;
 

@@ -53,7 +53,7 @@ private:
 	vector<int> m_vecDebuff;
 	vector<cPopup*> m_vecDebuff_UI;
 	vector<long> m_vecStartTime;
-	
+	D3DXMATRIXA16 TempRot;
 public:
 	cPaladin();
 	~cPaladin();

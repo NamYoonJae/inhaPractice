@@ -24,7 +24,7 @@ public:
 	void GetParentMatrix(D3DXMATRIXA16* pmat) { m_matParent = *pmat; }
 	void GetLookAt(D3DXVECTOR3 pos) { m_vLookAt = pos; }
 	void DirectionCalculation();
-
+	D3DXVECTOR3*	GetEye() { return &m_vEye; }
 	//
 	
 	void Render(D3DXMATRIXA16* pmat) override{};

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Camera.h"
+#include "BackViewCamera.h"
 #include "Grid.h"
 //#include "TimerManager.h"
 //#include "FontManager.h"
@@ -81,15 +82,16 @@ void cGameScene::Setup() // boss1map  boss2map
 			pSkyBox = (SkyBox*)ObjectManager->SearchChild(Tag::Tag_SkyBox);
 		}
 
-		cCamera *pCamera;
+		//cCamera *pCamera;
+		cBackViewCamera *pCamera;
 		if (ObjectManager->SearchChild(Tag::Tag_Camera) == NULL)
 		{
-			pCamera = new cCamera;
+			pCamera = new cBackViewCamera;
 			pCamera->Tagging(Tag::Tag_Camera);
 		}
 		else
 		{
-			pCamera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+			pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 		}
 		
 		pSkyBox->SetPos(pCamera->GetEye());
@@ -116,7 +118,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		{
 			cPaladin* pPaladin = new cPaladin;
 			pPaladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
-			pCamera->Setup(pPaladin->GetpPos());
+			pCamera->Setup((cCharater*)pPaladin);
 			pPaladin->Tagging(Tag::Tag_Player);
 			ObjectManager->AddStaticChild(pPaladin);
 			EventManager->PushQueue(EventType::EVENT_CREATE_PALADIN);
@@ -145,11 +147,11 @@ void cGameScene::Setup() // boss1map  boss2map
 	cObjMap* pMap = new cObjMap("data/ObjFile/NW_Testmap","testmap3.obj");
 	pMap->Tagging(Tag::Tag_Map);
 	
-	pMap->SetScale(D3DXVECTOR3(0.1f, 1.0f, 0.1f));
+	pMap->SetScale(D3DXVECTOR3(0.2f, 1.0f, 0.2f));
 	ObjectManager->AddStaticChild(pMap);
 
 
-	cCamera* Camera = (cCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+	//cBackViewCamera* Camera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
 	//
 	

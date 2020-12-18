@@ -4,6 +4,8 @@
 
 cCharater::cCharater()
 	: m_pMesh(NULL)
+	,m_vCameraDir(0,0,0)
+	,m_vCameraRot(0,0,0)
 {
 	
 }
