@@ -46,7 +46,7 @@ void cRune::Setup()
 		vector<ST_PNT_VERTEX> Group = m_vecGroup.at(i)->GetVertex();
 		for (int j = 0; j < m_vecGroup.at(i)->GetVertex().size(); ++j)
 		{
-			Group.at(j).t.x = 1 - Group.at(j).t.x;
+			Group.at(j).t.y = 1 - Group.at(j).t.y;
 		}
 
 		m_vecGroup.at(i)->SetVertices(Group);
