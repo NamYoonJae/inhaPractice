@@ -25,6 +25,7 @@ cSoulEater_Scream::~cSoulEater_Scream()
 
 void cSoulEater_Scream::handle()
 {
+	float distance = 0.0f;
 	if (m_pDragon == NULL) return;
 	// 범위안에 있으면 모션블러 
 	// 애니메이션이 끝나면 
@@ -44,18 +45,18 @@ void cSoulEater_Scream::handle()
 			m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::FireBall_Shot);
 			m_IsAnimBlend = true;
 
-
 			D3DXVECTOR3 pos = m_pDragon->GetPos();
-			float distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
-			//  
-			m_dwElapsedTime = GetTickCount();
-			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", distance);
-			if (distance <= Radius)
-			{
-				// 모션블러 
-				//  3초 
-			}
+			distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
 
+			m_dwElapsedTime = GetTickCount();
+		}
+	}
+	else if (m_IsAnimBlend)
+	{
+		if (distance <= Radius)
+		{
+			// 모션블러 
+			//  3초 
 		}
 		DWORD dwCurrentTime = GetTickCount();
 		if (dwCurrentTime - m_dwElapsedTime >= 5000.0f
@@ -66,4 +67,5 @@ void cSoulEater_Scream::handle()
 			return;
 		}
 	}
+
 }
