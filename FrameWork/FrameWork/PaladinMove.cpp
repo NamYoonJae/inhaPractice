@@ -12,6 +12,7 @@ cPaladinMove::cPaladinMove(cPaladin* pPaladin)
 	m_nStateIndex = eAnimationSet::Run;
 	m_pPaladin->GetSkinnedMesh()->SetAnimationIndexBlend(m_nStateIndex);
 	m_dAnimStartTime = GetTickCount();
+	PlayFootstepSound();
 }
 
 cPaladinMove::~cPaladinMove()
@@ -23,23 +24,23 @@ void cPaladinMove::StateUpdate()
 	if (m_pPaladin == NULL) return;
 
 	LPD3DXANIMATIONCONTROLLER pAnimController = m_pPaladin->GetSkinnedMesh()->GetAnimationController();
-	LPD3DXANIMATIONSET pNextAnimSet = NULL;
-	float fAnimPeriod;
-	float fAnimBlendingTime = 0.0f;
+	float fFootstepDelay = 365.0f;
 
-	if (m_pPaladin->GetStateIndex() == eAnimationSet::Run)
+	if (m_dAnimStartTime && m_pPaladin->GetStateIndex() == eAnimationSet::Run)
 	{
-		pAnimController->GetTrackAnimationSet(0, &pNextAnimSet);
-		fAnimPeriod = (pNextAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
-	}
+		DWORD dCurrentTime = GetTickCount();
+		DWORD dElapsedTime = dCurrentTime - m_dAnimStartTime;
 
-	if (m_dAnimStartTime && pNextAnimSet)
-	{
-		if (GetTickCount() - m_dAnimStartTime >= fAnimPeriod * 0.5f)
+		if(dElapsedTime >= fFootstepDelay)
 		{
-			m_dAnimStartTime = GetTickCount();
-			int Min(Paladin_Move1), Max(Paladin_Move8);
-			g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
+			PlayFootstepSound();
+			m_dAnimStartTime = dCurrentTime;
 		}
 	}
+}
+
+void cPaladinMove::PlayFootstepSound()
+{
+	int Min(Paladin_Move1), Max(Paladin_Move8);
+	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
 }
