@@ -4,6 +4,9 @@
 #include "ObjectPool.h"
 #include "BtnUIEvent.h"
 
+#include "SoundManager.h"	// 사운드 설정
+#include "Camera.h"			// 마우스 감도 설정
+
 #include "jsonManager.h"
 //#include "SystemUIEvent.h"
 //#include "OptionUIEvent.h"
@@ -16,8 +19,8 @@ cButton* Setup_CheckBtn(cPopup* popup, D3DXVECTOR3 position, function<void(Event
 
 	cButton* pChkButton = new cButton;
 	pChkButton->Setup(
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/ToggleButton_On/filename"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/ToggleButton_On/filename"),
 		popup->GetPosition(),
 		position.x, position.y, position.z,
 		1,
@@ -81,8 +84,8 @@ void CheckBtnEvent(EventType message, cPopup* btn)
 
 				if (button->GetState() == enum_On)
 				{
-					string full_path = json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/directory")
-						+ '/' + json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/ToggleButton_On/filename");
+					string full_path = json_Function::object_get_string(p_json_object_UI, "UI/Settings/directory")
+						+ '/' + json_Function::object_get_string(p_json_object_UI, "UI/Settings/ToggleButton_On/filename");
 					char c_path[200] = { 0 };
 					strcpy(c_path, full_path.c_str());
 
@@ -90,8 +93,8 @@ void CheckBtnEvent(EventType message, cPopup* btn)
 					// TODO 세팅 저장하기
 				}
 				else if (button->GetState() == enum_Off) {
-					string full_path = json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/directory")
-						+ '/' + json_Fuction::object_get_string(p_json_object_UI, "UI/Settings/ToggleButton_Off/filename");
+					string full_path = json_Function::object_get_string(p_json_object_UI, "UI/Settings/directory")
+						+ '/' + json_Function::object_get_string(p_json_object_UI, "UI/Settings/ToggleButton_Off/filename");
 					char c_path[200] = { 0 };
 					strcpy(c_path, full_path.c_str());
 
@@ -139,14 +142,17 @@ cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position, function<v
 // 이 함수를 템플릿으로 사용할 예정
 void BarSliderMoveEvent(EventType message, cPopup* btn)
 {
+	// BGM 세팅 테스트 함수 
+
 	// json object 포인터 생성
 	static JSON_Object * p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Sound_object(json_object_get_object(p_json_object_setting, "Sound"));
 	
 	cButton* button = (cButton*)btn;
 
 	const int movement_range = 290;
 	//const int tick = movement_range / 10;
-	const int tick = json_Fuction::object_get_double(p_json_object_setting, "BarSliderTick");
+	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
 
 	// 생성시 버튼의 위치를 기억함
 	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
@@ -161,6 +167,14 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
+	if (startBtnPosition == btnPosition)
+	{
+		btn->SetPosition(D3DXVECTOR2(
+			startBtnPosition.x + (float)json_object_get_number(Sound_object, "BGM")	* tick,
+			startBtnPosition.y));
+
+		g_pSoundManager->SetVolume((float)(float)json_object_get_number(Sound_object, "BGM"));
+	} 
 
 	switch (message)
 	{
@@ -182,6 +196,12 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 
 	case EventType::EVENT_LBUTTONDOWN:
 	{
+		//btn->SetPosition(D3DXVECTOR2(
+		//	startBtnPosition.x + 
+		//	(float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")
+		//		* json_object_get_number(p_json_object_setting, "tick")),
+		//	startBtnPosition.y));
+
 		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
 		{
 			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
@@ -204,30 +224,115 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 
 		// TODO json 저장 테스트
 		// json 여기서 바로 저장할것
-		json_object_set_number(p_json_object_setting, "BarSliderMoveEvent", (btnPosition.x - startBtnPosition.x) / tick);
+		// (btnPosition.x - startBtnPosition.x) / tick; /// << 요거 저장
+
+		json_object_set_number(Sound_object, "BGM", ((btnPosition.x - startBtnPosition.x) / tick));
+		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+
+		g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
 	}
 	break;
 	};//switch End
 }
 
-void BarSliderMoveEvent2(EventType message, cPopup* btn)
+//void BarSliderMoveEvent2(EventType message, cPopup* btn)
+//{
+//	cButton* button = (cButton*)btn;
+//
+//	const int movement_range = 290;
+//	// 생성시 버튼의 위치를 기억함
+//	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+//	D3DXVECTOR3 btnPosition = button->GetPosition();
+//
+//	// 변할값이 아니기에 static 선언
+//	static float btn_width = button->GetImageInfoWidth() * button->GetPercent();
+//	static float btn_height = button->GetImageInfoHeight() *  button->GetPercent();
+//
+//	// 마우스 위치를 기억해야하기때문에 static 선언
+//	static D3DXVECTOR2 prev_cur;
+//	static D3DXVECTOR2 crnt_cur;
+//	crnt_cur = EventManager->GetMouseCurrent();
+//
+//
+//	switch (message)
+//	{
+//	case EventType::EVENT_MOVE:
+//		if (button->GetState() == enum_On)
+//		{
+//			if (crnt_cur.x >= startBtnPosition.x &&
+//				crnt_cur.x <= startBtnPosition.x + movement_range)
+//			{
+//				D3DXVECTOR2 vec2distance = crnt_cur - prev_cur;
+//				vec2distance.y = 0; // y값은 이동하지 않게 한다
+//				button->MovePosition(vec2distance);
+//				prev_cur = crnt_cur;
+//				// TODO json 여기서 바로 저장할것
+//			}
+//		}
+//		//case EVENT_MOVE End:
+//		break;
+//
+//	case EventType::EVENT_LBUTTONDOWN:
+//	{
+//		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+//		{
+//			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+//			{
+//				prev_cur = EventManager->GetMouseCurrent();
+//				button->SetStateChange(enum_On);
+//			}
+//		}
+//	}
+//	break;
+//
+//	case EventType::EVENT_LBUTTONUP:
+//	{
+//		button->SetStateChange(enum_Off);
+//
+//		if (btnPosition.x < startBtnPosition.x)
+//			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+//		if (btnPosition.x > startBtnPosition.x + movement_range)
+//			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+//	}
+//	break;
+//	};//switch End
+//}
+
+void BGM_Setting_Event(EventType message, cPopup* btn)
 {
+	// json object 포인터 생성
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Sound_object(json_object_get_object(p_json_object_setting, "Sound"));
+
 	cButton* button = (cButton*)btn;
 
 	const int movement_range = 290;
+	//const int tick = movement_range / 10;
+	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
+
 	// 생성시 버튼의 위치를 기억함
 	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
 	D3DXVECTOR3 btnPosition = button->GetPosition();
 
 	// 변할값이 아니기에 static 선언
 	static float btn_width = button->GetImageInfoWidth() * button->GetPercent();
-	static float btn_height = button->GetImageInfoHeight() *  button->GetPercent();
+	static float btn_height = button->GetImageInfoHeight() * button->GetPercent();
 
 	// 마우스 위치를 기억해야하기때문에 static 선언
 	static D3DXVECTOR2 prev_cur;
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
+	if (startBtnPosition == btnPosition)
+	{
+		btn->SetPosition(D3DXVECTOR2(
+			startBtnPosition.x +
+			(float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")
+				* tick),
+			startBtnPosition.y));
+
+		g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")));
+	}
 
 	switch (message)
 	{
@@ -241,7 +346,7 @@ void BarSliderMoveEvent2(EventType message, cPopup* btn)
 				vec2distance.y = 0; // y값은 이동하지 않게 한다
 				button->MovePosition(vec2distance);
 				prev_cur = crnt_cur;
-				// TODO json 여기서 바로 저장할것
+
 			}
 		}
 		//case EVENT_MOVE End:
@@ -268,10 +373,371 @@ void BarSliderMoveEvent2(EventType message, cPopup* btn)
 			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
 		if (btnPosition.x > startBtnPosition.x + movement_range)
 			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+
+		cout << btnPosition.x << endl;
+		cout << startBtnPosition.x << endl;
+		cout << tick << endl;
+		json_object_set_number(Sound_object, "BGM", ((btnPosition.x - startBtnPosition.x) / tick));
+		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+
+		g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
 	}
 	break;
 	};//switch End
 }
+
+void SFX_Setting_Event(EventType message, cPopup* btn)
+{
+	// json object 포인터 생성
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Sound_object(json_object_get_object(p_json_object_setting, "Sound"));
+
+	cButton* button = (cButton*)btn;
+
+	const int movement_range = 290;
+	//const int tick = movement_range / 10;
+	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
+
+	// 생성시 버튼의 위치를 기억함
+	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+
+	// 변할값이 아니기에 static 선언
+	static float btn_width = button->GetImageInfoWidth() * button->GetPercent();
+	static float btn_height = button->GetImageInfoHeight() * button->GetPercent();
+
+	// 마우스 위치를 기억해야하기때문에 static 선언
+	static D3DXVECTOR2 prev_cur;
+	static D3DXVECTOR2 crnt_cur;
+	crnt_cur = EventManager->GetMouseCurrent();
+
+	if (startBtnPosition == btnPosition)
+	{
+		btn->SetPosition(D3DXVECTOR2(
+			startBtnPosition.x +
+			(float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")
+				* tick),
+			startBtnPosition.y));
+		
+		// TODO 아직 매니저에 SFX관련 세팅이 없음으로 주석처리
+		//g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
+	}
+
+	switch (message)
+	{
+	case EventType::EVENT_MOVE:
+		if (button->GetState() == enum_On)
+		{
+			if (crnt_cur.x >= startBtnPosition.x &&
+				crnt_cur.x <= startBtnPosition.x + movement_range)
+			{
+				D3DXVECTOR2 vec2distance = crnt_cur - prev_cur;
+				vec2distance.y = 0; // y값은 이동하지 않게 한다
+				button->MovePosition(vec2distance);
+				prev_cur = crnt_cur;
+
+			}
+		}
+		//case EVENT_MOVE End:
+		break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+		{
+			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+			{
+				prev_cur = EventManager->GetMouseCurrent();
+				button->SetStateChange(enum_On);
+			}
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		button->SetStateChange(enum_Off);
+
+		if (btnPosition.x < startBtnPosition.x)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+		if (btnPosition.x > startBtnPosition.x + movement_range)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+
+		cout << btnPosition.x << endl;
+		cout << startBtnPosition.x << endl;
+		cout << tick << endl;
+		json_object_set_number(Sound_object, "SFX", ((btnPosition.x - startBtnPosition.x) / tick));
+		// TODO 아직 매니저에 SFX관련 세팅이 없음으로 주석처리
+		// g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
+	}
+	break;
+	};//switch End
+}
+
+void MouseSensitivity_Total_Event(EventType message, cPopup* btn)
+{
+	// json object 포인터 생성
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Mouse_object(json_object_get_object(p_json_object_setting, "Mouse sensitivity"));
+
+	cButton* button = (cButton*)btn;
+
+	const int movement_range = 290;
+	//const int tick = movement_range / 10;
+	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
+
+	// 생성시 버튼의 위치를 기억함
+	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+
+	// 변할값이 아니기에 static 선언
+	static float btn_width = button->GetImageInfoWidth() * button->GetPercent();
+	static float btn_height = button->GetImageInfoHeight() * button->GetPercent();
+
+	// 마우스 위치를 기억해야하기때문에 static 선언
+	static D3DXVECTOR2 prev_cur;
+	static D3DXVECTOR2 crnt_cur;
+	crnt_cur = EventManager->GetMouseCurrent();
+
+	if (startBtnPosition == btnPosition)
+	{
+		btn->SetPosition(D3DXVECTOR2(
+			startBtnPosition.x +
+			(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/total")
+				* tick),
+			startBtnPosition.y));
+
+		// TODO 여기에 마우스 감도관련 세팅 넣을것
+	}
+
+	switch (message)
+	{
+	case EventType::EVENT_MOVE:
+		if (button->GetState() == enum_On)
+		{
+			if (crnt_cur.x >= startBtnPosition.x &&
+				crnt_cur.x <= startBtnPosition.x + movement_range)
+			{
+				D3DXVECTOR2 vec2distance = crnt_cur - prev_cur;
+				vec2distance.y = 0; // y값은 이동하지 않게 한다
+				button->MovePosition(vec2distance);
+				prev_cur = crnt_cur;
+
+			}
+		}
+		//case EVENT_MOVE End:
+		break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+		{
+			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+			{
+				prev_cur = EventManager->GetMouseCurrent();
+				button->SetStateChange(enum_On);
+			}
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		button->SetStateChange(enum_Off);
+
+		if (btnPosition.x < startBtnPosition.x)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+		if (btnPosition.x > startBtnPosition.x + movement_range)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+
+		cout << btnPosition.x << endl;
+		cout << startBtnPosition.x << endl;
+		cout << tick << endl;
+		json_object_set_number(Mouse_object, "total", ((btnPosition.x - startBtnPosition.x) / tick));
+		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+
+		// TODO 여기에 마우스 감도관련 세팅 넣을것
+	}
+	break;
+	};//switch End
+}
+
+void MouseSensitivity_Normal_Event(EventType message, cPopup* btn)
+{
+	// json object 포인터 생성
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Mouse_object(json_object_get_object(p_json_object_setting, "Mouse sensitivity"));
+
+	cButton* button = (cButton*)btn;
+
+	const int movement_range = 290;
+	//const int tick = movement_range / 10;
+	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
+
+	// 생성시 버튼의 위치를 기억함
+	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+
+	// 변할값이 아니기에 static 선언
+	static float btn_width = button->GetImageInfoWidth() * button->GetPercent();
+	static float btn_height = button->GetImageInfoHeight() * button->GetPercent();
+
+	// 마우스 위치를 기억해야하기때문에 static 선언
+	static D3DXVECTOR2 prev_cur;
+	static D3DXVECTOR2 crnt_cur;
+	crnt_cur = EventManager->GetMouseCurrent();
+
+	if (startBtnPosition == btnPosition)
+	{
+		btn->SetPosition(D3DXVECTOR2(
+			startBtnPosition.x +
+			(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/normal")
+				* tick),
+			startBtnPosition.y));
+
+		// TODO 여기에 마우스 감도관련 세팅 넣을것
+	}
+
+	switch (message)
+	{
+	case EventType::EVENT_MOVE:
+		if (button->GetState() == enum_On)
+		{
+			if (crnt_cur.x >= startBtnPosition.x &&
+				crnt_cur.x <= startBtnPosition.x + movement_range)
+			{
+				D3DXVECTOR2 vec2distance = crnt_cur - prev_cur;
+				vec2distance.y = 0; // y값은 이동하지 않게 한다
+				button->MovePosition(vec2distance);
+				prev_cur = crnt_cur;
+
+			}
+		}
+		//case EVENT_MOVE End:
+		break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+		{
+			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+			{
+				prev_cur = EventManager->GetMouseCurrent();
+				button->SetStateChange(enum_On);
+			}
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		button->SetStateChange(enum_Off);
+
+		if (btnPosition.x < startBtnPosition.x)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+		if (btnPosition.x > startBtnPosition.x + movement_range)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+
+		cout << btnPosition.x << endl;
+		cout << startBtnPosition.x << endl;
+		cout << tick << endl;
+		json_object_set_number(Mouse_object, "normal", ((btnPosition.x - startBtnPosition.x) / tick));
+		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+
+		// TODO 여기에 마우스 감도관련 세팅 넣을것
+	}
+	break;
+	};//switch End
+}
+
+void MouseSensitivity_Special_Event(EventType message, cPopup* btn)
+{
+	// json object 포인터 생성
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Mouse_object(json_object_get_object(p_json_object_setting, "Mouse sensitivity"));
+
+	cButton* button = (cButton*)btn;
+
+	const int movement_range = 290;
+	//const int tick = movement_range / 10;
+	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
+
+	// 생성시 버튼의 위치를 기억함
+	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 btnPosition = button->GetPosition();
+
+	// 변할값이 아니기에 static 선언
+	static float btn_width = button->GetImageInfoWidth() * button->GetPercent();
+	static float btn_height = button->GetImageInfoHeight() * button->GetPercent();
+
+	// 마우스 위치를 기억해야하기때문에 static 선언
+	static D3DXVECTOR2 prev_cur;
+	static D3DXVECTOR2 crnt_cur;
+	crnt_cur = EventManager->GetMouseCurrent();
+
+	if (startBtnPosition == btnPosition)
+	{
+		btn->SetPosition(D3DXVECTOR2(
+			startBtnPosition.x +
+			(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/special")
+				* tick),
+			startBtnPosition.y));
+
+		// TODO 여기에 마우스 감도관련 세팅 넣을것
+	}
+
+	switch (message)
+	{
+	case EventType::EVENT_MOVE:
+		if (button->GetState() == enum_On)
+		{
+			if (crnt_cur.x >= startBtnPosition.x &&
+				crnt_cur.x <= startBtnPosition.x + movement_range)
+			{
+				D3DXVECTOR2 vec2distance = crnt_cur - prev_cur;
+				vec2distance.y = 0; // y값은 이동하지 않게 한다
+				button->MovePosition(vec2distance);
+				prev_cur = crnt_cur;
+
+			}
+		}
+		//case EVENT_MOVE End:
+		break;
+
+	case EventType::EVENT_LBUTTONDOWN:
+	{
+		if (btnPosition.x <= crnt_cur.x && crnt_cur.x <= btnPosition.x + btn_width)
+		{
+			if (btnPosition.y <= crnt_cur.y && crnt_cur.y <= btnPosition.y + btn_height)
+			{
+				prev_cur = EventManager->GetMouseCurrent();
+				button->SetStateChange(enum_On);
+			}
+		}
+	}
+	break;
+
+	case EventType::EVENT_LBUTTONUP:
+	{
+		button->SetStateChange(enum_Off);
+
+		if (btnPosition.x < startBtnPosition.x)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+		if (btnPosition.x > startBtnPosition.x + movement_range)
+			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+
+		cout << btnPosition.x << endl;
+		cout << startBtnPosition.x << endl;
+		cout << tick << endl;
+		json_object_set_number(Mouse_object, "special", ((btnPosition.x - startBtnPosition.x) / tick));
+		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+
+		// TODO 여기에 마우스 감도관련 세팅 넣을것
+	}
+	break;
+	};//switch End
+}
+
 
 
 

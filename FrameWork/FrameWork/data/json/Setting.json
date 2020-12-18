@@ -1,12 +1,18 @@
 {
-  "memo" : "주석을 남길때는 `memo` 객체를 원하는 곳에 넣어주세요",
-  
-  "BGM" : 5,
-  "BGM Max" : 100,
-  "total AimPerInch" : 5,
-  "total AimPerInch Max" : 5,
-  "normal AimPerInch" : 5,
-  "normal AimPerInch Max" : 5,
-  "special AimPerInch" : 5,
-  "special AimPerInch Max" : 5
+    "memo": "주석을 남길때는 `memo` json 변수를 원하는 곳에 넣어주세요",
+    "tick": 2.900000,
+    "Sound": {
+        "BGM": 92.068962,
+        "BGM Max": 100,
+        "SFX": 35.517239,
+        "SFX Max": 100
+    },
+    "Mouse sensitivity": {
+        "total": 11.724137,
+        "total max": 10,
+        "normal": 57.241379,
+        "normal Max": 10,
+        "special": 81.724136,
+        "special Max": 10
+    }
 }

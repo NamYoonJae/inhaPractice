@@ -30,22 +30,22 @@ cPopup* Setup_Setting_popup(cPopup* btn)
 
 	cPopup *pBack = new cPopup;
 	pBack->Setup(
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/InGamePauseMenu/directory"),
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/InGamePauseMenu/InGameSetting_Back/filename"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/InGamePauseMenu/directory"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/InGamePauseMenu/InGameSetting_Back/filename"),
 		D3DXVECTOR3(0, 0, 0),
-		json_Fuction::object_get_double(p_json_object_UI, "UI/InGamePauseMenu/InGameSetting_Back/scale"),
+		json_Function::object_get_double(p_json_object_UI, "UI/InGamePauseMenu/InGameSetting_Back/scale"),
 		true, true);
 	
 	cPopup *pOption = new cPopup;
 	pBack->cButtonPushBack(pOption);
 	pOption->Setup(
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/Option/filename"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/Option/filename"),
 		D3DXVECTOR3(
-			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Option/position_x"),
-			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Option/position_y"),
+			json_Function::object_get_double(p_json_object_UI, "UI/Settings/Option/position_x"),
+			json_Function::object_get_double(p_json_object_UI, "UI/Settings/Option/position_y"),
 			0),
-		json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Option/scale"),
+		json_Function::object_get_double(p_json_object_UI, "UI/Settings/Option/scale"),
 		true, true);
 	// 이벤트에서 상수 인덱스로 pControl를 참조하니까 수정시 유의
 	pOption->EventProcess = Setting_popup_ReturnEvent_whitespace;
@@ -53,35 +53,48 @@ cPopup* Setup_Setting_popup(cPopup* btn)
 	cPopup* pControl = new cPopup;
 	pBack->cButtonPushBack(pControl);
 	pControl->Setup(
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/Control/filename"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/Control/filename"),
 		D3DXVECTOR3(
-			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Control/position_x"),
-			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Control/position_y"),
+			json_Function::object_get_double(p_json_object_UI, "UI/Settings/Control/position_x"),
+			json_Function::object_get_double(p_json_object_UI, "UI/Settings/Control/position_y"),
 			0),
-		json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Control/scale"),
+		json_Function::object_get_double(p_json_object_UI, "UI/Settings/Control/scale"),
 		true, true);
 
 	cPopup* pText = new cPopup;
 	pBack->cButtonPushBack(pText);
 	pText->Setup(
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
-		json_Fuction::object_get_pChar(p_json_object_UI, "UI/Settings/Text/filename"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/directory"),
+		json_Function::object_get_pChar(p_json_object_UI, "UI/Settings/Text/filename"),
 		D3DXVECTOR3(
-			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Text/position_x"),
-			json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Text/position_y"),
+			json_Function::object_get_double(p_json_object_UI, "UI/Settings/Text/position_x"),
+			json_Function::object_get_double(p_json_object_UI, "UI/Settings/Text/position_y"),
 			0),
-		json_Fuction::object_get_double(p_json_object_UI, "UI/Settings/Text/scale"),
+		json_Function::object_get_double(p_json_object_UI, "UI/Settings/Text/scale"),
 		true, true);
 
 #pragma region barSilder
 	// TODO json Test
 	// TODO 이벤트 세분화
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 123, 0), BarSliderMoveEvent);
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 192, 0), BarSliderMoveEvent);
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 325, 0), BarSliderMoveEvent2);
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 389, 0), BarSliderMoveEvent2);
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 455, 0), BarSliderMoveEvent2);
+	cout << (float)json_Function::object_get_double(p_json_object_setting, "Sound/BGM") << endl;
+	cout << (float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")
+		* json_object_get_number(p_json_object_setting, "tick")) << endl;
+
+	// 테스트용 객체 생성 코드
+	//Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 123, 0), BarSliderMoveEvent);
+	//->MovePosition(D3DXVECTOR2(
+	//		(float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")
+	//			* json_object_get_number(p_json_object_setting, "tick")),
+	//		0));
+
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 123, 0), BGM_Setting_Event);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 192, 0), SFX_Setting_Event);
+
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 325, 0), MouseSensitivity_Total_Event);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 389, 0), MouseSensitivity_Normal_Event);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 455, 0), MouseSensitivity_Special_Event);
+
 #pragma endregion barSilder
 
 #pragma region chk_Button

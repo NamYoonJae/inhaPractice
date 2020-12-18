@@ -3,7 +3,7 @@
 //#include "json export.h"
 
 //object에 rootObject를 넣을 것
-JSON_Object * json_Fuction::object_get_object(const JSON_Object *rootobject, const char *name)
+JSON_Object * json_Function::object_get_object(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
@@ -33,7 +33,7 @@ JSON_Object * json_Fuction::object_get_object(const JSON_Object *rootobject, con
 	return L_Object;
 }
 
-char * json_Fuction::object_get_pChar(const JSON_Object *rootobject, const char *name)
+char * json_Function::object_get_pChar(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
@@ -64,7 +64,7 @@ char * json_Fuction::object_get_pChar(const JSON_Object *rootobject, const char 
 	//return (char*)json_object_get_string(L_Object, tmp); // 가능하지만, 안쓰는걸 권장함
 }
 
-const char * json_Fuction::object_get_const_pChar(const JSON_Object *rootobject, const char *name)
+const char * json_Function::object_get_const_pChar(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
@@ -94,7 +94,7 @@ const char * json_Fuction::object_get_const_pChar(const JSON_Object *rootobject,
 	return json_object_get_string(L_Object, str_name);
 }
 
-string json_Fuction::object_get_string(const JSON_Object *rootobject, const char *name)
+string json_Function::object_get_string(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
@@ -124,7 +124,7 @@ string json_Fuction::object_get_string(const JSON_Object *rootobject, const char
 	return json_object_get_string(L_Object, str_name);
 }
 
-JSON_Array * json_Fuction::object_get_array(const JSON_Object *rootobject, const char *name)
+JSON_Array * json_Function::object_get_array(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
@@ -155,7 +155,7 @@ JSON_Array * json_Fuction::object_get_array(const JSON_Object *rootobject, const
 }
 
 //int형 등 다른 형식이 필요하다면 캐스팅해주십쇼
-double json_Fuction::object_get_double(const JSON_Object *rootobject, const char *name)
+double json_Function::object_get_double(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
@@ -186,7 +186,7 @@ double json_Fuction::object_get_double(const JSON_Object *rootobject, const char
 	return json_object_get_number(L_Object, str_name);
 }
 
-int json_Fuction::object_get_boolean(const JSON_Object *rootobject, const char *name)
+int json_Function::object_get_boolean(const JSON_Object *rootobject, const char *name)
 {
 	JSON_Object * L_Object = NULL;
 
@@ -216,7 +216,7 @@ int json_Fuction::object_get_boolean(const JSON_Object *rootobject, const char *
 	return json_object_get_boolean(L_Object, str_name);
 }
 
-D3DXVECTOR3 json_Fuction::get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z)
+D3DXVECTOR3 json_Function::get_D3DXVECTOR3(JSON_Object* rootObject, char* x, char* y, char* z)
 {
 	return D3DXVECTOR3
 	(
