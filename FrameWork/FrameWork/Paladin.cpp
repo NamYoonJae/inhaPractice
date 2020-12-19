@@ -30,6 +30,7 @@ cPaladin::cPaladin()
 	,m_fSpeed(300.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
+	D3DXMatrixIdentity(&TempRot);
 }
 
 
@@ -249,33 +250,24 @@ void cPaladin::Update(EventType event)
 
 	if (event == EventType::EVENT_ARROW_UP)
 	{
-		if (m_pCurState->GetStateIndex() == m_pCurState->Idle)
-		{
-			SafeDelete(m_pCurState);
-			m_pCurState = new cPaladinMove(this);
-		}
-		m_vDir = D3DXVECTOR3(0, 0, -1);
 		D3DXMatrixRotationY(&TempRot, 0);
 		m_fvelocity = m_fSpeed * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_LEFT)
 	{
-		m_vDir = D3DXVECTOR3(0, 0, -1);
 		D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5);
 		m_fvelocity = m_fSpeed * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_DOWN)
 	{
-		m_vDir = D3DXVECTOR3(0, 0, -1);
 		D3DXMatrixRotationY(&TempRot, D3DX_PI);
 		m_fvelocity = m_fSpeed * delta;
 		isKeyDown = true;
 	}
 	if (event == EventType::EVENT_ARROW_RIGHT)
 	{
-		m_vDir = D3DXVECTOR3(0, 0, -1);
 		m_fvelocity = m_fSpeed * delta;
 		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5);
 		isKeyDown = true;
@@ -285,10 +277,23 @@ void cPaladin::Update(EventType event)
 	{
 		m_fvelocity = 0;
 		isKeyDown = false;
+
+		if (m_pCurState->GetStateIndex() == m_pCurState->Run)
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinIdle(this);
+		}
 	}
 
-	//D3DXVec3Normalize(&m_vDir, &m_vDir);
-	//m_vPos += m_vDir * m_fvelocity;
+	if(isKeyDown)
+	{
+		if (m_pCurState->GetStateIndex() == m_pCurState->Idle)
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinMove(this);
+		}
+	}
+	
 
 	static int n = 0;
 
@@ -307,8 +312,13 @@ void cPaladin::Update(EventType event)
 
 	if (event == EventType::EVENT_JUMP)
 	{
-		SafeDelete(m_pCurState);
-		m_pCurState = new cPaladinEvade(this);
+		if (m_pCurState->GetStateIndex() == m_pCurState->Idle ||
+			m_pCurState->GetStateIndex() == m_pCurState->Run  ||
+			m_pCurState->GetStateIndex() == m_pCurState->Walk)
+		{
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinEvade(this);
+		}
 	}
 
 	//팔라딘 디버프 상태 테스트
@@ -386,10 +396,16 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	cOBB* pOtherOBB = pObject->GetOBB();
 	int	  iOtherTag = pObject->GetTag();
 
-	// 상태 체크 
 	if(m_pCurState)
 	{
-		//if(m_pCurState) 어떤 상태인지 검사
+		//내가 공격 중이라면
+		if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+		{
+			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB()))
+			{
+				//cout << "Attack Success!" << endl;
+			}
+		}
 	}
 
 	// 내가 맞을것

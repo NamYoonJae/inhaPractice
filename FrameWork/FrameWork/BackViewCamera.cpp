@@ -2,16 +2,20 @@
 #include "BackViewCamera.h"
 #include "cCharater.h"
 #include "EventManager.h"
+#include "jsonManager.h"
 #pragma once
 
 
 cBackViewCamera::cBackViewCamera()
 	: m_vEye(0, 0, 0)
-	, m_vOffset(0,30,150)
+	, m_vOffset(0, 30, 150)
 	, m_vLookAt(0, 0, 0)
 	, m_vUp(D3DXVECTOR3(0, 1, 0))
-	, m_ptPrevMouse(0,0)
-	, m_vCamRotAngle(0,0,0)
+	, m_ptPrevMouse(0, 0)
+	, m_vCamRotAngle(0, 0, 0)
+	, m_fVibrationValue(1.0f)
+	, m_fScrollY(0.0f)
+	, m_IsVibration(false)
 {
 }
 
@@ -31,7 +35,7 @@ void cBackViewCamera::Setup(cCharater* pPlayer)
 	GetClientRect(g_hWnd, &rc);
 
 	D3DXMATRIXA16 matProj;
-	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.0f, 1000.0f);
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4.0f, rc.right / (float)rc.bottom, 1.0f, 1500.0f);
 	g_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 
 
@@ -66,6 +70,16 @@ void cBackViewCamera::Update()
 
 	D3DXVec3TransformCoord(&m_vEye, &m_vOffset, &matW);
 	m_vLookAt.y += m_vOffset.y;
+	if (m_IsVibration)
+	{
+		m_vLookAt.y += m_fVibrationValue;
+		m_fVibrationValue = -m_fVibrationValue;
+	}
+	else
+	{
+		m_vLookAt.y += m_fScrollY;
+	}
+
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
 
@@ -108,9 +122,14 @@ void cBackViewCamera::Update()
 		 D3DXVECTOR2 ptCurMouse = EventManager->GetMouseCurrent();
 
 		 float fDeltaX = (float)(ptCurMouse.x - m_ptPrevMouse.x);
-		 //float fDeltaY = (float)(ptCurMouse.y - m_ptPrevMouse.y);
-
-		 m_vCamRotAngle.y += fDeltaX *D3DX_PI * 0.01;
+		 float fDeltaY = (float)(ptCurMouse.y - m_ptPrevMouse.y);
+		 
+		 m_fScrollY -= fDeltaY * 0.1f;
+		 
+		 JSON_Object* p_mouseSensitivity = g_p_jsonManager->get_json_object_Setting();
+		 m_vCamRotAngle.y += fDeltaX * D3DX_PI * 0.0001
+			 * json_Function::object_get_double(p_mouseSensitivity, "Mouse sensitivity/total")
+			 * json_Function::object_get_double(p_mouseSensitivity, "Mouse sensitivity/normal") * 0.01;
 
 		 m_ptPrevMouse = ptCurMouse;
 	 }

@@ -565,53 +565,79 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	cOBB* pOBB = pObject->GetOBB();
 	int nTag = pObject->GetTag();
 
-	// 내가 때릴것
-	if (m_pCurState)
+	if (nTag == Tag::Tag_Player) // 벽도 필요함 
 	{
-		int nCurStateIndex = m_pCurState->GetIndex();
-		switch (nCurStateIndex)
+		// 내가 때릴것
+		if (m_pCurState)
 		{
-		case 1:
-		{
-			if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(0).Box))
+			int nCurStateIndex = m_pCurState->GetIndex();
+			int BoxNum = 0;
+			switch (nCurStateIndex)
 			{
-				//상대방 공격 히트
+			case 1:
+				BoxNum = 0;
+				break;
+			case 2:
+				BoxNum = 1;
+				break;
+			default:
+				BoxNum = 9;
+				break;
+
+			}
+
+			if (BoxNum == 9)
+			{
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 1500;
-					AddCollisionInfo(m_nTag, info);
-					break;
+					pObject->AddCollisionInfo(m_nTag, info);
+
 				}
 			}
-		}
-		break;
-		}
-	}
-
-	// 내가 맞을것
-	if (mapCollisionList.find(nTag) != mapCollisionList.end())
-	{
-		// 이미 맞았다면
-		return;
-	}
-	else
-	{
-		// 어느 부위에 맞을것인지
-		for (int i = 0; i < m_vecBoundingBoxList.size(); ++i)
-		{
-			if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(i).Box))
+			else
 			{
-				break;
+				if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(BoxNum).Box))
+				{
+
+					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
+					{
+						CollisionInfo info;
+						info.dwCollsionTime = GetTickCount();
+						info.dwDelayTime = 1500;
+						pObject->AddCollisionInfo(m_nTag, info);
+
+					}
+				}
 			}
+
+
 		}
 
-		CollisionInfo info;
-		info.dwCollsionTime = GetTickCount();
-		info.dwDelayTime = 500.0f;
-
-		mapCollisionList.insert(pair<int, CollisionInfo>(nTag, info));
+		// 내가 맞을것
+		if (mapCollisionList.find(nTag) != mapCollisionList.end())
+		{
+			// 이미 맞았다면
+			return;
+		}
+		else
+		{
+			//int i;
+			// 어느 부위에 맞을것인지
+			//for (i = 0; i < m_vecBoundingBoxList.size(); ++i)
+			//{
+			//	if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(i).Box))
+			//	{
+			//		break;
+			//	}
+			//}
+			CollisionInfo info;
+			info.dwCollsionTime = GetTickCount();
+			info.dwDelayTime = 500.0f;
+			AddCollisionInfo(nTag, info);
+		}
 
 	}
 

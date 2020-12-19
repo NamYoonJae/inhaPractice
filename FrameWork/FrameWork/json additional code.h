@@ -1,7 +1,7 @@
 #pragma once
 
 // json_Fuction으로 정확히 명시해야 사용할수 있게 클래스로 만듬
-class json_Fuction
+class json_Function
 {
 private:
 

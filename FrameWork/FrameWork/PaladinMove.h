@@ -10,5 +10,6 @@ public:
 	~cPaladinMove();
 
 	void StateUpdate() override;
+	void PlayFootstepSound();
 };
 
