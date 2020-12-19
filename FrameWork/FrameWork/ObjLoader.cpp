@@ -26,6 +26,7 @@ cGroup::~cGroup()
 
 void cGroup::Render()
 {
+
 	if (m_pMtlTex)
 	{
 		g_pD3DDevice->SetTexture(0, m_pMtlTex->GetTexture());
@@ -37,11 +38,13 @@ void cGroup::Render()
 									m_vecVertex.size() / 3,
 									&m_vecVertex[0],
 									sizeof(ST_PNT_VERTEX));
+	
 
 	if (m_pMtlTex)
 	{
 		g_pD3DDevice->SetTexture(0, NULL);
 	}
+
 }
 
 

@@ -5,6 +5,7 @@
 #pragma once
 
 cRune::cRune()
+	: m_vPos(0, 0, 0)
 {
 }
 
@@ -15,6 +16,9 @@ cRune::~cRune()
 
 void cRune::Setup()
 {
+	//임시적인 위치
+	m_vPos = D3DXVECTOR3(150.0f, 10.0f, 0);
+
 	cObjLoader objLoader;
 	objLoader.LoadOBJ(m_vecGroup, "data/ObjFile/MapObject/NW_Rune", "Stone.obj");
 
@@ -58,17 +62,27 @@ void cRune::Setup()
 
 void cRune::Update()
 {
-	D3DXMATRIXA16 matW;
+	D3DXMATRIXA16 matW, matT, matS;
 	D3DXMatrixIdentity(&matW);
-
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	matW = matS * matT;
 	if (m_pOBB)
 		m_pOBB->Update(&matW);
 }
 
 void cRune::Render(D3DXMATRIXA16 * pmat)
 {
-	D3DXMATRIXA16 matW;
+	D3DXMATRIXA16 matW, matT, matS;
 	D3DXMatrixIdentity(&matW);
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	matW = matS * matT;
+
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
 	for (int i = 0; i < m_vecGroup.size(); ++i)
 	{
