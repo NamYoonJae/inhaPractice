@@ -230,8 +230,8 @@
       <Filter>Code\Map\MapObject</Filter>
     </ClCompile>
     <ClCompile Include="Wall.cpp">
-	  <Filter>Code\Map\MapObject</Filter>
-	</ClCompile>
+      <Filter>Code\Map\MapObject</Filter>
+    </ClCompile>
     <ClCompile Include="SoulEater_Breath.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
@@ -240,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="BackViewCamera.cpp">
       <Filter>Code\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SoulEater_Stun.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -480,9 +483,9 @@
     <ClInclude Include="Rune.h">
       <Filter>Code\Map\MapObject</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h" >
-	  <Filter>Code\Map\MapObject</Filter>
-	</ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Code\Map\MapObject</Filter>
+    </ClInclude>
     <ClInclude Include="SoulEater_Breath.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
@@ -491,6 +494,9 @@
     </ClInclude>
     <ClInclude Include="BackViewCamera.h">
       <Filter>Code\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Stun.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

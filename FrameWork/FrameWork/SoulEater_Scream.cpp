@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "SoulEater_Scream.h"
 #include "DragonSoulEater.h"
-
+#include "BackViewCamera.h"
+#include "ObjectPool.h"
+#pragma once
 #define Radius 100
 
 cSoulEater_Scream::cSoulEater_Scream()
@@ -34,35 +36,38 @@ void cSoulEater_Scream::handle()
 		TargetCapture();
 	}
 
-	LPD3DXANIMATIONCONTROLLER pAnimController = m_pDragon->GetSkinnedMesh().GetAnimationController();
-	LPD3DXANIMATIONSET pCurAnimSet = NULL;
-	pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
-	if (GetTickCount() - m_pDragon->GetSkinnedMesh().GetAnimStartTime()
-		- pCurAnimSet->GetPeriod() * 1000.0f - m_pDragon->GetSkinnedMesh().GetBlendTime() * 1000.0f)
+	if (m_IsAnimBlend == false)
 	{
-		if (m_IsAnimBlend == false)
+		LPD3DXANIMATIONCONTROLLER pAnimController = m_pDragon->GetSkinnedMesh().GetAnimationController();
+		LPD3DXANIMATIONSET pCurAnimSet = NULL;
+		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
+		if (GetTickCount() - m_pDragon->GetSkinnedMesh().GetAnimStartTime()
+			- pCurAnimSet->GetPeriod() * 1000.0f - m_pDragon->GetSkinnedMesh().GetBlendTime() * 1000.0f)
 		{
 			m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::FireBall_Shot);
 			m_IsAnimBlend = true;
-
-			D3DXVECTOR3 pos = m_pDragon->GetPos();
-			distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
 
 			m_dwElapsedTime = GetTickCount();
 		}
 	}
 	else if (m_IsAnimBlend)
 	{
+		cBackViewCamera *pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+
+		D3DXVECTOR3 pos = m_pDragon->GetPos();
+		distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
+		//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", distance);
 		if (distance <= Radius)
-		{
-			// 모션블러 
-			//  3초 
-		}
+			pCamera->SetVibration(true);
+		else
+			pCamera->SetVibration(false);
+
 		DWORD dwCurrentTime = GetTickCount();
 		if (dwCurrentTime - m_dwElapsedTime >= 5000.0f
 			&& m_pDragon->GetTarget()
 			&& m_IsAnimBlend)
 		{
+			pCamera->SetVibration(false);
 			m_pDragon->Request();
 			return;
 		}

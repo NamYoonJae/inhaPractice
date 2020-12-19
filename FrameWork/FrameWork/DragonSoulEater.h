@@ -50,6 +50,7 @@ private:
 	DWORD				m_dwSwampCreateCoolTime;
 	DWORD				m_dwSwampElapsedTime;
 
+	Synthesize(float, m_fStungauge, STUN);
 	Synthesize(float, m_fMaxHeathPoint, MAXHP);
 	Synthesize(float, m_fCurHeathpoint, CURHP);
 	bool m_IsBreathe;

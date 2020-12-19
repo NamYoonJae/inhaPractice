@@ -16,6 +16,7 @@
 #include "SoulEater_Sleep.h"
 #include "SoulEater_Breath.h"
 #include "SoulEater_Flood.h"
+#include "SoulEater_Stun.h"
 #include "LavaFlood.h"
 #include "Map.h"
 #pragma once
@@ -36,7 +37,8 @@ cDragonSoulEater::cDragonSoulEater()
 	m_fElementalDamage = 200;
 	m_fPhysicDamage = 200;
 	m_IsRage = false;
-	m_fRagegauge = 0;
+	m_fRagegauge = 0.0f;
+	m_fStungauge = 0.0f;
 	m_nPhase = 1;
 
 	m_IsBreathe = false;
@@ -654,6 +656,12 @@ void cDragonSoulEater::Request()
 		return;
 	}
 	
+	if (m_fStungauge >= 1000)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, 8000.0f);
+		return;
+	}
+
 	if (m_fRagegauge >= 1000 && !m_IsRage)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);

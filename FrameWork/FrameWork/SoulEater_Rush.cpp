@@ -37,10 +37,11 @@ void cSoulEater_Rush::handle()
 
 	std::map<int, CollisionInfo> CollisionList = m_pDragon->GetMapCollisionList();
 
-	// 룬스톤 
+	// 벽부디쳣을때겠지
 	if (CollisionList.find(Tag::Tag_RunStone) != CollisionList.end() &&
 		m_IsHitAnything == false)
 	{
+		//경직치가 쌓인다
 		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Get_Hit);
 		m_IsHitAnything = true;
 		m_vDir = D3DXVECTOR3(0, 0, 0);

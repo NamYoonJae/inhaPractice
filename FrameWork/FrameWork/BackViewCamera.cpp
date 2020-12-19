@@ -13,7 +13,7 @@ cBackViewCamera::cBackViewCamera()
 	, m_vUp(D3DXVECTOR3(0, 1, 0))
 	, m_ptPrevMouse(0, 0)
 	, m_vCamRotAngle(0, 0, 0)
-	, m_fVibrationValue(1.0f)
+	, m_fVibrationValue(2.0f)
 	, m_fScrollY(0.0f)
 	, m_IsVibration(false)
 {

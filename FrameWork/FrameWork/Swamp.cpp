@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "Swamp.h"
 #include "ShaderManager.h"
-
+#include "cOBB.h"
 #pragma once
+
+#define Box_Size 50
 
 cSwamp::cSwamp()
 	:m_pMesh(NULL)
@@ -86,10 +88,25 @@ void cSwamp::Setup()
 	// shader load
 
 	m_pShader = g_pShaderManager->GetShader(eShader::Swamp);
+
+	// OBB
+
+	m_pOBB = new cOBB;
+	m_pOBB->Setup(D3DXVECTOR3(-50, -50, -50), D3DXVECTOR3(50, 50, 50));
+
 }
 
 void cSwamp::Update()
 {
+	if (m_pOBB)
+	{
+		D3DXMATRIXA16 matWorld, matS, matT;
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixScaling(&matS, m_vRot.x, m_vRot.y, m_vRot.z);
+		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+		matWorld = matS * matT;
+		m_pOBB->Update(&matWorld);
+	}
 }
 
 void cSwamp::Render(D3DXMATRIXA16 *pmat)
@@ -135,4 +152,24 @@ void cSwamp::Render(D3DXMATRIXA16 *pmat)
 		}
 	}
 	
+}
+
+void cSwamp::CollisionProcess(cObject * pObject)
+{
+	if (pObject->GetTag() == Tag::Tag_Player)
+	{
+		switch (m_nTag)
+		{
+		case Tag::Tag_SwampA :
+			// 	 이동속도 느려지는 오브젝트
+			break;
+		case Tag::Tag_SwampB :
+			//  데미지를 주는 오브젝트
+			break;
+		}
+	}
+	
+
+	
+
 }
