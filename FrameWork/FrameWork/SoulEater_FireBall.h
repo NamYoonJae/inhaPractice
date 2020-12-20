@@ -5,6 +5,7 @@ class cSoulEater_FireBall :
 {
 private:
 	int m_nIndex;
+	int m_nSoundIndex;
 	DWORD m_dwDelayTime;
 	DWORD m_dwPrevTime;
 public:

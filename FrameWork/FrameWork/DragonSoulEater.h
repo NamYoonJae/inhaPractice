@@ -1,7 +1,7 @@
 #pragma once
 #include "cObject.h"
 #include "SkinnedMesh.h"
-
+#include "SoundManager.h"
 
 //
 class cSoulEaterState;

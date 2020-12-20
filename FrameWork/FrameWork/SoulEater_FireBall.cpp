@@ -10,7 +10,9 @@ cSoulEater_FireBall::cSoulEater_FireBall()
 {
 	m_nCurentIndex = 5;
 	m_nIndex = 7;
+	m_nSoundIndex = (int)eSoundList::Dragon_Fly1;
 	m_dwPrevTime = m_dwDelayTime = 0.0f;
+
 }
 
 cSoulEater_FireBall::cSoulEater_FireBall(cDragonSoulEater *pDragon)
@@ -18,6 +20,7 @@ cSoulEater_FireBall::cSoulEater_FireBall(cDragonSoulEater *pDragon)
 {
 	m_nCurentIndex = 5;
 	m_nIndex = 7;
+	m_nSoundIndex = (int)eSoundList::Dragon_Fly1;
 	m_dwPrevTime = m_dwDelayTime = 0.0f;
 }
 
@@ -96,7 +99,11 @@ void cSoulEater_FireBall::handle()
 			break;
 		};
 		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(m_nIndex--);
-
+	
+		if(m_nSoundIndex <= 29)
+			g_pSoundManager->PlaySFX(m_nSoundIndex++);
+		// 7 6 5 4 3
+		//26 27 28 29
 
 
 	}

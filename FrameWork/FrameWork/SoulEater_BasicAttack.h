@@ -5,6 +5,9 @@ class cSoulEater_BasicAttack :
 {
 private:
 	bool m_IsAnimBlend;
+
+	DWORD	m_dwSoundTime;
+	bool m_IsRun;
 public:
 	cSoulEater_BasicAttack();
 	cSoulEater_BasicAttack(cDragonSoulEater*);

@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include "BackViewCamera.h"
 #include "Grid.h"
+#include "SoundManager.h"
 //#include "TimerManager.h"
 //#include "FontManager.h"
 //#include "ObjObject.h"
@@ -38,6 +39,8 @@
 #include "Orb.h"
 #include "Rune.h"
 #include "Wall.h"
+
+
 #pragma once
 
 
@@ -199,7 +202,14 @@ void cGameScene::Setup() // boss1map  boss2map
 	wall->Setup();
 	ObjectManager->AddChild(wall);
 	
-}
+
+	///BGM
+	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Battle_BGM.mp3");
+	g_pSoundManager->SetBGMSOUND(0.3f);
+	g_pSoundManager->PlayBGM();
+	
+	//
+ }
 
 void cGameScene::Reset(int sceneType)
 {

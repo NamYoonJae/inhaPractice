@@ -5,6 +5,8 @@ class cSoulEater_Scream :
 {
 private:
 	bool m_IsAnimBlend;
+	DWORD m_dwScreamCoolTime;
+	DWORD m_dwSCreamElapsedTime;
 public:
 	cSoulEater_Scream();
 	cSoulEater_Scream(cDragonSoulEater* pDragon);

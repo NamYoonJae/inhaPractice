@@ -173,7 +173,8 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 			startBtnPosition.x + (float)json_object_get_number(Sound_object, "BGM")	* tick,
 			startBtnPosition.y));
 
-		g_pSoundManager->SetVolume((float)(float)json_object_get_number(Sound_object, "BGM"));
+		g_pSoundManager->SetBGMSOUND((float)(float)json_object_get_number(Sound_object, "BGM"));
+		//g_pSoundManager->SetVolume((float)(float)json_object_get_number(Sound_object, "BGM"));
 	} 
 
 	switch (message)
@@ -229,7 +230,8 @@ void BarSliderMoveEvent(EventType message, cPopup* btn)
 		json_object_set_number(Sound_object, "BGM", ((btnPosition.x - startBtnPosition.x) / tick));
 		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
 
-		g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
+		//g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
+		g_pSoundManager->SetBGMSOUND((float)(float)json_object_get_number(Sound_object, "BGM"));
 	}
 	break;
 	};//switch End
@@ -331,7 +333,8 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 				* tick),
 			startBtnPosition.y));
 
-		g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")));
+		//g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")));
+		g_pSoundManager->SetBGMSOUND((float)json_Function::object_get_double(p_json_object_setting, "Sound/BGM"));
 	}
 
 	switch (message)
@@ -380,7 +383,8 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 		json_object_set_number(Sound_object, "BGM", ((btnPosition.x - startBtnPosition.x) / tick));
 		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
 
-		g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
+		//g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
+		g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM"));
 	}
 	break;
 	};//switch End

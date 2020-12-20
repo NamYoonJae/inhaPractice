@@ -4,6 +4,7 @@
 
 cSoulEater_Stun::cSoulEater_Stun()
 {
+	m_nCurentIndex = 9;
 	m_dwElapsedTime = FLT_MAX;
 	m_dwStunTime = 8000.0f;
 }
@@ -11,6 +12,7 @@ cSoulEater_Stun::cSoulEater_Stun()
 cSoulEater_Stun::cSoulEater_Stun(cDragonSoulEater *pDragon,DWORD dwTime)
 	:cSoulEaterState(pDragon)
 {
+	m_nCurentIndex = 9;
 	m_dwElapsedTime = FLT_MAX;
 	m_dwStunTime = dwTime;
 }

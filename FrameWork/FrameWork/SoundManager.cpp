@@ -3,7 +3,8 @@
 #include "SoundManager.h"
 
 cSoundManager::cSoundManager()
-	:m_fVolume(1.0f)
+	:m_fSFXVolume(1.0f)
+	,m_fBGMVolume(1.0f)
 {
 	init();
 }
@@ -31,10 +32,10 @@ void cSoundManager::Update()
 void cSoundManager::init()
 {
 	System_Create(&m_fmodSystem);
-	m_fmodSystem->init(4, FMOD_INIT_NORMAL, NULL);
+	m_fmodSystem->init(64, FMOD_INIT_NORMAL, NULL);
 
 	m_vecSounds.resize(eSoundList::SoundListSize);
-	
+
 	{
 		string szFullPath;
 		string szPathHead = "data/Sound/SFX/Paladin/NW_Move ";
@@ -45,6 +46,34 @@ void cSoundManager::init()
 			szFullPath = szPathHead + to_string(i) + szPathTail;
 			AddSFX(szFullPath, i);
 		}
+	}
+
+	{
+		// SFX
+		string strPath = "data/Sound/SFX/Dragon/";
+		for (int i = Dragon_Move0; i <= Dragon_Move9; ++i)
+		{
+			string strFullPath = strPath + string("Move/NW_Dragon_Move ") +
+				to_string(i + 1 - Dragon_Move0) + string(".mp3");
+			AddSFX(strFullPath  ,i);
+		}
+
+		AddSFX(strPath + string("NW_Dragon_Basic Attack.mp3"),(int)Dragon_BasicAttack);
+		AddSFX(strPath + string("NW_Dragon_Tail Attack.mp3"), (int)Dragon_TailAttack);
+		AddSFX(strPath + string("NW_Dragon_Shout.mp3"), (int)Dragon_Scream);
+		AddSFX(strPath + string("NW_Dragon_Stun.mp3"), (int)Dragon_Sturn);
+		AddSFX(strPath + string("GetHit/NW_Dragon_Hit 1.mp3"), (int)Dragon_GetHit1);
+		AddSFX(strPath + string("GetHit/NW_Dragon_Hit 2.mp3"), (int)Dragon_GetHit2);
+		AddSFX(strPath + string("GetHit/NW_Dragon_Hit 3.mp3"), (int)Dragon_GetHit3);
+		AddSFX(strPath + string("NW_Dragon_HP.mp3"), (int)Dragon_Sleep);
+		AddSFX(strPath + string("Fly/NW_Dragon_Fly 1.mp3"), (int)Dragon_Fly1);
+		AddSFX(strPath + string("Fly/NW_Dragon_Fly 2.mp3"), (int)Dragon_Fly2);
+		AddSFX(strPath + string("Fly/NW_Dragon_Fly 3.mp3"), (int)Dragon_Fly3);
+		AddSFX(strPath + string("Fly/NW_Dragon_Fly Breath_Voice.mp3"), (int)Dragon_FlyFireBall);
+		AddSFX(strPath + string("Fly/NW_Dragon_Breath.mp3"), (int)Dragon_Breath);
+		AddSFX(strPath + string("Die/NW_Dragon_Die_Effect.mp3"), (int)Dragon_Die1); 
+		AddSFX(strPath + string("Die/NW_Dragon_Die_Voice.mp3"), (int)Dragon_Die2);
+		//
 	}
 }
 
@@ -67,15 +96,32 @@ void cSoundManager::AddSFX(string path, unsigned soundindex)
 void cSoundManager::PlayBGM()
 {
 	m_fmodSystem->playSound(FMOD_CHANNEL_REUSE, m_sbgm, false, &m_cbgmChannel);
+	//m_fmodSystem->playSound(FMOD_CHANNEL_FREE, m_sbgm, false, &m_cbgmChannel);
+	m_cbgmChannel->setVolume(m_fBGMVolume);
 }
 
 void cSoundManager::PlaySFX(unsigned soundindex)
 {
+	//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "d", soundindex);
 	if (m_vecSounds[soundindex] != NULL)
 	{
 		Channel* m_csfxChannel = 0;	
-		m_fmodSystem->playSound(FMOD_CHANNEL_FREE, m_vecSounds[soundindex], false, &m_csfxChannel);
+		FMOD_RESULT r;
+		r = m_fmodSystem->playSound(FMOD_CHANNEL_FREE, m_vecSounds[soundindex], false, &m_csfxChannel);
+		m_csfxChannel->setVolume(m_fSFXVolume);
+		
+		if (r == FMOD_OK)
+		{
+			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s","OK");
+		}
+		else
+		{
+			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "FAILED");
+		}
 	}
+
+	// fix
+	m_fmodSystem->update();
 }
 
 void cSoundManager::Play3DSFX(unsigned soundindex, FMOD_VECTOR ListenerPos, FMOD_VECTOR ChannelPos,
@@ -88,7 +134,7 @@ void cSoundManager::Play3DSFX(unsigned soundindex, FMOD_VECTOR ListenerPos, FMOD
 			m_vecSounds[soundindex],
 			false,
 			&m_csfxChannel);
-		m_csfxChannel->setVolume(m_fVolume);
+		m_csfxChannel->setVolume(m_fSFXVolume);
 
 		m_fmodSystem->set3DListenerAttributes(0, &ListenerPos, &ListenerVel, 0, 0);
 

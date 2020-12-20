@@ -9,6 +9,9 @@
 cSoulEater_Scream::cSoulEater_Scream()
 	:cSoulEaterState()
 	, m_IsAnimBlend(false)
+	, m_dwScreamCoolTime(2000.0f)
+	, m_dwSCreamElapsedTime(0.0f)
+
 {
 	m_nCurentIndex = 4;
 }
@@ -16,6 +19,8 @@ cSoulEater_Scream::cSoulEater_Scream()
 cSoulEater_Scream::cSoulEater_Scream(cDragonSoulEater * pDragon)
 	: cSoulEaterState(pDragon)
 	, m_IsAnimBlend(false)
+	, m_dwScreamCoolTime(2000.0f)
+	, m_dwSCreamElapsedTime(0.0f)
 {
 	m_nCurentIndex = 4;
 }
@@ -46,12 +51,17 @@ void cSoulEater_Scream::handle()
 		{
 			m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::FireBall_Shot);
 			m_IsAnimBlend = true;
-
-			m_dwElapsedTime = GetTickCount();
+			m_dwSCreamElapsedTime = m_dwElapsedTime = GetTickCount();
+			g_pSoundManager->PlaySFX(eSoundList::Dragon_Scream);
 		}
 	}
 	else if (m_IsAnimBlend)
 	{
+		if (GetTickCount() - m_dwSCreamElapsedTime >= m_dwScreamCoolTime)
+		{
+			g_pSoundManager->PlaySFX(eSoundList::Dragon_Scream);
+			m_dwSCreamElapsedTime = GetTickCount();
+		}
 		cBackViewCamera *pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
 		D3DXVECTOR3 pos = m_pDragon->GetPos();

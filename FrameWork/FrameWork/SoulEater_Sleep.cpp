@@ -11,6 +11,8 @@ cSoulEater_Sleep::cSoulEater_Sleep()
 	m_fDamagetaken = 0.0f;
 	m_fHealingAmount = 0.0f;
 	m_dwHealingCoolTime = 1500.0f;
+	m_dwSleepSoundElapsed = GetTickCount();
+	m_dwSleepSoundTime = 10000.0f;
 }
 
 cSoulEater_Sleep::cSoulEater_Sleep(cDragonSoulEater* pDragon)
@@ -21,6 +23,8 @@ cSoulEater_Sleep::cSoulEater_Sleep(cDragonSoulEater* pDragon)
 	m_fDamagetaken = 0.0f;
 	m_fHealingAmount = 0.0f;
 	m_dwHealingCoolTime = 1500.0f;
+	m_dwSleepSoundElapsed = GetTickCount();
+	m_dwSleepSoundTime = 10000.0f;
 }
 
 
@@ -59,12 +63,20 @@ void cSoulEater_Sleep::handle()
 					
 			m_nliveGolem = 1;
 			m_dwElapsedTime = GetTickCount();
+			
+			g_pSoundManager->PlaySFX(eSoundList::Dragon_Sleep);
+			//m_dwSleepSoundElapsed = GetTickCount();
+
 		}
 
 	}
 	else 
 	{
-
+		//if (GetTickCount() - m_dwSleepSoundElapsed >= m_dwSleepSoundTime)
+		//{
+		//	g_pSoundManager->PlaySFX(eSoundList::Dragon_Sleep);
+		//	m_dwSleepSoundElapsed = GetTickCount();
+		//}
 		// È¸º¹
 		if(m_pDragon)
 		{
@@ -72,6 +84,7 @@ void cSoulEater_Sleep::handle()
 			{
 				m_fHealingAmount += m_pDragon->GetMAXHP() * 0.15 * 0.05;
 				m_dwElapsedTime = GetTickCount();
+				g_pSoundManager->PlaySFX(eSoundList::Dragon_Sleep);
 			}
 
 			if (m_fDamagetaken >= 1500)

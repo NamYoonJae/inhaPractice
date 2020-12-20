@@ -43,18 +43,13 @@ public:
 
 };
 
-//
-//0 Sleeping
-//1 Idle
-//2 FireBall_Shot
-//3 Land
-//4 FlyGlide
-//5 FlyFireBallShoot
-//6 Fly_Float
-//7 Take_Off
-//8 Run
-//9 Tail_Attack
-//10 Get Hit ¸Â´Â°Å
-//11 Walk
-//12 Defend
-//13 Basic Attack
+//	Idle		0
+//	basicattack 1
+//	tailattack	2
+//	rush		3	
+//	scream		4
+//	FireBall	5
+//	Sleep		6
+//	Breath		7
+//	Flood		8
+//	Stun		9

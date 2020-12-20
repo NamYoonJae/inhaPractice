@@ -19,6 +19,7 @@
 #include "SoulEater_Stun.h"
 #include "LavaFlood.h"
 #include "Map.h"
+#include "SoundManager.h"
 #pragma once
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -191,6 +192,7 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 
 	//state
 	m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
+
 }
 
 
@@ -655,7 +657,18 @@ void cDragonSoulEater::Request()
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
 		return;
 	}
-	
+	else
+	{
+		SafeDelete(m_pCurState);
+	}
+
+	//static DWORD time = GetTickCount();
+	//if (GetTickCount() - time > 1500.0f)
+	//{
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+	//	return;
+	//}
+
 	if (m_fStungauge >= 1000)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, 8000.0f);

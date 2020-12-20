@@ -12,6 +12,8 @@ private:
 	float m_fHealingAmount;
 
 	DWORD	m_dwHealingCoolTime;
+	DWORD	m_dwSleepSoundTime;
+	DWORD	m_dwSleepSoundElapsed;
 public:
 	cSoulEater_Sleep();
 	cSoulEater_Sleep(cDragonSoulEater*);

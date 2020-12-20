@@ -24,12 +24,32 @@ enum eSoundList
 	Paladin_Move6,
 	Paladin_Move7,
 	Paladin_Move8,
-
-
-
-
-
 	
+	Dragon_Move0,
+	Dragon_Move1,
+	Dragon_Move2,
+	Dragon_Move3,
+	Dragon_Move4,
+	Dragon_Move5,
+	Dragon_Move6,
+	Dragon_Move7,
+	Dragon_Move8,
+	Dragon_Move9,
+	Dragon_BasicAttack,
+	Dragon_TailAttack,
+	Dragon_Scream,
+	Dragon_Sturn,
+	Dragon_GetHit1,
+	Dragon_GetHit2,
+	Dragon_GetHit3,
+	Dragon_Sleep,
+	Dragon_Fly1,
+	Dragon_Fly2,
+	Dragon_Fly3,
+	Dragon_FlyFireBall,
+	Dragon_Breath,
+	Dragon_Die2,
+	Dragon_Die1,
 	SoundListSize
 };
 
@@ -42,7 +62,9 @@ private:
 
 	Sound* m_sbgm;
 	vector<Sound*> m_vecSounds;
-	float	m_fVolume;
+	Synthesize(float,m_fSFXVolume,SFXSOUND);
+	Synthesize(float,m_fBGMVolume,BGMSOUND);
+
 public:
 	void init();
 	void AddSFX(string path, unsigned soundindex);
@@ -59,6 +81,4 @@ public:
 	void Destroy();
 	void Update();
 
-	void SetVolume(float fVolume) { m_fVolume = fVolume; }
-	float GetVolume() { return m_fVolume; }
 };

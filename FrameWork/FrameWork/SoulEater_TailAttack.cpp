@@ -33,11 +33,12 @@ void cSoulEater_TailAttack::handle()
 			if (m_IsAnimBlend == false)
 			{
 				m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Tail_Attack);
+				g_pSoundManager->PlaySFX((int)eSoundList::Dragon_TailAttack);
 				m_IsAnimBlend = true;
 				m_dwElapsedTime = GetTickCount();
 			}
 			DWORD dwCurrentTime = GetTickCount();
-			if (dwCurrentTime - m_dwElapsedTime >= 2000.0f
+			if (dwCurrentTime - m_dwElapsedTime >= 1000.0f
 				&& m_pDragon->GetTarget())
 			{
 				m_pDragon->Request();
