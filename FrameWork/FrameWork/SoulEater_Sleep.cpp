@@ -61,7 +61,7 @@ void cSoulEater_Sleep::handle()
 			ObjectManager->AddChild(pGolem1);
 			pGolem1->SetMater(this);
 					
-			m_nliveGolem = 1;
+			//m_nliveGolem = 1;
 			m_dwElapsedTime = GetTickCount();
 			
 			g_pSoundManager->PlaySFX(eSoundList::Dragon_Sleep);

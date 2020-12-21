@@ -25,7 +25,8 @@ void cLavaDie::Handle()
 		{
 			if (IsDead == false)
 			{
-				m_pGolem->GetSkinnedMesh().SetAnimationIndexBlend(2);
+				//m_pGolem->GetSkinnedMesh().SetAnimationIndexBlend(2);
+				m_pGolem->GetSkinnedMesh().SetAnimationIndex(2);
 				IsDead = true;
 			}
 			else

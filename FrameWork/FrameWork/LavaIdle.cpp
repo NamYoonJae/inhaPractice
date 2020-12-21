@@ -16,11 +16,10 @@ cLavaIdle::~cLavaIdle()
 
 void cLavaIdle::Handle()
 {
-	DWORD dwCurrentTime = GetTickCount();
-	if (dwCurrentTime - m_dwElapsedTime >= 1500.0f&&
+	if (GetTickCount() - m_dwElapsedTime >= 1500.0f &&
 		m_pGolem->GetTarget())
 	{
-		if (m_pGolem->GetDist() < 10.0f)
+		if (m_pGolem->GetDist() < 15.0f)
 		{
 			m_pGolem->Request(2);	
 			return;

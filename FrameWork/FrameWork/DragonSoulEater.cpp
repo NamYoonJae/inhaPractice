@@ -660,7 +660,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 	//}
 	}
-	else 
+	else if(nTag == Tag::Tag_RunStone || nTag == Tag::Tag_Wall)
 	{
 		if (m_pCurState)
 		{
@@ -714,12 +714,12 @@ void cDragonSoulEater::Request()
 		SafeDelete(m_pCurState);
 	}
 
-	//static DWORD time = GetTickCount();
-	//if (GetTickCount() - time > 1500.0f)
-	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
-	//	return;
-	//}
+	static DWORD time = GetTickCount();
+	if (GetTickCount() - time > 1500.0f)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+		return;
+	}
 
 	if (m_fStungauge >= 1000)
 	{

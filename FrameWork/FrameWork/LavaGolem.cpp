@@ -23,6 +23,8 @@ cLavaGolem::cLavaGolem()
 	m_fMaxHP = 1000.0f;
 	m_fCurrentHP = m_fMaxHP;
 	m_fDamege = 50.0f;
+	
+	
 }
 
 
@@ -54,6 +56,13 @@ void cLavaGolem::Setup(char* szFolder, char* szFileName)
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	m_pSkinnedMesh->SetTransform(&matWorld);
+
+	cCharater* m_player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
+
+	if (m_player != nullptr)
+	{
+		m_pvTarget = m_player->GetpPos();
+	}
 	
 }
 
@@ -88,23 +97,19 @@ void cLavaGolem::Update()
 	}
 
 	// 예비
-	cCharater* m_player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
-	//
-	if (m_player && m_pState->GetStateIndex() != 3)
+	
+	if (m_pvTarget && m_pState->GetStateIndex() != 3)
 	{
-		m_pvTarget = m_player->GetpPos();
-
 		m_fDist = (sqrt(pow(m_pvTarget->x - m_vPos.x, 2) +
 			pow(m_pvTarget->z - m_vPos.z, 2)));
 
 		D3DXVECTOR3 goal = *m_pvTarget;
 		D3DXVECTOR3 currentPos = m_vPos;
 		D3DXVECTOR3 vUp(0, 1, 0);
-		D3DXVECTOR3 vDirection = (goal - currentPos);
-		m_vDir = vDirection;
-
+		m_vDir = (goal - currentPos);
+		D3DXVec3Normalize(&m_vDir, &m_vDir);
 		D3DXMATRIXA16 matR,matRy;
-		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &(goal - currentPos), &vUp);
+		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &m_vDir, &vUp);
 		D3DXMatrixTranspose(&matR, &matR);
 		D3DXMatrixRotationY(&matRy, D3DX_PI);
 		
@@ -192,8 +197,8 @@ void cLavaGolem::Request(int state)
 		//안전하게 제거하기 위해선
 		m_isDelete = true;
 
-		if (m_pMaster)
-			m_pMaster->SubtractGolem();
+		//if (m_pMaster)
+		//	m_pMaster->SubtractGolem();
 		return;
 	}
 

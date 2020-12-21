@@ -78,18 +78,21 @@ void cSoulEater_FireBall::handle()
 			vPos.x += matCurrentAnimMatrix._41;
 			vPos.y += matCurrentAnimMatrix._42;
 			vPos.z += matCurrentAnimMatrix._43;
-
-			vDir = m_vTarget - vPos;
+			D3DXVECTOR3 vTarget = m_vTarget;
+			vTarget.y += 10.0f;
+			vDir = vTarget - vPos;
 			
 			D3DXVec3Normalize(&vDir, &vDir);
-
 			mFireBall->SetDirection(vDir);
+
+			vPos += vDir * 4.0f;
+
 			mFireBall->SetPos(vPos);
 			mFireBall->Setup();
 
 			mFireBall->SetDirection(vDir);
 			mFireBall->SetPos(vPos);
-			mFireBall->Tagging(Tag::Tag_cObj);
+			mFireBall->Tagging(Tag::Tag_FireBall);
 			ObjectManager->AddChild(mFireBall);
 			m_dwDelayTime = 1000.0f;
 		}

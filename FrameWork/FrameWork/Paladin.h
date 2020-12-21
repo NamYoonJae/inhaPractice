@@ -86,7 +86,7 @@ public:
 
 	//
 	int GetStateIndex();
-
+	vector<cParts*> GetPartsList() { return m_vecParts; }
 
 	// backviewCamera
 	void SetCameraRot(D3DXVECTOR3 CameraRot) { m_vCameraRot = CameraRot; }

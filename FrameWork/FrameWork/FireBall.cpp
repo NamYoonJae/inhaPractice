@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include "ShaderManager.h"
 #include "cOBB.h"
+#include "Paladin.h"
 #define once
 #define X_Radian 25.0f
 #pragma once
@@ -13,9 +14,11 @@ DWORD FtoDw(float f)
 }
 
 cFireBall::cFireBall()
-	:m_pMesh(NULL)
+	: m_pMesh(NULL)
 	, m_pShader(NULL)
 	, m_pTexcoord(NULL)
+	, m_IsExplosion(false)
+	, m_dwExplosionTime(3000.0f)
 {
 	m_pOBB = NULL;
 }
@@ -29,11 +32,11 @@ void cFireBall::Setup()
 {
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
 	//m_vPos = D3DXVECTOR3(0, 10, 0);
-	m_vScale = D3DXVECTOR3(0.1, 0.1, 0.1);
+	m_vScale = D3DXVECTOR3(0.3, 0.3, 0.3);
 	
 	// obb
-	D3DXVECTOR3 vMin(25,25,25), 
-				vMax(-25,-25,-25);
+	D3DXVECTOR3 vMin(X_Radian, X_Radian, X_Radian),
+				vMax(-X_Radian,-X_Radian,-X_Radian);
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	m_pOBB = new cOBB;
@@ -93,7 +96,8 @@ void cFireBall::Setup()
 	using namespace std;
 	random_device rd;
 	mt19937_64 mtRand(rd());
-	uniform_real_distribution<float> dis(2.5, 3.0);
+	uniform_real_distribution<float> dis(X_Radian * m_vScale.y,
+		X_Radian * m_vScale.y + 0.5f);
 
 	for (int i = 0; i < m_vecVertexParticle.size(); i++)
 	{
@@ -130,87 +134,133 @@ void cFireBall::Setup()
 
 void cFireBall::Update()
 {
-
-	m_vPos += m_vDir * 0.1f;
-
-	static int nAlpha = 0;
-	static int nDelta = 4;
-	nAlpha += nDelta;
-	//std::cout << nAlpha << std::endl;
-	if (nAlpha > 255)
+	
+	
+	if (m_IsExplosion == false)
 	{
-		nAlpha = 255;
-		nDelta = -1;
-	}
-	if (nAlpha < 200)
-	{
-		nAlpha = 200;
-		nDelta *= -1;
-	}
+		float fMagnification = 1.3f;
+		D3DXMATRIXA16 matWorld, matS, matT;
+		D3DXMatrixIdentity(&matWorld);
+		D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+		matWorld = matS * matT;
+		m_pOBB->Update(&matT);
 
-	D3DXVECTOR3 Particle = m_vecVertexParticle[0].p;
-	for (int i = 0; i < m_vecVertexParticle.size(); i++)
-	{
-		//if (i % 2) continue;
-		m_vecVertexParticle[i].c = D3DCOLOR_ARGB(nAlpha, 255, 70, 0);
-		m_vecVertexParticle[i].p += m_vDir * 0.1f;
-	}
 
-	// 파티클을 생성한다. 1초마다하고size가 500이상이면 앞에 100삭제 
-	static DWORD dwTimeElapsed = GetTickCount();
-	if (GetTickCount() - dwTimeElapsed > 500.0f)
-	{
-		std::random_device rd;
-		std::mt19937_64 mtRand(rd());
+		m_vPos += m_vDir * fMagnification;
 
-		for (int i = 0; i < 500; i++)
+		static int nAlpha = 0;
+		static int nDelta = 4;
+		nAlpha += nDelta;
+		//std::cout << nAlpha << std::endl;
+		if (nAlpha > 255)
 		{
-			float d = i * 0.005;
-			std::uniform_real_distribution<float> dis(2.5 - d, 3.0 - d);
-			float fRadius = dis(rd);
-			ST_PC_VERTEX pc;
-			pc.p = D3DXVECTOR3(0, fRadius, fRadius);
-			D3DXVECTOR3 vAngle = D3DXVECTOR3(
-				D3DXToRadian(rand() % 360),
-				D3DXToRadian(rand() % 360),
-				D3DXToRadian(rand() % 360 / 10.0f));
-
-
-
-			D3DXMATRIX matRx, matRy, matRz, matWorld;
-			D3DXMatrixRotationX(&matRx, vAngle.x);
-			D3DXMatrixRotationY(&matRy, vAngle.y);
-			D3DXMatrixRotationZ(&matRz, vAngle.z);
-
-			matWorld = matRx * matRy * matRz;
-			D3DXVec3TransformCoord(
-				&pc.p,
-				&pc.p,
-				&matWorld);
-
-			float dir = 0.5 + d * 3;
-			pc.p += m_vPos - m_vDir * (dir);
-			pc.c = D3DCOLOR_ARGB(255, 255, 70, 0);
-
-			m_FlowParticle.push_back(pc);
+			nAlpha = 255;
+			nDelta = -1;
+		}
+		if (nAlpha < 200)
+		{
+			nAlpha = 200;
+			nDelta *= -1;
 		}
 
-	}
+		D3DXVECTOR3 Particle = m_vecVertexParticle[0].p;
+		for (int i = 0; i < m_vecVertexParticle.size(); i++)
+		{
+			//if (i % 2) continue;
+			m_vecVertexParticle[i].c = D3DCOLOR_ARGB(nAlpha, 255, 70, 0);
+			m_vecVertexParticle[i].p += m_vDir * fMagnification;
+		}
 
-	if (m_FlowParticle.size() > 1500)
+		// 파티클을 생성한다. 1초마다하고size가 500이상이면 앞에 100삭제 
+		static DWORD dwTimeElapsed = GetTickCount();
+		if (GetTickCount() - dwTimeElapsed > 500.0f)
+		{
+			std::random_device rd;
+			std::mt19937_64 mtRand(rd());
+
+			for (int i = 0; i < 500; i++)
+			{
+				float d = i * 0.005;
+				std::uniform_real_distribution<float> dis(X_Radian * m_vScale.y - d,
+					X_Radian * m_vScale.y - d);
+				float fRadius = dis(rd);
+				ST_PC_VERTEX pc;
+				pc.p = D3DXVECTOR3(0, fRadius, fRadius);
+				D3DXVECTOR3 vAngle = D3DXVECTOR3(
+					D3DXToRadian(rand() % 360),
+					D3DXToRadian(rand() % 360),
+					D3DXToRadian(rand() % 360 / 10.0f));
+
+
+
+				D3DXMATRIX matRx, matRy, matRz, matWorld;
+				D3DXMatrixRotationX(&matRx, vAngle.x);
+				D3DXMatrixRotationY(&matRy, vAngle.y);
+				D3DXMatrixRotationZ(&matRz, vAngle.z);
+
+				matWorld = matRx * matRy * matRz;
+				D3DXVec3TransformCoord(
+					&pc.p,
+					&pc.p,
+					&matWorld);
+
+				float dir = 0.5 + d * 3;
+				pc.p += m_vPos - m_vDir * (dir);
+				pc.c = D3DCOLOR_ARGB(255, 255, 70, 0);
+
+				m_FlowParticle.push_back(pc);
+			}
+
+		}
+
+		if (m_FlowParticle.size() > 1500)
+		{
+			std::vector<ST_PC_VERTEX> vecNewFlowParticle;
+			vecNewFlowParticle.assign(m_FlowParticle.begin() + 500, m_FlowParticle.end());
+			m_FlowParticle.swap(vecNewFlowParticle);
+		}
+
+		if (m_vPos.y <= 0)
+		{
+			Exploding();
+			return;
+		}
+	}
+	else if (m_IsExplosion)
 	{
-		std::vector<ST_PC_VERTEX> vecNewFlowParticle;
-		vecNewFlowParticle.assign(m_FlowParticle.begin() + 500, m_FlowParticle.end());
-		m_FlowParticle.swap(vecNewFlowParticle);
+		float fMagnification = 0.8f;
+		D3DXVECTOR3 vMin, vMax;
+		vMin = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
+		vMax = -vMin;
+		for (int i = 0; i < m_ExplosionParticle.size(); ++i)
+		{
+			m_ExplosionParticle.at(i).p += m_ExplosionDir.at(i) * fMagnification;
+
+			vMin.x = min(vMin.x, m_ExplosionParticle.at(i).p.x);
+			vMin.y = min(vMin.y, m_ExplosionParticle.at(i).p.y);
+			vMin.z = min(vMin.z, m_ExplosionParticle.at(i).p.z);
+
+			vMax.x = max(vMax.x, m_ExplosionParticle.at(i).p.x);
+			vMax.y = max(vMax.y, m_ExplosionParticle.at(i).p.y);
+			vMax.z = max(vMax.z, m_ExplosionParticle.at(i).p.z);
+		}
+
+		if (m_pOBB)
+			SafeDelete(m_pOBB);
+		m_pOBB = new cOBB;
+		m_pOBB->Setup(vMin,vMax);
+		D3DXMATRIXA16 matWorld;
+		D3DXMatrixIdentity(&matWorld);
+		m_pOBB->Update(&matWorld);
+		
+		if (GetTickCount() - m_dwElaspedTime >= m_dwExplosionTime)
+		{
+			m_isDelete = true;
+			return;
+		}
 	}
 
-
-	D3DXMATRIXA16 matWorld, matS, matT;
-	D3DXMatrixIdentity(&matWorld);
-	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
-	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matWorld = matS * matT;
-	m_pOBB->Update(&matT);
 }
 
 void cFireBall::Render(D3DXMATRIXA16 *pmat)
@@ -222,8 +272,9 @@ void cFireBall::Render(D3DXMATRIXA16 *pmat)
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	
 	matWorld = matS * matT;
-
-	for (int i = 0; i < m_vecMtls.size(); ++i)
+	if (!m_IsExplosion)
+	{
+		for (int i = 0; i < m_vecMtls.size(); ++i)
 	{
 		g_pD3DDevice->SetMaterial(&m_vecMtls[i]);
 		if (m_pShader)
@@ -263,6 +314,7 @@ void cFireBall::Render(D3DXMATRIXA16 *pmat)
 
 		}
 
+	}
 	}
 
 	ParticleRender();
@@ -305,18 +357,30 @@ void cFireBall::ParticleRender()
 	g_pD3DDevice->SetTexture(0,
 		m_pParticle);
 
-	g_pD3DDevice->DrawPrimitiveUP(
-		D3DPT_POINTLIST,
-		m_vecVertexParticle.size(),
-		&m_vecVertexParticle[0],
-		sizeof(ST_PC_VERTEX));
-	if (!m_FlowParticle.empty())
+	if(!m_IsExplosion)
 	{
 		g_pD3DDevice->DrawPrimitiveUP(
 			D3DPT_POINTLIST,
-			m_FlowParticle.size(),
-			&m_FlowParticle[0],
+			m_vecVertexParticle.size(),
+			&m_vecVertexParticle[0],
 			sizeof(ST_PC_VERTEX));
+		if (!m_FlowParticle.empty())
+		{
+			g_pD3DDevice->DrawPrimitiveUP(
+				D3DPT_POINTLIST,
+				m_FlowParticle.size(),
+				&m_FlowParticle[0],
+				sizeof(ST_PC_VERTEX));
+		}
+	}
+	else if (m_IsExplosion)
+	{
+		g_pD3DDevice->DrawPrimitiveUP(
+			D3DPT_POINTLIST,
+			m_ExplosionParticle.size(),
+			&m_ExplosionParticle[0],
+			sizeof(ST_PC_VERTEX));
+		
 	}
 
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
@@ -328,4 +392,93 @@ void cFireBall::ParticleRender()
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG0, D3DTA_DIFFUSE);
 	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+}
+
+void cFireBall::CollisionProcess(cObject * pObject)
+{
+
+	if (pObject->GetTag() == Tag::Tag_Player)
+	{
+		// 1 body
+		cPaladin* pPaladin = (cPaladin*)pObject;
+		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
+
+		if (cOBB::IsCollision(m_pOBB, pBody) && pObject->GetCollsionInfo(m_nTag) == nullptr)
+		{
+			CollisionInfo info;
+			info.dwCollsionTime = GetTickCount();
+			info.dwDelayTime = m_dwExplosionTime;
+			pObject->AddCollisionInfo(m_nTag, info);
+			// damage
+
+			if (m_IsExplosion == false)
+			{
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Player Meteor Hit");
+				Exploding();
+				// 데미지 차이 
+			}
+			else if(m_IsExplosion)
+			{
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Player Flame Hit");
+				// 데미지 차이
+			}
+
+		}
+	}
+
+}
+
+void cFireBall::Exploding()
+{
+	using namespace std;
+	random_device rd;
+	mt19937_64 mtRand(rd());
+	uniform_real_distribution<float> dis(X_Radian * m_vScale.y,
+		X_Radian * m_vScale.y + 0.5f);
+
+	m_ExplosionDir.resize(1500);
+	m_ExplosionParticle.resize(1500);
+
+	for (int i = 0; i < m_ExplosionParticle.size(); i++)
+	{
+		float fRadius = dis(rd);
+
+		m_ExplosionParticle[i].p = D3DXVECTOR3(0, fRadius, fRadius);
+		D3DXVECTOR3 vAngle = D3DXVECTOR3(
+			D3DXToRadian(rand() % 360),
+			D3DXToRadian(rand() % 360),
+			D3DXToRadian(rand() % 360));
+		
+
+
+		D3DXMATRIX matRx, matRy, matRz, matWorld;
+		D3DXMatrixRotationX(&matRx, vAngle.x);
+		D3DXMatrixRotationY(&matRy, vAngle.y);
+		D3DXMatrixRotationZ(&matRz, vAngle.z);
+
+		matWorld = matRx * matRy * matRz;
+		D3DXVec3TransformCoord(
+			&m_ExplosionParticle[i].p,
+			&m_ExplosionParticle[i].p,
+			&matWorld);
+		m_ExplosionParticle[i].p += m_vPos;
+		m_ExplosionParticle[i].c =
+			D3DCOLOR_ARGB(255, 255, 0, 0);
+
+		D3DXVECTOR3 vDir;
+		D3DXVec3TransformNormal(
+			&vDir,
+			&m_vDir,
+			&matWorld);
+
+		m_ExplosionDir[i] = vDir;
+	}
+
+	m_dwElaspedTime = GetTickCount();
+
+	m_IsExplosion = true;
+
+	m_vecVertexParticle.clear();
+	m_FlowParticle.clear();
+
 }

@@ -6,7 +6,7 @@ class cSoulEater_Sleep :
 {
 private:
 	bool m_IsSleep;
-	int	 m_nliveGolem;
+	//int	 m_nliveGolem;
 
 	float m_fDamagetaken;
 	float m_fHealingAmount;
@@ -19,6 +19,6 @@ public:
 	cSoulEater_Sleep(cDragonSoulEater*);
 	~cSoulEater_Sleep();
 	void handle() override;
-	void SubtractGolem() { m_nliveGolem--; };
+	//void SubtractGolem() { m_nliveGolem--; };
 };
 

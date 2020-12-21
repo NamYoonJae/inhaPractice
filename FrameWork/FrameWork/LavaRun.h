@@ -4,6 +4,7 @@ class cLavaRun :
 	public cLavaState
 {
 private:
+	bool m_IsAnimBlend;
 
 public:
 	cLavaRun(cLavaGolem* pLavaGolem);

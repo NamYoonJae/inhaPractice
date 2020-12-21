@@ -194,11 +194,12 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	cRune* rune = new cRune;
 	rune->Setup();
-	rune->Tagging(Tag::Tag_cObj);
+	rune->Tagging(Tag::Tag_RunStone);
 	ObjectManager->AddChild(rune);
 	
 	
 	cWall* wall = new cWall;
+	wall->Tagging(Tag::Tag_Wall);
 	wall->Setup();
 	ObjectManager->AddChild(wall);
 	
@@ -206,6 +207,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	///BGM
 	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Battle_BGM.mp3");
 	g_pSoundManager->SetBGMSOUND(0.3f);
+	g_pSoundManager->SetSFXSOUND(0.3f);
 	g_pSoundManager->PlayBGM();
 	
 	//

@@ -14,6 +14,7 @@ const enum Tag
 	Tag_SwampA,
 	Tag_SwampB,
 	Tag_RunStone,
+	Tag_Wall,
 	Tag_Breath
 };
 
