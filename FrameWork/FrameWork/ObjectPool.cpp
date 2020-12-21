@@ -283,9 +283,9 @@ void ObjectPool::CollisionDetection()
 		if (vecObjectList.at(i)->GetOBB() == NULL)
 			continue;
 
-		for (int j = i + 1; j < vecObjectList.size(); ++j)
+		for (int j = 0; j < vecObjectList.size(); ++j)
 		{
-			if (vecObjectList.at(j)->GetOBB() == NULL)
+			if (vecObjectList.at(j)->GetOBB() == NULL || j == i)
 				continue;
 			
 			if (cOBB::IsCollision(vecObjectList.at(i)->GetOBB(),
@@ -293,7 +293,9 @@ void ObjectPool::CollisionDetection()
 			{
 				// 수치 계산
 				vecObjectList.at(i)->CollisionProcess(vecObjectList.at(j));
+				
 			}
+
 		}
 	}
 }

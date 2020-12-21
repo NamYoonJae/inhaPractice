@@ -45,7 +45,7 @@ void cSoulEater_BasicAttack::handle()
 	//
 	float distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
 	
-	if (distance <= 10.0f)
+	if (distance <= 30.0f)
 	{
 		if (!m_IsAnimBlend)
 		{

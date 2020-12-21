@@ -227,6 +227,9 @@ void cPaladin::Update()
 
 	if (m_pCurState)
 		m_pCurState->StateUpdate();
+
+	// 필수
+	CollisionInfoCheck();
 }
 
 void cPaladin::Update(EventType event)
@@ -341,7 +344,6 @@ void cPaladin::Update(EventType event)
 
 }
 
-
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
 	ShaderRender();
@@ -404,31 +406,42 @@ void cPaladin::CollisionProcess(cObject* pObject)
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB()))
 			{
 				//cout << "Attack Success!" << endl;
+				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
+				{
+					if (iOtherTag == Tag::Tag_Boss)
+						cout << "Dragon Hit" << endl;
+
+					CollisionInfo info;
+					info.dwCollsionTime = GetTickCount();
+					info.dwDelayTime = 1500.0f;
+					pObject->AddCollisionInfo(m_nTag, info);
+				}
+
+
 			}
 		}
 	}
 
 	// 내가 맞을것
-	if (mapCollisionList.find(iOtherTag) != mapCollisionList.end())
-	{
-		// 이미 맞았다면
-		return;
-	}
-	else
-	{
-		// 어느 부위에 맞을것인지
-		if (cOBB::IsCollision(pOtherOBB, m_vecParts[1]->GetOBB()))
-		{
-			//cout << "Body Hit" << endl;
-		}
+	//if (mapCollisionList.find(iOtherTag) != mapCollisionList.end())
+	//{
+	//	// 이미 맞았다면
+	//	return;
+	//}
+	//else
+	//{
+	//	// 어느 부위에 맞을것인지
+	//	if (cOBB::IsCollision(pOtherOBB, m_vecParts[1]->GetOBB()))
+	//	{
+	//		//cout << "Body Hit" << endl;
+	//	}
 
-		CollisionInfo info;
-		info.dwCollsionTime = GetTickCount();
-		info.dwDelayTime = 1500.0f;
+	//	CollisionInfo info;
+	//	info.dwCollsionTime = GetTickCount();
+	//	info.dwDelayTime = 1500.0f;
 
-		mapCollisionList.insert(pair<int, CollisionInfo>(iOtherTag, info));
-
-	}
+	//	mapCollisionList.insert(pair<int, CollisionInfo>(iOtherTag, info));
+	//}
 }
 
 void cPaladin::StateFeedback()

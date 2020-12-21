@@ -88,5 +88,5 @@ public:
 	D3DXVECTOR2 GetMousePrev();
 	void PushQueue(EventType message);
 
-	
+	bool m_IsOBBButten;
 };

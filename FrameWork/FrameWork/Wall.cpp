@@ -16,7 +16,7 @@ cWall::~cWall()
 void cWall::Setup()
 {
 	//임시적인 위치
-	m_vPos = D3DXVECTOR3(220.0f, 0.0f, 0);
+	m_vPos = D3DXVECTOR3(220.0f, 0.0f, 100.0f);
 
 	cObjLoader objLoader;
 	objLoader.LoadOBJ(m_vecGroup, "data/ObjFile/MapObject/NW_WALL", "Wall.obj");

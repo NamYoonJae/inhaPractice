@@ -333,9 +333,12 @@ bool cOBB::IsCollision(cOBB* pOBB1, cOBB* pOBB2)
 
 void cOBB::OBBBOX_Render(D3DXCOLOR c)
 {
+	if (EventManager->m_IsOBBButten == false)
+		return;
+
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTexture(0, NULL);
 	for (int i = 0; i < m_vecVertex.size(); i++)
 		m_vecVertex[i].c = c;
@@ -350,6 +353,6 @@ void cOBB::OBBBOX_Render(D3DXCOLOR c)
 	//	g_pD3DDevice->DrawPrimitiveUP(D3DPT_LINELIST,
 	//	m_vecDrawingVertex.size() / 2, &m_vecDrawingVertex[0], sizeof(ST_PC_VERTEX));
 	//}
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 }
 

@@ -122,6 +122,8 @@ void cDragonSoulEater::Update()
 		// 룬스톤 활성화
 	}
 
+	CollisionInfoCheck();
+
 }
 
 void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
@@ -578,10 +580,13 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			int BoxNum = 0;
 			switch (nCurStateIndex)
 			{
-			case 1:
+			case 0:
+				BoxNum = INT_MAX;
+				break;
+			case 1:		//머리
 				BoxNum = 0;
 				break;
-			case 2:
+			case 2:		//
 				BoxNum = 1;
 				break;
 			default:
@@ -589,8 +594,11 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				break;
 
 			}
-
-			if (BoxNum == 9)
+			if (BoxNum == INT_MAX)
+			{
+				// Idle 상태
+			}
+			else if (BoxNum == 9)
 			{
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
@@ -598,7 +606,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 1500;
 					pObject->AddCollisionInfo(m_nTag, info);
-
 				}
 			}
 			else
@@ -613,6 +620,14 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						info.dwDelayTime = 1500;
 						pObject->AddCollisionInfo(m_nTag, info);
 
+						if (BoxNum == 0)
+						{
+							g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "BasicAttack");
+						}
+						else if (BoxNum == 1)
+						{
+							g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TailAttack");
+						}
 					}
 				}
 			}
@@ -621,31 +636,68 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 		}
 
 		// 내가 맞을것
-		if (mapCollisionList.find(nTag) != mapCollisionList.end())
+	//	if (mapCollisionList.find(nTag) != mapCollisionList.end())
+	//	{
+	//		// 이미 맞았다면
+	//		return;
+	//	}
+	//	else
+	//	{
+	//		//int i;
+	//		// 어느 부위에 맞을것인지
+	//		//for (i = 0; i < m_vecBoundingBoxList.size(); ++i)
+	//		//{
+	//		//	if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(i).Box))
+	//		//	{
+	//		//		break;
+	//		//	}
+	//		//}
+	//		CollisionInfo info;
+	//		info.dwCollsionTime = GetTickCount();
+	//		info.dwDelayTime = 500.0f;
+	//		AddCollisionInfo(nTag, info);
+	//	}
+
+	//}
+	}
+	else 
+	{
+		if (m_pCurState)
 		{
-			// 이미 맞았다면
-			return;
-		}
-		else
-		{
-			//int i;
-			// 어느 부위에 맞을것인지
-			//for (i = 0; i < m_vecBoundingBoxList.size(); ++i)
-			//{
-			//	if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(i).Box))
-			//	{
-			//		break;
-			//	}
-			//}
-			CollisionInfo info;
-			info.dwCollsionTime = GetTickCount();
-			info.dwDelayTime = 500.0f;
-			AddCollisionInfo(nTag, info);
+			int nCurStateIndex = m_pCurState->GetIndex();
+
+			switch (nCurStateIndex)
+			{
+			case 3:
+				break;
+			default:
+			{
+				D3DXVECTOR3 vOtherPos = pObject->GetPos();
+				float dist = pow(m_vPos.x - vOtherPos.x, 2)
+					+ pow(m_vPos.z - vOtherPos.z, 2);
+
+				D3DXVECTOR3 vDir;
+				vDir = vOtherPos - m_vPos;
+
+
+				while (dist < 20)
+				{
+					m_vPos += -vDir * 0.1;
+					dist = pow(m_vPos.x - vOtherPos.x, 2)
+						+ pow(m_vPos.z - vOtherPos.z, 2);
+				}
+				//m_vPos.x += (m_vPos.x < (*m_pvTarget).x) ? 1 : -1;
+				//m_vPos.z += (m_vPos.z < (*m_pvTarget).z) ? 1 : -1;
+				m_vPos += D3DXVECTOR3(0, 0, -0.3);
+
+				this->m_pCurState->TargetCapture();
+			}
+				break;
+			}
+
 		}
 
 	}
-
-
 }
 
 void cDragonSoulEater::Request()
