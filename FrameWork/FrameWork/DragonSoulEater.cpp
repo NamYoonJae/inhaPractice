@@ -689,8 +689,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				//m_vPos.x += (m_vPos.x < (*m_pvTarget).x) ? 1 : -1;
 				//m_vPos.z += (m_vPos.z < (*m_pvTarget).z) ? 1 : -1;
 				m_vPos += D3DXVECTOR3(0, 0, -0.3);
-
-				this->m_pCurState->TargetCapture();
+				if(nCurStateIndex != 0)
+					this->m_pCurState->TargetCapture();
 			}
 				break;
 			}
