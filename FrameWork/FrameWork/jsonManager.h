@@ -62,6 +62,8 @@ public:
 
 	JSON_Object* get_json_object_Setting();
 	JSON_Value* get_json_value_Setting();
+
+	JSON_Object* get_json_object_Sound();
 #pragma endregion get json object
 
 	void save_json_Setting();

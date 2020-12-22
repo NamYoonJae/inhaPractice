@@ -471,8 +471,9 @@ void SFX_Setting_Event(EventType message, cPopup* btn)
 		cout << startBtnPosition.x << endl;
 		cout << tick << endl;
 		json_object_set_number(Sound_object, "SFX", ((btnPosition.x - startBtnPosition.x) / tick));
-		// TODO 아직 매니저에 SFX관련 세팅이 없음으로 주석처리
-		// g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
+		g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX"));
+		// g_pSoundManager->SetSFXSOUND((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
+
 	}
 	break;
 	};//switch End

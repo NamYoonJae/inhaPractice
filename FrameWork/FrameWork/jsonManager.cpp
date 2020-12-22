@@ -171,6 +171,11 @@ JSON_Value* jsonManager::get_json_value_Setting()
 	return mp_rootValue_Setting;
 }
 
+JSON_Object* jsonManager::get_json_object_Sound()
+{
+	return mp_rootObject_Sound;
+}
+
 void jsonManager::save_json_Setting()
 {
 	json_serialize_to_file_pretty(mp_rootValue_Setting, "example.json");
