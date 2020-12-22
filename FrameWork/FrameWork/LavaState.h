@@ -3,7 +3,7 @@
 #include "SkinnedMesh.h"
 #include "TimerManager.h"
 #include "LavaGolem.h"
-
+#include "SoundManager.h"
 #define Distance 15.0f
 
 class cLavaState

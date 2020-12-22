@@ -35,6 +35,8 @@ void cLavaDie::Handle()
 				m_pGolem->SetSkinnedMesh(pNextMesh);
 				IsDead = true;
 				m_dwAnimStartTime = GetTickCount();
+				g_pSoundManager->PlaySFX(eSoundList::Golem_Die);
+				
 			}
 			else if(IsDead &&(GetTickCount() - m_dwAnimStartTime > m_dwBlendTime))
 			{

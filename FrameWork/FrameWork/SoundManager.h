@@ -50,6 +50,11 @@ enum eSoundList
 	Dragon_Breath,
 	Dragon_Die2,
 	Dragon_Die1,
+
+	Golem_AttackVoice1,
+	Golem_AttackVoice2,
+	Golem_Attack,
+	Golem_Die,
 	SoundListSize
 };
 

@@ -11,6 +11,7 @@
 #include "TimerManager.h"
 
 //
+#include "Orb.h"
 #include "Paladin.h"
 #include "PaladinState.h"
 #pragma once
@@ -27,7 +28,7 @@ cLavaGolem::cLavaGolem()
 	m_fMaxHP = 1000.0f;
 	m_fCurrentHP = m_fMaxHP;
 	m_fDamege = 50.0f;
-	
+	m_IsAttack = false;
 	
 }
 
@@ -136,12 +137,10 @@ void cLavaGolem::Update()
 	}
 
 	//
-	static DWORD time = GetTickCount();
-	static bool check = false;
-	if (m_fCurrentHP <= 0.0f || ((GetTickCount() - time > 15000.0f) && check == false))
+
+	if (m_fCurrentHP <= 0.0f )
 	{
 		Request(3);
-		check = true;
 		return;
 	}
 
@@ -232,46 +231,68 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	cOBB *pOBB = pObject->GetOBB();
 	int nTag = pObject->GetTag();
 
-	if(nTag == Tag::Tag_Player)
+	if(nTag == Tag::Tag_Player && m_IsAttack)
 	{
 		cPaladin* Paladin = (cPaladin*)pObject;
+		cOBB*pBody = Paladin->GetPartsList().at(1)->GetOBB();
 
-		if(mapCollisionList.find(nTag) != mapCollisionList.end())
+		if(cOBB::IsCollision(m_pOBB,pBody) && pObject->GetCollsionInfo(m_nTag) == nullptr)
 		{
-			return;
-		}
-		else
-		{
-			if (cPaladinState::eAnimationSet::Attack3 <= Paladin->GetStateIndex())
-			{
-				CollisionInfo info;
-				info.dwCollsionTime = GetTickCount();
-				info.dwDelayTime = 500.0f;
+			CollisionInfo info;
+			info.dwCollsionTime = GetTickCount();
+			info.dwDelayTime = 1300;
+			pObject->AddCollisionInfo(m_nTag, info);
 
-				mapCollisionList.insert(pair<int, CollisionInfo>(nTag, info));
-			}
-			
+			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Golem_Attack Hit Player");
+
 		}
 	}
 
-	//
 	D3DXVECTOR3 vOtherPos = pObject->GetPos();
 	float dist = pow(m_vPos.x - vOtherPos.x, 2)
 		+ pow(m_vPos.z - vOtherPos.z, 2);
 
-
-	//
-	if(dist < 50)
+	cOBB* pObb;
+	D3DXMATRIXA16 matW;
+	
+	switch (nTag)
 	{
-		while(dist < 50)
-		{
-			m_vPos -= m_vDir * 0.5;
-			
-			dist = pow(m_vPos.x - vOtherPos.x, 2)
-				+ pow(m_vPos.z - vOtherPos.z, 2);
-		}
-		
+	case Tag::Tag_Orb:
+	{
+		cOrb* pOrb = (cOrb*)pObject;
+		pObb = pOrb->GetSubOBB();
+		matW = pOrb->GetSubOBB()->GetWorldMatrix();
+	}
+	break;
+	case Tag::Tag_SwampA:
+	case Tag::Tag_SwampB:
+		return;
+	default:
+		pObb = pOBB;
+		matW = pObb->GetWorldMatrix();
+		break;
 	}
 	
+	D3DXVECTOR3 vOtherPoint0 = pObb->GetList().at(0);
+	matW = pObb->GetWorldMatrix();
+	D3DXVec3TransformCoord(&vOtherPoint0, &vOtherPoint0, &matW);
+	float Radian0 = pow(vOtherPos.x - vOtherPoint0.x, 2) + pow(vOtherPos.z - vOtherPoint0.z, 2);
 	
+	D3DXVECTOR3 vPoint0 = m_pOBB->GetList().at(0);
+	matW = m_pOBB->GetWorldMatrix();
+	D3DXVec3TransformCoord(&vPoint0, &vPoint0, &matW);
+	float Radian1 = pow(m_vPos.x - vPoint0.x, 2) + pow(m_vPos.z - vPoint0.z, 2);
+	
+	float Radian = Radian0 + Radian1;
+	
+	while (dist < Radian)
+	{
+			m_vPos += -m_vDir * 0.02f;
+
+			dist = pow(m_vPos.x - vOtherPos.x, 2)
+				+ pow(m_vPos.z - vOtherPos.z, 2);
+	}
+	m_vPos += D3DXVECTOR3(0, 0, 1);
+	
+
 }

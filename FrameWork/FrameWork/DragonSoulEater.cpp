@@ -195,6 +195,8 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 	//state
 	m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
 
+	//
+	m_vPos = D3DXVECTOR3(100, 0, 200);
 }
 
 
@@ -660,7 +662,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 	//}
 	}
-	else if(nTag == Tag::Tag_RunStone || nTag == Tag::Tag_Wall)
+	else 
 	{
 		if (m_pCurState)
 		{
@@ -668,26 +670,39 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 			switch (nCurStateIndex)
 			{
-			case 3:
+			case Tag::Tag_SwampA:
+			case Tag::Tag_SwampB:
 				break;
 			default:
 			{
+
 				D3DXVECTOR3 vOtherPos = pObject->GetPos();
 				float dist = pow(m_vPos.x - vOtherPos.x, 2)
 					+ pow(m_vPos.z - vOtherPos.z, 2);
 
+				D3DXVECTOR3 vOtherPoint0 = pOBB->GetList().at(0);
+				D3DXMATRIXA16 matW = pOBB->GetWorldMatrix();
+				D3DXVec3TransformCoord(&vOtherPoint0, &vOtherPoint0, &matW);
+				float Radian0 = pow(vOtherPos.x - vOtherPoint0.x, 2) + pow(vOtherPos.z - vOtherPoint0.z, 2);
+
+				D3DXVECTOR3 vPoint0 = m_pOBB->GetList().at(0);
+				matW = m_pOBB->GetWorldMatrix();
+				D3DXVec3TransformCoord(&vPoint0, &vPoint0, &matW);
+				float Radian1 = pow(m_vPos.x - vPoint0.x, 2) + pow(m_vPos.z - vPoint0.z, 2);
+
+				float Radian = Radian0 + Radian1;
+					
 				D3DXVECTOR3 vDir;
 				vDir = vOtherPos - m_vPos;
+				vDir.y = 0;
 
-
-				while (dist < 20)
+				while (dist < Radian)
 				{
 					m_vPos += -vDir * 0.1;
 					dist = pow(m_vPos.x - vOtherPos.x, 2)
 						+ pow(m_vPos.z - vOtherPos.z, 2);
 				}
-				//m_vPos.x += (m_vPos.x < (*m_pvTarget).x) ? 1 : -1;
-				//m_vPos.z += (m_vPos.z < (*m_pvTarget).z) ? 1 : -1;
+
 				m_vPos += D3DXVECTOR3(0, 0, -0.3);
 				if(nCurStateIndex != 0)
 					this->m_pCurState->TargetCapture();
@@ -714,12 +729,12 @@ void cDragonSoulEater::Request()
 		SafeDelete(m_pCurState);
 	}
 
-	static DWORD time = GetTickCount();
-	if (GetTickCount() - time > 1500.0f)
-	{
-		m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
-		return;
-	}
+	//static DWORD time = GetTickCount();
+	//if (GetTickCount() - time > 1500.0f)
+	//{
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+	//	return;
+	//}
 
 	if (m_fStungauge >= 1000)
 	{
@@ -794,4 +809,9 @@ D3DXVECTOR3 * cDragonSoulEater::GetTarget()
 		return m_pvTarget;
 
 	return nullptr;
+}
+
+int cDragonSoulEater::CurrentStateIndex()
+{
+	return m_pCurState->GetIndex();
 }

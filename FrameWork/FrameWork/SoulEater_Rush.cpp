@@ -38,7 +38,7 @@ void cSoulEater_Rush::handle()
 	std::map<int, CollisionInfo> CollisionList = m_pDragon->GetMapCollisionList();
 
 	// 벽부디쳣을때겠지
-	if (CollisionList.find(Tag::Tag_RunStone) != CollisionList.end() &&
+	if (CollisionList.find(Tag::Tag_Wall) != CollisionList.end() &&
 		m_IsHitAnything == false)
 	{
 		//경직치가 쌓인다
@@ -46,6 +46,9 @@ void cSoulEater_Rush::handle()
 		m_IsHitAnything = true;
 		m_vDir = D3DXVECTOR3(0, 0, 0);
 		//스턴치 넣어줘야되
+		
+		m_pDragon->SetSTUN(m_pDragon->GetSTUN()+ 500.0f);
+		
 	}
 	else if (m_IsHitAnything)
 	{

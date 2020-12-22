@@ -8,8 +8,6 @@ class cWall : public cObject
 {
 private:
 	vector<cGroup*> m_vecGroup;
-	cOBB *m_OBB;
-	D3DXVECTOR3 m_vPos;
 public:
 	cWall();
 	~cWall();
@@ -18,6 +16,6 @@ public:
 	void Update();
 	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 
-	void CollisionProcess(cObject* pObject);
+	void CollisionProcess(cObject* pObject) override;
 };
 

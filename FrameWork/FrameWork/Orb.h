@@ -7,11 +7,9 @@ class cOrb : public cObject
 {
 private:
 	vector<cGroup*> m_vecGroup;
-	cOBB *m_pOBB;
 	LPDIRECT3DTEXTURE9 m_pTex0;
-	D3DXVECTOR3 m_vPos;
-	
 
+	cOBB*		m_pSubOBB;
 public:
 	cOrb();
 	~cOrb();
@@ -21,5 +19,6 @@ public:
 	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 
 	void CollisionProcess(cObject* pObject);
+	cOBB* GetSubOBB() { return m_pSubOBB; }
 };
 
