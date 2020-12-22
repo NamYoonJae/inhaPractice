@@ -31,8 +31,7 @@ void cPaladinEvade::StateUpdate()
 	if (m_pPaladin->GetStateIndex() == eAnimationSet::Roll)
 	{
 		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
-		// fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
-		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * json_Function::object_get_double(p_Character_object, "Character/Combo time limit");
+		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
 	}
 
 	if (m_dAnimStartTime && pCurAnimSet)
@@ -43,3 +42,4 @@ void cPaladinEvade::StateUpdate()
 		}
 	}
 }
+

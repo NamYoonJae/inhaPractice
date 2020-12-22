@@ -4,6 +4,9 @@
 #include <iostream>
 #include "FireBall.h"
 #include "cOBB.h"
+
+#include "jsonManager.h"
+
 #pragma once
 
 cDragonBreathe::cDragonBreathe()
@@ -14,7 +17,10 @@ cDragonBreathe::cDragonBreathe()
 	D3DXCreateTextureFromFileA(g_pD3DDevice,
 		"data/Texture/alpha_tex.tga", &m_pParticle);
 	m_vPos = D3DXVECTOR3(0, 0, 0);
-	m_dwDurationTime = 10000.0f;
+
+	JSON_Object* p_ROOT_Object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS");
+
 }
 
 

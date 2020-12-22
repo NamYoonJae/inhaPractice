@@ -1,7 +1,7 @@
 {
   "Character": {
     "Name": "paladin",
-    "Max HP": 500,
+    "Max HP": 1000,
     "Attack": {
       "Melee": 100,
       "Melee 1 rate": 1.0,
@@ -10,7 +10,7 @@
       "Elemental": 50,
       "Stun rate": 0,
       "Rigid rate": 0.05,
-      "Combo time limit": 0.3,
+      "Combo time limit": 1000,
       "Critical probability": 0.1,
       "Critical additional damage": 30
     },
@@ -19,7 +19,7 @@
       "Elemental": 50
     },
     "Stamina": {
-      "Stamina": 100.0,
+      "Stamina": 500.0,
       "Restore": 1.1
     },
     "Dot damage": {
@@ -43,6 +43,6 @@
       "Rate" : 115
     },
     "Aggro": 1,
-    "Move speed": "Int N"
+    "Move speed": 300
   }
 }

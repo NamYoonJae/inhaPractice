@@ -22,16 +22,16 @@
 
 #pragma once
 cPaladin::cPaladin()
-	:m_fvelocity(0.0f)
-	,m_isMoving(false)
-	,m_pSkinnedUnit(NULL)
-	,m_pCurState(NULL)
+	: m_fvelocity(0.0f)
+	, m_isMoving(false)
+	, m_pSkinnedUnit(NULL)
+	, m_pCurState(NULL)
 	, m_Hp(0)
 	, m_Stamina(0)
-	, m_MaxHp(1000)
-	, m_MaxStamina(500)
+	, m_MaxHp(0)
+	, m_MaxStamina(0)
 	, m_pTrophies(NULL)
-	,m_fSpeed(300.0f)
+	, m_fSpeed(0)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -58,8 +58,11 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 	m_MaxHp = (int)json_object_get_number(p_Character_object, "Max HP");
 	m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
+	m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
-	m_fSpeed = (float)json_Function::object_get_double(p_Character_object, "Move speed");
+	cout << "MaxHp : " << m_MaxHp << endl;
+	cout << "MaxStamina : " << m_MaxStamina << endl;
+	cout << "fSpeed : " << m_fSpeed << endl;
 
 	m_Hp = m_MaxHp;
 	m_Stamina = m_MaxStamina;
@@ -154,7 +157,7 @@ void cPaladin::Update()
 		D3DXMatrixRotationY(&matR, m_vCameraRot.y);
 
 		D3DXVec3TransformNormal(&m_vDir, &m_vDir, &matR);
-		//
+
 		m_vPos += m_vDir * m_fvelocity;
 
 		D3DXMatrixScaling(&m_matScale, m_vScale.x, m_vScale.y, m_vScale.z);
@@ -256,11 +259,12 @@ void cPaladin::Update(EventType event)
 
 	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 	{
-		m_fSpeed = (float)json_Function::object_get_double(p_Character_object, "Move speed") * 0.1f;
+		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed") * 0.1f;
+		// 0.1f 있는 거 json으로 뺄까요
 	}
 	else
 	{
-		m_fSpeed = (float)json_Function::object_get_double(p_Character_object, "Move speed");
+		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 	}
 
 	if (event == EventType::EVENT_ARROW_UP)
@@ -481,7 +485,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		}
 	}
 
-	
+
 }
 
 void cPaladin::StateFeedback()
@@ -491,7 +495,7 @@ void cPaladin::StateFeedback()
 }
 
 cParts::cParts()
-	:m_pOBB(NULL)
+	: m_pOBB(NULL)
 	, m_pBone(NULL)
 	, m_color(D3DCOLOR_XRGB(255, 255, 255))
 	, m_vPos(0, 0, 0)
@@ -576,13 +580,13 @@ void cPaladin::CreateTrophies(EventType message)
 	{
 		m_pTrophies = new cTrophies;
 		m_pTrophies->Setup("data/UI/Trophies",
-			"NW_Attriselect_SkyOrb.png", 
-			D3DXVECTOR3(1310, 633, 0), 
-			1.0, 
-			true, 
+			"NW_Attriselect_SkyOrb.png",
+			D3DXVECTOR3(1310, 633, 0),
+			1.0,
 			true,
-			TAG_UI::TagUI_Trophies_SkyBeez, 
-			1000, 
+			true,
+			TAG_UI::TagUI_Trophies_SkyBeez,
+			1000,
 			1000);
 
 		EventManager->Attach((cObserver*)m_pTrophies);

@@ -24,6 +24,7 @@
 #include "jsonManager.h"
 
 #pragma once
+
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
 	, m_pCurState(NULL)

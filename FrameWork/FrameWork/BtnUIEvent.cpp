@@ -313,7 +313,7 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
 
 	// 생성시 버튼의 위치를 기억함
-	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 startBtnPosition = D3DXVECTOR3(432, 273, 0);
 	D3DXVECTOR3 btnPosition = button->GetPosition();
 
 	// 변할값이 아니기에 static 선언
@@ -325,17 +325,17 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
-	if (startBtnPosition == btnPosition)
-	{
-		btn->SetPosition(D3DXVECTOR2(
-			startBtnPosition.x +
-			(float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")
-				* tick),
-			startBtnPosition.y));
-
-		//g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")));
-		g_pSoundManager->SetBGMSOUND((float)json_Function::object_get_double(p_json_object_setting, "Sound/BGM"));
-	}
+	//if (startBtnPosition == btnPosition)
+	//{
+	//	btn->SetPosition(D3DXVECTOR2(
+	//		startBtnPosition.x +
+	//		(float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")
+	//			* tick),
+	//		startBtnPosition.y));
+	//
+	//	//g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")));
+	//	g_pSoundManager->SetBGMSOUND((float)json_Function::object_get_double(p_json_object_setting, "Sound/BGM"));
+	//}
 
 	switch (message)
 	{
@@ -403,7 +403,7 @@ void SFX_Setting_Event(EventType message, cPopup* btn)
 	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
 
 	// 생성시 버튼의 위치를 기억함
-	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 startBtnPosition = D3DXVECTOR3(432, 342, 0);
 	D3DXVECTOR3 btnPosition = button->GetPosition();
 
 	// 변할값이 아니기에 static 선언
@@ -415,17 +415,17 @@ void SFX_Setting_Event(EventType message, cPopup* btn)
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
-	if (startBtnPosition == btnPosition)
-	{
-		btn->SetPosition(D3DXVECTOR2(
-			startBtnPosition.x +
-			(float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")
-				* tick),
-			startBtnPosition.y));
-		
-		// TODO 아직 매니저에 SFX관련 세팅이 없음으로 주석처리
-		//g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
-	}
+	//if (startBtnPosition == btnPosition)
+	//{
+	//	btn->SetPosition(D3DXVECTOR2(
+	//		startBtnPosition.x +
+	//		(float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")
+	//			* tick),
+	//		startBtnPosition.y));
+	//	
+	//	// TODO 아직 매니저에 SFX관련 세팅이 없음으로 주석처리
+	//	//g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
+	//}
 
 	switch (message)
 	{
@@ -492,7 +492,7 @@ void MouseSensitivity_Total_Event(EventType message, cPopup* btn)
 	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
 
 	// 생성시 버튼의 위치를 기억함
-	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 startBtnPosition = D3DXVECTOR3(432, 475, 0);
 	D3DXVECTOR3 btnPosition = button->GetPosition();
 
 	// 변할값이 아니기에 static 선언
@@ -504,16 +504,16 @@ void MouseSensitivity_Total_Event(EventType message, cPopup* btn)
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
-	if (startBtnPosition == btnPosition)
-	{
-		btn->SetPosition(D3DXVECTOR2(
-			startBtnPosition.x +
-			(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/total")
-				* tick),
-			startBtnPosition.y));
-
-		// TODO 여기에 마우스 감도관련 세팅 넣을것
-	}
+	//if (startBtnPosition == btnPosition)
+	//{
+	//	btn->SetPosition(D3DXVECTOR2(
+	//		startBtnPosition.x +
+	//		(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/total")
+	//			* tick),
+	//		startBtnPosition.y));
+	//
+	//	// TODO 여기에 마우스 감도관련 세팅 넣을것
+	//}
 
 	switch (message)
 	{
@@ -560,8 +560,6 @@ void MouseSensitivity_Total_Event(EventType message, cPopup* btn)
 		cout << tick << endl;
 		json_object_set_number(Mouse_object, "total", ((btnPosition.x - startBtnPosition.x) / tick));
 		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
-
-		// TODO 여기에 마우스 감도관련 세팅 넣을것
 	}
 	break;
 	};//switch End
@@ -580,7 +578,7 @@ void MouseSensitivity_Normal_Event(EventType message, cPopup* btn)
 	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
 
 	// 생성시 버튼의 위치를 기억함
-	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 startBtnPosition = D3DXVECTOR3(432, 539, 0);
 	D3DXVECTOR3 btnPosition = button->GetPosition();
 
 	// 변할값이 아니기에 static 선언
@@ -592,16 +590,16 @@ void MouseSensitivity_Normal_Event(EventType message, cPopup* btn)
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
-	if (startBtnPosition == btnPosition)
-	{
-		btn->SetPosition(D3DXVECTOR2(
-			startBtnPosition.x +
-			(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/normal")
-				* tick),
-			startBtnPosition.y));
-
-		// TODO 여기에 마우스 감도관련 세팅 넣을것
-	}
+	//if (startBtnPosition == btnPosition)
+	//{
+	//	btn->SetPosition(D3DXVECTOR2(
+	//		startBtnPosition.x +
+	//		(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/normal")
+	//			* tick),
+	//		startBtnPosition.y));
+	//
+	//
+	//}
 
 	switch (message)
 	{
@@ -648,8 +646,6 @@ void MouseSensitivity_Normal_Event(EventType message, cPopup* btn)
 		cout << tick << endl;
 		json_object_set_number(Mouse_object, "normal", ((btnPosition.x - startBtnPosition.x) / tick));
 		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
-
-		// TODO 여기에 마우스 감도관련 세팅 넣을것
 	}
 	break;
 	};//switch End
@@ -668,7 +664,7 @@ void MouseSensitivity_Special_Event(EventType message, cPopup* btn)
 	static float tick = (float)json_object_get_number(p_json_object_setting, "tick");
 
 	// 생성시 버튼의 위치를 기억함
-	static D3DXVECTOR3 startBtnPosition = button->GetPosition();
+	D3DXVECTOR3 startBtnPosition = D3DXVECTOR3(432, 605, 0);
 	D3DXVECTOR3 btnPosition = button->GetPosition();
 
 	// 변할값이 아니기에 static 선언
@@ -680,16 +676,16 @@ void MouseSensitivity_Special_Event(EventType message, cPopup* btn)
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
-	if (startBtnPosition == btnPosition)
-	{
-		btn->SetPosition(D3DXVECTOR2(
-			startBtnPosition.x +
-			(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/special")
-				* tick),
-			startBtnPosition.y));
-
-		// TODO 여기에 마우스 감도관련 세팅 넣을것
-	}
+	//if (startBtnPosition == btnPosition)
+	//{
+	//	btn->SetPosition(D3DXVECTOR2(
+	//		startBtnPosition.x +
+	//		(float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/special")
+	//			* tick),
+	//		startBtnPosition.y));
+	//
+	//
+	//}
 
 	switch (message)
 	{
@@ -736,8 +732,6 @@ void MouseSensitivity_Special_Event(EventType message, cPopup* btn)
 		cout << tick << endl;
 		json_object_set_number(Mouse_object, "special", ((btnPosition.x - startBtnPosition.x) / tick));
 		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
-
-		// TODO 여기에 마우스 감도관련 세팅 넣을것
 	}
 	break;
 	};//switch End

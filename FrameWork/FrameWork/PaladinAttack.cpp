@@ -3,12 +3,17 @@
 #include "SkinnedMesh.h"
 #include "PaladinAttack.h"
 
+#include "jsonManager.h"
+
 cPaladinAttack::cPaladinAttack(cPaladin* pPaladin)
 	:cPaladinState(pPaladin)
 	,m_dAnimStartTime(0)
-	,m_nComboTimeLimit(1000)
 	,m_IsComboAttack(false)
 {
+	JSON_Object* p_rootObject = g_p_jsonManager->get_json_object_Character();
+
+	m_nComboTimeLimit = json_Function::object_get_double(p_rootObject, "Character/Attack/Combo time limit");
+
 	m_nStateIndex = eAnimationSet::Attack1;
 	m_pPaladin->GetSkinnedMesh()->SetAnimationIndexBlend(m_nStateIndex);
 	m_dAnimStartTime = GetTickCount();
@@ -75,10 +80,8 @@ void cPaladinAttack::ComboAttack()
 		else if (m_nStateIndex == eAnimationSet::Attack3)
 		{
 			m_nStateIndex = eAnimationSet::Attack1;
-			
 		}
-		
+
 		//cout << m_nStateIndex << endl;
-		
 	}
 }

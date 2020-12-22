@@ -14,6 +14,8 @@
 #include "Orb.h"
 #include "Paladin.h"
 #include "PaladinState.h"
+
+#include "jsonManager.h"
 #pragma once
 
 cLavaGolem::cLavaGolem()
@@ -45,6 +47,14 @@ cLavaGolem::~cLavaGolem()
 
 void cLavaGolem::Setup()
 {
+	JSON_Object* pStageBObject = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* pSubmonObject = json_Function::object_get_object(pStageBObject, "Stage B/Sub Monster");
+
+	m_fMaxHP = json_object_get_number(pSubmonObject, "HP");
+	m_fCurrentHP = m_fMaxHP;
+
+	m_fDamege = json_Function::object_get_double(pSubmonObject, "Attack/Melee");
+
 	//m_pSkinnedMesh = new cSkinnedMesh(szFolder,szFileName);
 
 	//string szFolder = "data/XFile/LavaGolem";

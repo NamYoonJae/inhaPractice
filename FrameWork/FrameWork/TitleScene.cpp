@@ -60,28 +60,30 @@ void cTitleScene::Setup()
 	//게임시작
 	cButton *pButton = new cButton;
 	pButton->Setup("data/UI/TitleScene/START", "NW_StartButton_Idle.png", 
-		D3DXVECTOR3(650, 420, 0), 0, 0, 0, 1, true, true);
+		D3DXVECTOR3(610, 410, 0), 0, 0, 0, 1.3, true, true);
+		//D3DXVECTOR3(650, 420, 0), 0, 0, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = StartGameBtnEvent;
 
-	//이어하기
-	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png", 
-		D3DXVECTOR3(650, 495, 0), 0, 0, 0, 1, true, true);
-	pBackGoundBtnPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = ContinueGameBtnEvent;
+	// 삭제 되었습니다
+	// 이어하기
+	//pButton = new cButton;
+	//pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png", 
+	//	D3DXVECTOR3(650, 495, 0), 0, 0, 0, 1, true, true);
+	//pBackGoundBtnPopup->cButtonPushBack(pButton);
+	//pButton->EventProcess = ContinueGameBtnEvent;
 
 	//설정
 	pButton = new cButton;
 	pButton->Setup("data/UI/TitleScene/SETTING", "NW_SettingButton_Idle.png", 
-		D3DXVECTOR3(650, 570, 0), 0, 0, 0, 1, true, true);
+		D3DXVECTOR3(610, 520, 0), 0, 0, 0, 1.3, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = SetupGameBtnEvent;
 
 	//게임종료
 	pButton = new cButton;
 	pButton->Setup("data/UI/TitleScene/END", "NW_EndButton_Idle.png", 
-		D3DXVECTOR3(650, 645, 0), 0, 0, 0, 1, true, true);
+		D3DXVECTOR3(610, 635, 0), 0, 0, 0, 1.3, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ExitGameBtnEvent;
 	

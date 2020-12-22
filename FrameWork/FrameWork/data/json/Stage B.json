@@ -30,7 +30,7 @@
       "Stun": {
         "Rate": "int",
         "Decrease value": "int",
-        "Duration": 8
+        "Duration": 8000
       },
       "Initial Position": {
         "x": "float",

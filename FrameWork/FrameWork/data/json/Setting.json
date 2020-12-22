@@ -2,17 +2,12 @@
     "memo": "주석을 남길때는 `memo` json 변수를 원하는 곳에 넣어주세요",
     "tick": 2.900000,
     "Sound": {
-        "BGM": 94.137924,
-        "BGM Max": 100,
-        "SFX": 95.517235,
-        "SFX Max": 100
+        "BGM": 68.620689,
+        "SFX": 45
     },
     "Mouse sensitivity": {
-        "total": 31.379309,
-        "total max": 10,
-        "normal": 52.068962,
-        "normal Max": 10,
-        "special": 34.482758,
-        "special Max": 10
+        "total": 58.793102,
+        "normal": 68.793098,
+        "special": 27.758619
     }
 }

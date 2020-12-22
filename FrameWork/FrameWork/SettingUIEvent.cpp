@@ -88,13 +88,17 @@ cPopup* Setup_Setting_popup(cPopup* btn)
 	//			* json_object_get_number(p_json_object_setting, "tick")),
 	//		0));
 
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 123, 0), BGM_Setting_Event);
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 192, 0), SFX_Setting_Event);
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 123, 0), BGM_Setting_Event)
+		->MovePosition(D3DXVECTOR2((float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM") * json_object_get_number(p_json_object_setting, "tick")), 0));
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 192, 0), SFX_Setting_Event)
+		->MovePosition(D3DXVECTOR2((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX") * json_object_get_number(p_json_object_setting, "tick")), 0));
 
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 325, 0), MouseSensitivity_Total_Event);
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 389, 0), MouseSensitivity_Normal_Event);
-	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 455, 0), MouseSensitivity_Special_Event);
-
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 325, 0), MouseSensitivity_Total_Event)
+		->MovePosition(D3DXVECTOR2((float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/total") * json_object_get_number(p_json_object_setting, "tick")), 0));
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 389, 0), MouseSensitivity_Normal_Event)
+		->MovePosition(D3DXVECTOR2((float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/normal") * json_object_get_number(p_json_object_setting, "tick")), 0));
+	Setup_BarSliderPopupBtn(pOption, D3DXVECTOR3(132, 455, 0), MouseSensitivity_Special_Event)
+		->MovePosition(D3DXVECTOR2((float)(json_Function::object_get_double(p_json_object_setting, "Mouse sensitivity/special") * json_object_get_number(p_json_object_setting, "tick")), 0));
 #pragma endregion barSilder
 
 #pragma region chk_Button
