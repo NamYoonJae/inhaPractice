@@ -16,6 +16,6 @@ public:
 	void Update();
 	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 
-	void CollisionProcess(cObject* pObject);
+	void CollisionProcess(cObject* pObject) override;
 };
 

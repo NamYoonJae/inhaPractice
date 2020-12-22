@@ -662,7 +662,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 	//}
 	}
-	else if(nTag == Tag::Tag_RunStone || nTag == Tag::Tag_Wall)
+	else 
 	{
 		if (m_pCurState)
 		{
@@ -670,7 +670,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 			switch (nCurStateIndex)
 			{
-			case 3:
+			case Tag::Tag_SwampA:
+			case Tag::Tag_SwampB:
 				break;
 			default:
 			{
@@ -808,4 +809,9 @@ D3DXVECTOR3 * cDragonSoulEater::GetTarget()
 		return m_pvTarget;
 
 	return nullptr;
+}
+
+int cDragonSoulEater::CurrentStateIndex()
+{
+	return m_pCurState->GetIndex();
 }

@@ -397,26 +397,21 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	cOBB* pOtherOBB = pObject->GetOBB();
 	int	  iOtherTag = pObject->GetTag();
 
-	if(m_pCurState)
+	if(m_pCurState && (iOtherTag == Tag::Tag_Boss || Tag::Tag_LavaGolem))
 	{
 		//내가 공격 중이라면
 		if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
-			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB()))
+			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
+				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
-				//cout << "Attack Success!" << endl;
-				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
-				{
-					if (iOtherTag == Tag::Tag_Boss)
+				if (iOtherTag == Tag::Tag_Boss)
 						cout << "Dragon Hit" << endl;
 
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 1500.0f;
 					pObject->AddCollisionInfo(m_nTag, info);
-				}
-
-
 			}
 		}
 	}

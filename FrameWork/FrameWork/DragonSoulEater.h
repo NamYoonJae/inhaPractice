@@ -23,6 +23,7 @@ private:
 
 	
 	cSoulEaterState*	m_pCurState;
+	
 	DWORD				m_dwDelayState;
 
 	D3DXMATRIXA16		m_matWorld;
@@ -42,7 +43,7 @@ private:
 	float				m_fElementalDamage;
 
 	int					m_nPhase;
-	int m_Debuff;
+	int					m_Debuff;
 	
 	float				m_fRagegauge;
 	bool				m_IsRage;
@@ -74,6 +75,7 @@ public:
 	D3DXVECTOR3* GetTarget();
 	D3DXMATRIXA16* GetRotation() { return &m_matRotation; }
 	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }
+	int CurrentStateIndex();
 };
 
 
