@@ -251,30 +251,26 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	float dist = pow(m_vPos.x - vOtherPos.x, 2)
 		+ pow(m_vPos.z - vOtherPos.z, 2);
 
-	if(dist <= 1.5f)
-	{
-		m_vPos += D3DXVECTOR3(0, 0, 3.0f);
-	}
+	D3DXVECTOR3 vOtherPoint0 = pOBB->GetList().at(0);
+	D3DXMATRIXA16 matW = pOBB->GetWorldMatrix();
+	D3DXVec3TransformCoord(&vOtherPoint0, &vOtherPoint0, &matW);
+	float Radian0 = pow(vOtherPos.x - vOtherPoint0.x, 2) + pow(vOtherPos.z - vOtherPoint0.z, 2);
 	
-	if(dist < 30.0f)
+	D3DXVECTOR3 vPoint0 = m_pOBB->GetList().at(0);
+	matW = m_pOBB->GetWorldMatrix();
+	D3DXVec3TransformCoord(&vPoint0, &vPoint0, &matW);
+	float Radian1 = pow(m_vPos.x - vPoint0.x, 2) + pow(m_vPos.z - vPoint0.z, 2);
+	
+	float Radian = Radian0 + Radian1;
+	
+	while (dist < Radian)
 	{
-		D3DXVECTOR3 vDir;
-
-
-		D3DXMATRIXA16 matR;
-		D3DXMatrixRotationY(&matR, D3DX_PI / 3);
-		D3DXVec3TransformNormal(&vDir, &m_vDir, &matR);
-		D3DXVec3Normalize(&vDir, &vDir);
-		
-		while (dist < 45.0f)
-		{
-			m_vPos += -m_vDir;
+			m_vPos += -m_vDir * 0.02f;
 
 			dist = pow(m_vPos.x - vOtherPos.x, 2)
 				+ pow(m_vPos.z - vOtherPos.z, 2);
-		}
-
-		m_vPos += D3DXVECTOR3(0, 0, 1);
 	}
+	m_vPos += D3DXVECTOR3(0, 0, 1);
+	
 
 }
