@@ -430,6 +430,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		break;
 	case Tag::Tag_SwampA:
 	case Tag::Tag_SwampB:
+	case Tag::Tag_FireBall:
+	case Tag::Tag_Breath:
 		return;
 	default:
 		pObb = pOtherOBB;

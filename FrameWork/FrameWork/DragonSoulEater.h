@@ -56,6 +56,9 @@ private:
 	Synthesize(float, m_fCurHeathpoint, CURHP);
 	bool m_IsBreathe;
 	bool m_IsFireball;
+
+	//
+	int m_nTestStateIndex;
 public:
 	cDragonSoulEater();
 	~cDragonSoulEater();

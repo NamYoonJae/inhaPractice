@@ -6,6 +6,7 @@ class cSoulEater_Breath :
 {
 private:
 	DWORD m_dwStartTime;
+	DWORD m_dwBreathDurationTime;
 	bool m_IsAnimBlend;
 public:
 	cSoulEater_Breath();
