@@ -34,15 +34,22 @@ void cLavaAttack::Handle()
 			{
 				if (GetTickCount() - m_dwAnimStartTime > 1500.0f)
 				{
-					//m_pGolem->GetSkinnedMesh().SetAnimationIndexBlend(1);
-					//m_pGolem->GetSkinnedMesh().SetAnimationIndex(1);
-					//
-					//cSkinnedMesh& pCurrentMesh = m_pGolem->GetSkinnedMesh();
-					//pCurrentMesh = *pNextMesh;
 					cSkinnedMesh* pNextMesh = m_pGolem->GetAttack();
 					m_pGolem->SetSkinnedMesh(pNextMesh);
 					m_dwAnimStartTime = GetTickCount();
 					m_IsAttack = true;
+					g_pSoundManager->PlaySFX(eSoundList::Golem_Attack);
+
+					bool IsVoice = GenerateRandomNum(0,1000) >= 501 ? true : false;
+					if(IsVoice)
+					{
+						g_pSoundManager->PlaySFX(eSoundList::Golem_AttackVoice1);
+					}
+					else if(!IsVoice)
+					{
+						g_pSoundManager->PlaySFX(eSoundList::Golem_AttackVoice2);
+					}
+					
 				}
 			}
 

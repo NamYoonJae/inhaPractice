@@ -1,5 +1,6 @@
 #include "cObject.h"
-#include "SoulEater_Sleep.h"
+#include "SoundManager.h"
+
 #pragma once
 
 class cSkinnedMesh;
@@ -20,7 +21,6 @@ private:
 	float		m_fDist;
 	D3DXMATRIXA16 m_matR;
 
-	cSoulEater_Sleep *m_pMaster;
 
 	float		m_fCurrentHP;
 	float		m_fMaxHP;
@@ -50,7 +50,6 @@ public:
 	D3DXMATRIXA16* GetRotationMatrix() { return &m_matR; };
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
 
-	void SetMater(cSoulEater_Sleep *Master) { m_pMaster = Master; }
 	virtual void CollisionProcess(cObject* pObject) override;
 };
 

@@ -49,7 +49,7 @@ void cSoundManager::init()
 	}
 
 	{
-		// SFX
+		// Dragon SFX
 		string strPath = "data/Sound/SFX/Dragon/";
 		for (int i = Dragon_Move0; i <= Dragon_Move9; ++i)
 		{
@@ -74,6 +74,16 @@ void cSoundManager::init()
 		AddSFX(strPath + string("Die/NW_Dragon_Die_Effect.mp3"), (int)Dragon_Die1); 
 		AddSFX(strPath + string("Die/NW_Dragon_Die_Voice.mp3"), (int)Dragon_Die2);
 		//
+	}
+
+	{
+		//Golem
+		string strPath = "data/Sound/SFX/Golem/";
+		AddSFX(strPath + string("NW_Golem_Attack 1 Voice.mp3"), (int)Golem_AttackVoice1);
+		AddSFX(strPath + string("NW_Golem_Attack 2 Voice.mp3"), (int)Golem_AttackVoice2);
+		AddSFX(strPath + string("NW_Golem_Attack 1 Effect.mp3"), (int)Golem_Attack);
+		AddSFX(strPath + string("NW_Golem_Die.mp3"), (int)Golem_Die);
+	
 	}
 }
 

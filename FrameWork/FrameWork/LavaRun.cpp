@@ -41,6 +41,7 @@ void cLavaRun::Handle()
 				cSkinnedMesh* pNextMesh = m_pGolem->GetRun();
 				//pCurrentMesh = *pNextMesh;
 				m_pGolem->SetSkinnedMesh(pNextMesh);
+				
 				m_IsAnimBlend = true;
 			}
 		}

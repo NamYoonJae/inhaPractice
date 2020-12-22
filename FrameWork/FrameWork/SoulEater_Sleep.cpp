@@ -59,7 +59,6 @@ void cSoulEater_Sleep::handle()
 			pGolem1->Tagging(Tag::Tag_LavaGolem);
 			pGolem1->SetPos(vPos1);
 			ObjectManager->AddChild(pGolem1);
-			pGolem1->SetMater(this);
 					
 			//m_nliveGolem = 1;
 			m_dwElapsedTime = GetTickCount();
