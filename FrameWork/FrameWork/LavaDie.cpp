@@ -6,6 +6,7 @@ cLavaDie::cLavaDie(cLavaGolem* pLavaGolem)
 {
 	m_nStateIndex = 3;
 	IsDead = false;
+	m_dwBlendTime = 3000.0f;
 }
 
 
@@ -26,10 +27,16 @@ void cLavaDie::Handle()
 			if (IsDead == false)
 			{
 				//m_pGolem->GetSkinnedMesh().SetAnimationIndexBlend(2);
-				m_pGolem->GetSkinnedMesh().SetAnimationIndex(2);
+				//m_pGolem->GetSkinnedMesh().SetAnimationIndex(2);
+
+				//cSkinnedMesh& pCurrentMesh = m_pGolem->GetSkinnedMesh();
+				cSkinnedMesh* pNextMesh = m_pGolem->GetDie();
+				//pCurrentMesh = *pNextMesh;
+				m_pGolem->SetSkinnedMesh(pNextMesh);
 				IsDead = true;
+				m_dwAnimStartTime = GetTickCount();
 			}
-			else
+			else if(IsDead &&(GetTickCount() - m_dwAnimStartTime > m_dwBlendTime))
 			{
 				m_pGolem->Request(4);
 				return;

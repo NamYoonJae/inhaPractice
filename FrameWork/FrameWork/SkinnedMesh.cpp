@@ -153,6 +153,8 @@ void cSkinnedMesh::Render(D3DXMATRIXA16 * pmat)
 
 void cSkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
 {
+	if (pFrame == NULL) return;
+
 	if (pFrame && pFrame->pMeshContainer)
 	{
 		ST_BONE_MESH* pBoneMesh = (ST_BONE_MESH*)pFrame->pMeshContainer;

@@ -7,6 +7,11 @@ cLavaIdle::cLavaIdle(cLavaGolem* pLavaGolem)
 	, m_dwElapsedTime(GetTickCount())
 {
 	m_nStateIndex = 0;
+
+	//cSkinnedMesh& pCurrentMesh = m_pGolem->GetSkinnedMesh();
+	cSkinnedMesh* pNextMesh = m_pGolem->GetRun();
+	//pCurrentMesh = *pNextMesh;
+	m_pGolem->SetSkinnedMesh(pNextMesh);
 }
 
 
@@ -16,10 +21,10 @@ cLavaIdle::~cLavaIdle()
 
 void cLavaIdle::Handle()
 {
-	if (GetTickCount() - m_dwElapsedTime >= 1500.0f &&
+	if (GetTickCount() - m_dwElapsedTime >= 1000.0f &&
 		m_pGolem->GetTarget())
 	{
-		if (m_pGolem->GetDist() < 15.0f)
+		if (m_pGolem->GetDist() < Distance)
 		{
 			m_pGolem->Request(2);	
 			return;

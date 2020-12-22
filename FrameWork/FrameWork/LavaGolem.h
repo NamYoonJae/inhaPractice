@@ -25,19 +25,25 @@ private:
 	float		m_fCurrentHP;
 	float		m_fMaxHP;
 	float		m_fDamege;
-	
-	
+
+	//cSkinnedMesh* m_pMg_Attack;
+	//cSkinnedMesh* m_pMg_Die;
+	//cSkinnedMesh* m_pMg_Run;
+	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
+	Synthesize(cSkinnedMesh*, m_pMg_Die, Die);
+	Synthesize(cSkinnedMesh*, m_pMg_Run, Run);
+
 public:
 	cLavaGolem();
 	~cLavaGolem();
 	
-	void Setup(char* szFolder, char* szFileName);
+	void Setup();
 	virtual void Update() override;
 	virtual void Render(D3DXMATRIXA16 *pmat = 0) override;
 
 	void Request(int state);
 	cSkinnedMesh& GetSkinnedMesh() { return *m_pSkinnedMesh; }
-
+	void SetSkinnedMesh(cSkinnedMesh* pMesh) { m_pSkinnedMesh = pMesh; }
 	float GetCurrentHP() { return m_fCurrentHP; }
 	D3DXVECTOR3* GetTarget() { return m_pvTarget; }
 	float GetDist() { return m_fDist; }

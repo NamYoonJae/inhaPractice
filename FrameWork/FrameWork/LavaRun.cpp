@@ -35,12 +35,17 @@ void cLavaRun::Handle()
 				 > pCurAnimSet->GetPeriod() * 1000.0f - m_pGolem->GetSkinnedMesh().GetBlendTime() * 1000.0f)
 			{
 				//m_pGolem->GetSkinnedMesh().SetAnimationIndexBlend(0);
-				m_pGolem->GetSkinnedMesh().SetAnimationIndex(0);
+				//m_pGolem->GetSkinnedMesh().SetAnimationIndex(0);
+
+				//cSkinnedMesh& pCurrentMesh = m_pGolem->GetSkinnedMesh();
+				cSkinnedMesh* pNextMesh = m_pGolem->GetRun();
+				//pCurrentMesh = *pNextMesh;
+				m_pGolem->SetSkinnedMesh(pNextMesh);
 				m_IsAnimBlend = true;
 			}
 		}
 		
-		if (m_IsAnimBlend && m_pGolem->GetDist() < 30.0f)
+		if (m_IsAnimBlend && m_pGolem->GetDist() < Distance)
 		{
 			m_pGolem->Request(2);
 			return;

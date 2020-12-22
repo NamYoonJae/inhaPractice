@@ -238,7 +238,7 @@ void cPaladin::Update(EventType event)
 	//D3DXMatrixIdentity(&TempRot);
 
 	//float delta = g_pTimeManager->GetElapsedTime();
-	float delta = 0.003f;
+	float delta = 0.001f;
 	static bool isKeyDown = false;
 
 

@@ -52,10 +52,10 @@ void cSoulEater_Sleep::handle()
 			vPos1.x += 150;
 			vPos2.x -= 150;
 			
-			cLavaGolem *pGolem1,*pGolem2;
+			cLavaGolem *pGolem1;
 			pGolem1 = new cLavaGolem;
 			pGolem1->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
-			pGolem1->Setup("data/XFile/LavaGolem", "LavaGolem.X");
+			pGolem1->Setup();
 			pGolem1->Tagging(Tag::Tag_LavaGolem);
 			pGolem1->SetPos(vPos1);
 			ObjectManager->AddChild(pGolem1);

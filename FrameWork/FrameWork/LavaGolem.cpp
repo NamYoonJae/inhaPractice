@@ -19,6 +19,10 @@ cLavaGolem::cLavaGolem()
 	:m_pState(NULL)
 	,m_pSkinnedMesh(NULL)
 	,m_fDist(INT_MAX)
+	,m_pvTarget(NULL)
+	,m_pMg_Attack(NULL)
+	,m_pMg_Die(NULL)
+	,m_pMg_Run(NULL)
 {
 	m_fMaxHP = 1000.0f;
 	m_fCurrentHP = m_fMaxHP;
@@ -33,16 +37,29 @@ cLavaGolem::~cLavaGolem()
 	SafeDelete(m_pSkinnedMesh);
 	SafeDelete(m_pState);
 	SafeDelete(m_pOBB);
+	SafeDelete(m_pMg_Attack);
+	SafeDelete(m_pMg_Die);
+	SafeDelete(m_pMg_Run);
 }
 
-void cLavaGolem::Setup(char* szFolder, char* szFileName)
+void cLavaGolem::Setup()
 {
-	m_pSkinnedMesh = new cSkinnedMesh(szFolder,szFileName);
+	//m_pSkinnedMesh = new cSkinnedMesh(szFolder,szFileName);
+
+	//string szFolder = "data/XFile/LavaGolem";
+	char* szFolder = "data/XFile/LavaGolem";
+	
+	m_pMg_Run = new cSkinnedMesh(szFolder, "Mg_Move.X");
+	m_pMg_Die = new cSkinnedMesh(szFolder, "Mg_Die.X");
+	m_pMg_Attack = new cSkinnedMesh(szFolder, "Mg_Attack.X");
+
+
+	m_pSkinnedMesh = m_pMg_Run;
 	m_pOBB = new cOBB;
 
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
-	m_pOBB->Setup(m_pSkinnedMesh,&matS);
+	m_pOBB->Setup(m_pMg_Run,&matS);
 
 	ZeroMemory(&m_Mstl, sizeof(D3DMATERIAL9));
 	m_Mstl.Ambient = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
@@ -119,10 +136,12 @@ void cLavaGolem::Update()
 	}
 
 	//
-
-	if (m_fCurrentHP <= 0.0f)
+	static DWORD time = GetTickCount();
+	static bool check = false;
+	if (m_fCurrentHP <= 0.0f || ((GetTickCount() - time > 15000.0f) && check == false))
 	{
 		Request(3);
+		check = true;
 		return;
 	}
 

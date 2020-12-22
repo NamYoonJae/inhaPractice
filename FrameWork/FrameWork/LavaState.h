@@ -4,6 +4,8 @@
 #include "TimerManager.h"
 #include "LavaGolem.h"
 
+#define Distance 15.0f
+
 class cLavaState
 {
 protected:
