@@ -5,7 +5,6 @@
 #pragma once
 
 cWall::cWall()
-	:m_vPos(0, 0, 0)
 {
 }
 

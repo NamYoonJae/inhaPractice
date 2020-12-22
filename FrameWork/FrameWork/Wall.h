@@ -8,8 +8,6 @@ class cWall : public cObject
 {
 private:
 	vector<cGroup*> m_vecGroup;
-	cOBB *m_OBB;
-	D3DXVECTOR3 m_vPos;
 public:
 	cWall();
 	~cWall();

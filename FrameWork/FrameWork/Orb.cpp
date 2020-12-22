@@ -6,7 +6,6 @@
 
 cOrb::cOrb()
 	: m_pTex0(NULL)
-	, m_vPos(50.0f, 15.0f, 0)
 {
 
 }

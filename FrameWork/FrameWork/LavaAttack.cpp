@@ -49,7 +49,8 @@ void cLavaAttack::Handle()
 					{
 						g_pSoundManager->PlaySFX(eSoundList::Golem_AttackVoice2);
 					}
-					
+
+					m_pGolem->SetIsAttack(true);
 				}
 			}
 
@@ -57,7 +58,10 @@ void cLavaAttack::Handle()
 		else if (m_IsAttack &&
 			(GetTickCount() - m_dwAnimStartTime > 1500.0f))
 		{
+			m_pGolem->SetIsAttack(false);
+			
 			float fDist = m_pGolem->GetDist();
+
 			if (fDist > Distance)
 			{
 				m_pGolem->Request(1);

@@ -5,7 +5,6 @@
 #pragma once
 
 cRune::cRune()
-	: m_vPos(0, 0, 0)
 {
 }
 

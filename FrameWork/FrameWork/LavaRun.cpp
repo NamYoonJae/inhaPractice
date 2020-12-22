@@ -22,7 +22,7 @@ void cLavaRun::Handle()
 
 		{
 			D3DXVECTOR3 vPos = m_pGolem->GetPos();
-			vPos += m_pGolem->GetDirection() * 0.3f;
+			vPos += m_pGolem->GetDirection() * 0.2f;
 			m_pGolem->SetPos(vPos);
 		}
 

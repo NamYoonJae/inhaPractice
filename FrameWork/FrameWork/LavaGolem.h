@@ -26,13 +26,10 @@ private:
 	float		m_fMaxHP;
 	float		m_fDamege;
 
-	//cSkinnedMesh* m_pMg_Attack;
-	//cSkinnedMesh* m_pMg_Die;
-	//cSkinnedMesh* m_pMg_Run;
 	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
 	Synthesize(cSkinnedMesh*, m_pMg_Die, Die);
 	Synthesize(cSkinnedMesh*, m_pMg_Run, Run);
-
+	Synthesize(bool,m_IsAttack,IsAttack);
 public:
 	cLavaGolem();
 	~cLavaGolem();
