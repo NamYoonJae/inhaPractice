@@ -5,7 +5,6 @@
 #include "ObjectPool.h"
 #include "SettingUIEvent.h"
 #include "TitleSceneUIEvent.h"
-#include "GameOverSceneBtnEvent.h"
 #include "GameSceneUIEvent.h"
 #include "InGamePauseMenuUIEvent.h"
 
@@ -66,7 +65,7 @@ void cTitleScene::Setup()
 
 	//이어하기
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png", 
+	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Disable.png", 
 		D3DXVECTOR3(650, 495, 0), 0, 0, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
 	pButton->EventProcess = ContinueGameBtnEvent;
@@ -305,50 +304,6 @@ void cTitleScene::Setup()
 	ObjectManager->AddUIChild(obectBar);
 #pragma endregion << UI TAG::GameObject
 
-
-#pragma region UI TAG::GameOver
-
-	//GameOver UI
-	cPopup* pGameOverBackgroundPopup = new cPopup;
-	pGameOverBackgroundPopup->Setup("data/UI/GameOver", "NW_GameOver_BackGround.png",
-		D3DXVECTOR3(0, -80, 0), 1, false, true, TAG_UI::TagUI_GameOver);
-
-	/*
-	pGameOverBackgroundPopup->Setup("data/UI/TitleScene", "NW_Background.png",
-		D3DXVECTOR3(0, 0, 0), 1, false, true, TAG_UI::TagUI_GameOver);
-
-	cPopup* pGameOverTitleImagePopup = new cPopup;
-	pGameOverTitleImagePopup->Setup("data/UI/TitleScene", "NW_Titleletter.png",
-		D3DXVECTOR3(370, 140, 0), 1, false, true);
-	pGameOverBackgroundPopup->cButtonPushBack(pGameOverTitleImagePopup);
-	*/
-
-	//RETRY
-	pButton = new cButton;
-	pButton->Setup("data/UI/GameOver", "NW_GameOver_Re_Idle.png",
-		D3DXVECTOR3(675, 540, 0), 0, 0, 0, 1, false, true);
-	pGameOverBackgroundPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = RetryGameBtnEvent;
-	
-	/*
-	//메인메뉴
-	pButton = new cButton;
-	pButton->Setup("data/UI/GameOver", "NW_GameOver_Re_Idle.png",
-		D3DXVECTOR3(rc.right* nRight, rc.bottom* nBottom, 0), 155, 150, 0, 1, false, true);
-	pGameOverBackgroundPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = MainMenuBtnEvent;
-	*/
-
-	//종료
-	pButton = new cButton;
-	pButton->Setup("data/UI/GameOver", "NW_GameOver_End_Idle.png",
-		D3DXVECTOR3(675, 660, 0), 0, 0, 0, 1, false, true);
-	pGameOverBackgroundPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = ExitGameOverBtnEvent;
-
-	EventManager->Attach(pGameOverBackgroundPopup);
-	ObjectManager->AddUIChild(pGameOverBackgroundPopup);
-#pragma endregion << UI TAG::GameOver
 
 
 #pragma region UI TAG::ESC_Menu
