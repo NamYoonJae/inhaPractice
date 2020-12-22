@@ -3,6 +3,8 @@
 #include "SkinnedMesh.h"
 #include "PaladinEvade.h"
 
+#include "jsonManager.h"
+
 cPaladinEvade::cPaladinEvade(cPaladin* pPaladin)
 	:cPaladinState(pPaladin)
 {
@@ -17,6 +19,8 @@ cPaladinEvade::~cPaladinEvade()
 
 void cPaladinEvade::StateUpdate()
 {
+	JSON_Object* p_Character_object = g_p_jsonManager->get_json_object_Character();
+
 	if (m_pPaladin == NULL) return;
 
 	LPD3DXANIMATIONCONTROLLER pAnimController = m_pPaladin->GetSkinnedMesh()->GetAnimationController();
@@ -27,7 +31,8 @@ void cPaladinEvade::StateUpdate()
 	if (m_pPaladin->GetStateIndex() == eAnimationSet::Roll)
 	{
 		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
-		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
+		// fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
+		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * json_Function::object_get_double(p_Character_object, "Character/Combo time limit");
 	}
 
 	if (m_dAnimStartTime && pCurAnimSet)

@@ -20,6 +20,9 @@
 #include "LavaFlood.h"
 #include "Map.h"
 #include "SoundManager.h"
+
+#include "jsonManager.h"
+
 #pragma once
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -27,16 +30,21 @@ cDragonSoulEater::cDragonSoulEater()
 	, m_pvTarget(NULL)
 	, m_nPrevStateIndex(0)
 {
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
+
 	m_pOBB = NULL;
 	D3DXMatrixIdentity(&m_matRotation);
 
-	m_fCurHeathpoint = m_fMaxHeathPoint = 4500;
+	m_fCurHeathpoint = m_fMaxHeathPoint = json_Function::object_get_double(p_BOSS_object, "HP");
 
-	m_fElementalDefence = 30;
-	m_fPhysicDamage = 70;
+	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
+	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
 	
-	m_fElementalDamage = 200;
-	m_fPhysicDamage = 200;
+	//m_fPhysicDamage = 200;
+	m_fPhysicsDefence = json_Function::object_get_double(p_BOSS_object, "Defence/Melee");
+	m_fElementalDefence = json_Function::object_get_double(p_BOSS_object, "Defence/Elemental");
+
 	m_IsRage = false;
 	m_fRagegauge = 0.0f;
 	m_fStungauge = 0.0f;
@@ -414,7 +422,6 @@ void cDragonSoulEater::SetupBoundingBox()
 		UpperLegL->Setup(vMin, vMax);
 
 		vecOBBList.push_back(UpperLegL);
-
 	}
 
 
@@ -736,9 +743,83 @@ void cDragonSoulEater::Request()
 	//	return;
 	//}
 
+
+	// TODO Remove
+#pragma region before
+	//if (m_fStungauge >= 1000)
+	//{
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, 8000.0f);
+	//	return;
+	//}
+
+	//if (m_fRagegauge >= 1000 && !m_IsRage)
+	//{
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+	//	m_IsRage = true;
+	//	return;
+	//}
+
+	//if(m_IsRage && m_nPhase >= 3 && m_nPrevStateIndex == 4)
+	//{
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+	//	return;
+	//}
+
+	//if (m_fCurHeathpoint <= m_fMaxHeathPoint * 0.2 && m_nPhase >= 3 && m_IsBreathe == false)
+	//{
+	//	m_IsBreathe = true;
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+	//	return;
+	//}
+
+
+
+	//if (m_nPhase >= 2 && (rand() % 255 / 255 > 0.80))
+	//{
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
+	//	return;
+	//}
+	//
+	//if (m_pvTarget)
+	//{
+	//	D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
+	//	D3DXVec3Normalize(&vCurDir, &vCurDir);
+	//	D3DXVECTOR3 vPrevDir = D3DXVECTOR3(0, 0, -1);
+	//	D3DXVec3TransformNormal(&vPrevDir, &vPrevDir, &m_matRotation);
+
+	//	float Radian = acos(D3DXVec3Dot(&vPrevDir, &vCurDir));
+	//	float distance = sqrt(pow(m_vPos.x - (*m_pvTarget).x, 2) + pow(m_vPos.z - (*m_pvTarget).z, 2));
+
+	//	if (distance >= 100.0f && m_nPrevStateIndex != 3)
+	//	{
+	//		//
+	//		m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
+	//		return;
+	//	}
+	//	else if (Radian >= D3DX_PI - D3DX_PI * 0.33 && Radian <= D3DX_PI + D3DX_PI * 0.33
+	//		&& distance <= 55
+	//		&& m_nPrevStateIndex != 2)
+	//	{
+	//		// 55
+	//		m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
+	//		return;
+	//	}
+	//	else 
+	//	{
+	//		m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
+	//	}
+	//}
+#pragma endregion before
+
+#pragma region After
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
+
+
+
 	if (m_fStungauge >= 1000)
 	{
-		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, 8000.0f);
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, json_Function::object_get_double(p_BOSS_object, "Stun/Duration"));
 		return;
 	}
 
@@ -749,7 +830,7 @@ void cDragonSoulEater::Request()
 		return;
 	}
 
-	if(m_IsRage && m_nPhase >= 3 && m_nPrevStateIndex == 4)
+	if (m_IsRage && m_nPhase >= 3 && m_nPrevStateIndex == 4)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
 		return;
@@ -767,9 +848,9 @@ void cDragonSoulEater::Request()
 	if (m_nPhase >= 2 && (rand() % 255 / 255 > 0.80))
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
-		return;
+	 	return;
 	}
-	
+
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
@@ -794,13 +875,14 @@ void cDragonSoulEater::Request()
 			m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
 			return;
 		}
-		else 
+		else
 		{
 			m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
 		}
-
-
 	}
+
+
+#pragma endregion After
 }
 
 D3DXVECTOR3 * cDragonSoulEater::GetTarget()

@@ -17,6 +17,9 @@
 #include "PaladinIdle.h"
 #include "PaladinMove.h"
 #include "Orb.h"
+
+#include "jsonManager.h"
+
 #pragma once
 cPaladin::cPaladin()
 	:m_fvelocity(0.0f)
@@ -50,12 +53,18 @@ cPaladin::~cPaladin()
 
 void cPaladin::Setup(char* szFolder, char* szFile)
 {
-	m_MaxHp = 1000;
-	m_MaxStamina = 500;
+	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
+	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
 
-	m_Hp = 1000;
-	m_Stamina = 500;
+	m_MaxHp = (int)json_object_get_number(p_Character_object, "Max HP");
+	m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
+
+	m_fSpeed = (float)json_Function::object_get_double(p_Character_object, "Move speed");
+
+	m_Hp = m_MaxHp;
+	m_Stamina = m_MaxStamina;
 	
+
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);
 	m_pSkinnedUnit->SetAnimationIndex(0);
@@ -234,6 +243,9 @@ void cPaladin::Update()
 
 void cPaladin::Update(EventType event)
 {
+	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
+	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
+
 	//D3DXMATRIXA16 TempRot;
 	//D3DXMatrixIdentity(&TempRot);
 
@@ -244,11 +256,11 @@ void cPaladin::Update(EventType event)
 
 	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 	{
-		m_fSpeed = 300.f * 0.1f;
+		m_fSpeed = (float)json_Function::object_get_double(p_Character_object, "Move speed") * 0.1f;
 	}
 	else
 	{
-		m_fSpeed = 300.0f;
+		m_fSpeed = (float)json_Function::object_get_double(p_Character_object, "Move speed");
 	}
 
 	if (event == EventType::EVENT_ARROW_UP)

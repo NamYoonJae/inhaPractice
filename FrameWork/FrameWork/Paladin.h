@@ -43,10 +43,12 @@ private:
 
 
 	int m_MaxHp;
-	int m_MaxStamina;
-	
+	//int m_MaxStamina;  // 기획서에 float형식이라 명시되어있어 임시적용
+	float m_MaxStamina;
+
 	int m_Hp;
-	int m_Stamina;
+	//int m_Stamina;  // 기획서에 float형식이라 명시되어있어 임시적용
+	float m_Stamina;
 
 	cTrophies* m_pTrophies;
 
