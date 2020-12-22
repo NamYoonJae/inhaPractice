@@ -6,8 +6,9 @@
 
 cOrb::cOrb()
 	: m_pTex0(NULL)
-{
 
+{
+	m_nTag = Tag::Tag_Orb;
 }
 
 
@@ -61,7 +62,10 @@ void cOrb::Setup()
 	}
 
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(vMin, vMax);
+	m_pOBB->Setup(vMin,vMax);
+
+	m_pSubOBB = new cOBB;
+	m_pSubOBB->Setup(vMin, vMax);
 }
 
 void cOrb::Update()
@@ -70,11 +74,18 @@ void cOrb::Update()
 	D3DXMatrixIdentity(&matW);
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	matW = matS * matT;
 	if (m_pOBB)
 		m_pOBB->Update(&matW);
+
+	if (m_pSubOBB)
+	{
+		D3DXMatrixScaling(&matS, 0.4f,0.4f,0.4f);
+		matW = matS *matT;
+		m_pSubOBB->Update(&matW);
+	}
 }
 
 void cOrb::Render(D3DXMATRIXA16 * pmat)
@@ -151,9 +162,13 @@ void cOrb::Render(D3DXMATRIXA16 * pmat)
 	if (m_pOBB)
 		m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 255, 255, 0));
 
+	if (m_pSubOBB)
+		m_pSubOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 0, 255, 255));
 }
 
 void cOrb::CollisionProcess(cObject * pObject)
 {
 	// 나중에
+	cout << "오브 충돌" << endl;
+
 }

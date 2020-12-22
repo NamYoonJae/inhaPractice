@@ -153,7 +153,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	pMap->SetScale(D3DXVECTOR3(0.2f, 1.0f, 0.2f));
 	ObjectManager->AddStaticChild(pMap);
 
-	
+	/*
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
 	m_pDragon->Setup("data/XFile/Dragon", "Merge.X");
 	D3DXMATRIXA16 matWorld;
@@ -164,7 +164,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->GetWorldMatrix(&matWorld);
 	m_pDragon->Tagging(Tag::Tag_Boss);
 	ObjectManager->AddChild(m_pDragon);
-	
+	*/
 	//m_pSkinnedUnit->SetTransform();
 
 	//ObjectManager->AddChild(m_pSkinnedUnit);

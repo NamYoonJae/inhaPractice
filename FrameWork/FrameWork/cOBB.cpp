@@ -338,7 +338,7 @@ void cOBB::OBBBOX_Render(D3DXCOLOR c)
 
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &m_matWorldTM);
 	g_pD3DDevice->SetFVF(ST_PC_VERTEX::FVF);
-	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTexture(0, NULL);
 	for (int i = 0; i < m_vecVertex.size(); i++)
 		m_vecVertex[i].c = c;
