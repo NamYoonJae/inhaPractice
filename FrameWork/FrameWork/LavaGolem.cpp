@@ -11,6 +11,7 @@
 #include "TimerManager.h"
 
 //
+#include "Orb.h"
 #include "Paladin.h"
 #include "PaladinState.h"
 #pragma once
@@ -251,8 +252,29 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	float dist = pow(m_vPos.x - vOtherPos.x, 2)
 		+ pow(m_vPos.z - vOtherPos.z, 2);
 
-	D3DXVECTOR3 vOtherPoint0 = pOBB->GetList().at(0);
-	D3DXMATRIXA16 matW = pOBB->GetWorldMatrix();
+	cOBB* pObb;
+	D3DXMATRIXA16 matW;
+	
+	switch (nTag)
+	{
+	case Tag::Tag_Orb:
+	{
+		cOrb* pOrb = (cOrb*)pObject;
+		pObb = pOrb->GetSubOBB();
+		matW = pOrb->GetSubOBB()->GetWorldMatrix();
+	}
+	break;
+	case Tag::Tag_SwampA:
+	case Tag::Tag_SwampB:
+		return;
+	default:
+		pObb = pOBB;
+		matW = pObb->GetWorldMatrix();
+		break;
+	}
+	
+	D3DXVECTOR3 vOtherPoint0 = pObb->GetList().at(0);
+	matW = pObb->GetWorldMatrix();
 	D3DXVec3TransformCoord(&vOtherPoint0, &vOtherPoint0, &matW);
 	float Radian0 = pow(vOtherPos.x - vOtherPoint0.x, 2) + pow(vOtherPos.z - vOtherPoint0.z, 2);
 	

@@ -16,7 +16,8 @@
 #include "PaladinEvade.h"
 #include "PaladinIdle.h"
 #include "PaladinMove.h"
-
+#include "Orb.h"
+#pragma once
 cPaladin::cPaladin()
 	:m_fvelocity(0.0f)
 	,m_isMoving(false)
@@ -397,42 +398,62 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	cOBB* pOtherOBB = pObject->GetOBB();
 	int	  iOtherTag = pObject->GetTag();
 
-	if(m_pCurState && (iOtherTag == Tag::Tag_Boss || Tag::Tag_LavaGolem))
+	if (m_pCurState && (iOtherTag == Tag::Tag_Boss || Tag::Tag_LavaGolem))
 	{
 		//내가 공격 중이라면
-		if(m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
 				if (iOtherTag == Tag::Tag_Boss)
-						cout << "Dragon Hit" << endl;
+					cout << "Dragon Hit" << endl;
 
-					CollisionInfo info;
-					info.dwCollsionTime = GetTickCount();
-					info.dwDelayTime = 1500.0f;
-					pObject->AddCollisionInfo(m_nTag, info);
+				CollisionInfo info;
+				info.dwCollsionTime = GetTickCount();
+				info.dwDelayTime = 1500.0f;
+				pObject->AddCollisionInfo(m_nTag, info);
 			}
 		}
+	}
+
+	cOBB* pObb;
+	D3DXMATRIXA16 matW;
+	switch (iOtherTag)
+	{
+	case Tag::Tag_Orb:
+	{
+		cOrb* pOrb = (cOrb*)pObject;
+		pObb = pOrb->GetSubOBB();
+		matW = pOrb->GetSubOBB()->GetWorldMatrix();
+	}
+		break;
+	case Tag::Tag_SwampA:
+	case Tag::Tag_SwampB:
+		return;
+	default:
+		pObb = pOtherOBB;
+		matW = pObb->GetWorldMatrix();
+		break;
 	}
 
 	D3DXVECTOR3 vOtherPos = pObject->GetPos();
 	float dist = pow(m_vPos.x - vOtherPos.x, 2)
 		+ pow(m_vPos.z - vOtherPos.z, 2);
 
-	D3DXVECTOR3 vOtherPoint0 = pOtherOBB->GetList().at(0);
-	D3DXMATRIXA16 matW = pOtherOBB->GetWorldMatrix();
-	D3DXVec3TransformCoord(&vOtherPoint0,&vOtherPoint0,&matW);
-	float Radian0 = pow(vOtherPos.x - vOtherPoint0.x, 2) + pow(vOtherPos.z - vOtherPoint0.z, 2);
+	D3DXVECTOR3 vOtherPoint0 = pObb->GetList().at(0);
 	
+	D3DXVec3TransformCoord(&vOtherPoint0, &vOtherPoint0, &matW);
+	float Radian0 = pow(vOtherPos.x - vOtherPoint0.x, 2) + pow(vOtherPos.z - vOtherPoint0.z, 2);
+
 	D3DXVECTOR3 vPoint0 = m_vecParts.at(1)->GetOBB()->GetList().at(0);
 	matW = m_pOBB->GetWorldMatrix();
-	D3DXVec3TransformCoord(&vPoint0,&vPoint0,&matW);
+	D3DXVec3TransformCoord(&vPoint0, &vPoint0, &matW);
 	float Radian1 = pow(m_vPos.x - vPoint0.x, 2) + pow(m_vPos.z - vPoint0.z, 2);
 
 	float Radian = Radian0 + Radian1;
 
-	if(dist <= Radian && m_pCurState->GetStateIndex() == cPaladinState::eAnimationSet::Run)
+	if (dist <= Radian && m_pCurState->GetStateIndex() == cPaladinState::eAnimationSet::Run)
 	{
 		D3DXVECTOR3 vDir = vOtherPos - m_vPos;
 		D3DXMATRIXA16 matRy;
@@ -440,13 +461,14 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		D3DXVec3TransformNormal(&vDir, &vDir, &matRy);
 		vDir.y = 0;
 		D3DXVec3Normalize(&vDir, &vDir);
-		while(dist < Radian)
+		while (dist < Radian)
 		{
 			m_vPos += vDir * m_fvelocity;
 			dist = pow(m_vPos.x - vOtherPos.x, 2)
 				+ pow(m_vPos.z - vOtherPos.z, 2);
 		}
 	}
+
 	
 }
 
