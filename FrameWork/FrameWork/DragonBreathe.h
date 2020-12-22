@@ -9,12 +9,12 @@ private:
 	LPDIRECT3DTEXTURE9 m_pParticle;
 	D3DXVECTOR3 *m_pvTarget;
 	DWORD	m_dwStartTime;
-
+	
 	Synthesize(DWORD, m_dwDurationTime, DurationTime);
 public:
 	cDragonBreathe();
 	~cDragonBreathe();
-	void SetUp();
+	void SetUp(D3DXVECTOR3 vPos = D3DXVECTOR3(0,0,0));
 	void Update();
 	void Render(D3DXMATRIXA16 *pmat = NULL);
 	void GetTarget(D3DXVECTOR3* Target) { m_pvTarget = Target; }

@@ -21,6 +21,7 @@ cDragonBreathe::cDragonBreathe()
 	JSON_Object* p_ROOT_Object = g_p_jsonManager->get_json_object_Stage_B();
 	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS");
 
+	m_dwDurationTime = 5000.0f; // << json에 추가할것
 }
 
 
@@ -35,10 +36,12 @@ void cDragonBreathe::Update()
 		m_isDelete = true;
 		return;
 	}
-
+	// 드래곤이 충돌했을때 포지션이 바뀌지않는 버그가있는데 수정가능
 	if (m_pvTarget)
 	{
-		D3DXVECTOR3 vDir = *m_pvTarget - m_vPos;
+		D3DXVECTOR3 vTarget = *m_pvTarget;
+		vTarget.y += 10.0f;
+		D3DXVECTOR3 vDir = vTarget - m_vPos;
 		D3DXVec3Normalize(&vDir, &vDir);
 		using namespace std;
 		random_device rd;
@@ -73,9 +76,21 @@ void cDragonBreathe::Update()
 		}
 	}
 
+	D3DXVECTOR3 vMin, vMax;
+	vMin = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
+	vMax = D3DXVECTOR3(FLT_MIN, FLT_MIN, FLT_MIN);
+
 	for (int i = 0; i < m_vecPosList.size(); ++i)
 	{
-		m_vecPosList[i].p += m_vecDirList[i] * 0.6f;
+		m_vecPosList[i].p += m_vecDirList[i] * 0.8f;
+
+		vMin.x = min(vMin.x, m_vecPosList.at(i).p.x);
+		vMin.y = min(vMin.y, m_vecPosList.at(i).p.y);
+		vMin.z = min(vMin.z, m_vecPosList.at(i).p.z);
+
+		vMax.x = max(vMax.x, m_vecPosList.at(i).p.x);
+		vMax.y = max(vMax.y, m_vecPosList.at(i).p.y);
+		vMax.z = max(vMax.z, m_vecPosList.at(i).p.z);
 	}
 
 	if (m_vecPosList.size() > 50000)
@@ -91,7 +106,7 @@ void cDragonBreathe::Update()
 	}
 
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(m_vecPosList[0].p, m_vecPosList[m_vecPosList.size() - 1].p);
+	m_pOBB->Setup(vMin,vMax);
 	
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -200,7 +215,7 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 	}
 }
 
-void cDragonBreathe::SetUp()
+void cDragonBreathe::SetUp(D3DXVECTOR3 vPos)
 {
-	m_vPos = D3DXVECTOR3(0, 0, 0); 
+	m_vPos = vPos;
 }

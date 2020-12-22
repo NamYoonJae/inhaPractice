@@ -4,6 +4,7 @@ class cSoulEater_Stun :
 	public cSoulEaterState
 {
 private:
+	bool	m_IsAnimBlend;
 	DWORD	m_dwStunTime;
 public:
 	cSoulEater_Stun();

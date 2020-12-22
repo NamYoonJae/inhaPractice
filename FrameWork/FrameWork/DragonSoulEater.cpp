@@ -55,6 +55,9 @@ cDragonSoulEater::cDragonSoulEater()
 	m_IsFireball = false;
 	m_dwSwampCreateCoolTime = 15000.0f;
 	m_dwSwampElapsedTime = 0.0f;
+
+	//
+	m_nTestStateIndex = INT_MAX;
 }
 
 
@@ -118,18 +121,24 @@ void cDragonSoulEater::Update()
 			m_dwSwampElapsedTime = GetTickCount();
 	}
 
-	//if (m_nPhase >= 2 &&
-	//	GetTickCount() - m_dwSwampElapsedTime >= m_dwSwampCreateCoolTime)
-	//{
-	//	iMap *map = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
-	//	map->CreateSwamp();
-	//	map->RenderTrigger();
-	//}
+
 	
 	if (m_nPhase == 3)
 	{
 		// 룬스톤 활성화
 	}
+
+#ifdef NDEBUG
+	for (int i = 0x31; i <= 0x39; i++)
+	{
+		if (GetKeyState(i) & 0x8000)
+		{
+			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sd", "RELEASE", i);
+			m_nTestStateIndex = i;
+		}
+	}
+#endif // DEBUG
+
 
 	CollisionInfoCheck();
 
@@ -644,46 +653,21 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 
 		}
-
-		// 내가 맞을것
-	//	if (mapCollisionList.find(nTag) != mapCollisionList.end())
-	//	{
-	//		// 이미 맞았다면
-	//		return;
-	//	}
-	//	else
-	//	{
-	//		//int i;
-	//		// 어느 부위에 맞을것인지
-	//		//for (i = 0; i < m_vecBoundingBoxList.size(); ++i)
-	//		//{
-	//		//	if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(i).Box))
-	//		//	{
-	//		//		break;
-	//		//	}
-	//		//}
-	//		CollisionInfo info;
-	//		info.dwCollsionTime = GetTickCount();
-	//		info.dwDelayTime = 500.0f;
-	//		AddCollisionInfo(nTag, info);
-	//	}
-
-	//}
 	}
 	else 
 	{
+		if (nTag == Tag::Tag_SwampA || nTag == Tag::Tag_SwampB ||
+			nTag == Tag::Tag_FireBall || nTag == Tag::Tag_Breath)
+			return;
+		
 		if (m_pCurState)
 		{
 			int nCurStateIndex = m_pCurState->GetIndex();
 
 			switch (nCurStateIndex)
 			{
-			case Tag::Tag_SwampA:
-			case Tag::Tag_SwampB:
-				break;
 			default:
 			{
-
 				D3DXVECTOR3 vOtherPos = pObject->GetPos();
 				float dist = pow(m_vPos.x - vOtherPos.x, 2)
 					+ pow(m_vPos.z - vOtherPos.z, 2);
@@ -740,9 +724,46 @@ void cDragonSoulEater::Request()
 	//static DWORD time = GetTickCount();
 	//if (GetTickCount() - time > 1500.0f)
 	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
 	//	return;
 	//}
+
+#ifdef NDEBUG
+	if (m_nTestStateIndex >= 0x31 && m_nTestStateIndex <= 0x39)
+	{
+		switch (m_nTestStateIndex)
+		{
+		case 0x31:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
+			break;
+		case 0x32:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
+			break;
+		case 0x33:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
+			break;
+		case 0x34:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+			break;
+		case 0x35:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+			break;
+		case 0x36:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+			break;
+		case 0x37:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+			break;
+		case 0x38:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
+			break;
+		case 0x39:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this,8000.0f);
+			break;
+		}
+		return;
+	}
+#endif // DEBUG
 
 
 	// TODO Remove
@@ -815,8 +836,6 @@ void cDragonSoulEater::Request()
 #pragma region After
 	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
 	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
-
-
 
 	if (m_fStungauge >= 1000)
 	{

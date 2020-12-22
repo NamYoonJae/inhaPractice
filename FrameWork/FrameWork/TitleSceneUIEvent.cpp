@@ -116,6 +116,7 @@ void StartGameBtnEvent(EventType message, cPopup* btn)
 
 void ContinueGameBtnEvent(EventType message, cPopup* btn)
 {
+	return; //계속하기 기능 비활성화 유지로인해 이벤트 막음
 	cButton* button = (cButton*)btn;
 
 	D3DXVECTOR2 cur = EventManager->GetMouseCurrent();
@@ -157,20 +158,20 @@ void ContinueGameBtnEvent(EventType message, cPopup* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
-				button->SetPreState(enum_Hover);
+				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
+				//button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
 				if (button->GetState() == enum_On)
 				{
-					button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
-					button->SetPreState(enum_On);
+					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+					//button->SetPreState(enum_On);
 				}
 				else if (button->GetState() == enum_Off)
 				{
-					button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
-					button->SetPreState(enum_Off);
+					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Idle.png");
+					//button->SetPreState(enum_Off);
 				}
 			}
 		}//case EVENT_MOVE End:
@@ -183,8 +184,8 @@ void ContinueGameBtnEvent(EventType message, cPopup* btn)
 		{
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
-				button->SetStateChange(enum_On);
-				button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
+				//button->SetStateChange(enum_On);
+				//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Pressed.png");
 			}
 		}
 	}
@@ -200,8 +201,8 @@ void ContinueGameBtnEvent(EventType message, cPopup* btn)
 			{
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
-					button->SetStateChange(enum_Hover);
-					button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
+					//button->SetStateChange(enum_Hover);
+					//button->ChangeSprite("data/UI/TitleScene/CONTINUE/NW_ContinueButton_Over.png");
 					//g_pSceneManager->ChangeScene();
 				}
 			}
