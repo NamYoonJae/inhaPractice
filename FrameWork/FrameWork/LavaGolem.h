@@ -46,7 +46,7 @@ public:
 	float GetDist() { return m_fDist; }
 	D3DXMATRIXA16* GetRotationMatrix() { return &m_matR; };
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
-
+	int		GetStateIndex();
 	virtual void CollisionProcess(cObject* pObject) override;
 	void HitSound() override;
 };

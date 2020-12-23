@@ -752,9 +752,11 @@ void cDragonSoulEater::Request()
 		SafeDelete(m_pCurState);
 	}
 
+	static bool	Check = false;
 	static DWORD time = GetTickCount();
-	if (GetTickCount() - time > 1500.0f)
+	if (GetTickCount() - time > 1500.0f && Check == false)
 	{
+		Check = true;
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
 		return;
 	}
