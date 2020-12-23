@@ -32,12 +32,14 @@ void cPaladinEvade::StateUpdate()
 	{
 		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
 		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
+		m_pPaladin->SetInvincible(true);
 	}
 
 	if (m_dAnimStartTime && pCurAnimSet)
 	{
 		if (GetTickCount() - m_dAnimStartTime >= fAnimPeriod)
 		{
+			m_pPaladin->SetInvincible(false);
 			m_pPaladin->StateFeedback();
 		}
 	}

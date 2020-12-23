@@ -44,6 +44,7 @@ private:
 	int m_MaxHp;
 	float m_MaxStamina;
 	//int m_MaxStamina;  // 기획서에 float형식이라 명시되어있어 임시적용
+	Synthesize(bool, m_isInvincible, Invincible);
 
 	int m_Hp;
 	float m_Stamina;
