@@ -32,12 +32,13 @@ cDragonSoulEater::cDragonSoulEater()
 	, m_nPrevStateIndex(0)
 {
 	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
+	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS/");
 
 	m_pOBB = NULL;
 	D3DXMatrixIdentity(&m_matRotation);
 
-	m_fCurHeathpoint = m_fMaxHeathPoint = json_Function::object_get_double(p_BOSS_object, "HP");
+	m_fCurHeathpoint = m_fMaxHeathPoint = json_object_get_number(p_BOSS_object, "HP");
+	cout << " BOSS MAX HP : " << m_fMaxHeathPoint << endl;
 
 	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
 	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
@@ -53,6 +54,7 @@ cDragonSoulEater::cDragonSoulEater()
 
 	m_IsBreathe = false;
 	m_IsFireball = false;
+
 	m_dwSwampCreateCoolTime = 15000.0f;
 	m_dwSwampElapsedTime = 0.0f;
 

@@ -26,12 +26,30 @@ cPaladin::cPaladin()
 	, m_isMoving(false)
 	, m_pSkinnedUnit(NULL)
 	, m_pCurState(NULL)
+
 	, m_Hp(0)
 	, m_Stamina(0)
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
-	, m_pTrophies(NULL)
 	, m_fSpeed(0)
+	//, m_fInvincibleTime(0)
+	, m_isInvincible(false)
+	, m_Attack_Melee_Damage(0)
+	, m_Melee_rate_1(0)
+	, m_Melee_rate_2(0)
+	, m_Melee_rate_3(0)
+	, m_Attack_Elemental_Damage(0)
+
+	, m_Attack_StunRate(0)
+	, m_Attack_RigidRate(0)
+
+	, m_Critical_probability(0)
+	, m_Critical_additional_damage(0)
+
+	, m_Melee_Defense(0)
+	, m_Elemental_Defense(0)
+
+	, m_pTrophies(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -60,13 +78,33 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
 	m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
-	cout << "MaxHp : " << m_MaxHp << endl;
-	cout << "MaxStamina : " << m_MaxStamina << endl;
-	cout << "fSpeed : " << m_fSpeed << endl;
-
 	m_Hp = m_MaxHp;
 	m_Stamina = m_MaxStamina;
+	m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
+
+	// TODO 값 입력되는지 확인후 삭제
+	cout << "MaxHp : " << m_MaxHp << endl;
+	cout << "MaxStamina : " << m_MaxStamina << endl;
+	cout << "Stamina Restore Value : " << m_StaminaRestoreValue << endl;
+	cout << "fSpeed : " << m_fSpeed << endl;
 	
+	m_Attack_Melee_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Melee");
+	m_Melee_rate_1 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 1 rate");
+	m_Melee_rate_2 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 2 rate");
+	m_Melee_rate_3 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 3 rate");
+
+	m_Attack_Elemental_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Elemental");
+
+	m_Attack_StunRate = (int)json_Function::object_get_double(p_Character_object, "Attack/Stun rate");
+	m_Attack_RigidRate = (int)json_Function::object_get_double(p_Character_object, "Attack/Rigid rate");
+
+	m_Melee_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Melee");
+	m_Elemental_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Elemental");
+
+
+
+
+
 
 	m_pSkinnedUnit = new cSkinnedMesh;
 	m_pSkinnedUnit->Setup(szFolder, szFile);

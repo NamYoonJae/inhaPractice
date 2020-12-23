@@ -31,25 +31,42 @@ private:
 
 	vector<BoundingBox> m_vecBoundingBoxList;
 	
-	// >> new
 	D3DXVECTOR3*			m_pvTarget;
 	int						m_nPrevStateIndex;
 	D3DXMATRIXA16			m_matRotation;
 
-	
-	float				m_fElementalDefence;
-	float				m_fPhysicsDefence;
 	float				m_fPhysicDamage;
 	float				m_fElementalDamage;
+
+	float				m_fElementalDefence;	
+	float				m_fPhysicsDefence;		
+
+	// >> 2020. 12. 22.
+	float				m_AttackCooldown;
+
+	bool				m_IsRage;
+	float				m_fRagegauge;
+
+	float				m_RageRate;
+	float				m_RageDuration;
+	float				m_RageDecreaseDefence;
+	float				m_RageIncreaseAttack;
+
+	bool				m_IsRigid;
+
+	float				m_RigidRate;
+	float				m_DecreaseRateValue;
+	float				m_RigidDuration;
+
+	// << 2020. 12. 22.
 
 	int					m_nPhase;
 	int					m_Debuff;
 	
-	float				m_fRagegauge;
-	bool				m_IsRage;
 
 	DWORD				m_dwSwampCreateCoolTime;
 	DWORD				m_dwSwampElapsedTime;
+
 
 	Synthesize(float, m_fStungauge, STUN);
 	Synthesize(float, m_fMaxHeathPoint, MAXHP);
@@ -57,7 +74,6 @@ private:
 	bool m_IsBreathe;
 	bool m_IsFireball;
 
-	//
 	int m_nTestStateIndex;
 public:
 	cDragonSoulEater();

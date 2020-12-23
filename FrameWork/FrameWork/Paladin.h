@@ -41,14 +41,32 @@ private:
 
 	vector<cParts*> m_vecParts;
 
-
 	int m_MaxHp;
-	//int m_MaxStamina;  // 기획서에 float형식이라 명시되어있어 임시적용
 	float m_MaxStamina;
+	//int m_MaxStamina;  // 기획서에 float형식이라 명시되어있어 임시적용
+	Synthesize(bool, m_isInvincible, Invincible);
 
 	int m_Hp;
-	//int m_Stamina;  // 기획서에 float형식이라 명시되어있어 임시적용
 	float m_Stamina;
+	//int m_Stamina;  // 기획서에 float형식이라 명시되어있어 임시적용
+	float m_StaminaRestoreValue;
+
+	int				m_Attack_Melee_Damage;
+	float			m_Melee_rate_1;
+	float			m_Melee_rate_2;
+	float			m_Melee_rate_3;
+
+	int				m_Attack_Elemental_Damage;
+	int				m_Attack_StunRate;	// 공격시 기절부여치
+	int				m_Attack_RigidRate;	// 공격시 경직부여치
+
+	float			m_Critical_probability;
+	int				m_Critical_additional_damage;
+
+	int				m_Melee_Defense;
+	int				m_Elemental_Defense;
+
+	int				m_PoisonDamage;
 
 	cTrophies* m_pTrophies;
 
