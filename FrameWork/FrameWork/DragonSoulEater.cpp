@@ -681,10 +681,23 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				}
 
 				m_vPos += D3DXVECTOR3(0, 0, -0.3);
-				if (nCurStateIndex == 3)
+				if (nCurStateIndex == 3 )
 				{
-					this->Request();
-					return;
+					if (nTag == Tag::Tag_Wall)
+					{
+						// 유일한 예외 
+						CollisionInfo info;
+						info.dwCollsionTime = GetTickCount();
+						info.dwDelayTime = 1500;
+						AddCollisionInfo(nTag, info);
+						m_pCurState->handle();
+						return;
+					}
+					else
+					{
+						this->Request();
+						return;
+					}
 				}
 				else if(nCurStateIndex != 0)
 					this->m_pCurState->TargetCapture();
@@ -906,4 +919,10 @@ D3DXVECTOR3 * cDragonSoulEater::GetTarget()
 int cDragonSoulEater::CurrentStateIndex()
 {
 	return m_pCurState->GetIndex();
+}
+
+void cDragonSoulEater::HitSound()
+{
+	g_pSoundManager->PlaySFX(GenerateRandomNum((int)eSoundList::Dragon_GetHit1, (int)eSoundList::Dragon_GetHit3));
+	return;
 }

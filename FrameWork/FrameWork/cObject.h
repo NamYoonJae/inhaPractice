@@ -99,6 +99,7 @@ public:
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
 	void CollisionInfoCheck();
 	
+	virtual void HitSound() {};
 	//
 };
 
