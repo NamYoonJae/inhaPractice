@@ -25,7 +25,7 @@ private:
 	float		m_fCurrentHP;
 	float		m_fMaxHP;
 	float		m_fDamege;
-
+	bool		m_IsDead;
 	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
 	Synthesize(cSkinnedMesh*, m_pMg_Die, Die);
 	Synthesize(cSkinnedMesh*, m_pMg_Run, Run);

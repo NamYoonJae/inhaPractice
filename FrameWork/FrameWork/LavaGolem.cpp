@@ -31,7 +31,7 @@ cLavaGolem::cLavaGolem()
 	m_fCurrentHP = m_fMaxHP;
 	m_fDamege = 50.0f;
 	m_IsAttack = false;
-	
+	m_IsDead = false;
 }
 
 
@@ -152,9 +152,10 @@ void cLavaGolem::Update()
 
 	//
 
-	if (m_fCurrentHP <= 0.0f )
+	if (m_fCurrentHP <= 0.0f && m_IsDead == false)
 	{
 		Request(3);
+		m_IsDead = true;
 		return;
 	}
 
