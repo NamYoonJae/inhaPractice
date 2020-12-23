@@ -31,21 +31,10 @@ cDragonSoulEater::cDragonSoulEater()
 	, m_pvTarget(NULL)
 	, m_nPrevStateIndex(0)
 {
-	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS/");
+	m_fPhysicDamage = 200;
 
 	m_pOBB = NULL;
 	D3DXMatrixIdentity(&m_matRotation);
-
-	m_fCurHeathpoint = m_fMaxHeathPoint = json_object_get_number(p_BOSS_object, "HP");
-	cout << " BOSS MAX HP : " << m_fMaxHeathPoint << endl;
-
-	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
-	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
-	
-	//m_fPhysicDamage = 200;
-	m_fPhysicsDefence = json_Function::object_get_double(p_BOSS_object, "Defence/Melee");
-	m_fElementalDefence = json_Function::object_get_double(p_BOSS_object, "Defence/Elemental");
 
 	m_IsRage = false;
 	m_fRagegauge = 0.0f;
@@ -181,6 +170,45 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 
 void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 {
+#pragma region json
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS/");
+
+	m_fCurHeathpoint = m_fMaxHeathPoint = json_object_get_number(p_BOSS_object, "HP");
+
+	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
+	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
+
+	m_fPhysicsDefence = json_Function::object_get_double(p_BOSS_object, "Defence/Melee");
+	m_fElementalDefence = json_Function::object_get_double(p_BOSS_object, "Defence/Elemental");
+
+	m_AttackCooldown = json_Function::object_get_double(p_BOSS_object, "Attack/Cooldown");
+
+	m_RageRate = json_Function::object_get_double(p_BOSS_object, "Rage/Rate");
+	m_RageDuration = json_Function::object_get_double(p_BOSS_object, "Rage/Duration");
+	m_RageDecreaseDefence = json_Function::object_get_double(p_BOSS_object, "Rage/Decrease Defense");
+	m_RageIncreaseAttack = json_Function::object_get_double(p_BOSS_object, "Rage/Increase Attack");
+
+	m_Rigid_Rate = json_Function::object_get_double(p_BOSS_object, "Rigid/Rate");
+	m_Rigid_DecreaseRateValue = json_Function::object_get_double(p_BOSS_object, "Rigid/Decrease value");
+	m_Rigid_Duration = json_Function::object_get_double(p_BOSS_object, "Rigid/Duration");
+
+	m_Stun_Rate = json_Function::object_get_double(p_BOSS_object, "Stun/Rate");
+	m_Stun_Decrease_Value = json_Function::object_get_double(p_BOSS_object, "Stun/Decrease Value");
+	m_Stun_Duration = json_Function::object_get_double(p_BOSS_object, "Stun/Duration");
+
+	m_Skill_Weight_1 = json_Function::object_get_double(p_BOSS_object, "SKILL Weight/1");
+	m_Skill_Weight_2 = json_Function::object_get_double(p_BOSS_object, "SKILL Weight/2");
+	m_Skill_Weight_3 = json_Function::object_get_double(p_BOSS_object, "SKILL Weight/3");
+	m_Skill_Weight_4 = json_Function::object_get_double(p_BOSS_object, "SKILL Weight/4");
+
+	m_Speed = json_object_get_number(p_BOSS_object, "Move Speed");
+
+	// log
+	cout << " BOSS MAX HP : " << m_fMaxHeathPoint << endl;
+#pragma endregion json
+
+
 	m_pSkinnedUnit = new cSkinnedMesh(szFolder, szFileName);
 	m_pOBB = new cOBB;
 
@@ -836,12 +864,12 @@ void cDragonSoulEater::Request()
 #pragma endregion before
 
 #pragma region After
-	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
+	//JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	//JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
 
 	if (m_fStungauge >= 1000)
 	{
-		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, json_Function::object_get_double(p_BOSS_object, "Stun/Duration"));
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, m_Stun_Duration);
 		return;
 	}
 

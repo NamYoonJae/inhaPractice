@@ -38,25 +38,43 @@ private:
 	float				m_fPhysicDamage;
 	float				m_fElementalDamage;
 
-	float				m_fElementalDefence;	
 	float				m_fPhysicsDefence;		
+	float				m_fElementalDefence;	
 
 	// >> 2020. 12. 23.
 	float				m_AttackCooldown;
 
-	bool				m_IsRage;
-	float				m_fRagegauge;
+	bool				m_IsRage; //
+	float				m_fRagegauge; //
 
 	float				m_RageRate;
 	float				m_RageDuration;
 	float				m_RageDecreaseDefence;
 	float				m_RageIncreaseAttack;
 
-	bool				m_IsRigid;
+	bool				m_IsRigid; //
+	float				m_Rigid_Gauge; //
+	float				m_Rigid_Rate;
+	float				m_Rigid_DecreaseRateValue;
+	float				m_Rigid_Duration;
 
-	float				m_RigidRate;
-	float				m_DecreaseRateValue;
-	float				m_RigidDuration;
+	bool				m_IsStun; //
+	float				m_Stun_Gauge;//
+	float				m_Stun_Rate;
+	float				m_Stun_Decrease_Value;
+	float				m_Stun_Duration;
+
+	int					m_Skill_Weight_1;
+	int					m_Skill_Weight_2;
+	int					m_Skill_Weight_3;
+	int					m_Skill_Weight_4;
+
+	float				m_Speed;
+
+	// ---- 오브젝트 상호작용속성 -----
+	int					m_Wall_Stun_Damage; // 벽 충돌시 받는 기절치
+	int					m_Wall_Rigid_Damage; // 벽 충돌시 받는 경직치
+
 	// << 2020. 12. 23.
 
 	int					m_nPhase;
