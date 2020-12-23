@@ -3,7 +3,10 @@
 #include "DragonSoulEater.h"
 #include "LavaGolem.h"
 #include "ObjectPool.h"
+#include "jsonManager.h"
+
 #pragma once
+
 cSoulEater_Sleep::cSoulEater_Sleep()
 {
 	m_nCurentIndex = 6;
@@ -13,6 +16,16 @@ cSoulEater_Sleep::cSoulEater_Sleep()
 	m_dwHealingCoolTime = 1500.0f;
 	m_dwSleepSoundElapsed = GetTickCount();
 	m_dwSleepSoundTime = 10000.0f;
+
+#pragma region json
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/임시 패턴 객체/HP 회복패턴/");
+
+	
+
+
+#pragma endregion json
+
 }
 
 cSoulEater_Sleep::cSoulEater_Sleep(cDragonSoulEater* pDragon)

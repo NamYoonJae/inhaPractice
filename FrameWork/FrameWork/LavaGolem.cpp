@@ -47,13 +47,18 @@ cLavaGolem::~cLavaGolem()
 
 void cLavaGolem::Setup()
 {
+#pragma region json
 	JSON_Object* pStageBObject = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* pSubmonObject = json_Function::object_get_object(pStageBObject, "Stage B/Sub Monster");
+	JSON_Object* pSubmonObject = json_Function::object_get_object(pStageBObject, "Stage B/Sub Monster/");
 
 	m_fMaxHP = json_object_get_number(pSubmonObject, "HP");
 	m_fCurrentHP = m_fMaxHP;
 
 	m_fDamege = json_Function::object_get_double(pSubmonObject, "Attack/Melee");
+
+	cout << "LavaGolem MAX HP : " << m_fMaxHP << endl;
+	cout << "LavaGolem Damage : " << m_fDamege << endl;
+#pragma endregion json
 
 	//m_pSkinnedMesh = new cSkinnedMesh(szFolder,szFileName);
 
