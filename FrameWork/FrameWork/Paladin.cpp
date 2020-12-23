@@ -32,6 +32,8 @@ cPaladin::cPaladin()
 	, m_MaxStamina(0)
 	, m_pTrophies(NULL)
 	, m_fSpeed(0)
+	//, m_fInvincibleTime(0)
+	, m_isInvincible(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
