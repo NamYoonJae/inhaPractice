@@ -20,7 +20,7 @@
 #include "LavaFlood.h"
 #include "Map.h"
 #include "SoundManager.h"
-
+#include "Paladin.h"
 #include "jsonManager.h"
 
 #pragma once
@@ -614,7 +614,6 @@ void cDragonSoulEater::SetupBoundingBox()
 	}
 }
 
-
 void cDragonSoulEater::CollisionProcess(cObject* pObject)
 {
 	cOBB* pOBB = pObject->GetOBB();
@@ -626,61 +625,45 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 		if (m_pCurState)
 		{
 			int nCurStateIndex = m_pCurState->GetIndex();
-			int BoxNum = 0;
 			switch (nCurStateIndex)
 			{
-			case 0:
-				BoxNum = INT_MAX;
-				break;
 			case 1:		//머리
-				BoxNum = 0;
+				if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(0).Box))
+				{
+					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
+					{
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "head");
+						CollisionInfo info;
+						info.dwCollsionTime = GetTickCount();
+						info.dwDelayTime = 1500;
+						pObject->AddCollisionInfo(m_nTag, info);
+					}
+				}
 				break;
 			case 2:		//
-				BoxNum = 1;
+				if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(1).Box))
+				{
+					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
+					{
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "tail");
+						CollisionInfo info;
+						info.dwCollsionTime = GetTickCount();
+						info.dwDelayTime = 1500;
+						pObject->AddCollisionInfo(m_nTag, info);
+					}
+				}
 				break;
-			default:
-				BoxNum = 9;
-				break;
-
-			}
-			if (BoxNum == INT_MAX)
-			{
-				// Idle 상태
-			}
-			else if (BoxNum == 9)
-			{
+			case 3:
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
+					g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Rush");
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 1500;
 					pObject->AddCollisionInfo(m_nTag, info);
 				}
+				break;
 			}
-			else
-			{
-				if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(BoxNum).Box))
-				{
-
-					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
-					{
-						CollisionInfo info;
-						info.dwCollsionTime = GetTickCount();
-						info.dwDelayTime = 1500;
-						pObject->AddCollisionInfo(m_nTag, info);
-
-						if (BoxNum == 0)
-						{
-							g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "BasicAttack");
-						}
-						else if (BoxNum == 1)
-						{
-							g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "TailAttack");
-						}
-					}
-				}
-			}
-
 
 		}
 	}
@@ -726,7 +709,25 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				}
 
 				m_vPos += D3DXVECTOR3(0, 0, -0.3);
-				if(nCurStateIndex != 0)
+				if (nCurStateIndex == 3 )
+				{
+					if (nTag == Tag::Tag_Wall)
+					{
+						// 유일한 예외 
+						CollisionInfo info;
+						info.dwCollsionTime = GetTickCount();
+						info.dwDelayTime = 1500;
+						AddCollisionInfo(nTag, info);
+						m_pCurState->handle();
+						return;
+					}
+					else
+					{
+						this->Request();
+						return;
+					}
+				}
+				else if(nCurStateIndex != 0)
 					this->m_pCurState->TargetCapture();
 			}
 				break;
@@ -754,7 +755,7 @@ void cDragonSoulEater::Request()
 	//static DWORD time = GetTickCount();
 	//if (GetTickCount() - time > 1500.0f)
 	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
 	//	return;
 	//}
 
@@ -946,4 +947,10 @@ D3DXVECTOR3 * cDragonSoulEater::GetTarget()
 int cDragonSoulEater::CurrentStateIndex()
 {
 	return m_pCurState->GetIndex();
+}
+
+void cDragonSoulEater::HitSound()
+{
+	g_pSoundManager->PlaySFX(GenerateRandomNum((int)eSoundList::Dragon_GetHit1, (int)eSoundList::Dragon_GetHit3));
+	return;
 }

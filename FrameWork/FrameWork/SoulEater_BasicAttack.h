@@ -8,6 +8,7 @@ private:
 
 	DWORD	m_dwSoundTime;
 	bool m_IsRun;
+	Synthesize(float, TargetDistance, Distance);
 public:
 	cSoulEater_BasicAttack();
 	cSoulEater_BasicAttack(cDragonSoulEater*);

@@ -502,9 +502,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
-				if (iOtherTag == Tag::Tag_Boss)
-					cout << "Dragon Hit" << endl;
-
+				pObject->HitSound();
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;

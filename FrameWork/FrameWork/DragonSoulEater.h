@@ -112,6 +112,7 @@ public:
 	D3DXMATRIXA16* GetRotation() { return &m_matRotation; }
 	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }
 	int CurrentStateIndex();
+	void HitSound() override;
 };
 
 
