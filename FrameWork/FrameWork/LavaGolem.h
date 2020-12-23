@@ -24,15 +24,11 @@ private:
 	float		m_fCurrentHP;
 	float		m_fMaxHP;
 	float		m_fDamege;
-<<<<<<< HEAD
+
 	bool		m_IsDead;
-	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
-=======
 	float		m_fAttackReach;
 	float		m_fSpeed;
-
-	Synthesize(cSkinnedMesh*, m_pMg_Attack, Attack);
->>>>>>> 86cd0ccdc3f7f841990f212799692ca8991963a9
+	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
 	Synthesize(cSkinnedMesh*, m_pMg_Die, Die);
 	Synthesize(cSkinnedMesh*, m_pMg_Run, Run);
 	Synthesize(bool, m_IsAttack, IsAttack);
