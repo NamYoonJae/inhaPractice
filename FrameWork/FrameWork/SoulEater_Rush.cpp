@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SoulEater_Rush.h"
 #include "DragonSoulEater.h"
-
+#include "SoundManager.h"
 #pragma once
 
 cSoulEater_Rush::cSoulEater_Rush()
@@ -48,10 +48,7 @@ void cSoulEater_Rush::handle()
 		//스턴치 넣어줘야되
 		
 		m_pDragon->SetSTUN(m_pDragon->GetSTUN()+ 500.0f);
-		
-	}
-	else if (m_IsHitAnything)
-	{
+		//g_pSoundManager->PlaySFX(eSoundList::)
 		m_pDragon->Request();
 		return;
 	}

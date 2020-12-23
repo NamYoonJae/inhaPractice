@@ -110,6 +110,7 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 
 void ObjectPool::AddChild(cObject* obj)
 {
+	obj->SetIndex(vecObjectList.size());
 	vecObjectList.push_back(obj);
 	++m_nRefcnt;
 }
@@ -125,9 +126,11 @@ void ObjectPool::AddStaticChild(cObject* obj)
 		vecObjectList[vecObjectList.size() - 1] = vecObjectList[SwapIndex];
 		vecObjectList[SwapIndex] = NULL;
 		vecObjectList[SwapIndex] = obj;
+		obj->SetIndex(SwapIndex);
 	}
 	else
 	{
+		obj->SetIndex(vecObjectList.size());
 		vecObjectList.push_back(obj);
 	}
 
@@ -275,6 +278,14 @@ const cObject * ObjectPool::SearchChildUI(int nTag)
 	return vecUserInterface.at(i);
 }
 
+const cObject * ObjectPool::IndexSearchChild(int nIndex)
+{
+	if(nIndex > vecObjectList.size())
+		return nullptr;
+	
+	return vecObjectList[nIndex];
+}
+
 void ObjectPool::CollisionDetection()
 {
 
@@ -309,4 +320,5 @@ void ObjectPool::RemoveChild(cObject& obj)
 
 	m_nRefcnt -= (nOrginalSize - vecObjectList.size());
 
+	// 이거 아직 완성안됨 코드 수정으로인하여  12-23
 }

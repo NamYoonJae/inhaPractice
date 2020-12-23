@@ -6,7 +6,6 @@
 #include "cOBB.h"
 
 #include "jsonManager.h"
-
 #pragma once
 
 cDragonBreathe::cDragonBreathe()
@@ -40,7 +39,7 @@ void cDragonBreathe::Update()
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vTarget = *m_pvTarget;
-		vTarget.y += 10.0f;
+		vTarget.y += 15.0f;
 		D3DXVECTOR3 vDir = vTarget - m_vPos;
 		D3DXVec3Normalize(&vDir, &vDir);
 		using namespace std;
@@ -48,7 +47,7 @@ void cDragonBreathe::Update()
 		mt19937_64 mtRand(rd());
 		uniform_real_distribution<float> dis(1.0f, 3.0f);
 
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 20; i++)
 		{
 			ST_PC_VERTEX pc;
 			float fDist = dis(rd);
@@ -82,7 +81,7 @@ void cDragonBreathe::Update()
 
 	for (int i = 0; i < m_vecPosList.size(); ++i)
 	{
-		m_vecPosList[i].p += m_vecDirList[i] * 0.8f;
+		m_vecPosList[i].p += m_vecDirList[i] * 2.0f;
 
 		vMin.x = min(vMin.x, m_vecPosList.at(i).p.x);
 		vMin.y = min(vMin.y, m_vecPosList.at(i).p.y);
@@ -174,13 +173,12 @@ void cDragonBreathe::Render(D3DXMATRIXA16 *pmat)
 
 void cDragonBreathe::CollisionProcess(cObject* pObject)
 {
-
-	
 	int nTag = pObject->GetTag();
 	cOBB* pOBB = pObject->GetOBB();
 	
 	if(nTag == Tag::Tag_RunStone)
 	{
+
 		int i = 0;
 		std::vector<D3DXVECTOR3> list = pOBB->GetList();
 		D3DXMATRIXA16 matWorld = pOBB->GetWorldMatrix();
@@ -208,10 +206,9 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 		}
 	}
 
-	if(Tag::Tag_Player)
+	if (nTag == Tag::Tag_Player)
 	{
 
-		
 	}
 }
 

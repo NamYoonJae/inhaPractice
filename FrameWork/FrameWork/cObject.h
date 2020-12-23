@@ -62,6 +62,7 @@ protected:
 	cOBB*		m_pOBB;
 	vector<BoneOBB*> m_vBoneArray;
 	std::map<int, CollisionInfo> mapCollisionList; // 
+	Synthesize(int,m_nObjectIndex,Index);
 protected:
 
 	D3DXVECTOR3 m_vPos;

@@ -38,7 +38,7 @@ enum eSoundList
 	Dragon_BasicAttack,
 	Dragon_TailAttack,
 	Dragon_Scream,
-	Dragon_Sturn,
+	Dragon_Stun,
 	Dragon_GetHit1,
 	Dragon_GetHit2,
 	Dragon_GetHit3,
@@ -50,7 +50,7 @@ enum eSoundList
 	Dragon_Breath,
 	Dragon_Die2,
 	Dragon_Die1,
-
+	Dragon_Collision,
 	Golem_AttackVoice1,
 	Golem_AttackVoice2,
 	Golem_Attack,

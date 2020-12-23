@@ -12,6 +12,7 @@ cSoulEater_BasicAttack::cSoulEater_BasicAttack()
 {
 	m_nCurentIndex = 1;
 	m_dwElapsedTime = GetTickCount();
+	TargetDistance = 1000.0f;
 }
 
 cSoulEater_BasicAttack::cSoulEater_BasicAttack(cDragonSoulEater *pDragon)
@@ -22,6 +23,7 @@ cSoulEater_BasicAttack::cSoulEater_BasicAttack(cDragonSoulEater *pDragon)
 {
 	m_nCurentIndex = 1;
 	m_dwElapsedTime = GetTickCount();
+	TargetDistance = 1000.0f;
 }
 
 cSoulEater_BasicAttack::~cSoulEater_BasicAttack()
@@ -43,9 +45,9 @@ void cSoulEater_BasicAttack::handle()
 	D3DXVECTOR3 pos = m_pDragon->GetPos();
 	
 	//
-	float distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
+	float distance = pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2);
 	
-	if (distance <= 30.0f)
+	if (distance <= TargetDistance)
 	{
 		if (!m_IsAnimBlend)
 		{

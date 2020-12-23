@@ -61,7 +61,7 @@ void cSoundManager::init()
 		AddSFX(strPath + string("NW_Dragon_Basic Attack.mp3"),(int)Dragon_BasicAttack);
 		AddSFX(strPath + string("NW_Dragon_Tail Attack.mp3"), (int)Dragon_TailAttack);
 		AddSFX(strPath + string("NW_Dragon_Shout.mp3"), (int)Dragon_Scream);
-		AddSFX(strPath + string("NW_Dragon_Stun.mp3"), (int)Dragon_Sturn);
+		AddSFX(strPath + string("NW_Dragon_Stun.mp3"), (int)Dragon_Stun);
 		AddSFX(strPath + string("GetHit/NW_Dragon_Hit 1.mp3"), (int)Dragon_GetHit1);
 		AddSFX(strPath + string("GetHit/NW_Dragon_Hit 2.mp3"), (int)Dragon_GetHit2);
 		AddSFX(strPath + string("GetHit/NW_Dragon_Hit 3.mp3"), (int)Dragon_GetHit3);
@@ -70,9 +70,10 @@ void cSoundManager::init()
 		AddSFX(strPath + string("Fly/NW_Dragon_Fly 2.mp3"), (int)Dragon_Fly2);
 		AddSFX(strPath + string("Fly/NW_Dragon_Fly 3.mp3"), (int)Dragon_Fly3);
 		AddSFX(strPath + string("Fly/NW_Dragon_Fly Breath_Voice.mp3"), (int)Dragon_FlyFireBall);
-		AddSFX(strPath + string("Fly/NW_Dragon_Breath.mp3"), (int)Dragon_Breath);
+		AddSFX(strPath + string("NW_Dragon_Breath.mp3"), (int)Dragon_Breath);
 		AddSFX(strPath + string("Die/NW_Dragon_Die_Effect.mp3"), (int)Dragon_Die1); 
 		AddSFX(strPath + string("Die/NW_Dragon_Die_Voice.mp3"), (int)Dragon_Die2);
+		AddSFX(strPath + string("NW_Dragon_Collision.mp3"), (int)Dragon_Collision);
 		//
 	}
 
