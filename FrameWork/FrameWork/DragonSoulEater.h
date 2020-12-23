@@ -41,7 +41,7 @@ private:
 	float				m_fElementalDefence;	
 	float				m_fPhysicsDefence;		
 
-	// >> 2020. 12. 22.
+	// >> 2020. 12. 23.
 	float				m_AttackCooldown;
 
 	bool				m_IsRage;
@@ -57,8 +57,7 @@ private:
 	float				m_RigidRate;
 	float				m_DecreaseRateValue;
 	float				m_RigidDuration;
-
-	// << 2020. 12. 22.
+	// << 2020. 12. 23.
 
 	int					m_nPhase;
 	int					m_Debuff;

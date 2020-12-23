@@ -43,10 +43,17 @@ cPaladin::cPaladin()
 	, m_Attack_RigidRate(0)
 
 	, m_Critical_probability(0)
-	, m_Critical_additional_damage(0)
+	, m_Critical_Additional_Damage(0)
 
 	, m_Melee_Defense(0)
 	, m_Elemental_Defense(0)
+
+	, m_Char_Poison_Damage(0)
+	, m_Char_Poison_Duration(0)
+	, m_Char_StunRate(0)
+	, m_Char_Stun_Reduce(0)
+	, m_Char_Stun_Duration(0)
+	, m_Char_Scream_Duration(0)
 
 	, m_pTrophies(NULL)
 {
@@ -70,6 +77,7 @@ cPaladin::~cPaladin()
 
 void cPaladin::Setup(char* szFolder, char* szFile)
 {
+#pragma region json
 	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
 	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
 
@@ -79,13 +87,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 	m_Hp = m_MaxHp;
 	m_Stamina = m_MaxStamina;
-	m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 
-	// TODO 값 입력되는지 확인후 삭제
-	cout << "MaxHp : " << m_MaxHp << endl;
-	cout << "MaxStamina : " << m_MaxStamina << endl;
-	cout << "Stamina Restore Value : " << m_StaminaRestoreValue << endl;
-	cout << "fSpeed : " << m_fSpeed << endl;
+	m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 	
 	m_Attack_Melee_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Melee");
 	m_Melee_rate_1 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 1 rate");
@@ -94,15 +97,55 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 	m_Attack_Elemental_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Elemental");
 
-	m_Attack_StunRate = (int)json_Function::object_get_double(p_Character_object, "Attack/Stun rate");
-	m_Attack_RigidRate = (int)json_Function::object_get_double(p_Character_object, "Attack/Rigid rate");
+	m_Attack_StunRate = (float)json_Function::object_get_double(p_Character_object, "Attack/Stun rate");
+	m_Attack_RigidRate = (float)json_Function::object_get_double(p_Character_object, "Attack/Rigid rate");
+	m_Critical_probability = (float)json_Function::object_get_double(p_Character_object, "Attack/Critical probability");
+	m_Critical_Additional_Damage = (float)json_Function::object_get_double(p_Character_object, "Attack/Critical additional damage");
 
 	m_Melee_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Melee");
 	m_Elemental_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Elemental");
 
 
+	m_Char_Poison_Damage = (int)json_Function::object_get_double(p_Character_object, "Dot damage/Poison/Damage");
+	m_Char_Poison_Duration = (int)json_Function::object_get_double(p_Character_object, "Dot damage/Poison/Duration time");
 
+	m_Char_StunRate = 0;
+	m_Char_Stun_Reduce = (int)json_Function::object_get_double(p_Character_object, "Stun/Duration time");
+	m_Char_Stun_Duration = (int)json_Function::object_get_double(p_Character_object, "Stun/Rate reduce");
+	m_Char_Scream_Duration = (int)json_Function::object_get_double(p_Character_object, "Scream/Duration time");
 
+	m_Char_Invincibility_Duration = (float)json_Function::object_get_double(p_Character_object, "Invincibility/Duration time");
+	
+	m_Aggro = (int)json_object_get_number(p_Character_object, "Aggro");
+
+	// Log
+	cout << "MaxHp : " << m_MaxHp << endl;
+	cout << "MaxStamina : " << m_MaxStamina << endl;
+	cout << "Stamina Restore Value : " << m_StaminaRestoreValue << endl;
+	cout << "fSpeed : " << m_fSpeed << endl;
+	cout << "Attack_Melee_Damage : " << m_Attack_Melee_Damage << endl;
+	cout << "Melee_rate_1 : " << m_Melee_rate_1 << endl;
+	cout << "Melee_rate_2 : " << m_Melee_rate_2 << endl;
+	cout << "Melee_rate_2 : " << m_Melee_rate_2 << endl;
+	cout << "Attack_Elemental_Damage : " << m_Attack_Elemental_Damage << endl;
+	cout << "Attack_StunRate : " << m_Attack_StunRate << endl;
+	cout << "Attack_RigidRate : " << m_Attack_RigidRate << endl;
+	cout << "Critical_probability : " << m_Critical_probability << endl;
+	cout << "Critical_Additional_Damage : " << m_Critical_Additional_Damage << endl;
+
+	cout << "Melee_Defense : " << m_Melee_Defense << endl;
+	cout << "Elemental_Defense : " << m_Elemental_Defense << endl;
+
+	cout << "Char_Poison_Damage : " << m_Char_Poison_Damage << endl;
+	cout << "Char_Poison_Duration : " << m_Char_Poison_Duration << endl;
+	cout << "Char_Stun_reduce : " << m_Char_Stun_Reduce << endl;
+	cout << "Char_Stun_Duration : " << m_Char_Poison_Duration << endl;
+	cout << "Char_Scream_Duration : " << m_Char_Scream_Duration << endl;
+
+	cout << "Char_Invincibility_Duration : " << m_Char_Invincibility_Duration << endl;
+
+	cout << "Aggro : " << m_Aggro << endl;
+#pragma endregion json
 
 
 	m_pSkinnedUnit = new cSkinnedMesh;

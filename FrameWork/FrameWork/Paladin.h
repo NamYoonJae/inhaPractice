@@ -50,22 +50,37 @@ private:
 	//int m_Stamina;  // 기획서에 float형식이라 명시되어있어 임시적용
 	float m_StaminaRestoreValue;
 
+	// >> 2020. 12. 23.
 	int				m_Attack_Melee_Damage;
 	float			m_Melee_rate_1;
 	float			m_Melee_rate_2;
 	float			m_Melee_rate_3;
 
 	int				m_Attack_Elemental_Damage;
-	int				m_Attack_StunRate;	// 공격시 기절부여치
-	int				m_Attack_RigidRate;	// 공격시 경직부여치
+	float				m_Attack_StunRate;	// 공격시 기절부여치
+	float				m_Attack_RigidRate;	// 공격시 경직부여치
 
 	float			m_Critical_probability;
-	int				m_Critical_additional_damage;
+	int				m_Critical_Additional_Damage;
 
 	int				m_Melee_Defense;
 	int				m_Elemental_Defense;
 
-	int				m_PoisonDamage;
+	// char는 character 상태에 대한 속성
+	int				m_Char_Poison_Damage;
+	float			m_Char_Poison_Duration;
+	
+	float			m_Char_StunRate;
+	int				m_Char_Stun_Reduce;
+	int				m_Char_Stun_Duration;
+	float			m_Char_Scream_Duration;
+
+	float			m_Char_Invincibility_Duration;
+	int				m_Char_Flinch;  // 캐릭터 움찔 발생 손상치
+
+	int				m_Aggro;  // 어그로
+	// << 2020. 12. 23.
+
 
 	cTrophies* m_pTrophies;
 
