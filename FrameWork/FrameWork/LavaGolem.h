@@ -48,6 +48,7 @@ public:
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
 
 	virtual void CollisionProcess(cObject* pObject) override;
+	void HitSound() override;
 };
 
 // 공격 이동 죽음 IDLE

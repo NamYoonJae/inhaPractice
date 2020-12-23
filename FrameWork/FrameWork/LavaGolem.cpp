@@ -14,7 +14,7 @@
 #include "Orb.h"
 #include "Paladin.h"
 #include "PaladinState.h"
-
+#include "SoundManager.h"
 #include "jsonManager.h"
 #pragma once
 
@@ -68,7 +68,6 @@ void cLavaGolem::Setup()
 	m_pMg_Run = new cSkinnedMesh(szFolder, "Mg_Move.X");
 	m_pMg_Die = new cSkinnedMesh(szFolder, "Mg_Die.X");
 	m_pMg_Attack = new cSkinnedMesh(szFolder, "Mg_Attack.X");
-
 
 	m_pSkinnedMesh = m_pMg_Run;
 	m_pOBB = new cOBB;
@@ -310,4 +309,10 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	m_vPos += D3DXVECTOR3(0, 0, 1);
 	
 
+}
+
+void cLavaGolem::HitSound()
+{
+	g_pSoundManager->PlaySFX(GenerateRandomNum((int)eSoundList::Golem_Hit1, (int)eSoundList::Golem_Hit4));
+	return;
 }
