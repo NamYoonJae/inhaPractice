@@ -66,10 +66,10 @@ void cTitleScene::Setup()
 
 	// 이어하기
 	pButton = new cButton;
-	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Idle.png", 
+	pButton->Setup("data/UI/TitleScene/CONTINUE", "NW_ContinueButton_Disable.png", 
 		D3DXVECTOR3(650, 495, 0), 0, 0, 0, 1, true, true);
 	pBackGoundBtnPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = ContinueGameBtnEvent;
+	//pButton->EventProcess = ContinueGameBtnEvent;
 
 	//설정
 	pButton = new cButton;
