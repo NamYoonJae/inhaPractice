@@ -16,6 +16,10 @@ private:
 	DWORD m_dwPreparationTime;
 	DWORD m_dwStateStartTime;
 
+	float		m_Rune_Gauge; // << 충전된 게이지 값을 저장할 멤버변수
+	float		m_Rune_Gauge_require;
+	float		m_Rune_Gauge_recharge;
+
 public:
 	cRune();
 	~cRune();

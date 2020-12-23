@@ -3,6 +3,7 @@
 #include "cOBB.h"
 #include "ObjLoader.h"
 #include "Paladin.h"
+#include "jsonManager.h"
 #pragma once
 
 cRune::cRune()
@@ -10,6 +11,9 @@ cRune::cRune()
 	, m_RotY(0.0f)
 	, m_dwStateStartTime(GetTickCount())
 	, m_dwPreparationTime(1000.0f)
+	, m_Rune_Gauge(0)
+	, m_Rune_Gauge_require(100)
+	, m_Rune_Gauge_recharge(20)
 {
 	m_nTag = Tag::Tag_RunStone;
 }
@@ -21,6 +25,20 @@ cRune::~cRune()
 
 void cRune::Setup()
 {
+#pragma region json
+	JSON_Object* pStageBObject = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* pRuneObject = json_Function::object_get_object(pStageBObject, "Stage B/Object/3/");
+
+	m_Rune_Gauge = 0;
+	m_Rune_Gauge_require = json_Function::object_get_double(pRuneObject, "Status/Gauge require");
+	m_Rune_Gauge_recharge = json_Function::object_get_double(pRuneObject, "Status/Gauge recharge");
+
+	// log
+	cout << "Rune Gauge : " << m_Rune_Gauge << endl;
+	cout << "Rune jsonValue  Rune require Gauge : " << m_Rune_Gauge_require << endl;
+	cout << "Rune jsonValue  Rune recharge Gauge : " << m_Rune_Gauge_recharge << endl;
+#pragma endregion json
+
 	//임시적인 위치
 	m_vPos = D3DXVECTOR3(150.0f, 10.0f, 0);
 

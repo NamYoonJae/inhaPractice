@@ -15,6 +15,9 @@ private:
 	float m_RotY;
 	DWORD m_dwPreparationTime;
 	DWORD m_dwStateStartTime;
+
+	float		m_Holdingtime;
+
 public:
 	cOrb();
 	~cOrb();

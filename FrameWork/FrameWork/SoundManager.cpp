@@ -83,6 +83,10 @@ void cSoundManager::init()
 		AddSFX(strPath + string("NW_Golem_Attack 1 Voice.mp3"), (int)Golem_AttackVoice1);
 		AddSFX(strPath + string("NW_Golem_Attack 2 Voice.mp3"), (int)Golem_AttackVoice2);
 		AddSFX(strPath + string("NW_Golem_Attack 1 Effect.mp3"), (int)Golem_Attack);
+		AddSFX(strPath + string("MW_Golem_Hit 1.mp3"), (int)Golem_Hit1);
+		AddSFX(strPath + string("MW_Golem_Hit 2.mp3"), (int)Golem_Hit2);
+		AddSFX(strPath + string("MW_Golem_Hit 3.mp3"), (int)Golem_Hit3);
+		AddSFX(strPath + string("MW_Golem_Hit 4.mp3"), (int)Golem_Hit4);
 		AddSFX(strPath + string("NW_Golem_Die.mp3"), (int)Golem_Die);
 	
 	}

@@ -17,7 +17,6 @@ private:
 	D3DXVECTOR3* m_pvTarget;
 
 
-
 	float		m_fDist;
 	D3DXMATRIXA16 m_matR;
 
@@ -26,10 +25,13 @@ private:
 	float		m_fMaxHP;
 	float		m_fDamege;
 
+	bool		m_IsDead;
+	float		m_fAttackReach;
+	float		m_fSpeed;
 	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
 	Synthesize(cSkinnedMesh*, m_pMg_Die, Die);
 	Synthesize(cSkinnedMesh*, m_pMg_Run, Run);
-	Synthesize(bool,m_IsAttack,IsAttack);
+	Synthesize(bool, m_IsAttack, IsAttack);
 public:
 	cLavaGolem();
 	~cLavaGolem();
@@ -46,8 +48,9 @@ public:
 	float GetDist() { return m_fDist; }
 	D3DXMATRIXA16* GetRotationMatrix() { return &m_matR; };
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
-
+	int		GetStateIndex();
 	virtual void CollisionProcess(cObject* pObject) override;
+	void HitSound() override;
 };
 
 // 공격 이동 죽음 IDLE
