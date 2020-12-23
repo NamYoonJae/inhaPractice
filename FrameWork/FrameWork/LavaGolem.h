@@ -17,7 +17,6 @@ private:
 	D3DXVECTOR3* m_pvTarget;
 
 
-
 	float		m_fDist;
 	D3DXMATRIXA16 m_matR;
 
@@ -25,11 +24,13 @@ private:
 	float		m_fCurrentHP;
 	float		m_fMaxHP;
 	float		m_fDamege;
+	float		m_fAttackReach;
+	float		m_fSpeed;
 
-	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
+	Synthesize(cSkinnedMesh*, m_pMg_Attack, Attack);
 	Synthesize(cSkinnedMesh*, m_pMg_Die, Die);
 	Synthesize(cSkinnedMesh*, m_pMg_Run, Run);
-	Synthesize(bool,m_IsAttack,IsAttack);
+	Synthesize(bool, m_IsAttack, IsAttack);
 public:
 	cLavaGolem();
 	~cLavaGolem();
