@@ -8,6 +8,14 @@ class cRune : public cObject
 {
 private:
 	vector<cGroup*> m_vecGroup;
+
+	cOBB* m_pSubOBB;
+
+	bool m_OnOff;
+	float m_RotY;
+	DWORD m_dwPreparationTime;
+	DWORD m_dwStateStartTime;
+
 public:
 	cRune();
 	~cRune();
@@ -17,5 +25,7 @@ public:
 	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 
 	void CollisionProcess(cObject* pObject);
+	cOBB* GetSubOBB() { return m_pSubOBB; }
+	void SetOnOff(bool state) { m_OnOff = state; };
 };
 

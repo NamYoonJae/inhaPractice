@@ -17,6 +17,7 @@
 #include "PaladinIdle.h"
 #include "PaladinMove.h"
 #include "Orb.h"
+#include "Rune.h"
 
 #include "jsonManager.h"
 
@@ -31,6 +32,7 @@ cPaladin::cPaladin()
 	, m_Stamina(0)
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
+	, m_isInvincible(false)
 	, m_fSpeed(0)
 
 	, m_Attack_Melee_Damage(0)
@@ -85,7 +87,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
 	m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
-	m_Hp = m_MaxHp;
+	m_Hp = 500;
 	m_Stamina = m_MaxStamina;
 
 	m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
@@ -515,11 +517,34 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	D3DXMATRIXA16 matW;
 	switch (iOtherTag)
 	{
+
 	case Tag::Tag_Orb:
 	{
+		//팔라딘 피 회복 및 해당 오브 제거
 		cOrb* pOrb = (cOrb*)pObject;
-		pObb = pOrb->GetSubOBB();
-		matW = pOrb->GetSubOBB()->GetWorldMatrix();
+		//pObb = pOrb->GetOBB();
+		//matW = pOrb->GetOBB()->GetWorldMatrix();
+
+		
+		if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
+			&& pOrb->GetCollsionInfo(m_nTag) == nullptr)
+		{
+			cout << "바디와 오브 충돌" << endl;
+		}
+		
+
+		cout << "피 회복 테스트" << endl;
+		
+		pOrb->SetOnOff(false);
+	}
+		return;
+
+	case Tag::Tag_RunStone:
+	{
+		cRune* pRune = (cRune*)pObject;
+		pObb = pRune->GetSubOBB();
+		matW = pRune->GetSubOBB()->GetWorldMatrix();
+		//무적 상태
 	}
 		break;
 	case Tag::Tag_SwampA:

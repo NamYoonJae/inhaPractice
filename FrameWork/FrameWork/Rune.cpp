@@ -2,10 +2,16 @@
 #include "Rune.h"
 #include "cOBB.h"
 #include "ObjLoader.h"
+#include "Paladin.h"
 #pragma once
 
 cRune::cRune()
+	: m_OnOff(false)
+	, m_RotY(0.0f)
+	, m_dwStateStartTime(GetTickCount())
+	, m_dwPreparationTime(1000.0f)
 {
+	m_nTag = Tag::Tag_RunStone;
 }
 
 
@@ -54,9 +60,18 @@ void cRune::Setup()
 
 		m_vecGroup.at(i)->SetVertices(Group);
 	}
+	
 
+	m_pSubOBB = new cOBB;
+	m_pSubOBB->Setup(vMin, vMax);
+
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, 2.0f, 1.0f, 2.0f);
+	D3DXVec3TransformCoord(&vMin, &vMin, &matS);
+	D3DXVec3TransformCoord(&vMax, &vMax, &matS);
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(vMin, vMax);
+	
 }
 
 void cRune::Update()
@@ -65,23 +80,71 @@ void cRune::Update()
 	D3DXMatrixIdentity(&matW);
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matW = matS * matT;
-	if (m_pOBB)
-		m_pOBB->Update(&matW);
+
+	if (m_OnOff == false) 
+	{
+		if (m_pOBB)
+		{
+			matW = matT;
+			m_pOBB->Update(&matW);
+		}
+
+		if (m_pSubOBB)
+		{
+			D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+			matW = matS * matT;
+			m_pSubOBB->Update(&matW);
+		}
+	}
+	else
+	{
+		if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
+		{
+			D3DXMATRIXA16 matR;
+			D3DXMatrixIdentity(&matR);
+			D3DXMatrixRotationY(&matR, m_RotY);
+
+			if (m_pOBB)
+			{
+				matW = matR * matT;
+				m_pOBB->Update(&matW);
+			}
+
+			if (m_pSubOBB)
+			{
+
+				D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+				matW = matS * matR * matT;
+				m_pSubOBB->Update(&matW);
+			}
+
+			m_RotY += 1 / D3DX_PI * 0.05;
+			m_dwStateStartTime = GetTickCount();
+		}
+
+	}
 }
 
 void cRune::Render(D3DXMATRIXA16 * pmat)
 {
-	D3DXMATRIXA16 matW, matT, matS;
+	D3DXMATRIXA16 matW,matS, matR, matT;
 	D3DXMatrixIdentity(&matW);
-	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matR);
 	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matW = matS * matT;
 
+	if (m_OnOff == false) 
+	{
+		matW = matS * matT;
+	}
+	else
+	{
+		D3DXMatrixRotationY(&matR, m_RotY);
+		matW = matS * matR * matT;
+	}
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
 	for (int i = 0; i < m_vecGroup.size(); ++i)
 	{
@@ -90,8 +153,31 @@ void cRune::Render(D3DXMATRIXA16 * pmat)
 
 	if (m_pOBB)
 		m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 255, 255, 0));
+
+	if (m_pSubOBB)
+		m_pSubOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 0, 255, 255));
 }
 
 void cRune::CollisionProcess(cObject * pObject)
 {
+	int nOtherTag = pObject->GetTag();
+
+	switch (nOtherTag)
+	{
+	case Tag::Tag_Player:
+	{
+		cPaladin* pPaladin = (cPaladin*)pObject;
+		cOBB* pBody = pPaladin->GetPartsList().at(1)->GetOBB();
+		if (cOBB::IsCollision(pBody, m_pOBB)
+			&& pObject->GetCollsionInfo(m_nTag) == nullptr)
+		{
+			cout << "·é Ãæµ¹" << endl;
+			//CollisionInfo info;
+			//info.dwCollsionTime = GetTickCount();
+			//info.dwDelayTime = 1500.0f;
+			//pObject->AddCollisionInfo(m_nTag, info);
+		}
+	}
+	break;
+	}
 }

@@ -11,7 +11,6 @@ const enum Tag
 	Tag_LavaGolem,
 	Tag_cObj,
 	Tag_Orb,
-	Tag_Rune,
 	Tag_FireBall,
 	Tag_SwampA,
 	Tag_SwampB,
