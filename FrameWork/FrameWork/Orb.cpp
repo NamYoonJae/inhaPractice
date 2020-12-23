@@ -3,10 +3,12 @@
 #include "cOBB.h"
 #include "ObjLoader.h"
 #include "Paladin.h"
+#include "jsonManager.h"
 #pragma once
 
 cOrb::cOrb()
 	: m_pTex0(NULL)
+	, m_Holdingtime(10000.f)
 
 {
 	m_nTag = Tag::Tag_Orb;
@@ -20,6 +22,17 @@ cOrb::~cOrb()
 
 void cOrb::Setup()
 {
+#pragma region json
+	JSON_Object* pStageBObject = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* pOrbObject = json_Function::object_get_object(pStageBObject, "Stage B/Object/4/");
+
+	m_Holdingtime = json_Function::object_get_double(pOrbObject, "Status/Holding time");
+
+	// log
+	cout << "Obb jsonValue  Holding time : " << m_Holdingtime << endl;
+#pragma endregion json
+
+
 	//임시적인 위치
 	m_vPos = D3DXVECTOR3(80.0f, 15.0f, 0);
 

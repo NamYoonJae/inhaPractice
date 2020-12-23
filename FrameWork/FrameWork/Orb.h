@@ -10,6 +10,8 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTex0;
 
 	cOBB*		m_pSubOBB;
+
+	float		m_Holdingtime;
 public:
 	cOrb();
 	~cOrb();

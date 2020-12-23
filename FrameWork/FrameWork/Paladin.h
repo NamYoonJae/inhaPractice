@@ -58,8 +58,8 @@ private:
 	float			m_Melee_rate_3;
 
 	int				m_Attack_Elemental_Damage;
-	float				m_Attack_StunRate;	// 공격시 기절부여치
-	float				m_Attack_RigidRate;	// 공격시 경직부여치
+	float			m_Attack_StunRate;	// 공격시 기절부여치
+	float			m_Attack_RigidRate;	// 공격시 경직부여치
 
 	float			m_Critical_probability;
 	int				m_Critical_Additional_Damage;
@@ -80,6 +80,10 @@ private:
 	int				m_Char_Flinch;  // 캐릭터 움찔 발생 손상치
 
 	int				m_Aggro;  // 어그로
+
+	// ----- object interaction -----
+	float			m_Orb_effect_Duration;
+
 	// << 2020. 12. 23.
 
 

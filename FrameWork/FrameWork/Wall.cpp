@@ -3,9 +3,12 @@
 #include "cOBB.h"
 #include "ObjLoader.h"
 #include "DragonSoulEater.h"
+#include "jsonManager.h"
 #pragma once
 
 cWall::cWall()
+	: m_MaxHP(3)
+	, m_CurrentHP(3)
 {
 }
 
@@ -15,6 +18,17 @@ cWall::~cWall()
 
 void cWall::Setup()
 {
+#pragma region json
+	JSON_Object* pStageBObject = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* pWallObject = json_Function::object_get_object(pStageBObject, "Stage B/Object/1/");
+
+	m_MaxHP = m_CurrentHP = (int)json_Function::object_get_double(pWallObject, "Status/Earth HP");
+
+	// log
+	cout << "Wall MAX HP : " << m_MaxHP << endl;
+#pragma endregion json
+
+
 	//임시적인 위치
 	m_vPos = D3DXVECTOR3(220.0f, 0.0f, 100.0f);
 
