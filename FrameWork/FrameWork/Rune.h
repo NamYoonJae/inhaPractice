@@ -12,6 +12,7 @@ private:
 	cOBB* m_pSubOBB;
 
 	bool m_OnOff;
+	bool m_IsCollision;
 	float m_RotY;
 	DWORD m_dwPreparationTime;
 	DWORD m_dwStateStartTime;
@@ -31,5 +32,7 @@ public:
 	void CollisionProcess(cObject* pObject);
 	cOBB* GetSubOBB() { return m_pSubOBB; }
 	void SetOnOff(bool state) { m_OnOff = state; };
+	bool GetOnOff() { return m_OnOff; };
+
 };
 

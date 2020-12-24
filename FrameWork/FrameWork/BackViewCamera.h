@@ -20,6 +20,8 @@ private:
 	
 	Synthesize(float, m_fVibrationValue, VibrationValue);
 	Synthesize(bool, m_IsVibration, Vibration);
+	Synthesize(bool, m_IsUpdate, Update);
+
 public:
 	cBackViewCamera();
 	~cBackViewCamera();

@@ -17,7 +17,8 @@
 #include "PaladinMove.h"
 #include "Orb.h"
 #include "Rune.h"
-
+#include "Scene.h"
+#include "BackViewCamera.h"
 #include "jsonManager.h"
 
 cPaladin::cPaladin()
@@ -58,6 +59,10 @@ cPaladin::cPaladin()
 	, m_pTrophies(NULL)
 	, m_pShadowRenderTarget(NULL)
 	, m_pShadowDepthStencil(NULL)
+
+	, m_dwStateStartTime(GetTickCount())
+	, m_dwPreparationTime(1000.0f)
+	,m_IsChangeScene(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -249,6 +254,14 @@ void cPaladin::ShaderSetup()
 
 void cPaladin::Update()
 {
+	if (m_Hp <= 0 && m_IsChangeScene == false) 
+	{
+		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+		pCamera->SetUpdate(false);
+		m_IsChangeScene = true;
+		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+		return;
+	}
 	//if (m_fvelocity != 0)
 	{
 		m_vDir = D3DXVECTOR3(0, 0, -1);
@@ -350,6 +363,29 @@ void cPaladin::Update()
 
 	// 필수
 	//CollisionInfoCheck();
+
+
+	if (GetTickCount() - m_dwStateStartTime >= m_dwPreparationTime)
+	{
+		if (SearchDebuff(enum_Poison))
+		{
+			m_Hp -= 100;
+			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",m_Hp);
+		}
+
+		if (SearchDebuff(enum_Stun))
+		{
+			//스턴 애니메이션
+		}
+
+		if (SearchDebuff(enum_Roar))
+		{
+			//경직 애니메이션
+		}
+		
+		m_dwStateStartTime = GetTickCount();
+	}
+
 }
 
 void cPaladin::Update(EventType event)
@@ -465,7 +501,6 @@ void cPaladin::Update(EventType event)
 	{
 		SetDebuff(enum_Roar);
 	}
-
 }
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
@@ -576,14 +611,11 @@ void cPaladin::CollisionProcess(cObject* pObject)
 			if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
 				&& pOrb->GetCollsionInfo(m_nTag) == nullptr)
 			{
-				
-				m_Hp += 100;
+				m_Hp += 250;
 				if (m_Hp >m_MaxHp)
 				{
 					m_Hp = m_MaxHp;
 				}
-
-				
 			}
 		}
 
@@ -592,11 +624,10 @@ void cPaladin::CollisionProcess(cObject* pObject)
 
 	case Tag::Tag_RunStone:
 	{
-		cout << "무적 테스트" << endl;
 		cRune* pRune = (cRune*)pObject;
+
 		pObb = pRune->GetSubOBB();
 		matW = pRune->GetSubOBB()->GetWorldMatrix();
-		//무적 상태
 	}
 		break;
 	case Tag::Tag_SwampA:
@@ -867,6 +898,19 @@ void cPaladin::ReloadSpriteDebuff()
 int cPaladin::GetStateIndex()
 {
 	return m_pCurState->GetStateIndex();
+}
+
+int cPaladin::SearchDebuff(int debuff)
+{
+	for (int i = 0; i < m_vecDebuff.size(); i++) 
+	{
+		if (m_vecDebuff[i] == debuff)
+		{
+			return true;
+		}
+		
+	}
+	return false;
 }
 
 

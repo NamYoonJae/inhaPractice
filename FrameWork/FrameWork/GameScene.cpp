@@ -243,13 +243,15 @@ void cGameScene::Reset(int sceneType)
 		
 
 	case SceneType::SCENE_GAMEOVER:
+		/*
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
 		}
+		*/
 		break;
-
+		
 	case SceneType::SCENE_TROPHIES:
 
 		break;
