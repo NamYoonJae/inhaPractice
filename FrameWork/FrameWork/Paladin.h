@@ -103,11 +103,13 @@ public:
 	~cPaladin();
 
 	void Setup(char* szFolder, char* szFile);
+	void ShadowShaderSetup();
 	void ShaderSetup();
 	void Update();
 	void Update(EventType event) override;
 	void Render(D3DXMATRIXA16 * pmat = NULL);
 	void ShaderRender();
+	void CreateShadow();
 
 	void CollisionProcess(cObject* pObject) override;
 	void StateFeedback();

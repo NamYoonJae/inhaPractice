@@ -20,7 +20,7 @@
 //--------------------------------------------------------------//
 // ApplyShadowTorus
 //--------------------------------------------------------------//
-string ApplyShadowShader_ApplyShadowTorus_Torus : ModelData = ".\\Torus.x";
+//string ApplyShadowShader_ApplyShadowTorus_Torus : ModelData = ".\\Torus.x";
 
 struct VS_INPUT 
 {
