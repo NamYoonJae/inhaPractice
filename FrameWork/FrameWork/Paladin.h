@@ -74,6 +74,10 @@ private:
 	vector<cPopup*> m_vecDebuff_UI;
 	vector<long> m_vecStartTime;
 	D3DXMATRIXA16 TempRot;
+
+	// ±×¸²ÀÚ¸Ê ·»´õÅ¸±ê
+	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
+	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
 public:
 	cPaladin();
 	~cPaladin();
