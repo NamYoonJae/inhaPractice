@@ -26,6 +26,7 @@ public:
 	~cRune();
 
 	void Setup();
+	void Setup(D3DXVECTOR3 position); // 오버라이딩 추가
 	void Update();
 	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 

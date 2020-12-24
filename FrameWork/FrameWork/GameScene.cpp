@@ -11,6 +11,7 @@
 #include "Button.h"
 #include "cCharater.h"
 #include "SkyBox.h"
+#include "jsonManager.h"
 
 // >>
 #include "SkinnedMesh.h"
@@ -188,23 +189,76 @@ void cGameScene::Setup() // boss1map  boss2map
 	//Lava->Tagging(Tag_LavaGolem);
 	//ObjectManager->AddChild(Lava);
 
-	
-	cOrb* orb = new cOrb;
-	orb->Setup();
-	ObjectManager->AddChild(orb);
-	
+#pragma region Map Object
 
-	
-	cRune* rune = new cRune;
-	rune->Setup();
-	rune->Tagging(Tag::Tag_RunStone);
-	ObjectManager->AddChild(rune);
 
-	
-	cWall* wall = new cWall;
-	wall->Tagging(Tag::Tag_Wall);
-	wall->Setup();
-	ObjectManager->AddChild(wall);
+	JSON_Object* pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/1/Status/");
+	JSON_Array* pAryWallPos = json_object_get_array(pObj, "Position");
+	for (size_t i = 0; i < json_array_get_count(pAryWallPos); i++) // 배열의 크기만큼 벽을 생성
+	{
+		cWall* pWall = new cWall;
+		pWall->Tagging(Tag::Tag_Wall);
+		pWall->Setup(
+			D3DXVECTOR3( // 포지션
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, i)), "x"),
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, i)), "y"),
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, i)), "z")
+			)
+		);
+		ObjectManager->AddChild(pWall);
+	}
+	cout << json_array_get_count(pAryWallPos) << " Number of Walls generated" << endl;
+	//cout << "tmp  :  " << json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, 0)), "x") << endl;
+
+	pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/3/Status/");
+	JSON_Array* pAryRunePos = json_object_get_array(pObj, "Position");
+	for (size_t i = 0; i < json_array_get_count(pAryRunePos); i++) // 배열의 크기만큼 벽을 생성
+	{
+		cRune* pRune = new cRune;
+		pRune->Tagging(Tag::Tag_RunStone);
+		pRune->Setup(
+			D3DXVECTOR3( // 포지션
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryRunePos, i)), "x"),
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryRunePos, i)), "y"),
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryRunePos, i)), "z")
+			)
+		);
+		ObjectManager->AddChild(pRune);
+	}
+	cout << json_array_get_count(pAryRunePos) << " Number of RunStones generated" << endl;
+
+	pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/4/Status/");
+	JSON_Array* pAryOrbPos = json_object_get_array(pObj, "Position");
+	for (size_t i = 0; i < json_array_get_count(pAryOrbPos); i++) // 배열의 크기만큼 벽을 생성
+	{
+		cOrb* pOrb = new cOrb;
+		pOrb->Tagging(Tag::Tag_Orb);
+		pOrb->Setup(
+			D3DXVECTOR3( // 포지션
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryOrbPos, i)), "x"),
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryOrbPos, i)), "y"),
+				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryOrbPos, i)), "z")
+			)
+		);
+		ObjectManager->AddChild(pOrb);
+	}
+	cout << json_array_get_count(pAryOrbPos) << " Number of Orbs generated"<< endl;
+
+	//cOrb* orb = new cOrb;
+	//orb->Setup();
+	//ObjectManager->AddChild(orb);
+	//
+	//cRune* rune = new cRune;
+	//rune->Setup();
+	//rune->Tagging(Tag::Tag_RunStone);
+	//ObjectManager->AddChild(rune);
+	//
+	//cWall* wall = new cWall;
+	//wall->Tagging(Tag::Tag_Wall);
+	//wall->Setup();
+	//ObjectManager->AddChild(wall);
+#pragma region Map Object
+
 
 
 	cSwamp* pSwamp1 = new cSwamp;
