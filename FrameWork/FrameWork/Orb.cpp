@@ -137,6 +137,7 @@ void cOrb::Update()
 		}
 		*/
 	}
+	
 }
 
 void cOrb::Render(D3DXMATRIXA16 * pmat)

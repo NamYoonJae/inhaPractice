@@ -5,8 +5,8 @@ const enum Tag
 {
 	Tag_SkyBox,
 	Tag_Camera,
-	Tag_Player,
 	Tag_Map,
+	Tag_Player,
 	Tag_Boss,
 	Tag_LavaGolem,
 	Tag_cObj,

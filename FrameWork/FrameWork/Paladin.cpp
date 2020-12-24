@@ -349,7 +349,7 @@ void cPaladin::Update()
 		m_pCurState->StateUpdate();
 
 	// ÇÊ¼ö
-	CollisionInfoCheck();
+	//CollisionInfoCheck();
 }
 
 void cPaladin::Update(EventType event)
@@ -552,6 +552,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
 				pObject->AddCollisionInfo(m_nTag, info);
+
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
+				
 			}
 		}
 	}
