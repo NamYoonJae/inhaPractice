@@ -49,6 +49,7 @@ private:
 	float m_Stamina;
 	float m_StaminaRestoreValue;
 	//DWORD m_dwStaminaRestoreElapsedTime;
+	bool m_IsStaminaState;
 
 	bool m_IsChangeScene;
 
@@ -126,6 +127,7 @@ public:
 
 	float GetHp() { return m_Hp; }
 	float GetStamina() { return m_Stamina; }
+	void SetStamina(float stamina) { m_Stamina = stamina; };
 	float GetMaxHp() { return m_MaxHp; }
 	float GetMaxStamina() { return m_MaxStamina; }
 
@@ -142,6 +144,7 @@ public:
 	void SetCameraDir(D3DXVECTOR3 CameraDir) { m_vCameraDir = CameraDir; }
 
 	int SearchDebuff(int debuff);
+	void SetStaminaState(bool state) { m_IsStaminaState = state; };
 };
 
 class cParts

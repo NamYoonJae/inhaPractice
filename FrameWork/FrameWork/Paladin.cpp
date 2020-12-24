@@ -34,6 +34,7 @@ cPaladin::cPaladin()
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
 	, m_fSpeed(0)
+	, m_IsStaminaState(true)
 
 	, m_Attack_Melee_Damage(0)
 	, m_Melee_rate_1(0)
@@ -99,7 +100,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_Hp = 500;
 		//m_Hp = m_MaxHp;
-		m_Stamina = 0;
+		m_Stamina = 500;
 		//m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
@@ -398,12 +399,15 @@ void cPaladin::Update()
 	}
 
 	//팔라딘 동작중에는 스태미너 막기
-	if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
+	if (m_IsStaminaState == true)
 	{
-		m_Stamina += 0.3;
-		if (m_Stamina >= m_MaxStamina) 
+		if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
 		{
-			m_Stamina = m_MaxStamina;
+			m_Stamina += 0.5;
+			if (m_Stamina >= m_MaxStamina)
+			{
+				m_Stamina = m_MaxStamina;
+			}
 		}
 	}
 
@@ -485,11 +489,18 @@ void cPaladin::Update(EventType event)
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
+
 		}
 		else
 		{
-			SafeDelete(m_pCurState);
-			m_pCurState = new cPaladinAttack(this);
+			if (m_Stamina > 0)
+			{
+				m_Stamina -= 50;
+				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
+				SafeDelete(m_pCurState);
+				m_pCurState = new cPaladinAttack(this);
+			}
+			m_IsStaminaState = false;
 		}
 	}
 
@@ -499,14 +510,14 @@ void cPaladin::Update(EventType event)
 			m_pCurState->GetStateIndex() == m_pCurState->Run  ||
 			m_pCurState->GetStateIndex() == m_pCurState->Walk)
 		{
-			if (m_Stamina > 0)
+			if (m_Stamina > 5.0f)
 			{
-				m_Stamina -= 100;
-				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
-				SafeDelete(m_pCurState);
-				m_pCurState = new cPaladinEvade(this);				
+				m_Stamina -= 100.0f;
+				if (m_Stamina < 0.0f) { m_Stamina = 0.0f; };			
 			}
-			//회피
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinEvade(this);
+			m_IsStaminaState = false;
 		}
 	}
 
@@ -765,6 +776,7 @@ void cPaladin::StateFeedback()
 {
 	SafeDelete(m_pCurState);
 	m_pCurState = new cPaladinIdle(this);
+	m_IsStaminaState = true;
 }
 
 cParts::cParts()
