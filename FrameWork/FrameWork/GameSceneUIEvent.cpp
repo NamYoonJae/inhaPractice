@@ -86,17 +86,6 @@ void HpGaugeEvent(EventType message, cPopup * btn)
 			
 	}//switchEnd
 
-	//실시간으로 변동 가능하게 해둠 / 만약 호출 렉이 발생할 경우 switch문 안에서 hp가 변동이 있을 때만 부르도록 수정할 것
-	//또는 hp 변동이 있을 경우에만 실행
-	if (btn->GetPaladinReference() != NULL) 
-	{
-		int hp = btn->GetPaladinReference()->GetHp();
-		int maxHp = btn->GetPaladinReference()->GetMaxHp();
-		float result = ((float)hp / (float)maxHp) * 100;
-		btn->SetImageInfoWidth(result);
-	}
-
-
 }
 
 void StaminaGaugeEvent(EventType message, cPopup * btn)
@@ -123,7 +112,7 @@ void StaminaGaugeEvent(EventType message, cPopup * btn)
 	default:
 		break;
 	}
-
+	/*
 	if (btn->GetPaladinReference() != NULL)
 	{
 		int stamina = btn->GetPaladinReference()->GetStamina();
@@ -131,6 +120,7 @@ void StaminaGaugeEvent(EventType message, cPopup * btn)
 		float result = ((float)stamina / (float)maxStamina) * 100;
 		btn->SetImageInfoWidth(result);
 	}
+	*/
 }
 
 void TrophiseGaugeEvent(EventType message, cPopup* btn)

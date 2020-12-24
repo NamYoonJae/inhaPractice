@@ -90,10 +90,13 @@ private:
 
 	vector<int> m_vecDebuff;
 	vector<cPopup*> m_vecDebuff_UI;
-	vector<long> m_vecStartTime;
+	vector<long> m_vecDebuffStartTime;	//디버프 시작 시간
 	D3DXMATRIXA16 TempRot;
-	DWORD m_dwPreparationTime;
-	DWORD m_dwStateStartTime;
+	DWORD m_dwDeverffPreTime; //디버프 적용 시간 딜레이(ex 3초마다 / 5초마다)
+	DWORD m_dwDeverffStartTime;	//디버프 적용 시간 딜레이
+
+	DWORD m_dwStaminaPreTime;
+	DWORD m_dwStaminaStartTime;
 
 	// 그림자맵 렌더타깃
 	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
