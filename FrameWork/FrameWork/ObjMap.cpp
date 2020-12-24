@@ -16,6 +16,8 @@ cObjMap::~cObjMap()
 
 float cObjMap::getHeight(D3DXVECTOR3 pos)
 {
+	
+	
 	return 0.0f;
 }
 

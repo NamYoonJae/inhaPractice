@@ -17,7 +17,6 @@ ObjectPool::ObjectPool()
 
 }
 
-
 ObjectPool::~ObjectPool()
 {
 }
@@ -36,26 +35,38 @@ void ObjectPool::Update()
 		if(pMap != NULL && vecObjectList.at(i)->GetTag() >= Tag::Tag_Player)
 		{
 			D3DXVECTOR3 pos = vecObjectList.at(i)->GetPos();
-			bool IsCheckInMap = pMap->CheckInMap(pos);
-			
-			if(!IsCheckInMap)
+
+			float fHeight = pMap->getHeight(pos);
+
+			if(fHeight >= 21.0f && vecObjectList.at(i)->GetTag() >= Tag::Tag_cObj)
 			{
-				if(vecObjectList.at(i)->GetTag() >= Tag::Tag_cObj)
-				{
-					vecObjectList.at(i)->m_isDelete = true;
-				}
-				else
-				{
-					D3DXVECTOR3 Dir = -vecObjectList.at(i)->GetDirection();
-					while(!pMap->CheckInMap(pos))
-					{
-						pos += Dir * 0.1;
-					}
-					vecObjectList.at(i)->SetPos(pos);				
-				}
-
+				vecObjectList.at(i)->m_isDelete = true;
 			}
+			else if(fHeight >= 21.0f && vecObjectList.at(i)->GetTag())
+			{
 
+				D3DXVECTOR3 vDir = vecObjectList.at(i)->GetDirection();
+				
+				while(fHeight > 21.0f)
+				{
+					pos -= vDir * 0.02f;
+					fHeight = pMap->getHeight(pos);
+				}
+				
+				pos.y = fHeight + 20.0f;
+				vecObjectList.at(i)->SetPos(pos);
+			}
+			else if(fHeight == 0.0f)
+			{
+				pos = D3DXVECTOR3(0, 0, 0);
+				vecObjectList.at(i)->SetPos(pos);
+			}
+			else
+			{
+				pos.y = fHeight + 20.0f;
+				vecObjectList.at(i)->SetPos(pos);
+			}
+			
 			vecObjectList.at(i)->CollisionInfoCheck();
 			
 		}

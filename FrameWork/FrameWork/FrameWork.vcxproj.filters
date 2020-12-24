@@ -244,6 +244,9 @@
     <ClCompile Include="SoulEater_Stun.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
+    <ClCompile Include="ArenaMap.cpp">
+      <Filter>Code\Map\Arena</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -498,6 +501,9 @@
     <ClInclude Include="SoulEater_Stun.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
+    <ClInclude Include="ArenaMap.h">
+      <Filter>Code\Map\Arena</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -664,6 +670,9 @@
     </Filter>
     <Filter Include="Code\Map\MapObject">
       <UniqueIdentifier>{01b926b5-0aea-40e0-9bbb-ce552655db75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Map\Arena">
+      <UniqueIdentifier>{b9c3a5b4-7fb1-4521-badf-4a30e1ea269f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

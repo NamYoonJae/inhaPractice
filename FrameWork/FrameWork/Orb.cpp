@@ -132,14 +132,14 @@ void cOrb::Update()
 	}
 	
 	//m_isDelete = true;
-	/*
-	if (m_pSubOBB)
-	{
-		D3DXMatrixScaling(&matS, 0.4f,0.4f,0.4f);
-		matW = matS *matT;
-		m_pSubOBB->Update(&matW);
-	}
-	*/
+	
+	//if (m_pSubOBB)
+	//{
+	//	D3DXMatrixScaling(&matS, 0.4f,0.4f,0.4f);
+	//	matW = matS *matT;
+	//	m_pSubOBB->Update(&matW);
+	//}
+	
 }
 
 void cOrb::Render(D3DXMATRIXA16 * pmat)
