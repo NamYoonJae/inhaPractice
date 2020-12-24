@@ -8,6 +8,8 @@
 #include "Paladin.h"
 
 #include "AllocateHierarchy.h"
+#include "ArenaMap.h"
+#include "cTerrain.h"
 #include "ObjectPool.h"
 #include "Trophies.h"
 
@@ -38,6 +40,7 @@ cPaladin::cPaladin()
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
 	, m_fSpeed(0)
+	, m_IsStaminaState(true)
 
 	, m_Attack_Melee_Damage(0)
 	, m_Melee_rate_1(0)
@@ -65,6 +68,7 @@ cPaladin::cPaladin()
 	, m_pShadowRenderTarget(NULL)
 	, m_pShadowDepthStencil(NULL)
 
+	, m_pShadowMap(NULL)
 	, m_dwDeverffStartTime(GetTickCount())
 	, m_dwDeverffPreTime(100.0f)
 	, m_IsChangeScene(false)
@@ -82,6 +86,10 @@ cPaladin::~cPaladin()
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
 	SafeDelete(m_pTrophies);
+
+	SafeRelease(m_pShadowRenderTarget);
+	SafeRelease(m_pShadowDepthStencil);
+	
 	for (cParts* parts : m_vecParts)
 	{
 		SafeDelete(parts);
@@ -103,7 +111,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_Hp = 500;
 		//m_Hp = m_MaxHp;
-		m_Stamina = 0;
+		m_Stamina = 500;
 		//m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
@@ -218,6 +226,11 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	ShadowShaderSetup();
 	ShaderSetup();
 
+	m_pShadowMap = new cPopup;
+	m_pShadowMap->Setup(m_pShadowRenderTarget, 2048);
+	m_pShadowMap->SetPercent(0.1f);
+	m_pShadowMap->SetPosition(D3DXVECTOR2(1000, 0));
+
 	m_pCurState = new cPaladinIdle(this);
 
 	//if (m_pDebuff1 == NULL || m_pDebuff2 == NULL)
@@ -245,6 +258,14 @@ void cPaladin::ShadowShaderSetup()
 		&m_pShadowDepthStencil, NULL)))
 	{
 		cout << "CreateDepthStencilSurface FAILED" << endl;
+	}
+
+	cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+	
+	if(pArenaMap)
+	{
+		pArenaMap->AddShadowMap(m_pShadowRenderTarget);
+		pArenaMap = nullptr;
 	}
 }
 
@@ -408,13 +429,17 @@ void cPaladin::Update()
 	}
 
 	//팔라딘 동작중에는 스태미너 막기
-	if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
+	if (m_IsStaminaState == true)
 	{
 		//m_Stamina += 0.3;
-		m_Stamina += m_StaminaRestoreValue;
-		if (m_Stamina >= m_MaxStamina) 
+		if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
 		{
-			m_Stamina = m_MaxStamina;
+			//m_Stamina += 0.5;
+			m_Stamina += m_StaminaRestoreValue;
+			if (m_Stamina >= m_MaxStamina)
+			{
+				m_Stamina = m_MaxStamina;
+			}
 		}
 	}
 
@@ -496,11 +521,18 @@ void cPaladin::Update(EventType event)
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
+
 		}
 		else
 		{
-			SafeDelete(m_pCurState);
-			m_pCurState = new cPaladinAttack(this);
+			if (m_Stamina > 0)
+			{
+				m_Stamina -= 50;
+				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
+				SafeDelete(m_pCurState);
+				m_pCurState = new cPaladinAttack(this);
+			}
+			m_IsStaminaState = false;
 		}
 	}
 
@@ -510,14 +542,14 @@ void cPaladin::Update(EventType event)
 			m_pCurState->GetStateIndex() == m_pCurState->Run  ||
 			m_pCurState->GetStateIndex() == m_pCurState->Walk)
 		{
-			if (m_Stamina > 0)
+			if (m_Stamina > 5.0f)
 			{
-				m_Stamina -= 100;
-				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
-				SafeDelete(m_pCurState);
-				m_pCurState = new cPaladinEvade(this);				
+				m_Stamina -= 100.0f;
+				if (m_Stamina < 0.0f) { m_Stamina = 0.0f; };			
 			}
-			//회피
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinEvade(this);
+			m_IsStaminaState = false;
 		}
 	}
 
@@ -550,6 +582,8 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 	{
 		parts->Render();
 	}
+
+	//m_pShadowMap->Render();
 }
 
 void cPaladin::ShaderRender()
@@ -570,8 +604,8 @@ void cPaladin::ShaderRender()
 		D3DXMATRIXA16 matWVP = matView * matProjection;
 		pShader->SetMatrix("gWorldViewProjectionMatrix", &matWVP);
 		
-		//pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
-		//pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
+		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
+		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
 
 		
 		UINT numPasses = 0;
@@ -596,12 +630,6 @@ void cPaladin::CreateShadow()
 
 	if (pShader)
 	{
-		D3DXMATRIXA16	matView;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-
-		D3DXMATRIXA16	matProjection;
-		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-
 		LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
 		LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
 		g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
@@ -620,8 +648,8 @@ void cPaladin::CreateShadow()
 
 		D3DLIGHT9   Light;
 		g_pD3DDevice->GetLight(0, &Light);
-		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
-		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
+		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
 
 		D3DXMATRIXA16 matLightView;
 		{
@@ -662,6 +690,14 @@ void cPaladin::CreateShadow()
 		pHWBackBuffer = NULL;
 		pHWDepthStencilBuffer->Release();
 		pHWDepthStencilBuffer = NULL;
+
+		cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+
+		if (pArenaMap)
+		{
+			pArenaMap->ReplaceShadowMap(m_pShadowRenderTarget);
+			pArenaMap = nullptr;
+		}
 	}
 }
 
@@ -913,6 +949,7 @@ void cPaladin::StateFeedback()
 {
 	SafeDelete(m_pCurState);
 	m_pCurState = new cPaladinIdle(this);
+	m_IsStaminaState = true;
 }
 
 cParts::cParts()

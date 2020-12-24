@@ -75,20 +75,12 @@ VS_OUTPUT ApplyShadowShader_ApplyShadowTorus_Vertex_Shader_vs_main( VS_INPUT Inp
    
    return Output;
 }
-texture ShadowMap_Tex
-<
-   string ResourceName = ".\\";
->;
+texture ShadowMap_Tex;
+
 sampler2D ShadowSampler = sampler_state
 {
    Texture = (ShadowMap_Tex);
 };
-float4 gObjectColor
-<
-   string UIName = "gObjectColor";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 1.00, 1.00, 0.00, 1.00 );
 
 struct PS_INPUT
 {
@@ -98,7 +90,7 @@ struct PS_INPUT
 
 float4 ApplyShadowShader_ApplyShadowTorus_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 {
-   float3 rgb = saturate(Input.mDiffuse) * gObjectColor;
+   float3 rgb = saturate(Input.mDiffuse);
    
    float currentDepth = Input.mClipPosition.z / Input.mClipPosition.w;
    

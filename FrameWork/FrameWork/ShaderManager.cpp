@@ -9,7 +9,10 @@ cShaderManager::cShaderManager()
 
 cShaderManager::~cShaderManager()
 {
-	
+	for(LPD3DXEFFECT shader : m_vecShader)
+	{
+		SafeRelease(shader);
+	}
 }
 
 LPD3DXEFFECT cShaderManager::GetShader(eShader type)

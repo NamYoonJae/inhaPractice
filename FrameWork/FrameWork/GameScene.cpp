@@ -66,10 +66,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	D3DXVECTOR3 vDir(10.0f, -2.0f,20.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
+	m_Light.Position = D3DXVECTOR3(500.00, 500.00, -500.00);
 
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
-
 
 	// 
 	{
@@ -118,6 +118,10 @@ void cGameScene::Setup() // boss1map  boss2map
 		//	ObjectManager->AddStaticChild(pArthur);
 		//}
 
+		cArenaMap* pMap = new cArenaMap;
+		pMap->Tagging(Tag::Tag_Map);
+		ObjectManager->AddStaticChild(pMap);
+
 		if(ObjectManager->SearchChild(Tag::Tag_Player) == NULL)
 		{
 			cPaladin* pPaladin = new cPaladin;
@@ -131,9 +135,6 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 	}
-	// 예외 처리 
-	cArenaMap *pMap = new cArenaMap;
-	ObjectManager->AddStaticChild(pMap);
 
 	
 	//cGrid *pGrid = new cGrid;
@@ -223,9 +224,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pSoundManager->PlayBGM();
 	
 	//
-
-
-
  }
 
 void cGameScene::Reset(int sceneType)

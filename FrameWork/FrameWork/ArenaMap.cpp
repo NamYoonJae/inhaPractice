@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "ArenaMap.h"
 #include "ObjLoader.h"
+#include "ShaderManager.h"
+
 #include "DragonSoulEater.h"
 #include "ObjectPool.h"
 #include "Swamp.h"
-#pragma once
 
 cArenaMap::cArenaMap()
 	:iMap()
@@ -95,8 +96,6 @@ cArenaMap::cArenaMap()
 	m_RCArea.top = vMax.z;
 	m_RCArea.left = vMin.x;
 	m_RCArea.right = vMax.x;
-	
-	
 }
 
 
@@ -143,20 +142,8 @@ float cArenaMap::getHeight(D3DXVECTOR3 pos)
 
 void cArenaMap::Render(D3DXMATRIXA16* pmat)
 {
-	D3DXMATRIXA16 matW, matS, matR, matT;
-	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
-	D3DXMatrixIdentity(&matR);
-	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matW = matS * matR * matT;
-	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, false);
-
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
-	for (int i = 0; i < m_vecArenaGroup.size(); ++i)
-		m_vecArenaGroup[i]->Render();
-
-	
-	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, true);
-	
+	DefaultRender();
+	//ShaderRender();
 }
 
 void cArenaMap::Update()
@@ -226,6 +213,128 @@ bool cArenaMap::CheckInMap(D3DXVECTOR3 pos)
 	return false;
 
 	
+}
+
+void cArenaMap::AddShadowMap(LPDIRECT3DTEXTURE9 pShadowTexture)
+{
+	if (pShadowTexture != NULL)
+	{
+		m_vecShadowMap.push_back(pShadowTexture);
+	}
+}
+
+void cArenaMap::ReplaceShadowMap(LPDIRECT3DTEXTURE9 pShadowTexture)
+{
+	if (!m_vecShadowMap.empty())
+	{
+		m_vecShadowMap[0] = pShadowTexture;
+	}
+}
+
+void cArenaMap::ShaderSetup()
+{
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::ApplyShadow);
+
+	if (pShader)
+	{
+		D3DLIGHT9   Light;
+		g_pD3DDevice->GetLight(0, &Light);
+		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
+		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+		D3DXCOLOR c = Light.Diffuse;
+		D3DXVECTOR4 LightColor = D3DXVECTOR4(c.r, c.g, c.b, c.a);
+
+		pShader->SetVector("gWorldLightPosition", &vLightPos);
+		pShader->SetVector("gLightColor", &LightColor);
+	}
+}
+
+void cArenaMap::ShaderRender()
+{
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::ApplyShadow);
+
+	if (pShader)
+	{
+		D3DXMATRIXA16 matW, matS, matR, matT;
+		D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+		D3DXMatrixIdentity(&matR);
+		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+		matW = matS * matR * matT;
+
+		D3DXMATRIXA16	matView;
+		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+
+		D3DXMATRIXA16	matProjection;
+		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+		D3DXMATRIXA16 matWVP = matView * matProjection;
+
+		D3DLIGHT9   Light;
+		g_pD3DDevice->GetLight(0, &Light);
+		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
+		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+		pShader->SetVector("gWorldLightPosition", &vLightPos);
+		
+		// 광원-뷰 행렬을 만든다.
+		D3DXMATRIXA16 matLightView;
+		{
+			D3DXVECTOR3 vEyePt(vLightPos.x, vLightPos.y, vLightPos.z);
+			D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
+			D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+			D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+		}
+
+		// 광원-투영 행렬을 만든다.
+		D3DXMATRIXA16 matLightProjection;
+		{
+			D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
+		}
+
+		
+		
+		// 그림자 입히기 쉐이더 전역변수들을 설정
+		//pShader->SetMatrix("gWorldMatrix", &matW);
+		pShader->SetMatrix("gWorldMatrix", &MatrixIdentity);
+		pShader->SetMatrix("gViewProjectionMatrix", &matWVP);
+		pShader->SetMatrix("gLightViewMatrix", &matLightView);
+		pShader->SetMatrix("gLightProjectionMatrix", &matLightProjection);
+
+		pShader->SetTexture("ShadowMap_Tex", m_vecShadowMap[0]);
+
+
+		// 쉐이더를 시작한다.
+		UINT numPasses = 0;
+		pShader->Begin(&numPasses, NULL);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				pShader->BeginPass(i);
+				{
+					for (int i = 0; i < m_vecArenaGroup.size(); ++i)
+						m_vecArenaGroup[i]->Render();
+				}
+				pShader->EndPass();
+			}
+		}
+		pShader->End();
+	}
+}
+
+void cArenaMap::DefaultRender()
+{
+	D3DXMATRIXA16 matW, matS, matR, matT;
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	matW = matS * matR * matT;
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, false);
+
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
+	for (int i = 0; i < m_vecArenaGroup.size(); ++i)
+		m_vecArenaGroup[i]->Render();
+
+
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, true);
 }
 
 void cArenaMap::CreateSwamp()
