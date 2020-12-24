@@ -72,7 +72,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-
+			EventManager->Update();
 			ObjectManager->Update();
 			ObjectManager->Render();
 			ObjectManager->CollisionDetection();

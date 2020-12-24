@@ -60,8 +60,12 @@ enum class  EventType
 	EVENT_MINUS_STAMINA = 133,
 	
 	EVENT_SKYBEEZ = 134,
-	EVENT_DRAGONFOOT = 135
+	EVENT_DRAGONFOOT = 135,
 
+	EVENT_ASPACE = 136,
+	EVENT_DSPACE = 137,
+	EVENT_WSPACE = 138,
+	EVENT_SPSACE = 139
 };
 
 class cEventManager
@@ -87,6 +91,6 @@ public:
 	D3DXVECTOR2 GetMouseCurrent();
 	D3DXVECTOR2 GetMousePrev();
 	void PushQueue(EventType message);
-
+	void Update();
 	bool m_IsOBBButten;
 };
