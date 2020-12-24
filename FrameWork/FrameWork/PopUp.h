@@ -100,7 +100,7 @@ public:
 		int tag
 	);
 
-	void Update() override {};
+	void Update() override;
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void cButtonPushBack(cPopup*);

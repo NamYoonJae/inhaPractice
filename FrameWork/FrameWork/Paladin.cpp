@@ -60,9 +60,11 @@ cPaladin::cPaladin()
 	, m_pShadowRenderTarget(NULL)
 	, m_pShadowDepthStencil(NULL)
 
-	, m_dwStateStartTime(GetTickCount())
-	, m_dwPreparationTime(1000.0f)
-	,m_IsChangeScene(false)
+	, m_dwDeverffStartTime(GetTickCount())
+	, m_dwDeverffPreTime(100.0f)
+	, m_IsChangeScene(false)
+	, m_dwStaminaStartTime(GetTickCount())
+	, m_dwStaminaPreTime(100.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -96,7 +98,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_Hp = 500;
 		//m_Hp = m_MaxHp;
-		m_Stamina = m_MaxStamina;
+		m_Stamina = 0;
+		//m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 
@@ -265,6 +268,7 @@ void cPaladin::Update()
 		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
 		return;
 	}
+
 	//if (m_fvelocity != 0)
 	{
 		m_vDir = D3DXVECTOR3(0, 0, -1);
@@ -313,7 +317,7 @@ void cPaladin::Update()
 		parts->Update(&m_matWorld);
 	}
 
-	long endTime = GetTickCount();
+	DWORD endTime = GetTickCount();
 
 	for (int i = 0; i < m_vecDebuff.size(); i++)
 	{
@@ -323,33 +327,33 @@ void cPaladin::Update()
 			break;
 
 		case enum_Poison:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 10000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Stun:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Roar:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
@@ -368,11 +372,11 @@ void cPaladin::Update()
 	//CollisionInfoCheck();
 
 
-	if (GetTickCount() - m_dwStateStartTime >= m_dwPreparationTime)
+	if (GetTickCount() - m_dwDeverffStartTime >= m_dwDeverffPreTime)
 	{
 		if (SearchDebuff(enum_Poison))
 		{
-			m_Hp -= 100;
+			m_Hp -= 1;
 			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",m_Hp);
 		}
 
@@ -386,7 +390,17 @@ void cPaladin::Update()
 			//경직 애니메이션
 		}
 		
-		m_dwStateStartTime = GetTickCount();
+		m_dwDeverffStartTime = GetTickCount();
+	}
+
+	//팔라딘 동작중에는 스태미너 막기
+	if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
+	{
+		m_Stamina += 0.3;
+		if (m_Stamina >= m_MaxStamina) 
+		{
+			m_Stamina = m_MaxStamina;
+		}
 	}
 
 }
@@ -482,8 +496,14 @@ void cPaladin::Update(EventType event)
 			m_pCurState->GetStateIndex() == m_pCurState->Run  ||
 			m_pCurState->GetStateIndex() == m_pCurState->Walk)
 		{
-			SafeDelete(m_pCurState);
-			m_pCurState = new cPaladinEvade(this);
+			if (m_Stamina > 0)
+			{
+				m_Stamina -= 100;
+				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
+				SafeDelete(m_pCurState);
+				m_pCurState = new cPaladinEvade(this);				
+			}
+			//회피
 		}
 	}
 
@@ -871,7 +891,7 @@ void cPaladin::SetDebuff(int debuff)
 			if (vecDebuffFind(enum_Poison) == -1) 
 			{
 				m_vecDebuff.push_back(enum_Poison);
-				m_vecStartTime.push_back(GetTickCount());
+				m_vecDebuffStartTime.push_back(GetTickCount());
 			}
 		}
 	break;
@@ -883,16 +903,16 @@ void cPaladin::SetDebuff(int debuff)
 				if (vecDebuffFind(enum_Roar) == -1) //스턴이 없고 로어도 없을 경우
 				{
 					m_vecDebuff.push_back(enum_Stun);
-					m_vecStartTime.push_back(GetTickCount());
+					m_vecDebuffStartTime.push_back(GetTickCount());
 				}
 				else if (vecDebuffFind(enum_Roar) != -1) //스턴 없고 로어 있을 경우
 				{
 					int n = vecDebuffFind(enum_Roar);
 					m_vecDebuff.erase(m_vecDebuff.begin() + n);
-					m_vecStartTime.erase(m_vecStartTime.begin() + n);
+					m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + n);
 					
 					m_vecDebuff.push_back(enum_Stun);
-					m_vecStartTime.push_back(GetTickCount());
+					m_vecDebuffStartTime.push_back(GetTickCount());
 				}
 			}
 			
@@ -904,7 +924,7 @@ void cPaladin::SetDebuff(int debuff)
 			if ((vecDebuffFind(enum_Roar) == -1) && (vecDebuffFind(enum_Stun) == -1)) //로어와 스턴 둘 다 없을 경우
 			{
 				m_vecDebuff.push_back(enum_Roar);
-				m_vecStartTime.push_back(GetTickCount());
+				m_vecDebuffStartTime.push_back(GetTickCount());
 			}
 	
 		}
@@ -1016,33 +1036,33 @@ void cPaladin::Update()
 			break;
 
 		case enum_Poison:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Stun:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Roar:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}

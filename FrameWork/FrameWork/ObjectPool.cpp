@@ -74,6 +74,11 @@ void ObjectPool::Update()
 	}
 
 
+	for (int i = 0; i < vecUserInterface.size(); ++i)
+	{
+		vecUserInterface.at(i)->Update();
+	}
+
 	//
 	std::vector<cObject*>::iterator it;
 	it = vecObjectList.begin();
