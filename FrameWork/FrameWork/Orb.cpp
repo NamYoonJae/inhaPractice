@@ -8,6 +8,7 @@
 
 cOrb::cOrb()
 	: m_pTex0(NULL)
+	, m_OnOff(true)
 	, m_RotY(0.0f)
 	, m_dwStateStartTime(GetTickCount())
 	, m_dwPreparationTime(1000.0f)
@@ -89,140 +90,140 @@ void cOrb::Setup()
 
 void cOrb::Update()
 {
-	D3DXMATRIXA16 matW, matS, matR, matT;
-	D3DXMatrixIdentity(&matW);
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matT);
-	D3DXMatrixIdentity(&matR);
-	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-
-	/*
-	matW = matR * matT;
-
-	if (m_pOBB)
-		m_pOBB->Update(&matW);
-	*/
-	D3DXMatrixRotationY(&matR, m_RotY);
-
-	if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
+	if (m_OnOff)
 	{
+		D3DXMATRIXA16 matW, matR, matT;
+		D3DXMatrixIdentity(&matW);
+		D3DXMatrixIdentity(&matT);
+		D3DXMatrixIdentity(&matR);
+		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+
+		/*
+		matW = matR * matT;
 
 		if (m_pOBB)
-		{
-			//D3DXMATRIXA16 matS;
-			//D3DXMatrixIdentity(&matS);
-			//D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
-			matW = matS * matR * matT;
 			m_pOBB->Update(&matW);
-		}
-		
-		m_RotY += 1 / D3DX_PI * 0.02;
-		m_dwStateStartTime = GetTickCount();
-	}
-	else
-	{
-		if (m_pOBB)
+		*/
+		D3DXMatrixRotationY(&matR, m_RotY);
+
+		if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
 		{
-			//D3DXMATRIXA16 matS;
-			//D3DXMatrixIdentity(&matS);
-			//D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
-			matW = matS * matT;
-			m_pOBB->Update(&matW);
+
+			if (m_pOBB)
+			{
+				matW = matR * matT;
+				m_pOBB->Update(&matW);
+			}
+
+			m_RotY += 1 / D3DX_PI * 0.02;
+			m_dwStateStartTime = GetTickCount();
 		}
+		else
+		{
+			if (m_pOBB)
+			{
+				matW = matT;
+				m_pOBB->Update(&matW);
+			}
+		}
+
+		//m_isDelete = true;
+		/*
+		if (m_pSubOBB)
+		{
+			D3DXMatrixScaling(&matS, 0.4f,0.4f,0.4f);
+			matW = matS *matT;
+			m_pSubOBB->Update(&matW);
+		}
+		*/
 	}
 	
-	//m_isDelete = true;
-	/*
-	if (m_pSubOBB)
-	{
-		D3DXMatrixScaling(&matS, 0.4f,0.4f,0.4f);
-		matW = matS *matT;
-		m_pSubOBB->Update(&matW);
-	}
-	*/
 }
 
 void cOrb::Render(D3DXMATRIXA16 * pmat)
 {
-	D3DXMATRIXA16 matW, matT, matS, matR;
-
-	D3DXMatrixIdentity(&matW);
-	D3DXMatrixIdentity(&matS);
-	D3DXMatrixIdentity(&matR);
-	D3DXMatrixIdentity(&matT);
-	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
-	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	D3DXMatrixRotationY(&matR, m_RotY);
-	matW = matS * matR * matT;
-	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
-
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-	//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-	//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-
-	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	g_pD3DDevice->SetRenderState(D3DRS_ALPHAREF, 0x80);
-	g_pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
-	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-	
-	for (int i = 0; i < 4; i++)
+	if (m_OnOff) 
 	{
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSW, D3DTADDRESS_WRAP);
+		D3DXMATRIXA16 matW, matT, matS, matR;
 
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		D3DXMatrixIdentity(&matW);
+		D3DXMatrixIdentity(&matS);
+		D3DXMatrixIdentity(&matR);
+		D3DXMatrixIdentity(&matT);
+		D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+		//D3DXMatrixRotationY(&matR, m_RotY);
+		matW = matS * matR * matT;
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
+
+		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+		g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+		//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+
+		g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		g_pD3DDevice->SetRenderState(D3DRS_ALPHAREF, 0x80);
+		g_pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
+		g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+
+		for (int i = 0; i < 4; i++)
+		{
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSW, D3DTADDRESS_WRAP);
+
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+		}
+
+		g_pD3DDevice->SetTextureStageState(1, D3DTSS_TEXCOORDINDEX, 0);
+		g_pD3DDevice->SetTextureStageState(2, D3DTSS_TEXCOORDINDEX, 0);
+		g_pD3DDevice->SetTextureStageState(3, D3DTSS_TEXCOORDINDEX, 0);
+
+		g_pD3DDevice->SetTexture(1, m_pTex0);
+		g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
+		g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+		g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+
+		for (int i = 0; i < m_vecGroup.size(); ++i)
+		{
+			m_vecGroup.at(i)->Render();
+		}
+
+		g_pD3DDevice->SetTexture(0, NULL);
+		g_pD3DDevice->SetTexture(1, NULL);
+		g_pD3DDevice->SetTexture(2, NULL);
+
+		g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		g_pD3DDevice->SetTextureStageState(1, D3DTSS_RESULTARG, D3DTA_CURRENT);
+		g_pD3DDevice->SetTextureStageState(2, D3DTSS_RESULTARG, D3DTA_CURRENT);
+
+		for (int i = 0; i < 4; ++i)
+		{
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_NONE);
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_NONE);
+			g_pD3DDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+		}
+
+		g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+		g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+
+
+		if (m_pOBB)
+			m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 255, 255, 0));
+
+		/*
+		if (m_pSubOBB)
+			m_pSubOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 0, 255, 255));
+		*/
 	}
-
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_TEXCOORDINDEX, 0);
-	g_pD3DDevice->SetTextureStageState(2, D3DTSS_TEXCOORDINDEX, 0);
-	g_pD3DDevice->SetTextureStageState(3, D3DTSS_TEXCOORDINDEX, 0);
-
-	g_pD3DDevice->SetTexture(1, m_pTex0);
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-	g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
-
-	for (int i = 0; i < m_vecGroup.size(); ++i)
-	{
-		m_vecGroup.at(i)->Render();
-	}
-	
-	g_pD3DDevice->SetTexture(0, NULL);
-	g_pD3DDevice->SetTexture(1, NULL);
-	g_pD3DDevice->SetTexture(2, NULL);
-
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-	g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
-	g_pD3DDevice->SetTextureStageState(1, D3DTSS_RESULTARG, D3DTA_CURRENT);
-	g_pD3DDevice->SetTextureStageState(2, D3DTSS_RESULTARG, D3DTA_CURRENT);
-
-	for (int i = 0; i < 4; ++i)
-	{
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_NONE);
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_NONE);
-		g_pD3DDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-	}
-
-	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
-	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
-
-	
-	if (m_pOBB)
-		m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 255, 255, 0));
-	
-	/*
-	if (m_pSubOBB)
-		m_pSubOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 0, 255, 255));
-	*/
 }
 
 void cOrb::CollisionProcess(cObject * pObject)
@@ -242,7 +243,8 @@ void cOrb::CollisionProcess(cObject * pObject)
 			if (cOBB::IsCollision(pBody,m_pOBB)
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
-				cout << "오브 충돌" << endl;
+				m_OnOff = false;
+
 				//CollisionInfo info;
 				//info.dwCollsionTime = GetTickCount();
 				//info.dwDelayTime = 1500.0f;

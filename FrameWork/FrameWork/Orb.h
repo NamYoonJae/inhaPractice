@@ -30,5 +30,6 @@ public:
 	cOBB* GetOBB() { return m_pOBB; };
 	cOBB* GetSubOBB() { return m_pSubOBB; };
 	void SetOnOff(bool state) { m_OnOff = state; };
+	bool GetOnOff() { return m_OnOff; };
 };
 

@@ -89,9 +89,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
 		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
-	m_Hp = 500;
-	m_Stamina = m_MaxStamina;
-		m_Hp = m_MaxHp;
+		m_Hp = 500;
+		//m_Hp = m_MaxHp;
 		m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
@@ -353,7 +352,7 @@ void cPaladin::Update()
 		m_pCurState->StateUpdate();
 
 	// 필수
-	CollisionInfoCheck();
+	//CollisionInfoCheck();
 }
 
 void cPaladin::Update(EventType event)
@@ -615,6 +614,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
 				pObject->AddCollisionInfo(m_nTag, info);
+
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
+				
 			}
 		}
 	}
@@ -631,22 +633,28 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		//pObb = pOrb->GetOBB();
 		//matW = pOrb->GetOBB()->GetWorldMatrix();
 
-		
-		if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
-			&& pOrb->GetCollsionInfo(m_nTag) == nullptr)
+		if (pOrb->GetOnOff() == true)
 		{
-			cout << "바디와 오브 충돌" << endl;
-		}
-		
+			if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
+				&& pOrb->GetCollsionInfo(m_nTag) == nullptr)
+			{
+				
+				m_Hp += 100;
+				if (m_Hp >m_MaxHp)
+				{
+					m_Hp = m_MaxHp;
+				}
 
-		cout << "피 회복 테스트" << endl;
-		
-		pOrb->SetOnOff(false);
+				
+			}
+		}
+
 	}
 		return;
 
 	case Tag::Tag_RunStone:
 	{
+		cout << "무적 테스트" << endl;
 		cRune* pRune = (cRune*)pObject;
 		pObb = pRune->GetSubOBB();
 		matW = pRune->GetSubOBB()->GetWorldMatrix();

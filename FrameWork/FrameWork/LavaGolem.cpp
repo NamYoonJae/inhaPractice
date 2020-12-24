@@ -268,7 +268,7 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 			info.dwDelayTime = 1300;
 			pObject->AddCollisionInfo(m_nTag, info);
 
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Golem_Attack Hit Player");
+			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Golem_Attack Hit Player");
 
 		}
 	}

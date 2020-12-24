@@ -40,7 +40,7 @@
 #include "Rune.h"
 #include "Wall.h"
 
-
+#include "ArenaMap.h"
 #pragma once
 
 
@@ -69,6 +69,9 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
+
+
+	cArenaMap *pMap = new cArenaMap;
 	
 	// 
 	{
@@ -123,6 +126,7 @@ void cGameScene::Setup() // boss1map  boss2map
 			pPaladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
 			pCamera->Setup((cCharater*)pPaladin);
 			pPaladin->Tagging(Tag::Tag_Player);
+
 			ObjectManager->AddStaticChild(pPaladin);
 			EventManager->PushQueue(EventType::EVENT_CREATE_PALADIN);
 		}
@@ -147,11 +151,9 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	//cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
 	//ObjectManager->AddStaticChild(pTerrain);
-	cObjMap* pMap = new cObjMap("data/ObjFile/NW_Testmap","testmap3.obj");
-	pMap->Tagging(Tag::Tag_Map);
+	//cObjMap* pMap = new cObjMap("data/ObjFile//AreaWorld","Arena_base.obj");
 	
-	pMap->SetScale(D3DXVECTOR3(0.2f, 1.0f, 0.2f));
-	ObjectManager->AddStaticChild(pMap);
+	
 
 	
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
@@ -196,13 +198,12 @@ void cGameScene::Setup() // boss1map  boss2map
 	rune->Setup();
 	rune->Tagging(Tag::Tag_RunStone);
 	ObjectManager->AddChild(rune);
-	
+
 	
 	cWall* wall = new cWall;
 	wall->Tagging(Tag::Tag_Wall);
 	wall->Setup();
 	ObjectManager->AddChild(wall);
-	
 
 	///BGM
 	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Battle_BGM.mp3");
@@ -211,6 +212,15 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pSoundManager->PlayBGM();
 	
 	//
+
+
+
+	
+	
+	
+
+	ObjectManager->AddStaticChild(pMap);
+	
  }
 
 void cGameScene::Reset(int sceneType)
