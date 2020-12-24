@@ -102,6 +102,7 @@ private:
 	// ±×¸²ÀÚ¸Ê ·»´õÅ¸±ê
 	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
 	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
+	cPopup* m_pShadowMap;
 public:
 	cPaladin();
 	~cPaladin();

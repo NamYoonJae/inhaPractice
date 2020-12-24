@@ -8,6 +8,8 @@
 #include "Paladin.h"
 
 #include "AllocateHierarchy.h"
+#include "ArenaMap.h"
+#include "cTerrain.h"
 #include "ObjectPool.h"
 #include "Trophies.h"
 
@@ -62,6 +64,7 @@ cPaladin::cPaladin()
 	, m_pShadowRenderTarget(NULL)
 	, m_pShadowDepthStencil(NULL)
 
+	, m_pShadowMap(NULL)
 	, m_dwDeverffStartTime(GetTickCount())
 	, m_dwDeverffPreTime(100.0f)
 	, m_IsChangeScene(false)
@@ -79,6 +82,10 @@ cPaladin::~cPaladin()
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
 	SafeDelete(m_pTrophies);
+
+	SafeRelease(m_pShadowRenderTarget);
+	SafeRelease(m_pShadowDepthStencil);
+	
 	for (cParts* parts : m_vecParts)
 	{
 		SafeDelete(parts);
@@ -215,6 +222,11 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	ShadowShaderSetup();
 	ShaderSetup();
 
+	m_pShadowMap = new cPopup;
+	m_pShadowMap->Setup(m_pShadowRenderTarget, 2048);
+	m_pShadowMap->SetPercent(0.1f);
+	m_pShadowMap->SetPosition(D3DXVECTOR2(1000, 0));
+
 	m_pCurState = new cPaladinIdle(this);
 
 	//if (m_pDebuff1 == NULL || m_pDebuff2 == NULL)
@@ -242,6 +254,14 @@ void cPaladin::ShadowShaderSetup()
 		&m_pShadowDepthStencil, NULL)))
 	{
 		cout << "CreateDepthStencilSurface FAILED" << endl;
+	}
+
+	cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+	
+	if(pArenaMap)
+	{
+		pArenaMap->AddShadowMap(m_pShadowRenderTarget);
+		pArenaMap = nullptr;
 	}
 }
 
@@ -550,6 +570,8 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 	{
 		parts->Render();
 	}
+
+	//m_pShadowMap->Render();
 }
 
 void cPaladin::ShaderRender()
@@ -570,8 +592,8 @@ void cPaladin::ShaderRender()
 		D3DXMATRIXA16 matWVP = matView * matProjection;
 		pShader->SetMatrix("gWorldViewProjectionMatrix", &matWVP);
 		
-		//pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
-		//pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
+		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
+		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
 
 		
 		UINT numPasses = 0;
@@ -596,12 +618,6 @@ void cPaladin::CreateShadow()
 
 	if (pShader)
 	{
-		D3DXMATRIXA16	matView;
-		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-
-		D3DXMATRIXA16	matProjection;
-		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-
 		LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
 		LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
 		g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
@@ -620,8 +636,8 @@ void cPaladin::CreateShadow()
 
 		D3DLIGHT9   Light;
 		g_pD3DDevice->GetLight(0, &Light);
-		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
-		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
+		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
 
 		D3DXMATRIXA16 matLightView;
 		{
@@ -662,6 +678,14 @@ void cPaladin::CreateShadow()
 		pHWBackBuffer = NULL;
 		pHWDepthStencilBuffer->Release();
 		pHWDepthStencilBuffer = NULL;
+
+		cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+
+		if (pArenaMap)
+		{
+			pArenaMap->ReplaceShadowMap(m_pShadowRenderTarget);
+			pArenaMap = nullptr;
+		}
 	}
 }
 

@@ -100,6 +100,10 @@ public:
 		int tag
 	);
 
+// For Debugging >>
+	virtual void Setup(LPDIRECT3DTEXTURE9 pTexture, int nSize);
+// <<
+
 	void Update() override;
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
@@ -116,6 +120,7 @@ public:
 	virtual void ChangeSprite(char* szFullPath);
 	
 	virtual float GetPercent();
+	virtual void SetPercent(float percentage);
 
 	virtual void PowerOnOff();
 	virtual void PowerOnOff(bool power);
