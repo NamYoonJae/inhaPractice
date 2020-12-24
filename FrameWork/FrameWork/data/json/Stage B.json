@@ -18,14 +18,14 @@
       },
       "Rage": {
         "Rate": 0.07,
-        "Duration": 60,
+        "Duration": 60000,
         "Decrease Defense": 0.8,
         "Increase Attack": 1.1
       },
       "Rigid": {
         "Rate": "int",
         "Decrease value": 1,
-        "Duration": 15
+        "Duration": 15000
       },
       "Stun": {
         "Rate": "int",
@@ -79,7 +79,7 @@
         "name": "Flood",
         "Attribute": {
           "Range": "float n",
-          "Duration": 5,
+          "Duration": 5000,
           "Melee rate": 0.6,
           "Elemental rate": 0,
           "Condition": "Poison",
@@ -92,7 +92,7 @@
         "memo": "브레스, 범위기",
         "Attribute": {
           "Range": "float n",
-          "Duration": 5,
+          "Duration": 5000,
           "Melee rate": 1.8,
           "Elemental rate": 0
         }
@@ -112,7 +112,7 @@
         "name" : "HP 회복패턴",
         "Attribute": {
           "Identification value": 7,
-          "Duration": 10
+          "Duration": 10000
         }
       },
       "Scream": {
@@ -187,14 +187,14 @@
             "z": "float n"
           },
           "Scale": null,
-          "Duration": 10,
+          "Duration": 10000,
           "Decrease Speed": -50
         }
       },
       "3": {
         "memo": "상호 작용 오브젝트",
         "name": "룬스톤, Rune",
-        "Invincibility duration": 15,
+        "Invincibility duration": 15000,
         "Attribute": {
           "Area": 4
         },
@@ -245,7 +245,7 @@
             "z": "float n"
           },
           "Holding time": 15,
-          "Duration": 7
+          "Duration": 7000
         }
       }
     }

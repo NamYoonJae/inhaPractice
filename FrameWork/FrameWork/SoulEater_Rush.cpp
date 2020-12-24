@@ -2,6 +2,7 @@
 #include "SoulEater_Rush.h"
 #include "DragonSoulEater.h"
 #include "SoundManager.h"
+#include "Wall.h"
 #pragma once
 
 cSoulEater_Rush::cSoulEater_Rush()
@@ -54,14 +55,21 @@ void cSoulEater_Rush::handle()
 	if (CollisionList.find(Tag::Tag_Wall) != CollisionList.end() &&
 		m_IsHitAnything == false)
 	{
-		//경직치가 쌓인다9
 		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Get_Hit);
 		m_IsHitAnything = true;
 		m_vDir = D3DXVECTOR3(0, 0, 0);
-		//스턴치 넣어줘야되
 		
-		m_pDragon->SetSTUN(m_pDragon->GetSTUN()+ 50.0f); // << json 값 넣기
+		//경직치가 쌓인다9
+		//스턴치 넣어줘야되
+
+		m_pDragon->SetSTUN(m_pDragon->GetSTUN() + m_pDragon->GetWallStunDamage());
+		//m_pDragon->SetSTUN(m_pDragon->GetSTUN() + 50.0f);
+
+		m_pDragon->SetRigid(m_pDragon->GetRigid() + m_pDragon->GetWallRigidDamage());
+		//m_pDragon->SetRigid(m_pDragon->GetRigid() + 15.0f);
+		
 		//g_pSoundManager->PlaySFX(eSoundList::Dragon_Collision);
+
 		m_pDragon->HitSound();
 		m_pDragon->Request();
 		return;

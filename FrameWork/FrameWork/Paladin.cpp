@@ -97,7 +97,10 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_Hp = 500;
 		//m_Hp = m_MaxHp;
-		m_Stamina = m_MaxStamina;
+		m_Stamina = 300;
+		//m_Stamina = m_MaxStamina;
+
+		m_dwStaminaRestoreElapsedTime = GetTickCount();
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 
@@ -121,8 +124,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_Char_Poison_Duration = (int)json_Function::object_get_double(p_Character_object, "Dot damage/Poison/Duration time");
 
 		m_Char_StunRate = 0;
-		m_Char_Stun_Reduce = (int)json_Function::object_get_double(p_Character_object, "Stun/Duration time");
-		m_Char_Stun_Duration = (int)json_Function::object_get_double(p_Character_object, "Stun/Rate reduce");
+		m_Char_Stun_Reduce = (int)json_Function::object_get_double(p_Character_object, "Stun/Rate reduce");
+		m_Char_Stun_Duration = (int)json_Function::object_get_double(p_Character_object, "Stun/Duration time");
 		m_Char_Scream_Duration = (int)json_Function::object_get_double(p_Character_object, "Scream/Duration time");
 
 		m_Char_Invincibility_Duration = (float)json_Function::object_get_double(p_Character_object, "Invincibility/Duration time");
@@ -266,6 +269,7 @@ void cPaladin::Update()
 		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
 		return;
 	}
+
 	//if (m_fvelocity != 0)
 	{
 		m_vDir = D3DXVECTOR3(0, 0, -1);
@@ -324,7 +328,8 @@ void cPaladin::Update()
 			break;
 
 		case enum_Poison:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			//if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecStartTime[i] >= m_Char_Poison_Duration) // Attribute Character  posion Duration 값 적용
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
@@ -335,7 +340,8 @@ void cPaladin::Update()
 			break;
 
 		case enum_Stun:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			//if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecStartTime[i] >= m_Char_Stun_Duration) // Attribute Character  Stun Duration 값 적용
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
@@ -346,7 +352,8 @@ void cPaladin::Update()
 			break;
 
 		case enum_Roar:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			//if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecStartTime[i] >= m_Char_Scream_Duration) // Attribute Character  Scream Duration 값 적용
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);

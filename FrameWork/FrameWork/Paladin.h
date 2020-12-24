@@ -48,9 +48,10 @@ private:
 	float m_Hp;
 	float m_Stamina;
 	float m_StaminaRestoreValue;
+	//DWORD m_dwStaminaRestoreElapsedTime;
+
 	bool m_IsChangeScene;
 
-	// >> 2020. 12. 23.
 	int				m_Attack_Melee_Damage;
 	float			m_Melee_rate_1;
 	float			m_Melee_rate_2;
@@ -80,10 +81,9 @@ private:
 
 	int				m_Aggro;  // ¾î±×·Î
 
-	// ----- object interaction -----
+	// object interaction 
 	float			m_Orb_effect_Duration;
 
-	// << 2020. 12. 23.
 
 
 	cTrophies* m_pTrophies;

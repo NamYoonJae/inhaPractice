@@ -3,6 +3,8 @@
 #include "DragonSoulEater.h"
 #include "Swamp.h"
 #include "ObjectPool.h"
+#include "jsonManager.h"
+
 #pragma once
 
 cSoulEater_Flood::cSoulEater_Flood()
@@ -55,6 +57,8 @@ void cSoulEater_Flood::handle()
 		pSwamp->Setup(Tag::Tag_SwampB);
 		pSwamp->SetScale(D3DXVECTOR3(0.5, 0.001, 0.5));
 		pSwamp->SetPos(m_vAttackTarget);
+		pSwamp->SetDuration(json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/SKILL 3/Attribute/Duration")); // 장판공격 지속시간 처리
+
 		//pSwamp->Tagging(Tag::Tag_SwampB);
 		ObjectManager->AddChild(pSwamp);
 		m_nCntSwamp++;

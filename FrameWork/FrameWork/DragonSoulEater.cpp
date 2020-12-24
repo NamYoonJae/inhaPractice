@@ -253,11 +253,11 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 		m_FireBall_Physic_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Melee rate");
 		m_FireBall_Elemental_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Elemental rate");
 		m_FireBall_Range = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Range");
-		// 장판 // 패턴 3
-		m_Flood_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Melee rate");
-		m_Flood_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Elemental rate");
-		m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
-		m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
+		//// 장판 // 패턴 3 // swamp 로 이동됨
+		//m_Flood_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Melee rate");
+		//m_Flood_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Elemental rate");
+		//m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
+		//m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
 		// 돌진 // 패턴 2
 		m_Rush_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Melee rate");
 		m_Rush_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Elemental rate");
@@ -280,10 +280,10 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 		cout << "BOSS_jsonValue FireBall_Physic_Rate : " << m_FireBall_Physic_Rate << endl;
 		cout << "BOSS_jsonValue FireBall_Elemental_Rate : " << m_FireBall_Elemental_Rate << endl;
 		cout << "BOSS_jsonValue FireBall_Range : " << m_FireBall_Range << endl;
-		cout << "BOSS_jsonValue Flood_Physic_Rate : " << m_Flood_Physic_Rate << endl;
-		cout << "BOSS_jsonValue Flood_Elemental_Rate : " << m_Flood_Elemental_Rate << endl;
-		cout << "BOSS_jsonValue Flood_Condition : " << m_Flood_Condition << endl;
-		cout << "BOSS_jsonValue Flood_Condition_Rate : " << m_Flood_Condition_Rate << endl;
+		//cout << "BOSS_jsonValue Flood_Physic_Rate : " << m_Flood_Physic_Rate << endl;
+		//cout << "BOSS_jsonValue Flood_Elemental_Rate : " << m_Flood_Elemental_Rate << endl;
+		//cout << "BOSS_jsonValue Flood_Condition : " << m_Flood_Condition << endl;
+		//cout << "BOSS_jsonValue Flood_Condition_Rate : " << m_Flood_Condition_Rate << endl;
 		cout << "BOSS_jsonValue Rush_Physic_Rate : " << m_Rush_Physic_Rate << endl;
 		cout << "BOSS_jsonValue Rush_Elemental_Rate : " << m_Rush_Elemental_Rate << endl;
 		cout << "BOSS_jsonValue Scream_Range : " << m_Scream_Range << endl;
@@ -292,20 +292,20 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 		cout << "BOSS_jsonValue TailAttack_Elemental_Rate : " << m_TailAttack_Elemental_Rate << endl;
 	}
 
-	// object interaction
-	{
-		JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-		JSON_Object* p_Obj_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Object/");
+	//// object interaction
+	//{
+	//	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	//	JSON_Object* p_Obj_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Object/");
 
-		m_Wall_Stun_Damage = json_Function::object_get_double(p_Obj_object, "1/Stun Damage");
-		m_Wall_Rigid_Damage = json_Function::object_get_double(p_Obj_object, "1/Rigid Damage");
-	}
+	//	m_Wall_Stun_Damage = json_Function::object_get_double(p_Obj_object, "1/Stun Damage");
+	//	m_Wall_Rigid_Damage = json_Function::object_get_double(p_Obj_object, "1/Rigid Damage");
+	//}
 
-	// object interaction log
-	{
-		cout << "OBJ_jsonValue  Wall Stun Damage : " << m_Wall_Stun_Damage << endl;
-		cout << "OBJ_jsonValue  Wall Rigid Damage : " << m_Wall_Rigid_Damage << endl;
-	}
+	//// object interaction log
+	//{
+	//	cout << "OBJ_jsonValue  Wall Stun Damage : " << m_Wall_Stun_Damage << endl;
+	//	cout << "OBJ_jsonValue  Wall Rigid Damage : " << m_Wall_Rigid_Damage << endl;
+	//}
 
 
 #pragma endregion json

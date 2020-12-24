@@ -2,16 +2,24 @@
 #include "Swamp.h"
 #include "ShaderManager.h"
 #include "cOBB.h"
+#include "jsonManager.h"
 #pragma once
 
 #define Box_Size 50
 
 cSwamp::cSwamp()
-	:m_pMesh(NULL)
-	,m_pNoise(NULL)
-	,m_pShader(NULL)
-	,m_pTexcoord(NULL)
-	,m_dwElapsedTime(GetTickCount())
+	: m_pMesh(NULL)
+	, m_pNoise(NULL)
+	, m_pShader(NULL)
+	, m_pTexcoord(NULL)
+	, m_dwElapsedTime(GetTickCount())
+
+	, m_fPhysicDamage(0)
+	, m_fElementalDamage(0)
+	, m_Flood_Physic_Rate(0)
+	, m_Flood_Elemental_Rate(0)
+	//, m_Flood_Condition // string
+	, m_Flood_Condition_Rate(0)
 {
 }
 
@@ -22,6 +30,22 @@ cSwamp::~cSwamp()
 
 void cSwamp::Setup(Tag T)
 {
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS/");
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+
+	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
+	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
+	m_Flood_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Melee rate");
+	m_Flood_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Elemental rate");
+	m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
+	m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
+
+
+	m_dwElapsedTime = GetTickCount();
+	m_dwDurationTime = json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Duration");
+
+
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
 	m_vPos = D3DXVECTOR3(0, 0.0, 0);
@@ -166,7 +190,10 @@ void cSwamp::Render(D3DXMATRIXA16 *pmat)
 
 		}
 	}
-	
+
+
+	if (m_dwDurationTime <= GetTickCount() - m_dwElapsedTime) 
+		m_isDelete = true; // 지속시간이 끝날때 제거
 }
 
 void cSwamp::CollisionProcess(cObject * pObject)
@@ -180,6 +207,8 @@ void cSwamp::CollisionProcess(cObject * pObject)
 			break;
 		case Tag::Tag_SwampB :
 			//  데미지를 주는 오브젝트
+			//  여기서 데미지 처리
+			//  주는 데미지 = m_fPhysicDamage* m_Flood_Physic_Rate + m_fElementalDamage * m_Flood_Elemental_Rate;
 			break;
 		}
 	}

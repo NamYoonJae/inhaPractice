@@ -8,9 +8,18 @@ private:
 	LPDIRECT3DTEXTURE9  m_pTexcoord;
 	LPDIRECT3DTEXTURE9	m_pNoise;
 
-	Synthesize(DWORD, m_dwDurationTime, Duration);
 	DWORD m_dwElapsedTime;
-	
+	Synthesize(DWORD, m_dwDurationTime, Duration);
+
+
+	// 보스의 공격력
+	float				m_fPhysicDamage;
+	float				m_fElementalDamage;
+	// 장판 // 패턴 3
+	float				m_Flood_Physic_Rate;
+	float				m_Flood_Elemental_Rate;
+	string				m_Flood_Condition; // 상태이상 부여 종류
+	float				m_Flood_Condition_Rate; // 상태이상 부여
 public:
 	cSwamp();
 	~cSwamp();
