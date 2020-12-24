@@ -11,7 +11,6 @@ const enum Tag
 	Tag_LavaGolem,
 	Tag_cObj,
 	Tag_Orb,
-	Tag_Rune,
 	Tag_FireBall,
 	Tag_SwampA,
 	Tag_SwampB,
@@ -62,6 +61,7 @@ protected:
 	cOBB*		m_pOBB;
 	vector<BoneOBB*> m_vBoneArray;
 	std::map<int, CollisionInfo> mapCollisionList; // 
+	Synthesize(int,m_nObjectIndex,Index);
 protected:
 
 	D3DXVECTOR3 m_vPos;
@@ -98,6 +98,7 @@ public:
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
 	void CollisionInfoCheck();
 	
+	virtual void HitSound() {};
 	//
 };
 

@@ -20,7 +20,6 @@ void cLavaAttack::Handle()
 {
 	if (m_pGolem)
 	{
-
 		if (&m_pGolem->GetSkinnedMesh() && m_IsAttack == false)
 		{
 			LPD3DXANIMATIONSET pCurAnimSet = NULL;
@@ -29,8 +28,7 @@ void cLavaAttack::Handle()
 			double time = pCurAnimSet->GetPeriod() * 1000.0f;
 
 			if ((GetTickCount() - m_pGolem->GetSkinnedMesh().GetAnimStartTime()
-					> time - m_pGolem->GetSkinnedMesh().GetBlendTime() * 1000.0f)
-				&& m_pGolem->GetDist() <= Distance)
+					> time - m_pGolem->GetSkinnedMesh().GetBlendTime() * 1000.0f))
 			{
 				if (GetTickCount() - m_dwAnimStartTime > 1500.0f)
 				{
@@ -59,22 +57,9 @@ void cLavaAttack::Handle()
 			(GetTickCount() - m_dwAnimStartTime > 1500.0f))
 		{
 			m_pGolem->SetIsAttack(false);
-			
-			float fDist = m_pGolem->GetDist();
-
-			if (fDist > Distance)
-			{
-				m_pGolem->Request(1);
-				return;
-			}
-			else if (fDist < Distance)
-			{
-				m_pGolem->Request(2);
-				return;
-			}
+			m_pGolem->Request(0);
 		}
 	}
-
-
+	
 	
 }

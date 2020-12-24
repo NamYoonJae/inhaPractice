@@ -8,6 +8,9 @@ class cWall : public cObject
 {
 private:
 	vector<cGroup*> m_vecGroup;
+
+	int			m_MaxHP;
+	int			m_CurrentHP;
 public:
 	cWall();
 	~cWall();

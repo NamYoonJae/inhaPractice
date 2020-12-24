@@ -29,6 +29,7 @@ public:
 	void RemoveUIChild(cObject& obj);
 	const cObject* SearchChild(int nTag);
 	const cObject* SearchChildUI(int nTag);
+	const cObject* IndexSearchChild(int nIndex);
 	const cObject* GetUI(int TagUI);
 	void FindAllObjectsWithTag(int nTag,OUT std::vector<cObject*>& list);
 	int	GetUISize() { return vecUserInterface.size(); }

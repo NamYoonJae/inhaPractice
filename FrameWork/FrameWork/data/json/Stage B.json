@@ -19,7 +19,7 @@
       "Rage": {
         "Rate": 0.07,
         "Duration": 60,
-        "Decrease Defence": 0.8,
+        "Decrease Defense": 0.8,
         "Increase Attack": 1.1
       },
       "Rigid": {
@@ -66,7 +66,7 @@
       "SKILL 2": {
         "Identification value": 2,
         "memo": "돌진",
-        "name": "Charge",
+        "name": "Rush",
         "Attribute": {
           "Range": "float n",
           "Melee rate": 0,
@@ -76,7 +76,7 @@
       "SKILL 3": {
         "Identification value": 4,
         "memo": "장판",
-        "name": "",
+        "name": "Flood",
         "Attribute": {
           "Range": "float n",
           "Duration": 5,
@@ -94,15 +94,13 @@
           "Range": "float n",
           "Duration": 5,
           "Melee rate": 1.8,
-          "Elemental rate": 0,
-          "Condition": "Poison",
-          "Condition Rate": 0.2,
-          "Radius": "float N"
+          "Elemental rate": 0
         }
       }
     },
-    "임시 패턴 객체": {
-      "즉사기 패턴": {
+    "Extra Pattern": {
+      "FireBall": {
+        "name" : "즉사기 패턴",
         "Attribute": {
           "Identification value": 5,
           "Range": "float n",
@@ -110,10 +108,17 @@
           "Elemental rate": 10
         }
       },
-      "HP 회복패턴": {
+      "Sleep": {
+        "name" : "HP 회복패턴",
         "Attribute": {
           "Identification value": 7,
           "Duration": 10
+        }
+      },
+      "Scream": {
+        "name" : "포효 패턴",
+        "Attribute": {
+          "Range": 100
         }
       },
       "Share": {
@@ -133,7 +138,7 @@
         "Melee": null,
         "Elemental": null
       },
-      "Attack Reach": "float N",
+      "Attack Reach": 5,
       "Move Speed": 80
     },
     "Object": {
@@ -141,8 +146,8 @@
       "1": {
         "memo": "동선 방해 오브젝트",
         "name": "바위Rock",
-        "Stun Rate": 50,
-        "Rigid Rate": 15,
+        "Stun Damage": 50,
+        "Rigid Damage": 15,
         "Attribute": {
           "Area": 15,
           "Generation condition": {
@@ -188,7 +193,7 @@
       },
       "3": {
         "memo": "상호 작용 오브젝트",
-        "name": "룬스톤",
+        "name": "룬스톤, Rune",
         "Invincibility duration": 15,
         "Attribute": {
           "Area": 4
@@ -204,7 +209,7 @@
             "y": "float n",
             "z": "float n"
           },
-          "Gauge": 100,
+          "Gauge require": 100,
           "Gauge recharge": 20,
           "Active method": null
         }
@@ -226,23 +231,23 @@
           "Remove": {
             "1": 100,
             "2": null
-          },
-          "Status": {
-            "Size": {
-              "x": "float n",
-              "y": "float n",
-              "z": "float n"
-            },
-            "Scale": {
-              "x": "float n",
-              "y": "float n",
-              "z": "float n"
-            },
-            "Holding time": 15,
-            "Duration": 7
           }
+        },
+        "Status": {
+          "Size": {
+            "x": "float n",
+            "y": "float n",
+            "z": "float n"
+          },
+          "Scale": {
+            "x": "float n",
+            "y": "float n",
+            "z": "float n"
+          },
+          "Holding time": 15,
+          "Duration": 7
         }
       }
     }
-  }
+   }
 }

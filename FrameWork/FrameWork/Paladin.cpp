@@ -16,6 +16,7 @@
 #include "PaladinIdle.h"
 #include "PaladinMove.h"
 #include "Orb.h"
+#include "Rune.h"
 
 #include "jsonManager.h"
 
@@ -29,9 +30,9 @@ cPaladin::cPaladin()
 	, m_Stamina(0)
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
-	, m_fSpeed(0)
-	//, m_fInvincibleTime(0)
 	, m_isInvincible(false)
+	, m_fSpeed(0)
+
 	, m_Attack_Melee_Damage(0)
 	, m_Melee_rate_1(0)
 	, m_Melee_rate_2(0)
@@ -42,10 +43,17 @@ cPaladin::cPaladin()
 	, m_Attack_RigidRate(0)
 
 	, m_Critical_probability(0)
-	, m_Critical_additional_damage(0)
+	, m_Critical_Additional_Damage(0)
 
 	, m_Melee_Defense(0)
 	, m_Elemental_Defense(0)
+
+	, m_Char_Poison_Damage(0)
+	, m_Char_Poison_Duration(0)
+	, m_Char_StunRate(0)
+	, m_Char_Stun_Reduce(0)
+	, m_Char_Stun_Duration(0)
+	, m_Char_Scream_Duration(0)
 
 	, m_pTrophies(NULL)
 	, m_pShadowRenderTarget(NULL)
@@ -71,39 +79,87 @@ cPaladin::~cPaladin()
 
 void cPaladin::Setup(char* szFolder, char* szFile)
 {
-	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
-	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
+#pragma region json
+	// paladin
+	{
+		JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
+		JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
 
-	m_MaxHp = (int)json_object_get_number(p_Character_object, "Max HP");
-	m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
-	m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
+		m_MaxHp = (int)json_object_get_number(p_Character_object, "Max HP");
+		m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
+		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
-	m_Hp = m_MaxHp;
+	m_Hp = 500;
 	m_Stamina = m_MaxStamina;
-	m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
+		m_Hp = m_MaxHp;
+		m_Stamina = m_MaxStamina;
 
-	// TODO 값 입력되는지 확인후 삭제
-	cout << "MaxHp : " << m_MaxHp << endl;
-	cout << "MaxStamina : " << m_MaxStamina << endl;
-	cout << "Stamina Restore Value : " << m_StaminaRestoreValue << endl;
-	cout << "fSpeed : " << m_fSpeed << endl;
-	
-	m_Attack_Melee_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Melee");
-	m_Melee_rate_1 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 1 rate");
-	m_Melee_rate_2 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 2 rate");
-	m_Melee_rate_3 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 3 rate");
+		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 
-	m_Attack_Elemental_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Elemental");
+		m_Attack_Melee_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Melee");
+		m_Melee_rate_1 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 1 rate");
+		m_Melee_rate_2 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 2 rate");
+		m_Melee_rate_3 = (float)json_Function::object_get_double(p_Character_object, "Attack/Melee 3 rate");
 
-	m_Attack_StunRate = (int)json_Function::object_get_double(p_Character_object, "Attack/Stun rate");
-	m_Attack_RigidRate = (int)json_Function::object_get_double(p_Character_object, "Attack/Rigid rate");
+		m_Attack_Elemental_Damage = (int)json_Function::object_get_double(p_Character_object, "Attack/Elemental");
 
-	m_Melee_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Melee");
-	m_Elemental_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Elemental");
+		m_Attack_StunRate = (float)json_Function::object_get_double(p_Character_object, "Attack/Stun rate");
+		m_Attack_RigidRate = (float)json_Function::object_get_double(p_Character_object, "Attack/Rigid rate");
+		m_Critical_probability = (float)json_Function::object_get_double(p_Character_object, "Attack/Critical probability");
+		m_Critical_Additional_Damage = (float)json_Function::object_get_double(p_Character_object, "Attack/Critical additional damage");
 
+		m_Melee_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Melee");
+		m_Elemental_Defense = (int)json_Function::object_get_double(p_Character_object, "Defense/Elemental");
 
 
+		m_Char_Poison_Damage = (int)json_Function::object_get_double(p_Character_object, "Dot damage/Poison/Damage");
+		m_Char_Poison_Duration = (int)json_Function::object_get_double(p_Character_object, "Dot damage/Poison/Duration time");
 
+		m_Char_StunRate = 0;
+		m_Char_Stun_Reduce = (int)json_Function::object_get_double(p_Character_object, "Stun/Duration time");
+		m_Char_Stun_Duration = (int)json_Function::object_get_double(p_Character_object, "Stun/Rate reduce");
+		m_Char_Scream_Duration = (int)json_Function::object_get_double(p_Character_object, "Scream/Duration time");
+
+		m_Char_Invincibility_Duration = (float)json_Function::object_get_double(p_Character_object, "Invincibility/Duration time");
+
+		m_Aggro = (int)json_object_get_number(p_Character_object, "Aggro");
+	}
+
+	// Log
+	{
+		cout << "Paladin jsonValue  MaxHp : " << m_MaxHp << endl;
+		cout << "Paladin jsonValue  MaxStamina : " << m_MaxStamina << endl;
+		cout << "Paladin jsonValue  Stamina Restore Value : " << m_StaminaRestoreValue << endl;
+		cout << "Paladin jsonValue  fSpeed : " << m_fSpeed << endl;
+		cout << "Paladin jsonValue  Attack_Melee_Damage : " << m_Attack_Melee_Damage << endl;
+		cout << "Paladin jsonValue  Melee_rate_1 : " << m_Melee_rate_1 << endl;
+		cout << "Paladin jsonValue  Melee_rate_2 : " << m_Melee_rate_2 << endl;
+		cout << "Paladin jsonValue  Melee_rate_2 : " << m_Melee_rate_2 << endl;
+		cout << "Paladin jsonValue  Attack_Elemental_Damage : " << m_Attack_Elemental_Damage << endl;
+		cout << "Paladin jsonValue  Attack_StunRate : " << m_Attack_StunRate << endl;
+		cout << "Paladin jsonValue  Attack_RigidRate : " << m_Attack_RigidRate << endl;
+		cout << "Paladin jsonValue  Critical_probability : " << m_Critical_probability << endl;
+		cout << "Paladin jsonValue  Critical_Additional_Damage : " << m_Critical_Additional_Damage << endl;
+		cout << "Paladin jsonValue  Melee_Defense : " << m_Melee_Defense << endl;
+		cout << "Paladin jsonValue  Elemental_Defense : " << m_Elemental_Defense << endl;
+		cout << "Paladin jsonValue  Char_Poison_Damage : " << m_Char_Poison_Damage << endl;
+		cout << "Paladin jsonValue  Char_Poison_Duration : " << m_Char_Poison_Duration << endl;
+		cout << "Paladin jsonValue  Char_Stun_reduce : " << m_Char_Stun_Reduce << endl;
+		cout << "Paladin jsonValue  Char_Stun_Duration : " << m_Char_Poison_Duration << endl;
+		cout << "Paladin jsonValue  Char_Scream_Duration : " << m_Char_Scream_Duration << endl;
+		cout << "Paladin jsonValue  Char_Invincibility_Duration : " << m_Char_Invincibility_Duration << endl;
+		cout << "Paladin jsonValue  Aggro : " << m_Aggro << endl;
+	}
+
+	// object interaction
+	{
+		JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+		JSON_Object* p_Obj_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Object/");
+
+		m_Orb_effect_Duration = json_Function::object_get_double(p_Obj_object, "4/Duration");
+	}
+
+#pragma endregion json
 
 
 	m_pSkinnedUnit = new cSkinnedMesh;
@@ -491,9 +547,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
-				if (iOtherTag == Tag::Tag_Boss)
-					cout << "Dragon Hit" << endl;
-
+				pObject->HitSound();
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
@@ -506,11 +560,34 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	D3DXMATRIXA16 matW;
 	switch (iOtherTag)
 	{
+
 	case Tag::Tag_Orb:
 	{
+		//팔라딘 피 회복 및 해당 오브 제거
 		cOrb* pOrb = (cOrb*)pObject;
-		pObb = pOrb->GetSubOBB();
-		matW = pOrb->GetSubOBB()->GetWorldMatrix();
+		//pObb = pOrb->GetOBB();
+		//matW = pOrb->GetOBB()->GetWorldMatrix();
+
+		
+		if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
+			&& pOrb->GetCollsionInfo(m_nTag) == nullptr)
+		{
+			cout << "바디와 오브 충돌" << endl;
+		}
+		
+
+		cout << "피 회복 테스트" << endl;
+		
+		pOrb->SetOnOff(false);
+	}
+		return;
+
+	case Tag::Tag_RunStone:
+	{
+		cRune* pRune = (cRune*)pObject;
+		pObb = pRune->GetSubOBB();
+		matW = pRune->GetSubOBB()->GetWorldMatrix();
+		//무적 상태
 	}
 		break;
 	case Tag::Tag_SwampA:

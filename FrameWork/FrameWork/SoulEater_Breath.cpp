@@ -60,6 +60,8 @@ void cSoulEater_Breath::handle()
 			
 			m_IsAnimBlend = true;
 			m_dwStartTime = GetTickCount();
+
+			g_pSoundManager->PlaySFX(eSoundList::Dragon_Breath);
 		}
 	}
 	else if(GetTickCount() - m_dwStartTime > m_dwBreathDurationTime)
