@@ -234,7 +234,8 @@ void cPaladin::ShaderSetup()
 		cout << "CreateTexture FAILED" << endl;
 	}
 
-	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Shader_DSNL);
+	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
 
 	D3DLIGHT9   Light;
 	g_pD3DDevice->GetLight(0, &Light);
@@ -481,8 +482,8 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 
 void cPaladin::ShaderRender()
 {
-	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
-	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Shader_DSNL);
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
+	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
 
 	if (pShader)
 	{
@@ -492,21 +493,21 @@ void cPaladin::ShaderRender()
 		D3DXMATRIXA16	matProjection;
 		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
 		
-		LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-		LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-		g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
-		g_pD3DDevice->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+		//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+		//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+		//g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
+		//g_pD3DDevice->GetDepthStencilSurface(&pHWDepthStencilBuffer);
 
-		LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-		if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
-		{
-			g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
-			pShadowSurface->Release();
-			pShadowSurface = NULL;
-		}
-		g_pD3DDevice->SetDepthStencilSurface(m_pShadowDepthStencil);
-		
-		g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+		//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+		//if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
+		//{
+		//	g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
+		//	pShadowSurface->Release();
+		//	pShadowSurface = NULL;
+		//}
+		//g_pD3DDevice->SetDepthStencilSurface(m_pShadowDepthStencil);
+		//
+		//g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
 
 		// 쉐이더 전역변수들을 설정
 		pShader->SetMatrix("gWorldMatrix", &MatrixIdentity);
