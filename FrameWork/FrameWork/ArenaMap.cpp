@@ -1,26 +1,34 @@
 #include "stdafx.h"
 #include "ArenaMap.h"
 #include "ObjLoader.h"
-
+#include "DragonSoulEater.h"
+#include "ObjectPool.h"
+#include "Swamp.h"
 #pragma once
 
 cArenaMap::cArenaMap()
 	:iMap()
 {
 	m_nTag = Tag::Tag_Map;
-	//m_vScale = D3DXVECTOR3(100.0f,100.0f,100.0f);
 	m_vScale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-
+	m_dwCoolTime = 30000.0f;
+	m_IsSwampCreate = false;
+	
 	cObjLoader ObjLoader;
 	ObjLoader.LoadOBJ(m_vecMapGroup, "data/ObjFile/AreaWorld", "Arena_base.obj");
 
+	vector<cGroup*>				m_vecDoorGroup;
+	vector<cGroup*>				m_vecFlagGroup;
+	vector<cGroup*>				m_vecHornGroup;
+	vector<cGroup*>				m_vecPillarGroup;
+	vector<cGroup*>				m_vecPollGroup;
+	vector<cGroup*>				m_vecWoodSpikeGroup;
 	ObjLoader.LoadOBJ(m_vecDoorGroup, "data/ObjFile/AreaWorld", "Arena_Door.obj");
 	ObjLoader.LoadOBJ(m_vecFlagGroup, "data/ObjFile/AreaWorld", "Arena_Flag.obj");
 	ObjLoader.LoadOBJ(m_vecHornGroup, "data/ObjFile/AreaWorld", "Arena_Horn.obj");
 	ObjLoader.LoadOBJ(m_vecPillarGroup, "data/ObjFile/AreaWorld", "Arena_Pillar.obj");
 	ObjLoader.LoadOBJ(m_vecPollGroup, "data/ObjFile/AreaWorld", "Arena_Poll.obj");
 	ObjLoader.LoadOBJ(m_vecWoodSpikeGroup, "data/ObjFile/AreaWorld", "Arena_WoodSpike.obj");
-
 
 	m_vecArenaGroup.clear();
 
@@ -68,7 +76,26 @@ cArenaMap::cArenaMap()
 		m_vecArenaGroup.at(i)->SetVertices(Group);
 	}
 
+	std::vector<ST_PNT_VERTEX> list;
+	list = m_vecMapGroup.at(0)->GetVertices();
 
+	D3DXVECTOR3 vMin, vMax;
+	vMin = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
+	vMax = D3DXVECTOR3(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	for(int i = 0; i < list.size(); i++)
+	{
+		vMin.x = min(vMin.x, list.at(i).p.x);
+		vMin.z = min(vMin.z, list.at(i).p.z);
+		
+		vMax.x = max(vMax.x, list.at(i).p.x);
+		vMax.z = max(vMax.z, list.at(i).p.z);		
+	}
+
+	m_RCArea.bottom = vMin.z;
+	m_RCArea.top = vMax.z;
+	m_RCArea.left = vMin.x;
+	m_RCArea.right = vMax.x;
+	
 	
 }
 
@@ -82,8 +109,6 @@ float cArenaMap::getHeight(D3DXVECTOR3 pos)
 	pos.y += 10;
 
 	std::vector<ST_PNT_VERTEX> list;
-	//IntersectTri
-
 	list = m_vecMapGroup.at(0)->GetVertices();
 	
 	float u, v, t;
@@ -136,11 +161,33 @@ void cArenaMap::Render(D3DXMATRIXA16* pmat)
 
 void cArenaMap::Update()
 {
+	if(m_IsSwampCreate == false)
+	{
+		static cDragonSoulEater* pDragon = 0;
+		if (pDragon == NULL)
+		{
+			pDragon = (cDragonSoulEater*)ObjectManager->SearchChild(Tag::Tag_Boss);
+		}
+		else if (pDragon)
+		{
+			int nPhase = pDragon->GetPhase();
+
+			if (nPhase >= 2)
+			{
+				m_dwElapseTime = GetTickCount();
+				m_IsSwampCreate = true;
+			}
+		}
+	}
+	else if(m_IsSwampCreate && (GetTickCount() - m_dwElapseTime >= m_dwCoolTime))
+	{
+		CreateSwamp();
+		m_dwElapseTime = GetTickCount();
+	}
 }
 
 bool cArenaMap::CheckInMap(D3DXVECTOR3 pos)
 {
-
 	pos.y += 10;
 
 	std::vector<ST_PNT_VERTEX> list;
@@ -179,4 +226,25 @@ bool cArenaMap::CheckInMap(D3DXVECTOR3 pos)
 	return false;
 
 	
+}
+
+void cArenaMap::CreateSwamp()
+{
+	cSwamp* pSwamp = new cSwamp;
+	pSwamp->Setup(Tag::Tag_SwampA);
+	
+	srand(time(NULL));
+
+	random_device rd;
+	mt19937_64 gen(rd());
+	std::uniform_real_distribution<> randNumZ(m_RCArea.bottom,m_RCArea.top);
+	std::uniform_real_distribution<> randNumX(m_RCArea.left, m_RCArea.right);
+
+	float fSwampX = randNumX(gen);
+	float fSwampZ = randNumZ(gen);
+
+	D3DXVECTOR3 vSwampPos(fSwampX, 0, fSwampZ);
+	pSwamp->SetPos(vSwampPos);
+	pSwamp->SetScale(D3DXVECTOR3(0.5, 0.001, 0.5));
+	ObjectManager->AddChild(pSwamp);
 }

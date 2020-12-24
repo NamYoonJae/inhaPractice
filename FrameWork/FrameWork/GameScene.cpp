@@ -71,8 +71,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pD3DDevice->LightEnable(0, true);
 
 
-	cArenaMap *pMap = new cArenaMap;
-	
 	// 
 	{
 		SkyBox* pSkyBox;
@@ -134,12 +132,14 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	}
 	// 예외 처리 
+	cArenaMap *pMap = new cArenaMap;
+	ObjectManager->AddStaticChild(pMap);
 
 	
-	cGrid *pGrid = new cGrid;
-	pGrid->Setup();
+	//cGrid *pGrid = new cGrid;
+	//pGrid->Setup();
 
-	ObjectManager->AddChild(pGrid);
+	//ObjectManager->AddChild(pGrid);
 
 	
 
@@ -205,6 +205,17 @@ void cGameScene::Setup() // boss1map  boss2map
 	wall->Setup();
 	ObjectManager->AddChild(wall);
 
+
+	cSwamp* pSwamp1 = new cSwamp;
+	pSwamp1->Setup(Tag::Tag_SwampA);
+	pSwamp1->SetPos(D3DXVECTOR3(150.0f, 10.0f, 50.0f));
+	ObjectManager->AddChild(pSwamp1);
+	
+	cSwamp* pSwamp2 = new cSwamp;
+	pSwamp2->Setup(Tag::Tag_SwampB);
+	pSwamp2->SetPos(D3DXVECTOR3(220.0f, 0.0f, 120.0f));
+	ObjectManager->AddChild(pSwamp2);
+	
 	///BGM
 	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Battle_BGM.mp3");
 	g_pSoundManager->SetBGMSOUND(0.3f);
@@ -215,12 +226,6 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 
-	
-	
-	
-
-	ObjectManager->AddStaticChild(pMap);
-	
  }
 
 void cGameScene::Reset(int sceneType)
