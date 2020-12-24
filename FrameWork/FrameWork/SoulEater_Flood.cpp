@@ -52,10 +52,10 @@ void cSoulEater_Flood::handle()
 	{
 		m_IsTrigger = false;
 		cSwamp *pSwamp = new cSwamp;
-		pSwamp->Setup();
-		pSwamp->SetRotation(D3DXVECTOR3(0.5, 0.001, 0.5));
+		pSwamp->Setup(Tag::Tag_SwampB);
+		pSwamp->SetScale(D3DXVECTOR3(0.5, 0.001, 0.5));
 		pSwamp->SetPos(m_vAttackTarget);
-		pSwamp->Tagging(Tag::Tag_SwampB);
+		//pSwamp->Tagging(Tag::Tag_SwampB);
 		ObjectManager->AddChild(pSwamp);
 		m_nCntSwamp++;
 	}
@@ -63,14 +63,6 @@ void cSoulEater_Flood::handle()
 	
 	if (m_nCntSwamp > 6)
 	{
-		std::vector<cObject*> vecSwampList;
-		ObjectManager->FindAllObjectsWithTag(Tag::Tag_SwampB, vecSwampList);
-
-		for (int i = 0; i < vecSwampList.size(); ++i)
-		{
-			vecSwampList.at(i)->m_isDelete = true;
-		}
-
 		m_pDragon->Request();
 		return;
 	}

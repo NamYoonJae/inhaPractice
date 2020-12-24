@@ -4,7 +4,7 @@
 #include <iostream>
 #include "FireBall.h"
 #include "cOBB.h"
-
+#include "Paladin.h"
 #include "jsonManager.h"
 #pragma once
 
@@ -212,7 +212,19 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 
 	if (nTag == Tag::Tag_Player)
 	{
+		cPaladin* pPaladin = (cPaladin*)pObject;
+		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
 
+		
+		if (cOBB::IsCollision(m_pOBB, pBody) && pObject->GetCollsionInfo(m_nTag) == nullptr)
+		{
+			CollisionInfo info;
+			info.dwCollsionTime = GetTickCount();
+			info.dwDelayTime = m_dwDurationTime;
+			pObject->AddCollisionInfo(m_nTag, info);
+
+			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Breath Hit");
+		}
 	}
 }
 

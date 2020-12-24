@@ -36,6 +36,12 @@ LPD3DXEFFECT cShaderManager::GetShader(eShader type)
 		case Swamp:
 			m_vecShader[type] = LoadShader("data/Shader/Swamp.fx");
 			break;
+		case CreateShadow:
+			m_vecShader[type] = LoadShader("data/Shader/CreateShadow.fx");
+			break;
+		case ApplyShadow:
+			m_vecShader[type] = LoadShader("data/Shader/ApplyShadow.fx");
+			break;
 		default:
 			cout << "Invailed Shader Type!" << endl;
 			break;

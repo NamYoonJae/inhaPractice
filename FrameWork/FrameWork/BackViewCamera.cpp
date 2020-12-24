@@ -3,6 +3,8 @@
 #include "cCharater.h"
 #include "EventManager.h"
 #include "jsonManager.h"
+#include "Map.h"
+#include "ObjectPool.h"
 #pragma once
 
 
@@ -16,6 +18,7 @@ cBackViewCamera::cBackViewCamera()
 	, m_fVibrationValue(2.0f)
 	, m_fScrollY(0.0f)
 	, m_IsVibration(false)
+	, m_IsUpdate(true)
 {
 }
 
@@ -45,6 +48,8 @@ void cBackViewCamera::Setup(cCharater* pPlayer)
 
 void cBackViewCamera::Update()
 {
+	if (!m_IsUpdate) return;
+
 	D3DXMATRIXA16 matW,matR, matRX, matRy;
 	D3DXMatrixRotationY(&matRy, m_vCamRotAngle.y);
 	matW = matR = matRy;
@@ -57,6 +62,7 @@ void cBackViewCamera::Update()
 		m_pPlayer->SetCameraDir(m_vDir);
 		m_pPlayer->SetCameraRot(m_vCamRotAngle);
 		D3DXVECTOR3 pos = m_pPlayer->GetPosition();
+		pos.y += 10.0f;
 		m_vLookAt = pos;
 		m_vEye += pos;
 
@@ -80,6 +86,29 @@ void cBackViewCamera::Update()
 		m_vLookAt.y += m_fScrollY;
 	}
 
+	iMap* pMap = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+	if(pMap)
+	{
+		float y = pMap->getHeight(m_vEye);
+		if(y <= 0.0f || y >= 21.0f)
+		{
+			D3DXVECTOR3 vDir = m_vLookAt - m_vEye;
+			D3DXVec3Normalize(&vDir, &vDir);
+			while(true)
+			{
+				m_vEye += vDir * 3.0f;
+				
+				y = pMap->getHeight(m_vEye);
+				
+				if( y < 21.0f && y > 0.0f)
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &m_vUp);
 
@@ -117,6 +146,8 @@ void cBackViewCamera::Update()
 
  void cBackViewCamera::Update(EventType Event)
  {
+	 if (!m_IsUpdate) return;
+
 	 if(Event == EventType::EVENT_MOVE)
 	 {
 		 D3DXVECTOR2 ptCurMouse = EventManager->GetMouseCurrent();

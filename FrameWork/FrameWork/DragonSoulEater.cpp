@@ -136,7 +136,7 @@ void cDragonSoulEater::Update()
 #endif // DEBUG
 
 
-	CollisionInfoCheck();
+	//CollisionInfoCheck();
 
 }
 
@@ -734,7 +734,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "head");
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "head");
 						CollisionInfo info;
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
@@ -749,7 +749,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "tail");
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "tail");
 						CollisionInfo info;
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
@@ -760,7 +760,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			case 3:
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
-					g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Rush");
+					//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Rush");
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 1500;
@@ -771,11 +771,11 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 		}
 	}
-	else 
+	else if(nTag == Tag::Tag_RunStone || nTag== Tag::Tag_Wall)
 	{
-		if (nTag == Tag::Tag_SwampA || nTag == Tag::Tag_SwampB ||
-			nTag == Tag::Tag_FireBall || nTag == Tag::Tag_Breath)
-			return;
+		//if (nTag == Tag::Tag_SwampA || nTag == Tag::Tag_SwampB ||
+		//	nTag == Tag::Tag_FireBall || nTag == Tag::Tag_Breath || nTag == Tag::Tag_LavaGolem)
+		//	return;
 		
 		if (m_pCurState)
 		{
@@ -856,10 +856,12 @@ void cDragonSoulEater::Request()
 		SafeDelete(m_pCurState);
 	}
 
+	//static bool	Check = false;
 	//static DWORD time = GetTickCount();
-	//if (GetTickCount() - time > 1500.0f)
+	//if (GetTickCount() - time > 1500.0f && Check == false)
 	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
+	//	Check = true;
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
 	//	return;
 	//}
 

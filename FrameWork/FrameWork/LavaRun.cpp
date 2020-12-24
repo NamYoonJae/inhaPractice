@@ -7,7 +7,7 @@ cLavaRun::cLavaRun(cLavaGolem* pLavaGolem)
 {
 	m_nStateIndex = 1;
 	m_IsAnimBlend = false;
-
+	TargetChange();
 }
 
 
@@ -22,7 +22,7 @@ void cLavaRun::Handle()
 
 		{
 			D3DXVECTOR3 vPos = m_pGolem->GetPos();
-			vPos += m_pGolem->GetDirection() * 0.2f;
+			vPos += m_vDirection * 0.2f;
 			m_pGolem->SetPos(vPos);
 		}
 
@@ -46,11 +46,24 @@ void cLavaRun::Handle()
 			}
 		}
 		
-		if (m_IsAnimBlend && m_pGolem->GetDist() < Distance)
+		float dist = sqrt(pow(m_pGolem->GetPos().x - m_vTarget.x, 2)
+			+ pow(m_pGolem->GetPos().z - m_vTarget.z, 2));
+
+		if (m_IsAnimBlend && dist < Distance)
 		{
 			m_pGolem->Request(2);
 			return;
 			
 		}
+	}
+}
+
+void cLavaRun::TargetChange()
+{
+	if (m_pGolem)
+	{
+		m_vTarget = *m_pGolem->GetTarget();
+		m_vDirection = m_vTarget - m_pGolem->GetPos();
+		D3DXVec3Normalize(&m_vDirection, &m_vDirection);
 	}
 }

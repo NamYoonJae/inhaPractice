@@ -40,7 +40,7 @@
 #include "Rune.h"
 #include "Wall.h"
 
-
+#include "ArenaMap.h"
 #pragma once
 
 
@@ -69,7 +69,8 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
-	
+
+
 	// 
 	{
 		SkyBox* pSkyBox;
@@ -123,6 +124,7 @@ void cGameScene::Setup() // boss1map  boss2map
 			pPaladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
 			pCamera->Setup((cCharater*)pPaladin);
 			pPaladin->Tagging(Tag::Tag_Player);
+
 			ObjectManager->AddStaticChild(pPaladin);
 			EventManager->PushQueue(EventType::EVENT_CREATE_PALADIN);
 		}
@@ -130,12 +132,14 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	}
 	// 예외 처리 
+	cArenaMap *pMap = new cArenaMap;
+	ObjectManager->AddStaticChild(pMap);
 
 	
-	cGrid *pGrid = new cGrid;
-	pGrid->Setup();
+	//cGrid *pGrid = new cGrid;
+	//pGrid->Setup();
 
-	ObjectManager->AddChild(pGrid);
+	//ObjectManager->AddChild(pGrid);
 
 	
 
@@ -147,11 +151,9 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	//cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
 	//ObjectManager->AddStaticChild(pTerrain);
-	cObjMap* pMap = new cObjMap("data/ObjFile/NW_Testmap","testmap3.obj");
-	pMap->Tagging(Tag::Tag_Map);
+	//cObjMap* pMap = new cObjMap("data/ObjFile//AreaWorld","Arena_base.obj");
 	
-	pMap->SetScale(D3DXVECTOR3(0.2f, 1.0f, 0.2f));
-	ObjectManager->AddStaticChild(pMap);
+	
 
 	
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
@@ -196,14 +198,24 @@ void cGameScene::Setup() // boss1map  boss2map
 	rune->Setup();
 	rune->Tagging(Tag::Tag_RunStone);
 	ObjectManager->AddChild(rune);
-	
+
 	
 	cWall* wall = new cWall;
 	wall->Tagging(Tag::Tag_Wall);
 	wall->Setup();
 	ObjectManager->AddChild(wall);
-	
 
+
+	cSwamp* pSwamp1 = new cSwamp;
+	pSwamp1->Setup(Tag::Tag_SwampA);
+	pSwamp1->SetPos(D3DXVECTOR3(150.0f, 10.0f, 50.0f));
+	ObjectManager->AddChild(pSwamp1);
+	
+	cSwamp* pSwamp2 = new cSwamp;
+	pSwamp2->Setup(Tag::Tag_SwampB);
+	pSwamp2->SetPos(D3DXVECTOR3(220.0f, 0.0f, 120.0f));
+	ObjectManager->AddChild(pSwamp2);
+	
 	///BGM
 	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Battle_BGM.mp3");
 	g_pSoundManager->SetBGMSOUND(0.3f);
@@ -211,6 +223,9 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pSoundManager->PlayBGM();
 	
 	//
+
+
+
  }
 
 void cGameScene::Reset(int sceneType)
@@ -233,13 +248,15 @@ void cGameScene::Reset(int sceneType)
 		
 
 	case SceneType::SCENE_GAMEOVER:
+		/*
 		popup = (cPopup*)ObjectManager->SearchChildUI(TAG_UI::TagUI_GameOver);
 		if (popup != NULL)
 		{
 			popup->PowerOnOff();
 		}
+		*/
 		break;
-
+		
 	case SceneType::SCENE_TROPHIES:
 
 		break;

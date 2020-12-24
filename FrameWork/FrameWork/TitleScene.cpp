@@ -114,16 +114,16 @@ void cTitleScene::Setup()
 	//게임종료 버튼 누를시 확인창
 	cPopup* pExitCheckPopup = new cPopup;
 	pExitCheckPopup->Setup("data/UI/Check", "NW_EndCheck_Background.png",
-		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true, TagUI_ExitCheck);
+		D3DXVECTOR3(500, 300, 0), 0, 0, 0, 0.5, true, true, TagUI_ExitCheck);
 	
 	cButton* pExitCheckPopupYesBtn = new cButton;
 	pExitCheckPopupYesBtn->Setup("data/UI/Check/YES", "NW_Check_Yesbutton_Idle.png",
-		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true);
+		D3DXVECTOR3(620, 450, 0), 0, 0, 0, 0.5, true, true);
 	pExitCheckPopup->cButtonPushBack(pExitCheckPopupYesBtn);
 
 	cButton* pExitCheckPopupNoBtn = new cButton;
 	pExitCheckPopupNoBtn->Setup("data/UI/Check/NO", "NW_Check_Nobutton_Idle.png",
-		D3DXVECTOR3(0, 0, 0), 0, 0, 0, 1, true, true);
+		D3DXVECTOR3(820, 450, 0), 0, 0, 0, 0.5, true, true);
 	pExitCheckPopup->cButtonPushBack(pExitCheckPopupNoBtn);
 
 	EventManager->Attach(pExitCheckPopup);

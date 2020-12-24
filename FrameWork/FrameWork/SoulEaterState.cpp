@@ -40,7 +40,7 @@ void cSoulEaterState::TargetCapture()
 	{
 		m_vTarget = *m_pDragon->GetTarget();
 		m_vDir = m_vTarget - m_pDragon->GetPos();
-
+		//m_vDir.y = 0;
 		D3DXMATRIXA16 matR, matRy;
 		D3DXMatrixLookAtLH(&matR, &D3DXVECTOR3(0, 0, 0), &(m_vTarget - pos), &D3DXVECTOR3(0, 1, 0));
 		D3DXMatrixTranspose(&matR, &matR);

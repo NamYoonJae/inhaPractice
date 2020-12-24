@@ -41,15 +41,14 @@ private:
 
 	vector<cParts*> m_vecParts;
 
-	int m_MaxHp;
+	float m_MaxHp;
 	float m_MaxStamina;
-	//int m_MaxStamina;  // 기획서에 float형식이라 명시되어있어 임시적용
 	Synthesize(bool, m_isInvincible, Invincible);
 
-	int m_Hp;
+	float m_Hp;
 	float m_Stamina;
-	//int m_Stamina;  // 기획서에 float형식이라 명시되어있어 임시적용
 	float m_StaminaRestoreValue;
+	bool m_IsChangeScene;
 
 	// >> 2020. 12. 23.
 	int				m_Attack_Melee_Damage;
@@ -93,16 +92,24 @@ private:
 	vector<cPopup*> m_vecDebuff_UI;
 	vector<long> m_vecStartTime;
 	D3DXMATRIXA16 TempRot;
+	DWORD m_dwPreparationTime;
+	DWORD m_dwStateStartTime;
+
+	// 그림자맵 렌더타깃
+	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
+	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
 public:
 	cPaladin();
 	~cPaladin();
 
 	void Setup(char* szFolder, char* szFile);
+	void ShadowShaderSetup();
 	void ShaderSetup();
 	void Update();
 	void Update(EventType event) override;
 	void Render(D3DXMATRIXA16 * pmat = NULL);
 	void ShaderRender();
+	void CreateShadow();
 
 	void CollisionProcess(cObject* pObject) override;
 	void StateFeedback();
@@ -114,10 +121,10 @@ public:
 
 	void CreateTrophies(EventType message);
 
-	int GetHp() { return m_Hp; }
-	int GetStamina() { return m_Stamina; }
-	int GetMaxHp() { return m_MaxHp; }
-	int GetMaxStamina() { return m_MaxStamina; }
+	float GetHp() { return m_Hp; }
+	float GetStamina() { return m_Stamina; }
+	float GetMaxHp() { return m_MaxHp; }
+	float GetMaxStamina() { return m_MaxStamina; }
 
 	void SetDebuff(int debuff);
 	int vecDebuffFind(int debuff);
@@ -130,6 +137,8 @@ public:
 	// backviewCamera
 	void SetCameraRot(D3DXVECTOR3 CameraRot) { m_vCameraRot = CameraRot; }
 	void SetCameraDir(D3DXVECTOR3 CameraDir) { m_vCameraDir = CameraDir; }
+
+	int SearchDebuff(int debuff);
 };
 
 class cParts

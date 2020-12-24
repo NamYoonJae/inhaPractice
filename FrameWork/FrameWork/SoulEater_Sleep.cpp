@@ -60,20 +60,21 @@ void cSoulEater_Sleep::handle()
 			m_IsSleep = true;
 			m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Sleeping);
 			// gelem  create
-			D3DXVECTOR3 vPos1, vPos2;
-			vPos1 = vPos2 = m_pDragon->GetPos();
-			vPos1.x += 150;
-			vPos2.x -= 150;
-			
-			cLavaGolem *pGolem1;
-			pGolem1 = new cLavaGolem;
-			pGolem1->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
-			pGolem1->Setup();
-			pGolem1->Tagging(Tag::Tag_LavaGolem);
-			pGolem1->SetPos(vPos1);
-			ObjectManager->AddChild(pGolem1);
-					
-			//m_nliveGolem = 1;
+
+			vector<cObject*> GolemList;
+			ObjectManager->FindAllObjectsWithTag(Tag::Tag_LavaGolem, GolemList);
+			if (GolemList.size() < 2)
+			{
+				D3DXVECTOR3 vGolemPos;
+				vGolemPos = D3DXVECTOR3(0, 0, 0);
+				cLavaGolem *pGolem;
+				pGolem = new cLavaGolem;
+				pGolem->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
+				pGolem->Setup();
+				pGolem->Tagging(Tag::Tag_LavaGolem);
+				pGolem->SetPos(vGolemPos);
+				ObjectManager->AddChild(pGolem);
+			}
 			m_dwElapsedTime = GetTickCount();
 			
 			g_pSoundManager->PlaySFX(eSoundList::Dragon_Sleep);

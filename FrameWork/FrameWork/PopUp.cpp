@@ -413,7 +413,7 @@ void cPopup::SetImageInfoWidth(float percent)
 	if (percent <= 0 || result <= 0)
 	{
 		m_ImageInfoWidth = 0;
-		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+		//g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
 	}
 	else
 	{

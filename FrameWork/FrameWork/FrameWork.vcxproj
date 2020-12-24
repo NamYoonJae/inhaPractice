@@ -162,6 +162,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArenaMap.h" />
     <ClInclude Include="Arthur.h" />
     <ClInclude Include="BackViewCamera.h" />
     <ClInclude Include="basic.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArenaMap.cpp" />
     <ClCompile Include="Arthur.cpp" />
     <ClCompile Include="BackViewCamera.cpp" />
     <ClCompile Include="BtnUIEvent.cpp" />
@@ -346,6 +348,18 @@
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="data\Shader\ApplyShadow.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">2.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="data\Shader\CreateShadow.fx">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">2.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">2.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="data\Shader\NormalMapping.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
