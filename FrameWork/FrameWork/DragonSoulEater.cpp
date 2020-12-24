@@ -239,58 +239,60 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 
 	// BOSS SKILL status
 	{
-		JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-		JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
-		JSON_Object* p_ExtraPattern_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Extra Pattern/");
+		//JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+		//JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+		//JSON_Object* p_ExtraPattern_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Extra Pattern/");
 
-		// 기본공격 // 패턴 1
-		m_BasicAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Melee rate");
-		m_BasicAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Elemental rate");
+		//// 기본공격 // 패턴 1
+		//m_BasicAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Melee rate");
+		//m_BasicAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Elemental rate");
+		//// 파이어볼 // 즉사기 패턴
+		//m_FireBall_Physic_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Melee rate");
+		//m_FireBall_Elemental_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Elemental rate");
+		//m_FireBall_Range = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Range");
+		//// 돌진 // 패턴 2
+		//m_Rush_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Melee rate");
+		//m_Rush_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Elemental rate");
+		//// 포효 // 포효 패턴
+		//m_Scream_Range = json_Function::object_get_double(p_ExtraPattern_object, "Scream/Attribute/Range");
+		//// 수면 // 체력회복 패턴
+		//m_Sleep_Duration = json_Function::object_get_double(p_ExtraPattern_object, "Sleep/Attribute/Duration");
+		//// 꼬리치기 // 패턴 1
+		//m_TailAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 2/Melee rate");
+		//m_TailAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 2/Elemental rate");
+
 		// 브레스 // 패턴 4
 		//m_Breath_Duration = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
 		//m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
 		//m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
-		// 파이어볼 // 즉사기 패턴
-		m_FireBall_Physic_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Melee rate");
-		m_FireBall_Elemental_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Elemental rate");
-		m_FireBall_Range = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Range");
 		//// 장판 // 패턴 3 // swamp 로 이동됨
 		//m_Flood_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Melee rate");
 		//m_Flood_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Elemental rate");
 		//m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
 		//m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
-		// 돌진 // 패턴 2
-		m_Rush_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Melee rate");
-		m_Rush_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Elemental rate");
-		// 포효 // 포효 패턴
-		m_Scream_Range = json_Function::object_get_double(p_ExtraPattern_object, "Scream/Attribute/Range");
-		// 수면 // 체력회복 패턴
-		m_Sleep_Duration = json_Function::object_get_double(p_ExtraPattern_object, "Sleep/Attribute/Duration");
-		// 꼬리치기 // 패턴 1
-		m_TailAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 2/Melee rate");
-		m_TailAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 2/Elemental rate");
 	}
 
 	// BOSS SKILL log
 	{
-		cout << "BOSS_jsonValue BasicAttack_Physic_Rate : " << m_BasicAttack_Physic_Rate << endl;
-		cout << "BOSS_jsonValue BasicAttack_Elemental_Rate : " << m_BasicAttack_Elemental_Rate << endl;
+		//cout << "BOSS_jsonValue BasicAttack_Physic_Rate : " << m_BasicAttack_Physic_Rate << endl;
+		//cout << "BOSS_jsonValue BasicAttack_Elemental_Rate : " << m_BasicAttack_Elemental_Rate << endl;
+		//cout << "BOSS_jsonValue FireBall_Physic_Rate : " << m_FireBall_Physic_Rate << endl;
+		//cout << "BOSS_jsonValue FireBall_Elemental_Rate : " << m_FireBall_Elemental_Rate << endl;
+		//cout << "BOSS_jsonValue FireBall_Range : " << m_FireBall_Range << endl;
+		//cout << "BOSS_jsonValue Rush_Physic_Rate : " << m_Rush_Physic_Rate << endl;
+		//cout << "BOSS_jsonValue Rush_Elemental_Rate : " << m_Rush_Elemental_Rate << endl;
+		//cout << "BOSS_jsonValue Scream_Range : " << m_Scream_Range << endl;
+		//cout << "BOSS_jsonValue Sleep_Duration : " << m_Sleep_Duration << endl;
+		//cout << "BOSS_jsonValue TailAttack_Physic_Rate : " << m_TailAttack_Physic_Rate << endl;
+		//cout << "BOSS_jsonValue TailAttack_Elemental_Rate : " << m_TailAttack_Elemental_Rate << endl;
+
 		//cout << "BOSS_jsonValue Breath_Duration : " << m_Breath_Duration << endl;
 		//cout << "BOSS_jsonValue Breath_Physic_Rate : " << m_Breath_Physic_Rate << endl;
 		//cout << "BOSS_jsonValue Breath_Elemental_Rate : " << m_Breath_Elemental_Rate << endl;
-		cout << "BOSS_jsonValue FireBall_Physic_Rate : " << m_FireBall_Physic_Rate << endl;
-		cout << "BOSS_jsonValue FireBall_Elemental_Rate : " << m_FireBall_Elemental_Rate << endl;
-		cout << "BOSS_jsonValue FireBall_Range : " << m_FireBall_Range << endl;
 		//cout << "BOSS_jsonValue Flood_Physic_Rate : " << m_Flood_Physic_Rate << endl;
 		//cout << "BOSS_jsonValue Flood_Elemental_Rate : " << m_Flood_Elemental_Rate << endl;
 		//cout << "BOSS_jsonValue Flood_Condition : " << m_Flood_Condition << endl;
 		//cout << "BOSS_jsonValue Flood_Condition_Rate : " << m_Flood_Condition_Rate << endl;
-		cout << "BOSS_jsonValue Rush_Physic_Rate : " << m_Rush_Physic_Rate << endl;
-		cout << "BOSS_jsonValue Rush_Elemental_Rate : " << m_Rush_Elemental_Rate << endl;
-		cout << "BOSS_jsonValue Scream_Range : " << m_Scream_Range << endl;
-		cout << "BOSS_jsonValue Sleep_Duration : " << m_Sleep_Duration << endl;
-		cout << "BOSS_jsonValue TailAttack_Physic_Rate : " << m_TailAttack_Physic_Rate << endl;
-		cout << "BOSS_jsonValue TailAttack_Elemental_Rate : " << m_TailAttack_Elemental_Rate << endl;
 	}
 
 	//// object interaction
@@ -904,74 +906,6 @@ void cDragonSoulEater::Request()
 #endif // DEBUG
 
 
-	// TODO Remove
-#pragma region before
-	//if (m_fStungauge >= 1000)
-	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, 8000.0f);
-	//	return;
-	//}
-
-	//if (m_fRagegauge >= 1000 && !m_IsRage)
-	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
-	//	m_IsRage = true;
-	//	return;
-	//}
-
-	//if(m_IsRage && m_nPhase >= 3 && m_nPrevStateIndex == 4)
-	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
-	//	return;
-	//}
-
-	//if (m_fCurHeathpoint <= m_fMaxHeathPoint * 0.2 && m_nPhase >= 3 && m_IsBreathe == false)
-	//{
-	//	m_IsBreathe = true;
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
-	//	return;
-	//}
-
-
-
-	//if (m_nPhase >= 2 && (rand() % 255 / 255 > 0.80))
-	//{
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
-	//	return;
-	//}
-	//
-	//if (m_pvTarget)
-	//{
-	//	D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
-	//	D3DXVec3Normalize(&vCurDir, &vCurDir);
-	//	D3DXVECTOR3 vPrevDir = D3DXVECTOR3(0, 0, -1);
-	//	D3DXVec3TransformNormal(&vPrevDir, &vPrevDir, &m_matRotation);
-
-	//	float Radian = acos(D3DXVec3Dot(&vPrevDir, &vCurDir));
-	//	float distance = sqrt(pow(m_vPos.x - (*m_pvTarget).x, 2) + pow(m_vPos.z - (*m_pvTarget).z, 2));
-
-	//	if (distance >= 100.0f && m_nPrevStateIndex != 3)
-	//	{
-	//		//
-	//		m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
-	//		return;
-	//	}
-	//	else if (Radian >= D3DX_PI - D3DX_PI * 0.33 && Radian <= D3DX_PI + D3DX_PI * 0.33
-	//		&& distance <= 55
-	//		&& m_nPrevStateIndex != 2)
-	//	{
-	//		// 55
-	//		m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
-	//		return;
-	//	}
-	//	else 
-	//	{
-	//		m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
-	//	}
-	//}
-#pragma endregion before
-
-#pragma region After
 	//JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
 	//JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
 
@@ -1000,8 +934,6 @@ void cDragonSoulEater::Request()
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
 		return;
 	}
-
-
 
 	if (m_nPhase >= 2 && (rand() % 255 / 255 > 0.80))
 	{
@@ -1038,9 +970,6 @@ void cDragonSoulEater::Request()
 			m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
 		}
 	}
-
-
-#pragma endregion After
 }
 
 D3DXVECTOR3 * cDragonSoulEater::GetTarget()

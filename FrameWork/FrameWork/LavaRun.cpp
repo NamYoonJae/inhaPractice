@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "LavaRun.h"
 #include "LavaGolem.h"
+#include "jsonManager.h"
+
 #pragma once
 cLavaRun::cLavaRun(cLavaGolem* pLavaGolem)
 	:cLavaState(pLavaGolem)
@@ -22,7 +24,8 @@ void cLavaRun::Handle()
 
 		{
 			D3DXVECTOR3 vPos = m_pGolem->GetPos();
-			vPos += m_vDirection * 0.2f;
+			//vPos += m_vDirection * 0.2f;
+			vPos += m_vDirection * json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Sub Monster/Move Speed");
 			m_pGolem->SetPos(vPos);
 		}
 

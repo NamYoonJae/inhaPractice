@@ -5,6 +5,10 @@ class cSoulEater_TailAttack :
 {
 private:
 	bool  m_IsAnimBlend;
+
+	// 꼬리치기 // 패턴 1
+	float				m_TailAttack_Physic_Rate;
+	float				m_TailAttack_Elemental_Rate;
 public:
 	cSoulEater_TailAttack();
 	cSoulEater_TailAttack(cDragonSoulEater*);

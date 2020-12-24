@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SoulEater_TailAttack.h"
 #include "DragonSoulEater.h"
+#include "jsonManager.h"
 
 cSoulEater_TailAttack::cSoulEater_TailAttack()
 	:cSoulEaterState()
@@ -13,6 +14,19 @@ cSoulEater_TailAttack::cSoulEater_TailAttack(cDragonSoulEater* pDragon)
 	,m_IsAnimBlend(false)
 {
 	m_nCurentIndex = 2;
+
+
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+	JSON_Object* p_ExtraPattern_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Extra Pattern/");
+
+	// 꼬리치기 // 패턴 1
+	m_TailAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 2/Melee rate");
+	m_TailAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 2/Elemental rate");
+
+	// log
+	cout << "BOSS_jsonValue TailAttack_Physic_Rate : " << m_TailAttack_Physic_Rate << endl;
+	cout << "BOSS_jsonValue TailAttack_Elemental_Rate : " << m_TailAttack_Elemental_Rate << endl;
 }
 
 cSoulEater_TailAttack::~cSoulEater_TailAttack()
