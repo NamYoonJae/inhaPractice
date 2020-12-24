@@ -33,7 +33,6 @@ cPaladin::cPaladin()
 	, m_Stamina(0)
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
-	, m_isInvincible(false)
 	, m_fSpeed(0)
 
 	, m_Attack_Melee_Damage(0)
@@ -64,7 +63,7 @@ cPaladin::cPaladin()
 
 	, m_dwStateStartTime(GetTickCount())
 	, m_dwPreparationTime(1000.0f)
-	,m_IsChangeScene(false)
+	, m_IsChangeScene(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
