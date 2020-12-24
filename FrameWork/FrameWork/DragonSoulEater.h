@@ -139,6 +139,7 @@ public:
 	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }
 	int CurrentStateIndex();
 	void HitSound() override;
+	const int GetPhase() { return m_nPhase; }
 };
 
 
