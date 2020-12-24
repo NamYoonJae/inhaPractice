@@ -203,6 +203,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
+	ShadowShaderSetup();
 	ShaderSetup();
 
 	m_pCurState = new cPaladinIdle(this);
@@ -217,7 +218,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	}
 }
 
-void cPaladin::ShaderSetup()
+void cPaladin::ShadowShaderSetup()
 {
 	const int shadowMapSize = 2048;
 	if (FAILED(g_pD3DDevice->CreateTexture(shadowMapSize, shadowMapSize,
@@ -231,10 +232,12 @@ void cPaladin::ShaderSetup()
 		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE,
 		&m_pShadowDepthStencil, NULL)))
 	{
-		cout << "CreateTexture FAILED" << endl;
+		cout << "CreateDepthStencilSurface FAILED" << endl;
 	}
+}
 
-	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
+void cPaladin::ShaderSetup()
+{
 	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
 
 	D3DLIGHT9   Light;
@@ -471,6 +474,7 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
+	CreateShadow();
 	ShaderRender();
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 
@@ -483,7 +487,6 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 void cPaladin::ShaderRender()
 {
 	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
-	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
 
 	if (pShader)
 	{
@@ -493,30 +496,14 @@ void cPaladin::ShaderRender()
 		D3DXMATRIXA16	matProjection;
 		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
 		
-		//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-		//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-		//g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
-		//g_pD3DDevice->GetDepthStencilSurface(&pHWDepthStencilBuffer);
-
-		//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-		//if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
-		//{
-		//	g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
-		//	pShadowSurface->Release();
-		//	pShadowSurface = NULL;
-		//}
-		//g_pD3DDevice->SetDepthStencilSurface(m_pShadowDepthStencil);
-		//
-		//g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
-
 		// 쉐이더 전역변수들을 설정
 		pShader->SetMatrix("gWorldMatrix", &MatrixIdentity);
 		
 		D3DXMATRIXA16 matWVP = matView * matProjection;
 		pShader->SetMatrix("gWorldViewProjectionMatrix", &matWVP);
 		
-		pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
-		pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
+		//pShader->SetTexture("DiffuseMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_diffuse.png"));
+		//pShader->SetTexture("SpecularMap_Tex", g_pTextureManager->GetTexture("data/XFile/Paladin/Paladin_specular.png"));
 
 		
 		UINT numPasses = 0;
@@ -532,6 +519,81 @@ void cPaladin::ShaderRender()
 			}
 		}
 		pShader->End();
+	}
+}
+
+void cPaladin::CreateShadow()
+{
+	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
+
+	if (pShader)
+	{
+		D3DXMATRIXA16	matView;
+		g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+
+		D3DXMATRIXA16	matProjection;
+		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+		LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+		LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+		g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
+		g_pD3DDevice->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+
+		LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+		if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
+		{
+			g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
+			pShadowSurface->Release();
+			pShadowSurface = NULL;
+		}
+		g_pD3DDevice->SetDepthStencilSurface(m_pShadowDepthStencil);
+
+		g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+
+		D3DLIGHT9   Light;
+		g_pD3DDevice->GetLight(0, &Light);
+		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
+		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+
+		D3DXMATRIXA16 matLightView;
+		{
+			D3DXVECTOR3 vEyePt(vLightPos.x, vLightPos.y, vLightPos.z);
+			D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
+			D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+			D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
+		}
+
+		D3DXMATRIXA16 matLightProjection;
+		{
+			D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
+		}
+
+		pShader->SetMatrix("gWorldMatrix", &MatrixIdentity);
+		pShader->SetMatrix("gLightViewMatrix", &matLightView);
+		pShader->SetMatrix("gLightProjectionMatrix", &matLightProjection);
+		
+
+		UINT numPasses = 0;
+		pShader->Begin(&numPasses, NULL);
+		{
+			for (UINT i = 0; i < numPasses; ++i)
+			{
+				pShader->BeginPass(i);
+				{
+					m_pSkinnedUnit->Render();
+				}
+				pShader->EndPass();
+			}
+		}
+		pShader->End();
+
+		g_pD3DDevice->SetRenderTarget(0, pHWBackBuffer);
+		g_pD3DDevice->SetDepthStencilSurface(pHWDepthStencilBuffer);
+
+		pHWBackBuffer->Release();
+		pHWBackBuffer = NULL;
+		pHWDepthStencilBuffer->Release();
+		pHWDepthStencilBuffer = NULL;
 	}
 }
 
