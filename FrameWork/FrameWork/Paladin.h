@@ -23,6 +23,7 @@ class cPaladin : public cCharater
 private:
 	cSkinnedMesh*	m_pSkinnedUnit;
 	float			m_fvelocity;
+	float			m_fOriginSpeed;
 	float			m_fSpeed;
 
 	D3DXMATRIXA16	m_matScale;
@@ -128,7 +129,9 @@ public:
 	float GetStamina() { return m_Stamina; }
 	float GetMaxHp() { return m_MaxHp; }
 	float GetMaxStamina() { return m_MaxStamina; }
+	float GetOriginSpeed() { return m_fOriginSpeed; }
 
+	void SetSpeed(int speed) { m_fSpeed = speed; }
 	void SetDebuff(int debuff);
 	int vecDebuffFind(int debuff);
 	void ReloadSpriteDebuff();

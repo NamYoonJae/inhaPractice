@@ -3,6 +3,7 @@
 #include "ShaderManager.h"
 #include "cOBB.h"
 #include "jsonManager.h"
+#include "Paladin.h"
 #pragma once
 
 #define Box_Size 50
@@ -16,8 +17,6 @@ cSwamp::cSwamp()
 
 	, m_fPhysicDamage(0)
 	, m_fElementalDamage(0)
-	, m_Flood_Physic_Rate(0)
-	, m_Flood_Elemental_Rate(0)
 	//, m_Flood_Condition // string
 	, m_Flood_Condition_Rate(0)
 {
@@ -36,8 +35,6 @@ void cSwamp::Setup(Tag T)
 
 	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
 	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
-	m_Flood_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Melee rate");
-	m_Flood_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Elemental rate");
 	m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
 	m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
 
@@ -200,9 +197,14 @@ void cSwamp::CollisionProcess(cObject * pObject)
 {
 	if (pObject->GetTag() == Tag::Tag_Player)
 	{
+		cPaladin* pPaladin = (cPaladin*)pObject;
 		switch (m_nTag)
 		{
 		case Tag::Tag_SwampA :
+		{
+			pPaladin->SetSpeed(pPaladin->GetOriginSpeed() - 50); // 벗어났을때 처리
+		}
+
 			// 	 이동속도 느려지는 오브젝트
 			break;
 		case Tag::Tag_SwampB :

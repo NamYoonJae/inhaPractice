@@ -4,6 +4,7 @@
 #include "DragonBreathe.h"
 #include "ObjectPool.h"
 #include "AllocateHierarchy.h"
+#include "jsonManager.h"
 #pragma once
 
 
@@ -11,7 +12,14 @@ cSoulEater_Breath::cSoulEater_Breath()
 {
 	m_nCurentIndex = 7;
 	m_IsAnimBlend = false;
-	m_dwBreathDurationTime = 5000.0f;
+	//m_Breath_Duration = 5000.0f;
+
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+
+	m_Breath_Duration = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
+	m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
+	m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
 }
 
 cSoulEater_Breath::cSoulEater_Breath(cDragonSoulEater* pDragon)
@@ -19,7 +27,14 @@ cSoulEater_Breath::cSoulEater_Breath(cDragonSoulEater* pDragon)
 {
 	m_nCurentIndex = 7;
 	m_IsAnimBlend = false;
-	m_dwBreathDurationTime = 5000.0f;
+	//m_Breath_Duration = 5000.0f;
+
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+
+	m_Breath_Duration = (DWORD)json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
+	m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
+	m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
 }
 
 
@@ -44,7 +59,7 @@ void cSoulEater_Breath::handle()
 			m_pDragon->GetSkinnedMesh().SetAnimationIndex(AnimationSet::FireBall_Shot);
 			cDragonBreathe *pBreath = new cDragonBreathe;
 			pBreath->GetTarget(m_pDragon->GetTarget());
-			pBreath->SetDurationTime(m_dwBreathDurationTime);
+			pBreath->SetDurationTime(m_Breath_Duration);
 			
 			D3DXVECTOR3 vPos = m_pDragon->GetPos();
 			D3DXMATRIXA16 matCurrentAnimMatrix;
@@ -64,7 +79,7 @@ void cSoulEater_Breath::handle()
 			g_pSoundManager->PlaySFX(eSoundList::Dragon_Breath);
 		}
 	}
-	else if(GetTickCount() - m_dwStartTime > m_dwBreathDurationTime)
+	else if(GetTickCount() - m_dwStartTime > m_Breath_Duration)
 	{
 		m_pDragon->Request();
 		return;

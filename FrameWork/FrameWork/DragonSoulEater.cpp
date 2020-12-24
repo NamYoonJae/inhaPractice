@@ -39,6 +39,7 @@ cDragonSoulEater::cDragonSoulEater()
 	m_IsRage = false;
 	m_fRagegauge = 0.0f;
 	m_fStungauge = 0.0f;
+	m_fRigidgauge = 0.0f;
 	m_nPhase = 1;
 
 	m_IsBreathe = false;
@@ -246,9 +247,9 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 		m_BasicAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Melee rate");
 		m_BasicAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Elemental rate");
 		// 브레스 // 패턴 4
-		m_Breath_Duration = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
-		m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
-		m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
+		//m_Breath_Duration = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
+		//m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
+		//m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
 		// 파이어볼 // 즉사기 패턴
 		m_FireBall_Physic_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Melee rate");
 		m_FireBall_Elemental_Rate = json_Function::object_get_double(p_ExtraPattern_object, "FireBall/Attribute/Elemental rate");
@@ -274,9 +275,9 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 	{
 		cout << "BOSS_jsonValue BasicAttack_Physic_Rate : " << m_BasicAttack_Physic_Rate << endl;
 		cout << "BOSS_jsonValue BasicAttack_Elemental_Rate : " << m_BasicAttack_Elemental_Rate << endl;
-		cout << "BOSS_jsonValue Breath_Duration : " << m_Breath_Duration << endl;
-		cout << "BOSS_jsonValue Breath_Physic_Rate : " << m_Breath_Physic_Rate << endl;
-		cout << "BOSS_jsonValue Breath_Elemental_Rate : " << m_Breath_Elemental_Rate << endl;
+		//cout << "BOSS_jsonValue Breath_Duration : " << m_Breath_Duration << endl;
+		//cout << "BOSS_jsonValue Breath_Physic_Rate : " << m_Breath_Physic_Rate << endl;
+		//cout << "BOSS_jsonValue Breath_Elemental_Rate : " << m_Breath_Elemental_Rate << endl;
 		cout << "BOSS_jsonValue FireBall_Physic_Rate : " << m_FireBall_Physic_Rate << endl;
 		cout << "BOSS_jsonValue FireBall_Elemental_Rate : " << m_FireBall_Elemental_Rate << endl;
 		cout << "BOSS_jsonValue FireBall_Range : " << m_FireBall_Range << endl;
