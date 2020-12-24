@@ -66,13 +66,11 @@ void cGameScene::Setup() // boss1map  boss2map
 	D3DXVECTOR3 vDir(10.0f, -2.0f,20.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
+	m_Light.Position = D3DXVECTOR3(500.00, 500.00, -500.00);
 
 	g_pD3DDevice->SetLight(0, &m_Light);
 	g_pD3DDevice->LightEnable(0, true);
 
-
-	cArenaMap *pMap = new cArenaMap;
-	
 	// 
 	{
 		SkyBox* pSkyBox;
@@ -119,6 +117,10 @@ void cGameScene::Setup() // boss1map  boss2map
 		//	pArthur->Tagging(Tag::Tag_Player);
 		//	ObjectManager->AddStaticChild(pArthur);
 		//}
+
+		cArenaMap* pMap = new cArenaMap;
+		pMap->Tagging(Tag::Tag_Map);
+		ObjectManager->AddStaticChild(pMap);
 
 		if(ObjectManager->SearchChild(Tag::Tag_Player) == NULL)
 		{
@@ -219,7 +221,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	
 
-	ObjectManager->AddStaticChild(pMap);
 	
  }
 

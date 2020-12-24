@@ -12,7 +12,7 @@ cPopup::cPopup()
 	, m_Position(0.0f, 0.0f, 0.0f)
 	, pParent(NULL)
 	, EventProcess(NULL)
-	, m_Percentage(0)
+	, m_Percentage(1.0f)
 	, m_Power(true)
 	, m_Fixed(true)
 	, m_pPaladin(NULL)
@@ -108,6 +108,17 @@ void cPopup::Setup(char * root, char * fileName, D3DXVECTOR3 position, float x, 
 	str_filename = string(fileName);
 
 	LoadTexture((char*)fileRoot.c_str());
+}
+
+void cPopup::Setup(LPDIRECT3DTEXTURE9 pTexture, int nSize)
+{
+	m_pTextureUI = pTexture;
+	
+	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
+	
+	m_ImageInfoWidth = nSize;
+	m_ImageInfoHeight = nSize;
+	SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
 }
 
 void cPopup::Update(EventType message)
@@ -260,6 +271,11 @@ void cPopup::SetPosition(D3DXVECTOR2 position)
 float cPopup::GetPercent()
 {
 	return m_Percentage;
+}
+
+void cPopup::SetPercent(float percentage)
+{
+	m_Percentage = percentage;
 }
 
 void cPopup::PowerOnOff()

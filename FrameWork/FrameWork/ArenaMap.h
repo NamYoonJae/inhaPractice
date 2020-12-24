@@ -23,5 +23,15 @@ public:
 	virtual void Render(D3DXMATRIXA16 *pmat = NULL) override;
 	virtual void Update() override;
 	virtual bool CheckInMap(D3DXVECTOR3 pos) override;
+
+	// >> Temp For Shadow Shader
+	vector<LPDIRECT3DTEXTURE9> m_vecShadowMap;
+	void AddShadowMap(LPDIRECT3DTEXTURE9 pShadowTexture);
+	void ReplaceShadowMap(LPDIRECT3DTEXTURE9 pShadowTexture);
+
+	void ShaderSetup();
+	void ShaderRender();
+	void DefaultRender();
+	// << Temp For Shadow Shader 
 };
 

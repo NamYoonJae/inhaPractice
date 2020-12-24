@@ -97,6 +97,7 @@ private:
 	// ±×¸²ÀÚ¸Ê ·»´õÅ¸±ê
 	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
 	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
+	cPopup* m_pShadowMap;
 public:
 	cPaladin();
 	~cPaladin();
@@ -120,10 +121,10 @@ public:
 
 	void CreateTrophies(EventType message);
 
-	int GetHp() { return m_Hp; }
-	int GetStamina() { return m_Stamina; }
-	int GetMaxHp() { return m_MaxHp; }
-	int GetMaxStamina() { return m_MaxStamina; }
+	float GetHp() { return m_Hp; }
+	float GetStamina() { return m_Stamina; }
+	float GetMaxHp() { return m_MaxHp; }
+	float GetMaxStamina() { return m_MaxStamina; }
 
 	void SetDebuff(int debuff);
 	int vecDebuffFind(int debuff);
