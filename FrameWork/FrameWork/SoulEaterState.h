@@ -13,6 +13,9 @@ protected:
 	D3DXVECTOR3 m_vDir;
 
 	DWORD m_dwElapsedTime;
+
+	float PhysicRate; // << 
+
 public:
 	cSoulEaterState();
 	cSoulEaterState(cDragonSoulEater*);

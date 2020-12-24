@@ -10,6 +10,7 @@ private:
 
 	Synthesize(DWORD, m_dwDurationTime, Duration);
 	DWORD m_dwElapsedTime;
+	
 public:
 	cSwamp();
 	~cSwamp();

@@ -60,7 +60,7 @@ void cSoulEater_Rush::handle()
 		m_vDir = D3DXVECTOR3(0, 0, 0);
 		//스턴치 넣어줘야되
 		
-		m_pDragon->SetSTUN(m_pDragon->GetSTUN()+ 500.0f);
+		m_pDragon->SetSTUN(m_pDragon->GetSTUN()+ 50.0f); // << json 값 넣기
 		//g_pSoundManager->PlaySFX(eSoundList::Dragon_Collision);
 		m_pDragon->HitSound();
 		m_pDragon->Request();
