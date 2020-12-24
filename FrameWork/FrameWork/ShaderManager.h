@@ -15,6 +15,8 @@ enum eShader
 	LavaEffect,
 	FireBall,
 	Swamp,
+	CreateShadow,
+	ApplyShadow,
 
 	ShaderSize
 };
