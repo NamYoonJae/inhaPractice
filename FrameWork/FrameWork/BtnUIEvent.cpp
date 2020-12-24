@@ -383,9 +383,10 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 			json_object_set_number(Sound_object, "BGM", 0);
 
 		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+		g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM") * 0.001f);
+		cout << "BGM : " << (float)json_object_get_number(Sound_object, "BGM") << endl;
 
 		//g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
-		g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM"));
 	}
 	break;
 	};//switch End
@@ -473,9 +474,9 @@ void SFX_Setting_Event(EventType message, cPopup* btn)
 			json_object_set_number(Sound_object, "SFX", 0);
 
 		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
-		g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX"));
-
+		g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX") * 0.01f);
 		cout << "SFX : " << (float)json_object_get_number(Sound_object, "SFX") << endl;
+
 		// g_pSoundManager->SetSFXSOUND((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
 	}
 	break;

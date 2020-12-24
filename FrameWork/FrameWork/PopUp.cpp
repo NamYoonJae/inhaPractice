@@ -4,6 +4,7 @@
 #include "EventManager.h"
 #include "Button.h"
 #include "Scene.h"
+#include "Paladin.h"
 
 cPopup::cPopup()
 	: m_pSprite(NULL)
@@ -108,6 +109,33 @@ void cPopup::Setup(char * root, char * fileName, D3DXVECTOR3 position, float x, 
 	str_filename = string(fileName);
 
 	LoadTexture((char*)fileRoot.c_str());
+}
+
+void cPopup::Update() 
+{
+	if (m_Power)
+	{
+		if (m_pPaladin != NULL)
+		{
+
+			if (m_nTag == TagUI_Hp)
+			{
+				float hp = m_pPaladin->GetHp();
+				float maxHp = m_pPaladin->GetMaxHp();
+				float result = ((float)hp / (float)maxHp) * 100;
+				SetImageInfoWidth(result);
+			}
+
+			if (m_nTag == TagUI_Stamina)
+			{
+				float stamina = m_pPaladin->GetStamina();
+				float maxStamina = m_pPaladin->GetMaxStamina();
+				float result = ((float)stamina / (float)maxStamina) * 100;
+				SetImageInfoWidth(result);
+			}
+
+		}
+	}
 }
 
 void cPopup::Update(EventType message)
