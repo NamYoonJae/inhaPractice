@@ -2,7 +2,6 @@
 #include "cOBB.h"
 #include "SkinnedMesh.h"
 #include "PaladinState.h"
-#include "TimerManager.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
 
@@ -21,7 +20,6 @@
 
 #include "jsonManager.h"
 
-#pragma once
 cPaladin::cPaladin()
 	: m_fvelocity(0.0f)
 	, m_isMoving(false)
@@ -58,6 +56,8 @@ cPaladin::cPaladin()
 	, m_Char_Scream_Duration(0)
 
 	, m_pTrophies(NULL)
+	, m_pShadowRenderTarget(NULL)
+	, m_pShadowDepthStencil(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -219,13 +219,28 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 void cPaladin::ShaderSetup()
 {
+	const int shadowMapSize = 2048;
+	if (FAILED(g_pD3DDevice->CreateTexture(shadowMapSize, shadowMapSize,
+		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
+		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
+	{
+		cout << "CreateTexture FAILED" << endl;
+	}
+
+	if (FAILED(g_pD3DDevice->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
+		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE,
+		&m_pShadowDepthStencil, NULL)))
+	{
+		cout << "CreateTexture FAILED" << endl;
+	}
+
+	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
 	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
 
 	D3DLIGHT9   Light;
 	g_pD3DDevice->GetLight(0, &Light);
 	D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
 	//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
-	//D3DXVECTOR4 vLightPos = D3DXVECTOR4(500.00, 500.00, -500.00, 1.00);
 	D3DXCOLOR c = Light.Diffuse;
 	D3DXVECTOR4 LightColor = D3DXVECTOR4(c.r, c.g, c.b, c.a);
 
@@ -468,6 +483,7 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 void cPaladin::ShaderRender()
 {
 	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::Specular_DSL);
+	//LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
 
 	if (pShader)
 	{
@@ -476,6 +492,22 @@ void cPaladin::ShaderRender()
 
 		D3DXMATRIXA16	matProjection;
 		g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+		
+		//LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
+		//LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
+		//g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
+		//g_pD3DDevice->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+
+		//LPDIRECT3DSURFACE9 pShadowSurface = NULL;
+		//if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
+		//{
+		//	g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
+		//	pShadowSurface->Release();
+		//	pShadowSurface = NULL;
+		//}
+		//g_pD3DDevice->SetDepthStencilSurface(m_pShadowDepthStencil);
+		//
+		//g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
 
 		// 쉐이더 전역변수들을 설정
 		pShader->SetMatrix("gWorldMatrix", &MatrixIdentity);
