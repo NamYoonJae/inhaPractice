@@ -26,18 +26,18 @@
       "Poison": {
         "Rate reduce": null,
         "Damage": 5,
-        "Duration time": 10
+        "Duration time": 10000
       }
     },
     "Stun": {
       "Rate reduce": 1,
-      "Duration time": 4
+      "Duration time": 4000
     },
     "Scream": {
-      "Duration time": 2
+      "Duration time": 2000
     },
     "Invincibility": {
-      "Duration time" : 15
+      "Duration time" : 15000
     },
     "Flinch": {
       "Rate" : 115

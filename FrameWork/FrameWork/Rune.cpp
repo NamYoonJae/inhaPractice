@@ -4,6 +4,7 @@
 #include "ObjLoader.h"
 #include "Paladin.h"
 #include "jsonManager.h"
+#include "ObjectPool.h"
 #pragma once
 
 cRune::cRune()
@@ -137,11 +138,24 @@ void cRune::Update()
 				m_pSubOBB->Update(&matW);
 			}
 
-			m_RotY += 1 / D3DX_PI * 0.05;
+			m_RotY += 1 / D3DX_PI * 0.03;
 			m_dwStateStartTime = GetTickCount();
 		}
 
+		if (m_IsCollision)
+		{
+			cPaladin* pPaladin = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
+			cOBB* pBody = pPaladin->GetPartsList().at(1)->GetOBB();
+			if (!cOBB::IsCollision(pBody, m_pOBB))
+			{
+				m_IsCollision = false;
+				pPaladin->SetInvincible(false);
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "false Collision");
+			}
+		}
+
 	}
+
 }
 
 void cRune::Render(D3DXMATRIXA16 * pmat)
@@ -174,26 +188,33 @@ void cRune::Render(D3DXMATRIXA16 * pmat)
 
 	if (m_pSubOBB)
 		m_pSubOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 0, 255, 255));
+
 }
 
 void cRune::CollisionProcess(cObject * pObject)
 {
+	if (!m_OnOff) return;
+
 	int nOtherTag = pObject->GetTag();
 
 	switch (nOtherTag)
 	{
 	case Tag::Tag_Player:
 	{
+		if (m_IsCollision) return;
+
 		cPaladin* pPaladin = (cPaladin*)pObject;
 		cOBB* pBody = pPaladin->GetPartsList().at(1)->GetOBB();
 		if (cOBB::IsCollision(pBody, m_pOBB)
 			&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 		{
-			cout << "·é Ãæµ¹" << endl;
-			//CollisionInfo info;
+			pPaladin->SetInvincible(true);
+			m_IsCollision = true;
+			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "true Collision");
 			//info.dwCollsionTime = GetTickCount();
 			//info.dwDelayTime = 1500.0f;
 			//pObject->AddCollisionInfo(m_nTag, info);
+
 		}
 	}
 	break;

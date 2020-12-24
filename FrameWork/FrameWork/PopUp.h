@@ -102,10 +102,9 @@ public:
 
 // For Debugging >>
 	virtual void Setup(LPDIRECT3DTEXTURE9 pTexture, int nSize);
-	//virtual void LoadTexture();
 // <<
 
-	void Update() override {};
+	void Update() override;
 	virtual void Update(EventType message);
 	virtual void Render(D3DXMATRIXA16 * pmat = NULL);
 	void cButtonPushBack(cPopup*);

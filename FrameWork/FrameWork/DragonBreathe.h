@@ -11,6 +11,8 @@ private:
 	DWORD	m_dwStartTime;
 	
 	Synthesize(DWORD, m_dwDurationTime, DurationTime);
+
+	float  m_fRange;
 public:
 	cDragonBreathe();
 	~cDragonBreathe();

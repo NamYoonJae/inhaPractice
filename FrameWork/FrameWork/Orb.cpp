@@ -115,7 +115,7 @@ void cOrb::Update()
 				m_pOBB->Update(&matW);
 			}
 
-			m_RotY += 1 / D3DX_PI * 0.02;
+			m_RotY += 1 / D3DX_PI * 0.01;
 			m_dwStateStartTime = GetTickCount();
 		}
 		else
@@ -152,7 +152,7 @@ void cOrb::Render(D3DXMATRIXA16 * pmat)
 		D3DXMatrixIdentity(&matT);
 		D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
 		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-		//D3DXMatrixRotationY(&matR, m_RotY);
+		D3DXMatrixRotationY(&matR, m_RotY);
 		matW = matS * matR * matT;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
 
@@ -229,7 +229,8 @@ void cOrb::Render(D3DXMATRIXA16 * pmat)
 void cOrb::CollisionProcess(cObject * pObject)
 {
 	// ³ªÁß¿¡
-	
+	if (!m_OnOff) return;
+
 	
 	int nOtherTag = pObject->GetTag();
 

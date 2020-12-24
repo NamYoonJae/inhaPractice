@@ -19,7 +19,8 @@
 #include "PaladinMove.h"
 #include "Orb.h"
 #include "Rune.h"
-
+#include "Scene.h"
+#include "BackViewCamera.h"
 #include "jsonManager.h"
 
 cPaladin::cPaladin()
@@ -27,12 +28,13 @@ cPaladin::cPaladin()
 	, m_isMoving(false)
 	, m_pSkinnedUnit(NULL)
 	, m_pCurState(NULL)
+	//, m_fInvincibleTime(0)
+	, m_isInvincible(false)
 
 	, m_Hp(0)
 	, m_Stamina(0)
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
-	, m_isInvincible(false)
 	, m_fSpeed(0)
 
 	, m_Attack_Melee_Damage(0)
@@ -62,6 +64,11 @@ cPaladin::cPaladin()
 	, m_pShadowDepthStencil(NULL)
 
 	, m_pShadowMap(NULL)
+	, m_dwDeverffStartTime(GetTickCount())
+	, m_dwDeverffPreTime(100.0f)
+	, m_IsChangeScene(false)
+	, m_dwStaminaStartTime(GetTickCount())
+	, m_dwStaminaPreTime(100.0f)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -99,7 +106,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_Hp = 500;
 		//m_Hp = m_MaxHp;
-		m_Stamina = m_MaxStamina;
+		m_Stamina = 0;
+		//m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 
@@ -123,8 +131,8 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_Char_Poison_Duration = (int)json_Function::object_get_double(p_Character_object, "Dot damage/Poison/Duration time");
 
 		m_Char_StunRate = 0;
-		m_Char_Stun_Reduce = (int)json_Function::object_get_double(p_Character_object, "Stun/Duration time");
-		m_Char_Stun_Duration = (int)json_Function::object_get_double(p_Character_object, "Stun/Rate reduce");
+		m_Char_Stun_Reduce = (int)json_Function::object_get_double(p_Character_object, "Stun/Rate reduce");
+		m_Char_Stun_Duration = (int)json_Function::object_get_double(p_Character_object, "Stun/Duration time");
 		m_Char_Scream_Duration = (int)json_Function::object_get_double(p_Character_object, "Scream/Duration time");
 
 		m_Char_Invincibility_Duration = (float)json_Function::object_get_double(p_Character_object, "Invincibility/Duration time");
@@ -273,6 +281,15 @@ void cPaladin::ShaderSetup()
 
 void cPaladin::Update()
 {
+	if (m_Hp <= 0 && m_IsChangeScene == false) 
+	{
+		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+		pCamera->SetUpdate(false);
+		m_IsChangeScene = true;
+		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+		return;
+	}
+
 	//if (m_fvelocity != 0)
 	{
 		m_vDir = D3DXVECTOR3(0, 0, -1);
@@ -321,7 +338,7 @@ void cPaladin::Update()
 		parts->Update(&m_matWorld);
 	}
 
-	long endTime = GetTickCount();
+	DWORD endTime = GetTickCount();
 
 	for (int i = 0; i < m_vecDebuff.size(); i++)
 	{
@@ -331,33 +348,36 @@ void cPaladin::Update()
 			break;
 
 		case enum_Poison:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			// if (endTime - m_vecDebuffStartTime[i] >= 10000)
+			if (endTime - m_vecDebuffStartTime[i] >= m_Char_Poison_Duration) // Attribute Character  posion Duration 값 적용
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Stun:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			//if (endTime - m_vecDebuffStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= m_Char_Stun_Duration) // Attribute Character  Stun Duration 값 적용
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Roar:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			//if (endTime - m_vecDebuffStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= m_Char_Scream_Duration) // Attribute Character  Scream Duration 값 적용
 			{
 				m_vecDebuff_UI[m_vecDebuff.size() - 1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
@@ -374,6 +394,39 @@ void cPaladin::Update()
 
 	// 필수
 	//CollisionInfoCheck();
+
+
+	if (GetTickCount() - m_dwDeverffStartTime >= m_dwDeverffPreTime)
+	{
+		if (SearchDebuff(enum_Poison))
+		{
+			m_Hp -= 1;
+			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",m_Hp);
+		}
+
+		if (SearchDebuff(enum_Stun))
+		{
+			//스턴 애니메이션
+		}
+
+		if (SearchDebuff(enum_Roar))
+		{
+			//경직 애니메이션
+		}
+		
+		m_dwDeverffStartTime = GetTickCount();
+	}
+
+	//팔라딘 동작중에는 스태미너 막기
+	if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
+	{
+		m_Stamina += 0.3;
+		if (m_Stamina >= m_MaxStamina) 
+		{
+			m_Stamina = m_MaxStamina;
+		}
+	}
+
 }
 
 void cPaladin::Update(EventType event)
@@ -392,7 +445,6 @@ void cPaladin::Update(EventType event)
 	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 	{
 		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed") * 0.1f;
-		// 0.1f 있는 거 json으로 뺄까요
 	}
 	else
 	{
@@ -467,8 +519,14 @@ void cPaladin::Update(EventType event)
 			m_pCurState->GetStateIndex() == m_pCurState->Run  ||
 			m_pCurState->GetStateIndex() == m_pCurState->Walk)
 		{
-			SafeDelete(m_pCurState);
-			m_pCurState = new cPaladinEvade(this);
+			if (m_Stamina > 0)
+			{
+				m_Stamina -= 100;
+				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
+				SafeDelete(m_pCurState);
+				m_pCurState = new cPaladinEvade(this);				
+			}
+			//회피
 		}
 	}
 
@@ -489,7 +547,6 @@ void cPaladin::Update(EventType event)
 	{
 		SetDebuff(enum_Roar);
 	}
-
 }
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
@@ -663,14 +720,11 @@ void cPaladin::CollisionProcess(cObject* pObject)
 			if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
 				&& pOrb->GetCollsionInfo(m_nTag) == nullptr)
 			{
-				
-				m_Hp += 100;
+				m_Hp += 250;
 				if (m_Hp >m_MaxHp)
 				{
 					m_Hp = m_MaxHp;
 				}
-
-				
 			}
 		}
 
@@ -679,11 +733,10 @@ void cPaladin::CollisionProcess(cObject* pObject)
 
 	case Tag::Tag_RunStone:
 	{
-		cout << "무적 테스트" << endl;
 		cRune* pRune = (cRune*)pObject;
+
 		pObb = pRune->GetSubOBB();
 		matW = pRune->GetSubOBB()->GetWorldMatrix();
-		//무적 상태
 	}
 		break;
 	case Tag::Tag_SwampA:
@@ -865,7 +918,7 @@ void cPaladin::SetDebuff(int debuff)
 			if (vecDebuffFind(enum_Poison) == -1) 
 			{
 				m_vecDebuff.push_back(enum_Poison);
-				m_vecStartTime.push_back(GetTickCount());
+				m_vecDebuffStartTime.push_back(GetTickCount());
 			}
 		}
 	break;
@@ -877,16 +930,16 @@ void cPaladin::SetDebuff(int debuff)
 				if (vecDebuffFind(enum_Roar) == -1) //스턴이 없고 로어도 없을 경우
 				{
 					m_vecDebuff.push_back(enum_Stun);
-					m_vecStartTime.push_back(GetTickCount());
+					m_vecDebuffStartTime.push_back(GetTickCount());
 				}
 				else if (vecDebuffFind(enum_Roar) != -1) //스턴 없고 로어 있을 경우
 				{
 					int n = vecDebuffFind(enum_Roar);
 					m_vecDebuff.erase(m_vecDebuff.begin() + n);
-					m_vecStartTime.erase(m_vecStartTime.begin() + n);
+					m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + n);
 					
 					m_vecDebuff.push_back(enum_Stun);
-					m_vecStartTime.push_back(GetTickCount());
+					m_vecDebuffStartTime.push_back(GetTickCount());
 				}
 			}
 			
@@ -898,7 +951,7 @@ void cPaladin::SetDebuff(int debuff)
 			if ((vecDebuffFind(enum_Roar) == -1) && (vecDebuffFind(enum_Stun) == -1)) //로어와 스턴 둘 다 없을 경우
 			{
 				m_vecDebuff.push_back(enum_Roar);
-				m_vecStartTime.push_back(GetTickCount());
+				m_vecDebuffStartTime.push_back(GetTickCount());
 			}
 	
 		}
@@ -956,6 +1009,19 @@ int cPaladin::GetStateIndex()
 	return m_pCurState->GetStateIndex();
 }
 
+int cPaladin::SearchDebuff(int debuff)
+{
+	for (int i = 0; i < m_vecDebuff.size(); i++) 
+	{
+		if (m_vecDebuff[i] == debuff)
+		{
+			return true;
+		}
+		
+	}
+	return false;
+}
+
 
 
 //Legacy
@@ -997,33 +1063,33 @@ void cPaladin::Update()
 			break;
 
 		case enum_Poison:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Stun:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}
 			break;
 
 		case enum_Roar:
-			if (endTime - m_vecStartTime[i] >= 5000)
+			if (endTime - m_vecDebuffStartTime[i] >= 5000)
 			{
 				m_vecDebuff_UI[m_vecDebuff.size()-1]->ChangeSprite("data/UI/InGame/Player_Condition/Condition_None.png");
 				m_vecDebuff.erase(m_vecDebuff.begin() + i);
-				m_vecStartTime.erase(m_vecStartTime.begin() + i);
+				m_vecDebuffStartTime.erase(m_vecDebuffStartTime.begin() + i);
 				ReloadSpriteDebuff();
 
 			}

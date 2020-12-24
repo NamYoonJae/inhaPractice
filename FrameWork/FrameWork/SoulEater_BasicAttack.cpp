@@ -65,7 +65,7 @@ void cSoulEater_BasicAttack::handle()
 	}
 	else
 	{
-		pos += m_vDir * 0.003f;
+		pos += m_vDir * 0.003f; // ÀÌµ¿
 		m_pDragon->SetPos(pos);
 		//GenerateRandomNum(
 	}

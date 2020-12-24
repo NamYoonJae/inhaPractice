@@ -41,17 +41,17 @@ private:
 
 	vector<cParts*> m_vecParts;
 
-	int m_MaxHp;
+	float m_MaxHp;
 	float m_MaxStamina;
-	//int m_MaxStamina;  // 기획서에 float형식이라 명시되어있어 임시적용
 	Synthesize(bool, m_isInvincible, Invincible);
 
-	int m_Hp;
+	float m_Hp;
 	float m_Stamina;
-	//int m_Stamina;  // 기획서에 float형식이라 명시되어있어 임시적용
 	float m_StaminaRestoreValue;
+	//DWORD m_dwStaminaRestoreElapsedTime;
 
-	// >> 2020. 12. 23.
+	bool m_IsChangeScene;
+
 	int				m_Attack_Melee_Damage;
 	float			m_Melee_rate_1;
 	float			m_Melee_rate_2;
@@ -81,18 +81,22 @@ private:
 
 	int				m_Aggro;  // 어그로
 
-	// ----- object interaction -----
+	// object interaction 
 	float			m_Orb_effect_Duration;
 
-	// << 2020. 12. 23.
 
 
 	cTrophies* m_pTrophies;
 
 	vector<int> m_vecDebuff;
 	vector<cPopup*> m_vecDebuff_UI;
-	vector<long> m_vecStartTime;
+	vector<long> m_vecDebuffStartTime;	//디버프 시작 시간
 	D3DXMATRIXA16 TempRot;
+	DWORD m_dwDeverffPreTime; //디버프 적용 시간 딜레이(ex 3초마다 / 5초마다)
+	DWORD m_dwDeverffStartTime;	//디버프 적용 시간 딜레이
+
+	DWORD m_dwStaminaPreTime;
+	DWORD m_dwStaminaStartTime;
 
 	// 그림자맵 렌더타깃
 	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
@@ -137,6 +141,8 @@ public:
 	// backviewCamera
 	void SetCameraRot(D3DXVECTOR3 CameraRot) { m_vCameraRot = CameraRot; }
 	void SetCameraDir(D3DXVECTOR3 CameraDir) { m_vCameraDir = CameraDir; }
+
+	int SearchDebuff(int debuff);
 };
 
 class cParts

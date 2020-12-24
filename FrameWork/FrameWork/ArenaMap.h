@@ -7,15 +7,13 @@ class cArenaMap :
 {
 private:
 	vector<cGroup*>				m_vecMapGroup;
-	
-	vector<cGroup*>				m_vecDoorGroup;
-	vector<cGroup*>				m_vecFlagGroup;
-	vector<cGroup*>				m_vecHornGroup;
-	vector<cGroup*>				m_vecPillarGroup;
-	vector<cGroup*>				m_vecPollGroup;
-	vector<cGroup*>				m_vecWoodSpikeGroup;
-
 	vector<cGroup*>				m_vecArenaGroup;
+
+
+	DWORD		m_dwCoolTime;
+	DWORD		m_dwElapseTime;
+	bool		m_IsSwampCreate;
+	Synthesize(RECT, m_RCArea, AREA);
 public:
 	cArenaMap();
 	~cArenaMap();
@@ -32,6 +30,8 @@ public:
 	void ShaderSetup();
 	void ShaderRender();
 	void DefaultRender();
-	// << Temp For Shadow Shader 
+	// << Temp For Shadow Shader
+	
+	void	CreateSwamp();
 };
 

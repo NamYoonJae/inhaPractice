@@ -117,13 +117,12 @@ void cWall::CollisionProcess(cObject * pObject)
 		cDragonSoulEater* pDragon = (cDragonSoulEater*)pObject;
 		if(pDragon->CurrentStateIndex() == 3)
 		{
-			CollisionInfo info;
+			CollisionInfo info; // << 충돌에 대한 정보
 			info.dwCollsionTime = GetTickCount();
 			info.dwDelayTime = 1500;
 			pObject->AddCollisionInfo(m_nTag, info);
 			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Dragon Wall hit");
 		}
 	}
-	
-	
+
 }

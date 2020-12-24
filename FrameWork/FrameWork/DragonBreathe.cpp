@@ -35,6 +35,7 @@ void cDragonBreathe::Update()
 		m_isDelete = true;
 		return;
 	}
+
 	// 드래곤이 충돌했을때 포지션이 바뀌지않는 버그가있는데 수정가능
 	if (m_pvTarget)
 	{
@@ -91,6 +92,9 @@ void cDragonBreathe::Update()
 		vMax.y = max(vMax.y, m_vecPosList.at(i).p.y);
 		vMax.z = max(vMax.z, m_vecPosList.at(i).p.z);
 	}
+
+	//m_vecPosList[0].p; // << 첫 인덱스
+	//m_vecPosList[m_vecPosList.size() - 1)].p; 마지막 인덱스 거리 구해서 지워버리기
 
 	if (m_vecPosList.size() > 50000)
 	{

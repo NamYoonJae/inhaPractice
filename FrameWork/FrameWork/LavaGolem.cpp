@@ -284,9 +284,7 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	{
 	case Tag::Tag_Orb:
 	{
-		cOrb* pOrb = (cOrb*)pObject;
-		pObb = pOrb->GetSubOBB();
-		matW = pOrb->GetSubOBB()->GetWorldMatrix();
+		return;
 	}
 	break;
 	case Tag::Tag_Boss:

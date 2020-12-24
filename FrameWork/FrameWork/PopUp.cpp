@@ -4,6 +4,7 @@
 #include "EventManager.h"
 #include "Button.h"
 #include "Scene.h"
+#include "Paladin.h"
 
 cPopup::cPopup()
 	: m_pSprite(NULL)
@@ -113,12 +114,39 @@ void cPopup::Setup(char * root, char * fileName, D3DXVECTOR3 position, float x, 
 void cPopup::Setup(LPDIRECT3DTEXTURE9 pTexture, int nSize)
 {
 	m_pTextureUI = pTexture;
-	
+
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
-	
+
 	m_ImageInfoWidth = nSize;
 	m_ImageInfoHeight = nSize;
 	SetRect(&m_Rect, 0, 0, m_ImageInfoWidth, m_ImageInfoHeight);
+}
+
+void cPopup::Update() 
+{
+	if (m_Power)
+	{
+		if (m_pPaladin != NULL)
+		{
+
+			if (m_nTag == TagUI_Hp)
+			{
+				float hp = m_pPaladin->GetHp();
+				float maxHp = m_pPaladin->GetMaxHp();
+				float result = ((float)hp / (float)maxHp) * 100;
+				SetImageInfoWidth(result);
+			}
+
+			if (m_nTag == TagUI_Stamina)
+			{
+				float stamina = m_pPaladin->GetStamina();
+				float maxStamina = m_pPaladin->GetMaxStamina();
+				float result = ((float)stamina / (float)maxStamina) * 100;
+				SetImageInfoWidth(result);
+			}
+
+		}
+	}
 }
 
 void cPopup::Update(EventType message)
@@ -429,7 +457,7 @@ void cPopup::SetImageInfoWidth(float percent)
 	if (percent <= 0 || result <= 0)
 	{
 		m_ImageInfoWidth = 0;
-		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+		//g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
 	}
 	else
 	{

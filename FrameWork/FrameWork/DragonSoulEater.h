@@ -41,7 +41,6 @@ private:
 	float				m_fPhysicsDefence;		
 	float				m_fElementalDefence;	
 
-	// >> 2020. 12. 23.
 	float				m_AttackCooldown;
 
 	bool				m_IsRage; //
@@ -53,13 +52,13 @@ private:
 	float				m_RageIncreaseAttack;
 
 	bool				m_IsRigid; //
-	float				m_Rigid_Gauge; //
+	//float				m_Rigid_Gauge; //
 	float				m_Rigid_Rate;
 	float				m_Rigid_DecreaseRateValue;
 	float				m_Rigid_Duration;
 
 	bool				m_IsStun; //
-	float				m_Stun_Gauge;//
+	//float				m_Stun_Gauge;//
 	float				m_Stun_Rate;
 	float				m_Stun_Decrease_Value;
 	float				m_Stun_Duration;
@@ -82,11 +81,11 @@ private:
 	float				m_FireBall_Physic_Rate;
 	float				m_FireBall_Elemental_Rate;
 	float				m_FireBall_Range;
-	// 장판 // 패턴 3
-	float				m_Flood_Physic_Rate;
-	float				m_Flood_Elemental_Rate;
-	string				m_Flood_Condition; // 상태이상 부여 종류
-	float				m_Flood_Condition_Rate; // 상태이상 부여치
+	//// 장판 // 패턴 3 // Flood
+	//float				m_Flood_Physic_Rate;
+	//float				m_Flood_Elemental_Rate;
+	//string			m_Flood_Condition; // 상태이상 부여 종류
+	//float				m_Flood_Condition_Rate; // 상태이상 부여치
 	// 돌진 // 패턴 2
 	float				m_Rush_Physic_Rate;
 	float				m_Rush_Elemental_Rate;
@@ -98,20 +97,23 @@ private:
 	float				m_TailAttack_Physic_Rate;
 	float				m_TailAttack_Elemental_Rate;
 
-	// ---- 오브젝트 상호작용속성 -----
-	int					m_Wall_Stun_Damage; // 벽 충돌시 받는 기절치
-	int					m_Wall_Rigid_Damage; // 벽 충돌시 받는 경직치
-	// << 2020. 12. 23.
-
 	int					m_nPhase;
 	int					m_Debuff;
 	
+	// ---- 오브젝트 상호작용속성 -----
+	Synthesize(int, m_Wall_Stun_Damage, WallStunDamage);
+	Synthesize(int, m_Wall_Rigid_Damage, WallRigidDamage);
+	//int		m_Wall_Stun_Damage; // 벽 충돌시 받는 기절치
+	//int		m_Wall_Rigid_Damage; // 벽 충돌시 받는 경직치
 
-	DWORD				m_dwSwampCreateCoolTime;
-	DWORD				m_dwSwampElapsedTime;
+
+
+	//DWORD				m_dwSwampCreateCoolTime;
+	//DWORD				m_dwSwampElapsedTime;
 
 
 	Synthesize(float, m_fStungauge, STUN);
+	Synthesize(float, m_fRigidgauge, Rigid);
 	Synthesize(float, m_fMaxHeathPoint, MAXHP);
 	Synthesize(float, m_fCurHeathpoint, CURHP);
 	bool m_IsBreathe;
@@ -139,6 +141,7 @@ public:
 	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }
 	int CurrentStateIndex();
 	void HitSound() override;
+	const int GetPhase() { return m_nPhase; }
 };
 
 
