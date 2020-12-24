@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "Map.h"
 #include "ObjectPool.h"
+#include "jsonManager.h"
 #pragma once
 
 iMap::iMap()
 {
-	CreateSwamp();
+	// json 받아와서 쿨타임 넣기
+
+	// CreateSwamp();
 }
 
 
@@ -28,7 +31,7 @@ void iMap::RenderTrigger()
 
 }
 
-void iMap::CreateSwamp(int nSize)
+void iMap::CreateSwamp(int nSize) // << 변경하기
 {
 	m_vecSwampList.resize(nSize);
 	for (int i = 0; i < m_vecSwampList.size(); ++i)

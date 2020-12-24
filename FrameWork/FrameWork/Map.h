@@ -6,6 +6,11 @@ class iMap : public cObject
 {
 private:
 	vector<cSwamp*> m_vecSwampList;
+
+protected:
+	float m_fCooltime;
+	Synthesize(bool, m_bIsPhase_2, Phase_2);
+
 public:
 	iMap();
 	~iMap();

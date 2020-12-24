@@ -44,8 +44,8 @@ cDragonSoulEater::cDragonSoulEater()
 	m_IsBreathe = false;
 	m_IsFireball = false;
 
-	m_dwSwampCreateCoolTime = 15000.0f;
-	m_dwSwampElapsedTime = 0.0f;
+	//m_dwSwampCreateCoolTime = 15000.0f;
+	//m_dwSwampElapsedTime = 0.0f;
 
 	//
 	m_nTestStateIndex = INT_MAX;
@@ -109,7 +109,12 @@ void cDragonSoulEater::Update()
 	{
 		++m_nPhase;
 		if (m_nPhase == 2)
-			m_dwSwampElapsedTime = GetTickCount();
+		{
+			//m_dwSwampElapsedTime = GetTickCount(); // << 사용 안함
+			// 오브젝트 풀에서 맵을 SearchChild
+			// iMap에 bool값을 True로 변경해주기
+		}
+
 	}
 
 
@@ -719,12 +724,12 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	if (nTag == Tag::Tag_Player) // 벽도 필요함 
 	{
 		// 내가 때릴것
-		if (m_pCurState)
+		if (m_pCurState) // << 드래곤상태
 		{
 			int nCurStateIndex = m_pCurState->GetIndex();
 			switch (nCurStateIndex)
 			{
-			case 1:		//머리
+			case 1:		// 머리
 				if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(0).Box))
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
@@ -734,10 +739,12 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
 						pObject->AddCollisionInfo(m_nTag, info);
+
+						// 스테이트 클래스에서 get매서드로 값 가져오기
 					}
 				}
 				break;
-			case 2:		//
+			case 2:		// 
 				if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(1).Box))
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
@@ -794,7 +801,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 				float Radian = Radian0 + Radian1;
 					
-				D3DXVECTOR3 vDir;
+				D3DXVECTOR3 vDir; 
 				vDir = vOtherPos - m_vPos;
 				vDir.y = 0;
 
@@ -965,7 +972,7 @@ void cDragonSoulEater::Request()
 	//JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
 	//JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS");
 
-	if (m_fStungauge >= 1000)
+	if (m_fStungauge >= 100)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, m_Stun_Duration);
 		return;

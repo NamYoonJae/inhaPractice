@@ -107,8 +107,8 @@ private:
 	int					m_Debuff;
 	
 
-	DWORD				m_dwSwampCreateCoolTime;
-	DWORD				m_dwSwampElapsedTime;
+	//DWORD				m_dwSwampCreateCoolTime;
+	//DWORD				m_dwSwampElapsedTime;
 
 
 	Synthesize(float, m_fStungauge, STUN);

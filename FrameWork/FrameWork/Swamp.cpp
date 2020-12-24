@@ -24,7 +24,8 @@ void cSwamp::Setup()
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
 	m_vPos = D3DXVECTOR3(0, 0.0, 0);
-	m_vRot = D3DXVECTOR3(0.3, 0.001, 0.3);
+	m_vRot = D3DXVECTOR3(0.3, 0.001, 0.3); // y를 얇게, x값이랑 z값이 크기로 적용
+
 	// xfile
 	{
 
@@ -107,6 +108,9 @@ void cSwamp::Update()
 		matWorld = matS * matT;
 		m_pOBB->Update(&matWorld);
 	}
+
+	// json 값 받아와서 유지시간 넘어가면 없어지게 처리
+	// m_isDelete = true; // << 오브젝트 풀에서 삭제 처리해줌
 }
 
 void cSwamp::Render(D3DXMATRIXA16 *pmat)

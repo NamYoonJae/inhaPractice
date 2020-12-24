@@ -26,6 +26,8 @@ cPaladin::cPaladin()
 	, m_isMoving(false)
 	, m_pSkinnedUnit(NULL)
 	, m_pCurState(NULL)
+	//, m_fInvincibleTime(0)
+	, m_isInvincible(false)
 
 	, m_Hp(0)
 	, m_Stamina(0)
@@ -350,7 +352,6 @@ void cPaladin::Update(EventType event)
 	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 	{
 		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed") * 0.1f;
-		// 0.1f 있는 거 json으로 뺄까요
 	}
 	else
 	{

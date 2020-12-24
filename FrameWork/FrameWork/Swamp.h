@@ -7,6 +7,9 @@ private:
 	std::vector<D3DMATERIAL9> m_vecMtl;
 	LPDIRECT3DTEXTURE9  m_pTexcoord;
 	LPDIRECT3DTEXTURE9	m_pNoise;
+
+	DWORD m_dwCreateTime;
+
 public:
 	cSwamp();
 	~cSwamp();
