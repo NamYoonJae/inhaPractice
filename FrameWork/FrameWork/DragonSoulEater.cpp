@@ -22,7 +22,7 @@
 #include "SoundManager.h"
 #include "Paladin.h"
 #include "jsonManager.h"
-
+#include "Rune.h"
 #pragma once
 
 cDragonSoulEater::cDragonSoulEater()
@@ -776,10 +776,20 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	}
 	else if(nTag == Tag::Tag_RunStone || nTag== Tag::Tag_Wall)
 	{
-		//if (nTag == Tag::Tag_SwampA || nTag == Tag::Tag_SwampB ||
-		//	nTag == Tag::Tag_FireBall || nTag == Tag::Tag_Breath || nTag == Tag::Tag_LavaGolem)
-		//	return;
-		
+		D3DXVECTOR3 vOtherPos = pObject->GetPos();
+		float dist = pow(m_vPos.x - vOtherPos.x, 2)
+			+ pow(m_vPos.z - vOtherPos.z, 2);
+
+		D3DXVECTOR3 vOtherPoint0 = pOBB->GetList().at(0);
+		D3DXMATRIXA16 matW = pOBB->GetWorldMatrix();
+
+		if (nTag == Tag::Tag_RunStone)
+		{
+			cRune *pRune = (cRune*)pObject;
+			pOBB = pRune->GetSubOBB();
+			matW = pOBB->GetWorldMatrix();
+		}
+
 		if (m_pCurState)
 		{
 			int nCurStateIndex = m_pCurState->GetIndex();
@@ -788,12 +798,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			{
 			default:
 			{
-				D3DXVECTOR3 vOtherPos = pObject->GetPos();
-				float dist = pow(m_vPos.x - vOtherPos.x, 2)
-					+ pow(m_vPos.z - vOtherPos.z, 2);
-
-				D3DXVECTOR3 vOtherPoint0 = pOBB->GetList().at(0);
-				D3DXMATRIXA16 matW = pOBB->GetWorldMatrix();
 				D3DXVec3TransformCoord(&vOtherPoint0, &vOtherPoint0, &matW);
 				float Radian0 = pow(vOtherPos.x - vOtherPoint0.x, 2) + pow(vOtherPos.z - vOtherPoint0.z, 2);
 

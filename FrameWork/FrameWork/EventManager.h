@@ -65,7 +65,7 @@ enum class  EventType
 	EVENT_ASPACE = 136,
 	EVENT_DSPACE = 137,
 	EVENT_WSPACE = 138,
-	EVENT_SPSACE = 139
+	EVENT_SSPACE = 139
 };
 
 class cEventManager
