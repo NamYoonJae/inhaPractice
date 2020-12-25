@@ -300,21 +300,7 @@ void cObject::AddCollisionInfo(int nTag, CollisionInfo Info)
 }
 
 CollisionInfo * cObject::GetCollsionInfo(int nTag)
-{
-	if(nTag == Tag::Tag_Player)
-	{
-		cPaladin* pPaladin = (cPaladin*)ObjectManager->SearchChild(Tag_Player);
-		if(pPaladin->GetInvincible())
-		{
-			CollisionInfo tempInfo;
-			tempInfo.dwCollsionTime = 0;
-			tempInfo.dwDelayTime = 0;
-			pPaladin = nullptr;
-
-			return &tempInfo;
-		}
-	}
-	
+{	
 	if (mapCollisionList.find(nTag) != mapCollisionList.end())
 	{
 		return &mapCollisionList.at(nTag);

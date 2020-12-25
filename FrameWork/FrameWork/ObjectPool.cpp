@@ -9,6 +9,7 @@
 #include "DragonSoulEater.h"
 #include "ObjObject.h"
 #include "Map"
+#include "ArenaMap.h"
 //
 #include "Swamp.h"
 
@@ -32,9 +33,12 @@ void ObjectPool::Update()
 	{
 		vecObjectList.at(i)->Update();
 
+		// 550
+
 		if(pMap != NULL && vecObjectList.at(i)->GetTag() >= Tag::Tag_Player)
 		{
 			D3DXVECTOR3 pos = vecObjectList.at(i)->GetPos();
+			float dist = sqrt(pow(pos.x, 2) + pow(pos.z, 2));
 
 			float fHeight = pMap->getHeight(pos);
 
@@ -42,33 +46,21 @@ void ObjectPool::Update()
 			{
 				vecObjectList.at(i)->m_isDelete = true;
 			}
-			else if(fHeight >= 21.0f && vecObjectList.at(i)->GetTag())
+			else if (fHeight >= 21.0f)
 			{
-
 				D3DXVECTOR3 vDir = vecObjectList.at(i)->GetDirection();
-				
-				while(fHeight > 21.0f)
-				{
-					pos -= vDir * 0.02f;
-					fHeight = pMap->getHeight(pos);
-				}
-				
-				pos.y = fHeight + 20.0f;
-				vecObjectList.at(i)->SetPos(pos);
+				pos -= vDir *0.5;
+				fHeight = 20.56;
 			}
-			else if(fHeight == 0.0f)
+			else if (fHeight <= 0.1f)
 			{
 				pos = D3DXVECTOR3(0, 0, 0);
-				vecObjectList.at(i)->SetPos(pos);
 			}
-			else
-			{
-				pos.y = fHeight + 20.0f;
-				vecObjectList.at(i)->SetPos(pos);
-			}
-			
+			pos.y = fHeight + 20.0f;
+			vecObjectList.at(i)->SetPos(pos);
 			vecObjectList.at(i)->CollisionInfoCheck();
-			
+
+
 		}
 
 	}

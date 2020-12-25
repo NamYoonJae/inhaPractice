@@ -16,7 +16,8 @@ const enum Tag
 	Tag_SwampB,
 	Tag_RunStone,
 	Tag_Wall,
-	Tag_Breath
+	Tag_Breath,
+	Tag_MapWall
 };
 
 
@@ -93,7 +94,7 @@ public:
 
 	bool m_isDelete;
 	virtual void CollisionProcess(cObject* pObject) {};
-	void AddCollisionInfo(int,CollisionInfo);
+	virtual void AddCollisionInfo(int,CollisionInfo);
 	CollisionInfo* GetCollsionInfo(int nTag);
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
 	void CollisionInfoCheck();

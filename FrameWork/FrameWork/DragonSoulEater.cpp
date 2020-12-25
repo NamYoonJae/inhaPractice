@@ -724,10 +724,11 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	cOBB* pOBB = pObject->GetOBB();
 	int nTag = pObject->GetTag();
 
-	if (nTag == Tag::Tag_Player) // 벽도 필요함 
+	if (nTag == Tag::Tag_Player)  
 	{
-		// 내가 때릴것
-		if (m_pCurState) // << 드래곤상태
+		cPaladin* pPaladin = (cPaladin*)pObject;
+
+		if (m_pCurState && !pPaladin->GetInvincible())
 		{
 			int nCurStateIndex = m_pCurState->GetIndex();
 			switch (nCurStateIndex)
@@ -737,7 +738,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "head");
+						
 						CollisionInfo info;
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
@@ -752,7 +753,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "tail");
+						
 						CollisionInfo info;
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
@@ -763,7 +764,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			case 3:
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
-					//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Rush");
+					
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 1500;
@@ -776,6 +777,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	}
 	else if(nTag == Tag::Tag_RunStone || nTag== Tag::Tag_Wall)
 	{
+		D3DXVECTOR3 vPos = m_vPos;
 		D3DXVECTOR3 vOtherPos = pObject->GetPos();
 		float dist = pow(m_vPos.x - vOtherPos.x, 2)
 			+ pow(m_vPos.z - vOtherPos.z, 2);
@@ -814,9 +816,16 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 				while (dist < Radian)
 				{
-					m_vPos += -vDir * 0.1;
-					dist = pow(m_vPos.x - vOtherPos.x, 2)
-						+ pow(m_vPos.z - vOtherPos.z, 2);
+					vPos += -vDir * 0.1;
+					dist = pow(vPos.x - vOtherPos.x, 2)
+						+ pow(vPos.z - vOtherPos.z, 2);
+
+					if (sqrt(pow(vPos.x, 2) + pow(vPos.z, 2)) > 520)
+					{
+						m_vPos += D3DXVECTOR3(0, 0, -0.3);
+						return;
+					}
+
 				}
 
 				m_vPos += D3DXVECTOR3(0, 0, -0.3);

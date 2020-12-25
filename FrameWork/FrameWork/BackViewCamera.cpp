@@ -89,6 +89,7 @@ void cBackViewCamera::Update()
 	iMap* pMap = (iMap*)ObjectManager->SearchChild(Tag::Tag_Map);
 	if(pMap)
 	{
+		D3DXVECTOR3 vPrevEye = m_vEye;
 		float y = pMap->getHeight(m_vEye);
 		if(y <= 0.0f || y >= 21.0f)
 		{
@@ -102,6 +103,11 @@ void cBackViewCamera::Update()
 				
 				if( y < 21.0f && y > 0.0f)
 				{
+					break;
+				}
+				if (sqrt(pow(m_vEye.x - (m_vLookAt).x, 2) + pow(m_vEye.z - (m_vLookAt).z, 2)) <= 3.0f)
+				{
+					m_vEye = vPrevEye;
 					break;
 				}
 			}
