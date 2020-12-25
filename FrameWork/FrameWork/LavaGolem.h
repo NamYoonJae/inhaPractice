@@ -44,6 +44,7 @@ public:
 	cSkinnedMesh& GetSkinnedMesh() { return *m_pSkinnedMesh; }
 	void SetSkinnedMesh(cSkinnedMesh* pMesh) { m_pSkinnedMesh = pMesh; }
 	float GetCurrentHP() { return m_fCurrentHP; }
+	void SetCurrentHP(float argument) { m_fCurrentHP = argument; }
 	D3DXVECTOR3* GetTarget() { return m_pvTarget; }
 	float GetDist() { return m_fDist; }
 	D3DXMATRIXA16* GetRotationMatrix() { return &m_matR; };

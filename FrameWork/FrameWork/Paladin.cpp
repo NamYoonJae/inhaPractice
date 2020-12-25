@@ -23,6 +23,10 @@
 #include "BackViewCamera.h"
 #include "jsonManager.h"
 
+#include "DragonSoulEater.h"
+#include "LavaGolem.h"
+#include "Wall.h"
+
 cPaladin::cPaladin()
 	: m_fvelocity(0.0f)
 	, m_isMoving(false)
@@ -36,6 +40,7 @@ cPaladin::cPaladin()
 	, m_MaxHp(0)
 	, m_MaxStamina(0)
 	, m_fSpeed(0)
+	, m_IsStaminaState(true)
 
 	, m_Attack_Melee_Damage(0)
 	, m_Melee_rate_1(0)
@@ -102,11 +107,11 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_MaxHp = (int)json_object_get_number(p_Character_object, "Max HP");
 		m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
-		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
+		m_fOriginSpeed = m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
 		m_Hp = 500;
 		//m_Hp = m_MaxHp;
-		m_Stamina = 0;
+		m_Stamina = 500;
 		//m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
@@ -401,6 +406,12 @@ void cPaladin::Update()
 		if (SearchDebuff(enum_Poison))
 		{
 			m_Hp -= 1;
+			//m_Hp -= 독데미지;
+
+			//JSON_Object* pBoss = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS/");
+			//JSON_Object* pBossSkill = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/");
+			//json_Function::object_get_double(pBoss, "Attack/");
+			//json_Function::object_get_double(pBossSkill, "SKILL 3/Attribute/Melee Rate");
 			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",m_Hp);
 		}
 
@@ -418,12 +429,17 @@ void cPaladin::Update()
 	}
 
 	//팔라딘 동작중에는 스태미너 막기
-	if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
+	if (m_IsStaminaState == true)
 	{
-		m_Stamina += 0.3;
-		if (m_Stamina >= m_MaxStamina) 
+		//m_Stamina += 0.3;
+		if (GetTickCount() - m_dwStaminaPreTime >= m_dwStaminaPreTime)
 		{
-			m_Stamina = m_MaxStamina;
+			//m_Stamina += 0.5;
+			m_Stamina += m_StaminaRestoreValue;
+			if (m_Stamina >= m_MaxStamina)
+			{
+				m_Stamina = m_MaxStamina;
+			}
 		}
 	}
 
@@ -505,11 +521,18 @@ void cPaladin::Update(EventType event)
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
+
 		}
 		else
 		{
-			SafeDelete(m_pCurState);
-			m_pCurState = new cPaladinAttack(this);
+			if (m_Stamina > 0)
+			{
+				m_Stamina -= 50;
+				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
+				SafeDelete(m_pCurState);
+				m_pCurState = new cPaladinAttack(this);
+			}
+			m_IsStaminaState = false;
 		}
 	}
 
@@ -519,14 +542,14 @@ void cPaladin::Update(EventType event)
 			m_pCurState->GetStateIndex() == m_pCurState->Run  ||
 			m_pCurState->GetStateIndex() == m_pCurState->Walk)
 		{
-			if (m_Stamina > 0)
+			if (m_Stamina > 5.0f)
 			{
-				m_Stamina -= 100;
-				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
-				SafeDelete(m_pCurState);
-				m_pCurState = new cPaladinEvade(this);				
+				m_Stamina -= 100.0f;
+				if (m_Stamina < 0.0f) { m_Stamina = 0.0f; };			
 			}
-			//회피
+			SafeDelete(m_pCurState);
+			m_pCurState = new cPaladinEvade(this);
+			m_IsStaminaState = false;
 		}
 	}
 
@@ -698,10 +721,147 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				pObject->AddCollisionInfo(m_nTag, info);
 
 				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
-				
+
+
+#pragma region Paladin to Monster damage
+				static bool bAttack1chk = false;
+				static bool bAttack2chk = false;
+				static bool bAttack3chk = false;
+
+				// To BOSS
+				if (pObject->GetTag() == Tag::Tag_Boss)
+				{
+					srand(GetTickCount());
+					int iDamage = 0;
+					cDragonSoulEater* pDragon = (cDragonSoulEater*)pObject;
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack1 && bAttack1chk)
+					{
+						// 공격 1
+						//if (0.5 > (float)rand() / (float)32767)
+						bAttack1chk = false;
+						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
+						{
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1 - pDragon->GetPhysicDefence();
+							cout << "ATTACK 1 Critical HIT" << endl;
+						}
+						else
+						{
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1 - pDragon->GetPhysicDefence();
+							cout << "ATTACK 1 HIT" << endl;
+						}
+					}
+					else bAttack1chk = true;
+
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack2 && bAttack2chk)
+					{
+						bAttack2chk = false;
+						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
+						{
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2 - pDragon->GetPhysicDefence();
+							cout << "ATTACK 2 Critical HIT" << endl;
+						}
+						else
+						{
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2 - pDragon->GetPhysicDefence();
+							cout << "ATTACK 2 HIT" << endl;
+						}
+					}
+					else bAttack2chk = true;
+
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack3 && bAttack3chk)
+					{
+						bAttack3chk = false;
+						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
+						{
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3 - pDragon->GetPhysicDefence();
+							cout << "ATTACK 3 Critical HIT" << endl;
+						}
+						else
+						{
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3 - pDragon->GetPhysicDefence();
+							cout << "ATTACK 3 HIT" << endl;
+						}
+					}
+					else bAttack3chk = true;
+
+					if (0 < iDamage)
+					{
+						pDragon->SetCURHP(pDragon->GetCURHP() - iDamage);
+						pDragon->SetSTUN(pDragon->GetSTUN() + (iDamage * m_Attack_StunRate));
+						pDragon->SetRigid(pDragon->GetRigid() + (iDamage * m_Attack_RigidRate));
+						cout << "BOSS Stun gauge : " << pDragon->GetSTUN() << endl;
+						cout << "BOSS Rigid gauge : " << pDragon->GetRigid() << endl;
+						cout << "BOSS Current HP : " << pDragon->GetCURHP() << endl;
+					}
+				}
+
+				// To LavaGolem // 테스트 안됨
+				if (pObject->GetTag() == Tag::Tag_LavaGolem)
+				{
+					srand(GetTickCount());
+					cLavaGolem* pLavaGolem = (cLavaGolem*)pObject;
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack1 && bAttack1chk)
+					{
+						// 공격 1
+						bAttack1chk = false;
+						pLavaGolem->SetCurrentHP(pLavaGolem->GetCurrentHP() - 1);
+						cout << "ATTACK 1 HIT" << endl;
+					}
+					else bAttack1chk = true;
+
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack2 && bAttack2chk)
+					{
+						bAttack2chk = false;
+						pLavaGolem->SetCurrentHP(pLavaGolem->GetCurrentHP() - 1);
+						cout << "ATTACK 2 HIT" << endl;
+					}
+					else bAttack2chk = true;
+
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack3 && bAttack3chk)
+					{
+						bAttack3chk = false;
+						pLavaGolem->SetCurrentHP(pLavaGolem->GetCurrentHP() - 1);
+						cout << "ATTACK 3 HIT" << endl;
+					}
+					else bAttack3chk = true;
+
+					cout << "LavaGolem CurHP : " << pLavaGolem->GetCurrentHP() << endl;
+				}
+
+
+#pragma endregion 
 			}
+
 		}
 	}
+
+
+//	// 벽을 공격하는 것에 대한 처리
+//	if (m_pCurState && (iOtherTag == Tag::Tag_Wall))
+//	{
+//		//내가 공격 중이라면
+//		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+//		{
+//			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
+//				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
+//			{
+//				pObject->HitSound();
+//				CollisionInfo info;
+//				info.dwCollsionTime = GetTickCount();
+//				info.dwDelayTime = 1500.0f;
+//				pObject->AddCollisionInfo(m_nTag, info);
+//
+//#pragma region Paladin to Wall
+//				cWall* pWall = (cWall*)pObject;
+//				pWall->SetCurHP(pWall->GetCurHP() - 1);
+//
+//				cout << "Wall HP" << pWall->GetCurHP() << endl;
+//#pragma endregion
+//			}
+//		}
+//	}
+
+
 
 	cOBB* pObb;
 	D3DXMATRIXA16 matW;
@@ -739,8 +899,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		matW = pRune->GetSubOBB()->GetWorldMatrix();
 	}
 		break;
-	case Tag::Tag_SwampA:
-	case Tag::Tag_SwampB:
+	case Tag::Tag_SwampA: // 늪
+	case Tag::Tag_SwampB: // 보스 장판
 	case Tag::Tag_FireBall:
 	case Tag::Tag_Breath:
 		return;
@@ -789,6 +949,7 @@ void cPaladin::StateFeedback()
 {
 	SafeDelete(m_pCurState);
 	m_pCurState = new cPaladinIdle(this);
+	m_IsStaminaState = true;
 }
 
 cParts::cParts()

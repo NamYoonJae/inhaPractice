@@ -37,7 +37,7 @@
         "y": "float",
         "z": "float"
       },
-      "Move Speed": 150,
+      "Move Speed": 0.003,
       "SKILL Weight": {
         "1": 2,
         "2": 2,
@@ -82,9 +82,10 @@
           "Duration": 5000,
           "Melee rate": 0.6,
           "Elemental rate": 0,
-          "Condition": "Poison",
+          "memo" : "독의 상태이상 태그값은 1입니다.",
+          "Condition": 1,
           "Condition rate": 0.2,
-          "Radius": "float N"
+          "Radius": 0.5
         }
       },
       "SKILL 4": {
@@ -139,7 +140,7 @@
         "Elemental": null
       },
       "Attack Reach": 5,
-      "Move Speed": 80
+      "Move Speed": 0.2
     },
     "Object": {
       "memo": "기본적으로 맵기믹 사양서를 바탕으로 제작하였습니다.",
@@ -181,11 +182,7 @@
           }
         },
         "Status": {
-          "Size": {
-            "x": "float n",
-            "y": "float n",
-            "z": "float n"
-          },
+          "Radius" : 0.3,
           "Scale": null,
           "Duration": 10000,
           "Decrease Speed": -50

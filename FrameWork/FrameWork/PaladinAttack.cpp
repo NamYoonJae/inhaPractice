@@ -50,6 +50,7 @@ void cPaladinAttack::StateUpdate()
 			m_pPaladin->GetSkinnedMesh()->SetAnimationIndexBlend(m_nStateIndex);
 			m_IsComboAttack = false;
 		}
+
 	}
 
 	if (m_pPaladin->GetStateIndex() >= eAnimationSet::Attack3)
@@ -62,6 +63,7 @@ void cPaladinAttack::StateUpdate()
 	{
 		if (GetTickCount() - m_dAnimStartTime >= fAnimPeriod)
 		{
+
 			m_pPaladin->StateFeedback();
 		}
 	}
@@ -70,18 +72,56 @@ void cPaladinAttack::StateUpdate()
 void cPaladinAttack::ComboAttack()
 {
 	//cout << GetTickCount() - m_dAnimStartTime << endl;
+	if (m_pPaladin->GetStamina() <= 5) 
+	{
+		//m_pPaladin->SetStamina(0);
+		return;
+	};
 	if(GetTickCount() - m_dAnimStartTime <= m_nComboTimeLimit)
 	{
 		if (m_nStateIndex > eAnimationSet::Attack3 && !m_IsComboAttack)
 		{
 			m_nStateIndex--;
 			m_IsComboAttack = true;
+			
+			float stamina = m_pPaladin->GetStamina();
+			if (stamina > 0)
+			{
+				stamina -= 50.0f;
+				if (stamina < 0)
+				{
+					stamina = 0;
+					m_pPaladin->SetStamina(stamina);
+				}
+				else
+				{
+					m_pPaladin->SetStamina(stamina);
+				}
+
+			}
+			
 		}
 		else if (m_nStateIndex == eAnimationSet::Attack3)
 		{
 			m_nStateIndex = eAnimationSet::Attack1;
-		}
+			
+			float stamina = m_pPaladin->GetStamina();
+			if (stamina > 0)
+			{
+				stamina -= 50.0f;
+				if (stamina < 0)
+				{
+					stamina = 0;
+					m_pPaladin->SetStamina(stamina);
+				}
+				else
+				{
+					m_pPaladin->SetStamina(stamina);
+				}
 
+			}
+			
+		}
 		//cout << m_nStateIndex << endl;
 	}
 }

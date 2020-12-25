@@ -22,11 +22,9 @@ cLavaFlood::~cLavaFlood()
 void cLavaFlood::Setup()
 {
 	m_pEffect = g_pShaderManager->GetShader(eShader::LavaEffect);
-
 	m_pFlameTex = g_pTextureManager->GetTexture("data/Texture/Lava.png");
 
 	m_vPos = D3DXVECTOR3(0,0,0);
-
 }
 
 void cLavaFlood::Update()

@@ -38,8 +38,10 @@ private:
 	float				m_fPhysicDamage;
 	float				m_fElementalDamage;
 
-	float				m_fPhysicsDefence;		
-	float				m_fElementalDefence;	
+	Synthesize(float, m_fPhysicsDefence, PhysicDefence);
+	Synthesize(float, m_fElementalDefence, ElementalDefence);
+	//float				m_fPhysicsDefence;		
+	//float				m_fElementalDefence;	
 
 	float				m_AttackCooldown;
 
@@ -69,33 +71,6 @@ private:
 	int					m_Skill_Weight_4;
 
 	float				m_Speed;
-
-	// 기본공격 // 패턴 1
-	float				m_BasicAttack_Physic_Rate;
-	float				m_BasicAttack_Elemental_Rate;
-	// 브레스 // 패턴 4
-	float				m_Breath_Duration;
-	float				m_Breath_Physic_Rate;
-	float				m_Breath_Elemental_Rate;
-	// 파이어볼 // 즉사기 패턴
-	float				m_FireBall_Physic_Rate;
-	float				m_FireBall_Elemental_Rate;
-	float				m_FireBall_Range;
-	//// 장판 // 패턴 3 // Flood
-	//float				m_Flood_Physic_Rate;
-	//float				m_Flood_Elemental_Rate;
-	//string			m_Flood_Condition; // 상태이상 부여 종류
-	//float				m_Flood_Condition_Rate; // 상태이상 부여치
-	// 돌진 // 패턴 2
-	float				m_Rush_Physic_Rate;
-	float				m_Rush_Elemental_Rate;
-	// 포효 // 포효 패턴
-	float				m_Scream_Range;
-	// 수면 // 체력회복 패턴
-	float				m_Sleep_Duration;
-	// 꼬리치기 // 패턴 1
-	float				m_TailAttack_Physic_Rate;
-	float				m_TailAttack_Elemental_Rate;
 
 	int					m_nPhase;
 	int					m_Debuff;
@@ -136,6 +111,8 @@ public:
 
 	//new
 	void Request();
+	void LegacyRequest();
+	//
 	D3DXVECTOR3* GetTarget();
 	D3DXMATRIXA16* GetRotation() { return &m_matRotation; }
 	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }

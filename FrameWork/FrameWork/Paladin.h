@@ -23,6 +23,7 @@ class cPaladin : public cCharater
 private:
 	cSkinnedMesh*	m_pSkinnedUnit;
 	float			m_fvelocity;
+	float			m_fOriginSpeed;
 	float			m_fSpeed;
 
 	D3DXMATRIXA16	m_matScale;
@@ -49,6 +50,7 @@ private:
 	float m_Stamina;
 	float m_StaminaRestoreValue;
 	//DWORD m_dwStaminaRestoreElapsedTime;
+	bool m_IsStaminaState;
 
 	bool m_IsChangeScene;
 
@@ -127,9 +129,12 @@ public:
 
 	float GetHp() { return m_Hp; }
 	float GetStamina() { return m_Stamina; }
+	void SetStamina(float stamina) { m_Stamina = stamina; };
 	float GetMaxHp() { return m_MaxHp; }
 	float GetMaxStamina() { return m_MaxStamina; }
+	float GetOriginSpeed() { return m_fOriginSpeed; }
 
+	void SetSpeed(int speed) { m_fSpeed = speed; }
 	void SetDebuff(int debuff);
 	int vecDebuffFind(int debuff);
 	void ReloadSpriteDebuff();
@@ -143,6 +148,7 @@ public:
 	void SetCameraDir(D3DXVECTOR3 CameraDir) { m_vCameraDir = CameraDir; }
 
 	int SearchDebuff(int debuff);
+	void SetStaminaState(bool state) { m_IsStaminaState = state; };
 };
 
 class cParts
