@@ -139,55 +139,113 @@ void cEventManager::Update()
 	{
 		if (wStateW & 0x80)
 		{
-			//cout << "space + W" << endl; 
 			PushQueue(EventType::EVENT_WSPACE);
 			Notify();
-
 		}
 		else if (wStateA & 0x80)
 		{
-			//cout << "space + A" << endl; 
 			PushQueue(EventType::EVENT_ASPACE);
 			Notify();
 		}
 		else if (wStateS & 0x80)
 		{
-			//cout << "space + S" << endl; 
 			PushQueue(EventType::EVENT_SSPACE);
 			Notify();
 		}
 		else if (wStateD & 0x80)
 		{
-			//cout << "space + D" << endl; 
 			PushQueue(EventType::EVENT_DSPACE);
 			Notify();
 		}
 	}
-	else if (wStateW & 0x80)
+	
+
+	if (wStateW & 0x80)
 	{
-		//cout << "W stay push" << endl;
-		PushQueue(EventType::EVENT_ARROW_UP);
+		// 우측위 좌측위 W<->S
+		if (wStateA & 0x80)
+		{
+			// 좌측위
+			PushQueue(EventType::EVENT_UPLEFT);
+			//cout << "A W" << endl;
+		}
+		else if (wStateS & 0x80)
+		{
+			if (wStateW & 0x01)
+			{
+				PushQueue(EventType::EVENT_ARROW_DOWN);
+			}
+			else
+			{
+				PushQueue(EventType::EVENT_ARROW_UP);
+			}
+		}
+		else if (wStateD & 0x80)
+		{
+			// 우측위	
+			PushQueue(EventType::EVENT_UPRIGHT);
+			//cout << "D W" << endl;
+
+		}
+		else
+		{
+			PushQueue(EventType::EVENT_ARROW_UP);
+		}
+		
 		Notify();
+		return;
 	}
 	else if (wStateA & 0x80)
 	{
-		//cout << "A stay push" << endl;
-		PushQueue(EventType::EVENT_ARROW_LEFT);
+		// 좌측하단 A<->D
+		if (wStateD & 0x80)
+		{
+			if (wStateA & 0x01)
+			{
+				PushQueue(EventType::EVENT_ARROW_RIGHT);
+			}
+			else
+			{
+				PushQueue(EventType::EVENT_ARROW_LEFT);
+			}
+		}
+		else if (wStateS & 0x80)
+		{
+			// 좌아래
+			PushQueue(EventType::EVENT_DOWNLEFT);
+			//cout << "A S" << endl;
+
+		}
+		else
+		{
+			PushQueue(EventType::EVENT_ARROW_LEFT);
+		}
+
 		Notify();
-	}
-	else if (wStateS & 0x80)
-	{
-		//cout << "S stay push" << endl;
-		PushQueue(EventType::EVENT_ARROW_DOWN);
-		Notify();
+		return;
 	}
 	else if (wStateD & 0x80)
 	{
-		//cout << "D stay push" << endl;
-		PushQueue(EventType::EVENT_ARROW_RIGHT);
+		// 우측하단 
+		if (wStateS & 0x80)
+		{
+			// 우아래
+			//cout << "D S" << endl;
+			PushQueue(EventType::EVENT_DOWNRIGHT);
+		}
+		else
+		{
+			PushQueue(EventType::EVENT_ARROW_RIGHT);
+		}
 		Notify();
+		return;
 	}
-
+	else if (wStateS & 0x80)
+	{
+		PushQueue(EventType::EVENT_ARROW_DOWN);
+		Notify();
+		return;
+	}
 }
 
 
