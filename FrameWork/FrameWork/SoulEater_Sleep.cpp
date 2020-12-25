@@ -96,7 +96,6 @@ void cSoulEater_Sleep::handle()
 		//	m_dwSleepSoundElapsed = GetTickCount();
 		//}
 
-
 		// È¸º¹
 		if(m_pDragon)
 		{
@@ -108,8 +107,7 @@ void cSoulEater_Sleep::handle()
 				m_pDragon->SetCURHP(m_pDragon->GetMAXHP() * 0.15f);
 			}
 
-
-			//if(GetTickCount() - m_dwElapsedTime >= m_dwHealingCoolTime)
+			if(GetTickCount() - m_dwElapsedTime >= m_dwHealingCoolTime)
 			{
 				m_fHealingAmount += m_pDragon->GetMAXHP() * 0.15 * 0.05;
 				m_dwElapsedTime = GetTickCount();

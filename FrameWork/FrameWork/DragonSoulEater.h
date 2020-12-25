@@ -111,6 +111,8 @@ public:
 
 	//new
 	void Request();
+	void LegacyRequest();
+	//
 	D3DXVECTOR3* GetTarget();
 	D3DXMATRIXA16* GetRotation() { return &m_matRotation; }
 	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }

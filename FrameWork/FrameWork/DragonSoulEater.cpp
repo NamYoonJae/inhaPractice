@@ -849,7 +849,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	}
 }
 
-void cDragonSoulEater::Request()
+void cDragonSoulEater::LegacyRequest()
 {	
 	if (m_pCurState && m_pCurState->GetIndex() != 0)
 	{
@@ -975,6 +975,226 @@ void cDragonSoulEater::Request()
 		}
 	}
 }
+
+void cDragonSoulEater::Request()
+{
+	//
+	//m_fCurHeathpoint -= 500;
+
+	if (m_pCurState && m_pCurState->GetIndex() != 0)
+	{
+		m_nPrevStateIndex = m_pCurState->GetIndex();
+		SafeDelete(m_pCurState);
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
+		return;
+	}
+	else
+	{
+		SafeDelete(m_pCurState);
+	}
+
+	static bool	Check = false;
+	static DWORD time = GetTickCount();
+	if (GetTickCount() - time > 1500.0f && Check == false)
+	{
+	Check = true;
+	m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+	return;
+	}
+
+
+#ifdef NDEBUG
+	if (m_nTestStateIndex >= 0x31 && m_nTestStateIndex <= 0x39)
+	{
+		switch (m_nTestStateIndex)
+		{
+		case 0x31:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
+			break;
+		case 0x32:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
+			break;
+		case 0x33:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
+			break;
+		case 0x34:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+			break;
+		case 0x35:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+			break;
+		case 0x36:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+			break;
+		case 0x37:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+			break;
+		case 0x38:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
+			break;
+		case 0x39:
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, 8000.0f);
+			break;
+		}
+		return;
+	}
+#endif // DEBUG
+
+	if (m_fStungauge >= 100)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, m_Stun_Duration);
+		return;
+	}
+
+	if (m_fRagegauge >= 1000 && !m_IsRage)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
+		m_IsRage = true;
+		return;
+	}
+
+	if (m_pvTarget)
+	{
+		int nResult = INT_MAX;
+		int nSize = 0;
+		int nPatternDice[7];
+		
+		nPatternDice[0] = 2; // attack 0
+		nPatternDice[1] = 2; // tailAttack 1
+		nPatternDice[2] = 2; // Rush 2
+		nPatternDice[3] = 0; // Flood 8
+		nPatternDice[4] = 0; // 즉사기 5
+		nPatternDice[5] = 0; // breath 7
+		nPatternDice[6] = 0; // Sleep 6
+
+		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
+		D3DXVec3Normalize(&vCurDir, &vCurDir);
+		D3DXVECTOR3 vPrevDir = D3DXVECTOR3(0, 0, -1);
+		D3DXVec3TransformNormal(&vPrevDir, &vPrevDir, &m_matRotation);
+
+		float Radian = acos(D3DXVec3Dot(&vPrevDir, &vCurDir));
+		float distance = sqrt(pow(m_vPos.x - (*m_pvTarget).x, 2) + pow(m_vPos.z - (*m_pvTarget).z, 2));
+
+		if (distance >= 100.0f)
+		{
+			nPatternDice[2]++;
+		}
+		else if (Radian >= D3DX_PI - D3DX_PI * 0.33 && Radian <= D3DX_PI + D3DX_PI * 0.33
+			&& distance <= 55
+			&& m_nPrevStateIndex != 2)
+		{
+			nPatternDice[1]++;
+		}
+		else if(distance <= 30)
+		{
+			nPatternDice[0]++;
+		}
+
+		switch (m_nPhase)
+		{
+			case 1:
+			{
+				nSize = 3;
+			}
+			break;
+
+			case 2:
+			{
+				nSize = 4;
+				nPatternDice[3] = 1; // 장판으로
+			}
+			break;
+			case 3:
+			{
+				nSize = 6;
+				nPatternDice[3] = 1;
+				nPatternDice[4] = 1;
+				nPatternDice[5] = 1;
+			}
+			break;
+			case 4:
+			{
+				nSize = 7;
+				nPatternDice[6] = 1;
+			}
+			break;
+		}
+
+		for (int i = 1; i < nSize; i++)
+		{
+			nPatternDice[i] += nPatternDice[i - 1];
+		}
+
+		while (true)
+		{
+			int Random = GenerateRandomNum(0, nPatternDice[nSize - 1]);
+			for (int i = 0; i < nSize; i++)
+			{
+				if (i == 0 && (0 <= Random && Random < nPatternDice[i]))
+				{
+					nResult = 1;
+					break;
+				}
+				else if (nPatternDice[i - 1] <= Random && Random < nPatternDice[i])
+				{
+					nResult = i;
+					break;
+				}
+			}
+
+			if (nResult == 4 && m_IsFireball == true)
+			{
+				continue;
+			}
+
+			break;
+		}
+
+		switch (nResult)
+		{
+		case 0: // 깨물기
+			m_pCurState = (cSoulEaterState*)new cSoulEater_BasicAttack(this);
+			return;
+			break;
+		case 1:// taile
+			m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
+			return;
+			break;
+		case 2://돌진
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Rush(this);
+			return;
+			break;
+		case 3:// 장판
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Flood(this);
+			return;
+			break;
+		case 4: // 즉사기 파이어볼
+			m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+			return;
+			break;
+		case 5: //브레스
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+			return;
+			break;
+		case 6:// sleep
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Sleep(this);
+			return;
+			break;
+		default:// Idle
+			m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
+			break;
+		}
+
+	}
+	else
+	{
+		cObject* pObj = (cObject*)ObjectManager->SearchChild(Tag::Tag_Player);
+		m_pvTarget = pObj->GetpPos();
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Idle(this);
+		return;
+	}
+}
+
 
 D3DXVECTOR3 * cDragonSoulEater::GetTarget()
 {
