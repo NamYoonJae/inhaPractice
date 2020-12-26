@@ -221,7 +221,7 @@ void cFireBall::Update()
 			m_FlowParticle.swap(vecNewFlowParticle);
 		}
 
-		if (m_vPos.y <= 0)
+		if (m_vPos.y <= 20.6023f)
 		{
 			Exploding();
 			return;

@@ -41,7 +41,6 @@ void ObjectPool::Update()
 			float dist = sqrt(pow(pos.x, 2) + pow(pos.z, 2));
 
 			float fHeight = pMap->getHeight(pos);
-
 			if(fHeight >= 21.0f && vecObjectList.at(i)->GetTag() >= Tag::Tag_cObj)
 			{
 				vecObjectList.at(i)->m_isDelete = true;
@@ -56,6 +55,12 @@ void ObjectPool::Update()
 			{
 				pos = D3DXVECTOR3(0, 0, 0);
 			}
+
+			if (vecObjectList.at(i)->GetTag() == Tag::Tag_FireBall)
+			{
+				continue;
+			}
+
 			pos.y = fHeight + 20.0f;
 			vecObjectList.at(i)->SetPos(pos);
 			vecObjectList.at(i)->CollisionInfoCheck();

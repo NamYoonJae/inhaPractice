@@ -44,8 +44,8 @@ private:
 
 	float				m_AttackCooldown;
 
-	bool				m_IsRage; //
-	float				m_fRagegauge; //
+	Synthesize(float, m_fRagegauge,RageGauge); //
+	Synthesize(bool, m_IsRage, Rage);
 
 	float				m_RageRate;
 	float				m_RageDuration;
@@ -118,6 +118,8 @@ public:
 	int CurrentStateIndex();
 	void HitSound() override;
 	const int GetPhase() { return m_nPhase; }
+
+	void PhaseShift();
 };
 
 

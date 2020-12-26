@@ -203,7 +203,7 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 		cRune* pRune = (cRune*)pObject;
 		pOBB = pRune->GetSubOBB();
 
-		if (cOBB::IsCollision(m_pOBB, pOBB))
+		if (cOBB::IsCollision(m_pOBB, pOBB) && pRune->GetOnOff())
 		{
 			std::vector<D3DXVECTOR3> list = pOBB->GetList();
 			D3DXMATRIXA16 matWorld = pOBB->GetWorldMatrix();
@@ -230,7 +230,6 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 
 			}
 		}
-
 	}
 
 	if (nTag == Tag::Tag_Player)
