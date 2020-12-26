@@ -1002,13 +1002,13 @@ void cDragonSoulEater::Request()
 	}
 
 	//static bool	Check = false;
-	static DWORD time = GetTickCount();
-	if (GetTickCount() - time > 1500.0f)// && Check == false)
-	{
-		//sCheck = true;
-		m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
-	return;
-	}
+	//static DWORD time = GetTickCount();
+	//if (GetTickCount() - time > 1500.0f)// && Check == false)
+	//{
+	//	//sCheck = true;
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+	//return;
+	//}
 
 #ifdef NDEBUG
 	if (m_nTestStateIndex >= 0x31 && m_nTestStateIndex <= 0x39)
