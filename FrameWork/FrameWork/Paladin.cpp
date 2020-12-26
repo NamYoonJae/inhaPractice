@@ -300,9 +300,6 @@ void cPaladin::Update()
 		m_vDir = D3DXVECTOR3(0, 0, -1);
 
 		D3DXVec3TransformNormal(&m_vDir, &m_vDir, &TempRot);
-		//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ffff",
-		//	TempRot._11, TempRot._13,
-		//	TempRot._31, TempRot._33);
 		D3DXMATRIXA16 matView;
 		D3DXMatrixLookAtRH(&matView, &D3DXVECTOR3(0, 0, 0),
 			&m_vDir, &D3DXVECTOR3(0, 1, 0));
@@ -861,8 +858,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 //		}
 //	}
 
-
-
 	cOBB* pObb;
 	D3DXMATRIXA16 matW;
 	switch (iOtherTag)
@@ -934,12 +929,21 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		D3DXVec3TransformNormal(&vDir, &vDir, &matRy);
 		vDir.y = 0;
 		D3DXVec3Normalize(&vDir, &vDir);
+		D3DXVECTOR3 Pos = m_vPos;
 		while (dist < Radian)
 		{
-			m_vPos += vDir * m_fvelocity;
-			dist = pow(m_vPos.x - vOtherPos.x, 2)
-				+ pow(m_vPos.z - vOtherPos.z, 2);
+			Pos += vDir * m_fvelocity;
+			dist = pow(Pos.x - vOtherPos.x, 2)
+				+ pow(Pos.z - vOtherPos.z, 2);
+
+			if (sqrt(pow(Pos.x, 2) + pow(Pos.z, 2)) > 520)
+			{
+				return;
+			}
 		}
+
+		m_vPos = Pos;
+
 	}
 
 
@@ -1181,6 +1185,13 @@ int cPaladin::SearchDebuff(int debuff)
 		
 	}
 	return false;
+}
+
+void cPaladin::AddCollisionInfo(int nTag, CollisionInfo Info)
+{
+	if (m_isInvincible)
+		return;
+	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 }
 
 

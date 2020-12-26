@@ -19,8 +19,7 @@ class cDragonSoulEater :
 {
 private:
 	cSkinnedMesh*		m_pSkinnedUnit;
-	D3DMATERIAL9		m_Mstl;
-
+	
 	
 	cSoulEaterState*	m_pCurState;
 	
@@ -37,7 +36,7 @@ private:
 
 	float				m_fPhysicDamage;
 	float				m_fElementalDamage;
-
+	Synthesize(D3DMATERIAL9, m_Mstl, Material);
 	Synthesize(float, m_fPhysicsDefence, PhysicDefence);
 	Synthesize(float, m_fElementalDefence, ElementalDefence);
 	//float				m_fPhysicsDefence;		
@@ -111,6 +110,8 @@ public:
 
 	//new
 	void Request();
+	void LegacyRequest();
+	//
 	D3DXVECTOR3* GetTarget();
 	D3DXMATRIXA16* GetRotation() { return &m_matRotation; }
 	void SetRotation(D3DXMATRIXA16* mat) { m_matRotation = *mat; }

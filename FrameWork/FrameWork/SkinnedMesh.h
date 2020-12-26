@@ -37,6 +37,7 @@ public:
 private:
 	Synthesize(D3DXVECTOR3, m_vMin, Min);
 	Synthesize(D3DXVECTOR3, m_vMax, Max);
+	Synthesize(bool, m_IsUsedMstl, Usemstl);
 public:
 	cSkinnedMesh(char* szFolder, char* szFileName);
 	void Load(char* szFolder, char* szFileName);
@@ -62,5 +63,6 @@ public:
 	void	SetPassedBlendTime(float time) { m_fPassedBlendTime = time; }
 	DWORD	GetAnimStartTime() { return m_dAnimStartTime; }
 	void	SetAnimStartTime(DWORD time) { m_dAnimStartTime = time; }
+
 };
 

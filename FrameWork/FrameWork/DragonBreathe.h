@@ -8,18 +8,20 @@ private:
 	
 	LPDIRECT3DTEXTURE9 m_pParticle;
 	D3DXVECTOR3 *m_pvTarget;
+	D3DXVECTOR3 *m_pvDragon;
 	DWORD	m_dwStartTime;
-	
+
+	Synthesize(D3DXMATRIXA16*, m_pmatHead, Head);
 	Synthesize(DWORD, m_dwDurationTime, DurationTime);
 
 	float  m_fRange;
 public:
 	cDragonBreathe();
 	~cDragonBreathe();
-	void SetUp(D3DXVECTOR3 vPos = D3DXVECTOR3(0,0,0));
 	void Update();
 	void Render(D3DXMATRIXA16 *pmat = NULL);
-	void GetTarget(D3DXVECTOR3* Target) { m_pvTarget = Target; }
+	void SetTarget(D3DXVECTOR3* Target) { m_pvTarget = Target; }
+	void SetDragonPos(D3DXVECTOR3* pDragonPos) { m_pvDragon = pDragonPos; }
 	void CollisionProcess(cObject* pObject) override;
 };
 

@@ -57,38 +57,21 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 		Notify();
 		break;
 	case WM_KEYDOWN:
-	{
-		if(GetKeyState((int)EventType::EVENT_ARROW_RIGHT) & 0x8001 ||
-			GetKeyState((int)EventType::EVENT_ARROW_LEFT) & 0x8001 ||
-			GetKeyState((int)EventType::EVENT_ARROW_UP) & 0x8001 || 
-			GetKeyState((int)EventType::EVENT_ARROW_DOWN) & 0x8001)
+	{			
+		if (GetKeyState('0') & 0x8000)
+			m_IsOBBButten = !m_IsOBBButten;
+		
+		if (wParam == (int)EventType::EVENT_ARROW_UP ||
+			wParam == (int)EventType::EVENT_ARROW_DOWN ||
+			wParam == (int)EventType::EVENT_ARROW_LEFT ||
+			wParam == (int)EventType::EVENT_ARROW_RIGHT)
 		{
-			if(GetKeyState((int)EventType::EVENT_JUMP) & 0x8000)
-			{
-				m_Queue.push(EventType::EVENT_JUMP);
-				Notify();
-				break;
-			}
+			return;
 		}
-		//else if(GetKeyState((int)EventType::EVENT_ARROW_RIGHT) & 0x8001 ||
-		//	GetKeyState((int)EventType::EVENT_ARROW_LEFT) & 0x8001 ||
-		//	GetKeyState((int)EventType::EVENT_ARROW_UP) & 0x8001 ||
-		//	GetKeyState((int)EventType::EVENT_ARROW_DOWN) & 0x01)
-		//{
-		//	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", wParam);
-		//	m_Queue.push((EventType)wParam);
-		//	Notify();
-		//	break;
-		//}
 
 		m_Queue.push((EventType)wParam);
 		Notify();
 		break;
-
-			
-		if (GetKeyState('0') & 0x8000)
-			m_IsOBBButten = !m_IsOBBButten;
-		
 	}
 	break;
 	case WM_KEYUP:
@@ -145,48 +128,124 @@ void cEventManager::PushQueue(EventType message)
 
 void cEventManager::Update()
 {
-	// TEST
-	return;
-	WORD wStateW	 = ::GetKeyState('W');
-	WORD wStateA	 = ::GetKeyState('A');
-	WORD wStateS	 = ::GetKeyState('S');
-	WORD wStateD	 = ::GetKeyState('D');
+
 	WORD wStateSPACE = ::GetKeyState(VK_SPACE);
+	WORD wStateW = ::GetKeyState('W');
+	WORD wStateA = ::GetKeyState('A');
+	WORD wStateS = ::GetKeyState('S');
+	WORD wStateD = ::GetKeyState('D');
 
-	BYTE byW = LOBYTE(wStateW);
-	BYTE byA = LOBYTE(wStateA);
-	BYTE byS = LOBYTE(wStateS);
-	BYTE byD = LOBYTE(wStateD);
-	BYTE bySPACE = HIBYTE(wStateSPACE);
-
-	//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "W ", (float)byW);
-	//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "A ", (float)byA);
-	//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "S ", (float)byS);
-	//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "D ", (float)byD);
-
-	if(bySPACE & 0x01)
+	if (wStateSPACE & 0x80)
 	{
-		if (byW & 0x01)
+		if (wStateW & 0x80)
 		{
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "W ", (float)byW);
+			PushQueue(EventType::EVENT_WSPACE);
+			Notify();
 		}
-		else if (byA & 0x01)
+		else if (wStateA & 0x80)
 		{
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "A ", (float)byA);
+			PushQueue(EventType::EVENT_ASPACE);
+			Notify();
 		}
-		else if (byS & 0x01)
+		else if (wStateS & 0x80)
 		{
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "S ", (float)byS);
+			PushQueue(EventType::EVENT_SSPACE);
+			Notify();
 		}
-		else if (byD & 0x01)
+		else if (wStateD & 0x80)
 		{
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "D ", (float)byD);
+			PushQueue(EventType::EVENT_DSPACE);
+			Notify();
 		}
 	}
 	
 
-	//https://startcoding.tistory.com/81
-	//https://www.google.com/search?newwindow=1&sxsrf=ALeKk01mlMgS5LTkovLL6tMARuNEjutFfQ%3A1608796684793&ei=DErkX7D6L5KFr7wPq82goAI&q=api+%ED%82%A4%EB%B3%B4%EB%93%9C+%EB%8F%99%EC%8B%9C+%EC%9E%85%EB%A0%A5&oq=API+%EB%8F%99%EC%8B%9C+&gs_lcp=CgZwc3ktYWIQAxgBMgIIADIGCAAQCBAeOgcIIxDqAhAnOgQIABAeOgYIABAKEB46BQgAELEDOggIABCxAxCDAToECCMQJzoECAAQCjoECAAQQzoHCAAQFBCHAjoGCAAQBRAeOgUIIRCgAVCsg5gBWKymmAFg4a-YAWgJcAB4AoAB-AKIAe8ckgEIMC4xNC4zLjKYAQCgAQGqAQdnd3Mtd2l6sAEKwAEB&sclient=psy-ab
+	if (wStateW & 0x80)
+	{
+		// 우측위 좌측위 W<->S
+		if (wStateA & 0x80)
+		{
+			// 좌측위
+			PushQueue(EventType::EVENT_UPLEFT);
+			//cout << "A W" << endl;
+		}
+		else if (wStateS & 0x80)
+		{
+			if (wStateW & 0x01)
+			{
+				PushQueue(EventType::EVENT_ARROW_DOWN);
+			}
+			else
+			{
+				PushQueue(EventType::EVENT_ARROW_UP);
+			}
+		}
+		else if (wStateD & 0x80)
+		{
+			// 우측위	
+			PushQueue(EventType::EVENT_UPRIGHT);
+			//cout << "D W" << endl;
+
+		}
+		else
+		{
+			PushQueue(EventType::EVENT_ARROW_UP);
+		}
+		
+		Notify();
+		return;
+	}
+	else if (wStateA & 0x80)
+	{
+		// 좌측하단 A<->D
+		if (wStateD & 0x80)
+		{
+			if (wStateA & 0x01)
+			{
+				PushQueue(EventType::EVENT_ARROW_RIGHT);
+			}
+			else
+			{
+				PushQueue(EventType::EVENT_ARROW_LEFT);
+			}
+		}
+		else if (wStateS & 0x80)
+		{
+			// 좌아래
+			PushQueue(EventType::EVENT_DOWNLEFT);
+			//cout << "A S" << endl;
+
+		}
+		else
+		{
+			PushQueue(EventType::EVENT_ARROW_LEFT);
+		}
+
+		Notify();
+		return;
+	}
+	else if (wStateD & 0x80)
+	{
+		// 우측하단 
+		if (wStateS & 0x80)
+		{
+			// 우아래
+			//cout << "D S" << endl;
+			PushQueue(EventType::EVENT_DOWNRIGHT);
+		}
+		else
+		{
+			PushQueue(EventType::EVENT_ARROW_RIGHT);
+		}
+		Notify();
+		return;
+	}
+	else if (wStateS & 0x80)
+	{
+		PushQueue(EventType::EVENT_ARROW_DOWN);
+		Notify();
+		return;
+	}
 }
 
 

@@ -6,15 +6,18 @@
 cSoulEater_TailAttack::cSoulEater_TailAttack()
 	:cSoulEaterState()
 	,m_IsAnimBlend(false)
+	, m_IsRun(false)
 {
 	m_nCurentIndex = 2;
+	TargetDistance = 1000.0f;
 }
 cSoulEater_TailAttack::cSoulEater_TailAttack(cDragonSoulEater* pDragon)
 	:cSoulEaterState(pDragon)
 	,m_IsAnimBlend(false)
+	,m_IsRun(false)
 {
 	m_nCurentIndex = 2;
-
+	TargetDistance = 1000.0f;
 
 	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
 	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
@@ -37,6 +40,22 @@ void cSoulEater_TailAttack::handle()
 {
 	if (m_pDragon == NULL) return;
 
+	if (m_vTarget == D3DXVECTOR3(0, 0, 0))
+	{
+		TargetCapture();
+		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Walk);
+		m_IsRun = true;
+	}
+
+	D3DXVECTOR3 pos = m_pDragon->GetPos();
+
+	//
+	float distance = pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2);
+
+	if (distance <= TargetDistance)
+		m_IsRun = false;
+
+	if(!m_IsRun && !m_IsAnimBlend)
 	{
 		LPD3DXANIMATIONCONTROLLER pAnimController = m_pDragon->GetSkinnedMesh().GetAnimationController();
 		LPD3DXANIMATIONSET pCurAnimSet = NULL;
@@ -51,14 +70,23 @@ void cSoulEater_TailAttack::handle()
 				m_IsAnimBlend = true;
 				m_dwElapsedTime = GetTickCount();
 			}
-			DWORD dwCurrentTime = GetTickCount();
-			if (dwCurrentTime - m_dwElapsedTime >= 1000.0f
-				&& m_pDragon->GetTarget())
-			{
-				m_pDragon->Request();
-				return;
-			}
 		}
 	}
+	else if (!m_IsRun && m_IsAnimBlend)
+	{
+		DWORD dwCurrentTime = GetTickCount();
+		if (dwCurrentTime - m_dwElapsedTime >= 1000.0f
+			&& m_pDragon->GetTarget())
+		{
+			m_pDragon->Request();
+			return;
+		}
+	}
+	else if (m_IsRun)
+	{
+		//pos += m_vDir * 0.003f; // ÀÌµ¿
+		pos += m_vDir * json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS/Move Speed");
 
+		m_pDragon->SetPos(pos);
+	}
 }

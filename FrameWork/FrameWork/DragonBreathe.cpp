@@ -6,12 +6,14 @@
 #include "cOBB.h"
 #include "Paladin.h"
 #include "jsonManager.h"
+#include "Rune.h"
 #pragma once
 
 cDragonBreathe::cDragonBreathe()
 	:m_dwStartTime(GetTickCount())
 	,m_pvTarget(NULL)
 	,cObject()
+	,m_pvDragon(NULL)
 {
 	D3DXCreateTextureFromFileA(g_pD3DDevice,
 		"data/Texture/alpha_tex.tga", &m_pParticle);
@@ -30,19 +32,37 @@ cDragonBreathe::~cDragonBreathe()
 
 void cDragonBreathe::Update()
 {
+	static int nAlpha = 250;
+	static int nDelta = 4;
+	nAlpha += nDelta;
+
+	if (nAlpha > 255)
+	{
+		nAlpha = 255;
+		nDelta *= -1;
+	}
+	if (nAlpha < 128)
+	{
+		nAlpha = 128;
+		nDelta *= -1;
+	}
+
 	if (GetTickCount() - m_dwStartTime > m_dwDurationTime)
 	{
 		m_isDelete = true;
 		return;
 	}
 
-	// 드래곤이 충돌했을때 포지션이 바뀌지않는 버그가있는데 수정가능
 	if (m_pvTarget)
 	{
 		D3DXVECTOR3 vTarget = *m_pvTarget;
-		vTarget.y += 15.0f;
-		D3DXVECTOR3 vDir = vTarget - m_vPos;
+		D3DXVECTOR3 vPos = *m_pvDragon;
+		vPos.y += m_pmatHead->_42 + 3.0f;
+		vTarget.y += 10.0f;
+		D3DXVECTOR3 vDir = vTarget - vPos;
 		D3DXVec3Normalize(&vDir, &vDir);
+		vPos += vDir * 3.0f;
+
 		using namespace std;
 		random_device rd;
 		mt19937_64 mtRand(rd());
@@ -68,9 +88,9 @@ void cDragonBreathe::Update()
 				&pc.p,
 				&matWorld);
 
-			pc.c = D3DCOLOR_ARGB(255, 255, 0, 0);
-			pc.p += (m_vPos + vDir * 2.0f);
-
+			pc.p += (vPos);
+			//int r = GenerateRandomNum(200, 255);
+			pc.c = D3DCOLOR_ARGB(255,255,0, 0);
 			m_vecPosList.push_back(pc);
 			m_vecDirList.push_back(vDir);
 		}
@@ -82,8 +102,8 @@ void cDragonBreathe::Update()
 
 	for (int i = 0; i < m_vecPosList.size(); ++i)
 	{
-		m_vecPosList[i].p += m_vecDirList[i] * 2.0f;
-
+		m_vecPosList[i].p += m_vecDirList[i] * 5.0f;
+		m_vecPosList[i].c = D3DCOLOR_ARGB(255,nAlpha, 70, 20);
 		vMin.x = min(vMin.x, m_vecPosList.at(i).p.x);
 		vMin.y = min(vMin.y, m_vecPosList.at(i).p.y);
 		vMin.z = min(vMin.z, m_vecPosList.at(i).p.z);
@@ -93,13 +113,10 @@ void cDragonBreathe::Update()
 		vMax.z = max(vMax.z, m_vecPosList.at(i).p.z);
 	}
 
-	//m_vecPosList[0].p; // << 첫 인덱스
-	//m_vecPosList[m_vecPosList.size() - 1)].p; 마지막 인덱스 거리 구해서 지워버리기
-
-	if (m_vecPosList.size() > 50000)
+	if (m_vecPosList.size() > 2500)
 	{
-		m_vecPosList.erase(m_vecPosList.begin(), m_vecPosList.begin() + 500);
-		m_vecDirList.erase(m_vecDirList.begin(), m_vecDirList.begin() + 500);
+		m_vecPosList.erase(m_vecPosList.begin(), m_vecPosList.begin() + 50);
+		m_vecDirList.erase(m_vecDirList.begin(), m_vecDirList.begin() + 50);
 	}
 	//
 
@@ -182,32 +199,38 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 	
 	if(nTag == Tag::Tag_RunStone)
 	{
-
 		int i = 0;
-		std::vector<D3DXVECTOR3> list = pOBB->GetList();
-		D3DXMATRIXA16 matWorld = pOBB->GetWorldMatrix();
-		D3DXVECTOR3 pos;
-		pos.x = matWorld._41; pos.y = matWorld._42; pos.z = matWorld._43;
+		cRune* pRune = (cRune*)pObject;
+		pOBB = pRune->GetSubOBB();
 
-		for (i = m_vecPosList.size() - 1; i > 0; --i)
+		if (cOBB::IsCollision(m_pOBB, pOBB))
 		{
-			if ((m_vecPosList[i].p.z <= pos.z + list[4].z && m_vecPosList[i].p.z >= pos.z + list[0].z) &&
-				(m_vecPosList[i].p.x <= pos.x + list[2].x && m_vecPosList[i].p.x >= pos.x + list[0].x) &&
-				(m_vecPosList[i].p.y <= pos.y + list[1].y && m_vecPosList[i].p.y >= pos.y + list[0].y))
+			std::vector<D3DXVECTOR3> list = pOBB->GetList();
+			D3DXMATRIXA16 matWorld = pOBB->GetWorldMatrix();
+			D3DXVECTOR3 pos;
+			pos.x = matWorld._41; pos.y = matWorld._42; pos.z = matWorld._43;
+
+			for (i = m_vecPosList.size() - 1; i > 0; --i)
 			{
-				break;
+				if ((m_vecPosList[i].p.z <= pos.z + list[4].z && m_vecPosList[i].p.z >= pos.z + list[0].z) &&
+					(m_vecPosList[i].p.x <= pos.x + list[2].x && m_vecPosList[i].p.x >= pos.x + list[0].x) &&
+					(m_vecPosList[i].p.y <= pos.y + list[1].y && m_vecPosList[i].p.y >= pos.y + list[0].y))
+				{
+					break;
+				}
+
 			}
 
+			if (i == 0)
+				return;
+			else
+			{
+				m_vecPosList.erase(m_vecPosList.begin(), m_vecPosList.begin() + i);
+				m_vecDirList.erase(m_vecDirList.begin(), m_vecDirList.begin() + i);
+
+			}
 		}
 
-		if (i == 0)
-			return;
-		else
-		{
-			m_vecPosList.erase(m_vecPosList.begin(), m_vecPosList.begin() + i);
-			m_vecDirList.erase(m_vecDirList.begin(), m_vecDirList.begin() + i);
-
-		}
 	}
 
 	if (nTag == Tag::Tag_Player)
@@ -226,9 +249,4 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Breath Hit");
 		}
 	}
-}
-
-void cDragonBreathe::SetUp(D3DXVECTOR3 vPos)
-{
-	m_vPos = vPos;
 }
