@@ -4,6 +4,8 @@
 
 
 cTrophies::cTrophies()
+	: m_dwStateStartTime(GetTickCount())
+	, m_dwPreparationTime(1000.0f)
 {
 	m_MaxGauge = 0;
 	m_Gauge = 0;
@@ -29,7 +31,7 @@ cTrophies::~cTrophies()
 }
 
 
-void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed, int tag, int maxGauge, int gauge)
+void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed, int tag, float maxGauge, float gauge)
 {
 	m_Percentage = percent;
 	m_Position = position;
@@ -50,6 +52,20 @@ void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float pe
 
 void cTrophies::Update()
 {
+	if (m_Power)
+	{
+		if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
+		{
+			m_Gauge -= 0.2;
+			if (m_Gauge < 0) 
+			{
+				m_Power = false;
+			}
+			m_dwStateStartTime = GetTickCount();
+		}
+	}
+
+	
 }
 
 void cTrophies::Update(EventType message)
@@ -166,11 +182,11 @@ void cTrophies::PowerOnOff()
 		m_vecPopupBtnList[i]->PowerOnOff();
 	}
 }
-int cTrophies::GetMaxGauge()
+float cTrophies::GetMaxGauge()
 {
 	return m_MaxGauge;
 }
-int cTrophies::GetGauge()
+float cTrophies::GetGauge()
 {
 	return m_Gauge;
 }

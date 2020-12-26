@@ -5,8 +5,12 @@ class cTrophies : public cPopup
 {
 private:
 
-	int m_MaxGauge;
-	int m_Gauge;
+	float m_MaxGauge;
+	float m_Gauge;
+	bool m_IsTrophiesState;
+
+	DWORD m_dwPreparationTime;
+	DWORD m_dwStateStartTime;
 
 
 public:
@@ -20,8 +24,8 @@ public:
 		bool powerOnOff,
 		bool fixed,
 		int tag,
-		int maxGauge,
-		int gauge
+		float maxGauge,
+		float gauge
 	);
 
 	void Update() override;
@@ -61,8 +65,8 @@ public:
 	cPopup* GetPopupBtn(int index);
 	*/
 
-	int GetMaxGauge();
-	int GetGauge();
+	float GetMaxGauge();
+	float GetGauge();
 
 };
 
