@@ -41,7 +41,6 @@ void cPaladinEvade::StateUpdate()
 		{
 			m_pPaladin->SetInvincible(false);
 			m_pPaladin->StateFeedback();
-
 		}
 	}
 }

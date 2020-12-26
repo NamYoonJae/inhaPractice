@@ -247,6 +247,9 @@
     <ClCompile Include="ArenaMap.cpp">
       <Filter>Code\Map\Arena</Filter>
     </ClCompile>
+    <ClCompile Include="SoulEater_Die.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -503,6 +506,9 @@
     </ClInclude>
     <ClInclude Include="ArenaMap.h">
       <Filter>Code\Map\Arena</Filter>
+    </ClInclude>
+    <ClInclude Include="SoulEater_Die.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

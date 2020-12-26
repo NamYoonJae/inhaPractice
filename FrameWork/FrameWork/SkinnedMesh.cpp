@@ -17,6 +17,7 @@ cSkinnedMesh::cSkinnedMesh()
 	, m_vMax(0, 0, 0)
 	, m_uiDefaultIndex(0)
 	, m_isDefaultAnim(false)
+	, m_IsUsedMstl(true)
 {
 	D3DXMatrixIdentity(&m_matWorldTM);
 }
@@ -127,7 +128,9 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 				if(!pBoneMesh->vecTexture.empty())
 				{
 					g_pD3DDevice->SetTexture(0, pBoneMesh->vecTexture[i]);
-					g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
+	
+					if(m_IsUsedMstl)
+						g_pD3DDevice->SetMaterial(&pBoneMesh->vecMtl[i]);
 				}
 				pBoneMesh->MeshData.pMesh->DrawSubset(i);
 				g_pD3DDevice->SetTexture(0, NULL);

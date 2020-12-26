@@ -261,15 +261,14 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 		cPaladin* Paladin = (cPaladin*)pObject;
 		cOBB*pBody = Paladin->GetPartsList().at(1)->GetOBB();
 
-		if(cOBB::IsCollision(m_pOBB,pBody) && pObject->GetCollsionInfo(m_nTag) == nullptr)
+		if(cOBB::IsCollision(m_pOBB,pBody) 
+			&& pObject->GetCollsionInfo(m_nTag) == nullptr
+			&& !Paladin->GetInvincible())
 		{
 			CollisionInfo info;
 			info.dwCollsionTime = GetTickCount();
 			info.dwDelayTime = 1300;
 			pObject->AddCollisionInfo(m_nTag, info);
-
-			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Golem_Attack Hit Player");
-
 		}
 	}
 
@@ -279,7 +278,7 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 
 	cOBB* pObb;
 	D3DXMATRIXA16 matW;
-	
+	D3DXVECTOR3 vPos = m_vPos;
 	switch (nTag)
 	{
 	case Tag::Tag_Orb:
@@ -292,16 +291,24 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	{
 		if (GetStateIndex() != 1) return;
 		D3DXVECTOR3 vDir = m_vDir;
+		
 		D3DXMATRIXA16 matRy;
 		D3DXMatrixRotationY(&matRy, D3DX_PI *0.5);
 		D3DXVec3TransformNormal(&vDir,&vDir,&matRy);
 		
 		while (dist < 500.0f)
 		{
-			m_vPos += vDir * 0.02f;
+			vPos += vDir * 0.02f;
 
-			dist = pow(m_vPos.x - vOtherPos.x, 2)
-				+ pow(m_vPos.z - vOtherPos.z, 2);
+			dist = pow(vPos.x - vOtherPos.x, 2)
+				+ pow(vPos.z - vOtherPos.z, 2);
+
+			if (sqrt(pow(vPos.x, 2) + pow(vPos.z, 2)) > 520)
+			{
+				m_vPos += D3DXVECTOR3(0, 0, 1);
+				return;
+			}
+
 		}
 
 		cLavaRun* Run = (cLavaRun*)m_pState;
@@ -332,16 +339,22 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 
 	float Radian = Radian0 + Radian1;
 
-
 	while (dist < Radian)
 	{
-			m_vPos += -m_vDir * 0.02f;
+		vPos += -m_vDir * 0.02f;
 
-			dist = pow(m_vPos.x - vOtherPos.x, 2)
-				+ pow(m_vPos.z - vOtherPos.z, 2);
+		dist = pow(vPos.x - vOtherPos.x, 2)
+			+ pow(vPos.z - vOtherPos.z, 2);
+
+		if (sqrt(pow(vPos.x, 2) + pow(vPos.z, 2)) > 520)
+		{
+			m_vPos += D3DXVECTOR3(0, 0, 1);
+			return;
+		}
+
 	}
 	m_vPos += D3DXVECTOR3(0, 0, 1);
-
+	m_vPos = vPos;
 
 }
 

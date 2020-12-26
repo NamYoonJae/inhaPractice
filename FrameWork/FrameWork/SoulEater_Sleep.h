@@ -14,6 +14,10 @@ private:
 	DWORD	m_dwHealingCoolTime;
 	DWORD	m_dwSleepSoundTime;
 	DWORD	m_dwSleepSoundElapsed;
+
+	// 수면 // 체력회복 패턴
+	float	m_Sleep_Duration;
+
 public:
 	cSoulEater_Sleep();
 	cSoulEater_Sleep(cDragonSoulEater*);

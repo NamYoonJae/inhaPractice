@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "SceneManager.h"
 #include "TimerManager.h"
+#include "EventManager.h"
 #include "Scene.h"
 #include "FrameWork.h"
 #include "ObjectPool.h"
@@ -158,10 +159,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-
 	EventManager->InputEvent(message, wParam, lParam);
+
+	
+
     switch (message)
     {
+	case WM_CREATE:
+		break;
+	case WM_TIMER:
+		break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

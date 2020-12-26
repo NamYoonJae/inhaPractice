@@ -149,6 +149,9 @@ public:
 
 	int SearchDebuff(int debuff);
 	void SetStaminaState(bool state) { m_IsStaminaState = state; };
+
+	//
+	void AddCollisionInfo(int nTag, CollisionInfo Info) override;
 };
 
 class cParts

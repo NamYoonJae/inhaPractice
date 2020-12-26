@@ -37,7 +37,7 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 mPosition: POSITION;
-   float4 mClipPosition: TEXCOORD1;
+   float4 mDepth: TEXCOORD1;
 };
 
 float4x4 gWorldMatrix : World;
@@ -61,18 +61,18 @@ VS_OUTPUT CreateShadowShader_CreateShadow_Vertex_Shader_vs_main( VS_INPUT Input 
    Output.mPosition = mul(Output.mPosition, lightViewMatrix);
    Output.mPosition = mul(Output.mPosition, gLightProjectionMatrix);
 
-   Output.mClipPosition = Output.mPosition;
+   Output.mDepth = Output.mPosition.z;
    
    return Output;
 }
 struct PS_INPUT 
 {
-   float4 mClipPosition: TEXCOORD1;
+   float4 mDepth: TEXCOORD1;
 };
 
 float4 CreateShadowShader_CreateShadow_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 {   
-   float depth = Input.mClipPosition.z / Input.mClipPosition.w;
+   float depth = Input.mDepth;
    return float4(depth.xxx, 1);
 }
 

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SoulEater_BasicAttack.h"
 #include "DragonSoulEater.h"
+#include "jsonManager.h"
 //#include "SoundManager.h"
 
 #pragma once
@@ -24,6 +25,20 @@ cSoulEater_BasicAttack::cSoulEater_BasicAttack(cDragonSoulEater *pDragon)
 	m_nCurentIndex = 1;
 	m_dwElapsedTime = GetTickCount();
 	TargetDistance = 1000.0f;
+
+
+	// json Attribute
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+	JSON_Object* p_ExtraPattern_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Extra Pattern/");
+
+	// 기본공격 // 패턴 1
+	m_BasicAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Melee rate");
+	m_BasicAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 1/Attribute 1/Elemental rate");
+
+	// log
+	//cout << "BOSS_jsonValue BasicAttack_Physic_Rate : " << m_BasicAttack_Physic_Rate << endl;
+	//cout << "BOSS_jsonValue BasicAttack_Elemental_Rate : " << m_BasicAttack_Elemental_Rate << endl;
 }
 
 cSoulEater_BasicAttack::~cSoulEater_BasicAttack()
@@ -65,7 +80,9 @@ void cSoulEater_BasicAttack::handle()
 	}
 	else
 	{
-		pos += m_vDir * 0.003f; // 이동
+		//pos += m_vDir * 0.003f; // 이동
+		pos += m_vDir * json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS/Move Speed");
+
 		m_pDragon->SetPos(pos);
 		//GenerateRandomNum(
 	}

@@ -77,6 +77,8 @@ void cSoulEater_Scream::handle()
 			&& m_pDragon->GetTarget()
 			&& m_IsAnimBlend)
 		{
+			m_pDragon->SetRageGauge(0);
+			m_pDragon->SetRage(false);
 			pCamera->SetVibration(false);
 			m_pDragon->Request();
 			return;

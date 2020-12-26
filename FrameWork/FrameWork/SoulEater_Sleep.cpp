@@ -17,15 +17,6 @@ cSoulEater_Sleep::cSoulEater_Sleep()
 	m_dwSleepSoundElapsed = GetTickCount();
 	m_dwSleepSoundTime = 10000.0f;
 
-#pragma region json
-	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/임시 패턴 객체/HP 회복패턴/");
-
-	
-
-
-#pragma endregion json
-
 }
 
 cSoulEater_Sleep::cSoulEater_Sleep(cDragonSoulEater* pDragon)
@@ -38,6 +29,20 @@ cSoulEater_Sleep::cSoulEater_Sleep(cDragonSoulEater* pDragon)
 	m_dwHealingCoolTime = 1500.0f;
 	m_dwSleepSoundElapsed = GetTickCount();
 	m_dwSleepSoundTime = 10000.0f;
+
+
+
+	m_dwElapsedTime = GetTickCount();
+
+	// 수면 // 체력회복 패턴
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+	JSON_Object* p_ExtraPattern_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Extra Pattern/");
+
+	// 수면 // 체력회복 패턴
+	m_Sleep_Duration = json_Function::object_get_double(p_ExtraPattern_object, "Sleep/Attribute/Duration");
+	// SKILL log
+	// cout << "BOSS_jsonValue Sleep_Duration : " << m_Sleep_Duration << endl;
 }
 
 
@@ -90,13 +95,23 @@ void cSoulEater_Sleep::handle()
 		//	g_pSoundManager->PlaySFX(eSoundList::Dragon_Sleep);
 		//	m_dwSleepSoundElapsed = GetTickCount();
 		//}
+
 		// 회복
 		if(m_pDragon)
 		{
+			// 최대체력의 10%이하가 될 시 수면에 돌입
+			// 수면에 돌입한 후 수면지속시간이 끝났을 때
+			// 현재체력이 최대체력의 15%로 변경
+			if (m_Sleep_Duration <= GetTickCount() - m_dwElapsedTime)
+			{
+				m_pDragon->SetCURHP(m_pDragon->GetMAXHP() * 0.15f);
+			}
+
 			if(GetTickCount() - m_dwElapsedTime >= m_dwHealingCoolTime)
 			{
 				m_fHealingAmount += m_pDragon->GetMAXHP() * 0.15 * 0.05;
 				m_dwElapsedTime = GetTickCount();
+
 				g_pSoundManager->PlaySFX(eSoundList::Dragon_Sleep);
 			}
 

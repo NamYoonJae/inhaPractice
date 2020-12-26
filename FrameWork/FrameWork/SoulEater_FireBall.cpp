@@ -91,7 +91,6 @@ void cSoulEater_FireBall::handle()
 			mFireBall->Setup();
 
 			mFireBall->SetDirection(vDir);
-			mFireBall->SetPos(vPos);
 			mFireBall->Tagging(Tag::Tag_FireBall);
 			ObjectManager->AddChild(mFireBall);
 			m_dwDelayTime = 1000.0f;

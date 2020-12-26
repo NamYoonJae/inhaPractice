@@ -182,6 +182,7 @@
     <ClInclude Include="LavaFlood.h" />
     <ClInclude Include="Rune.h" />
     <ClInclude Include="SoulEater_Breath.h" />
+    <ClInclude Include="SoulEater_Die.h" />
     <ClInclude Include="SoulEater_FireBall.h" />
     <ClInclude Include="SoulEater_Flood.h" />
     <ClInclude Include="SoulEater_Rush.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="LavaFlood.cpp" />
     <ClCompile Include="Rune.cpp" />
     <ClCompile Include="SoulEater_Breath.cpp" />
+    <ClCompile Include="SoulEater_Die.cpp" />
     <ClCompile Include="SoulEater_FireBall.cpp" />
     <ClCompile Include="SoulEater_Flood.cpp" />
     <ClCompile Include="SoulEater_Rush.cpp" />

@@ -35,25 +35,31 @@ void cSwamp::Setup(Tag T)
 
 	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
 	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
-	m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
+	m_Flood_Condition = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
+	//m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
 	m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
 
 
 	m_dwElapsedTime = GetTickCount();
 	m_dwDurationTime = json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Duration");
 
-
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
 	m_vPos = D3DXVECTOR3(0, 0.0, 0);
-	m_vScale = D3DXVECTOR3(0.3, 0.001, 0.3); // << 넓이 적용하기
+
+	// 스케일 적용
+	//m_vScale = D3DXVECTOR3(0.3, 0.001, 0.3); 
+	m_vScale = D3DXVECTOR3(
+		(float)json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Radius"),
+		0.001f,
+		(float)json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Radius")
+	);
+
 	m_nTag = T;
 	// xfile
 	{
-
 		using namespace std;
 		string szFullPathX = "data/XFile/Cube/Cube.x";
-
 
 		HRESULT hr = 0;
 		ID3DXBuffer *adjBuffer = 0;
@@ -141,7 +147,6 @@ void cSwamp::Update()
 		m_pOBB->Update(&matWorld);
 	}
 
-	// json 값 받아와서 유지시간 넘어가면 없어지게 처리
 	// m_isDelete = true; // << 오브젝트 풀에서 삭제 처리해줌
 }
 

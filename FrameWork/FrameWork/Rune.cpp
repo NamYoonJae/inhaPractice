@@ -117,8 +117,8 @@ void cRune::Update()
 		}
 	}
 	else
-	{
-		if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
+	{ 
+		//if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
 		{
 			D3DXMATRIXA16 matR;
 			D3DXMatrixIdentity(&matR);
@@ -139,7 +139,7 @@ void cRune::Update()
 			}
 
 			m_RotY += 1 / D3DX_PI * 0.03;
-			m_dwStateStartTime = GetTickCount();
+			//m_dwStateStartTime = GetTickCount();
 		}
 
 		if (m_IsCollision)
