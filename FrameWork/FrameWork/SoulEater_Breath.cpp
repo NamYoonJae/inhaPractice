@@ -34,7 +34,19 @@ cSoulEater_Breath::cSoulEater_Breath(cDragonSoulEater* pDragon)
 
 	m_Breath_Duration = (DWORD)json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
 	m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
-	m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
+	m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");
+
+
+	D3DMATERIAL9 Mstl;
+	ZeroMemory(&Mstl, sizeof(D3DMATERIAL9));
+	Mstl.Ambient = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
+	Mstl.Specular = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
+	Mstl.Diffuse = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
+
+	m_pDragon->SetMaterial(Mstl);
+	m_pDragon->GetSkinnedMesh().SetUsemstl(false);
+
+	m_dwElapsedTime = GetTickCount();
 }
 
 
@@ -48,6 +60,11 @@ void cSoulEater_Breath::handle()
 
 	TargetCapture();
 
+	if (GetTickCount() - m_dwElapsedTime <= 1500.0f)
+	{
+		return;
+	}
+
 	if(m_IsAnimBlend == false)
 	{
 		LPD3DXANIMATIONCONTROLLER pAnimController = m_pDragon->GetSkinnedMesh().GetAnimationController();
@@ -58,18 +75,14 @@ void cSoulEater_Breath::handle()
 		{
 			m_pDragon->GetSkinnedMesh().SetAnimationIndex(AnimationSet::FireBall_Shot);
 			cDragonBreathe *pBreath = new cDragonBreathe;
-			pBreath->GetTarget(m_pDragon->GetTarget());
+			pBreath->SetTarget(m_pDragon->GetTarget());
 			pBreath->SetDurationTime(m_Breath_Duration);
 			
 			D3DXVECTOR3 vPos = m_pDragon->GetPos();
-			D3DXMATRIXA16 matCurrentAnimMatrix;
-			ST_BONE *pBone = (ST_BONE*)D3DXFrameFind(m_pDragon->GetSkinnedMesh().GetFrame(), "Jaw");
-			matCurrentAnimMatrix = pBone->CombinedTransformationMatrix;
-			vPos.x += matCurrentAnimMatrix._41;
-			vPos.y += matCurrentAnimMatrix._42;
-			vPos.z += matCurrentAnimMatrix._43;
-			pBreath->SetUp(vPos);
-
+			ST_BONE *pBone = (ST_BONE*)D3DXFrameFind(m_pDragon->GetSkinnedMesh().GetFrame(), "Neck");
+			
+			pBreath->SetHead(&pBone->CombinedTransformationMatrix);
+			pBreath->SetDragonPos(m_pDragon->GetpPos());
 			pBreath->Tagging(Tag::Tag_Breath);
 			ObjectManager->AddChild(pBreath);
 			
@@ -81,6 +94,7 @@ void cSoulEater_Breath::handle()
 	}
 	else if(GetTickCount() - m_dwStartTime > m_Breath_Duration)
 	{
+		m_pDragon->GetSkinnedMesh().SetUsemstl(true);
 		m_pDragon->Request();
 		return;
 	}

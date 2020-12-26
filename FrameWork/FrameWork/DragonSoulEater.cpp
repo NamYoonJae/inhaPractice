@@ -352,7 +352,6 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 	m_vPos = D3DXVECTOR3(100, 0, 200);
 }
 
-
 void cDragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
 {
 	m_matWorld = *matWorld;
@@ -1003,13 +1002,13 @@ void cDragonSoulEater::Request()
 	}
 
 	//static bool	Check = false;
-	//static DWORD time = GetTickCount();
-	//if (GetTickCount() - time > 1500.0f && Check == false)
-	//{
-	//Check = true;
-	//m_pCurState = (cSoulEaterState*)new cSoulEater_TailAttack(this);
-	//return;
-	//}
+	static DWORD time = GetTickCount();
+	if (GetTickCount() - time > 1500.0f)// && Check == false)
+	{
+		//sCheck = true;
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
+	return;
+	}
 
 #ifdef NDEBUG
 	if (m_nTestStateIndex >= 0x31 && m_nTestStateIndex <= 0x39)
@@ -1065,15 +1064,8 @@ void cDragonSoulEater::Request()
 	{
 		int nResult = INT_MAX;
 		int nSize = 0;
-		int nPatternDice[7];
+		int nPatternDice[7] = {2,2,2,1,1,1,1};
 		
-		nPatternDice[0] = 2; // attack 0
-		nPatternDice[1] = 2; // tailAttack 1
-		nPatternDice[2] = 2; // Rush 2
-		nPatternDice[3] = 0; // Flood 8
-		nPatternDice[4] = 0; // 즉사기 5
-		nPatternDice[5] = 0; // breath 7
-		nPatternDice[6] = 0; // Sleep 6
 
 		D3DXVECTOR3 vCurDir = *m_pvTarget - m_vPos;
 		D3DXVec3Normalize(&vCurDir, &vCurDir);
@@ -1101,30 +1093,16 @@ void cDragonSoulEater::Request()
 		switch (m_nPhase)
 		{
 			case 1:
-			{
 				nSize = 3;
-			}
 			break;
-
 			case 2:
-			{
 				nSize = 4;
-				nPatternDice[3] = 1; // 장판으로
-			}
 			break;
 			case 3:
-			{
 				nSize = 6;
-				nPatternDice[3] = 1;
-				nPatternDice[4] = 1;
-				nPatternDice[5] = 1;
-			}
 			break;
 			case 4:
-			{
 				nSize = 7;
-				nPatternDice[6] = 1;
-			}
 			break;
 		}
 
@@ -1140,7 +1118,7 @@ void cDragonSoulEater::Request()
 			{
 				if (i == 0 && (0 <= Random && Random < nPatternDice[i]))
 				{
-					nResult = 1;
+					nResult = i;
 					break;
 				}
 				else if (nPatternDice[i - 1] <= Random && Random < nPatternDice[i])
@@ -1202,7 +1180,6 @@ void cDragonSoulEater::Request()
 		return;
 	}
 }
-
 
 D3DXVECTOR3 * cDragonSoulEater::GetTarget()
 {
