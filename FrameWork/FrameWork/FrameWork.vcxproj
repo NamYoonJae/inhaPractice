@@ -352,6 +352,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="Normal Select.cur" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shader\ApplyShadow.fx">
