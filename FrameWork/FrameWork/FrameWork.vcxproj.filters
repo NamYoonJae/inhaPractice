@@ -250,6 +250,12 @@
     <ClCompile Include="SoulEater_Die.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
     </ClCompile>
+    <ClCompile Include="GameClearScene.cpp">
+      <Filter>Code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClearSceneUIEvent.cpp">
+      <Filter>Code\UI\UIEvent</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -509,6 +515,12 @@
     </ClInclude>
     <ClInclude Include="SoulEater_Die.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\SoulEaterState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClearScene.h">
+      <Filter>Code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClearSceneUIEvent.h">
+      <Filter>Code\UI\UIEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -39,7 +39,7 @@ void cGameOverScene::Setup()
 	pButton->Setup("data/UI/GameOver/NW_Retry", "NW_GameOver_Retry_Idle.png",
 		D3DXVECTOR3(590, 540, 0), 0, 0, 0, 1, true, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = RetryGameBtnEvent;
+	pButton->EventProcess = GameOverRetryBtnEvent;
 
 
 	//메인메뉴
@@ -47,7 +47,7 @@ void cGameOverScene::Setup()
 	pButton->Setup("data/UI/GameOver/NW_MainMenu", "NW_GameOver_MainMenu_Idle.png",
 		D3DXVECTOR3(575, 620, 0), 0, 0, 0, 1, true, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = MainMenuBtnEvent;
+	pButton->EventProcess = GameOverMainMenuBtnEvent;
 
 
 	//종료
@@ -55,7 +55,7 @@ void cGameOverScene::Setup()
 	pButton->Setup("data/UI/GameOver/NW_Exit", "NW_GameOver_Exit_Idle.png",
 		D3DXVECTOR3(595, 700, 0), 0, 0, 0, 1, true, true);
 	pGameOverBackgroundPopup->cButtonPushBack(pButton);
-	pButton->EventProcess = ExitGameOverBtnEvent;
+	pButton->EventProcess = GameOverExitGameOverBtnEvent;
 
 	EventManager->Attach(pGameOverBackgroundPopup);
 	ObjectManager->AddUIChild(pGameOverBackgroundPopup);

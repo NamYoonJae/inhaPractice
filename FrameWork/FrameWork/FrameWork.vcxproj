@@ -174,6 +174,8 @@
     <ClInclude Include="cDeviceManage.h" />
     <ClInclude Include="DragonBreathe.h" />
     <ClInclude Include="FireBall.h" />
+    <ClInclude Include="GameClearScene.h" />
+    <ClInclude Include="GameClearSceneUIEvent.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="PaladinAttack.h" />
     <ClInclude Include="PaladinEvade.h" />
@@ -261,6 +263,8 @@
     <ClCompile Include="cDeviceManage.cpp" />
     <ClCompile Include="DragonBreathe.cpp" />
     <ClCompile Include="FireBall.cpp" />
+    <ClCompile Include="GameClearScene.cpp" />
+    <ClCompile Include="GameClearSceneUIEvent.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="PaladinAttack.cpp" />
     <ClCompile Include="PaladinEvade.cpp" />
