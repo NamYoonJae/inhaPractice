@@ -17,6 +17,7 @@
 #include "SoulEater_Breath.h"
 #include "SoulEater_Flood.h"
 #include "SoulEater_Stun.h"
+#include "SoulEater_Die.h"
 #include "LavaFlood.h"
 #include "Map.h"
 #include "SoundManager.h"
@@ -66,7 +67,6 @@ void cDragonSoulEater::Update()
 
 	D3DXMATRIXA16 matOBB,matT;
 	
-
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, 0.2, 0.2, 0.2);
@@ -104,26 +104,6 @@ void cDragonSoulEater::Update()
 	if (m_pCurState)
 		m_pCurState->handle();
 
-	if(	(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.8 && m_nPhase == 1) ||
-		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.5 && m_nPhase == 2) ||
-		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.3 && m_nPhase == 3))
-	{
-		++m_nPhase;
-		if (m_nPhase == 2)
-		{
-			//m_dwSwampElapsedTime = GetTickCount(); // << 사용 안함
-			// 오브젝트 풀에서 맵을 SearchChild
-			// iMap에 bool값을 True로 변경해주기
-		}
-
-	}
-
-
-	
-	if (m_nPhase == 3)
-	{
-		// 룬스톤 활성화
-	}
 
 #ifdef NDEBUG
 	for (int i = 0x31; i <= 0x39; i++)
@@ -138,7 +118,7 @@ void cDragonSoulEater::Update()
 
 
 	//CollisionInfoCheck();
-
+	PhaseShift();
 }
 
 void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
@@ -778,8 +758,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	{
 		D3DXVECTOR3 vPos = m_vPos;
 		D3DXVECTOR3 vOtherPos = pObject->GetPos();
-		float dist = pow(m_vPos.x - vOtherPos.x, 2)
-			+ pow(m_vPos.z - vOtherPos.z, 2);
+		float dist = pow(vPos.x - vOtherPos.x, 2)
+			+ pow(vPos.z - vOtherPos.z, 2);
 
 		D3DXVECTOR3 vOtherPoint0 = pOBB->GetList().at(0);
 		D3DXMATRIXA16 matW = pOBB->GetWorldMatrix();
@@ -788,6 +768,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 		{
 			cRune *pRune = (cRune*)pObject;
 			pOBB = pRune->GetSubOBB();
+			vOtherPoint0 = pOBB->GetList().at(1);
 			matW = pOBB->GetWorldMatrix();
 		}
 
@@ -805,13 +786,16 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				D3DXVECTOR3 vPoint0 = m_pOBB->GetList().at(0);
 				matW = m_pOBB->GetWorldMatrix();
 				D3DXVec3TransformCoord(&vPoint0, &vPoint0, &matW);
-				float Radian1 = pow(m_vPos.x - vPoint0.x, 2) + pow(m_vPos.z - vPoint0.z, 2);
+				float Radian1 = pow(vPos.x - vPoint0.x, 2) + pow(vPos.z - vPoint0.z, 2);
 
 				float Radian = Radian0 + Radian1;
 					
 				D3DXVECTOR3 vDir; 
-				vDir = vOtherPos - m_vPos;
+				vDir = vOtherPos - vPos;
 				vDir.y = 0;
+
+				bool check = false;
+				if (dist < Radian) check = true;
 
 				while (dist < Radian)
 				{
@@ -827,7 +811,9 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 				}
 
-				m_vPos += D3DXVECTOR3(0, 0, -0.3);
+				if(check)
+					m_vPos += D3DXVECTOR3(0, 0, -0.3);
+	
 				if (nCurStateIndex == 3 )
 				{
 					if (nTag == Tag::Tag_Wall)
@@ -987,8 +973,7 @@ void cDragonSoulEater::LegacyRequest()
 void cDragonSoulEater::Request()
 {
 	//
-	//m_fCurHeathpoint -= 500;
-
+	
 	if (m_pCurState && m_pCurState->GetIndex() != 0)
 	{
 		m_nPrevStateIndex = m_pCurState->GetIndex();
@@ -1000,16 +985,14 @@ void cDragonSoulEater::Request()
 	{
 		SafeDelete(m_pCurState);
 	}
-
 	//static bool	Check = false;
 	//static DWORD time = GetTickCount();
-	//if (GetTickCount() - time > 1500.0f)// && Check == false)
+	//if (GetTickCount() - time > 1500.0f && Check == false)
 	//{
-	//	//sCheck = true;
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Breath(this);
-	//return;
+	//	Check = true;
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Die(this);
+	//	return;
 	//}
-
 #ifdef NDEBUG
 	if (m_nTestStateIndex >= 0x31 && m_nTestStateIndex <= 0x39)
 	{
@@ -1047,13 +1030,19 @@ void cDragonSoulEater::Request()
 	}
 #endif // DEBUG
 
+	if (m_fCurHeathpoint <= 0.0f)
+	{
+		m_pCurState = (cSoulEaterState*)new cSoulEater_Die(this);
+		return;
+	}
+
 	if (m_fStungauge >= 100)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Stun(this, m_Stun_Duration);
 		return;
 	}
 
-	if (m_fRagegauge >= 1000 && !m_IsRage)
+	if (m_fRagegauge >= 1000)
 	{
 		m_pCurState = (cSoulEaterState*)new cSoulEater_Scream(this);
 		m_IsRage = true;
@@ -1132,7 +1121,7 @@ void cDragonSoulEater::Request()
 			{
 				continue;
 			}
-
+			
 			break;
 		}
 
@@ -1155,6 +1144,7 @@ void cDragonSoulEater::Request()
 			return;
 			break;
 		case 4: // 즉사기 파이어볼
+			m_IsFireball = true;
 			m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
 			return;
 			break;
@@ -1198,4 +1188,38 @@ void cDragonSoulEater::HitSound()
 {
 	g_pSoundManager->PlaySFX(GenerateRandomNum((int)eSoundList::Dragon_GetHit1, (int)eSoundList::Dragon_GetHit3));
 	return;
+}
+
+void cDragonSoulEater::PhaseShift()
+{
+	if ((m_fCurHeathpoint <= m_fMaxHeathPoint * 0.8 && m_nPhase == 1) ||
+		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.5 && m_nPhase == 2) ||
+		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.3 && m_nPhase == 3))
+	{
+		++m_nPhase;
+		switch (m_nPhase)
+		{
+		case 2:
+			m_fRagegauge += 1000.0f;
+			break;
+		case 3:
+		{
+			m_fRagegauge += 1000.0f;			
+			std::vector<cObject*> RuneList;
+			ObjectManager->FindAllObjectsWithTag(Tag::Tag_RunStone, RuneList);
+			
+			for (int i = 0; i < RuneList.size(); ++i)
+			{
+				cRune* pRune = (cRune*)RuneList.at(i);
+				pRune->SetOnOff(true);
+			}
+
+		}
+			break;
+		case 4:
+			m_IsRage = 1000;
+			break;
+		}
+	}
+
 }

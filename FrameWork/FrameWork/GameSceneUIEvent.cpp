@@ -155,7 +155,7 @@ void TrophiseGaugeEvent(EventType message, cPopup* btn)
 	default:
 		break;
 	}
-
+	/*
 	if (btn->GetTrophiesReference() != NULL) 
 	{
 		int trophiesGauge = btn->GetTrophiesReference()->GetGauge();
@@ -163,6 +163,7 @@ void TrophiseGaugeEvent(EventType message, cPopup* btn)
 		float result = ((float)trophiesGauge / (float)trophiesMaxGauge) * 100;
 		btn->SetImageInfoWidth(result);
 	}
+	*/
 }
 
 

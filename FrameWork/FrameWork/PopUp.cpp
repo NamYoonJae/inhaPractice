@@ -5,6 +5,7 @@
 #include "Button.h"
 #include "Scene.h"
 #include "Paladin.h"
+#include "Trophies.h"
 
 cPopup::cPopup()
 	: m_pSprite(NULL)
@@ -144,7 +145,17 @@ void cPopup::Update()
 				float result = ((float)stamina / (float)maxStamina) * 100;
 				SetImageInfoWidth(result);
 			}
+		}
 
+		if (m_nTag == TAG_UI::TagUI_TrophiesGauge)
+		{
+			if (m_pTrophies != NULL)
+			{
+				float gauge = m_pTrophies->GetGauge();
+				float maxGauge = m_pTrophies->GetMaxGauge();
+				float result = ((float)gauge / (float)maxGauge) * 100;
+				SetImageInfoWidth(result);
+			}
 		}
 	}
 }
