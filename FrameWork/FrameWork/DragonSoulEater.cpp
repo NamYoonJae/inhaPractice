@@ -988,14 +988,14 @@ void cDragonSoulEater::Request()
 		SafeDelete(m_pCurState);
 	}
 
-	static bool	Check = false;
-	static DWORD time = GetTickCount();
-	if (GetTickCount() - time > 1500.0f && Check == false)
-	{
-		Check = true;
-		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
-		return;
-	}
+	//static bool	Check = false;
+	//static DWORD time = GetTickCount();
+	//if (GetTickCount() - time > 1500.0f && Check == false)
+	//{
+	//	Check = true;
+	//	m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+	//	return;
+	//}
 
 #ifdef NDEBUG
 	if (m_nTestStateIndex >= 0x31 && m_nTestStateIndex <= 0x39)
@@ -1210,12 +1210,21 @@ void cDragonSoulEater::PhaseShift()
 		{
 			m_fRagegauge += 1000.0f;			
 			std::vector<cObject*> RuneList;
+			std::vector<cObject*> WallList;
+
 			ObjectManager->FindAllObjectsWithTag(Tag::Tag_RunStone, RuneList);
-			
+			ObjectManager->FindAllObjectsWithTag(Tag::Tag_Wall, WallList);
+
 			for (int i = 0; i < RuneList.size(); ++i)
 			{
 				cRune* pRune = (cRune*)RuneList.at(i);
 				pRune->SetOnOff(true);
+			}
+
+			for (int i = 0; i < WallList.size(); ++i)
+			{
+				cWall* pWall = (cWall*)WallList.at(i);
+				pWall->SetSwitch(true);
 			}
 
 		}
