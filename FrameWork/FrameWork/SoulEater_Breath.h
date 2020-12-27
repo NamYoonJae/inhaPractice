@@ -8,7 +8,7 @@ private:
 	DWORD m_dwStartTime;
 	DWORD m_Breath_Duration;
 	bool m_IsAnimBlend;
-	D3DMATERIAL9 PrevMstl;
+	D3DMATERIAL9 m_PrevMstl;
 	// 브레스 // 패턴 4
 //	float				m_Breath_Duration;
 	float				m_Breath_Physic_Rate;

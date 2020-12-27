@@ -137,27 +137,6 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	}
 
-	
-	//cGrid *pGrid = new cGrid;
-	//pGrid->Setup();
-
-	//ObjectManager->AddChild(pGrid);
-
-	
-
-	//cTerrain* pTerrain = new cTerrain;
-	//pTerrain->Setup("data/HeightMapData", "terrain.jpg", "HeightMap.raw");
-	//pTerrain->Setup("data/HeightMapData", "Ground_Soil.png", "StageA_Raw.raw",1,600);
-	//pTerrain->Setup("data/HeightMapData", "Ground_ClayRough_Moss.png","StageB_Raw.raw");
-	//pTerrain->Tagging(Tag::Tag_Map);
-	
-	//cCharater* player = (cCharater*)ObjectManager->SearchChild(Tag::Tag_Player);
-	//ObjectManager->AddStaticChild(pTerrain);
-	//cObjMap* pMap = new cObjMap("data/ObjFile//AreaWorld","Arena_base.obj");
-	
-	
-
-	
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
 	m_pDragon->Setup("data/XFile/Dragon", "Merge.X");
 	D3DXMATRIXA16 matWorld;
@@ -169,26 +148,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	m_pDragon->Tagging(Tag::Tag_Boss);
 	ObjectManager->AddChild(m_pDragon);
 	
-	//m_pSkinnedUnit->SetTransform();
-
-	//ObjectManager->AddChild(m_pSkinnedUnit);
-
-	//cObjObject *Lava = new cObjObject;
-	//Lava->Setup("data/OBjFile/LavaGolem", "fb.obj");
-	//Lava->Tagging(Tag::Tag_cObj);
-	//ObjectManager->AddChild(Lava);
-
-	//cPaladin* Paladin = new cPaladin;
-	//Paladin->Setup("data/XFile/Paladin", "Pal_Merge.X");
-	//Paladin->SetPosition(D3DXVECTOR3(30, 0, 0));
-	//ObjectManager->AddChild(Paladin);
-	
-	//cLavaGolem* Lava = new cLavaGolem;
-	//Lava->SetScale(D3DXVECTOR3(0.2, 0.2, 0.2));
-	//Lava->Setup("data/XFile/LavaGolem", "LavaGolem.X");
-	//Lava->Tagging(Tag_LavaGolem);
-	//ObjectManager->AddChild(Lava);
-
 #pragma region Map Object
 
 
@@ -244,19 +203,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	}
 	cout << json_array_get_count(pAryOrbPos) << " Number of Orbs generated"<< endl;
 
-	//cOrb* orb = new cOrb;
-	//orb->Setup();
-	//ObjectManager->AddChild(orb);
-	//
-	//cRune* rune = new cRune;
-	//rune->Setup();
-	//rune->Tagging(Tag::Tag_RunStone);
-	//ObjectManager->AddChild(rune);
-	//
-	//cWall* wall = new cWall;
-	//wall->Tagging(Tag::Tag_Wall);
-	//wall->Setup();
-	//ObjectManager->AddChild(wall);
 #pragma region Map Object
 
 
