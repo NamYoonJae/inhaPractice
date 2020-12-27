@@ -101,7 +101,7 @@ void cSoulEater_Sleep::handle()
 		{
 			// 최대체력의 10%이하가 될 시 수면에 돌입
 			// 수면에 돌입한 후 수면지속시간이 끝났을 때
-			// 현재체력이 최대체력의 15%로 변경
+			// 현재체력이 최대 체력의 15%로 변경
 			if (m_Sleep_Duration <= GetTickCount() - m_dwElapsedTime)
 			{
 				m_pDragon->SetCURHP(m_pDragon->GetMAXHP() * 0.15f);

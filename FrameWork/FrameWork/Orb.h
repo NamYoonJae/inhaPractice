@@ -23,6 +23,7 @@ public:
 	~cOrb();
 
 	void Setup();
+	void Setup(D3DXVECTOR3 position);
 	void Update();
 	void Render(D3DXMATRIXA16 * pmat = NULL) override;
 
