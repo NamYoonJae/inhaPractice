@@ -24,6 +24,7 @@
 #include "Paladin.h"
 #include "jsonManager.h"
 #include "Rune.h"
+#include "Wall.h"
 #pragma once
 
 cDragonSoulEater::cDragonSoulEater()
@@ -754,7 +755,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 		}
 	}
-	else if(nTag == Tag::Tag_RunStone || nTag== Tag::Tag_Wall)
+	else if(nTag == Tag::Tag_RunStone || nTag == Tag::Tag_Wall)
 	{
 		D3DXVECTOR3 vPos = m_vPos;
 		D3DXVECTOR3 vOtherPos = pObject->GetPos();
@@ -771,6 +772,25 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			vOtherPoint0 = pOBB->GetList().at(1);
 			matW = pOBB->GetWorldMatrix();
 		}
+		else if (nTag == Tag::Tag_Wall)
+		{
+			cWall* pWall = (cWall*)pObject;
+			cSoulEater_Rush* pRush = (cSoulEater_Rush*)m_pCurState;
+			if (m_pCurState->GetIndex() == 3 && pRush->GetRush() && pWall->GetSwitch())
+			{
+				CollisionInfo info; // << 충돌에 대한 정보
+				info.dwCollsionTime = GetTickCount();
+				info.dwDelayTime = 1500;
+				AddCollisionInfo(Tag::Tag_Wall, info);
+				m_pCurState->handle();
+				pWall->SetSwitch(false);
+				return;
+			}
+			else if ((pWall->GetSwitch() == false) || 
+				(m_pCurState->GetIndex() == 3 && pWall->GetSwitch())) return;
+
+		}
+
 
 		if (m_pCurState)
 		{
@@ -814,25 +834,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				if(check)
 					m_vPos += D3DXVECTOR3(0, 0, -0.3);
 	
-				if (nCurStateIndex == 3 )
-				{
-					if (nTag == Tag::Tag_Wall)
-					{
-						// 유일한 예외 
-						CollisionInfo info;
-						info.dwCollsionTime = GetTickCount();
-						info.dwDelayTime = 1500;
-						AddCollisionInfo(nTag, info);
-						m_pCurState->handle();
-						return;
-					}
-					else
-					{
-						this->Request();
-						return;
-					}
-				}
-				else if(nCurStateIndex != 0)
+				if(nCurStateIndex != 0)
 					this->m_pCurState->TargetCapture();
 			}
 				break;
@@ -985,14 +987,16 @@ void cDragonSoulEater::Request()
 	{
 		SafeDelete(m_pCurState);
 	}
-	//static bool	Check = false;
-	//static DWORD time = GetTickCount();
-	//if (GetTickCount() - time > 1500.0f && Check == false)
-	//{
-	//	Check = true;
-	//	m_pCurState = (cSoulEaterState*)new cSoulEater_Die(this);
-	//	return;
-	//}
+
+	static bool	Check = false;
+	static DWORD time = GetTickCount();
+	if (GetTickCount() - time > 1500.0f && Check == false)
+	{
+		Check = true;
+		m_pCurState = (cSoulEaterState*)new cSoulEater_FireBall(this);
+		return;
+	}
+
 #ifdef NDEBUG
 	if (m_nTestStateIndex >= 0x31 && m_nTestStateIndex <= 0x39)
 	{

@@ -5,14 +5,14 @@
     "Attack": {
       "Melee": 100,
       "Melee 1 rate": 1.0,
-      "Melee 2 rate": 1.1,
-      "Melee 3 rate": 1.3,
+      "Melee 2 rate": 1.5,
+      "Melee 3 rate": 1.8,
       "Elemental": 50,
       "Stun rate": 0,
       "Rigid rate": 0.05,
-      "Combo time limit": 1000,
-      "Critical probability": 0.1,
-      "Critical additional damage": 30
+      "Combo time limit": 1500,
+      "Critical probability": 0.15,
+      "Critical additional damage": 25
     },
     "Defense": {
       "Melee": 100,
@@ -43,6 +43,6 @@
       "Rate" : 115
     },
     "Aggro": 1,
-    "Move speed": 300
+    "Move speed": 350
   }
 }

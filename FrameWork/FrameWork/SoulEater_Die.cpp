@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SoulEater_Die.h"
 #include "SkinnedMesh.h"
-
+#include "SoundManager.h"
 #include "DragonSoulEater.h"
 #pragma once
 
@@ -21,6 +21,7 @@ cSoulEater_Die::cSoulEater_Die(cDragonSoulEater *pDragon)
 	pDieMesh->SetAnimationIndex(0);
 	pDieMesh->SetUsemstl(false);
 	pDragon->GetSkinnedMesh() = *pDieMesh;
+	g_pSoundManager->PlaySFX(eSoundList::Dragon_Die2);
 }
 
 
@@ -33,6 +34,7 @@ void cSoulEater_Die::handle()
 	if (GetTickCount() - m_dwStartTime > 1300.0f &&
 		!m_pDragon->m_isDelete)
 	{
+		g_pSoundManager->PlaySFX(eSoundList::Dragon_Die1);
 		m_pDragon->m_isDelete = true;
 		return;
 	}

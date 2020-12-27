@@ -10,6 +10,7 @@ cSoulEater_Rush::cSoulEater_Rush()
 	, m_dwStateStartTime(GetTickCount())
 	, m_dwPreparationTime(1500.0f)
 	, m_IsRush(false)
+	
 {
 }
 
@@ -75,7 +76,7 @@ void cSoulEater_Rush::handle()
 		return;
 	}
 
-	if (distance <= 10.0f)
+	if (distance <= 30.0f)
 	{
 		m_pDragon->Request();
 		return;

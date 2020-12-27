@@ -8,7 +8,7 @@ private:
 	bool m_IsAnimBlend;
 	DWORD m_dwPreparationTime;
 	DWORD m_dwStateStartTime;
-	bool m_IsRush;
+	Synthesize(bool, m_IsRush, Rush);
 public:
 	cSoulEater_Rush();
 	cSoulEater_Rush(cDragonSoulEater*);

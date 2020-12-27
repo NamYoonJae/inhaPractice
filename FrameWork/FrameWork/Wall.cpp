@@ -3,12 +3,14 @@
 #include "cOBB.h"
 #include "ObjLoader.h"
 #include "DragonSoulEater.h"
+#include "SoulEaterState.h"
 #include "jsonManager.h"
 #pragma once
 
 cWall::cWall()
 	: m_MaxHP(3)
 	, m_CurrentHP(3)
+	, m_IsSwitch(true)
 {
 }
 
@@ -75,6 +77,7 @@ void cWall::Setup()
 
 void cWall::Update()
 {
+	if (!m_IsSwitch) return;
 	D3DXMATRIXA16 matW, matT, matS;;
 	D3DXMatrixIdentity(&matW);
 	D3DXMatrixIdentity(&matW);
@@ -90,6 +93,8 @@ void cWall::Update()
 
 void cWall::Render(D3DXMATRIXA16 * pmat)
 {
+	if (!m_IsSwitch) return;
+
 	D3DXMATRIXA16 matW, matT, matS;
 
 	D3DXMatrixIdentity(&matW);
@@ -110,19 +115,5 @@ void cWall::Render(D3DXMATRIXA16 * pmat)
 
 void cWall::CollisionProcess(cObject * pObject)
 {
-	int nTag = pObject->GetTag();
-
-	if(nTag == Tag::Tag_Boss && pObject->GetCollsionInfo(m_nTag) == nullptr)
-	{
-		cDragonSoulEater* pDragon = (cDragonSoulEater*)pObject;
-		if(pDragon->CurrentStateIndex() == 3)
-		{
-			CollisionInfo info; // << 충돌에 대한 정보
-			info.dwCollsionTime = GetTickCount();
-			info.dwDelayTime = 1500;
-			pObject->AddCollisionInfo(m_nTag, info);
-			//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Dragon Wall hit");
-		}
-	}
-
+	return;
 }

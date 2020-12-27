@@ -15,7 +15,7 @@ private:
 	// ---- 오브젝트 상호작용속성 -----
 	int		m_Wall_Stun_Damage; // 벽 충돌시 받는 기절치
 	int		m_Wall_Rigid_Damage; // 벽 충돌시 받는 경직치
-
+	Synthesize(bool, m_IsSwitch, Switch);
 public:
 	cWall();
 	~cWall();

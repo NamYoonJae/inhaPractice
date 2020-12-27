@@ -103,7 +103,7 @@ public:
 	cSkinnedMesh& GetSkinnedMesh() { return *m_pSkinnedUnit; }
 
 	void GetWorldMatrix(D3DXMATRIXA16* matWorld);
-
+	//cSoulEaterState* GetState() { return m_pCurState; }
 	void SetupBoundingBox();
 	virtual void CollisionProcess(cObject* pObject) override;
 	//std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }

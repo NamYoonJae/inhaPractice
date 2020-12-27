@@ -104,11 +104,7 @@ void cSoulEater_FireBall::handle()
 	
 		if(m_nSoundIndex <= 29)
 			g_pSoundManager->PlaySFX(m_nSoundIndex++);
-		// 7 6 5 4 3
-		//26 27 28 29
-
-
+		
 	}
-
 
 }
