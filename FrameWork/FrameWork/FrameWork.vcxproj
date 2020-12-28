@@ -347,12 +347,17 @@
     <ResourceCompile Include="FrameWork.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="data\cursor\NW_Cursor_Nomal.png" />
+    <Image Include="data\cursor\NW_Cursor_Over.png" />
+    <Image Include="data\cursor\NW_Cursor_Pressed.png" />
     <Image Include="FrameWork.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-    <None Include="Normal Select.cur" />
+    <None Include="cursor2.cur" />
+    <None Include="cursor3.cur" />
+    <None Include="cursor4.cur" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shader\ApplyShadow.fx">

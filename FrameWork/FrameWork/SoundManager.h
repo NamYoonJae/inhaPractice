@@ -61,6 +61,7 @@ enum eSoundList
 	Golem_Hit4,
 	Golem_Die,
 	
+	Healing,
 	SoundListSize
 };
 
