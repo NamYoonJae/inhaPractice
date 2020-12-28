@@ -17,7 +17,7 @@ enum eShader
 	Swamp,
 	CreateShadow,
 	ApplyShadow,
-
+	Nebula,
 	ShaderSize
 };
 

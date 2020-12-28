@@ -25,6 +25,7 @@
 #include "jsonManager.h"
 #include "Rune.h"
 #include "Wall.h"
+#include "ShaderManager.h"
 #pragma once
 
 cDragonSoulEater::cDragonSoulEater()
@@ -32,6 +33,8 @@ cDragonSoulEater::cDragonSoulEater()
 	, m_pCurState(NULL)
 	, m_pvTarget(NULL)
 	, m_nPrevStateIndex(0)
+	, m_pDashShader(NULL)
+	, m_pDashTex(NULL)
 {
 	m_fPhysicDamage = 200;
 
@@ -60,6 +63,11 @@ cDragonSoulEater::~cDragonSoulEater()
 	SafeDelete(m_pOBB);
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
+	
+	SafeRelease(m_pDashShader);
+	SafeRelease(m_pDashTex);
+	SafeRelease(m_pTexture);
+
 }
 
 void cDragonSoulEater::Update()
@@ -139,15 +147,20 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	g_pD3DDevice->SetTransform(D3DTS_WORLD,&matWorld);
 	g_pD3DDevice->SetTexture(0, m_pTexture);
 	
-	//ZeroMemory(&m_Mstl, sizeof(D3DXMATRIXA16));
-//	g_pD3DDevice->SetMaterial(&m_Mstl);
 
 	g_pD3DDevice->SetMaterial(&m_Mstl);
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	m_pSkinnedUnit->Render();
 	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pD3DDevice->SetTexture(0, NULL);
+	
+	
+	DashShader();
+
+	
 	m_pOBB->OBBBOX_Render(D3DXCOLOR(0,1.0f,0,1.0f));
+
+
 
 	for (int i = 0; i < m_vecBoundingBoxList.size(); i++)
 		m_vecBoundingBoxList.at(i).Box->OBBBOX_Render(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
@@ -331,6 +344,11 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 
 	//
 	m_vPos = D3DXVECTOR3(100, 0, 200);
+
+	// DashShader
+	m_pDashShader = g_pShaderManager->GetShader(eShader::Nebula);
+	m_pDashTex = g_pTextureManager->GetTexture("data/Texture/NebX.dds");
+
 }
 
 void cDragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
@@ -1232,6 +1250,93 @@ void cDragonSoulEater::PhaseShift()
 		case 4:
 			m_IsRage = 1000;
 			break;
+		}
+	}
+
+}
+
+void cDragonSoulEater::DashShader()
+{
+	int Index = m_pCurState->GetIndex();
+
+	if (Index == 3)
+	{
+		cSoulEater_Rush* pRush = (cSoulEater_Rush*)m_pCurState;
+
+		if (pRush->GetRush())
+		{
+			D3DXMATRIXA16 matView, matPrj;
+			g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+			g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matPrj);
+
+			D3DXVECTOR3 vDir;
+			D3DXMATRIXA16 matDirR;
+			D3DXMatrixIdentity(&matDirR);
+			D3DXMatrixRotationY(&matDirR, D3DX_PI);
+			D3DXVec3TransformNormal(&vDir, &m_vDir, &matDirR);
+			D3DXVec3Normalize(&vDir, &vDir); 
+			D3DXVECTOR3 vPos;
+			vPos = m_vPos + vDir * 10.0f;
+
+			D3DXMATRIXA16 matWorldIT;
+			D3DXMATRIXA16 matWVP, matViewI, matViewIT, matWV;
+
+			D3DXMATRIXA16 matWorld, matT,
+				matR, matRx, matRy, matRz;
+			D3DXMatrixIdentity(&matWorld);
+
+			D3DXMatrixRotationX(&matRx, m_vRot.x);
+			D3DXMatrixRotationY(&matRy, m_vRot.y);
+			D3DXMatrixRotationZ(&matRz, m_vRot.z);
+			matR = matRx * m_matRotation * matRz;
+			D3DXMatrixTranslation(&matT, vPos.x,vPos.y,vPos.z);
+
+			matWorld = matR * matT;
+			
+			D3DXMatrixInverse(&matWorldIT, 0, &matWorld);
+			D3DXMatrixTranspose(&matWorldIT, &matWorldIT);
+
+			D3DXMatrixInverse(&matViewI, 0, &matView);
+			D3DXMatrixTranspose(&matViewIT, &matViewI);
+
+
+			matWV = matWorld * matView;
+			matWVP = matWV * matPrj;
+
+			static float fAnimScale = 0.500f;
+			static float AddScale = 0.01f;
+			fAnimScale += AddScale;
+
+			if (fAnimScale >= 1.0f)
+			{
+				fAnimScale = 1.0f;
+				AddScale = - 0.01f;
+			}
+			else if (fAnimScale <= 0.5f)
+			{
+				fAnimScale = 0.5f;
+				AddScale =  0.01f;
+			}
+
+			m_pDashShader->SetTexture("nebTexture_Tex", m_pDashTex);
+			m_pDashShader->SetMatrix("WorldTXf", &matWorldIT);
+			m_pDashShader->SetMatrix("WvpXf", &matWVP);
+			m_pDashShader->SetMatrix("WorldXf", &matWorld);
+			m_pDashShader->SetMatrix("ViewITXf", &matViewIT);
+			m_pDashShader->SetMatrix("ViewIXf", &matViewI);
+			m_pDashShader->SetMatrix("WorldViewXf", &matWV);
+			m_pDashShader->SetFloat("Scale", fAnimScale);
+
+			UINT numPasses = 0;
+			m_pDashShader->Begin(&numPasses, NULL);
+			for (UINT i = 0; i < numPasses; i++)
+			{
+				m_pDashShader->BeginPass(0);
+				if (m_pSkinnedUnit)
+					m_pSkinnedUnit->Render();
+				m_pDashShader->EndPass();
+			}
+			m_pDashShader->End();
 		}
 	}
 
