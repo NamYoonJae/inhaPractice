@@ -15,6 +15,9 @@
 
 
 HWND g_hWnd;
+HCURSOR g_PressedCursor;
+HCURSOR g_NormalCursor;
+HCURSOR g_OverCursor;
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
@@ -42,6 +45,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_FRAMEWORK, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
+	g_PressedCursor = LoadCursor(hInstance, (LPCTSTR)IDC_CURSOR3);
+	g_NormalCursor = LoadCursor(hInstance, (LPCTSTR)IDC_CURSOR2);
+	g_OverCursor = LoadCursor(hInstance, (LPCTSTR)IDC_CURSOR4);
+
+
     // 응용 프로그램 초기화를 수행합니다.
     if (!InitInstance (hInstance, nCmdShow))
     {
@@ -55,7 +63,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	g_p_jsonManager->Setup(); // 항상 json Manager 먼저 셋업할 것
 	g_pSceneManager->Setup();
 
-	
 	// Main message loop:
 	while (true)
 	{
@@ -108,12 +115,13 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_FRAMEWORK));
-    wcex.hCursor        = LoadCursor(hInstance, (LPCTSTR)IDC_CURSOR1);
+	wcex.hCursor		= NULL;
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
     wcex.lpszMenuName   = NULL;
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
+	
     return RegisterClassExW(&wcex);
 }
 
@@ -161,11 +169,30 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	EventManager->InputEvent(message, wParam, lParam);
 
-	
 
     switch (message)
     {
 	case WM_CREATE:
+		SetCursor(g_NormalCursor);
+		break;
+	case WM_SETCURSOR:
+		switch (wParam)
+		{
+		case IDC_CURSOR2:
+		{
+			SetCursor(g_NormalCursor);
+		}
+		break;
+		case IDC_CURSOR3:
+		{
+			SetCursor(g_PressedCursor);
+		}
+		break;
+		case IDC_CURSOR4:
+		{
+			SetCursor(g_OverCursor);
+		}
+		}
 		break;
 	case WM_TIMER:
 		break;
@@ -181,12 +208,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 // 정보 대화 상자의 메시지 처리기입니다.
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
+	
+	UNREFERENCED_PARAMETER(lParam);
+    
+	switch (message)
     {
     case WM_INITDIALOG:
         return (INT_PTR)TRUE;
-
     case WM_COMMAND:
         if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
         {
