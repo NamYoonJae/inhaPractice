@@ -276,20 +276,20 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 		//cout << "BOSS_jsonValue Flood_Condition_Rate : " << m_Flood_Condition_Rate << endl;
 	}
 
-	//// object interaction
-	//{
-	//	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-	//	JSON_Object* p_Obj_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Object/");
+	// object interaction
+	{
+		JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+		JSON_Object* p_Obj_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/Object/");
 
-	//	m_Wall_Stun_Damage = json_Function::object_get_double(p_Obj_object, "1/Stun Damage");
-	//	m_Wall_Rigid_Damage = json_Function::object_get_double(p_Obj_object, "1/Rigid Damage");
-	//}
+		m_Wall_Stun_Damage = json_Function::object_get_double(p_Obj_object, "1/Stun Damage");
+		m_Wall_Rigid_Damage = json_Function::object_get_double(p_Obj_object, "1/Rigid Damage");
+	}
 
-	//// object interaction log
-	//{
-	//	cout << "OBJ_jsonValue  Wall Stun Damage : " << m_Wall_Stun_Damage << endl;
-	//	cout << "OBJ_jsonValue  Wall Rigid Damage : " << m_Wall_Rigid_Damage << endl;
-	//}
+	// object interaction log
+	{
+		cout << "OBJ_jsonValue  Wall Stun Damage : " << m_Wall_Stun_Damage << endl;
+		cout << "OBJ_jsonValue  Wall Rigid Damage : " << m_Wall_Rigid_Damage << endl;
+	}
 
 
 #pragma endregion json

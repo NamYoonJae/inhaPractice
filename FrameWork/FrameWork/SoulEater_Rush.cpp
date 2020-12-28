@@ -64,9 +64,10 @@ void cSoulEater_Rush::handle()
 		//스턴치 넣어줘야되
 
 		m_pDragon->SetSTUN(m_pDragon->GetSTUN() + m_pDragon->GetWallStunDamage());
-		//m_pDragon->SetSTUN(m_pDragon->GetSTUN() + 50.0f);
-
 		m_pDragon->SetRigid(m_pDragon->GetRigid() + m_pDragon->GetWallRigidDamage());
+		cout << "BOSS Stun Gauge : "<< m_pDragon->GetSTUN() << endl;
+
+		//m_pDragon->SetSTUN(m_pDragon->GetSTUN() + 50.0f);
 		//m_pDragon->SetRigid(m_pDragon->GetRigid() + 15.0f);
 		
 		//g_pSoundManager->PlaySFX(eSoundList::Dragon_Collision);
