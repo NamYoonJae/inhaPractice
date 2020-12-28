@@ -8,6 +8,8 @@ private:
 	int m_nSoundIndex;
 	DWORD m_dwDelayTime;
 	DWORD m_dwPrevTime;
+	D3DMATERIAL9 m_PrevMstl;
+
 public:
 	cSoulEater_FireBall();
 	cSoulEater_FireBall(cDragonSoulEater*);

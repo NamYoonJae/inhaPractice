@@ -20,7 +20,6 @@ class cDragonSoulEater :
 private:
 	cSkinnedMesh*		m_pSkinnedUnit;
 	
-	
 	cSoulEaterState*	m_pCurState;
 	
 	DWORD				m_dwDelayState;
@@ -94,6 +93,10 @@ private:
 	bool m_IsFireball;
 
 	int m_nTestStateIndex;
+
+	// Test Dash Shader
+	LPD3DXEFFECT m_pDashShader;
+	LPDIRECT3DTEXTURE9 m_pDashTex;
 public:
 	cDragonSoulEater();
 	~cDragonSoulEater();
@@ -120,6 +123,7 @@ public:
 	const int GetPhase() { return m_nPhase; }
 
 	void PhaseShift();
+	void DashShader();
 };
 
 

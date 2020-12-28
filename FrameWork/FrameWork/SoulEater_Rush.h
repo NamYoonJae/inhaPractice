@@ -9,10 +9,13 @@ private:
 	DWORD m_dwPreparationTime;
 	DWORD m_dwStateStartTime;
 	Synthesize(bool, m_IsRush, Rush);
+	//Synthesize(D3DXVECTOR3, m_vRushDir, Direction);	
+	D3DXMATRIXA16 m_matRot;
 public:
 	cSoulEater_Rush();
 	cSoulEater_Rush(cDragonSoulEater*);
 	~cSoulEater_Rush();
 	void handle();
+	//D3DXMATRIXA16* GetMatRot() { return &m_matRot; }
 };
 

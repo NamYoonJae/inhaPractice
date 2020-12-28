@@ -9,11 +9,12 @@
 #include "TitleScene.h"
 #include "GameOverScene.h"
 #include "SelectTrophiesScene.h"
+#include "GameClearScene.h"
 
 cSceneManager::cSceneManager()
 	:m_CurrentScene(nullptr)
 {
-	m_vecScenes.resize(5);
+	m_vecScenes.resize(6);
 	const std::vector<cScene*>::iterator it = m_vecScenes.begin();
 
 	*(it + SceneType::SCENE_TITLE) = new cTitleScene(SceneType::SCENE_TITLE);
@@ -22,6 +23,7 @@ cSceneManager::cSceneManager()
 
 	*(it + SceneType::SCENE_TROPHIES) = new cSelectTrophiesScene(SceneType::SCENE_TROPHIES);
 	*(it + SceneType::SCENE_GAMEOVER) = new cGameOverScene(SceneType::SCENE_GAMEOVER);
+	*(it + SceneType::SCENE_CLEAR) = new cGameClearScene(SceneType::SCENE_CLEAR);
 }
 
 

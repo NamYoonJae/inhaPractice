@@ -43,7 +43,7 @@ cSoulEater_Breath::cSoulEater_Breath(cDragonSoulEater* pDragon)
 	Mstl.Specular = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
 	Mstl.Diffuse = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
 
-	PrevMstl = m_pDragon->GetMaterial();
+	m_PrevMstl = m_pDragon->GetMaterial();
 	m_pDragon->SetMaterial(Mstl);
 	m_pDragon->GetSkinnedMesh().SetUsemstl(false);
 
@@ -95,7 +95,7 @@ void cSoulEater_Breath::handle()
 	}
 	else if(GetTickCount() - m_dwStartTime > m_Breath_Duration)
 	{
-		m_pDragon->SetMaterial(PrevMstl);
+		m_pDragon->SetMaterial(m_PrevMstl);
 		m_pDragon->GetSkinnedMesh().SetUsemstl(true);
 		m_pDragon->Request();
 		return;

@@ -22,6 +22,16 @@ cSoulEater_FireBall::cSoulEater_FireBall(cDragonSoulEater *pDragon)
 	m_nIndex = 7;
 	m_nSoundIndex = (int)eSoundList::Dragon_Fly1;
 	m_dwPrevTime = m_dwDelayTime = 0.0f;
+
+	m_PrevMstl = pDragon->GetMaterial();
+	D3DMATERIAL9 Mstl;
+	ZeroMemory(&Mstl, sizeof(D3DMATERIAL9));
+	Mstl.Ambient = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
+	Mstl.Specular = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
+	Mstl.Diffuse = D3DXCOLOR(0.8f, 0.3f, 0.0f, 1.0f);
+	m_pDragon->SetMaterial(Mstl);
+	m_pDragon->GetSkinnedMesh().SetUsemstl(false);
+
 }
 
 
@@ -42,6 +52,8 @@ void cSoulEater_FireBall::handle()
 
 	if (m_nIndex == 3)
 	{
+		m_pDragon->GetSkinnedMesh().SetUsemstl(true);
+		m_pDragon->SetMaterial(m_PrevMstl);
 		m_pDragon->Request();
 		return;
 	}

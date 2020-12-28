@@ -21,6 +21,7 @@ private:
 
 	std::vector<ST_PC_VERTEX>		m_ExplosionParticle;
 	std::vector<D3DXVECTOR3>		m_ExplosionDir;
+
 public:
 	cFireBall();
 	~cFireBall();

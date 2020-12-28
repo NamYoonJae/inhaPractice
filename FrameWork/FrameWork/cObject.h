@@ -42,6 +42,7 @@ enum TAG_UI
 
 	TagUI_InGameObject,
 	TagUI_GameOver,
+	TagUI_GameClear,
 };
 
 enum SceneType;

@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "GameOverSceneBtnEvent.h"
+#include "GameClearSceneUIEvent.h"
 #include "EventManager.h"
-#include "PopUp.h"
+#include "Popup.h"
 
-void GameOverRetryBtnEvent(EventType message, cPopup* btn)
+void GameClearSceneRetryBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -46,19 +46,19 @@ void GameOverRetryBtnEvent(EventType message, cPopup* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/GameOver/NW_Retry/NW_GameOver_Retry_Over.png");
+				button->ChangeSprite("data/UI/GameClear/NW_Retry/NW_Retry_Over.png");
 				button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
 				if (button->GetState() == enum_On)
 				{
-					button->ChangeSprite("data/UI/GameOver/NW_Retry/NW_GameOver_Retry_Pressed.png");
+					button->ChangeSprite("data/UI/GameClear/NW_Retry/NW_Retry_Pressed.png");
 					button->SetPreState(enum_On);
 				}
 				else if (button->GetState() == enum_Off)
 				{
-					button->ChangeSprite("data/UI/GameOver/NW_Retry/NW_GameOver_Retry_Idle.png");
+					button->ChangeSprite("data/UI/GameClear/NW_Retry/NW_Retry_Idle.png");
 					button->SetPreState(enum_Off);
 				}
 			}
@@ -72,7 +72,7 @@ void GameOverRetryBtnEvent(EventType message, cPopup* btn)
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
 				button->SetStateChange(enum_On);
-				button->ChangeSprite("data/UI/GameOver/NW_Retry/NW_GameOver_Retry_Pressed.png");
+				button->ChangeSprite("data/UI/GameClear/NW_Retry/NW_Retry_Pressed.png");
 			}
 		}
 	}
@@ -87,7 +87,7 @@ void GameOverRetryBtnEvent(EventType message, cPopup* btn)
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
 					button->SetStateChange(enum_Hover);
-					button->ChangeSprite("data/UI/GameOver/NW_Retry/NW_GameOver_Retry_Over.png");
+					button->ChangeSprite("data/UI/GameClear/NW_Retry/NW_Retry_Over.png");
 					//g_pSceneManager->ChangeScene();
 				}
 			}
@@ -98,7 +98,7 @@ void GameOverRetryBtnEvent(EventType message, cPopup* btn)
 	};//switch End
 }
 
-void GameOverMainMenuBtnEvent(EventType message, cPopup* btn)
+void GameClearSceneMainMenuBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -127,7 +127,6 @@ void GameOverMainMenuBtnEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Off); //off상태로 체인지
 				}
 			}
-
 		}
 		else
 		{
@@ -142,24 +141,23 @@ void GameOverMainMenuBtnEvent(EventType message, cPopup* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/GameOver/NW_MainMenu/NW_GameOver_MainMenu_Over.png");
+				button->ChangeSprite("data/UI/GameClear/NW_MainMenu/NW_MainMenu_Over.png");
 				button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
 				if (button->GetState() == enum_On)
 				{
-					button->ChangeSprite("data/UI/GameOver/NW_MainMenu/NW_GameOver_MainMenu_Pressed.png");
+					button->ChangeSprite("data/UI/GameClear/NW_MainMenu/NW_MainMenu_Pressed.png");
 					button->SetPreState(enum_On);
 				}
 				else if (button->GetState() == enum_Off)
 				{
-					button->ChangeSprite("data/UI/GameOver/NW_MainMenu/NW_GameOver_MainMenu_Idle.png");
+					button->ChangeSprite("data/UI/GameClear/NW_MainMenu/NW_MainMenu_Idle.png");
 					button->SetPreState(enum_Off);
 				}
 			}
 		}//case EVENT_MOVE End:
-
 		break;
 
 	case EventType::EVENT_LBUTTONDOWN:
@@ -169,7 +167,7 @@ void GameOverMainMenuBtnEvent(EventType message, cPopup* btn)
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
 				button->SetStateChange(enum_On);
-				button->ChangeSprite("data/UI/GameOver/NW_MainMenu/NW_GameOver_MainMenu_Pressed.png");
+				button->ChangeSprite("data/UI/GameClear/NW_MainMenu/NW_MainMenu_Pressed.png");
 			}
 		}
 	}
@@ -184,18 +182,18 @@ void GameOverMainMenuBtnEvent(EventType message, cPopup* btn)
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
 					button->SetStateChange(enum_Hover);
-					button->ChangeSprite("data/UI/GameOver/NW_MainMenu/NW_GameOver_MainMenu_Over.png");
+					button->ChangeSprite("data/UI/GameClear/NW_MainMenu/NW_MainMenu_Over.png");
 					//g_pSceneManager->ChangeScene();
 				}
 			}
 		}
+
 	}
 	break;
 	};//switch End
 }
 
-
-void GameOverExitGameOverBtnEvent(EventType message, cPopup* btn)
+void GameClearSceneExitBtnEvent(EventType message, cPopup* btn)
 {
 	cButton* button = (cButton*)btn;
 
@@ -238,19 +236,19 @@ void GameOverExitGameOverBtnEvent(EventType message, cPopup* btn)
 		{
 			if (button->GetState() == enum_Hover)//m_State는 Hover이면서 m_PreState는 On/Off일 경우
 			{
-				button->ChangeSprite("data/UI/GameOver/NW_Exit/NW_GameOver_Exit_Over.png");
+				button->ChangeSprite("data/UI/GameClear/NW_Exit/NW_Exit_Over.png");
 				button->SetPreState(enum_Hover);
 			}
 			else if (button->GetState() != enum_Hover)//m_State는 On/Off이면서 m_PreState는 Hover인 경우
 			{
 				if (button->GetState() == enum_On)
 				{
-					button->ChangeSprite("data/UI/GameOver/NW_Exit/NW_GameOver_Exit_Pressed.png");
+					button->ChangeSprite("data/UI/GameClear/NW_Exit/NW_Exit_Pressed.png");
 					button->SetPreState(enum_On);
 				}
 				else if (button->GetState() == enum_Off)
 				{
-					button->ChangeSprite("data/UI/GameOver/NW_Exit/NW_GameOver_Exit_Idle.png");
+					button->ChangeSprite("data/UI/GameClear/NW_Exit/NW_Exit_Idle.png");
 					button->SetPreState(enum_Off);
 				}
 			}
@@ -264,7 +262,7 @@ void GameOverExitGameOverBtnEvent(EventType message, cPopup* btn)
 			if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 			{
 				button->SetStateChange(enum_On);
-				button->ChangeSprite("data/UI/GameOver/NW_Exit/NW_GameOver_Exit_Pressed.png");
+				button->ChangeSprite("data/UI/GameClear/NW_Exit/NW_Exit_Pressed.png");
 			}
 		}
 	}
@@ -279,7 +277,7 @@ void GameOverExitGameOverBtnEvent(EventType message, cPopup* btn)
 				if (btnPosition.y <= cur.y && cur.y <= btnPosition.y + height)
 				{
 					button->SetStateChange(enum_Hover);
-					button->ChangeSprite("data/UI/GameOver/NW_Exit/NW_GameOver_Exit_Over.png");
+					button->ChangeSprite("data/UI/GameClear/NW_Exit/NW_Exit_Over.png");
 					exit(0);
 				}
 			}

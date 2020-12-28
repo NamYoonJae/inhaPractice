@@ -488,6 +488,32 @@ void cPaladin::Update(EventType event)
 		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5);
 		isKeyDown = true;
 	}
+	if (event == EventType::EVENT_UPLEFT)
+	{
+		m_fvelocity = m_fSpeed * delta;
+		D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5 + D3DX_PI / 6);
+		isKeyDown = true;
+	}
+	if (event == EventType::EVENT_UPRIGHT)
+	{
+		m_fvelocity = m_fSpeed * delta;
+		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5 - D3DX_PI / 6);
+		isKeyDown = true;
+	}
+	if (event == EventType::EVENT_DOWNLEFT)
+	{
+		m_fvelocity = m_fSpeed * delta;
+		D3DXMatrixRotationY(&TempRot, D3DX_PI + D3DX_PI / 6);
+		isKeyDown = true;
+	}
+	if (event == EventType::EVENT_DOWNRIGHT)
+	{
+		m_fvelocity = m_fSpeed * delta;
+		D3DXMatrixRotationY(&TempRot, D3DX_PI - D3DX_PI / 6);
+		isKeyDown = true;
+	}
+
+
 
 	if (event == EventType::EVENT_KEYUP && isKeyDown)
 	{
@@ -567,6 +593,8 @@ void cPaladin::Update(EventType event)
 	{
 		SetDebuff(enum_Roar);
 	}
+
+
 }
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
