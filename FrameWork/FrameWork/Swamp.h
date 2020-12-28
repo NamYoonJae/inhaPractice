@@ -6,7 +6,9 @@ private:
 	LPD3DXEFFECT	m_pShader;
 	std::vector<D3DMATERIAL9> m_vecMtl;
 	LPDIRECT3DTEXTURE9  m_pTexcoord;
+	LPDIRECT3DTEXTURE9  m_pTexcoord_B;
 	LPDIRECT3DTEXTURE9	m_pNoise;
+	LPDIRECT3DTEXTURE9 m_pTex0;
 
 	DWORD m_dwElapsedTime;
 	Synthesize(DWORD, m_dwDurationTime, Duration);
@@ -20,6 +22,7 @@ private:
 	float				m_Flood_Elemental_Rate;
 	string				m_Flood_Condition; // 상태이상 부여 종류
 	float				m_Flood_Condition_Rate; // 상태이상 부여
+
 public:
 	cSwamp();
 	~cSwamp();

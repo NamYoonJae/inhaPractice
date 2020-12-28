@@ -19,6 +19,7 @@ cSwamp::cSwamp()
 	, m_fElementalDamage(0)
 	//, m_Flood_Condition // string
 	, m_Flood_Condition_Rate(0)
+	, m_pTex0(NULL)
 {
 }
 
@@ -94,7 +95,7 @@ void cSwamp::Setup(Tag T)
 		SafeRelease(mtrlBuffer);
 	}
 
-	if (T == Tag_SwampB || T == Tag_SwampA)
+	if (T == Tag_SwampA)
 	{
 
 		D3DXIMAGE_INFO info;
@@ -116,6 +117,30 @@ void cSwamp::Setup(Tag T)
 
 		m_pShader = g_pShaderManager->GetShader(eShader::Swamp);
 	
+	}
+	else if (T == Tag_SwampB)
+	{
+		
+		D3DXIMAGE_INFO info;
+		D3DXGetImageInfoFromFileA("data/Texture/poison_alphamap.png", &info);
+
+		D3DXCreateTextureFromFileExA
+		(g_pD3DDevice, "data/Texture/poison_alphamap.png",
+			info.Width, info.Height, 1, 0,
+			D3DFMT_A8R8G8B8,
+			D3DPOOL_MANAGED,
+			D3DX_DEFAULT,
+			D3DX_DEFAULT,
+			0,
+			NULL,
+			NULL,
+			&m_pTexcoord_B);
+
+		// shader load
+		
+		m_pShader = g_pShaderManager->GetShader(eShader::Swamp);
+
+		D3DXCreateTextureFromFile(g_pD3DDevice, L"data/Texture/poison_diffuse.png", &m_pTex0);
 	}
 
 
@@ -158,39 +183,155 @@ void cSwamp::Render(D3DXMATRIXA16 *pmat)
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	matWorld = matS * matT;
 
-	
-	for (int i = 0; i < m_vecMtl.size(); ++i)
+	if (m_nTag == Tag_SwampA) 
 	{
-		g_pD3DDevice->SetMaterial(&m_vecMtl[i]);
-		
-		if (m_pShader)
+		for (int i = 0; i < m_vecMtl.size(); ++i)
 		{
-			m_pShader->SetTechnique("Default_DirectX_Effect");
-			D3DXMATRIXA16 matView, matProjection, matViewProj;
-			g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
-			g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-			
-			matViewProj = matWorld * matView * matProjection;
-			
-			m_pShader->SetMatrix("matViewProjection", &matViewProj);
-			m_pShader->SetFloat("time", GetTickCount() * 0.001f);
-			m_pShader->SetTexture("Swamp", m_pTexcoord);
+			g_pD3DDevice->SetMaterial(&m_vecMtl[i]);
 
-
-			UINT numPasses = 0;
-			m_pShader->Begin(&numPasses, NULL);
-			for (UINT i = 0; i < numPasses; ++i)
+			if (m_pShader)
 			{
-				m_pShader->BeginPass(i);
-				if (m_pMesh)
-				{
-					m_pMesh->DrawSubset(0);
-				}
-				m_pShader->EndPass();
-			}
-			m_pShader->End();
+				m_pShader->SetTechnique("Default_DirectX_Effect");
+				D3DXMATRIXA16 matView, matProjection, matViewProj;
+				g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+				g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
 
+				matViewProj = matWorld * matView * matProjection;
+
+				m_pShader->SetMatrix("matViewProjection", &matViewProj);
+				m_pShader->SetFloat("time", GetTickCount() * 0.001f);
+				m_pShader->SetTexture("Swamp", m_pTexcoord);
+
+
+				UINT numPasses = 0;
+				m_pShader->Begin(&numPasses, NULL);
+				for (UINT i = 0; i < numPasses; ++i)
+				{
+					m_pShader->BeginPass(i);
+					if (m_pMesh)
+					{
+						m_pMesh->DrawSubset(0);
+					}
+					m_pShader->EndPass();
+				}
+				m_pShader->End();
+
+			}
 		}
+	}
+	else if (m_nTag == Tag_SwampB) 
+	{
+		for (int i = 0; i < m_vecMtl.size(); ++i)
+		{
+			g_pD3DDevice->SetMaterial(&m_vecMtl[i]);
+
+			if (m_pShader)
+			{
+				m_pShader->SetTechnique("Default_DirectX_Effect");
+				D3DXMATRIXA16 matView, matProjection, matViewProj;
+				g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+				g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+				matViewProj = matWorld * matView * matProjection;
+
+				m_pShader->SetMatrix("matViewProjection", &matViewProj);
+				m_pShader->SetFloat("time", GetTickCount() * 0.001f);
+				m_pShader->SetTexture("Swamp", m_pTexcoord_B);
+
+
+
+				g_pD3DDevice->GetTransform(D3DTS_WORLD, &matWorld);
+				g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+				g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
+				//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+				//g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+
+				g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+				g_pD3DDevice->SetRenderState(D3DRS_ALPHAREF, 0x80);
+				g_pD3DDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATEREQUAL);
+				g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+				g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+
+				for (int i = 0; i < 4; i++)
+				{
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_ADDRESSW, D3DTADDRESS_WRAP);
+
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+				}
+
+				g_pD3DDevice->SetTextureStageState(1, D3DTSS_TEXCOORDINDEX, 0);
+				g_pD3DDevice->SetTextureStageState(2, D3DTSS_TEXCOORDINDEX, 0);
+				g_pD3DDevice->SetTextureStageState(3, D3DTSS_TEXCOORDINDEX, 0);
+
+				g_pD3DDevice->SetTexture(1, m_pTex0);
+				g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_CURRENT);
+				g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+				g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+				g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+
+				/*
+				if (m_pMtlTex)
+				{
+					g_pD3DDevice->SetTexture(0, m_pMtlTex->GetTexture());
+					g_pD3DDevice->SetMaterial(&m_pMtlTex->GetMaterial());
+				}
+
+				g_pD3DDevice->SetFVF(ST_PNT_VERTEX::FVF);
+				g_pD3DDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST,
+					m_vecVertex.size() / 3,
+					&m_vecVertex[0],
+					sizeof(ST_PNT_VERTEX));
+				
+
+				if (m_pMtlTex)
+				{
+					g_pD3DDevice->SetTexture(0, NULL);
+				}
+				*/
+				
+				UINT numPasses = 0;
+				m_pShader->Begin(&numPasses, NULL);
+				for (UINT i = 0; i < numPasses; ++i)
+				{
+					m_pShader->BeginPass(i);
+					if (m_pMesh)
+					{
+						m_pMesh->DrawSubset(0);
+					}
+					m_pShader->EndPass();
+				}
+				m_pShader->End();
+				
+
+
+				g_pD3DDevice->SetTexture(0, NULL);
+				g_pD3DDevice->SetTexture(1, NULL);
+				g_pD3DDevice->SetTexture(2, NULL);
+
+				g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+				g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
+				g_pD3DDevice->SetTextureStageState(1, D3DTSS_RESULTARG, D3DTA_CURRENT);
+				g_pD3DDevice->SetTextureStageState(2, D3DTSS_RESULTARG, D3DTA_CURRENT);
+
+				for (int i = 0; i < 4; ++i)
+				{
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_NONE);
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_NONE);
+					g_pD3DDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+				}
+
+				g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+				g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+				g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+
+			}
+		}	
 	}
 
 
