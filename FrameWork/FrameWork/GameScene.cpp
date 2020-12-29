@@ -237,17 +237,22 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 
 	///BGM
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Sound_object(json_object_get_object(p_json_object_setting, "Sound"));
+
 	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Battle_BGM.mp3");
-	g_pSoundManager->SetBGMSOUND(0.3f);
-	g_pSoundManager->SetSFXSOUND(0.3f);
+	g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX") * 0.01f);
+	g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM") * 0.01f);
+	//g_pSoundManager->SetBGMSOUND(0.3f);
+	//g_pSoundManager->SetSFXSOUND(0.3f);
 	g_pSoundManager->PlayBGM();
 	
 
-	//// Font
+	// Font
 	//{
 	//	cFontTmp* pFontTest = new cFontTmp;
 
-	//	pFontTest->Setup("tmp", eFontType::FONT_DAMAGE);
+	//	pFontTest->Setup("tmp", eFontType::FONT_SYSTEM);
 	//	ObjectManager->AddChild(pFontTest);
 	//}
 

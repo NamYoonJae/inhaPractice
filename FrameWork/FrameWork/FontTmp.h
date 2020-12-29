@@ -21,7 +21,7 @@ public:
 
 	//void Setup();
 	void Setup(string Text, eFontType type);
-	void Setup(int Number, eFontType type);
+	//void Setup(int Number, eFontType type);
 	void Update();
 	void Render(D3DXMATRIXA16* pmat = 0) override;
 	void RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix);

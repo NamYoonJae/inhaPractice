@@ -4,6 +4,7 @@
 #include "PaladinState.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
+#include "FontManager.h"
 #include "FontTmp.h"
 
 #include "Paladin.h"
@@ -18,6 +19,8 @@
 #include "PaladinEvade.h"
 #include "PaladinIdle.h"
 #include "PaladinMove.h"
+#include "PaladinSpecialAttack.h"
+#include "PaladinStun.h"
 #include "Orb.h"
 #include "Rune.h"
 #include "Scene.h"
@@ -75,6 +78,7 @@ cPaladin::cPaladin()
 	, m_IsChangeScene(false)
 	, m_dwStaminaStartTime(GetTickCount())
 	, m_dwStaminaPreTime(100.0f)
+	, m_isStuned(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -445,6 +449,12 @@ void cPaladin::Update()
 
 void cPaladin::Update(EventType event)
 {
+	if (m_isStuned)
+	{
+		m_fvelocity = 0;
+		return;
+	}
+	
 	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
 	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
 
@@ -549,12 +559,33 @@ void cPaladin::Update(EventType event)
 		}
 		else
 		{
-			if (m_Stamina > 0)
+			if (m_Stamina > 5.0f)
 			{
 				m_Stamina -= 50;
 				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
 				SafeDelete(m_pCurState);
 				m_pCurState = new cPaladinAttack(this);
+			}
+			m_IsStaminaState = false;
+		}
+	}
+
+	if (event == EventType::EVENT_RBUTTONDOWN)
+	{
+		if (m_pCurState->GetStateIndex() == m_pCurState->Idle ||
+			m_pCurState->GetStateIndex() == m_pCurState->Run ||
+			m_pCurState->GetStateIndex() == m_pCurState->Walk)
+		{
+			if (m_Stamina > 5.0f)
+			{
+				m_Stamina -= 50;
+				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
+
+				SafeDelete(m_pCurState);
+				if(m_pTrophies->GetTag() == TagUI_Trophies_DragonFoot)
+					m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Kick);
+				else if(m_pTrophies->GetTag() == TagUI_Trophies_SkyBeez)
+					m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Roar);
 			}
 			m_IsStaminaState = false;
 		}
@@ -600,7 +631,7 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
-	CreateShadow();
+	//CreateShadow();
 	ShaderRender();
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 
@@ -735,12 +766,14 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	if (m_pCurState && (iOtherTag == Tag::Tag_Boss || Tag::Tag_LavaGolem))
 	{
 		//내가 공격 중이라면
-		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3 ||
+			m_pCurState->GetStateIndex() == m_pCurState->Kick)
 		{
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
 				pObject->HitSound();
+				PlayAttackSound();
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
@@ -1050,7 +1083,6 @@ void cPaladin::CreateTrophies(EventType message)
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
-
 	}
 
 	if (message == EventType::EVENT_DRAGONFOOT)
@@ -1166,11 +1198,6 @@ void cPaladin::ReloadSpriteDebuff()
 	}
 }
 
-int cPaladin::GetStateIndex()
-{
-	return m_pCurState->GetStateIndex();
-}
-
 int cPaladin::SearchDebuff(int debuff)
 {
 	for (int i = 0; i < m_vecDebuff.size(); i++) 
@@ -1184,17 +1211,76 @@ int cPaladin::SearchDebuff(int debuff)
 	return false;
 }
 
-void cPaladin::AddCollisionInfo(int nTag, CollisionInfo Info,float fDmg)
+void cPaladin::AddCollisionInfo(
+	int nTag, CollisionInfo Info,
+	float fDMG, bool bDamageType,
+	float fStunDamage, float fRigidDamage)
 {
 	if (m_isInvincible)
 		return;
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 
-	float fResult = fDmg - m_Melee_Defense;
+	// 밑에서 데미지처리
+	srand(GetTickCount());
 
-	m_Hp = m_Hp - fResult;
+	float fResult = 0;
+	if (bDamageType)
+	{
+		fResult = fDMG - m_Melee_Defense;
+	}
+	else
+	{
+		fResult = fDMG - m_Elemental_Defense;
+	}
+
+	if (0 >= fResult )
+		return;
+
+	//GenerateRandomNum(); <<
+	random_device rd;
+	mt19937_64 gen(rd());
+	uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
+
+	fResult = fResult + randNum(gen);
+
+	m_Hp = m_Hp - (int)fResult;
+	if (0 > m_Hp)
+	{
+		m_Hp = 0;
+	}
+
+	// 이 아래에서 폰트띄우기
+	{
+		cFontTmp* pFontTest = new cFontTmp;
+		pFontTest->Tagging(TAG_UI::TagUI_Damage);
+
+		pFontTest->Setup(to_string((int)fResult), eFontType::FONT_SYSTEM);
+		D3DXVECTOR3 vPos = m_vPos;
+		vPos.y += 30;
+		pFontTest->SetPos(vPos);
+
+		ObjectManager->AddUIChild(pFontTest);
+	}
+
+
 }
 
+void cPaladin::PlayAttackSound()
+{
+	int Min(Paladin_Attack_Hit1), Max(Paladin_Attack_Hit4);
+	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
+}
+
+void cPaladin::OnStun(bool isHardStun)
+{
+	if(m_pCurState->GetStateIndex() != m_pCurState->BodyHit &&
+		m_pCurState->GetStateIndex() != m_pCurState->HeadHit)
+	{
+		SafeDelete(m_pCurState);
+		m_pCurState = new cPaladinStun(this, isHardStun);
+		m_IsStaminaState = true;
+	}
+}
 
 
 //Legacy

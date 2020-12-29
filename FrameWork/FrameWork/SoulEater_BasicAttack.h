@@ -11,7 +11,7 @@ private:
 	Synthesize(float, TargetDistance, Distance);
 
 	// 기본공격 // 패턴 1
-	float				m_BasicAttack_Physic_Rate;
+	Synthesize(float, m_BasicAttack_Physic_Rate, PhysicsDamage);
 	float				m_BasicAttack_Elemental_Rate;
 
 public:

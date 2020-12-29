@@ -10,5 +10,7 @@ public:
 	~cPaladinEvade();
 
 	void StateUpdate() override;
+	void PlaySound();
+	void PlayVoice();
 };
 

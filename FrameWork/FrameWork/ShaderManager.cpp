@@ -47,6 +47,7 @@ LPD3DXEFFECT cShaderManager::GetShader(eShader type)
 			break;
 		case Nebula:
 			m_vecShader[type] = LoadShader("data/Shader/Nebula.fx");
+			break;
 		default:
 			cout << "Invailed Shader Type!" << endl;
 			break;

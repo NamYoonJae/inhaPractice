@@ -97,6 +97,7 @@ private:
 	// Test Dash Shader
 	LPD3DXEFFECT m_pDashShader;
 	LPDIRECT3DTEXTURE9 m_pDashTex;
+
 public:
 	cDragonSoulEater();
 	~cDragonSoulEater();
@@ -109,6 +110,7 @@ public:
 	//cSoulEaterState* GetState() { return m_pCurState; }
 	void SetupBoundingBox();
 	virtual void CollisionProcess(cObject* pObject) override;
+	// virtual void AddCollisionInfo(int, CollisionInfo, float fDMG = 0.0f);
 	//std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }
 
 	//new

@@ -1,4 +1,5 @@
 #pragma once
+#include "PaladinState.h"
 #include "cCharater.h"
 
 class cSkinnedMesh;
@@ -53,6 +54,7 @@ private:
 	bool m_IsStaminaState;
 
 	bool m_IsChangeScene;
+	bool m_isStuned;
 
 	int				m_Attack_Melee_Damage;
 	float			m_Melee_rate_1;
@@ -140,7 +142,7 @@ public:
 	void ReloadSpriteDebuff();
 
 	//
-	int GetStateIndex();
+	int GetStateIndex() { return m_pCurState->GetStateIndex(); }
 	vector<cParts*> GetPartsList() { return m_vecParts; }
 
 	// backviewCamera
@@ -151,7 +153,12 @@ public:
 	void SetStaminaState(bool state) { m_IsStaminaState = state; };
 
 	//
-	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG) override;
+	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f) override;
+	
+	void PlayAttackSound();
+
+	void SetStun(bool isStuned) { m_isStuned = isStuned; }
+	void OnStun(bool isHardStun);
 };
 
 class cParts
@@ -169,6 +176,7 @@ protected:
 	D3DXMATRIXA16	m_matRot;
 	D3DXMATRIXA16	m_matTranse;
 	D3DXMATRIXA16	m_matWorld;
+
 public:
 	cParts();
 	virtual ~cParts();
