@@ -153,11 +153,11 @@ public:
 	void SetStaminaState(bool state) { m_IsStaminaState = state; };
 
 	//
-	void AddCollisionInfo(int nTag, CollisionInfo Info) override;
 	void PlayAttackSound();
 
 	void SetStun(bool isStuned) { m_isStuned = isStuned; }
 	void OnStun(bool isHardStun);
+	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG) override;
 };
 
 class cParts

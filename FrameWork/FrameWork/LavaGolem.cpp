@@ -358,6 +358,12 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	m_vPos += D3DXVECTOR3(0, 0, 1);
 	m_vPos = vPos;
 
+	if (m_pState->GetStateIndex() == 1)
+	{
+		cLavaRun* pRunState = (cLavaRun*)m_pState;
+		pRunState->TargetChange();
+	}
+
 }
 
 void cLavaGolem::HitSound()

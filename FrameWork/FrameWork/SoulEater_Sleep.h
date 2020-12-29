@@ -8,8 +8,8 @@ private:
 	bool m_IsSleep;
 	//int	 m_nliveGolem;
 
-	float m_fDamagetaken;
 	float m_fHealingAmount;
+	Synthesize(float, m_fDamagetaken, DamageTaken);
 
 	DWORD	m_dwHealingCoolTime;
 	DWORD	m_dwSleepSoundTime;
@@ -23,6 +23,7 @@ public:
 	cSoulEater_Sleep(cDragonSoulEater*);
 	~cSoulEater_Sleep();
 	void handle() override;
+
 	//void SubtractGolem() { m_nliveGolem--; };
 };
 

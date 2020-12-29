@@ -22,7 +22,7 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 
 	D3DXFONT_DESC fd;
 	ZeroMemory(&fd, sizeof(D3DXFONT_DESC));
-
+	
 	if (type == FONT_DEFAULT)
 	{
 		fd.Width = 12;
@@ -58,7 +58,7 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 
 void cFontManager::DrawFont(eFontType type, string text, RECT drawArea, DWORD format, D3DCOLOR color)
 {
-	LPD3DXFONT	pFont = GetFont(type);
+	LPD3DXFONT pFont = GetFont(type);
 	pFont->DrawTextA(NULL, text.c_str(), text.length(), &drawArea, format, color);
 }
 

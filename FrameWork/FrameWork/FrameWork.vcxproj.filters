@@ -267,6 +267,9 @@
     </ClCompile>
     <ClCompile Include="PaladinStun.cpp">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+	</ClCompile>
+    <ClCompile Include="FontTmp.cpp">
+      <Filter>Code\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,6 +548,9 @@
     </ClInclude>
     <ClInclude Include="PaladinStun.h">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+	</ClInclude>
+    <ClInclude Include="FontTmp.h">
+      <Filter>Code\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

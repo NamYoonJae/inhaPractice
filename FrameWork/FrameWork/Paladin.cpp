@@ -4,6 +4,7 @@
 #include "PaladinState.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
+#include "FontTmp.h"
 
 #include "Paladin.h"
 
@@ -777,9 +778,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 
 
 #pragma region Paladin to Monster damage
-				static bool bAttack1chk = false;
-				static bool bAttack2chk = false;
-				static bool bAttack3chk = false;
 
 				// To BOSS
 				if (pObject->GetTag() == Tag::Tag_Boss)
@@ -787,11 +785,10 @@ void cPaladin::CollisionProcess(cObject* pObject)
 					srand(GetTickCount());
 					int iDamage = 0;
 					cDragonSoulEater* pDragon = (cDragonSoulEater*)pObject;
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack1 && bAttack1chk)
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack1)
 					{
 						// 공격 1
 						//if (0.5 > (float)rand() / (float)32767)
-						bAttack1chk = false;
 						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
 						{
 							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1 - pDragon->GetPhysicDefence();
@@ -803,11 +800,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							cout << "ATTACK 1 HIT" << endl;
 						}
 					}
-					else bAttack1chk = true;
 
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack2 && bAttack2chk)
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack2)
 					{
-						bAttack2chk = false;
 						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
 						{
 							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2 - pDragon->GetPhysicDefence();
@@ -819,11 +814,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							cout << "ATTACK 2 HIT" << endl;
 						}
 					}
-					else bAttack2chk = true;
 
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack3 && bAttack3chk)
+					if (m_pCurState->GetStateIndex() == m_pCurState->Attack3)
 					{
-						bAttack3chk = false;
 						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
 						{
 							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3 - pDragon->GetPhysicDefence();
@@ -835,7 +828,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							cout << "ATTACK 3 HIT" << endl;
 						}
 					}
-					else bAttack3chk = true;
 
 					if (0 < iDamage)
 					{
@@ -857,37 +849,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				// To LavaGolem // 테스트 안됨
 				if (pObject->GetTag() == Tag::Tag_LavaGolem)
 				{
-					srand(GetTickCount());
-					cLavaGolem* pLavaGolem = (cLavaGolem*)pObject;
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack1 && bAttack1chk)
-					{
-						// 공격 1
-						bAttack1chk = false;
-						pLavaGolem->SetCurrentHP(pLavaGolem->GetCurrentHP() - 1);
-						cout << "ATTACK 1 HIT" << endl;
-					}
-					else bAttack1chk = true;
-
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack2 && bAttack2chk)
-					{
-						bAttack2chk = false;
-						pLavaGolem->SetCurrentHP(pLavaGolem->GetCurrentHP() - 1);
-						cout << "ATTACK 2 HIT" << endl;
-					}
-					else bAttack2chk = true;
-
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack3 && bAttack3chk)
-					{
-						bAttack3chk = false;
-						pLavaGolem->SetCurrentHP(pLavaGolem->GetCurrentHP() - 1);
-						cout << "ATTACK 3 HIT" << endl;
-					}
-					else bAttack3chk = true;
-
-					cout << "LavaGolem CurHP : " << pLavaGolem->GetCurrentHP() << endl;
+					//pObject->AddCollisionInfo(CollisionInfo, 1.0f);
 				}
-
-
 #pragma endregion 
 			}
 
@@ -1243,11 +1206,15 @@ int cPaladin::SearchDebuff(int debuff)
 	return false;
 }
 
-void cPaladin::AddCollisionInfo(int nTag, CollisionInfo Info)
+void cPaladin::AddCollisionInfo(int nTag, CollisionInfo Info,float fDmg)
 {
 	if (m_isInvincible)
 		return;
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
+
+	float fResult = fDmg - m_Melee_Defense;
+
+	m_Hp = m_Hp - fResult;
 }
 
 void cPaladin::PlayAttackSound()
