@@ -7,7 +7,7 @@
 #include "TitleSceneUIEvent.h"
 #include "GameSceneUIEvent.h"
 #include "InGamePauseMenuUIEvent.h"
-
+#include "SoundManager.h"
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
 {
@@ -332,6 +332,11 @@ void cTitleScene::Setup()
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);
 #pragma endregion << UI TAG::ESC_Menu
+
+	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Lobby_BGM.mp3");
+	g_pSoundManager->SetBGMSOUND(0.3f);
+	g_pSoundManager->SetSFXSOUND(0.3f);
+	g_pSoundManager->PlayBGM();
 
 }
 

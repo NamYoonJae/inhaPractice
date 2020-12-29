@@ -530,6 +530,15 @@
     <Image Include="small.ico">
       <Filter>Resource</Filter>
     </Image>
+    <Image Include="data\cursor\NW_Cursor_Nomal.png">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="data\cursor\NW_Cursor_Over.png">
+      <Filter>Resource</Filter>
+    </Image>
+    <Image Include="data\cursor\NW_Cursor_Pressed.png">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -705,7 +714,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
-    <None Include="Normal Select.cur" />
+    <None Include="cursor2.cur">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="cursor3.cur">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="cursor4.cur">
+      <Filter>Resource</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\Shader\SpecularMapping.fx">

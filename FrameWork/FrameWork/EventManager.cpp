@@ -46,6 +46,7 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_LBUTTONDOWN:
 		m_Queue.push((EventType)0x03);
+		SendMessage(g_hWnd, WM_SETCURSOR, 140, NULL);
 		Notify();
 		break;
 	case WM_RBUTTONDBLCLK:
@@ -87,7 +88,7 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 			m_Queue.push((EventType)0x0A);	
 		}
 		m_Queue.push((EventType)0x07);
-
+		SendMessage(g_hWnd, WM_SETCURSOR, 139, NULL);
 	}
 	case WM_RBUTTONUP:
 		Notify();		

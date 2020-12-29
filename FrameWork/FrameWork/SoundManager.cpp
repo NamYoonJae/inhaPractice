@@ -90,6 +90,7 @@ void cSoundManager::init()
 		AddSFX(strPath + string("NW_Golem_Die.mp3"), (int)Golem_Die);
 	
 	}
+
 }
 
 void cSoundManager::AddBGM(string path)

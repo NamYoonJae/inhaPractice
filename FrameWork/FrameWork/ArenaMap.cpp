@@ -142,7 +142,9 @@ float cArenaMap::getHeight(D3DXVECTOR3 pos)
 
 void cArenaMap::Render(D3DXMATRIXA16* pmat)
 {
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 	DefaultRender();
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	//ShaderRender();
 }
 

@@ -321,6 +321,8 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 	case Tag::Tag_FireBall:
 	case Tag::Tag_Breath:
 		return;
+	case Tag::Tag_RunStone:
+		return;
 	default:
 		pObb = pOBB;
 		matW = pObb->GetWorldMatrix();
