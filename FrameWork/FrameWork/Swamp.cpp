@@ -146,32 +146,33 @@ void cSwamp::Setup(Tag T)
 	// OBB
 
 	m_pOBB = new cOBB;
-	m_pOBB->Setup(D3DXVECTOR3(-50, -50, -50), D3DXVECTOR3(50, 50, 50));
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);
+	m_pOBB->Setup(D3DXVECTOR3(-50, 20, -50), D3DXVECTOR3(50, 0, 50),&matS);
 
 }
 
 void cSwamp::Update()
 {
-	if(m_dwDurationTime >= 0.0f && m_nTag == Tag::Tag_SwampB)
-	{
-		if(GetTickCount() - m_dwElapsedTime >= m_dwDurationTime)
-		{
-			m_isDelete = true;
-			return;
-		}
-	}
-	
+	//if (m_dwDurationTime >= 0.0f && m_nTag == Tag::Tag_SwampB)
+	//{
+	//	if (GetTickCount() - m_dwElapsedTime >= m_dwDurationTime)
+	//	{
+	//		m_isDelete = true;
+	//		return;
+	//	}
+	//}
+
 	if (m_pOBB)
 	{
-		D3DXMATRIXA16 matWorld, matS, matT;
+		D3DXMATRIXA16 matWorld, matT;
 		D3DXMatrixIdentity(&matWorld);
-		D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
+		D3DXMatrixIdentity(&matT);
 		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-		matWorld = matS * matT;
+
+		matWorld = matT;
 		m_pOBB->Update(&matWorld);
 	}
-
-	// m_isDelete = true; // << 오브젝트 풀에서 삭제 처리해줌
 }
 
 void cSwamp::Render(D3DXMATRIXA16 *pmat)
@@ -333,9 +334,13 @@ void cSwamp::Render(D3DXMATRIXA16 *pmat)
 		}	
 	}
 
-
-	if (m_dwDurationTime <= GetTickCount() - m_dwElapsedTime) 
-		m_isDelete = true; // 지속시간이 끝날때 제거
+	if(m_pOBB)
+	{
+		m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
+	
+	//if (m_dwDurationTime <= GetTickCount() - m_dwElapsedTime) 
+	//	m_isDelete = true; // 지속시간이 끝날때 제거
 }
 
 void cSwamp::CollisionProcess(cObject * pObject)
@@ -343,21 +348,32 @@ void cSwamp::CollisionProcess(cObject * pObject)
 	if (pObject->GetTag() == Tag::Tag_Player)
 	{
 		cPaladin* pPaladin = (cPaladin*)pObject;
-		switch (m_nTag)
-		{
-		case Tag::Tag_SwampA :
-		{
-			pPaladin->SetSpeed(pPaladin->GetOriginSpeed() - 50); // 벗어났을때 처리
-		}
 
+		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
+
+		if(cOBB::IsCollision(m_pOBB,pBody))
+		{
+			switch (m_nTag)
+			{
+			case Tag::Tag_SwampA:
+			{
+				pPaladin->SetSpeed(pPaladin->GetOriginSpeed() - 50); // 벗어났을때 처리
+				//cout << "TRUE" << endl;
+			}
 			// 	 이동속도 느려지는 오브젝트
 			break;
-		case Tag::Tag_SwampB :
+			case Tag::Tag_SwampB:
+			{
+				//cout << "false" << endl;
+			}
 			//  데미지를 주는 오브젝트
 			//  여기서 데미지 처리
 			//  주는 데미지 = m_fPhysicDamage* m_Flood_Physic_Rate + m_fElementalDamage * m_Flood_Elemental_Rate;
 			break;
+			}
 		}
+		
+
 	}
 	
 
