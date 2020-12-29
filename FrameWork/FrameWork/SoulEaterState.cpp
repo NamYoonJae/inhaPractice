@@ -86,7 +86,6 @@ void cSoulEaterState::TargetCapture()
 		D3DXMatrixTranspose(&matR, &matR);
 		D3DXMatrixRotationY(&matRy, D3DX_PI);
 		m_pDragon->SetRotation((D3DXMATRIXA16*)&(matR * matRy));
-
 	}
 	//
 

@@ -744,9 +744,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
 
-						pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
+						pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 10.0f);
 
-						pPaladin->OnStun(false);
 						// 스테이트 클래스에서 get매서드로 값 가져오기
 					}
 				}
@@ -763,9 +762,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						CollisionInfo info;
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
-						pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
-
-						pPaladin->OnStun(false);
+						pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 10.0f);
 					}
 				}
 				break;
@@ -779,9 +776,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 3000;
-					pObject->AddCollisionInfo(m_nTag, info, fDamage, false);
-
-					pPaladin->OnStun(true);
+					pObject->AddCollisionInfo(m_nTag, info, fDamage, false, 50.f);
 				}
 				break;
 			}

@@ -12,7 +12,7 @@ cFontTmp::cFontTmp()
     : m_pFont(NULL)
     , m_pSprite(NULL)
     , m_dwElapsedTime(0)
-    , m_dwDurationTime(5000) // 나중에 값 바꾸기
+    , m_dwDurationTime(1000) // 나중에 값 바꾸기
 	, cObject()
 {
 }
@@ -97,6 +97,8 @@ void cFontTmp::Update()
     {
         m_isDelete = true;
     }
+
+    m_vPos.y += 0.1f;
 
 
 }

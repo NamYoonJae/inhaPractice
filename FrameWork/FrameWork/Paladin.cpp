@@ -430,7 +430,7 @@ void cPaladin::Update()
 		m_dwDeverffStartTime = GetTickCount();
 	}
 
-	//팔라딘 동작중에는 스태미너 막기
+	//팔라딘 동작중에는 스태미너 막기 // 스턴치 감소 처리 추가
 	if (m_IsStaminaState == true)
 	{
 		//m_Stamina += 0.3;
@@ -438,9 +438,15 @@ void cPaladin::Update()
 		{
 			//m_Stamina += 0.5;
 			m_Stamina += m_StaminaRestoreValue;
+
 			if (m_Stamina >= m_MaxStamina)
 			{
 				m_Stamina = m_MaxStamina;
+			}
+
+			if (0 < m_Char_StunRate) //
+			{
+				m_Char_StunRate -= m_Char_Stun_Reduce * 0.1;
 			}
 		}
 	}
@@ -763,7 +769,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	cOBB* pOtherOBB = pObject->GetOBB();
 	int	  iOtherTag = pObject->GetTag();
 
-	if (m_pCurState && (iOtherTag == Tag::Tag_Boss || Tag::Tag_LavaGolem))
+	if (m_pCurState && (iOtherTag == Tag::Tag_Boss || iOtherTag == Tag::Tag_LavaGolem))
 	{
 		//내가 공격 중이라면
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3 ||
@@ -777,10 +783,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
-				pObject->AddCollisionInfo(m_nTag, info);
+				//pObject->AddCollisionInfo(m_nTag, info);
 
 				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
-
 
 #pragma region Paladin to Monster damage
 
@@ -836,9 +841,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 
 					if (0 < iDamage)
 					{
-						pDragon->SetCURHP(pDragon->GetCURHP() - iDamage);
-						pDragon->SetSTUN(pDragon->GetSTUN() + (iDamage * m_Attack_StunRate));
-						pDragon->SetRigid(pDragon->GetRigid() + (iDamage * m_Attack_RigidRate));
+						//pDragon->SetCURHP(pDragon->GetCURHP() - iDamage);
+						//pDragon->SetSTUN(pDragon->GetSTUN() + (iDamage * m_Attack_StunRate));
+						//pDragon->SetRigid(pDragon->GetRigid() + (iDamage * m_Attack_RigidRate));
 						cout << "BOSS Stun gauge : " << pDragon->GetSTUN() << endl;
 						cout << "BOSS Rigid gauge : " << pDragon->GetRigid() << endl;
 						cout << "BOSS Current HP : " << pDragon->GetCURHP() << endl;
@@ -1260,6 +1265,19 @@ void cPaladin::AddCollisionInfo(
 		pFontTest->SetPos(vPos);
 
 		ObjectManager->AddUIChild(pFontTest);
+	}
+
+	// 스턴치 경직치 처리
+	m_Char_StunRate += fStunDamage;
+
+	if (100 <= m_Char_StunRate)
+	{
+		m_Char_StunRate = 0;
+		OnStun(true);
+	}
+	else
+	{
+		OnStun(false);
 	}
 
 

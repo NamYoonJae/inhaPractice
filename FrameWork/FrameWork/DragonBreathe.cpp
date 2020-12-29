@@ -236,7 +236,6 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 	{
 		cPaladin* pPaladin = (cPaladin*)pObject;
 		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
-
 		
 		if (cOBB::IsCollision(m_pOBB, pBody) && pObject->GetCollsionInfo(m_nTag) == nullptr)
 		{
@@ -246,6 +245,8 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 			pObject->AddCollisionInfo(m_nTag, info);
 
 			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Breath Hit");
+
+
 		}
 	}
 }
