@@ -5,7 +5,7 @@
 #include "jsonManager.h"
 #include "Paladin.h"
 #pragma once
-
+/*
 #define Box_Size 50
 
 cSwamp::cSwamp()
@@ -338,3 +338,4 @@ void cSwamp::CollisionProcess(cObject * pObject)
 	
 
 }
+*/

@@ -1,5 +1,4 @@
 #pragma once
-#include "cObject.h"
 
 class cSwampB : public cObject
 {
@@ -24,6 +23,10 @@ private:
 	float				m_Flood_Elemental_Rate;
 	string				m_Flood_Condition; // 상태이상 부여 종류
 	float				m_Flood_Condition_Rate; // 상태이상 부여
+
+	float m_RotY;
+	DWORD m_dwPreparationTime;
+	DWORD m_dwStateStartTime;
 
 public:
 	cSwampB();
