@@ -4,6 +4,7 @@
 #include "PaladinEvade.h"
 
 #include "jsonManager.h"
+#include "SoundManager.h"
 
 cPaladinEvade::cPaladinEvade(cPaladin* pPaladin)
 	:cPaladinState(pPaladin)
@@ -11,6 +12,8 @@ cPaladinEvade::cPaladinEvade(cPaladin* pPaladin)
 	m_nStateIndex = eAnimationSet::Roll;
 	m_pPaladin->GetSkinnedMesh()->SetAnimationIndexBlend(m_nStateIndex);
 	m_dAnimStartTime = GetTickCount();
+	PlaySound();
+	PlayVoice();
 }
 
 cPaladinEvade::~cPaladinEvade()
@@ -43,5 +46,17 @@ void cPaladinEvade::StateUpdate()
 			m_pPaladin->StateFeedback();
 		}
 	}
+}
+
+void cPaladinEvade::PlaySound()
+{
+	//int Min(Paladin_Attack_Swing1), Max(Paladin_Attack_Swing3);
+	g_pSoundManager->PlaySFX((int)Paladin_Roll);
+}
+
+void cPaladinEvade::PlayVoice()
+{
+	//int Min(Paladin_Attack_Swing1), Max(Paladin_Attack_Swing3);
+	g_pSoundManager->PlaySFX((int)Paladin_Roll_Voice);
 }
 

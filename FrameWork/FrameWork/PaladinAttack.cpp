@@ -4,6 +4,7 @@
 #include "PaladinAttack.h"
 
 #include "jsonManager.h"
+#include "SoundManager.h"
 
 cPaladinAttack::cPaladinAttack(cPaladin* pPaladin)
 	:cPaladinState(pPaladin)
@@ -17,6 +18,8 @@ cPaladinAttack::cPaladinAttack(cPaladin* pPaladin)
 	m_nStateIndex = eAnimationSet::Attack1;
 	m_pPaladin->GetSkinnedMesh()->SetAnimationIndexBlend(m_nStateIndex);
 	m_dAnimStartTime = GetTickCount();
+	PlaySound();
+	PlayVoice();
 }
 
 cPaladinAttack::~cPaladinAttack()
@@ -48,6 +51,8 @@ void cPaladinAttack::StateUpdate()
 		{
 			m_dAnimStartTime = GetTickCount();
 			m_pPaladin->GetSkinnedMesh()->SetAnimationIndexBlend(m_nStateIndex);
+			PlaySound();
+			PlayVoice();
 			m_IsComboAttack = false;
 		}
 
@@ -63,7 +68,6 @@ void cPaladinAttack::StateUpdate()
 	{
 		if (GetTickCount() - m_dAnimStartTime >= fAnimPeriod)
 		{
-
 			m_pPaladin->StateFeedback();
 		}
 	}
@@ -124,4 +128,16 @@ void cPaladinAttack::ComboAttack()
 		}
 		//cout << m_nStateIndex << endl;
 	}
+}
+
+void cPaladinAttack::PlaySound()
+{
+	int Min(Paladin_Attack_Swing1), Max(Paladin_Attack_Swing3);
+	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
+}
+
+void cPaladinAttack::PlayVoice()
+{
+	int Min(Paladin_Attack_Voice1), Max(Paladin_Attack_Voice4);
+	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
 }

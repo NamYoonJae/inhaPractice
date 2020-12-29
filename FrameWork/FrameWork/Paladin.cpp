@@ -19,6 +19,8 @@
 #include "PaladinEvade.h"
 #include "PaladinIdle.h"
 #include "PaladinMove.h"
+#include "PaladinSpecialAttack.h"
+#include "PaladinStun.h"
 #include "Orb.h"
 #include "Rune.h"
 #include "Scene.h"
@@ -76,6 +78,7 @@ cPaladin::cPaladin()
 	, m_IsChangeScene(false)
 	, m_dwStaminaStartTime(GetTickCount())
 	, m_dwStaminaPreTime(100.0f)
+	, m_isStuned(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -446,6 +449,8 @@ void cPaladin::Update()
 
 void cPaladin::Update(EventType event)
 {
+	if (m_isStuned) return;
+	
 	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
 	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
 
@@ -550,12 +555,33 @@ void cPaladin::Update(EventType event)
 		}
 		else
 		{
-			if (m_Stamina > 0)
+			if (m_Stamina > 5.0f)
 			{
 				m_Stamina -= 50;
 				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
 				SafeDelete(m_pCurState);
 				m_pCurState = new cPaladinAttack(this);
+			}
+			m_IsStaminaState = false;
+		}
+	}
+
+	if (event == EventType::EVENT_RBUTTONDOWN)
+	{
+		if (m_pCurState->GetStateIndex() == m_pCurState->Idle ||
+			m_pCurState->GetStateIndex() == m_pCurState->Run ||
+			m_pCurState->GetStateIndex() == m_pCurState->Walk)
+		{
+			if (m_Stamina > 5.0f)
+			{
+				m_Stamina -= 50;
+				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
+
+				SafeDelete(m_pCurState);
+				if(m_pTrophies->GetTag() == TagUI_Trophies_DragonFoot)
+					m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Kick);
+				else if(m_pTrophies->GetTag() == TagUI_Trophies_SkyBeez)
+					m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Roar);
 			}
 			m_IsStaminaState = false;
 		}
@@ -601,7 +627,7 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
-	CreateShadow();
+	//CreateShadow();
 	ShaderRender();
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 
@@ -736,12 +762,14 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	if (m_pCurState && (iOtherTag == Tag::Tag_Boss || Tag::Tag_LavaGolem))
 	{
 		//내가 공격 중이라면
-		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3 ||
+			m_pCurState->GetStateIndex() == m_pCurState->Kick)
 		{
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
 				pObject->HitSound();
+				PlayAttackSound();
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
@@ -1051,7 +1079,6 @@ void cPaladin::CreateTrophies(EventType message)
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
-
 	}
 
 	if (message == EventType::EVENT_DRAGONFOOT)
@@ -1167,11 +1194,6 @@ void cPaladin::ReloadSpriteDebuff()
 	}
 }
 
-int cPaladin::GetStateIndex()
-{
-	return m_pCurState->GetStateIndex();
-}
-
 int cPaladin::SearchDebuff(int debuff)
 {
 	for (int i = 0; i < m_vecDebuff.size(); i++) 
@@ -1239,6 +1261,18 @@ void cPaladin::AddCollisionInfo(
 
 }
 
+void cPaladin::PlayAttackSound()
+{
+	int Min(Paladin_Attack_Hit1), Max(Paladin_Attack_Hit4);
+	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
+}
+
+void cPaladin::OnStun(bool isHardStun)
+{
+	SafeDelete(m_pCurState);
+	m_pCurState = new cPaladinStun(this, isHardStun);
+	m_IsStaminaState = true;
+}
 
 
 //Legacy
