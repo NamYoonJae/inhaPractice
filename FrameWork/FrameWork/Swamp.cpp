@@ -60,7 +60,7 @@ void cSwamp::Setup(Tag T)
 	// xfile
 	{
 		using namespace std;
-		string szFullPathX = "data/XFile/Cube/Cube.x";
+		string szFullPathX = "data/XFile/Cylinder/Cylinder.x";
 
 		HRESULT hr = 0;
 		ID3DXBuffer *adjBuffer = 0;
@@ -97,7 +97,6 @@ void cSwamp::Setup(Tag T)
 
 	if (T == Tag_SwampA)
 	{
-
 		D3DXIMAGE_INFO info;
 		D3DXGetImageInfoFromFileA("data/Texture/Swamp.tga", &info);
 
