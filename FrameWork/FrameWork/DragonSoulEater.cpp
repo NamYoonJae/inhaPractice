@@ -778,8 +778,10 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
-					info.dwDelayTime = 1500;
+					info.dwDelayTime = 3000;
 					pObject->AddCollisionInfo(m_nTag, info, fDamage, false);
+
+					pPaladin->OnStun(true);
 				}
 				break;
 			}
