@@ -12,7 +12,7 @@ cFontTmp::cFontTmp()
     : m_pFont(NULL)
     , m_pSprite(NULL)
     , m_dwElapsedTime(0)
-    , m_dwDurationTime(50000000)
+    , m_dwDurationTime(5000) // 나중에 값 바꾸기
 	, cObject()
 {
 }
@@ -67,8 +67,8 @@ void cFontTmp::Setup(string Text, eFontType type)
 
     hFont = CreateFontIndirect(&lf);
     hFontOld = (HFONT)SelectObject(hdc, hFont);
-    D3DXCreateText(g_pD3DDevice, hdc,
-        L"가나123 Direct3D",
+    D3DXCreateTextA(g_pD3DDevice, hdc,
+        m_strText.c_str(),
         0.001f,
         0.01f,
         &m_p3DText,
@@ -94,7 +94,11 @@ void cFontTmp::Update()
 {
     // 시간지나면 사라지게
     if (GetTickCount() - m_dwElapsedTime >= m_dwDurationTime)
+    {
         m_isDelete = true;
+    }
+
+
 }
 
 
@@ -140,11 +144,11 @@ void cFontTmp::RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix)
 	D3DXMatrixInverse(&matR, NULL, &matR);
 	
     D3DXMatrixIdentity(&matT);
-    D3DXMatrixScaling(&matS, 20.0f, 20.0f, 1.0f);
+    D3DXMatrixScaling(&matS, 5.0f, 5.0f, 1.0f);
     //D3DXMatrixRotationX(&matR, -D3DX_PI / 4.0f);
     D3DXMatrixTranslation(&matT, m_vPos.x,m_vPos.y,m_vPos.z);
-	
-	matWorld = matS * matR * matT;
+    matWorld = matS * matR * matT;
+    //matWorld = matS * matR * matT;
 	//matWorld = matR * matT;
 
 	//D3DXMatrixInverse(&matWorld, NULL, &matWorld);

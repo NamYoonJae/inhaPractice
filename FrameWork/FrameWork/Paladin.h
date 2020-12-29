@@ -151,7 +151,7 @@ public:
 	void SetStaminaState(bool state) { m_IsStaminaState = state; };
 
 	//
-	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG) override;
+	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f) override;
 };
 
 class cParts
@@ -169,6 +169,7 @@ protected:
 	D3DXMATRIXA16	m_matRot;
 	D3DXMATRIXA16	m_matTranse;
 	D3DXMATRIXA16	m_matWorld;
+
 public:
 	cParts();
 	virtual ~cParts();

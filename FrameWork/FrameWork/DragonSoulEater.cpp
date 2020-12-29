@@ -736,37 +736,47 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						
+						cSoulEater_BasicAttack* pBasicAttack = (cSoulEater_BasicAttack*)m_pCurState;
+
+						float fDamage = m_fPhysicDamage * pBasicAttack->GetPhysicsDamage();
+
 						CollisionInfo info;
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
-						pObject->AddCollisionInfo(m_nTag, info);
+
+						pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
 
 						// 스테이트 클래스에서 get매서드로 값 가져오기
 					}
 				}
 				break;
-			case 2:		// 
+			case 2:		// 꼬리
 				if (cOBB::IsCollision(pOBB, m_vecBoundingBoxList.at(1).Box))
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						
+						cSoulEater_TailAttack* pTailAttack = (cSoulEater_TailAttack*)m_pCurState;
+
+						float fDamage = m_fPhysicDamage * pTailAttack->GetPhysicsDamage();
+
 						CollisionInfo info;
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
-						pObject->AddCollisionInfo(m_nTag, info);
+						pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
 					}
 				}
 				break;
-			case 3:
+			case 3:		// 돌진
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
-					
+					cSoulEater_Rush* pRush = (cSoulEater_Rush*)m_pCurState;
+
+					float fDamage = m_fElementalDamage * pRush->GetElementalDamage();
+
 					CollisionInfo info;
 					info.dwCollsionTime = GetTickCount();
 					info.dwDelayTime = 1500;
-					pObject->AddCollisionInfo(m_nTag, info);
+					pObject->AddCollisionInfo(m_nTag, info, fDamage, false);
 				}
 				break;
 			}
@@ -806,7 +816,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			}
 			else if ((pWall->GetSwitch() == false) || 
 				(m_pCurState->GetIndex() == 3 && pWall->GetSwitch())) return;
-
 		}
 
 
@@ -857,9 +866,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			}
 				break;
 			}
-
 		}
-
 	}
 }
 

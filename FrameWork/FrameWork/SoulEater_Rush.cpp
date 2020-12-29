@@ -3,6 +3,7 @@
 #include "DragonSoulEater.h"
 #include "SoundManager.h"
 #include "Wall.h"
+#include "jsonManager.h"
 #pragma once
 
 cSoulEater_Rush::cSoulEater_Rush()
@@ -22,6 +23,17 @@ cSoulEater_Rush::cSoulEater_Rush(cDragonSoulEater *pDragon)
 	, m_dwPreparationTime(1500.0f)
 {
 	m_nCurentIndex = 3;
+
+	// json Attribute
+	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
+
+	// 기본공격 // 패턴 1
+	m_RushAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Melee rate");
+	m_RushAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Elemental rate");
+
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "RUSH ELEMENTAL RATE", m_RushAttack_Elemental_Rate);
+	//cout << "RUSH RATE         : " << m_RushAttack_Physic_Rate << endl;
 }
 
 cSoulEater_Rush::~cSoulEater_Rush()

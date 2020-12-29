@@ -43,6 +43,8 @@ enum TAG_UI
 	TagUI_InGameObject,
 	TagUI_GameOver,
 	TagUI_GameClear,
+
+	TagUI_Damage
 };
 
 enum SceneType;
@@ -95,7 +97,7 @@ public:
 
 	bool m_isDelete;
 	virtual void CollisionProcess(cObject* pObject) {};
-	virtual void AddCollisionInfo(int,CollisionInfo,float fDMG = 0.0f);
+	virtual void AddCollisionInfo(int,CollisionInfo, float fDMG = 0.0f, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f); // true가 물리 데미지
 	CollisionInfo* GetCollsionInfo(int nTag);
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
 	void CollisionInfoCheck();

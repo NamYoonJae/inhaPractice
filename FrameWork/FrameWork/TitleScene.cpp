@@ -8,6 +8,8 @@
 #include "GameSceneUIEvent.h"
 #include "InGamePauseMenuUIEvent.h"
 #include "SoundManager.h"
+#include "jsonManager.h"
+
 cTitleScene::cTitleScene(SceneType T)
 	:cScene(T)
 {
@@ -332,10 +334,14 @@ void cTitleScene::Setup()
 	EventManager->Attach(pMediator);
 	ObjectManager->AddUIChild(pMediator);
 #pragma endregion << UI TAG::ESC_Menu
+	static JSON_Object* p_json_object_setting = g_p_jsonManager->get_json_object_Setting();
+	JSON_Object* Sound_object(json_object_get_object(p_json_object_setting, "Sound"));
 
 	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Lobby_BGM.mp3");
-	g_pSoundManager->SetBGMSOUND(0.3f);
-	g_pSoundManager->SetSFXSOUND(0.3f);
+	g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX") * 0.01f);
+	g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM") * 0.01f);
+	//g_pSoundManager->SetBGMSOUND(0.3f);
+	//g_pSoundManager->SetSFXSOUND(0.3f);
 	g_pSoundManager->PlayBGM();
 
 }

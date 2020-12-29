@@ -4,6 +4,7 @@
 #include "PaladinState.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
+#include "FontManager.h"
 #include "FontTmp.h"
 
 #include "Paladin.h"
@@ -1184,15 +1185,58 @@ int cPaladin::SearchDebuff(int debuff)
 	return false;
 }
 
-void cPaladin::AddCollisionInfo(int nTag, CollisionInfo Info,float fDmg)
+void cPaladin::AddCollisionInfo(
+	int nTag, CollisionInfo Info,
+	float fDMG, bool bDamageType,
+	float fStunDamage, float fRigidDamage)
 {
 	if (m_isInvincible)
 		return;
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 
-	float fResult = fDmg - m_Melee_Defense;
+	// 밑에서 데미지처리
+	srand(GetTickCount());
 
-	m_Hp = m_Hp - fResult;
+	float fResult = 0;
+	if (bDamageType)
+	{
+		fResult = fDMG - m_Melee_Defense;
+	}
+	else
+	{
+		fResult = fDMG - m_Elemental_Defense;
+	}
+
+	if (0 >= fResult )
+		return;
+
+	//GenerateRandomNum(); <<
+	random_device rd;
+	mt19937_64 gen(rd());
+	uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
+
+	fResult = fResult + randNum(gen);
+
+	m_Hp = m_Hp - (int)fResult;
+	if (0 > m_Hp)
+	{
+		m_Hp = 0;
+	}
+
+	// 이 아래에서 폰트띄우기
+	{
+		cFontTmp* pFontTest = new cFontTmp;
+		pFontTest->Tagging(TAG_UI::TagUI_Damage);
+
+		pFontTest->Setup(to_string((int)fResult), eFontType::FONT_SYSTEM);
+		D3DXVECTOR3 vPos = m_vPos;
+		vPos.y += 30;
+		pFontTest->SetPos(vPos);
+
+		ObjectManager->AddUIChild(pFontTest);
+	}
+
+
 }
 
 

@@ -64,10 +64,7 @@ void ObjectPool::Update()
 			pos.y = fHeight + 20.0f;
 			vecObjectList.at(i)->SetPos(pos);
 			vecObjectList.at(i)->CollisionInfoCheck();
-
-
 		}
-
 	}
 
 
@@ -88,13 +85,21 @@ void ObjectPool::Update()
 			++it;
 	}
 
+	it = vecUserInterface.begin();
+	for (; it != vecUserInterface.end();)
+	{
+		if ((*it)->m_isDelete)
+			it = vecUserInterface.erase(it);
+		else
+			++it;
+	}
+
 }
 
 void ObjectPool::Render(D3DXMATRIXA16* pmat)
 {
 	g_pD3DDevice->Clear(0, 0, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	g_pD3DDevice->BeginScene();
-
 
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
@@ -146,7 +151,6 @@ void ObjectPool::AddStaticChild(cObject* obj)
 		obj->SetIndex(vecObjectList.size());
 		vecObjectList.push_back(obj);
 	}
-
 }
 
 void ObjectPool::Revert()
