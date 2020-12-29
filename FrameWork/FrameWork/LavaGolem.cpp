@@ -16,6 +16,8 @@
 #include "PaladinState.h"
 #include "SoundManager.h"
 #include "jsonManager.h"
+#include "FontManager.h"
+#include "FontTmp.h"
 
 #include "LavaRun.h"
 #pragma once
@@ -59,10 +61,10 @@ void cLavaGolem::Setup()
 	m_fSpeed = json_object_get_number(pSubmonObject, "Speed");
 	m_fCurrentHP = m_fMaxHP;
 
-	cout << "SubMonster jsonValue  LavaGolem MAX HP : " << m_fMaxHP << endl;
-	cout << "SubMonster jsonValue  LavaGolem Damage : " << m_fDamege << endl;
-	cout << "SubMonster jsonValue  LavaGolem AttackReach : " << m_fAttackReach << endl;
-	cout << "SubMonster jsonValue  LavaGolem Speed : " << m_fSpeed << endl;
+	//cout << "SubMonster jsonValue  LavaGolem MAX HP : " << m_fMaxHP << endl;
+	//cout << "SubMonster jsonValue  LavaGolem Damage : " << m_fDamege << endl;
+	//cout << "SubMonster jsonValue  LavaGolem AttackReach : " << m_fAttackReach << endl;
+	//cout << "SubMonster jsonValue  LavaGolem Speed : " << m_fSpeed << endl;
 #pragma endregion json
 
 	//m_pSkinnedMesh = new cSkinnedMesh(szFolder,szFileName);
@@ -239,11 +241,6 @@ void cLavaGolem::Request(int state)
 		//	m_pMaster->SubtractGolem();
 		return;
 	}
-
-
-
-	
-
 }
 
 int cLavaGolem::GetStateIndex()
@@ -268,7 +265,10 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 			CollisionInfo info;
 			info.dwCollsionTime = GetTickCount();
 			info.dwDelayTime = 1300;
-			pObject->AddCollisionInfo(m_nTag, info);
+
+			float fDamage = m_fDamege;
+
+			pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 0.0f, 0.0f);
 		}
 	}
 
@@ -370,4 +370,25 @@ void cLavaGolem::HitSound()
 {
 	g_pSoundManager->PlaySFX(GenerateRandomNum((int)eSoundList::Golem_Hit1, (int)eSoundList::Golem_Hit4));
 	return;
+}
+
+void cLavaGolem::AddCollisionInfo(
+	int nTag, CollisionInfo Info,
+	float fDMG, bool bDamageType,
+	float fStunDamage, float fRigidDamage)
+{
+	m_fCurrentHP -= fDMG;
+
+	// 이 아래에서 폰트띄우기
+	{
+		cFontTmp* pDamageFont = new cFontTmp;
+		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
+
+		pDamageFont->Setup("HIT !", eFontType::FONT_SYSTEM);
+		D3DXVECTOR3 vPos = m_vPos;
+		vPos.y += 30;
+		pDamageFont->SetPos(vPos);
+
+		ObjectManager->AddUIChild(pDamageFont);
+	}
 }

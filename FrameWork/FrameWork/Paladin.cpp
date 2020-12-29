@@ -783,12 +783,10 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
-				//pObject->AddCollisionInfo(m_nTag, info);
 
 				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
 
 #pragma region Paladin to Monster damage
-
 				// To BOSS
 				if (pObject->GetTag() == Tag::Tag_Boss)
 				{
@@ -801,12 +799,12 @@ void cPaladin::CollisionProcess(cObject* pObject)
 						//if (0.5 > (float)rand() / (float)32767)
 						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1 - pDragon->GetPhysicDefence();
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1;
 							cout << "ATTACK 1 Critical HIT" << endl;
 						}
 						else
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1 - pDragon->GetPhysicDefence();
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1;
 							cout << "ATTACK 1 HIT" << endl;
 						}
 					}
@@ -815,12 +813,12 @@ void cPaladin::CollisionProcess(cObject* pObject)
 					{
 						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2 - pDragon->GetPhysicDefence();
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2;
 							cout << "ATTACK 2 Critical HIT" << endl;
 						}
 						else
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2 - pDragon->GetPhysicDefence();
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2;
 							cout << "ATTACK 2 HIT" << endl;
 						}
 					}
@@ -829,37 +827,34 @@ void cPaladin::CollisionProcess(cObject* pObject)
 					{
 						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3 - pDragon->GetPhysicDefence();
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3;
 							cout << "ATTACK 3 Critical HIT" << endl;
 						}
 						else
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3 - pDragon->GetPhysicDefence();
+							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3;
 							cout << "ATTACK 3 HIT" << endl;
 						}
 					}
 
 					if (0 < iDamage)
 					{
-						//pDragon->SetCURHP(pDragon->GetCURHP() - iDamage);
-						//pDragon->SetSTUN(pDragon->GetSTUN() + (iDamage * m_Attack_StunRate));
-						//pDragon->SetRigid(pDragon->GetRigid() + (iDamage * m_Attack_RigidRate));
-						cout << "BOSS Stun gauge : " << pDragon->GetSTUN() << endl;
-						cout << "BOSS Rigid gauge : " << pDragon->GetRigid() << endl;
-						cout << "BOSS Current HP : " << pDragon->GetCURHP() << endl;
+						pObject->AddCollisionInfo(m_nTag, info, iDamage, true, 10.0f);
 
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetSTUN(), " Dragon Stun Gauge");
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetRigid(), " Dragon Rigid Gauge");
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetCURHP(), " Dragon Current HP");
 
-						{ // 데미지 텍스트 출력할 공간
+						{ // TODO 데미지 텍스트 출력할 공간
 							
 						}
-
 					}
 				}
 
 				// To LavaGolem // 테스트 안됨
 				if (pObject->GetTag() == Tag::Tag_LavaGolem)
 				{
-					//pObject->AddCollisionInfo(CollisionInfo, 1.0f);
+					pObject->AddCollisionInfo(m_nTag, info, 1);
 				}
 #pragma endregion 
 			}
@@ -1256,15 +1251,15 @@ void cPaladin::AddCollisionInfo(
 
 	// 이 아래에서 폰트띄우기
 	{
-		cFontTmp* pFontTest = new cFontTmp;
-		pFontTest->Tagging(TAG_UI::TagUI_Damage);
+		cFontTmp* pDamageFont = new cFontTmp;
+		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
 
-		pFontTest->Setup(to_string((int)fResult), eFontType::FONT_SYSTEM);
+		pDamageFont->Setup(to_string((int)fResult), eFontType::FONT_SYSTEM);
 		D3DXVECTOR3 vPos = m_vPos;
 		vPos.y += 30;
-		pFontTest->SetPos(vPos);
+		pDamageFont->SetPos(vPos);
 
-		ObjectManager->AddUIChild(pFontTest);
+		ObjectManager->AddUIChild(pDamageFont);
 	}
 
 	// 스턴치 경직치 처리

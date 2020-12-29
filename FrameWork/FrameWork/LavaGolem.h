@@ -28,7 +28,8 @@ private:
 	bool		m_IsDead;
 	float		m_fAttackReach;
 	float		m_fSpeed;
-	Synthesize(cSkinnedMesh*,m_pMg_Attack,Attack);
+
+	Synthesize(cSkinnedMesh*, m_pMg_Attack,Attack);
 	Synthesize(cSkinnedMesh*, m_pMg_Die, Die);
 	Synthesize(cSkinnedMesh*, m_pMg_Run, Run);
 	Synthesize(bool, m_IsAttack, IsAttack);
@@ -51,6 +52,10 @@ public:
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
 	int		GetStateIndex();
 	virtual void CollisionProcess(cObject* pObject) override;
+	void AddCollisionInfo(
+		int nTag, CollisionInfo Info,
+		float fDMG, bool bDamageType,
+		float fStunDamage, float fRigidDamage);
 	void HitSound() override;
 };
 

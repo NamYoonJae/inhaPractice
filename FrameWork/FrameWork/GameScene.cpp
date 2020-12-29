@@ -232,7 +232,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	cSwampB* pSwampB = new cSwampB;
 	pSwampB->Setup(Tag::Tag_SwampB);
-	pSwampB->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
+	pSwampB->SetPos(D3DXVECTOR3(100.0f, 10.0f, 0.0f));
 	ObjectManager->AddChild(pSwampB);
 	
 

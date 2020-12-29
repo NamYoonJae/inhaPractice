@@ -22,6 +22,12 @@ private:
 	std::vector<ST_PC_VERTEX>		m_ExplosionParticle;
 	std::vector<D3DXVECTOR3>		m_ExplosionDir;
 
+	float m_fPhysicDamage;
+	float m_fElementalDamage;
+
+	float m_fPhysicRate;
+	float m_fElementalRate;
+
 public:
 	cFireBall();
 	~cFireBall();

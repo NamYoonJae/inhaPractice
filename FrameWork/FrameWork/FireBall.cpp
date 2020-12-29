@@ -4,6 +4,7 @@
 #include "ShaderManager.h"
 #include "cOBB.h"
 #include "Paladin.h"
+#include "jsonManager.h"
 #define once
 #define X_Radian 25.0f
 #pragma once
@@ -128,8 +129,17 @@ void cFireBall::Setup()
 		m_vecVertexParticle[i].p += m_vPos;
 	}
 
+#pragma region json
+	JSON_Object* p_ROOT_Object = g_p_jsonManager->get_json_object_Stage_B();
+	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS");
+	JSON_Object* p_Extra_object = json_Function::object_get_object(p_ROOT_Object, "Stage B/Extra Pattern/");
 
+	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_Object, "Attack/Melee");
+	m_fElementalDamage = json_Function::object_get_double(p_BOSS_Object, "Attack/Elemental");
 
+	m_fPhysicRate = json_Function::object_get_double(p_Extra_object, "FireBall/Attribute/Melee rate");
+	m_fElementalRate = json_Function::object_get_double(p_Extra_object, "FireBall/Attribute/Elemental rate");
+#pragma endregion json
 }
 
 void cFireBall::Update()
@@ -408,8 +418,13 @@ void cFireBall::CollisionProcess(cObject * pObject)
 			CollisionInfo info;
 			info.dwCollsionTime = GetTickCount();
 			info.dwDelayTime = m_dwExplosionTime;
-			pObject->AddCollisionInfo(m_nTag, info);
+
+			float fDamage = m_fPhysicDamage * m_fPhysicRate;
+
 			// damage
+			pObject->AddCollisionInfo(m_nTag, info, fDamage, false, 0.0f, 0.0f);
+
+			// TODO 다음 조건문이 뭔지 물어보기
 
 			if (m_IsExplosion == false)
 			{

@@ -11,6 +11,12 @@ private:
 	D3DXVECTOR3 *m_pvDragon;
 	DWORD	m_dwStartTime;
 
+	float m_fPhysicDamage;
+	float m_fElementalDamage;
+
+	float m_fPhysicRate;
+	float m_fElementalRate;
+
 	Synthesize(D3DXMATRIXA16*, m_pmatHead, Head);
 	Synthesize(DWORD, m_dwDurationTime, DurationTime);
 

@@ -38,9 +38,14 @@ void cSwampB::Setup(Tag T)
 	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
 	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
 	m_Flood_Condition = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
-																										 //m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
 	m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
+	m_Flood_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Melee rate");
+	m_Flood_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Elemental rate");
 
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_fPhysicDamage, "보스 물리데미지");
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_dwDurationTime, "보스 장판 지속시간");
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_Flood_Physic_Rate, "보스 장판 물리 계수");
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_Flood_Elemental_Rate, "보스 장판 속성 계수");
 
 	m_dwElapsedTime = GetTickCount();
 	m_dwDurationTime = json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Duration");
@@ -152,8 +157,6 @@ void cSwampB::Update()
 
 	if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
 	{
-
-
 		if (m_pOBB)
 		{		
 			matWorld = matR * matT;
@@ -163,6 +166,11 @@ void cSwampB::Update()
 		m_dwStateStartTime = GetTickCount();
 	}
 
+
+	if (GetTickCount() - m_dwElapsedTime > m_dwDurationTime)
+	{
+		m_isDelete = true;
+	}
 }
 
 void cSwampB::Render(D3DXMATRIXA16 * pmat)
@@ -253,21 +261,23 @@ void cSwampB::CollisionProcess(cObject * pObject)
 
 		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
 
-		if (cOBB::IsCollision(m_pOBB, pBody))
+		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible())
 		{
 			switch (m_nTag)
 			{
 			case Tag::Tag_SwampB:
 			{
-				//cout << "false" << endl;
+				CollisionInfo info;
+				info.dwCollsionTime = GetTickCount();
+				info.dwDelayTime = 3000;
+
+				float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
+
+				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", fDamage, "장판에 받은 데미지");
+				pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
 			}
-			//  데미지를 주는 오브젝트
-			//  여기서 데미지 처리
-			//  주는 데미지 = m_fPhysicDamage* m_Flood_Physic_Rate + m_fElementalDamage * m_Flood_Elemental_Rate;
 			break;
 			}
 		}
-
-
 	}
 }

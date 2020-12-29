@@ -5,6 +5,8 @@
 #include "AllocateHierarchy.h"
 #include "ObjectPool.h"
 #include "cCharater.h"
+#include "FontTmp.h"
+#include "FontManager.h"
 
 #include "SoulEaterState.h"
 #include "SoulEater_Idle.h"
@@ -869,6 +871,58 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 		}
 	}
 }
+
+void cDragonSoulEater::AddCollisionInfo(
+	int nTag, CollisionInfo Info,
+	float fDMG, bool bDamageType,
+	float fStunDamage, float fRigidDamage)
+{
+	float fResult = 0;
+
+	if (bDamageType)
+		fResult = fDMG - m_fPhysicsDefence;
+	else
+		fResult = fDMG - m_fElementalDefence;
+
+	if (0 >= fResult)
+		return;
+
+	//GenerateRandomNum(); <<
+	random_device rd;
+	mt19937_64 gen(rd());
+	uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
+
+	fResult = fResult + randNum(gen);
+
+	m_fCurHeathpoint -= fResult;
+
+	// 이 아래에서 폰트띄우기
+	{
+		cFontTmp* pDamageFont = new cFontTmp;
+		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
+
+		pDamageFont->Setup(to_string((int)fResult), eFontType::FONT_SYSTEM);
+		D3DXVECTOR3 vPos = m_vPos;
+		vPos.y += 30;
+		pDamageFont->SetPos(vPos);
+
+		ObjectManager->AddUIChild(pDamageFont);
+	}
+
+
+	// 맞았을 떄 분노 게이지 얼마나 차는지
+	// m_RageRate += ???;
+
+	// 스턴치 경직치 처리
+	if (0 < fStunDamage)
+		m_Stun_Rate += fStunDamage;
+
+	if( 0 < fRigidDamage )
+		m_Rigid_Rate += fRigidDamage;
+
+
+}
+
 
 void cDragonSoulEater::LegacyRequest()
 {	

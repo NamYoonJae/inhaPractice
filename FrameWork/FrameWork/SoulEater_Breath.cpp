@@ -13,13 +13,6 @@ cSoulEater_Breath::cSoulEater_Breath()
 	m_nCurentIndex = 7;
 	m_IsAnimBlend = false;
 	//m_Breath_Duration = 5000.0f;
-
-	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
-
-	m_Breath_Duration = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
-	m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
-	m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
 }
 
 cSoulEater_Breath::cSoulEater_Breath(cDragonSoulEater* pDragon)
@@ -29,13 +22,14 @@ cSoulEater_Breath::cSoulEater_Breath(cDragonSoulEater* pDragon)
 	m_IsAnimBlend = false;
 	//m_Breath_Duration = 5000.0f;
 
+#pragma region json
 	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
 	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
 
 	m_Breath_Duration = (DWORD)json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
 	m_Breath_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
 	m_Breath_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");
-
+#pragma endregion json
 
 	D3DMATERIAL9 Mstl;
 	ZeroMemory(&Mstl, sizeof(D3DMATERIAL9));

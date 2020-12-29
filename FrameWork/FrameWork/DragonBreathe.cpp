@@ -21,8 +21,18 @@ cDragonBreathe::cDragonBreathe()
 
 	JSON_Object* p_ROOT_Object = g_p_jsonManager->get_json_object_Stage_B();
 	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS");
+	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS SKILL/");
 
-	m_dwDurationTime = 5000.0f; // << json에 추가할것
+	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_Object, "Attack/Melee");
+	m_fElementalDamage = json_Function::object_get_double(p_BOSS_Object, "Attack/Elemental");
+
+	m_dwDurationTime = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
+	m_fPhysicRate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Melee rate");
+	m_fElementalRate = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Elemental rate");;
+
+	//m_dwDurationTime = 5000.0f;
+
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", m_dwDurationTime, "Breath Duration");
 }
 
 
@@ -242,11 +252,12 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 			CollisionInfo info;
 			info.dwCollsionTime = GetTickCount();
 			info.dwDelayTime = m_dwDurationTime;
-			pObject->AddCollisionInfo(m_nTag, info);
+
+			float fDamage = m_fPhysicDamage * m_fPhysicRate;
+
+			pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 0.0f, 0.0f);
 
 			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Breath Hit");
-
-
 		}
 	}
 }
