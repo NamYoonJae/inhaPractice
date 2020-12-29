@@ -256,6 +256,12 @@
     <ClCompile Include="GameClearSceneUIEvent.cpp">
       <Filter>Code\UI\UIEvent</Filter>
     </ClCompile>
+    <ClCompile Include="SwampA.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClCompile>
+    <ClCompile Include="SwampB.cpp">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -521,6 +527,12 @@
     </ClInclude>
     <ClInclude Include="GameClearSceneUIEvent.h">
       <Filter>Code\UI\UIEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="SwampA.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClInclude>
+    <ClInclude Include="SwampB.h">
+      <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

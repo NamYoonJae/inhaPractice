@@ -44,6 +44,10 @@
 #include "ArenaMap.h"
 #pragma once
 
+//
+#include "SwampA.h"
+#include "SwampB.h"
+
 
 cGameScene::cGameScene(SceneType T)
 	:cScene(T)
@@ -206,7 +210,7 @@ void cGameScene::Setup() // boss1map  boss2map
 #pragma region Map Object
 
 
-
+	/*
 	cSwamp* pSwamp1 = new cSwamp;
 	pSwamp1->Setup(Tag::Tag_SwampA);
 	pSwamp1->SetPos(D3DXVECTOR3(150.0f, 10.0f, 50.0f));
@@ -214,9 +218,24 @@ void cGameScene::Setup() // boss1map  boss2map
 	
 	cSwamp* pSwamp2 = new cSwamp;
 	pSwamp2->Setup(Tag::Tag_SwampB);
-	pSwamp2->SetPos(D3DXVECTOR3(220.0f, 0.0f, 120.0f));
+	pSwamp2->SetPos(D3DXVECTOR3(220.0f, 10.0f, 120.0f));
 	ObjectManager->AddChild(pSwamp2);
+	*/
+
+
 	
+	cSwampA* pSwampA = new cSwampA;
+	pSwampA->Setup(Tag::Tag_SwampA);
+	pSwampA->SetPos(D3DXVECTOR3(150.0f, 10.0f, 50.0f));
+	ObjectManager->AddChild(pSwampA);
+
+	
+	cSwampB* pSwampB = new cSwampB;
+	pSwampB->Setup(Tag::Tag_SwampB);
+	pSwampB->SetPos(D3DXVECTOR3(0.0f, 10.0f, 0.0f));
+	ObjectManager->AddChild(pSwampB);
+	
+
 	///BGM
 	g_pSoundManager->AddBGM("data/Sound/BGM/NW_Battle_BGM.mp3");
 	g_pSoundManager->SetBGMSOUND(0.3f);

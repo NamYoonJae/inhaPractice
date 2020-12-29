@@ -222,6 +222,8 @@
     <ClInclude Include="SoulEater_Idle.h" />
     <ClInclude Include="InGamePauseMenuUIEvent.h" />
     <ClInclude Include="Swamp.h" />
+    <ClInclude Include="SwampA.h" />
+    <ClInclude Include="SwampB.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TitleSceneUIEvent.h" />
     <ClInclude Include="EventManager.h" />
@@ -311,6 +313,8 @@
     <ClCompile Include="SoulEater_Idle.cpp" />
     <ClCompile Include="InGamePauseMenuUIEvent.cpp" />
     <ClCompile Include="Swamp.cpp" />
+    <ClCompile Include="SwampA.cpp" />
+    <ClCompile Include="SwampB.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TitleSceneUIEvent.cpp" />
     <ClCompile Include="EventManager.cpp" />
