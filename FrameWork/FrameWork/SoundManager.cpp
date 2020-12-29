@@ -38,7 +38,7 @@ void cSoundManager::init()
 
 	{
 		string szFullPath;
-		string szPathHead = "data/Sound/SFX/Paladin/NW_Move ";
+		string szPathHead = "data/Sound/Paladin/Effect/NW_Move ";
 		string szPathTail = ".mp3";
 		
 		for(int i = Paladin_Move1; i <= Paladin_Move8; i++)
@@ -46,6 +46,50 @@ void cSoundManager::init()
 			szFullPath = szPathHead + to_string(i) + szPathTail;
 			AddSFX(szFullPath, i);
 		}
+		szPathHead = "data/Sound/Paladin/Effect/NW_Hit_Effect ";
+		for (int i = Paladin_Hit1; i <= Paladin_Hit4; i++)
+		{
+			szFullPath = szPathHead + to_string(i - Paladin_Hit1 + 1) + szPathTail;
+			AddSFX(szFullPath, i);
+		}
+		szPathHead = "data/Sound/Paladin/Voice/NW_Hit_Voice ";
+		for (int i = Paladin_Hit_Voice1; i <= Paladin_Hit_Voice4; i++)
+		{
+			szFullPath = szPathHead + to_string(i - Paladin_Hit_Voice1 + 1) + szPathTail;
+			AddSFX(szFullPath, i);
+		}
+		szPathHead = "data/Sound/Paladin/Effect/NW_Attack_Swish ";
+		for (int i = Paladin_Attack_Swing1; i <= Paladin_Attack_Swing3; i++)
+		{
+			szFullPath = szPathHead + to_string(i - Paladin_Attack_Swing1 + 1) + szPathTail;
+			AddSFX(szFullPath, i);
+		}
+		szPathHead = "data/Sound/Paladin/Effect/NW_Attack_Effect ";
+		for (int i = Paladin_Attack_Hit1; i <= Paladin_Attack_Hit4; i++)
+		{
+			szFullPath = szPathHead + to_string(i - Paladin_Attack_Hit1 + 1) + szPathTail;
+			AddSFX(szFullPath, i);
+		}
+		szPathHead = "data/Sound/Paladin/Voice/NW_Attack_Voice ";
+		for (int i = Paladin_Attack_Voice1; i <= Paladin_Attack_Voice4; i++)
+		{
+			szFullPath = szPathHead + to_string(i - Paladin_Attack_Voice1 + 1) + szPathTail;
+			AddSFX(szFullPath, i);
+		}
+		szPathHead = "data/Sound/Paladin/Effect/NW_Death_Effect ";
+		for (int i = Paladin_Death1; i <= Paladin_Death2; i++)
+		{
+			szFullPath = szPathHead + to_string(i - Paladin_Death1 + 1) + szPathTail;
+			AddSFX(szFullPath, i);
+		}
+		
+		szPathHead = "data/Sound/Paladin/Voice/";
+		AddSFX(szPathHead + string("NW_Death_Voice") + szPathTail, Paladin_Death_Voice);
+		AddSFX(szPathHead + string("NW_Roll_Voice") + szPathTail, Paladin_Roll_Voice);
+		AddSFX(szPathHead + string("NW_Faint_Voice") + szPathTail, Paladin_Stun_Voice);
+		AddSFX("data/Sound/Paladin/Effect/NW_Roll_Effect.mp3", Paladin_Roll);
+		AddSFX("data/Sound/Paladin/Voice/NW_Dragon_Voice.mp3", Paladin_Dragon_Voice);
+		AddSFX("data/Sound/Paladin/Voice/NW_Shout_Voice.mp3", Paladin_SkyBizz_Voice);
 	}
 
 	{

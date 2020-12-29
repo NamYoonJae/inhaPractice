@@ -16,14 +16,22 @@ using namespace FMOD;
 
 enum eSoundList
 {
-	Paladin_Move1 = 0,
-	Paladin_Move2,
-	Paladin_Move3,
-	Paladin_Move4,
-	Paladin_Move5,
-	Paladin_Move6,
-	Paladin_Move7,
-	Paladin_Move8,
+	Paladin_Move1 = 0, Paladin_Move2, Paladin_Move3, Paladin_Move4,
+	Paladin_Move5,     Paladin_Move6, Paladin_Move7, Paladin_Move8,
+	
+	Paladin_Hit1,	Paladin_Hit2,	Paladin_Hit3,	Paladin_Hit4,
+	Paladin_Hit_Voice1, Paladin_Hit_Voice2, Paladin_Hit_Voice3, Paladin_Hit_Voice4,
+	
+	Paladin_Attack_Swing1,	Paladin_Attack_Swing2,	Paladin_Attack_Swing3,
+	Paladin_Attack_Hit1,	Paladin_Attack_Hit2, 	Paladin_Attack_Hit3,	Paladin_Attack_Hit4,
+	Paladin_Attack_Voice1,	Paladin_Attack_Voice2,	Paladin_Attack_Voice3,  Paladin_Attack_Voice4,
+	Paladin_Death1,			Paladin_Death2,
+	Paladin_Death_Voice,
+	Paladin_Roll,
+	Paladin_Roll_Voice,
+	Paladin_Stun_Voice,
+	Paladin_Dragon_Voice,
+	Paladin_SkyBizz_Voice,
 	
 	Dragon_Move0,
 	Dragon_Move1,

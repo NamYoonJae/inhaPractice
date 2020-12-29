@@ -182,6 +182,8 @@
     <ClInclude Include="PaladinIdle.h" />
     <ClInclude Include="PaladinMove.h" />
     <ClInclude Include="LavaFlood.h" />
+    <ClInclude Include="PaladinSpecialAttack.h" />
+    <ClInclude Include="PaladinStun.h" />
     <ClInclude Include="Rune.h" />
     <ClInclude Include="SoulEater_Breath.h" />
     <ClInclude Include="SoulEater_Die.h" />
@@ -273,6 +275,8 @@
     <ClCompile Include="PaladinIdle.cpp" />
     <ClCompile Include="PaladinMove.cpp" />
     <ClCompile Include="LavaFlood.cpp" />
+    <ClCompile Include="PaladinSpecialAttack.cpp" />
+    <ClCompile Include="PaladinStun.cpp" />
     <ClCompile Include="Rune.cpp" />
     <ClCompile Include="SoulEater_Breath.cpp" />
     <ClCompile Include="SoulEater_Die.cpp" />

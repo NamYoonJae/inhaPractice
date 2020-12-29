@@ -1,20 +1,19 @@
 #pragma once
 #include "PaladinState.h"
 
-class cPaladinAttack : public cPaladinState
+class cPaladinStun : public cPaladinState
 {
 private:
+	bool m_isHardStun;
 	DWORD m_dAnimStartTime;
 	int   m_nComboTimeLimit;
 	bool  m_IsComboAttack;
 public:
-	cPaladinAttack(cPaladin* pPaladin);
-	~cPaladinAttack();
+	cPaladinStun(cPaladin* pPaladin, bool isHardStun);
+	~cPaladinStun();
 
 	void StateUpdate() override;
-	void ComboAttack();
-
-	void PlaySound();
 	void PlayVoice();
+	void PlaySound();
 };
 

@@ -262,6 +262,12 @@
     <ClCompile Include="SwampB.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClCompile>
+    <ClCompile Include="PaladinSpecialAttack.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClCompile>
+    <ClCompile Include="PaladinStun.cpp">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -534,6 +540,12 @@
     <ClInclude Include="SwampB.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClInclude>
+    <ClInclude Include="PaladinSpecialAttack.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
+    <ClInclude Include="PaladinStun.h">
+      <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">
@@ -635,9 +647,6 @@
     <Filter Include="Code\ObjFile\ObjObject">
       <UniqueIdentifier>{837f631c-c969-4b83-9f08-465eaf21b3c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\TextureManager">
-      <UniqueIdentifier>{38c36455-2c02-4665-9305-f2940292be81}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Object Composite">
       <UniqueIdentifier>{c491b620-7d22-4660-9af5-a30185c7835e}</UniqueIdentifier>
     </Filter>
@@ -712,6 +721,9 @@
     </Filter>
     <Filter Include="Code\Map\Arena">
       <UniqueIdentifier>{b9c3a5b4-7fb1-4521-badf-4a30e1ea269f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\TextureManager">
+      <UniqueIdentifier>{38c36455-2c02-4665-9305-f2940292be81}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
