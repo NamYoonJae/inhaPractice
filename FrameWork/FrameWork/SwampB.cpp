@@ -19,6 +19,9 @@ cSwampB::cSwampB()
 	//, m_Flood_Condition // string
 	, m_Flood_Condition_Rate(0)
 	, m_pTex0(NULL)
+	, m_dwStateStartTime(GetTickCount())
+	, m_dwPreparationTime(1000.0f)
+	, m_RotY(0.0f)
 {
 }
 
@@ -44,7 +47,7 @@ void cSwampB::Setup(Tag T)
 
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
-	m_vPos = D3DXVECTOR3(0, 0.0, 0);
+	m_vPos = D3DXVECTOR3(0, 0, 0);
 
 	// 스케일 적용
 	//m_vScale = D3DXVECTOR3(0.3, 0.001, 0.3); 
@@ -139,25 +142,37 @@ void cSwampB::Update()
 	//	}
 	//}
 
-	if (m_pOBB)
-	{
-		D3DXMATRIXA16 matWorld, matT;
-		D3DXMatrixIdentity(&matWorld);
-		D3DXMatrixIdentity(&matT);
-		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMATRIXA16 matWorld, matR, matT;
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixIdentity(&matT);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMatrixRotationY(&matR, m_RotY);
 
-		matWorld = matT;
-		m_pOBB->Update(&matWorld);
+
+	if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
+	{
+
+
+		if (m_pOBB)
+		{		
+			matWorld = matR * matT;
+			m_pOBB->Update(&matWorld);
+		}
+		m_RotY += 1 / D3DX_PI * 0.03;
+		m_dwStateStartTime = GetTickCount();
 	}
+
 }
 
 void cSwampB::Render(D3DXMATRIXA16 * pmat)
 {
-	D3DXMATRIXA16 matWorld, matS, matT;
+	D3DXMATRIXA16 matWorld, matS, matT, matR;
 	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixRotationY(&matR, m_RotY);
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matWorld = matS * matT;
+	matWorld = matS * matR * matT;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
 	g_pD3DDevice->SetTexture(0, m_pTexcoord_B);

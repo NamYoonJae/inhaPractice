@@ -4,6 +4,7 @@
 #include "Swamp.h"
 #include "ObjectPool.h"
 #include "jsonManager.h"
+#include "SwampB.h"
 
 #pragma once
 
@@ -53,21 +54,21 @@ void cSoulEater_Flood::handle()
 	else if(m_IsTrigger && (GetTickCount() -  m_dwElapsedTime >= m_dwCoolTime))
 	{
 		m_IsTrigger = false;
-		cSwamp *pSwamp = new cSwamp;
-		pSwamp->Setup(Tag::Tag_SwampB);
-		pSwamp->SetPos(m_vAttackTarget);
-		pSwamp->SetDuration(json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/SKILL 3/Attribute/Duration")); // 장판공격 지속시간 처리
+		cSwampB *pSwampB = new cSwampB;
+		pSwampB->Setup(Tag::Tag_SwampB);
+		pSwampB->SetPos(m_vAttackTarget);
+		pSwampB->SetDuration(json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/SKILL 3/Attribute/Duration")); // 장판공격 지속시간 처리
 
 		D3DXVECTOR3 vec3SwampSize(
 			(float)json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/SKILL 3/Attribute/Radius"),
 			0.001f,
 			(float)json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/SKILL 3/Attribute/Radius")
 		);
-		pSwamp->SetScale(vec3SwampSize);
+		pSwampB->SetScale(vec3SwampSize);
 
 
 		//pSwamp->Tagging(Tag::Tag_SwampB);
-		ObjectManager->AddChild(pSwamp);
+		ObjectManager->AddChild(pSwampB);
 		m_nCntSwamp++;
 	}
 

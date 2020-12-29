@@ -271,6 +271,7 @@
     <ClCompile Include="FontTmp.cpp">
       <Filter>Code\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Shadow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -552,6 +553,7 @@
     <ClInclude Include="FontTmp.h">
       <Filter>Code\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Shadow.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="FrameWork.ico">

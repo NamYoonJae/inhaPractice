@@ -281,10 +281,7 @@ void cOrb::Render(D3DXMATRIXA16 * pmat)
 		if (m_pOBB)
 			m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 255, 255, 0));
 
-		/*
-		if (m_pSubOBB)
-			m_pSubOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 0, 255, 255));
-		*/
+
 	}
 }
 

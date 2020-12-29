@@ -45,7 +45,7 @@ void cSwampA::Setup(Tag T)
 
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
-	m_vPos = D3DXVECTOR3(0, 0.0, 0);
+	m_vPos = D3DXVECTOR3(0, 0, 0);
 
 	// 스케일 적용
 	//m_vScale = D3DXVECTOR3(0.3, 0.001, 0.3); 

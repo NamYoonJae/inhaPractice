@@ -1,4 +1,5 @@
 #pragma once
+/*
 class cSwamp : public cObject
 {
 private:
@@ -34,3 +35,4 @@ public:
 	void CollisionProcess(cObject* pObject) override;
 };
 
+*/

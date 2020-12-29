@@ -5,7 +5,10 @@
 #include "Paladin.h"
 #include "jsonManager.h"
 #include "ObjectPool.h"
+#include "Shadow.h"
 #pragma once
+
+#define pos_y 20.56f
 
 cRune::cRune()
 	: m_OnOff(false)
@@ -15,6 +18,7 @@ cRune::cRune()
 	, m_Rune_Gauge(0)
 	, m_Rune_Gauge_require(100)
 	, m_Rune_Gauge_recharge(20)
+	, m_pShadow(NULL)
 {
 	m_nTag = Tag::Tag_RunStone;
 }
@@ -91,6 +95,10 @@ void cRune::Setup()
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(vMin, vMax);
 	
+
+	m_pShadow = new cShadow;
+	m_pShadow->Setup();
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 }
 
 void cRune::Setup(D3DXVECTOR3 position)
@@ -153,6 +161,9 @@ void cRune::Setup(D3DXVECTOR3 position)
 	m_pOBB = new cOBB;
 	m_pOBB->Setup(vMin, vMax);
 
+	m_pShadow = new cShadow;
+	m_pShadow->Setup();
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 }
 
 void cRune::Update()
@@ -227,7 +238,7 @@ void cRune::Render(D3DXMATRIXA16 * pmat)
 	D3DXMatrixIdentity(&matS);
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matR);
-	D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 
 	if (m_OnOff == false) 
@@ -250,6 +261,11 @@ void cRune::Render(D3DXMATRIXA16 * pmat)
 
 	if (m_pSubOBB)
 		m_pSubOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 0, 255, 255));
+
+	if (m_pShadow)
+	{
+		m_pShadow->Render();
+	}
 
 }
 

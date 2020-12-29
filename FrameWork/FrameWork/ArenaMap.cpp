@@ -6,6 +6,7 @@
 #include "DragonSoulEater.h"
 #include "ObjectPool.h"
 #include "Swamp.h"
+#include "SwampA.h"
 
 cArenaMap::cArenaMap()
 	:iMap()
@@ -341,8 +342,8 @@ void cArenaMap::DefaultRender()
 
 void cArenaMap::CreateSwamp()
 {
-	cSwamp* pSwamp = new cSwamp;
-	pSwamp->Setup(Tag::Tag_SwampA);
+	cSwampA* pSwampA = new cSwampA;
+	pSwampA->Setup(Tag::Tag_SwampA);
 	
 	srand(time(NULL));
 
@@ -355,7 +356,7 @@ void cArenaMap::CreateSwamp()
 	float fSwampZ = randNumZ(gen);
 
 	D3DXVECTOR3 vSwampPos(fSwampX, 0, fSwampZ);
-	pSwamp->SetPos(vSwampPos);
-	pSwamp->SetScale(D3DXVECTOR3(0.5, 0.001, 0.5));
-	ObjectManager->AddChild(pSwamp);
+	pSwampA->SetPos(vSwampPos);
+	pSwampA->SetScale(D3DXVECTOR3(0.5, 0.001, 0.5));
+	ObjectManager->AddChild(pSwampA);
 }
