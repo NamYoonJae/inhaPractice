@@ -5,7 +5,7 @@
 #include "SoundManager.h"
 //#include "TimerManager.h"
 #include "FontManager.h"
-#include "font3d.h"
+#include "FontTmp.h"
 //#include "ObjObject.h"
 //#include "Observer.h"
 #include "cTerrain.h"

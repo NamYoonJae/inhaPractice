@@ -4,7 +4,7 @@
 #include "PaladinState.h"
 #include "TextureManager.h"
 #include "ShaderManager.h"
-#include "font3d.h"
+#include "FontTmp.h"
 
 #include "Paladin.h"
 
