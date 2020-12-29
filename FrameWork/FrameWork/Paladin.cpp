@@ -449,7 +449,11 @@ void cPaladin::Update()
 
 void cPaladin::Update(EventType event)
 {
-	if (m_isStuned) return;
+	if (m_isStuned)
+	{
+		m_fvelocity = 0;
+		return;
+	}
 	
 	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
 	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
@@ -1269,9 +1273,13 @@ void cPaladin::PlayAttackSound()
 
 void cPaladin::OnStun(bool isHardStun)
 {
-	SafeDelete(m_pCurState);
-	m_pCurState = new cPaladinStun(this, isHardStun);
-	m_IsStaminaState = true;
+	if(m_pCurState->GetStateIndex() != m_pCurState->BodyHit &&
+		m_pCurState->GetStateIndex() != m_pCurState->HeadHit)
+	{
+		SafeDelete(m_pCurState);
+		m_pCurState = new cPaladinStun(this, isHardStun);
+		m_IsStaminaState = true;
+	}
 }
 
 
