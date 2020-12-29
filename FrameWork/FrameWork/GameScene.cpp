@@ -4,7 +4,8 @@
 #include "Grid.h"
 #include "SoundManager.h"
 //#include "TimerManager.h"
-//#include "FontManager.h"
+#include "FontManager.h"
+#include "font3d.h"
 //#include "ObjObject.h"
 //#include "Observer.h"
 #include "cTerrain.h"
@@ -42,6 +43,7 @@
 #include "Wall.h"
 
 #include "ArenaMap.h"
+#include "Font.h"
 #pragma once
 
 //
@@ -153,8 +155,6 @@ void cGameScene::Setup() // boss1map  boss2map
 	ObjectManager->AddChild(m_pDragon);
 	
 #pragma region Map Object
-
-
 	JSON_Object* pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/1/Status/");
 	JSON_Array* pAryWallPos = json_object_get_array(pObj, "Position");
 	for (size_t i = 0; i < json_array_get_count(pAryWallPos); i++) // 배열의 크기만큼 벽을 생성
@@ -242,7 +242,17 @@ void cGameScene::Setup() // boss1map  boss2map
 	g_pSoundManager->SetSFXSOUND(0.3f);
 	g_pSoundManager->PlayBGM();
 	
-	//
+
+	//// Font
+	//{
+	//	cFontTmp* pFontTest = new cFontTmp;
+
+	//	pFontTest->Setup("tmp", eFontType::FONT_DAMAGE);
+	//	ObjectManager->AddChild(pFontTest);
+	//}
+
+
+
  }
 
 void cGameScene::Reset(int sceneType)

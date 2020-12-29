@@ -95,7 +95,7 @@ public:
 
 	bool m_isDelete;
 	virtual void CollisionProcess(cObject* pObject) {};
-	virtual void AddCollisionInfo(int,CollisionInfo);
+	virtual void AddCollisionInfo(int,CollisionInfo,float fDMG = 0.0f);
 	CollisionInfo* GetCollsionInfo(int nTag);
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
 	void CollisionInfoCheck();

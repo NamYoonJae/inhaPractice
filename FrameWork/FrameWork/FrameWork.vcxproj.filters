@@ -262,6 +262,9 @@
     <ClCompile Include="SwampB.cpp">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
     </ClCompile>
+    <ClCompile Include="FontTmp.cpp">
+      <Filter>Code\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundManager.h">
@@ -533,6 +536,9 @@
     </ClInclude>
     <ClInclude Include="SwampB.h">
       <Filter>Code\Object Composite\InstanceObject\DragonSoulEater\DragonShader</Filter>
+    </ClInclude>
+    <ClInclude Include="FontTmp.h">
+      <Filter>Code\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

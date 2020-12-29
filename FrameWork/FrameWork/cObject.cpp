@@ -294,7 +294,7 @@ void cObject::BuildBoneData(DWORD *BoneNum,
 		BuildBoneData(BoneNum, (D3DXFRAME*)Frame->pFrameFirstChild, pMesh);
 }
 
-void cObject::AddCollisionInfo(int nTag, CollisionInfo Info)
+void cObject::AddCollisionInfo(int nTag, CollisionInfo Info,float fDmg)
 {
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 }
