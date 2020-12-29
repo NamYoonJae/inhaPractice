@@ -817,6 +817,12 @@ void cPaladin::CollisionProcess(cObject* pObject)
 						cout << "BOSS Stun gauge : " << pDragon->GetSTUN() << endl;
 						cout << "BOSS Rigid gauge : " << pDragon->GetRigid() << endl;
 						cout << "BOSS Current HP : " << pDragon->GetCURHP() << endl;
+
+
+						{ // 데미지 텍스트 출력할 공간
+							
+						}
+
 					}
 				}
 
