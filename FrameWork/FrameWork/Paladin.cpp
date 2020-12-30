@@ -782,9 +782,13 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							fDamageRate = 1;
 							bDamageType = false;
 
-							if(0.8f > (float)m_Hp / (float)m_MaxHp)
+							JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
+							float RequireHPRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
+							float RestoreRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
+
+							if(RequireHPRate > (float)m_Hp / (float)m_MaxHp)
 							{
-								m_Hp = m_Hp + (int)(iDamage * 0.5f);
+								m_Hp = m_Hp + (int)(iDamage * RestoreRate);
 							}
 						}
 						break;
