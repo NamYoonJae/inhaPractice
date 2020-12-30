@@ -61,7 +61,7 @@ void ObjectPool::Update()
 				continue;
 			}
 
-			pos.y = fHeight + 20.0f;
+			pos.y = fHeight;
 			vecObjectList.at(i)->SetPos(pos);
 			vecObjectList.at(i)->CollisionInfoCheck();
 		}

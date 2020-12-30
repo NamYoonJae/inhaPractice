@@ -158,7 +158,7 @@ void cOrb::Update()
 		D3DXMatrixIdentity(&matW);
 		D3DXMatrixIdentity(&matT);
 		D3DXMatrixIdentity(&matR);
-		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y + 9.0f, m_vPos.z);
 
 		/*
 		matW = matR * matT;
@@ -213,7 +213,7 @@ void cOrb::Render(D3DXMATRIXA16 * pmat)
 		D3DXMatrixIdentity(&matR);
 		D3DXMatrixIdentity(&matT);
 		D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
-		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y + 9.0f, m_vPos.z);
 		D3DXMatrixRotationY(&matR, m_RotY);
 		matW = matS * matR * matT;
 		g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
