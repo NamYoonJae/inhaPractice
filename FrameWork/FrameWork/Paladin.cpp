@@ -1240,6 +1240,12 @@ void cPaladin::AddCollisionInfo(
 	}
 }
 
+void cPaladin::OnDeath()
+{
+	m_pSkinnedUnit->SetAnimationIndex(m_pCurState->Die);
+	PlayAttackSound();
+}
+
 void cPaladin::PlayAttackSound()
 {
 	int Min(Paladin_Attack_Hit1), Max(Paladin_Attack_Hit4);
