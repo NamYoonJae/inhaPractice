@@ -12,17 +12,18 @@ cFontTmp::cFontTmp()
     : m_dwElapsedTime(0)
     , m_dwDurationTime(1000) // 나중에 값 바꾸기
 	, m_p3DText(NULL)
+	, m_pTex(NULL)
 	, cObject()
 {
 }
 
 cFontTmp::~cFontTmp()
 {
-	
+	SafeRelease(m_pTex);
 	SafeRelease(m_p3DText);
 }
 
-void cFontTmp::Setup(string Text, eFontType type)
+void cFontTmp::Setup(string Text, eTextColortype type)
 {
     m_strText = Text;
 
@@ -40,34 +41,77 @@ void cFontTmp::Setup(string Text, eFontType type)
 	AddFontResourceA("data/Font/umberto.ttf");
 	wcscpy_s(lf.lfFaceName, L"umberto");
 
-	SetTextColor(hdc, RGB(255, 0, 0));
-	
-	//AddFontResource(L"data/Font/Bold.ttf");
-	//AddFontResourceA("data/Font/Bold.ttf");
-	//wcscpy_s(lf.lfFaceName, L"Bold");
-	//wcscpy_s(lf.lfFaceName, L"Algerian Regular");
-	//AddFontResourceA("data/Font/Algerian Regular.ttf");
-	//wcscpy_s(lf.lfFaceName, L"Algerian Regular");
-	
 
-    HFONT hFont;
-    HFONT hFontOld;
-    hFont = CreateFontIndirect(&lf);
-    hFontOld = (HFONT)SelectObject(hdc, hFont);
-	
-    D3DXCreateTextA(
+
+	HFONT hFont;
+	HFONT hFontOld;
+	hFont = CreateFontIndirect(&lf);
+	hFontOld = (HFONT)SelectObject(hdc, hFont);
+
+	D3DXCreateTextA(
 		g_pD3DDevice, hdc,
-        m_strText.c_str(),
-        0.001f,
-        0.01f,
-        &m_p3DText,
-        0, 0);
-	
-    SelectObject(hdc, hFontOld);
-    DeleteObject(hFont);
-    DeleteDC(hdc);
+		m_strText.c_str(),
+		0.001f,
+		0.01f,
+		&m_p3DText,
+		0, 0);
 
-    m_dwElapsedTime = GetTickCount();
+	SelectObject(hdc, hFontOld);
+	DeleteObject(hFont);
+	DeleteDC(hdc);
+
+	m_dwElapsedTime = GetTickCount();
+	
+	const int Mapsize = 64;
+	D3DXCreateTexture(g_pD3DDevice, Mapsize,Mapsize, 1, 0, 
+		D3DFMT_A8B8G8R8, 
+		D3DPOOL_MANAGED,
+		&m_pTex);
+
+	D3DLOCKED_RECT rect;
+	ZeroMemory(&rect, sizeof(D3DLOCKED_RECT));
+
+	if(FAILED(m_pTex->LockRect(0, &rect, 0, 0)))
+	{
+		cout << "failed" << endl;
+		return;
+	}
+	
+	BYTE* pByte;
+	pByte = (BYTE*)rect.pBits;
+	D3DXVECTOR4 RGBA;
+	switch (type)
+    {
+	case White:
+		RGBA.w = 0;
+		RGBA.x = 255;
+		RGBA.y = 255;
+		RGBA.z = 255;
+		break;
+	case Red:
+		RGBA.w = 0;
+		RGBA.x = 255;
+		RGBA.y = 0;
+		RGBA.z = 0;
+		break;
+    }
+
+	for(int i = 0; i < Mapsize; i++)
+	{
+		for(int j = 0; j < Mapsize; j++)
+		{
+			pByte[0] = RGBA.z;
+			pByte[1] = RGBA.y;
+			pByte[2] = RGBA.x;
+			pByte[3] = RGBA.w;
+
+			pByte += 4;
+		}
+	}
+
+	m_pTex->UnlockRect(0);
+	
+
 }
 
 void cFontTmp::Update()
@@ -91,8 +135,11 @@ void cFontTmp::RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix)
 {
     //3D글자가 매쉬로 이루어져 있다
 	Device->SetRenderState(D3DRS_LIGHTING, true);
-	Device->SetTexture(0, NULL);
-    D3DXMATRIXA16 matWorld, matS, matR, matT, matView;
+	if (m_pTex)
+		Device->SetTexture(0, m_pTex);
+	else
+		Device->SetTexture(0, NULL);
+	D3DXMATRIXA16 matWorld, matS, matR, matT, matView;
     D3DXMatrixIdentity(&matWorld);
     D3DXMatrixIdentity(&matS);
     D3DXMatrixIdentity(&matR);
@@ -113,9 +160,4 @@ void cFontTmp::RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix)
 	
 	Device->SetTransform(D3DTS_WORLD, &matWorld);
     m_p3DText->DrawSubset(0);
-}
-
-ID3DXMesh*	cFontTmp::Get3DText()
-{
-	
 }

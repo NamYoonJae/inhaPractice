@@ -389,7 +389,7 @@ void cLavaGolem::AddCollisionInfo(
 		cFontTmp* pDamageFont = new cFontTmp;
 		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
 
-		pDamageFont->Setup("HIT !", eFontType::FONT_SYSTEM);
+		pDamageFont->Setup("HIT !", eTextColortype::White);
 		D3DXVECTOR3 vPos = m_vPos;
 		vPos.y += 30;
 		pDamageFont->SetPos(vPos);
