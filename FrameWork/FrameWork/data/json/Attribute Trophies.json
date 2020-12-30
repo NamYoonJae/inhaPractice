@@ -19,7 +19,7 @@
       "Gauge cost": 20,
       "Gauge restore": 0.3,
       "Passive": {
-        "Increase speed": 600
+        "Increase speed": 30
       },
       "Active": {
         "Melee rate" : 1.5,

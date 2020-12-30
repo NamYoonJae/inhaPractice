@@ -17,7 +17,7 @@ enum eFontType
 {
 	FONT_DEFAULT,
 	FONT_SYSTEM,
-
+	FONT_PhaseShift
 };
 
 class cFontManager
