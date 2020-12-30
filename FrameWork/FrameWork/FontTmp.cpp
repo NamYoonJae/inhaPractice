@@ -114,8 +114,3 @@ void cFontTmp::RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix)
 	Device->SetTransform(D3DTS_WORLD, &matWorld);
     m_p3DText->DrawSubset(0);
 }
-
-ID3DXMesh*	cFontTmp::Get3DText()
-{
-	
-}
