@@ -39,8 +39,12 @@ void cFont3D::Setup(string Text, eTextColortype type)
     lf.lfUnderline = false;
     lf.lfStrikeOut = false;
     lf.lfCharSet = DEFAULT_CHARSET;
-	AddFontResourceA("data/Font/umberto.ttf");
-	wcscpy_s(lf.lfFaceName, L"umberto");
+	//AddFontResourceA("data/Font/umberto.ttf");
+	//wcscpy_s(lf.lfFaceName, L"umberto");
+	//AddFontResourceA("data/Font/Algerian Regular.ttf");
+	//wcscpy_s(lf.lfFaceName, L"Algerian");
+	AddFontResourceA("data/Font/국립박물관문화재단클래식B.ttf");
+	wcscpy_s(lf.lfFaceName, L"국립박물관문화재단클래식 Bold");
 
 	HFONT hFont;
 	HFONT hFontOld;

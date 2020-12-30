@@ -1217,7 +1217,7 @@ void cDragonSoulEater::PhaseShift()
 			cFont* pPhaseShift = new cFont;
 			string strMsg = to_string(m_nPhase) + " Phase !!";
 			
-			pPhaseShift->Setup(strMsg, eFontType::FONT_SYSTEM, D3DXVECTOR3(650, 100, 0), false);
+			pPhaseShift->Setup(strMsg, eFontType::FONT_PhaseShift, D3DXVECTOR3(500, 100, 0), false);
 			pPhaseShift->Tagging(TAG_UI::TagUI_PhaseShift);
 
 			ObjectManager->AddUIChild(pPhaseShift);

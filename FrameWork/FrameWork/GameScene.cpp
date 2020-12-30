@@ -301,6 +301,11 @@ void cGameScene::Reset(int sceneType)
 	case SceneType::SCENE_TROPHIES:
 
 		break;
+
+	case SceneType::SCENE_CLEAR:
+
+		break;
+
 	default:
 		break;
 	}
