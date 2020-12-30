@@ -401,6 +401,8 @@ void cPaladin::Update(EventType event)
 		m_fvelocity = 0;
 		return;
 	}
+	if (m_Hp <= 0)
+		return;
 	
 	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
 	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
@@ -508,15 +510,11 @@ void cPaladin::Update(EventType event)
 		}
 	}
 	
-
-	static int n = 0;
-
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
-
 		}
 		else
 		{
@@ -814,9 +812,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				{
 					pObject->AddCollisionInfo(m_nTag, info, 1);
 				}
-#pragma endregion 
+#pragma endregion
 			}
-
 		}
 	}
 
@@ -845,7 +842,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 //			}
 //		}
 //	}
-
 	cOBB* pObb;
 	D3DXMATRIXA16 matW;
 	switch (iOtherTag)
@@ -857,7 +853,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		cOrb* pOrb = (cOrb*)pObject;
 		//pObb = pOrb->GetOBB();
 		//matW = pOrb->GetOBB()->GetWorldMatrix();
-
 		if (pOrb->GetOnOff() == true)
 		{
 			if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
@@ -870,7 +865,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				}
 			}
 		}
-
 	}
 		return;
 
@@ -892,7 +886,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		matW = pObb->GetWorldMatrix();
 		break;
 	}
-
 	D3DXVECTOR3 vOtherPos = pObject->GetPos();
 	float dist = pow(m_vPos.x - vOtherPos.x, 2)
 		+ pow(m_vPos.z - vOtherPos.z, 2);
@@ -920,7 +913,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		D3DXVECTOR3 Pos = m_vPos;
 		while (dist < Radian)
 		{
-			Pos += vDir * m_fvelocity;
+			Pos += vDir * 3.0f;
 			dist = pow(Pos.x - vOtherPos.x, 2)
 				+ pow(Pos.z - vOtherPos.z, 2);
 
@@ -929,12 +922,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				return;
 			}
 		}
-
 		m_vPos = Pos;
-
 	}
-
-
 }
 
 void cPaladin::StateFeedback()
@@ -1174,16 +1163,18 @@ void cPaladin::AddCollisionInfo(
 	float fDMG, bool bDamageType,
 	float fStunDamage, float fRigidDamage)
 {
+	if (m_Hp <= 0)
+		return;
 	if (m_isInvincible)
 		return;
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 
 	// 밑에서 데미지처리
 	srand(GetTickCount());
-	
+
 	float fResult = 0;
 
-	if(0 < fDMG)
+	if (0 < fDMG)
 	{
 		if (bDamageType)
 		{
@@ -1222,40 +1213,47 @@ void cPaladin::AddCollisionInfo(
 	}
 
 
+
 	{ // font
-		//cFont* pPhaseFont = new cFont;
+	   //cFont* pPhaseFont = new cFont;
 		RECT rect;
 		GetWindowRect(g_hWnd, &rect);
 
 		//pPhaseFont->Setup(
-		//	to_string(1) + " : Phase"
-		//	, FONT_SYSTEM
-		//	, D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
-		//	, false);
+		//   to_string(1) + " : Phase"
+		//   , FONT_SYSTEM
+		//   , D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
+		//   , false);
 		//pPhaseFont->Tagging(TAG_UI::TagUI_PhaseShift);
 
 		//ObjectManager->AddUIChild(pPhaYYseFont);
 	}
 
+
 	// 스턴치 경직치 처리
 	m_Char_StunRate += fStunDamage;
-	
+
 	if (100 <= m_Char_StunRate)
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
 	}
-	//else if()
-	//{
-	//	OnStun(false);
-	//}
-	
+	else if(nTag == Tag::Tag_Boss || nTag == Tag::Tag_LavaGolem)
+	{
+		OnStun(false);
+	}
 }
 
 void cPaladin::PlayAttackSound()
 {
 	int Min(Paladin_Attack_Hit1), Max(Paladin_Attack_Hit4);
 	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
+}
+
+void cPaladin::PlayDeathSound()
+{
+	g_pSoundManager->PlaySFX(Paladin_Death1);
+	g_pSoundManager->PlaySFX(Paladin_Death_Voice);
 }
 
 void cPaladin::OnStun(bool isHardStun)

@@ -224,7 +224,6 @@ void cRune::Update()
 			{
 				m_IsCollision = false;
 				pPaladin->SetInvincible(false);
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "false Collision");
 			}
 		}
 
@@ -289,11 +288,10 @@ void cRune::CollisionProcess(cObject * pObject)
 		{
 			pPaladin->SetInvincible(true);
 			m_IsCollision = true;
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "true Collision");
+
 			//info.dwCollsionTime = GetTickCount();
 			//info.dwDelayTime = 1500.0f;
 			//pObject->AddCollisionInfo(m_nTag, info);
-
 		}
 	}
 	break;
