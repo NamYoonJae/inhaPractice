@@ -117,7 +117,6 @@ public:
 	~cPaladin();
 
 	void Setup(char* szFolder, char* szFile);
-	void ShadowShaderSetup();
 	void ShaderSetup();
 	void Update();
 	void Update(EventType event) override;

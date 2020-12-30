@@ -55,7 +55,7 @@ T GenerateRandomNum(T minRange, T maxRange)
 
 	random_device rd;
 	mt19937_64 gen(rd());
-	uniform_int_distribution<T> randNum(minRange, maxRange);
+	uniform_real_distribution<> randNum(minRange, maxRange);
 
 	return randNum(gen);
 }

@@ -234,7 +234,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
-	ShadowShaderSetup();
 	ShaderSetup();
 
 	m_pShadowMap = new cPopup;
@@ -260,32 +259,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 	m_pShadow->SetScale(m_ShadowScale);
 
-}
-
-void cPaladin::ShadowShaderSetup()
-{
-	const int shadowMapSize = 2048;
-	if (FAILED(g_pD3DDevice->CreateTexture(shadowMapSize, shadowMapSize,
-		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
-		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
-	{
-		cout << "CreateTexture FAILED" << endl;
-	}
-
-	if (FAILED(g_pD3DDevice->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
-		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE,
-		&m_pShadowDepthStencil, NULL)))
-	{
-		cout << "CreateDepthStencilSurface FAILED" << endl;
-	}
-
-	cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
-	
-	if(pArenaMap)
-	{
-		pArenaMap->AddShadowMap(m_pShadowRenderTarget);
-		pArenaMap = nullptr;
-	}
 }
 
 void cPaladin::ShaderSetup()
@@ -488,65 +461,65 @@ void cPaladin::Update(EventType event)
 	static bool isKeyDown = false;
 
 
-	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3 ||
+		m_pCurState->GetStateIndex() == m_pCurState->Kick	 ||
+		m_pCurState->GetStateIndex() == m_pCurState->Roar)
 	{
 		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed") * 0.1f;
 	}
 	else
 	{
 		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
-	}
 
-	if (event == EventType::EVENT_ARROW_UP)
-	{
-		D3DXMatrixRotationY(&TempRot, 0);
-		m_fvelocity = m_fSpeed * delta;
-		isKeyDown = true;
+		if (event == EventType::EVENT_ARROW_UP)
+		{
+			D3DXMatrixRotationY(&TempRot, 0);
+			m_fvelocity = m_fSpeed * delta;
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_ARROW_LEFT)
+		{
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5);
+			m_fvelocity = m_fSpeed * delta;
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_ARROW_DOWN)
+		{
+			D3DXMatrixRotationY(&TempRot, D3DX_PI);
+			m_fvelocity = m_fSpeed * delta;
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_ARROW_RIGHT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5);
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_UPLEFT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5 + D3DX_PI / 6);
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_UPRIGHT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5 - D3DX_PI / 6);
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_DOWNLEFT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI + D3DX_PI / 6);
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_DOWNRIGHT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI - D3DX_PI / 6);
+			isKeyDown = true;
+		}
 	}
-	if (event == EventType::EVENT_ARROW_LEFT)
-	{
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5);
-		m_fvelocity = m_fSpeed * delta;
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_ARROW_DOWN)
-	{
-		D3DXMatrixRotationY(&TempRot, D3DX_PI);
-		m_fvelocity = m_fSpeed * delta;
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_ARROW_RIGHT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_UPLEFT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5 + D3DX_PI / 6);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_UPRIGHT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5 - D3DX_PI / 6);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_DOWNLEFT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI + D3DX_PI / 6);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_DOWNRIGHT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI - D3DX_PI / 6);
-		isKeyDown = true;
-	}
-
-
 
 	if (event == EventType::EVENT_KEYUP && isKeyDown)
 	{
@@ -569,8 +542,6 @@ void cPaladin::Update(EventType event)
 		}
 	}
 	
-
-	static int n = 0;
 
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
@@ -595,7 +566,7 @@ void cPaladin::Update(EventType event)
 	if (event == EventType::EVENT_RBUTTONDOWN)
 	{
 		if (m_pCurState->GetStateIndex() == m_pCurState->Idle ||
-			m_pCurState->GetStateIndex() == m_pCurState->Run ||
+			m_pCurState->GetStateIndex() == m_pCurState->Run  ||
 			m_pCurState->GetStateIndex() == m_pCurState->Walk)
 		{
 			if (m_Stamina > 5.0f)
@@ -653,18 +624,15 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
-	//CreateShadow();
+	CreateShadow();
 	ShaderRender();
+	
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 
 	for (cParts* parts : m_vecParts)
 	{
 		parts->Render();
 	}
-
-	//m_pShadowMap->Render();
-	m_pShadow->Render();
-
 }
 
 void cPaladin::ShaderRender()
@@ -707,79 +675,77 @@ void cPaladin::ShaderRender()
 
 void cPaladin::CreateShadow()
 {
-	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
+	D3DLIGHT9  light;
+	g_pD3DDevice->GetLight(0, &light);
+	D3DXVECTOR4 vDir(light.Direction, 0);
 
-	if (pShader)
-	{
-		LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-		LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-		g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
-		g_pD3DDevice->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+	// 그림자 행렬 만들기.
+	D3DXPLANE  plane(0, -1, 0, 0);
+	D3DXMATRIXA16   mShadow;
+	D3DXMatrixShadow(&mShadow, &vDir, &plane);
 
-		LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-		if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
-		{
-			g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
-			pShadowSurface->Release();
-			pShadowSurface = NULL;
-		}
-		g_pD3DDevice->SetDepthStencilSurface(m_pShadowDepthStencil);
 
-		g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	// 그림자 반투명처리.
+	g_pD3DDevice->SetTexture(0, NULL);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_CONSTANT, D3DXCOLOR(0, 0, 0, 0.5f));
 
-		D3DLIGHT9   Light;
-		g_pD3DDevice->GetLight(0, &Light);
-		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
-		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		D3DXMATRIXA16 matLightView;
-		{
-			D3DXVECTOR3 vEyePt(vLightPos.x, vLightPos.y, vLightPos.z);
-			D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-			D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-			D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
-		}
 
-		D3DXMATRIXA16 matLightProjection;
-		{
-			D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
-		}
+	//  스텐실 테스트 옵션 설정. : '0' 인곳에 그린후, 값을 증가 시켜, 중복렌더링을 방지.
+	//
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, true);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILREF, 0x00);            //기본값은 0x00
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);      //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);   //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);   //성공시, 버퍼의 값을 증가 
 
-		pShader->SetMatrix("gWorldMatrix", &MatrixIdentity);
-		pShader->SetMatrix("gLightViewMatrix", &matLightView);
-		pShader->SetMatrix("gLightProjectionMatrix", &matLightProjection);
-		
 
-		UINT numPasses = 0;
-		pShader->Begin(&numPasses, NULL);
-		{
-			for (UINT i = 0; i < numPasses; ++i)
-			{
-				pShader->BeginPass(i);
-				{
-					m_pSkinnedUnit->Render();
-				}
-				pShader->EndPass();
-			}
-		}
-		pShader->End();
+	// 기타 옵션.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-		g_pD3DDevice->SetRenderTarget(0, pHWBackBuffer);
-		g_pD3DDevice->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
-		pHWBackBuffer->Release();
-		pHWBackBuffer = NULL;
-		pHWDepthStencilBuffer->Release();
-		pHWDepthStencilBuffer = NULL;
+	// 그리기..
+	D3DXMATRIXA16 _mTM;
+	D3DXMATRIXA16 _tempMat = m_matScale * m_matTranse;
+	//_mTM = m_matTranse * mShadow;
+	_mTM = MatrixIdentity * mShadow;
+	//_mTM = m_matRot * mShadow;
+	//_mTM = m_matWorld * mShadow;
+	//_mTM = m_matScale * mShadow;
+	D3DXMATRIXA16 oldWorldMat = m_matWorld;
+	m_pSkinnedUnit->m_matWorldTM = _mTM;
 
-		cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+	m_pSkinnedUnit->UpdateMatrix();
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &_tempMat);
+	m_pSkinnedUnit->Render();
+	m_pSkinnedUnit->m_matWorldTM = oldWorldMat;
+	m_pSkinnedUnit->UpdateMatrix();
 
-		if (pArenaMap)
-		{
-			pArenaMap->ReplaceShadowMap(m_pShadowRenderTarget);
-			pArenaMap = nullptr;
-		}
-	}
+	// 옵션 복구.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, TRUE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void cPaladin::CollisionProcess(cObject* pObject)
@@ -1239,6 +1205,9 @@ void cPaladin::AddCollisionInfo(
 	
 	float fResult = 0;
 
+	if (0 >= fResult )
+		return;
+	
 	if(0 < fDMG)
 	{
 		if (bDamageType)
@@ -1250,13 +1219,8 @@ void cPaladin::AddCollisionInfo(
 			fResult = fDMG - m_Elemental_Defense;
 		}
 
-		//GenerateRandomNum(); <<
-		random_device rd;
-		mt19937_64 gen(rd());
-		uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
-		fResult = fResult + randNum(gen);
+		fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
 	}
-
 	
 	m_Hp = m_Hp - (int)fResult;
 	if (0 > m_Hp)
@@ -1301,6 +1265,7 @@ void cPaladin::AddCollisionInfo(
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
+		SetDebuff(enum_Stun);
 	}
 	//else
 	//{
