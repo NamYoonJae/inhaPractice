@@ -7,7 +7,7 @@ enum eTextColortype
 	Orenge
 };
 
-class cFontTmp : public cObject
+class cFont3D : public cObject
 {
 private:
 	//LPD3DXFONT	m_pFont;
@@ -22,8 +22,8 @@ private:
 	LPDIRECT3DTEXTURE9 m_pTex;
 	float			m_fSpeed;
 public:
-	cFontTmp();
-	~cFontTmp();
+	cFont3D();
+	~cFont3D();
 
 	//void Setup();
 	void Setup(string Text, eTextColortype type);

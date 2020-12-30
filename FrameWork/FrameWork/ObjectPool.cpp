@@ -98,7 +98,7 @@ void ObjectPool::Update()
 
 void ObjectPool::Render(D3DXMATRIXA16* pmat)
 {
-	g_pD3DDevice->Clear(0, 0, D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+	g_pD3DDevice->Clear(0, 0, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	g_pD3DDevice->BeginScene();
 
 	D3DXMATRIXA16 matWorld;

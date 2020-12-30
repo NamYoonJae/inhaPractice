@@ -104,14 +104,6 @@ private:
 
 	DWORD m_dwStaminaPreTime;
 	DWORD m_dwStaminaStartTime;
-
-	// ±×¸²ÀÚ¸Ê ·»´õÅ¸±ê
-	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
-	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
-	cPopup* m_pShadowMap;
-
-	cShadow* m_pShadow;
-	D3DXVECTOR3 m_ShadowScale;
 public:
 	cPaladin();
 	~cPaladin();
@@ -162,9 +154,11 @@ public:
 	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f) override;
 	
 	void PlayAttackSound();
+	void PlayDeathSound();
 
 	void SetStun(bool isStuned) { m_isStuned = isStuned; }
 	void OnStun(bool isHardStun);
+	void OnDeath();
 };
 
 class cParts

@@ -31,9 +31,6 @@ cSoulEater_Rush::cSoulEater_Rush(cDragonSoulEater *pDragon)
 	// 기본공격 // 패턴 1
 	m_RushAttack_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Melee rate");
 	m_RushAttack_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 2/Attribute/Elemental rate");
-
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "sf", "RUSH ELEMENTAL RATE", m_RushAttack_Elemental_Rate);
-	//cout << "RUSH RATE         : " << m_RushAttack_Physic_Rate << endl;
 }
 
 cSoulEater_Rush::~cSoulEater_Rush()

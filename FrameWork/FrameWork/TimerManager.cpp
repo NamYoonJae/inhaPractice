@@ -52,9 +52,11 @@ int cTimerManager::GetFPS()
 
 void cTimerManager::DrawFPS()
 {
+#ifdef _DEBUG
 	string Text("Frame : ");
 	Text += to_string(m_FPS);
 	g_pFontManager->DrawFont(FONT_SYSTEM, Text, 0, 0, 100, 50, FONT_LEFTTOP, FONT_GREEN);
+#endif
 }
 
 
