@@ -71,17 +71,9 @@ void cFontTmp::Setup(string Text, eTextColortype type)
 	D3DLOCKED_RECT rect;
 	ZeroMemory(&rect, sizeof(D3DLOCKED_RECT));
 
-	if(FAILED(m_pTex->LockRect(0, &rect, 0, 0)))
-	{
-		cout << "failed" << endl;
-		return;
-	}
-	
-	BYTE* pByte;
-	pByte = (BYTE*)rect.pBits;
 	D3DXVECTOR4 RGBA;
 	switch (type)
-    {
+	{
 	case White:
 		RGBA.w = 0;
 		RGBA.x = 255;
@@ -94,8 +86,17 @@ void cFontTmp::Setup(string Text, eTextColortype type)
 		RGBA.y = 0;
 		RGBA.z = 0;
 		break;
-    }
+	}
 
+	
+	if(FAILED(m_pTex->LockRect(0, &rect, 0, 0)))
+	{
+		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "m_pTex->LockRect(0, &rect, 0, 0) FAILED");
+		return;
+	}
+	
+	BYTE* pByte;
+	pByte = (BYTE*)rect.pBits;
 	for(int i = 0; i < Mapsize; i++)
 	{
 		for(int j = 0; j < Mapsize; j++)
@@ -108,7 +109,6 @@ void cFontTmp::Setup(string Text, eTextColortype type)
 			pByte += 4;
 		}
 	}
-
 	m_pTex->UnlockRect(0);
 	
 

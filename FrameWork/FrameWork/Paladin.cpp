@@ -115,10 +115,10 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
 		m_fOriginSpeed = m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
-		m_Hp = 500;
-		//m_Hp = m_MaxHp;
-		m_Stamina = 500;
-		//m_Stamina = m_MaxStamina;
+		//m_Hp = 500;
+		m_Hp = m_MaxHp;
+		//m_Stamina = 500;
+		m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 
