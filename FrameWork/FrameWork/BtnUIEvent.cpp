@@ -33,7 +33,9 @@ cButton* Setup_CheckBtn(cPopup* popup, D3DXVECTOR3 position, function<void(Event
 	if (EventFuction)
 		pChkButton->EventProcess = EventFuction;
 	else
-		cout << "Setup_CheckBtn() EventFuction is NULL" << endl;
+	{
+		//cout << "Setup_CheckBtn() EventFuction is NULL" << endl;
+	}
 
 	return pChkButton;
 }
@@ -134,7 +136,9 @@ cButton* Setup_BarSliderPopupBtn(cPopup* popup, D3DXVECTOR3 position, function<v
 	if (EventFuction)
 		pBarButton->EventProcess = EventFuction;
 	else
-		cout << "Setup_BarSliderPopupBtn() EventFuction is NULL" << endl;
+	{
+		//cout << "Setup_BarSliderPopupBtn() EventFuction is NULL" << endl;
+	}
 
 	return pBarButton;
 }
@@ -325,18 +329,6 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 	static D3DXVECTOR2 crnt_cur;
 	crnt_cur = EventManager->GetMouseCurrent();
 
-	//if (startBtnPosition == btnPosition)
-	//{
-	//	btn->SetPosition(D3DXVECTOR2(
-	//		startBtnPosition.x +
-	//		(float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")
-	//			* tick),
-	//		startBtnPosition.y));
-	//
-	//	//g_pSoundManager->SetVolume((float)(json_Function::object_get_double(p_json_object_setting, "Sound/BGM")));
-	//	g_pSoundManager->SetBGMSOUND((float)json_Function::object_get_double(p_json_object_setting, "Sound/BGM"));
-	//}
-
 	switch (message)
 	{
 	case EventType::EVENT_MOVE:
@@ -386,8 +378,6 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 		//g_pSoundManager->SetBGMSOUND(0.0f);
 		g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM") * 0.01f);
 		g_pSoundManager->PlayBGM();
-
-		cout << "BGM : " << (float)json_object_get_number(Sound_object, "BGM") * 0.01f << endl;
 
 		//g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
 	}
@@ -481,8 +471,6 @@ void SFX_Setting_Event(EventType message, cPopup* btn)
 		g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX") * 0.01f);
 		//g_pSoundManager->Play3DSFX();
 		//g_pSoundManager->PlaySFX();
-
-		cout << "SFX : " << (float)json_object_get_number(Sound_object, "SFX") * 0.01f << endl;
 
 		// g_pSoundManager->SetSFXSOUND((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
 	}

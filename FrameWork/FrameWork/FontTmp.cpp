@@ -8,7 +8,7 @@
 D3DXVECTOR3 GetScreenPos(IDirect3DDevice9* pd3dDevice, D3DXVECTOR3& pos);
 D3DXVECTOR3* WorldToScreen(IDirect3DDevice9* pDevice, D3DXVECTOR3& vScreenCoord, D3DXVECTOR3 vWorldLocation);
 
-cFontTmp::cFontTmp()
+cFont3D::cFont3D()
     : m_dwElapsedTime(0)
     , m_dwDurationTime(1000) // 값 바꾸기
 	, m_p3DText(NULL)
@@ -18,13 +18,13 @@ cFontTmp::cFontTmp()
 {
 }
 
-cFontTmp::~cFontTmp()
+cFont3D::~cFont3D()
 {
 	SafeRelease(m_pTex);
 	SafeRelease(m_p3DText);
 }
 
-void cFontTmp::Setup(string Text, eTextColortype type)
+void cFont3D::Setup(string Text, eTextColortype type)
 {
     m_strText = Text;
 
@@ -39,8 +39,12 @@ void cFontTmp::Setup(string Text, eTextColortype type)
     lf.lfUnderline = false;
     lf.lfStrikeOut = false;
     lf.lfCharSet = DEFAULT_CHARSET;
-	AddFontResourceA("data/Font/umberto.ttf");
-	wcscpy_s(lf.lfFaceName, L"umberto");
+	//AddFontResourceA("data/Font/umberto.ttf");
+	//wcscpy_s(lf.lfFaceName, L"umberto");
+	//AddFontResourceA("data/Font/Algerian Regular.ttf");
+	//wcscpy_s(lf.lfFaceName, L"Algerian");
+	AddFontResourceA("data/Font/국립박물관문화재단클래식B.ttf");
+	wcscpy_s(lf.lfFaceName, L"국립박물관문화재단클래식 Bold");
 
 	HFONT hFont;
 	HFONT hFontOld;
@@ -142,7 +146,7 @@ void cFontTmp::Setup(string Text, eTextColortype type)
 
 }
 
-void cFontTmp::Update()
+void cFont3D::Update()
 {
     if (GetTickCount() - m_dwElapsedTime >= m_dwDurationTime)
     {
@@ -153,13 +157,13 @@ void cFontTmp::Update()
 }
 
 
-void cFontTmp::Render(D3DXMATRIXA16* pmat)
+void cFont3D::Render(D3DXMATRIXA16* pmat)
 {
     RenderSprite(g_pD3DDevice,NULL);
 
 }
 
-void cFontTmp::RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix)
+void cFont3D::RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix)
 {
     //3D글자가 매쉬로 이루어져 있다
 	Device->SetRenderState(D3DRS_LIGHTING, true);

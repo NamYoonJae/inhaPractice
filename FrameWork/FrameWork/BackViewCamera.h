@@ -22,6 +22,7 @@ private:
 	Synthesize(bool, m_IsVibration, Vibration);
 	Synthesize(bool, m_IsUpdate, Update);
 
+	bool m_IsRBDOWN;
 public:
 	cBackViewCamera();
 	~cBackViewCamera();

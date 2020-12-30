@@ -3,6 +3,8 @@
 #include "SkinnedMesh.h"
 #include "SoundManager.h"
 #include "DragonSoulEater.h"
+#include "Scene.h"
+#include "SceneManager.h"
 #pragma once
 
 cSoulEater_Die::cSoulEater_Die()
@@ -36,6 +38,7 @@ void cSoulEater_Die::handle()
 	{
 		g_pSoundManager->PlaySFX(eSoundList::Dragon_Die1);
 		m_pDragon->m_isDelete = true;
+		g_pSceneManager->ChangeScene(SCENE_CLEAR);
 		return;
 	}
 }

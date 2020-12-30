@@ -34,7 +34,12 @@ void cFont::Setup(string text, eFontType fontType, D3DXVECTOR3 position, bool Fi
 	m_Text = text;
 	m_pFont = g_pFontManager->GetFont(fontType);
 
-	SetRect(&m_Rect, position.x, position.y, position.x + 600, position.y + 300);
+	m_dwElapsedTime = GetTickCount();
+
+	SetRect(&m_Rect, 
+		(int)position.x, (int)position.y, 
+		(int)position.x + 800, (int)position.y + 600);
+	//SetRect(&m_Rect, position.x, position.y, position.x + 600, position.y + 300);
 }
 
 void cFont::Update()

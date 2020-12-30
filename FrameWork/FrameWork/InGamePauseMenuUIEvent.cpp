@@ -13,8 +13,6 @@
 // 반환되는 포인터는 최상단 팝업의 포인터 좌표
 cPopup* Setup_InGamePauseMenu(cPopup* btn)
 {
-	cout << "Setup_InGamePauseMenu called" << endl;
-	
 	RECT rc;
 	GetClientRect(g_hWnd, &rc);
 	//cout << "Left : " << rc.left << endl; // 0
@@ -240,8 +238,6 @@ void InGamePauseMenu_returnEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Off);
 
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
-
-					cout << "InGamePauseMenu_returnEvent is Clicked" << endl;
 				}
 			}
 		}
@@ -333,8 +329,6 @@ void InGamePauseMenu_OptionBtnEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Off);
 					
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf();
-					
-					cout << "InGamePauseMenu_OptionBtnEvent is Clicked" << endl;
 				}
 			}
 		}
@@ -424,8 +418,6 @@ void InGamePauseMenu_ToStartEvent(EventType message, cPopup* btn)
 					button->ChangeSprite("data/UI/InGamePauseMenu/BackToStart/NW_InGameSetting_BackToStartButton_Idle.png");
 					button->SetStateChange(enum_Off);
 					button->GetUpPopUp()->GetUpPopUp()->PowerOnOff_OnlySelf(false);
-
-					cout << "InGamePauseMenu_ToStartEvent Clicked" << endl;
 					
 					g_pSceneManager->ChangeScene(SceneType::SCENE_TITLE);
 				}

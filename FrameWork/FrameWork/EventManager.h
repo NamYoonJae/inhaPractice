@@ -24,7 +24,8 @@ enum class  EventType
 	EVENT_LBUTTONUP = 7,
 	EVENT_RBUTTONUP = 8,
 
-	EVENT_DRAG = 10,
+	EVENT_LDRAG = 10,
+	EVENT_RDRAG = 11,
 
 	EVENT_JUMP = 32,
 	EVENT_TAP = 9,
@@ -49,7 +50,7 @@ enum class  EventType
 	EVENT_NUMPAD_7 = 55,
 	EVENT_NUMPAD_8 = 56,
 	EVENT_NUMPAD_9 = 57,
-
+	EVENT_KEYBOARD_R = 0x52,
 	EVENT_KEYUP = 128, // 0x80 
 
 	EVENT_CREATE_PALADIN = 129,
@@ -86,7 +87,8 @@ private:
 
 	D3DXVECTOR2 m_vCur;
 	D3DXVECTOR2 m_vPrev;
-	bool		m_IsDrag;
+	bool		m_IsLDrag;
+	bool		m_IsRDrag;
 
 	std::thread *EventThread;
 

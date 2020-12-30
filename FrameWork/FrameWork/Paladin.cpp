@@ -149,32 +149,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_Aggro = (int)json_object_get_number(p_Character_object, "Aggro");
 	}
 
-	// Log
-	{
-		cout << "Paladin jsonValue  MaxHp : " << m_MaxHp << endl;
-		cout << "Paladin jsonValue  MaxStamina : " << m_MaxStamina << endl;
-		cout << "Paladin jsonValue  Stamina Restore Value : " << m_StaminaRestoreValue << endl;
-		cout << "Paladin jsonValue  fSpeed : " << m_fSpeed << endl;
-		cout << "Paladin jsonValue  Attack_Melee_Damage : " << m_Attack_Melee_Damage << endl;
-		cout << "Paladin jsonValue  Melee_rate_1 : " << m_Melee_rate_1 << endl;
-		cout << "Paladin jsonValue  Melee_rate_2 : " << m_Melee_rate_2 << endl;
-		cout << "Paladin jsonValue  Melee_rate_2 : " << m_Melee_rate_2 << endl;
-		cout << "Paladin jsonValue  Attack_Elemental_Damage : " << m_Attack_Elemental_Damage << endl;
-		cout << "Paladin jsonValue  Attack_StunRate : " << m_Attack_StunRate << endl;
-		cout << "Paladin jsonValue  Attack_RigidRate : " << m_Attack_RigidRate << endl;
-		cout << "Paladin jsonValue  Critical_probability : " << m_Critical_probability << endl;
-		cout << "Paladin jsonValue  Critical_Additional_Damage : " << m_Critical_Additional_Damage << endl;
-		cout << "Paladin jsonValue  Melee_Defense : " << m_Melee_Defense << endl;
-		cout << "Paladin jsonValue  Elemental_Defense : " << m_Elemental_Defense << endl;
-		cout << "Paladin jsonValue  Char_Poison_Damage : " << m_Char_Poison_Damage << endl;
-		cout << "Paladin jsonValue  Char_Poison_Duration : " << m_Char_Poison_Duration << endl;
-		cout << "Paladin jsonValue  Char_Stun_reduce : " << m_Char_Stun_Reduce << endl;
-		cout << "Paladin jsonValue  Char_Stun_Duration : " << m_Char_Poison_Duration << endl;
-		cout << "Paladin jsonValue  Char_Scream_Duration : " << m_Char_Scream_Duration << endl;
-		cout << "Paladin jsonValue  Char_Invincibility_Duration : " << m_Char_Invincibility_Duration << endl;
-		cout << "Paladin jsonValue  Aggro : " << m_Aggro << endl;
-	}
-
 	// object interaction
 	{
 		JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
@@ -258,6 +232,7 @@ void cPaladin::ShaderSetup()
 
 void cPaladin::Update()
 {
+
 	if (m_Hp <= 0 && m_IsChangeScene == false) 
 	{
  		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
@@ -382,7 +357,6 @@ void cPaladin::Update()
 			//JSON_Object* pBossSkill = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/");
 			//json_Function::object_get_double(pBoss, "Attack/");
 			//json_Function::object_get_double(pBossSkill, "SKILL 3/Attribute/Melee Rate");
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",m_Hp);
 		}
 
 		if (SearchDebuff(enum_Stun))
@@ -445,11 +419,24 @@ void cPaladin::Update(EventType event)
 		m_pCurState->GetStateIndex() == m_pCurState->Kick ||
 		m_pCurState->GetStateIndex() == m_pCurState->Roar)
 	{
-		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed") * 0.1f;
+		m_fSpeed = m_fOriginSpeed * 0.1f;
+		if (m_pTrophies)
+		if (m_pTrophies->GetTag() == TAG_UI::TagUI_Trophies_DragonFoot)
+		{
+			JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
+			m_fSpeed = m_fSpeed + json_Function::object_get_double(p_jsonObject, "Trophy/Dragonfoot/Passive/Increase speed");
+		}
 	}
 	else
 	{
-		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
+		m_fSpeed = m_fOriginSpeed;
+		if (m_pTrophies)
+		if (m_pTrophies->GetTag() == TAG_UI::TagUI_Trophies_DragonFoot)
+		{
+			JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
+			m_fSpeed = m_fSpeed + json_Function::object_get_double(p_jsonObject, "Trophy/Dragonfoot/Passive/Increase speed");
+		}
+
 
 		if (event == EventType::EVENT_ARROW_UP)
 		{
@@ -542,7 +529,7 @@ void cPaladin::Update(EventType event)
 		}
 	}
 
-	if (event == EventType::EVENT_RBUTTONDOWN)
+	if (event == EventType::EVENT_KEYBOARD_R)
 	{
 		if (m_pCurState->GetStateIndex() == m_pCurState->Idle ||
 			m_pCurState->GetStateIndex() == m_pCurState->Run ||
@@ -735,7 +722,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	{
 		//내가 공격 중이라면
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3 ||
-			m_pCurState->GetStateIndex() == m_pCurState->Kick)
+			m_pCurState->GetStateIndex() == m_pCurState->Kick ||
+			m_pCurState->GetStateIndex() == m_pCurState->Roar
+			)
 		{
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
@@ -790,6 +779,15 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							iDamage = m_Attack_Melee_Damage + m_Attack_Elemental_Damage;
 							fDamageRate = 1;
 							bDamageType = false;
+
+							JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
+							float RequireHPRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
+							float RestoreRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
+
+							if(RequireHPRate > (float)m_Hp / (float)m_MaxHp)
+							{
+								m_Hp = m_Hp + (int)(iDamage * RestoreRate);
+							}
 						}
 						break;
 					}
@@ -1165,19 +1163,18 @@ void cPaladin::AddCollisionInfo(
 	float fDMG, bool bDamageType,
 	float fStunDamage, float fRigidDamage)
 {
-	if (m_isInvincible)
-		return;
 	if (m_Hp <= 0)
 		return;
-
+	if (m_isInvincible)
+		return;
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 
 	// 밑에서 데미지처리
 	srand(GetTickCount());
-	
+
 	float fResult = 0;
 
-	if(0 < fDMG)
+	if (0 < fDMG)
 	{
 		if (bDamageType)
 		{
@@ -1187,58 +1184,59 @@ void cPaladin::AddCollisionInfo(
 		{
 			fResult = fDMG - m_Elemental_Defense;
 		}
-		
-		fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
+
+		//GenerateRandomNum(); <<
+		random_device rd;
+		mt19937_64 gen(rd());
+		uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
+		fResult = fResult + randNum(gen);
+		//fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
+
+		m_Hp = m_Hp - (int)fResult;
+		if (0 > m_Hp)
+		{
+			m_Hp = 0;
+		}
+
+		// 이 아래에서 폰트띄우기
+		{
+			cFont3D* pDamageFont = new cFont3D;
+			pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
+
+			pDamageFont->Setup(to_string((int)fResult), Red);
+			D3DXVECTOR3 vPos = m_vPos;
+			vPos.y += 30;
+			pDamageFont->SetPos(vPos);
+
+			ObjectManager->AddUIChild(pDamageFont);
+		}
 	}
 
-	
-	m_Hp = m_Hp - (int)fResult;
-	if (0 > m_Hp)
-	{
-		m_Hp = 0;
-	}
 
-	// 이 아래에서 폰트띄우기
-	{
-		cFontTmp* pDamageFont = new cFontTmp;
-		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
 
-		pDamageFont->Setup(to_string((int)fResult), Red);
-		D3DXVECTOR3 vPos = m_vPos;
-		vPos.y += 30;
-		pDamageFont->SetPos(vPos);
-
-		ObjectManager->AddUIChild(pDamageFont);
-	}
 
 	{ // font
-		//cFont* pPhaseFont = new cFont;
+	   //cFont* pPhaseFont = new cFont;
 		RECT rect;
 		GetWindowRect(g_hWnd, &rect);
 
 		//pPhaseFont->Setup(
-		//	to_string(1) + " : Phase"
-		//	, FONT_SYSTEM
-		//	, D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
-		//	, false);
+		//   to_string(1) + " : Phase"
+		//   , FONT_SYSTEM
+		//   , D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
+		//   , false);
 		//pPhaseFont->Tagging(TAG_UI::TagUI_PhaseShift);
 
-		//ObjectManager->AddUIChild(pPhaseFont);
+		//ObjectManager->AddUIChild(pPhaYYseFont);
 	}
 
 	// 스턴치 경직치 처리
 	m_Char_StunRate += fStunDamage;
 
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_Char_StunRate, "StunRate");
-	
 	if (100 <= m_Char_StunRate)
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
-	}
-	else
-	{
-		OnStun(false);
 	}
 }
 
