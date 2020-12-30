@@ -743,7 +743,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	{
 		cPaladin* pPaladin = (cPaladin*)pObject;
 
-		if (m_pCurState && !pPaladin->GetInvincible())
+		if (m_pCurState && !pPaladin->GetInvincible() && m_pCurState->GetAttack())
 		{
 			int nCurStateIndex = m_pCurState->GetIndex();
 			switch (nCurStateIndex)
