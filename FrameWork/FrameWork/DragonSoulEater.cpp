@@ -753,7 +753,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						pPaladin->OnStun(false);
+						//pPaladin->OnStun(false);
 
 						cSoulEater_BasicAttack* pBasicAttack = (cSoulEater_BasicAttack*)m_pCurState;
 
@@ -776,7 +776,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						pPaladin->OnStun(false);
+						//pPaladin->OnStun(false);
 
 						cSoulEater_TailAttack* pTailAttack = (cSoulEater_TailAttack*)m_pCurState;
 
@@ -792,7 +792,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			case 3:		// µ¹Áø
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
-					pPaladin->OnStun(false);
+					//pPaladin->OnStun(false);
 
 					cSoulEater_Rush* pRush = (cSoulEater_Rush*)m_pCurState;
 
