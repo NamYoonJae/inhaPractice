@@ -106,7 +106,7 @@ cArenaMap::~cArenaMap()
 
 float cArenaMap::getHeight(D3DXVECTOR3 pos)
 {
-	pos.y += 10;
+	pos.y += 100;
 
 	std::vector<ST_PNT_VERTEX> list;
 	list = m_vecMapGroup.at(0)->GetVertices();
