@@ -22,7 +22,7 @@ public:
 	~cFont();
 
 	void Setup(string text, eFontType fontType);
-	void Setup(string text, eFontType fontType, D3DXVECTOR3 position, bool Fixed = 0);
+	void Setup(string text, eFontType fontType, D3DXVECTOR3 position, bool Fixed = true);
 	void Update();
 	void Render(D3DXMATRIXA16* pmat);
 

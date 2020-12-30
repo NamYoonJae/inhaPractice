@@ -763,11 +763,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
 
-
 						
 						pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 10.0f);
-
-						// 스테이트 클래스에서 get매서드로 값 가져오기
 					}
 				}
 				break;
@@ -1305,7 +1302,16 @@ void cDragonSoulEater::PhaseShift()
 		++m_nPhase;
 
 		// 여기서 페이즈 전환 메시지 처리
-		
+		{
+			cFont* pPhaseShift = new cFont;
+			string strMsg = to_string(m_nPhase) + " Phase !!";
+			
+			pPhaseShift->Setup(strMsg, eFontType::FONT_SYSTEM, D3DXVECTOR3(650, 300, 0), false);
+			pPhaseShift->Tagging(TAG_UI::TagUI_PhaseShift);
+
+			ObjectManager->AddUIChild(pPhaseShift);
+		}
+
 		switch (m_nPhase)
 		{
 		case 2:
