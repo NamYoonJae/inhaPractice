@@ -17,7 +17,8 @@ const enum Tag
 	Tag_RunStone,
 	Tag_Wall,
 	Tag_Breath,
-	Tag_MapWall
+	Tag_MapWall,
+	Tag_Scream
 };
 
 

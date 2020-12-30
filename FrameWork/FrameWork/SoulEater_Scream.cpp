@@ -32,13 +32,15 @@ cSoulEater_Scream::~cSoulEater_Scream()
 
 void cSoulEater_Scream::handle()
 {
-	float distance = 0.0f;
+	static float distance = 0.0f;
 	if (m_pDragon == NULL) return;
 	// 범위안에 있으면 모션블러 
 	// 애니메이션이 끝나면 
 	if (m_vTarget == D3DXVECTOR3(0, 0, 0))
 	{
 		TargetCapture();
+		D3DXVECTOR3 pos = m_pDragon->GetPos();
+		distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
 	}
 
 	if (m_IsAnimBlend == false)
@@ -53,6 +55,15 @@ void cSoulEater_Scream::handle()
 			m_IsAnimBlend = true;
 			m_dwSCreamElapsedTime = m_dwElapsedTime = GetTickCount();
 			g_pSoundManager->PlaySFX(eSoundList::Dragon_Scream);
+			cObject* pObject = (cObject*)ObjectManager->SearchChild(Tag::Tag_Player);
+
+			if(pObject->GetCollsionInfo(Tag::Tag_Scream) == nullptr)
+			{
+				CollisionInfo info;
+				info.dwCollsionTime = GetTickCount();
+				info.dwDelayTime = 5000.0f;
+				pObject->AddCollisionInfo(Tag_Scream, info,0,true,100,0);
+			}
 		}
 	}
 	else if (m_IsAnimBlend)
@@ -64,9 +75,6 @@ void cSoulEater_Scream::handle()
 		}
 		cBackViewCamera *pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 
-		D3DXVECTOR3 pos = m_pDragon->GetPos();
-		distance = sqrt(pow(pos.x - m_vTarget.x, 2) + pow(pos.z - m_vTarget.z, 2));
-		//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", distance);
 		if (distance <= Radius)
 			pCamera->SetVibration(true);
 		else
