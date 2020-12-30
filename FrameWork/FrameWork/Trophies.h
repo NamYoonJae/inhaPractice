@@ -66,6 +66,7 @@ public:
 
 	float GetMaxGauge();
 	float GetGauge();
+	void SetGauge(float gauge) { m_Gauge = gauge; };
 
 };
 
