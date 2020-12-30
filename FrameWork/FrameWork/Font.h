@@ -14,15 +14,17 @@ class cFont :
 	D3DCOLOR m_Color;
 	DWORD m_Format;
 
-
+	DWORD m_dwElapsedTime;
+	DWORD m_dwDurationTime;
+	
 public:
 	cFont();
 	~cFont();
 
 	void Setup(string text, eFontType fontType);
-	void Setup(string text, eFontType fontType, D3DXVECTOR3 position);
+	void Setup(string text, eFontType fontType, D3DXVECTOR3 position, bool Fixed = 0);
 	void Update();
-	void Render();
+	void Render(D3DXMATRIXA16* pmat);
 
 };
 

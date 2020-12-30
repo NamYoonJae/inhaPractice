@@ -6,6 +6,7 @@
 #include "ShaderManager.h"
 #include "FontManager.h"
 #include "FontTmp.h"
+#include "Font.h"
 
 #include "Paladin.h"
 
@@ -294,10 +295,11 @@ void cPaladin::Update()
 {
 	if (m_Hp <= 0 && m_IsChangeScene == false) 
 	{
-		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+ 		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 		pCamera->SetUpdate(false);
 		m_IsChangeScene = true;
 		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+		
 		return;
 	}
 
@@ -785,7 +787,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
 
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
+				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
 
 #pragma region Paladin to Monster damage
 				// To BOSS
@@ -821,7 +823,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							fDamageRate = json_Function::object_get_double(g_p_jsonManager->get_json_object_Trophies(), "Trophy/Dragonfoot/Active/Melee rate");
 							iDamage = m_Attack_Melee_Damage;
 							bIsCritical = true;
-							g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", fDamageRate, " Trophy/Dragonfoot/Active/Melee rate");
+							//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", fDamageRate, " Trophy/Dragonfoot/Active/Melee rate");
 						}
 						break;
 					case cPaladinState::eAnimationSet::Roar:
@@ -842,9 +844,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 					{
 						pObject->AddCollisionInfo(m_nTag, info, iDamage, bDamageType, 10.0f);
 
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetSTUN(), " Dragon Stun Gauge");
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetRigid(), " Dragon Rigid Gauge");
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetCURHP(), " Dragon Current HP");
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetSTUN(), " Dragon Stun Gauge");
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetRigid(), " Dragon Rigid Gauge");
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetCURHP(), " Dragon Current HP");
 					}
 				}
 
@@ -1249,7 +1251,7 @@ void cPaladin::AddCollisionInfo(
 	// 이 아래에서 폰트띄우기
 	{
 		cFontTmp* pDamageFont = new cFontTmp;
-		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
+		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
 
 		pDamageFont->Setup(to_string((int)fResult), Red);
 		D3DXVECTOR3 vPos = m_vPos;
@@ -1259,20 +1261,36 @@ void cPaladin::AddCollisionInfo(
 		ObjectManager->AddUIChild(pDamageFont);
 	}
 
+	{ // font
+		//cFont* pPhaseFont = new cFont;
+		RECT rect;
+		GetWindowRect(g_hWnd, &rect);
+
+		//pPhaseFont->Setup(
+		//	to_string(1) + " : Phase"
+		//	, FONT_SYSTEM
+		//	, D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
+		//	, false);
+		//pPhaseFont->Tagging(TAG_UI::TagUI_PhaseShift);
+
+		//ObjectManager->AddUIChild(pPhaseFont);
+	}
+
 	// 스턴치 경직치 처리
 	m_Char_StunRate += fStunDamage;
 
+
+	
 	if (100 <= m_Char_StunRate)
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
 	}
-	else
-	{
-		OnStun(false);
-	}
-
-
+	//else
+	//{
+	//	OnStun(false);
+	//}
+	
 }
 
 void cPaladin::PlayAttackSound()
