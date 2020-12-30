@@ -14,6 +14,7 @@ cWall::cWall()
 {
 	m_vScale = D3DXVECTOR3(0.4f, 0.4f, 0.4f);
 	m_vPos = D3DXVECTOR3(220.0f, 0.0f, 100.0f);
+	m_vRot = D3DXVECTOR3(0, 0, 0);
 }
 
 cWall::~cWall()
@@ -132,15 +133,15 @@ void cWall::Setup(D3DXVECTOR3 Pos)
 void cWall::Update()
 {
 	if (!m_IsSwitch) return;
-	D3DXMATRIXA16 matW, matT, matS;;
+	D3DXMATRIXA16 matW, matT, matR, matS;
 	D3DXMatrixIdentity(&matW);
-	D3DXMatrixIdentity(&matW);
-	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixRotationY(&matR, m_vRot.y);
 	//D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.x, m_vScale.x);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matW = matS * matT;
+	matW = matS * matR * matT;
 
 	if (m_pOBB)
 		m_pOBB->Update(&matW);
@@ -150,14 +151,16 @@ void cWall::Render(D3DXMATRIXA16 * pmat)
 {
 	if (!m_IsSwitch) return;
 
-	D3DXMATRIXA16 matW, matT, matS;
+	D3DXMATRIXA16 matW, matT, matR, matS;
 
 	D3DXMatrixIdentity(&matW);
 	D3DXMatrixIdentity(&matS);
+	D3DXMatrixIdentity(&matR);
+	D3DXMatrixRotationY(&matR, m_vRot.y);
 	//D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.x, m_vScale.x);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
-	matW = matS * matT;
+	matW = matS * matR * matT;
 	g_pD3DDevice->SetTransform(D3DTS_WORLD, &matW);
 
 	for (int i = 0; i < m_vecGroup.size(); ++i)

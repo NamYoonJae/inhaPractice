@@ -139,8 +139,6 @@ void cGameScene::Setup() // boss1map  boss2map
 			ObjectManager->AddStaticChild(pPaladin);
 			EventManager->PushQueue(EventType::EVENT_CREATE_PALADIN);
 		}
-
-
 	}
 
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
@@ -157,6 +155,7 @@ void cGameScene::Setup() // boss1map  boss2map
 #pragma region Map Object
 	JSON_Object* pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/1/Status/");
 	JSON_Array* pAryWallPos = json_object_get_array(pObj, "Position");
+	JSON_Array* pAryWallRot = json_object_get_array(pObj, "Rotation");
 	for (size_t i = 0; i < json_array_get_count(pAryWallPos); i++) // 배열의 크기만큼 벽을 생성
 	{
 		cWall* pWall = new cWall;
@@ -168,6 +167,14 @@ void cGameScene::Setup() // boss1map  boss2map
 				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, i)), "z")
 			)
 		);
+		
+		pWall->SetRotation(D3DXVECTOR3(
+			0
+			, D3DXToRadian((float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallRot, i)), "Angle"))
+			,0));
+
+		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", D3DXToRadian((float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallRot, i)), "Angle")), " json WallAngle");
+		
 		ObjectManager->AddChild(pWall);
 	}
 	cout << json_array_get_count(pAryWallPos) << " Number of Walls generated" << endl;
