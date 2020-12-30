@@ -427,6 +427,8 @@ void cPaladin::Update(EventType event)
 		m_fvelocity = 0;
 		return;
 	}
+	if (m_Hp <= 0)
+		return;
 	
 	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
 	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
@@ -521,15 +523,11 @@ void cPaladin::Update(EventType event)
 		}
 	}
 	
-
-	static int n = 0;
-
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
-
 		}
 		else
 		{
@@ -816,9 +814,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				{
 					pObject->AddCollisionInfo(m_nTag, info, 1);
 				}
-#pragma endregion 
+#pragma endregion
 			}
-
 		}
 	}
 
@@ -847,7 +844,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 //			}
 //		}
 //	}
-
 	cOBB* pObb;
 	D3DXMATRIXA16 matW;
 	switch (iOtherTag)
@@ -859,7 +855,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		cOrb* pOrb = (cOrb*)pObject;
 		//pObb = pOrb->GetOBB();
 		//matW = pOrb->GetOBB()->GetWorldMatrix();
-
 		if (pOrb->GetOnOff() == true)
 		{
 			if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
@@ -872,7 +867,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				}
 			}
 		}
-
 	}
 		return;
 
@@ -894,7 +888,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		matW = pObb->GetWorldMatrix();
 		break;
 	}
-
 	D3DXVECTOR3 vOtherPos = pObject->GetPos();
 	float dist = pow(m_vPos.x - vOtherPos.x, 2)
 		+ pow(m_vPos.z - vOtherPos.z, 2);
@@ -922,7 +915,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		D3DXVECTOR3 Pos = m_vPos;
 		while (dist < Radian)
 		{
-			Pos += vDir * m_fvelocity;
+			Pos += vDir * 3.0f;
 			dist = pow(Pos.x - vOtherPos.x, 2)
 				+ pow(Pos.z - vOtherPos.z, 2);
 
@@ -931,12 +924,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				return;
 			}
 		}
-
 		m_vPos = Pos;
-
 	}
-
-
 }
 
 void cPaladin::StateFeedback()
@@ -1178,6 +1167,9 @@ void cPaladin::AddCollisionInfo(
 {
 	if (m_isInvincible)
 		return;
+	if (m_Hp <= 0)
+		return;
+
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 
 	// 关俊辑 单固瘤贸府
@@ -1195,7 +1187,7 @@ void cPaladin::AddCollisionInfo(
 		{
 			fResult = fDMG - m_Elemental_Defense;
 		}
-
+		
 		fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
 	}
 
@@ -1244,17 +1236,22 @@ void cPaladin::AddCollisionInfo(
 		m_Char_StunRate = 0;
 		OnStun(true);
 	}
-	//else
-	//{
-	//	OnStun(false);
-	//}
-	
+	else
+	{
+		OnStun(false);
+	}
 }
 
 void cPaladin::PlayAttackSound()
 {
 	int Min(Paladin_Attack_Hit1), Max(Paladin_Attack_Hit4);
 	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
+}
+
+void cPaladin::PlayDeathSound()
+{
+	g_pSoundManager->PlaySFX(Paladin_Death1);
+	g_pSoundManager->PlaySFX(Paladin_Death_Voice);
 }
 
 void cPaladin::OnStun(bool isHardStun)
