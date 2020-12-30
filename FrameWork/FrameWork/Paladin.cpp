@@ -1214,7 +1214,6 @@ void cPaladin::AddCollisionInfo(
 
 
 
-
 	{ // font
 	   //cFont* pPhaseFont = new cFont;
 		RECT rect;
@@ -1230,6 +1229,7 @@ void cPaladin::AddCollisionInfo(
 		//ObjectManager->AddUIChild(pPhaYYseFont);
 	}
 
+
 	// 스턴치 경직치 처리
 	m_Char_StunRate += fStunDamage;
 
@@ -1237,6 +1237,10 @@ void cPaladin::AddCollisionInfo(
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
+	}
+	else if(nTag == Tag::Tag_Boss || nTag == Tag::Tag_LavaGolem)
+	{
+		OnStun(false);
 	}
 }
 

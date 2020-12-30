@@ -428,13 +428,11 @@ void cFireBall::CollisionProcess(cObject * pObject)
 
 			if (m_IsExplosion == false)
 			{
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Player Meteor Hit");
 				Exploding();
 				// 데미지 차이 
 			}
 			else if(m_IsExplosion)
 			{
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Player Flame Hit");
 				// 데미지 차이
 			}
 
