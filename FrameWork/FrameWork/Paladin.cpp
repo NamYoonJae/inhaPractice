@@ -61,6 +61,7 @@ cPaladin::cPaladin()
 	, m_Melee_Defense(0)
 	, m_Elemental_Defense(0)
 
+	, m_char_Poison_Rate(0)
 	, m_Char_Poison_Damage(0)
 	, m_Char_Poison_Duration(0)
 	, m_Char_StunRate(0)

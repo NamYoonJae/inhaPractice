@@ -72,6 +72,7 @@ private:
 	int				m_Elemental_Defense;
 
 	// char는 character 상태에 대한 속성
+	float			m_char_Poison_Rate;
 	int				m_Char_Poison_Damage;
 	float			m_Char_Poison_Duration;
 	

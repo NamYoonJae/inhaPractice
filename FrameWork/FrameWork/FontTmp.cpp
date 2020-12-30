@@ -40,6 +40,7 @@ void cFontTmp::Setup(string Text, eFontType type)
 	AddFontResourceA("data/Font/umberto.ttf");
 	wcscpy_s(lf.lfFaceName, L"umberto");
 
+	SetTextColor(hdc, RGB(255, 0, 0));
 	
 	//AddFontResource(L"data/Font/Bold.ttf");
 	//AddFontResourceA("data/Font/Bold.ttf");
@@ -112,5 +113,9 @@ void cFontTmp::RenderSprite(IDirect3DDevice9* Device, D3DXMATRIXA16* pMatrix)
 	
 	Device->SetTransform(D3DTS_WORLD, &matWorld);
     m_p3DText->DrawSubset(0);
+}
+
+ID3DXMesh*	cFontTmp::Get3DText()
+{
 	
 }
