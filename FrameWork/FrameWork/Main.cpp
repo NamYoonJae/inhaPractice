@@ -142,7 +142,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
    g_hWnd = hWnd;
+#ifdef _DEBUG
    g_pLogger->CreateLogFile();
+#endif // _DEBUG
+
 
    if (!hWnd)
    {

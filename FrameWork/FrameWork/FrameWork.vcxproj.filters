@@ -38,7 +38,7 @@
       <Filter>Code\TimeManager</Filter>
     </ClCompile>
     <ClCompile Include="json parson.cpp">
-      <Filter>Code\json</Filter>
+      <Filter>Code\Grid\json</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>Code\Scene</Filter>
@@ -59,16 +59,16 @@
       <Filter>Code\Parser</Filter>
     </ClCompile>
     <ClCompile Include="ObjLoader.cpp">
-      <Filter>Code\ObjFile</Filter>
+      <Filter>Code\Object Composite\ObjFile</Filter>
     </ClCompile>
     <ClCompile Include="ObjObject.cpp">
-      <Filter>Code\ObjFile\ObjObject</Filter>
+      <Filter>Code\Object Composite\ObjFile\ObjObject</Filter>
     </ClCompile>
     <ClCompile Include="cTerrain.cpp">
       <Filter>Code\Map\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="json additional code.cpp">
-      <Filter>Code\json</Filter>
+      <Filter>Code\Grid\json</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Code\TextureManager</Filter>
@@ -267,7 +267,7 @@
     </ClCompile>
     <ClCompile Include="PaladinStun.cpp">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="FontTmp.cpp">
       <Filter>Code\UI</Filter>
     </ClCompile>
@@ -320,7 +320,7 @@
       <Filter>Code\TimeManager</Filter>
     </ClInclude>
     <ClInclude Include="json parson.h">
-      <Filter>Code\json</Filter>
+      <Filter>Code\Grid\json</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Code\Scene</Filter>
@@ -341,16 +341,16 @@
       <Filter>Code\Parser</Filter>
     </ClInclude>
     <ClInclude Include="ObjLoader.h">
-      <Filter>Code\ObjFile</Filter>
+      <Filter>Code\Object Composite\ObjFile</Filter>
     </ClInclude>
     <ClInclude Include="ObjObject.h">
-      <Filter>Code\ObjFile\ObjObject</Filter>
+      <Filter>Code\Object Composite\ObjFile\ObjObject</Filter>
     </ClInclude>
     <ClInclude Include="cTerrain.h">
       <Filter>Code\Map\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="json additional code.h">
-      <Filter>Code\json</Filter>
+      <Filter>Code\Grid\json</Filter>
     </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Code\TextureManager</Filter>
@@ -549,7 +549,7 @@
     </ClInclude>
     <ClInclude Include="PaladinStun.h">
       <Filter>Code\Object Composite\InstanceObject\Paladin\PaladinState</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="FontTmp.h">
       <Filter>Code\UI</Filter>
     </ClInclude>
@@ -631,9 +631,6 @@
     <Filter Include="Code\TimeManager">
       <UniqueIdentifier>{f864838d-98b0-40d9-89a0-0e18b00bb76d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\json">
-      <UniqueIdentifier>{74f0f738-f3ed-4beb-b4c5-c967cc256891}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Scene">
       <UniqueIdentifier>{e2473897-b31c-44b2-b0c7-f2bad270627a}</UniqueIdentifier>
     </Filter>
@@ -648,12 +645,6 @@
     </Filter>
     <Filter Include="Code\Parser">
       <UniqueIdentifier>{8e711ea1-9504-4fea-ba44-55805b645329}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ObjFile">
-      <UniqueIdentifier>{06d2c038-9c3f-42f3-af5f-8188bf0af58a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Code\ObjFile\ObjObject">
-      <UniqueIdentifier>{837f631c-c969-4b83-9f08-465eaf21b3c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Code\Object Composite">
       <UniqueIdentifier>{c491b620-7d22-4660-9af5-a30185c7835e}</UniqueIdentifier>
@@ -732,6 +723,15 @@
     </Filter>
     <Filter Include="Code\TextureManager">
       <UniqueIdentifier>{38c36455-2c02-4665-9305-f2940292be81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Grid\json">
+      <UniqueIdentifier>{74f0f738-f3ed-4beb-b4c5-c967cc256891}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\ObjFile">
+      <UniqueIdentifier>{06d2c038-9c3f-42f3-af5f-8188bf0af58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Object Composite\ObjFile\ObjObject">
+      <UniqueIdentifier>{837f631c-c969-4b83-9f08-465eaf21b3c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

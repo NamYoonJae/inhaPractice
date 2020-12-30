@@ -139,8 +139,6 @@ void cGameScene::Setup() // boss1map  boss2map
 			ObjectManager->AddStaticChild(pPaladin);
 			EventManager->PushQueue(EventType::EVENT_CREATE_PALADIN);
 		}
-
-
 	}
 
 	cDragonSoulEater* m_pDragon = new cDragonSoulEater;
@@ -157,6 +155,7 @@ void cGameScene::Setup() // boss1map  boss2map
 #pragma region Map Object
 	JSON_Object* pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/1/Status/");
 	JSON_Array* pAryWallPos = json_object_get_array(pObj, "Position");
+	JSON_Array* pAryWallRot = json_object_get_array(pObj, "Rotation");
 	for (size_t i = 0; i < json_array_get_count(pAryWallPos); i++) // 배열의 크기만큼 벽을 생성
 	{
 		cWall* pWall = new cWall;
@@ -168,10 +167,18 @@ void cGameScene::Setup() // boss1map  boss2map
 				(float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, i)), "z")
 			)
 		);
+		
+		pWall->SetRotation(D3DXVECTOR3(
+			0
+			, D3DXToRadian((float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallRot, i)), "Angle"))
+			,0));
+
+		g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", D3DXToRadian((float)json_object_get_number(json_value_get_object(json_array_get_value(pAryWallRot, i)), "Angle")), " json WallAngle");
+		
 		ObjectManager->AddChild(pWall);
 	}
-	cout << json_array_get_count(pAryWallPos) << " Number of Walls generated" << endl;
-	//cout << "tmp  :  " << json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, 0)), "x") << endl;
+	//cout << json_array_get_count(pAryWallPos) << " Number of Walls generated" << endl;
+	
 
 	pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/3/Status/");
 	JSON_Array* pAryRunePos = json_object_get_array(pObj, "Position");
@@ -188,7 +195,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		);
 		ObjectManager->AddChild(pRune);
 	}
-	cout << json_array_get_count(pAryRunePos) << " Number of RunStones generated" << endl;
+	//cout << json_array_get_count(pAryRunePos) << " Number of RunStones generated" << endl;
 
 	pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/4/Status/");
 	JSON_Array* pAryOrbPos = json_object_get_array(pObj, "Position");
@@ -205,7 +212,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		);
 		ObjectManager->AddChild(pOrb);
 	}
-	cout << json_array_get_count(pAryOrbPos) << " Number of Orbs generated"<< endl;
+	//cout << json_array_get_count(pAryOrbPos) << " Number of Orbs generated"<< endl;
 
 #pragma region Map Object
 
@@ -224,7 +231,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 	
-	cSwampA* pSwampA = new cSwampA;
+	/*cSwampA* pSwampA = new cSwampA;
 	pSwampA->Setup(Tag::Tag_SwampA);
 	pSwampA->SetPos(D3DXVECTOR3(150.0f, 10.0f, 50.0f));
 	ObjectManager->AddChild(pSwampA);
@@ -233,7 +240,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cSwampB* pSwampB = new cSwampB;
 	pSwampB->Setup(Tag::Tag_SwampB);
 	pSwampB->SetPos(D3DXVECTOR3(100.0f, 10.0f, 0.0f));
-	ObjectManager->AddChild(pSwampB);
+	ObjectManager->AddChild(pSwampB);*/
 	
 
 	///BGM
@@ -250,10 +257,12 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	// Font
 	//{
-	//	cFontTmp* pFontTest = new cFontTmp;
+	//	cFont* pPhaseShift = new cFont;
+	//	pPhaseShift->Setup("Phase Changed!", eFontType::FONT_SYSTEM, D3DXVECTOR3(100, 100, 0), true);
+	//	pPhaseShift->Tagging(TAG_UI::TagUI_PhaseShift);
 
-	//	pFontTest->Setup("tmp", eFontType::FONT_SYSTEM);
-	//	ObjectManager->AddChild(pFontTest);
+
+	//	ObjectManager->AddUIChild(pPhaseShift);
 	//}
 
 
@@ -292,6 +301,11 @@ void cGameScene::Reset(int sceneType)
 	case SceneType::SCENE_TROPHIES:
 
 		break;
+
+	case SceneType::SCENE_CLEAR:
+
+		break;
+
 	default:
 		break;
 	}

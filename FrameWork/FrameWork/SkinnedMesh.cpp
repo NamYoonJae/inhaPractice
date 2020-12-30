@@ -417,3 +417,9 @@ std::vector<D3DXMATRIXA16*> cSkinnedMesh::SetUpBoneMatrix()
 	else
 		return vecMatrixArray;
 }
+
+void cSkinnedMesh::UpdateMatrix()
+{
+	Update((ST_BONE*)m_pRoot, &m_matWorldTM);
+	UpdateSkinnedMesh(m_pRoot);
+}

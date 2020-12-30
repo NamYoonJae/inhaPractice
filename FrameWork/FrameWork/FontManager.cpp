@@ -47,6 +47,18 @@ LPD3DXFONT cFontManager::GetFont(eFontType type)
 		AddFontResourceA("data/Font/umberto.ttf");
 		wcscpy_s(fd.FaceName, L"umberto");
 	}
+	else if (type == FONT_PhaseShift)
+	{
+		fd.Width = 75;
+		fd.Height = 150;
+		fd.Weight = FW_MEDIUM;
+		fd.Italic = false;
+		fd.CharSet = DEFAULT_CHARSET;
+		fd.OutputPrecision = OUT_DEFAULT_PRECIS;
+		fd.PitchAndFamily = FF_DONTCARE;
+		AddFontResourceA("data/Font/Algerian Regular.ttf");
+		wcscpy_s(fd.FaceName, L"Algerian");
+	}
 	else
 	{
 		return nullptr;

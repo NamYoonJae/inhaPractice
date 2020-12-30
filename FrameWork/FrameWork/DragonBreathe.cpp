@@ -32,9 +32,6 @@ cDragonBreathe::cDragonBreathe()
 
 	//m_dwDurationTime = 5000.0f;
 
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_fPhysicDamage, "m_fPhysicDamage");
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_fPhysicRate, "m_fPhysicRate");
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", m_dwDurationTime, "Breath Duration");
 }
 
 
@@ -257,8 +254,6 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 			float fDamage = m_fPhysicDamage * m_fPhysicRate;
 
 			pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
-
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Breath Hit");
 		}
 	}
 }

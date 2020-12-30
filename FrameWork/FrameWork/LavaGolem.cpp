@@ -268,8 +268,6 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 
 			float fDamage = m_fDamege;
 
-			Paladin->OnStun(false);
-			
 			pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 0.0f, 0.0f);
 		}
 	}
@@ -388,7 +386,7 @@ void cLavaGolem::AddCollisionInfo(
 
 	// 이 아래에서 폰트띄우기
 	{
-		cFontTmp* pDamageFont = new cFontTmp;
+		cFont3D* pDamageFont = new cFont3D;
 		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
 
 		pDamageFont->Setup("HIT !", eTextColortype::White);

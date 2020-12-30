@@ -74,17 +74,13 @@ cPaladin::cPaladin()
 	, m_Char_Scream_Duration(0)
 
 	, m_pTrophies(NULL)
-	, m_pShadowRenderTarget(NULL)
-	, m_pShadowDepthStencil(NULL)
 
-	, m_pShadowMap(NULL)
 	, m_dwDeverffStartTime(GetTickCount())
 	, m_dwDeverffPreTime(100.0f)
 	, m_IsChangeScene(false)
 	, m_dwStaminaStartTime(GetTickCount())
 	, m_dwStaminaPreTime(100.0f)
 	, m_isStuned(false)
-	, m_pShadow(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -97,9 +93,6 @@ cPaladin::~cPaladin()
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
 	SafeDelete(m_pTrophies);
-
-	SafeRelease(m_pShadowRenderTarget);
-	SafeRelease(m_pShadowDepthStencil);
 	
 	for (cParts* parts : m_vecParts)
 	{
@@ -156,32 +149,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_Aggro = (int)json_object_get_number(p_Character_object, "Aggro");
 	}
 
-	// Log
-	{
-		cout << "Paladin jsonValue  MaxHp : " << m_MaxHp << endl;
-		cout << "Paladin jsonValue  MaxStamina : " << m_MaxStamina << endl;
-		cout << "Paladin jsonValue  Stamina Restore Value : " << m_StaminaRestoreValue << endl;
-		cout << "Paladin jsonValue  fSpeed : " << m_fSpeed << endl;
-		cout << "Paladin jsonValue  Attack_Melee_Damage : " << m_Attack_Melee_Damage << endl;
-		cout << "Paladin jsonValue  Melee_rate_1 : " << m_Melee_rate_1 << endl;
-		cout << "Paladin jsonValue  Melee_rate_2 : " << m_Melee_rate_2 << endl;
-		cout << "Paladin jsonValue  Melee_rate_2 : " << m_Melee_rate_2 << endl;
-		cout << "Paladin jsonValue  Attack_Elemental_Damage : " << m_Attack_Elemental_Damage << endl;
-		cout << "Paladin jsonValue  Attack_StunRate : " << m_Attack_StunRate << endl;
-		cout << "Paladin jsonValue  Attack_RigidRate : " << m_Attack_RigidRate << endl;
-		cout << "Paladin jsonValue  Critical_probability : " << m_Critical_probability << endl;
-		cout << "Paladin jsonValue  Critical_Additional_Damage : " << m_Critical_Additional_Damage << endl;
-		cout << "Paladin jsonValue  Melee_Defense : " << m_Melee_Defense << endl;
-		cout << "Paladin jsonValue  Elemental_Defense : " << m_Elemental_Defense << endl;
-		cout << "Paladin jsonValue  Char_Poison_Damage : " << m_Char_Poison_Damage << endl;
-		cout << "Paladin jsonValue  Char_Poison_Duration : " << m_Char_Poison_Duration << endl;
-		cout << "Paladin jsonValue  Char_Stun_reduce : " << m_Char_Stun_Reduce << endl;
-		cout << "Paladin jsonValue  Char_Stun_Duration : " << m_Char_Poison_Duration << endl;
-		cout << "Paladin jsonValue  Char_Scream_Duration : " << m_Char_Scream_Duration << endl;
-		cout << "Paladin jsonValue  Char_Invincibility_Duration : " << m_Char_Invincibility_Duration << endl;
-		cout << "Paladin jsonValue  Aggro : " << m_Aggro << endl;
-	}
-
 	// object interaction
 	{
 		JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
@@ -234,13 +201,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
-	ShadowShaderSetup();
 	ShaderSetup();
-
-	m_pShadowMap = new cPopup;
-	m_pShadowMap->Setup(m_pShadowRenderTarget, 2048);
-	m_pShadowMap->SetPercent(0.1f);
-	m_pShadowMap->SetPosition(D3DXVECTOR2(1000, 0));
 
 	m_pCurState = new cPaladinIdle(this);
 
@@ -251,40 +212,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_vecDebuff_UI.push_back(popup1);
 		m_vecDebuff_UI.push_back(popup2);
-	}
-
-	m_ShadowScale = D3DXVECTOR3(0.1f, 0.001f, 0.1f);
-
-	m_pShadow = new cShadow;
-	m_pShadow->Setup();
-	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
-	m_pShadow->SetScale(m_ShadowScale);
-
-}
-
-void cPaladin::ShadowShaderSetup()
-{
-	const int shadowMapSize = 2048;
-	if (FAILED(g_pD3DDevice->CreateTexture(shadowMapSize, shadowMapSize,
-		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
-		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
-	{
-		cout << "CreateTexture FAILED" << endl;
-	}
-
-	if (FAILED(g_pD3DDevice->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
-		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE,
-		&m_pShadowDepthStencil, NULL)))
-	{
-		cout << "CreateDepthStencilSurface FAILED" << endl;
-	}
-
-	cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
-	
-	if(pArenaMap)
-	{
-		pArenaMap->AddShadowMap(m_pShadowRenderTarget);
-		pArenaMap = nullptr;
 	}
 }
 
@@ -305,6 +232,7 @@ void cPaladin::ShaderSetup()
 
 void cPaladin::Update()
 {
+
 	if (m_Hp <= 0 && m_IsChangeScene == false) 
 	{
  		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
@@ -429,7 +357,6 @@ void cPaladin::Update()
 			//JSON_Object* pBossSkill = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/BOSS SKILL/");
 			//json_Function::object_get_double(pBoss, "Attack/");
 			//json_Function::object_get_double(pBossSkill, "SKILL 3/Attribute/Melee Rate");
-			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f",m_Hp);
 		}
 
 		if (SearchDebuff(enum_Stun))
@@ -465,8 +392,6 @@ void cPaladin::Update()
 			}
 		}
 	}
-
-	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 }
 
 void cPaladin::Update(EventType event)
@@ -476,6 +401,8 @@ void cPaladin::Update(EventType event)
 		m_fvelocity = 0;
 		return;
 	}
+	if (m_Hp <= 0)
+		return;
 	
 	JSON_Object* p_root_object = g_p_jsonManager->get_json_object_Character();
 	JSON_Object* p_Character_object = json_object_get_object(p_root_object, "Character");
@@ -488,65 +415,79 @@ void cPaladin::Update(EventType event)
 	static bool isKeyDown = false;
 
 
-	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
+	if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3 ||
+		m_pCurState->GetStateIndex() == m_pCurState->Kick ||
+		m_pCurState->GetStateIndex() == m_pCurState->Roar)
 	{
-		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed") * 0.1f;
+		m_fSpeed = m_fOriginSpeed * 0.1f;
+		if (m_pTrophies)
+		if (m_pTrophies->GetTag() == TAG_UI::TagUI_Trophies_DragonFoot)
+		{
+			JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
+			m_fSpeed = m_fSpeed + json_Function::object_get_double(p_jsonObject, "Trophy/Dragonfoot/Passive/Increase speed");
+		}
 	}
 	else
 	{
-		m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
-	}
-
-	if (event == EventType::EVENT_ARROW_UP)
-	{
-		D3DXMatrixRotationY(&TempRot, 0);
-		m_fvelocity = m_fSpeed * delta;
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_ARROW_LEFT)
-	{
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5);
-		m_fvelocity = m_fSpeed * delta;
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_ARROW_DOWN)
-	{
-		D3DXMatrixRotationY(&TempRot, D3DX_PI);
-		m_fvelocity = m_fSpeed * delta;
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_ARROW_RIGHT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_UPLEFT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5 + D3DX_PI / 6);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_UPRIGHT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5 - D3DX_PI / 6);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_DOWNLEFT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI + D3DX_PI / 6);
-		isKeyDown = true;
-	}
-	if (event == EventType::EVENT_DOWNRIGHT)
-	{
-		m_fvelocity = m_fSpeed * delta;
-		D3DXMatrixRotationY(&TempRot, D3DX_PI - D3DX_PI / 6);
-		isKeyDown = true;
-	}
+		m_fSpeed = m_fOriginSpeed;
+		if (m_pTrophies)
+		if (m_pTrophies->GetTag() == TAG_UI::TagUI_Trophies_DragonFoot)
+		{
+			JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
+			m_fSpeed = m_fSpeed + json_Function::object_get_double(p_jsonObject, "Trophy/Dragonfoot/Passive/Increase speed");
+		}
 
 
+		if (event == EventType::EVENT_ARROW_UP)
+		{
+			D3DXMatrixRotationY(&TempRot, 0);
+			m_fvelocity = m_fSpeed * delta;
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_ARROW_LEFT)
+		{
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5);
+			m_fvelocity = m_fSpeed * delta;
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_ARROW_DOWN)
+		{
+			D3DXMatrixRotationY(&TempRot, D3DX_PI);
+			m_fvelocity = m_fSpeed * delta;
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_ARROW_RIGHT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5);
+			isKeyDown = true;
+		}
+
+		if (event == EventType::EVENT_UPLEFT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 1.5 + D3DX_PI / 6);
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_UPRIGHT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI * 0.5 - D3DX_PI / 6);
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_DOWNLEFT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI + D3DX_PI / 6);
+			isKeyDown = true;
+		}
+		if (event == EventType::EVENT_DOWNRIGHT)
+		{
+			m_fvelocity = m_fSpeed * delta;
+			D3DXMatrixRotationY(&TempRot, D3DX_PI - D3DX_PI / 6);
+			isKeyDown = true;
+		}
+	}
 
 	if (event == EventType::EVENT_KEYUP && isKeyDown)
 	{
@@ -569,15 +510,11 @@ void cPaladin::Update(EventType event)
 		}
 	}
 	
-
-	static int n = 0;
-
 	if (event == EventType::EVENT_LBUTTONDOWN)
 	{
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3)
 		{
 			dynamic_cast<cPaladinAttack*>(m_pCurState)->ComboAttack();
-
 		}
 		else
 		{
@@ -592,7 +529,7 @@ void cPaladin::Update(EventType event)
 		}
 	}
 
-	if (event == EventType::EVENT_RBUTTONDOWN)
+	if (event == EventType::EVENT_KEYBOARD_R)
 	{
 		if (m_pCurState->GetStateIndex() == m_pCurState->Idle ||
 			m_pCurState->GetStateIndex() == m_pCurState->Run ||
@@ -653,7 +590,7 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
-	//CreateShadow();
+	CreateShadow();
 	ShaderRender();
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 
@@ -661,10 +598,6 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 	{
 		parts->Render();
 	}
-
-	//m_pShadowMap->Render();
-	m_pShadow->Render();
-
 }
 
 void cPaladin::ShaderRender()
@@ -707,79 +640,77 @@ void cPaladin::ShaderRender()
 
 void cPaladin::CreateShadow()
 {
-	LPD3DXEFFECT pShader = g_pShaderManager->GetShader(eShader::CreateShadow);
+	D3DLIGHT9  light;
+	g_pD3DDevice->GetLight(0, &light);
+	D3DXVECTOR4 vDir(light.Direction, 0);
 
-	if (pShader)
-	{
-		LPDIRECT3DSURFACE9 pHWBackBuffer = NULL;
-		LPDIRECT3DSURFACE9 pHWDepthStencilBuffer = NULL;
-		g_pD3DDevice->GetRenderTarget(0, &pHWBackBuffer);
-		g_pD3DDevice->GetDepthStencilSurface(&pHWDepthStencilBuffer);
+	// 그림자 행렬 만들기.
+	D3DXPLANE  plane(0, -1, 0, 0);
+	D3DXMATRIXA16   mShadow;
+	D3DXMatrixShadow(&mShadow, &vDir, &plane);
 
-		LPDIRECT3DSURFACE9 pShadowSurface = NULL;
-		if (SUCCEEDED(m_pShadowRenderTarget->GetSurfaceLevel(0, &pShadowSurface)))
-		{
-			g_pD3DDevice->SetRenderTarget(0, pShadowSurface);
-			pShadowSurface->Release();
-			pShadowSurface = NULL;
-		}
-		g_pD3DDevice->SetDepthStencilSurface(m_pShadowDepthStencil);
 
-		g_pD3DDevice->Clear(0, NULL, (D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER), 0xFFFFFFFF, 1.0f, 0);
+	// 그림자 반투명처리.
+	g_pD3DDevice->SetTexture(0, NULL);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_CONSTANT, D3DXCOLOR(0, 0, 0, 0.5f));
 
-		D3DLIGHT9   Light;
-		g_pD3DDevice->GetLight(0, &Light);
-		//D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Direction.x, Light.Direction.y, Light.Direction.z, 1);
-		D3DXVECTOR4 vLightPos = D3DXVECTOR4(Light.Position.x, Light.Position.y, Light.Position.z, 1);
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		D3DXMATRIXA16 matLightView;
-		{
-			D3DXVECTOR3 vEyePt(vLightPos.x, vLightPos.y, vLightPos.z);
-			D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-			D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-			D3DXMatrixLookAtLH(&matLightView, &vEyePt, &vLookatPt, &vUpVec);
-		}
 
-		D3DXMATRIXA16 matLightProjection;
-		{
-			D3DXMatrixPerspectiveFovLH(&matLightProjection, D3DX_PI / 4.0f, 1, 1, 3000);
-		}
+	//  스텐실 테스트 옵션 설정. : '0' 인곳에 그린후, 값을 증가 시켜, 중복렌더링을 방지.
+	//
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, true);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILREF, 0x00);            //기본값은 0x00
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);      //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);   //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);   //성공시, 버퍼의 값을 증가 
 
-		pShader->SetMatrix("gWorldMatrix", &MatrixIdentity);
-		pShader->SetMatrix("gLightViewMatrix", &matLightView);
-		pShader->SetMatrix("gLightProjectionMatrix", &matLightProjection);
-		
 
-		UINT numPasses = 0;
-		pShader->Begin(&numPasses, NULL);
-		{
-			for (UINT i = 0; i < numPasses; ++i)
-			{
-				pShader->BeginPass(i);
-				{
-					m_pSkinnedUnit->Render();
-				}
-				pShader->EndPass();
-			}
-		}
-		pShader->End();
+	// 기타 옵션.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-		g_pD3DDevice->SetRenderTarget(0, pHWBackBuffer);
-		g_pD3DDevice->SetDepthStencilSurface(pHWDepthStencilBuffer);
 
-		pHWBackBuffer->Release();
-		pHWBackBuffer = NULL;
-		pHWDepthStencilBuffer->Release();
-		pHWDepthStencilBuffer = NULL;
+	// 그리기..
+	D3DXMATRIXA16 _mTM;
+	D3DXMATRIXA16 _tempMat = m_matScale * m_matTranse;
+	//_mTM = m_matTranse * mShadow;
+	_mTM = MatrixIdentity * mShadow;
+	//_mTM = m_matRot * mShadow;
+	//_mTM = m_matWorld * mShadow;
+	//_mTM = m_matScale * mShadow;
+	D3DXMATRIXA16 oldWorldMat = m_matWorld;
+	m_pSkinnedUnit->m_matWorldTM = _mTM;
 
-		cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
+	m_pSkinnedUnit->UpdateMatrix();
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &_tempMat);
+	m_pSkinnedUnit->Render();
+	m_pSkinnedUnit->m_matWorldTM = oldWorldMat;
+	m_pSkinnedUnit->UpdateMatrix();
 
-		if (pArenaMap)
-		{
-			pArenaMap->ReplaceShadowMap(m_pShadowRenderTarget);
-			pArenaMap = nullptr;
-		}
-	}
+	// 옵션 복구.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, TRUE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }
 
 void cPaladin::CollisionProcess(cObject* pObject)
@@ -791,7 +722,9 @@ void cPaladin::CollisionProcess(cObject* pObject)
 	{
 		//내가 공격 중이라면
 		if (m_pCurState->GetStateIndex() >= m_pCurState->Attack3 ||
-			m_pCurState->GetStateIndex() == m_pCurState->Kick)
+			m_pCurState->GetStateIndex() == m_pCurState->Kick ||
+			m_pCurState->GetStateIndex() == m_pCurState->Roar
+			)
 		{
 			if (cOBB::IsCollision(pOtherOBB, m_vecParts[0]->GetOBB())
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
@@ -846,6 +779,15 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							iDamage = m_Attack_Melee_Damage + m_Attack_Elemental_Damage;
 							fDamageRate = 1;
 							bDamageType = false;
+
+							JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
+							float RequireHPRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
+							float RestoreRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
+
+							if(RequireHPRate > (float)m_Hp / (float)m_MaxHp)
+							{
+								m_Hp = m_Hp + (int)(iDamage * RestoreRate);
+							}
 						}
 						break;
 					}
@@ -870,9 +812,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				{
 					pObject->AddCollisionInfo(m_nTag, info, 1);
 				}
-#pragma endregion 
+#pragma endregion
 			}
-
 		}
 	}
 
@@ -901,7 +842,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 //			}
 //		}
 //	}
-
 	cOBB* pObb;
 	D3DXMATRIXA16 matW;
 	switch (iOtherTag)
@@ -913,7 +853,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		cOrb* pOrb = (cOrb*)pObject;
 		//pObb = pOrb->GetOBB();
 		//matW = pOrb->GetOBB()->GetWorldMatrix();
-
 		if (pOrb->GetOnOff() == true)
 		{
 			if (cOBB::IsCollision(m_vecParts[1]->GetOBB(), pOrb->GetOBB())
@@ -926,7 +865,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				}
 			}
 		}
-
 	}
 		return;
 
@@ -948,7 +886,6 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		matW = pObb->GetWorldMatrix();
 		break;
 	}
-
 	D3DXVECTOR3 vOtherPos = pObject->GetPos();
 	float dist = pow(m_vPos.x - vOtherPos.x, 2)
 		+ pow(m_vPos.z - vOtherPos.z, 2);
@@ -976,7 +913,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 		D3DXVECTOR3 Pos = m_vPos;
 		while (dist < Radian)
 		{
-			Pos += vDir * m_fvelocity;
+			Pos += vDir * 3.0f;
 			dist = pow(Pos.x - vOtherPos.x, 2)
 				+ pow(Pos.z - vOtherPos.z, 2);
 
@@ -985,12 +922,8 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				return;
 			}
 		}
-
 		m_vPos = Pos;
-
 	}
-
-
 }
 
 void cPaladin::StateFeedback()
@@ -1230,16 +1163,18 @@ void cPaladin::AddCollisionInfo(
 	float fDMG, bool bDamageType,
 	float fStunDamage, float fRigidDamage)
 {
+	if (m_Hp <= 0)
+		return;
 	if (m_isInvincible)
 		return;
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 
 	// 밑에서 데미지처리
 	srand(GetTickCount());
-	
+
 	float fResult = 0;
 
-	if(0 < fDMG)
+	if (0 < fDMG)
 	{
 		if (bDamageType)
 		{
@@ -1255,64 +1190,76 @@ void cPaladin::AddCollisionInfo(
 		mt19937_64 gen(rd());
 		uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
 		fResult = fResult + randNum(gen);
+		//fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
+
+		m_Hp = m_Hp - (int)fResult;
+		if (0 > m_Hp)
+		{
+			m_Hp = 0;
+		}
+
+		// 이 아래에서 폰트띄우기
+		{
+			cFont3D* pDamageFont = new cFont3D;
+			pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
+
+			pDamageFont->Setup(to_string((int)fResult), Red);
+			D3DXVECTOR3 vPos = m_vPos;
+			vPos.y += 30;
+			pDamageFont->SetPos(vPos);
+
+			ObjectManager->AddUIChild(pDamageFont);
+		}
 	}
 
-	
-	m_Hp = m_Hp - (int)fResult;
-	if (0 > m_Hp)
-	{
-		m_Hp = 0;
-	}
 
-	// 이 아래에서 폰트띄우기
-	{
-		cFontTmp* pDamageFont = new cFontTmp;
-		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
-
-		pDamageFont->Setup(to_string((int)fResult), Red);
-		D3DXVECTOR3 vPos = m_vPos;
-		vPos.y += 30;
-		pDamageFont->SetPos(vPos);
-
-		ObjectManager->AddUIChild(pDamageFont);
-	}
 
 	{ // font
-		//cFont* pPhaseFont = new cFont;
+	   //cFont* pPhaseFont = new cFont;
 		RECT rect;
 		GetWindowRect(g_hWnd, &rect);
 
 		//pPhaseFont->Setup(
-		//	to_string(1) + " : Phase"
-		//	, FONT_SYSTEM
-		//	, D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
-		//	, false);
+		//   to_string(1) + " : Phase"
+		//   , FONT_SYSTEM
+		//   , D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
+		//   , false);
 		//pPhaseFont->Tagging(TAG_UI::TagUI_PhaseShift);
 
-		//ObjectManager->AddUIChild(pPhaseFont);
+		//ObjectManager->AddUIChild(pPhaYYseFont);
 	}
+
 
 	// 스턴치 경직치 처리
 	m_Char_StunRate += fStunDamage;
 
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_Char_StunRate, "StunRate");
-	
 	if (100 <= m_Char_StunRate)
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
 	}
-	//else
-	//{
-	//	OnStun(false);
-	//}
-	
+	else if(nTag == Tag::Tag_Boss || nTag == Tag::Tag_LavaGolem)
+	{
+		OnStun(false);
+	}
+}
+
+void cPaladin::OnDeath()
+{
+	m_pSkinnedUnit->SetAnimationIndex(m_pCurState->Die);
+	PlayAttackSound();
 }
 
 void cPaladin::PlayAttackSound()
 {
 	int Min(Paladin_Attack_Hit1), Max(Paladin_Attack_Hit4);
 	g_pSoundManager->PlaySFX(GenerateRandomNum(Min, Max));
+}
+
+void cPaladin::PlayDeathSound()
+{
+	g_pSoundManager->PlaySFX(Paladin_Death1);
+	g_pSoundManager->PlaySFX(Paladin_Death_Voice);
 }
 
 void cPaladin::OnStun(bool isHardStun)

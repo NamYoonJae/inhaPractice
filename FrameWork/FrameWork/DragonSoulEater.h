@@ -130,6 +130,8 @@ public:
 
 	void PhaseShift();
 	void DashShader();
+
+	void CreateShadow();
 };
 
 
