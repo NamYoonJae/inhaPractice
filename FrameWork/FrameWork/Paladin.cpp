@@ -30,6 +30,9 @@
 #include "DragonSoulEater.h"
 #include "LavaGolem.h"
 #include "Wall.h"
+#include "Shadow.h"
+
+#define pos_y 20.56f
 
 cPaladin::cPaladin()
 	: m_fvelocity(0.0f)
@@ -80,6 +83,7 @@ cPaladin::cPaladin()
 	, m_dwStaminaStartTime(GetTickCount())
 	, m_dwStaminaPreTime(100.0f)
 	, m_isStuned(false)
+	, m_pShadow(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -247,6 +251,14 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_vecDebuff_UI.push_back(popup1);
 		m_vecDebuff_UI.push_back(popup2);
 	}
+
+	m_ShadowScale = D3DXVECTOR3(0.1f, 0.001f, 0.1f);
+
+	m_pShadow = new cShadow;
+	m_pShadow->Setup();
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
+	m_pShadow->SetScale(m_ShadowScale);
+
 }
 
 void cPaladin::ShadowShaderSetup()
@@ -452,6 +464,7 @@ void cPaladin::Update()
 		}
 	}
 
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 }
 
 void cPaladin::Update(EventType event)
@@ -648,6 +661,8 @@ void cPaladin::Render(D3DXMATRIXA16* pmat)
 	}
 
 	//m_pShadowMap->Render();
+	m_pShadow->Render();
+
 }
 
 void cPaladin::ShaderRender()

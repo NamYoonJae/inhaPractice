@@ -67,10 +67,10 @@ void cGameScene::Setup() // boss1map  boss2map
 	ZeroMemory(&m_Light, sizeof(D3DLIGHT9));
 	m_Light.Type = _D3DLIGHTTYPE::D3DLIGHT_DIRECTIONAL;
 	m_Light.Ambient = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	m_Light.Diffuse = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
-	m_Light.Specular = D3DXCOLOR(0.7F, 0.7F, 0.7F, 1.0F);
+	m_Light.Diffuse = D3DXCOLOR(1.0F, 1.0F, 1.0F, 1.0F);
+	m_Light.Specular = D3DXCOLOR(1.0F, 1.0F, 1.0F, 1.0F);
 	m_Light.Falloff = 1.0f;
-	D3DXVECTOR3 vDir(10.0f, -2.0f,20.0f);
+	D3DXVECTOR3 vDir(0.0f, -2.0f, 0.0f);
 	D3DXVec3Normalize(&vDir, &vDir);
 	m_Light.Direction = vDir;
 	m_Light.Position = D3DXVECTOR3(500.00, 500.00, -500.00);
