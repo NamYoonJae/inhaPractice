@@ -231,7 +231,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 
 	
-	cSwampA* pSwampA = new cSwampA;
+	/*cSwampA* pSwampA = new cSwampA;
 	pSwampA->Setup(Tag::Tag_SwampA);
 	pSwampA->SetPos(D3DXVECTOR3(150.0f, 10.0f, 50.0f));
 	ObjectManager->AddChild(pSwampA);
@@ -240,7 +240,7 @@ void cGameScene::Setup() // boss1map  boss2map
 	cSwampB* pSwampB = new cSwampB;
 	pSwampB->Setup(Tag::Tag_SwampB);
 	pSwampB->SetPos(D3DXVECTOR3(100.0f, 10.0f, 0.0f));
-	ObjectManager->AddChild(pSwampB);
+	ObjectManager->AddChild(pSwampB);*/
 	
 
 	///BGM

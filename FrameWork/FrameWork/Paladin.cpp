@@ -531,7 +531,7 @@ void cPaladin::Update(EventType event)
 		}
 	}
 
-	if (event == EventType::EVENT_RBUTTONDOWN)
+	if (event == EventType::EVENT_KEYBOARD_R)
 	{
 		if (m_pCurState->GetStateIndex() == m_pCurState->Idle ||
 			m_pCurState->GetStateIndex() == m_pCurState->Run ||
