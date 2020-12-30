@@ -23,6 +23,7 @@ cSoulEater_Flood::cSoulEater_Flood(cDragonSoulEater* pDragon)
 	m_dwCoolTime = 1000.0f;
 	m_dwElapsedTime = 0.0f;
 	m_nCntSwamp = 0;
+	m_IsTrigger = false;
 }
 
 
