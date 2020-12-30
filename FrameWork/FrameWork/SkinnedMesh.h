@@ -64,5 +64,6 @@ public:
 	DWORD	GetAnimStartTime() { return m_dAnimStartTime; }
 	void	SetAnimStartTime(DWORD time) { m_dAnimStartTime = time; }
 
+	void UpdateMatrix();
 };
 
