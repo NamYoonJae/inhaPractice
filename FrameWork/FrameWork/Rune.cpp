@@ -6,6 +6,7 @@
 #include "jsonManager.h"
 #include "ObjectPool.h"
 #include "Shadow.h"
+#include "SoundManager.h"
 #pragma once
 
 #define pos_y 20.56f
@@ -297,4 +298,18 @@ void cRune::CollisionProcess(cObject * pObject)
 	}
 	break;
 	}
+}
+
+void cRune::SetOnOff(bool state)
+{
+	m_OnOff = state;
+
+	if (state == true) 
+	{
+		string strPath = "data/Sound/SFX/Rune/NW_rune_effect.mp3";
+		g_pSoundManager->AddSFX(strPath, (int)Tag_RunStone);
+		g_pSoundManager->PlaySFX(Tag_RunStone);
+	}
+
+
 }

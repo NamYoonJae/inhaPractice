@@ -35,7 +35,7 @@ public:
 
 	void CollisionProcess(cObject* pObject);
 	cOBB* GetSubOBB() { return m_pSubOBB; }
-	void SetOnOff(bool state) { m_OnOff = state; };
+	void SetOnOff(bool state);
 	bool GetOnOff() { return m_OnOff; };
 
 };

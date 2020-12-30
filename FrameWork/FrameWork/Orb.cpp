@@ -4,6 +4,7 @@
 #include "ObjLoader.h"
 #include "Paladin.h"
 #include "jsonManager.h"
+#include "SoundManager.h"
 #pragma once
 
 cOrb::cOrb()
@@ -304,6 +305,10 @@ void cOrb::CollisionProcess(cObject * pObject)
 				&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 			{
 				m_OnOff = false;
+
+				string strPath = "data/Sound/SFX/Orb/NW_orb_effect.mp3";
+				g_pSoundManager->AddSFX(strPath, (int)Tag_Orb);
+				g_pSoundManager->PlaySFX(Tag_Orb);
 
 				//CollisionInfo info;
 				//info.dwCollsionTime = GetTickCount();

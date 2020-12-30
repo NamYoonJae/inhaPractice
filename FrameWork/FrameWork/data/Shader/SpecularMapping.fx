@@ -17,7 +17,7 @@ float4 gWorldLightPos
 	float4 UIMin = float4(-10.00, -10.00, -10.00, -10.00);
 	float4 UIMax = float4(10.00, 10.00, 10.00, 10.00);
 	bool Normalize = false;
-> = float4( 500.00, 500.00, -500.00, 1.00 );
+> = float4( 500.0, 500.0, -500.0, 1.00 );
 
 float4 gWorldCameraPos : ViewPosition;
 
@@ -90,13 +90,13 @@ float3 gLightColor
 	bool UIVisible = false;
 	float UIMin = -1.00;
 	float UIMax = 1.00;
-> = float3(0.7f, 0.7f, 1.0f);
+> = float3(1.0f, 1.0f, 1.0f);
 
 float4 PS(PS_INPUT Input) : COLOR
 {   
    float4 albedo = tex2D(DiffuseSampler, Input.mUV);
    
-
+   albedo += float4(0.5, 0.5, 0.5, 0);
    float3 diffuse = gLightColor * albedo.rgb * saturate(Input.mDiffuse);
    float3 reflection = normalize(Input.mReflection);
    float3 viewDir = normalize(Input.mViewDir);
@@ -109,7 +109,7 @@ float4 PS(PS_INPUT Input) : COLOR
       float4 specularIntensity = tex2D(SpecularSampler, Input.mUV);
       specular *= specularIntensity.rgb * gLightColor.rgb;
    }
-   float3 ambient = float3(0.02f, 0.02f, 0.02f);
+   float3 ambient = float3(0.03f, 0.03f, 0.03f);
    
    return float4(ambient + diffuse + specular, 1.0f ) ;
 }
