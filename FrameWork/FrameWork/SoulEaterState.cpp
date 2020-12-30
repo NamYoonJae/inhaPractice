@@ -11,6 +11,7 @@ cSoulEaterState::cSoulEaterState()
 	, m_vDir(0, 0, 0)
 	, m_dwElapsedTime(GetTickCount())
 {
+	m_isAttack = false;
 }
 
 cSoulEaterState::cSoulEaterState(cDragonSoulEater *pDragon)
@@ -19,7 +20,7 @@ cSoulEaterState::cSoulEaterState(cDragonSoulEater *pDragon)
 			, m_dwElapsedTime(GetTickCount())
 {
 	m_pDragon = pDragon;
-
+	m_isAttack = false;
 
 
 	// BOSS SKILL status

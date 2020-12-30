@@ -17,7 +17,8 @@ const enum Tag
 	Tag_RunStone,
 	Tag_Wall,
 	Tag_Breath,
-	Tag_MapWall
+	Tag_MapWall,
+	Tag_Scream
 };
 
 
@@ -44,7 +45,8 @@ enum TAG_UI
 	TagUI_GameOver,
 	TagUI_GameClear,
 
-	TagUI_Damage
+	TagUI_3DFont,
+	TagUI_PhaseShift
 };
 
 enum SceneType;

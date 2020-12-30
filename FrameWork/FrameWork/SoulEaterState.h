@@ -15,7 +15,7 @@ protected:
 	DWORD m_dwElapsedTime;
 
 	float PhysicRate; // << 
-
+	Synthesize(bool, m_isAttack, Attack);
 #pragma region SKILL Attribute
 	// 파이어볼 // 즉사기 패턴
 	float				m_FireBall_Physic_Rate;
