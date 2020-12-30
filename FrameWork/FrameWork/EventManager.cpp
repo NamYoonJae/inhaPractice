@@ -252,7 +252,7 @@ void cEventManager::Update()
 
 cEventManager::cEventManager()
 	: m_IsDrag(false)
-	, m_IsOBBButten(true)
+	, m_IsOBBButten(false)
 {
 }
 
