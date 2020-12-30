@@ -3,7 +3,8 @@
 enum eTextColortype
 {
 	White,
-	Red
+	Red,
+	Orenge
 };
 
 class cFontTmp : public cObject
@@ -19,7 +20,7 @@ private:
 
 	string			m_strText;
 	LPDIRECT3DTEXTURE9 m_pTex;
-	
+	float			m_fSpeed;
 public:
 	cFontTmp();
 	~cFontTmp();

@@ -116,7 +116,6 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 	g_pTimeManager->DrawFPS();
 
 
-
 	for(int i = 0; i < vecUserInterface.size(); i++)
 	{
 		vecUserInterface.at(i)->Render(NULL);

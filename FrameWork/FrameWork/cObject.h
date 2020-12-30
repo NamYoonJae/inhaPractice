@@ -45,7 +45,8 @@ enum TAG_UI
 	TagUI_GameOver,
 	TagUI_GameClear,
 
-	TagUI_Damage
+	TagUI_3DFont,
+	TagUI_PhaseShift
 };
 
 enum SceneType;

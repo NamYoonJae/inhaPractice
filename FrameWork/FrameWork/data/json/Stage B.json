@@ -79,7 +79,7 @@
         "name": "Flood",
         "Attribute": {
           "Range": "float n",
-          "Duration": 5000,
+          "Duration": 50000,
           "Melee rate": 0.6,
           "Elemental rate": 0,
           "memo" : "독의 상태이상 태그값은 1입니다.",

@@ -7,6 +7,7 @@
 #include "cCharater.h"
 #include "FontTmp.h"
 #include "FontManager.h"
+#include "Font.h"
 
 #include "SoulEaterState.h"
 #include "SoulEater_Idle.h"
@@ -30,7 +31,6 @@
 #include "ShaderManager.h"
 #include "Shadow.h"
 #pragma once
-
 #define pos_y 20.56f
 
 
@@ -753,6 +753,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
+						pPaladin->OnStun(false);
+
 						cSoulEater_BasicAttack* pBasicAttack = (cSoulEater_BasicAttack*)m_pCurState;
 
 						float fDamage = m_fPhysicDamage * pBasicAttack->GetPhysicsDamage();
@@ -761,6 +763,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
 
+
+						
 						pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 10.0f);
 
 						// 스테이트 클래스에서 get매서드로 값 가져오기
@@ -772,6 +776,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
+						pPaladin->OnStun(false);
+
 						cSoulEater_TailAttack* pTailAttack = (cSoulEater_TailAttack*)m_pCurState;
 
 						float fDamage = m_fPhysicDamage * pTailAttack->GetPhysicsDamage();
@@ -786,6 +792,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			case 3:		// 돌진
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
+					pPaladin->OnStun(false);
+
 					cSoulEater_Rush* pRush = (cSoulEater_Rush*)m_pCurState;
 
 					float fDamage = m_fElementalDamage * pRush->GetElementalDamage();
@@ -797,7 +805,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				}
 				break;
 			}
-
 		}
 	}
 	else if(nTag == Tag::Tag_RunStone || nTag == Tag::Tag_Wall)
@@ -916,7 +923,7 @@ void cDragonSoulEater::AddCollisionInfo(
 	// 이 아래에서 폰트띄우기
 	{
 		cFontTmp* pDamageFont = new cFontTmp;
-		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
+		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
 
 		pDamageFont->Setup(to_string((int)fResult), eTextColortype::White);
 		D3DXVECTOR3 vPos = m_vPos;
@@ -936,7 +943,6 @@ void cDragonSoulEater::AddCollisionInfo(
 
 	if( 0 < fRigidDamage )
 		m_Rigid_Rate += fRigidDamage;
-
 
 }
 
@@ -1297,6 +1303,9 @@ void cDragonSoulEater::PhaseShift()
 		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.3 && m_nPhase == 3))
 	{
 		++m_nPhase;
+
+		// 여기서 페이즈 전환 메시지 처리
+		
 		switch (m_nPhase)
 		{
 		case 2:
