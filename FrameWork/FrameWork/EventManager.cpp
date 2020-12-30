@@ -29,10 +29,14 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 
 		if (wParam == MK_LBUTTON)
 		{
-			m_IsDrag = true;
+			m_IsLDrag = true;
 			m_vPrev = vMousePos;
 		}
-		
+		if (wParam == MK_RBUTTON)
+		{
+			m_IsRDrag = true;
+			m_vPrev = vMousePos;
+		}
 		m_vCur = vMousePos;
 			
 		m_Queue.push((EventType)0x00);
@@ -82,16 +86,24 @@ void cEventManager::InputEvent(UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_LBUTTONUP:
 	{
-		if(m_IsDrag)
+		if(m_IsLDrag)
 		{
-			m_IsDrag = false;
+			m_IsLDrag = false;
 			m_Queue.push((EventType)0x0A);	
 		}
 		m_Queue.push((EventType)0x07);
 		SendMessage(g_hWnd, WM_SETCURSOR, 139, NULL);
 	}
 	case WM_RBUTTONUP:
+	{
+		if (m_IsRDrag)
+		{
+			m_IsRDrag = false;
+			m_Queue.push((EventType)0x0B);
+		}
+		m_Queue.push(EventType::EVENT_RBUTTONUP);
 		Notify();		
+	}
 		break;
 	}
 }
@@ -251,7 +263,8 @@ void cEventManager::Update()
 
 
 cEventManager::cEventManager()
-	: m_IsDrag(false)
+	: m_IsLDrag(false)
+	, m_IsRDrag(false)
 	, m_IsOBBButten(false)
 {
 }

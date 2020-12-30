@@ -19,7 +19,7 @@ cBackViewCamera::cBackViewCamera()
 	, m_fScrollY(0.0f)
 	, m_IsVibration(false)
 	, m_IsUpdate(true)
-	, m_IsLBDOWN(false)
+	, m_IsRBDOWN(false)
 {
 }
 
@@ -155,13 +155,13 @@ void cBackViewCamera::Update()
  {
 	 if (!m_IsUpdate) return;
 
-	 if (Event == EventType::EVENT_LBUTTONDOWN)
+	 if (Event == EventType::EVENT_RBUTTONDOWN)
 	 {
 		 m_ptPrevMouse = EventManager->GetMouseCurrent();
-		 m_IsLBDOWN = true;
+		 m_IsRBDOWN = true;
 	 }
 
-	 if(Event == EventType::EVENT_MOVE && m_IsLBDOWN)
+	 if(Event == EventType::EVENT_MOVE && m_IsRBDOWN)
 	 {
 		 D3DXVECTOR2 ptCurMouse = EventManager->GetMouseCurrent();
 
@@ -178,9 +178,9 @@ void cBackViewCamera::Update()
 		 m_ptPrevMouse = ptCurMouse;
 	 }
 
-	 if (Event == EventType::EVENT_DRAG)
+	 if (Event == EventType::EVENT_RDRAG)
 	 {
-		 m_IsLBDOWN = false;
+		 m_IsRBDOWN = false;
 
 	 }
 
