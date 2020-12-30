@@ -267,7 +267,7 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	cSwampB* swamp = new cSwampB;
 	swamp->Setup(Tag::Tag_SwampB);
-	swamp->SetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	swamp->SetPos(D3DXVECTOR3(110.0f, 0.0f, 10.0f));
 	ObjectManager->AddChild(swamp);
 
 
