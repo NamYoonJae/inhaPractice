@@ -55,11 +55,12 @@ void cSoulEater_TailAttack::handle()
 	if (distance <= TargetDistance)
 		m_IsRun = false;
 
+	LPD3DXANIMATIONCONTROLLER pAnimController = m_pDragon->GetSkinnedMesh().GetAnimationController();
+	LPD3DXANIMATIONSET pCurAnimSet = NULL;
+	pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
+	
 	if(!m_IsRun && !m_IsAnimBlend)
 	{
-		LPD3DXANIMATIONCONTROLLER pAnimController = m_pDragon->GetSkinnedMesh().GetAnimationController();
-		LPD3DXANIMATIONSET pCurAnimSet = NULL;
-		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
 		if (GetTickCount() - m_pDragon->GetSkinnedMesh().GetAnimStartTime()
 			- pCurAnimSet->GetPeriod() * 1000.0f - m_pDragon->GetSkinnedMesh().GetBlendTime() * 1000.0f)
 		{
@@ -69,6 +70,7 @@ void cSoulEater_TailAttack::handle()
 				g_pSoundManager->PlaySFX((int)eSoundList::Dragon_TailAttack);
 				m_IsAnimBlend = true;
 				m_dwElapsedTime = GetTickCount();
+				m_isAttack = true;
 			}
 		}
 	}
@@ -80,6 +82,12 @@ void cSoulEater_TailAttack::handle()
 		{
 			m_pDragon->Request();
 			return;
+		}
+
+		if (GetTickCount() - m_pDragon->GetSkinnedMesh().GetAnimStartTime()
+			- pCurAnimSet->GetPeriod() * 1000.0f - m_pDragon->GetSkinnedMesh().GetBlendTime() * 1000.0f)
+		{
+			m_isAttack = false;
 		}
 	}
 	else if (m_IsRun)
