@@ -44,7 +44,6 @@ void InGamePause_Event(EventType message, cPopup* btn)
 				btn->PowerOnOff_List_OnlySelf(false);
 				btn->GetPopupBtn(0)->PowerOnOff_OnlySelf(true);
 			}
-			cout << "ESC_Event call & active" << endl;
 		}
 	}
 	break;
@@ -98,7 +97,6 @@ void StaminaGaugeEvent(EventType message, cPopup * btn)
 		{
 			cPaladin *paladin = (cPaladin*)ObjectManager->SearchChild(Tag::Tag_Player);
 			btn->SetPaladinReference(paladin);
-			cout << "ÆÈ¶óµò Stamina: " << btn->GetPaladinReference()->GetStamina() << endl;
 		}
 	}
 	break;

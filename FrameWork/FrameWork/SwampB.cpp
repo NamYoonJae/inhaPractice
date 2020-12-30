@@ -275,7 +275,6 @@ void cSwampB::CollisionProcess(cObject * pObject)
 
 				float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
 
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", fDamage, "장판에 받은 데미지");
 				pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
 			}
 			break;

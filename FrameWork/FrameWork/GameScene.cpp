@@ -177,8 +177,8 @@ void cGameScene::Setup() // boss1map  boss2map
 		
 		ObjectManager->AddChild(pWall);
 	}
-	cout << json_array_get_count(pAryWallPos) << " Number of Walls generated" << endl;
-	//cout << "tmp  :  " << json_object_get_number(json_value_get_object(json_array_get_value(pAryWallPos, 0)), "x") << endl;
+	//cout << json_array_get_count(pAryWallPos) << " Number of Walls generated" << endl;
+	
 
 	pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/3/Status/");
 	JSON_Array* pAryRunePos = json_object_get_array(pObj, "Position");
@@ -195,7 +195,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		);
 		ObjectManager->AddChild(pRune);
 	}
-	cout << json_array_get_count(pAryRunePos) << " Number of RunStones generated" << endl;
+	//cout << json_array_get_count(pAryRunePos) << " Number of RunStones generated" << endl;
 
 	pObj = json_Function::object_get_object(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/4/Status/");
 	JSON_Array* pAryOrbPos = json_object_get_array(pObj, "Position");
@@ -212,7 +212,7 @@ void cGameScene::Setup() // boss1map  boss2map
 		);
 		ObjectManager->AddChild(pOrb);
 	}
-	cout << json_array_get_count(pAryOrbPos) << " Number of Orbs generated"<< endl;
+	//cout << json_array_get_count(pAryOrbPos) << " Number of Orbs generated"<< endl;
 
 #pragma region Map Object
 
