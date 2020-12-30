@@ -204,7 +204,6 @@ void cSwampA::CollisionProcess(cObject * pObject)
 			case Tag::Tag_SwampA:
 			{
 				pPaladin->SetSpeed(pPaladin->GetOriginSpeed() - 50); // 벗어났을때 처리
-																	 //cout << "TRUE" << endl;
 			}
 			// 	 이동속도 느려지는 오브젝트
 			break;

@@ -33,7 +33,6 @@ void SelectSkyBizzEvent(EventType message, cPopup * btn)
 					button->SetStateChange(enum_Off); //off상태로 체인지
 				}
 			}
-
 		}
 		else
 		{
