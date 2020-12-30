@@ -72,7 +72,6 @@ void cShadow::Setup()
 
 void cShadow::Update()
 {
-
 }
 
 void cShadow::Render(D3DXMATRIXA16* pmat)

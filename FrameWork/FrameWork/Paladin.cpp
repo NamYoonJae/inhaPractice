@@ -6,6 +6,7 @@
 #include "ShaderManager.h"
 #include "FontManager.h"
 #include "FontTmp.h"
+#include "Font.h"
 
 #include "Paladin.h"
 
@@ -30,6 +31,9 @@
 #include "DragonSoulEater.h"
 #include "LavaGolem.h"
 #include "Wall.h"
+#include "Shadow.h"
+
+#define pos_y 20.56f
 
 cPaladin::cPaladin()
 	: m_fvelocity(0.0f)
@@ -61,6 +65,7 @@ cPaladin::cPaladin()
 	, m_Melee_Defense(0)
 	, m_Elemental_Defense(0)
 
+	, m_char_Poison_Rate(0)
 	, m_Char_Poison_Damage(0)
 	, m_Char_Poison_Duration(0)
 	, m_Char_StunRate(0)
@@ -79,6 +84,7 @@ cPaladin::cPaladin()
 	, m_dwStaminaStartTime(GetTickCount())
 	, m_dwStaminaPreTime(100.0f)
 	, m_isStuned(false)
+	, m_pShadow(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -114,10 +120,10 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_MaxStamina = (float)json_Function::object_get_double(p_Character_object, "Stamina/Stamina");
 		m_fOriginSpeed = m_fSpeed = (float)json_object_get_number(p_Character_object, "Move speed");
 
-		m_Hp = 500;
-		//m_Hp = m_MaxHp;
-		m_Stamina = 500;
-		//m_Stamina = m_MaxStamina;
+		//m_Hp = 500;
+		m_Hp = m_MaxHp;
+		//m_Stamina = 500;
+		m_Stamina = m_MaxStamina;
 
 		m_StaminaRestoreValue = (float)json_Function::object_get_double(p_Character_object, "Stamina/Restore");
 
@@ -228,7 +234,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
-	ShadowShaderSetup();
 	ShaderSetup();
 
 	m_pShadowMap = new cPopup;
@@ -246,32 +251,14 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_vecDebuff_UI.push_back(popup1);
 		m_vecDebuff_UI.push_back(popup2);
 	}
-}
 
-void cPaladin::ShadowShaderSetup()
-{
-	const int shadowMapSize = 2048;
-	if (FAILED(g_pD3DDevice->CreateTexture(shadowMapSize, shadowMapSize,
-		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
-		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
-	{
-		cout << "CreateTexture FAILED" << endl;
-	}
+	m_ShadowScale = D3DXVECTOR3(0.1f, 0.001f, 0.1f);
 
-	if (FAILED(g_pD3DDevice->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
-		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE,
-		&m_pShadowDepthStencil, NULL)))
-	{
-		cout << "CreateDepthStencilSurface FAILED" << endl;
-	}
+	m_pShadow = new cShadow;
+	m_pShadow->Setup();
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
+	m_pShadow->SetScale(m_ShadowScale);
 
-	cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
-	
-	if(pArenaMap)
-	{
-		pArenaMap->AddShadowMap(m_pShadowRenderTarget);
-		pArenaMap = nullptr;
-	}
 }
 
 void cPaladin::ShaderSetup()
@@ -293,10 +280,11 @@ void cPaladin::Update()
 {
 	if (m_Hp <= 0 && m_IsChangeScene == false) 
 	{
-		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
+ 		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 		pCamera->SetUpdate(false);
 		m_IsChangeScene = true;
 		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+		
 		return;
 	}
 
@@ -451,6 +439,7 @@ void cPaladin::Update()
 		}
 	}
 
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 }
 
 void cPaladin::Update(EventType event)
@@ -779,7 +768,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 				info.dwCollsionTime = GetTickCount();
 				info.dwDelayTime = 1500.0f;
 
-				g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
+				//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", iOtherTag, "iOtherTag");
 
 #pragma region Paladin to Monster damage
 				// To BOSS
@@ -788,61 +777,57 @@ void cPaladin::CollisionProcess(cObject* pObject)
 					srand(GetTickCount());
 					int iDamage = 0;
 					cDragonSoulEater* pDragon = (cDragonSoulEater*)pObject;
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack1)
+
+					bool bIsCritical = m_Critical_probability > (float)rand() / (float)32767 ? true : false;
+					bool bDamageType = true;
+					float fDamageRate = 0;
+					
+					switch (m_pCurState->GetStateIndex())
 					{
-						// 공격 1
-						//if (0.5 > (float)rand() / (float)32767)
-						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
+					case cPaladinState::eAnimationSet::Attack1:
+						bDamageType = true;
+						iDamage = m_Attack_Melee_Damage;
+						fDamageRate = m_Melee_rate_1;
+						break;
+					case cPaladinState::eAnimationSet::Attack2:
+						bDamageType = true;
+						iDamage = m_Attack_Melee_Damage;
+						fDamageRate = m_Melee_rate_2;
+						break;
+					case cPaladinState::eAnimationSet::Attack3:
+						bDamageType = true;
+						iDamage = m_Attack_Melee_Damage;
+						fDamageRate = m_Melee_rate_3;
+						break;
+					case cPaladinState::eAnimationSet::Kick:
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1;
-							cout << "ATTACK 1 Critical HIT" << endl;
+							fDamageRate = json_Function::object_get_double(g_p_jsonManager->get_json_object_Trophies(), "Trophy/Dragonfoot/Active/Melee rate");
+							iDamage = m_Attack_Melee_Damage;
+							bIsCritical = true;
+							//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", fDamageRate, " Trophy/Dragonfoot/Active/Melee rate");
 						}
-						else
+						break;
+					case cPaladinState::eAnimationSet::Roar:
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1;
-							cout << "ATTACK 1 HIT" << endl;
+							iDamage = m_Attack_Melee_Damage + m_Attack_Elemental_Damage;
+							fDamageRate = 1;
+							bDamageType = false;
 						}
+						break;
 					}
 
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack2)
-					{
-						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2;
-							cout << "ATTACK 2 Critical HIT" << endl;
-						}
-						else
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2;
-							cout << "ATTACK 2 HIT" << endl;
-						}
-					}
+					iDamage = iDamage * fDamageRate;
+					if (bIsCritical)
+						iDamage += m_Critical_Additional_Damage;
 
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack3)
-					{
-						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3;
-							cout << "ATTACK 3 Critical HIT" << endl;
-						}
-						else
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3;
-							cout << "ATTACK 3 HIT" << endl;
-						}
-					}
 
 					if (0 < iDamage)
 					{
-						pObject->AddCollisionInfo(m_nTag, info, iDamage, true, 10.0f);
+						pObject->AddCollisionInfo(m_nTag, info, iDamage, bDamageType, 10.0f);
 
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetSTUN(), " Dragon Stun Gauge");
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetRigid(), " Dragon Rigid Gauge");
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetCURHP(), " Dragon Current HP");
-
-						{ // TODO 데미지 텍스트 출력할 공간
-							
-						}
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetSTUN(), " Dragon Stun Gauge");
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetRigid(), " Dragon Rigid Gauge");
+						//g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetCURHP(), " Dragon Current HP");
 					}
 				}
 
@@ -1217,22 +1202,26 @@ void cPaladin::AddCollisionInfo(
 
 	// 밑에서 데미지처리
 	srand(GetTickCount());
-
+	
 	float fResult = 0;
-	if (bDamageType)
-	{
-		fResult = fDMG - m_Melee_Defense;
-	}
-	else
-	{
-		fResult = fDMG - m_Elemental_Defense;
-	}
 
 	if (0 >= fResult )
 		return;
+	
+	if(0 < fDMG)
+	{
+		if (bDamageType)
+		{
+			fResult = fDMG - m_Melee_Defense;
+		}
+		else
+		{
+			fResult = fDMG - m_Elemental_Defense;
+		}
 
-	fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
-
+		fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
+	}
+	
 	m_Hp = m_Hp - (int)fResult;
 	if (0 > m_Hp)
 	{
@@ -1242,9 +1231,9 @@ void cPaladin::AddCollisionInfo(
 	// 이 아래에서 폰트띄우기
 	{
 		cFontTmp* pDamageFont = new cFontTmp;
-		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
+		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
 
-		pDamageFont->Setup(to_string((int)fResult), eFontType::FONT_SYSTEM);
+		pDamageFont->Setup(to_string((int)fResult), Red);
 		D3DXVECTOR3 vPos = m_vPos;
 		vPos.y += 30;
 		pDamageFont->SetPos(vPos);
@@ -1252,21 +1241,37 @@ void cPaladin::AddCollisionInfo(
 		ObjectManager->AddUIChild(pDamageFont);
 	}
 
+	{ // font
+		//cFont* pPhaseFont = new cFont;
+		RECT rect;
+		GetWindowRect(g_hWnd, &rect);
+
+		//pPhaseFont->Setup(
+		//	to_string(1) + " : Phase"
+		//	, FONT_SYSTEM
+		//	, D3DXVECTOR3((rect.right - rect.left) / 2, (rect.bottom - rect.top) / 2, 0)
+		//	, false);
+		//pPhaseFont->Tagging(TAG_UI::TagUI_PhaseShift);
+
+		//ObjectManager->AddUIChild(pPhaseFont);
+	}
+
 	// 스턴치 경직치 처리
 	m_Char_StunRate += fStunDamage;
 
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_Char_StunRate, "StunRate");
+	
 	if (100 <= m_Char_StunRate)
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
 		SetDebuff(enum_Stun);
 	}
-	else
-	{
-		OnStun(false);
-	}
-
-
+	//else
+	//{
+	//	OnStun(false);
+	//}
+	
 }
 
 void cPaladin::PlayAttackSound()

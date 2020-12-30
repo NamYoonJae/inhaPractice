@@ -3,7 +3,7 @@
     "Name": "paladin",
     "Max HP": 1000,
     "Attack": {
-      "Melee": 100,
+      "Melee": 200,
       "Melee 1 rate": 1.0,
       "Melee 2 rate": 1.5,
       "Melee 3 rate": 1.8,

@@ -25,6 +25,12 @@ cSwampA::cSwampA()
 
 cSwampA::~cSwampA()
 {
+	SafeRelease(m_pMesh);
+	SafeRelease(m_pShader);
+	SafeRelease(m_pTexcoord);
+	SafeRelease(m_pTexcoord_B);
+	SafeRelease(m_pTex0);
+	SafeRelease(m_pNoise);
 }
 
 void cSwampA::Setup(Tag T)
@@ -33,15 +39,9 @@ void cSwampA::Setup(Tag T)
 	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS/");
 	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
 
-	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Melee");
-	m_fElementalDamage = json_Function::object_get_double(p_BOSS_object, "Attack/Elemental");
-	m_Flood_Condition = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
-																										 //m_Flood_Condition = json_Function::object_get_string(p_SKILL_object, "SKILL 3/Attribute/Condition"); // 상태이상 부여 종류
 	m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
 
-
-	m_dwElapsedTime = GetTickCount();
-	m_dwDurationTime = json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Duration");
+	// TODO 슬로우 처리
 
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);

@@ -27,6 +27,13 @@ cSwampB::cSwampB()
 
 cSwampB::~cSwampB()
 {
+	SafeRelease(m_pTexcoord);
+	SafeRelease(m_pTexcoord_B);
+	SafeRelease(m_pNoise);
+	SafeRelease(m_pTex0);
+	SafeRelease(m_pShader);
+	SafeRelease(m_pMesh);
+	
 }
 
 void cSwampB::Setup(Tag T)
@@ -42,17 +49,11 @@ void cSwampB::Setup(Tag T)
 	m_Flood_Physic_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Melee rate");
 	m_Flood_Elemental_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Elemental rate");
 
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_fPhysicDamage, "보스 물리데미지");
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_dwDurationTime, "보스 장판 지속시간");
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_Flood_Physic_Rate, "보스 장판 물리 계수");
-	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", m_Flood_Elemental_Rate, "보스 장판 속성 계수");
-
 	m_dwElapsedTime = GetTickCount();
 	m_dwDurationTime = json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Duration");
 
 	// 100
 	//m_vDir = D3DXVECTOR3(0, 0, -1);
-	m_vPos = D3DXVECTOR3(0, 0, 0);
 
 	// 스케일 적용
 	//m_vScale = D3DXVECTOR3(0.3, 0.001, 0.3); 
@@ -261,7 +262,8 @@ void cSwampB::CollisionProcess(cObject * pObject)
 
 		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
 
-		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible())
+		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible()
+			&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 		{
 			switch (m_nTag)
 			{
@@ -269,7 +271,7 @@ void cSwampB::CollisionProcess(cObject * pObject)
 			{
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
-				info.dwDelayTime = 3000;
+				info.dwDelayTime = 300;
 
 				float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
 

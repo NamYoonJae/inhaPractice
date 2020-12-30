@@ -71,12 +71,15 @@ void cSoulEater_BasicAttack::handle()
 			m_dwElapsedTime = GetTickCount();
 			m_IsAnimBlend = true;
 			m_IsRun = false;
+			m_isAttack = true;
 		}
 		else if(GetTickCount() - m_dwElapsedTime >= 500.0f && m_IsAnimBlend)
 		{
+			m_isAttack = false;
 			m_pDragon->Request();
 			return;
 		}
+
 	}
 	else
 	{

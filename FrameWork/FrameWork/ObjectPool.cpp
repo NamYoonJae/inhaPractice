@@ -61,7 +61,7 @@ void ObjectPool::Update()
 				continue;
 			}
 
-			pos.y = fHeight + 20.0f;
+			pos.y = fHeight;
 			vecObjectList.at(i)->SetPos(pos);
 			vecObjectList.at(i)->CollisionInfoCheck();
 		}
@@ -114,7 +114,6 @@ void ObjectPool::Render(D3DXMATRIXA16* pmat)
 	}
 
 	g_pTimeManager->DrawFPS();
-
 
 
 	for(int i = 0; i < vecUserInterface.size(); i++)

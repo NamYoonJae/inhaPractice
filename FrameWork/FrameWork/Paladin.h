@@ -9,6 +9,8 @@ class cParts;
 class cPaladinWeapon;
 class cTrophies;
 class cPaladinBody;
+class cShadow;
+
 struct ST_BONE;
 
 enum eDebuff_Player 
@@ -72,6 +74,7 @@ private:
 	int				m_Elemental_Defense;
 
 	// char는 character 상태에 대한 속성
+	float			m_char_Poison_Rate;
 	int				m_Char_Poison_Damage;
 	float			m_Char_Poison_Duration;
 	
@@ -106,12 +109,14 @@ private:
 	LPDIRECT3DTEXTURE9		m_pShadowRenderTarget;
 	LPDIRECT3DSURFACE9		m_pShadowDepthStencil;
 	cPopup* m_pShadowMap;
+
+	cShadow* m_pShadow;
+	D3DXVECTOR3 m_ShadowScale;
 public:
 	cPaladin();
 	~cPaladin();
 
 	void Setup(char* szFolder, char* szFile);
-	void ShadowShaderSetup();
 	void ShaderSetup();
 	void Update();
 	void Update(EventType event) override;

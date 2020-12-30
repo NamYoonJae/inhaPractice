@@ -6,6 +6,7 @@
 #include "jsonManager.h"
 #include "ObjectPool.h"
 #include "Shadow.h"
+#include "SoundManager.h"
 #pragma once
 
 #define pos_y 20.56f
@@ -172,7 +173,7 @@ void cRune::Update()
 	D3DXMatrixIdentity(&matW);
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y + 9.0f, m_vPos.z);
 
 	if (m_OnOff == false) 
 	{
@@ -206,7 +207,7 @@ void cRune::Update()
 			if (m_pSubOBB)
 			{
 
-				D3DXMatrixScaling(&matS, 0.4f, 0.4f, 0.4f);
+				D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
 				matW = matS * matR * matT;
 				m_pSubOBB->Update(&matW);
 			}
@@ -239,7 +240,7 @@ void cRune::Render(D3DXMATRIXA16 * pmat)
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixScaling(&matS, 1.0f, 1.0f, 1.0f);
-	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y + 9.0f, m_vPos.z);
 
 	if (m_OnOff == false) 
 	{
@@ -297,4 +298,18 @@ void cRune::CollisionProcess(cObject * pObject)
 	}
 	break;
 	}
+}
+
+void cRune::SetOnOff(bool state)
+{
+	m_OnOff = state;
+
+	if (state == true) 
+	{
+		string strPath = "data/Sound/SFX/Rune/NW_rune_effect.mp3";
+		g_pSoundManager->AddSFX(strPath, (int)Tag_RunStone);
+		g_pSoundManager->PlaySFX(Tag_RunStone);
+	}
+
+
 }

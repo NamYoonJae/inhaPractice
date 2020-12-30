@@ -7,6 +7,7 @@
 #include "cCharater.h"
 #include "FontTmp.h"
 #include "FontManager.h"
+#include "Font.h"
 
 #include "SoulEaterState.h"
 #include "SoulEater_Idle.h"
@@ -28,7 +29,10 @@
 #include "Rune.h"
 #include "Wall.h"
 #include "ShaderManager.h"
+#include "Shadow.h"
 #pragma once
+#define pos_y 20.56f
+
 
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -37,6 +41,8 @@ cDragonSoulEater::cDragonSoulEater()
 	, m_nPrevStateIndex(0)
 	, m_pDashShader(NULL)
 	, m_pDashTex(NULL)
+	, m_pShadow(NULL)
+	, m_ShadowScale(0.0f, 0.0f, 0.0f)
 {
 	m_fPhysicDamage = 200;
 
@@ -115,6 +121,7 @@ void cDragonSoulEater::Update()
 	if (m_pCurState)
 		m_pCurState->handle();
 
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 
 #ifdef NDEBUG
 	for (int i = 0x31; i <= 0x39; i++)
@@ -130,6 +137,7 @@ void cDragonSoulEater::Update()
 
 	//CollisionInfoCheck();
 	PhaseShift();
+
 }
 
 void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
@@ -167,6 +175,7 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	for (int i = 0; i < m_vecBoundingBoxList.size(); i++)
 		m_vecBoundingBoxList.at(i).Box->OBBBOX_Render(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	
+	m_pShadow->Render();
 
 }
 
@@ -351,6 +360,12 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 	m_pDashShader = g_pShaderManager->GetShader(eShader::Nebula);
 	m_pDashTex = g_pTextureManager->GetTexture("data/Texture/NebX.dds");
 
+	m_ShadowScale = D3DXVECTOR3(0.3f, 0.001f, 0.4f);
+	
+	m_pShadow = new cShadow;
+	m_pShadow->Setup();
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
+	m_pShadow->SetScale(m_ShadowScale);
 }
 
 void cDragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
@@ -728,7 +743,7 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 	{
 		cPaladin* pPaladin = (cPaladin*)pObject;
 
-		if (m_pCurState && !pPaladin->GetInvincible())
+		if (m_pCurState && !pPaladin->GetInvincible() && m_pCurState->GetAttack())
 		{
 			int nCurStateIndex = m_pCurState->GetIndex();
 			switch (nCurStateIndex)
@@ -738,6 +753,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
+						pPaladin->OnStun(false);
+
 						cSoulEater_BasicAttack* pBasicAttack = (cSoulEater_BasicAttack*)m_pCurState;
 
 						float fDamage = m_fPhysicDamage * pBasicAttack->GetPhysicsDamage();
@@ -746,6 +763,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
 
+
+						
 						pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 10.0f);
 
 						// 스테이트 클래스에서 get매서드로 값 가져오기
@@ -757,6 +776,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
+						pPaladin->OnStun(false);
+
 						cSoulEater_TailAttack* pTailAttack = (cSoulEater_TailAttack*)m_pCurState;
 
 						float fDamage = m_fPhysicDamage * pTailAttack->GetPhysicsDamage();
@@ -771,6 +792,8 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			case 3:		// 돌진
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
+					pPaladin->OnStun(false);
+
 					cSoulEater_Rush* pRush = (cSoulEater_Rush*)m_pCurState;
 
 					float fDamage = m_fElementalDamage * pRush->GetElementalDamage();
@@ -782,7 +805,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				}
 				break;
 			}
-
 		}
 	}
 	else if(nTag == Tag::Tag_RunStone || nTag == Tag::Tag_Wall)
@@ -877,6 +899,8 @@ void cDragonSoulEater::AddCollisionInfo(
 	float fDMG, bool bDamageType,
 	float fStunDamage, float fRigidDamage)
 {
+	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
+	
 	float fResult = 0;
 
 	if (bDamageType)
@@ -899,9 +923,9 @@ void cDragonSoulEater::AddCollisionInfo(
 	// 이 아래에서 폰트띄우기
 	{
 		cFontTmp* pDamageFont = new cFontTmp;
-		pDamageFont->Tagging(TAG_UI::TagUI_Damage);
+		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
 
-		pDamageFont->Setup(to_string((int)fResult), eFontType::FONT_SYSTEM);
+		pDamageFont->Setup(to_string((int)fResult), eTextColortype::White);
 		D3DXVECTOR3 vPos = m_vPos;
 		vPos.y += 30;
 		pDamageFont->SetPos(vPos);
@@ -919,7 +943,6 @@ void cDragonSoulEater::AddCollisionInfo(
 
 	if( 0 < fRigidDamage )
 		m_Rigid_Rate += fRigidDamage;
-
 
 }
 
@@ -1280,6 +1303,9 @@ void cDragonSoulEater::PhaseShift()
 		(m_fCurHeathpoint <= m_fMaxHeathPoint * 0.3 && m_nPhase == 3))
 	{
 		++m_nPhase;
+
+		// 여기서 페이즈 전환 메시지 처리
+		
 		switch (m_nPhase)
 		{
 		case 2:

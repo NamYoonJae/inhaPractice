@@ -53,7 +53,8 @@ void cSoulEater_Rush::handle()
 	if (m_IsRush == false)
 	{
 		m_pDragon->GetSkinnedMesh().SetAnimationIndexBlend(AnimationSet::Run);
-		m_IsRush = true;
+		m_isAttack = m_IsRush = true;
+		
 	}
 	
 
@@ -64,7 +65,6 @@ void cSoulEater_Rush::handle()
 
 	std::map<int, CollisionInfo> CollisionList = m_pDragon->GetMapCollisionList();
 
-	// 벽부디쳣을때겠지
 	if (CollisionList.find(Tag::Tag_Wall) != CollisionList.end() &&
 		m_IsHitAnything == false)
 	{
@@ -72,18 +72,9 @@ void cSoulEater_Rush::handle()
 		m_IsHitAnything = true;
 		m_vDir = D3DXVECTOR3(0, 0, 0);
 		
-		//경직치가 쌓인다9
-		//스턴치 넣어줘야되
-
 		m_pDragon->SetSTUN(m_pDragon->GetSTUN() + m_pDragon->GetWallStunDamage());
 		m_pDragon->SetRigid(m_pDragon->GetRigid() + m_pDragon->GetWallRigidDamage());
-		cout << "BOSS Stun Gauge : "<< m_pDragon->GetSTUN() << endl;
-
-		//m_pDragon->SetSTUN(m_pDragon->GetSTUN() + 50.0f);
-		//m_pDragon->SetRigid(m_pDragon->GetRigid() + 15.0f);
 		
-		//g_pSoundManager->PlaySFX(eSoundList::Dragon_Collision);
-
 		m_pDragon->HitSound();
 		m_pDragon->Request();
 		return;
@@ -92,6 +83,7 @@ void cSoulEater_Rush::handle()
 	if (distance <= 30.0f)
 	{
 		m_pDragon->Request();
+		m_isAttack = false;
 		return;
 	}
 	else

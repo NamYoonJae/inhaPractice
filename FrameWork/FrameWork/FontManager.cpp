@@ -10,7 +10,7 @@ cFontManager::cFontManager()
 
 cFontManager::~cFontManager()
 {
-
+	Destroy();
 }
 
 LPD3DXFONT cFontManager::GetFont(eFontType type)
