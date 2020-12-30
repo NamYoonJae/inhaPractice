@@ -28,7 +28,11 @@
 #include "Rune.h"
 #include "Wall.h"
 #include "ShaderManager.h"
+#include "Shadow.h"
 #pragma once
+
+#define pos_y 20.56f
+
 
 cDragonSoulEater::cDragonSoulEater()
 	:m_pSkinnedUnit(NULL)
@@ -37,6 +41,8 @@ cDragonSoulEater::cDragonSoulEater()
 	, m_nPrevStateIndex(0)
 	, m_pDashShader(NULL)
 	, m_pDashTex(NULL)
+	, m_pShadow(NULL)
+	, m_ShadowScale(0.0f, 0.0f, 0.0f)
 {
 	m_fPhysicDamage = 200;
 
@@ -115,6 +121,7 @@ void cDragonSoulEater::Update()
 	if (m_pCurState)
 		m_pCurState->handle();
 
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 
 #ifdef NDEBUG
 	for (int i = 0x31; i <= 0x39; i++)
@@ -130,6 +137,7 @@ void cDragonSoulEater::Update()
 
 	//CollisionInfoCheck();
 	PhaseShift();
+
 }
 
 void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
@@ -167,6 +175,7 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	for (int i = 0; i < m_vecBoundingBoxList.size(); i++)
 		m_vecBoundingBoxList.at(i).Box->OBBBOX_Render(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	
+	m_pShadow->Render();
 
 }
 
@@ -351,6 +360,12 @@ void cDragonSoulEater::Setup(char* szFolder, char* szFileName)
 	m_pDashShader = g_pShaderManager->GetShader(eShader::Nebula);
 	m_pDashTex = g_pTextureManager->GetTexture("data/Texture/NebX.dds");
 
+	m_ShadowScale = D3DXVECTOR3(0.3f, 0.001f, 0.4f);
+	
+	m_pShadow = new cShadow;
+	m_pShadow->Setup();
+	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
+	m_pShadow->SetScale(m_ShadowScale);
 }
 
 void cDragonSoulEater::GetWorldMatrix(D3DXMATRIXA16* matWorld)
