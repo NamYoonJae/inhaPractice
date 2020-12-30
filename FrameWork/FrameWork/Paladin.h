@@ -158,6 +158,7 @@ public:
 
 	void SetStun(bool isStuned) { m_isStuned = isStuned; }
 	void OnStun(bool isHardStun);
+	void OnDeath();
 };
 
 class cParts

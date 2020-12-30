@@ -73,8 +73,8 @@ void cSoulEater_Flood::handle()
 		m_dwElapsedTime = GetTickCount();
 		random_device rd;
 		mt19937_64 gen(rd());
-		uniform_real_distribution<> randNumZ((int)MapRC.top, (int)MapRC.bottom);
-		uniform_real_distribution<> randNumX((int)MapRC.left, (int)MapRC.right);
+		uniform_int_distribution<> randNumZ((int)MapRC.top, (int)MapRC.bottom);
+		uniform_int_distribution<> randNumX((int)MapRC.left, (int)MapRC.right);
 
 		
 		D3DXVECTOR3 vec3SwampSize(
