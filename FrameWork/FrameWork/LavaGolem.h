@@ -57,6 +57,7 @@ public:
 		float fDMG, bool bDamageType,
 		float fStunDamage, float fRigidDamage);
 	void HitSound() override;
+	void CreateShadow();
 };
 
 // 공격 이동 죽음 IDLE

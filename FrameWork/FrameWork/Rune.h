@@ -37,6 +37,6 @@ public:
 	cOBB* GetSubOBB() { return m_pSubOBB; }
 	void SetOnOff(bool state);
 	bool GetOnOff() { return m_OnOff; };
-
+	void CreateShadow();
 };
 
