@@ -1025,8 +1025,8 @@ void cPaladin::CreateTrophies(EventType message)
 			true,
 			true,
 			TAG_UI::TagUI_Trophies_SkyBeez,
-			1000,
-			1000);
+			1000
+			);
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
@@ -1041,8 +1041,8 @@ void cPaladin::CreateTrophies(EventType message)
 			1.0, 
 			true, true, 
 			TAG_UI::TagUI_Trophies_DragonFoot, 
-			1000, 
-			1000);
+			1000
+			);
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
@@ -1237,6 +1237,7 @@ void cPaladin::AddCollisionInfo(
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
+		SetDebuff(enum_Stun);
 	}
 	else if(nTag == Tag::Tag_Boss || nTag == Tag::Tag_LavaGolem)
 	{

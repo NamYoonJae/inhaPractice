@@ -31,7 +31,7 @@ cTrophies::~cTrophies()
 }
 
 
-void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed, int tag, float maxGauge, float gauge)
+void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float percent, bool powerOnOff, bool fixed, int tag, float maxGauge)
 {
 	m_Percentage = percent;
 	m_Position = position;
@@ -39,7 +39,7 @@ void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float pe
 	m_Fixed = fixed;
 	m_nTag = tag;
 	m_MaxGauge = maxGauge;
-	m_Gauge = gauge;
+	m_Gauge = 0;
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	string fileRoot(root);
@@ -56,10 +56,10 @@ void cTrophies::Update()
 	{
 		if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
 		{
-			m_Gauge -= 0.2;
-			if (m_Gauge < 0) 
+			m_Gauge += 2.0f;
+			if(m_Gauge >= m_MaxGauge)
 			{
-				m_Power = false;
+				m_Gauge = m_MaxGauge;
 			}
 			m_dwStateStartTime = GetTickCount();
 		}

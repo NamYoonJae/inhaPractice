@@ -24,8 +24,7 @@ public:
 		bool powerOnOff,
 		bool fixed,
 		int tag,
-		float maxGauge,
-		float gauge
+		float maxGauge
 	);
 
 	void Update() override;
