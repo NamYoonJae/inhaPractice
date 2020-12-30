@@ -1236,27 +1236,28 @@ void cPaladin::AddCollisionInfo(
 
 	// 밑에서 데미지처리
 	srand(GetTickCount());
-
+	
 	float fResult = 0;
-	if (bDamageType)
+
+	if(0 < fDMG)
 	{
-		fResult = fDMG - m_Melee_Defense;
+		if (bDamageType)
+		{
+			fResult = fDMG - m_Melee_Defense;
+		}
+		else
+		{
+			fResult = fDMG - m_Elemental_Defense;
+		}
+
+		//GenerateRandomNum(); <<
+		random_device rd;
+		mt19937_64 gen(rd());
+		uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
+		fResult = fResult + randNum(gen);
 	}
-	else
-	{
-		fResult = fDMG - m_Elemental_Defense;
-	}
 
-	if (0 >= fResult )
-		return;
-
-	//GenerateRandomNum(); <<
-	random_device rd;
-	mt19937_64 gen(rd());
-	uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
-
-	fResult = fResult + randNum(gen);
-
+	
 	m_Hp = m_Hp - (int)fResult;
 	if (0 > m_Hp)
 	{
@@ -1294,7 +1295,7 @@ void cPaladin::AddCollisionInfo(
 	// 스턴치 경직치 처리
 	m_Char_StunRate += fStunDamage;
 
-
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_Char_StunRate, "StunRate");
 	
 	if (100 <= m_Char_StunRate)
 	{
