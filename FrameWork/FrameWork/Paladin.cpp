@@ -1216,8 +1216,8 @@ void cPaladin::AddCollisionInfo(
 
 	{ // font
 	   //cFont* pPhaseFont = new cFont;
-		RECT rect;
-		GetWindowRect(g_hWnd, &rect);
+		//RECT rect;
+		//GetWindowRect(g_hWnd, &rect);
 
 		//pPhaseFont->Setup(
 		//   to_string(1) + " : Phase"

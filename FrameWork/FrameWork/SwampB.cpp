@@ -60,7 +60,7 @@ void cSwampB::Setup(Tag T)
 	//m_vScale = D3DXVECTOR3(0.3, 0.001, 0.3); 
 	m_vScale = D3DXVECTOR3(
 		(float)json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Radius"),
-		0.001f,
+		0.01f,
 		(float)json_Function::object_get_double(g_p_jsonManager->get_json_object_Stage_B(), "Stage B/Object/2/Status/Radius")
 	);
 
@@ -132,9 +132,9 @@ void cSwampB::Setup(Tag T)
 	// OBB
 
 	m_pOBB = new cOBB;
-	//D3DXMATRIXA16 matS;
-	//D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);
-	m_pOBB->Setup(D3DXVECTOR3(-50, -50, -50), D3DXVECTOR3(50, 50, 50));
+	D3DXMATRIXA16 matS;
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);
+	m_pOBB->Setup(D3DXVECTOR3(-50, -50, -50), D3DXVECTOR3(50, 50, 50),&matS);
 
 }
 
@@ -154,7 +154,7 @@ void cSwampB::Update()
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matR);
 	D3DXMatrixIdentity(&matS);
-	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y, m_vScale.z);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMatrixRotationY(&matR, m_RotY);
 
@@ -167,7 +167,7 @@ void cSwampB::Update()
 
 	if (m_pOBB)
 	{
-		matWorld = matS * matR * matT;
+		matWorld = matR * matT;
 		m_pOBB->Update(&matWorld);
 		
 	}
@@ -267,8 +267,8 @@ void cSwampB::CollisionProcess(cObject * pObject)
 
 		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
 
-		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible()
-			&& pObject->GetCollsionInfo(m_nTag) == nullptr)
+		if (cOBB::IsCollision(m_pOBB, pBody)
+			&& pObject->GetCollsionInfo(Tag::Tag_SwampB) == nullptr)
 		{
 			CollisionInfo info;
 			info.dwCollsionTime = GetTickCount();
@@ -278,7 +278,7 @@ void cSwampB::CollisionProcess(cObject * pObject)
 
 			float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
 
-			pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
+			pObject->AddCollisionInfo(Tag::Tag_SwampB, info, fDamage);
 			cout << "true" << endl;
 		}
 		else
