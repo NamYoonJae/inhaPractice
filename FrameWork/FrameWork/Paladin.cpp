@@ -624,8 +624,8 @@ void cPaladin::Update(EventType event)
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)
 {
-	ShaderRender();
 	CreateShadow();
+	ShaderRender();
 	
 	m_pOBB->OBBBOX_Render(D3DCOLOR_XRGB(255, 255, 255));
 
