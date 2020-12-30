@@ -6,6 +6,7 @@
 //
 class cSoulEaterState;
 class cOBB;
+class cShadow;
 
 enum eDebuff_Dragon 
 {
@@ -97,6 +98,9 @@ private:
 	// Test Dash Shader
 	LPD3DXEFFECT m_pDashShader;
 	LPDIRECT3DTEXTURE9 m_pDashTex;
+
+	cShadow* m_pShadow;
+	D3DXVECTOR3 m_ShadowScale;
 
 public:
 	cDragonSoulEater();
