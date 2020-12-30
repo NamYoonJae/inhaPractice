@@ -877,6 +877,8 @@ void cDragonSoulEater::AddCollisionInfo(
 	float fDMG, bool bDamageType,
 	float fStunDamage, float fRigidDamage)
 {
+	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
+	
 	float fResult = 0;
 
 	if (bDamageType)

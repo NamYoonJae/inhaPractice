@@ -80,7 +80,7 @@ void cSceneManager::LoadScene(int SceneType)
 
 	
 	EnterCriticalSection(&cs);
-	ObjectManager->Revert();
+	//ObjectManager->Revert();
 	
 	m_pThread = new std::thread(&cScene::Setup, m_CurrentScene);
 	if (m_pThread)

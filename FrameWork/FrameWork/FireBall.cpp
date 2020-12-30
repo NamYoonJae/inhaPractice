@@ -131,7 +131,7 @@ void cFireBall::Setup()
 
 #pragma region json
 	JSON_Object* p_ROOT_Object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS");
+	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS/");
 	JSON_Object* p_Extra_object = json_Function::object_get_object(p_ROOT_Object, "Stage B/Extra Pattern/");
 
 	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_Object, "Attack/Melee");
@@ -239,7 +239,7 @@ void cFireBall::Update()
 	}
 	else if (m_IsExplosion)
 	{
-		float fMagnification = 0.8f;
+		float fMagnification = 0.4f;
 		D3DXVECTOR3 vMin, vMax;
 		vMin = D3DXVECTOR3(FLT_MAX, FLT_MAX, FLT_MAX);
 		vMax = -vMin;

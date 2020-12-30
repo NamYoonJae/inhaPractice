@@ -793,61 +793,57 @@ void cPaladin::CollisionProcess(cObject* pObject)
 					srand(GetTickCount());
 					int iDamage = 0;
 					cDragonSoulEater* pDragon = (cDragonSoulEater*)pObject;
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack1)
+
+					bool bIsCritical = m_Critical_probability > (float)rand() / (float)32767 ? true : false;
+					bool bDamageType = true;
+					float fDamageRate = 0;
+					
+					switch (m_pCurState->GetStateIndex())
 					{
-						// 공격 1
-						//if (0.5 > (float)rand() / (float)32767)
-						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
+					case cPaladinState::eAnimationSet::Attack1:
+						bDamageType = true;
+						iDamage = m_Attack_Melee_Damage;
+						fDamageRate = m_Melee_rate_1;
+						break;
+					case cPaladinState::eAnimationSet::Attack2:
+						bDamageType = true;
+						iDamage = m_Attack_Melee_Damage;
+						fDamageRate = m_Melee_rate_2;
+						break;
+					case cPaladinState::eAnimationSet::Attack3:
+						bDamageType = true;
+						iDamage = m_Attack_Melee_Damage;
+						fDamageRate = m_Melee_rate_3;
+						break;
+					case cPaladinState::eAnimationSet::Kick:
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1;
-							cout << "ATTACK 1 Critical HIT" << endl;
+							fDamageRate = json_Function::object_get_double(g_p_jsonManager->get_json_object_Trophies(), "Trophy/Dragonfoot/Active/Melee rate");
+							iDamage = m_Attack_Melee_Damage;
+							bIsCritical = true;
+							g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", fDamageRate, " Trophy/Dragonfoot/Active/Melee rate");
 						}
-						else
+						break;
+					case cPaladinState::eAnimationSet::Roar:
 						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_1;
-							cout << "ATTACK 1 HIT" << endl;
+							iDamage = m_Attack_Melee_Damage + m_Attack_Elemental_Damage;
+							fDamageRate = 1;
+							bDamageType = false;
 						}
+						break;
 					}
 
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack2)
-					{
-						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2;
-							cout << "ATTACK 2 Critical HIT" << endl;
-						}
-						else
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_2;
-							cout << "ATTACK 2 HIT" << endl;
-						}
-					}
+					iDamage = iDamage * fDamageRate;
+					if (bIsCritical)
+						iDamage += m_Critical_Additional_Damage;
 
-					if (m_pCurState->GetStateIndex() == m_pCurState->Attack3)
-					{
-						if (m_Critical_probability > (float)rand() / (float)32767) // 치명타 체크
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3;
-							cout << "ATTACK 3 Critical HIT" << endl;
-						}
-						else
-						{
-							iDamage = m_Attack_Melee_Damage * m_Melee_rate_3;
-							cout << "ATTACK 3 HIT" << endl;
-						}
-					}
 
 					if (0 < iDamage)
 					{
-						pObject->AddCollisionInfo(m_nTag, info, iDamage, true, 10.0f);
+						pObject->AddCollisionInfo(m_nTag, info, iDamage, bDamageType, 10.0f);
 
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetSTUN(), " Dragon Stun Gauge");
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetRigid(), " Dragon Rigid Gauge");
-						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "f", pDragon->GetCURHP(), " Dragon Current HP");
-
-						{ // TODO 데미지 텍스트 출력할 공간
-							
-						}
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetSTUN(), " Dragon Stun Gauge");
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetRigid(), " Dragon Rigid Gauge");
+						g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", pDragon->GetCURHP(), " Dragon Current HP");
 					}
 				}
 

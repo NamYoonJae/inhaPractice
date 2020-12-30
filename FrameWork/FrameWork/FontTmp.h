@@ -5,8 +5,8 @@ enum eFontType;
 class cFontTmp : public cObject
 {
 private:
-	LPD3DXFONT		m_pFont;
-	ID3DXSprite*	m_pSprite;
+	//LPD3DXFONT	m_pFont;
+	//ID3DXSprite*	m_pSprite;
 
 	ID3DXMesh*  m_p3DText;
 

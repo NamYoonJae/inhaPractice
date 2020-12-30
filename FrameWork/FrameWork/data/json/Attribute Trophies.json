@@ -22,9 +22,10 @@
         "Increase speed": 30
       },
       "Active": {
+        "Melee rate" : 1.5,
+        "Knockback distance": 3,
         "Additional melee rate": 1.0,
-        "Additional elemental rate": 0.6,
-        "Knockback distance": 3
+        "Additional elemental rate": 0.6
       }
     }
   }

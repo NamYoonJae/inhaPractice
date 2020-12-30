@@ -20,10 +20,10 @@ cDragonBreathe::cDragonBreathe()
 	m_vPos = D3DXVECTOR3(0, 0, 0);
 
 	JSON_Object* p_ROOT_Object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS");
+	JSON_Object* p_BOSS_Object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS/");
 	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_ROOT_Object, "Stage B/BOSS SKILL/");
 
-	m_fPhysicDamage = json_Function::object_get_double(p_BOSS_Object, "Attack/Melee");
+	m_fPhysicDamage = json_Function::object_get_double(p_ROOT_Object, "Stage B/BOSS/Attack/Melee");
 	m_fElementalDamage = json_Function::object_get_double(p_BOSS_Object, "Attack/Elemental");
 
 	m_dwDurationTime = json_Function::object_get_double(p_SKILL_object, "SKILL 4/Attribute/Duration");
@@ -32,6 +32,8 @@ cDragonBreathe::cDragonBreathe()
 
 	//m_dwDurationTime = 5000.0f;
 
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_fPhysicDamage, "m_fPhysicDamage");
+	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "fs", m_fPhysicRate, "m_fPhysicRate");
 	g_pLogger->ValueLog(__FUNCTION__, __LINE__, "ds", m_dwDurationTime, "Breath Duration");
 }
 
@@ -228,7 +230,6 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 				{
 					break;
 				}
-
 			}
 
 			if (i == 0)
@@ -237,11 +238,11 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 			{
 				m_vecPosList.erase(m_vecPosList.begin(), m_vecPosList.begin() + i);
 				m_vecDirList.erase(m_vecDirList.begin(), m_vecDirList.begin() + i);
-
 			}
 		}
 	}
 
+	
 	if (nTag == Tag::Tag_Player)
 	{
 		cPaladin* pPaladin = (cPaladin*)pObject;
@@ -255,7 +256,7 @@ void cDragonBreathe::CollisionProcess(cObject* pObject)
 
 			float fDamage = m_fPhysicDamage * m_fPhysicRate;
 
-			pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 0.0f, 0.0f);
+			pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
 
 			g_pLogger->ValueLog(__FUNCTION__, __LINE__, "s", "Breath Hit");
 		}

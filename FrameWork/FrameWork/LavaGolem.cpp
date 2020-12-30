@@ -377,7 +377,12 @@ void cLavaGolem::AddCollisionInfo(
 	float fDMG, bool bDamageType,
 	float fStunDamage, float fRigidDamage)
 {
-	m_fCurrentHP -= fDMG;
+	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
+
+	if (0 < fDMG)
+	{
+		m_fCurrentHP--;
+	}
 
 	// 이 아래에서 폰트띄우기
 	{

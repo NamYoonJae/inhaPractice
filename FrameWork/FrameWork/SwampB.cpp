@@ -261,7 +261,8 @@ void cSwampB::CollisionProcess(cObject * pObject)
 
 		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
 
-		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible())
+		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible()
+			&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 		{
 			switch (m_nTag)
 			{
@@ -269,7 +270,7 @@ void cSwampB::CollisionProcess(cObject * pObject)
 			{
 				CollisionInfo info;
 				info.dwCollsionTime = GetTickCount();
-				info.dwDelayTime = 3000;
+				info.dwDelayTime = 300;
 
 				float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
 
