@@ -1221,8 +1221,6 @@ void cPaladin::AddCollisionInfo(
 		}
 	}
 
-	
-
 
 	{ // font
 		//cFont* pPhaseFont = new cFont;
@@ -1247,7 +1245,7 @@ void cPaladin::AddCollisionInfo(
 		m_Char_StunRate = 0;
 		OnStun(true);
 	}
-	//else
+	//else if()
 	//{
 	//	OnStun(false);
 	//}

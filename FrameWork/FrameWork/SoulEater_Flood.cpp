@@ -86,7 +86,6 @@ void cSoulEater_Flood::handle()
 		for(int i = 0; i < 10; i++)
 		{
 			D3DXVECTOR3 vPos = D3DXVECTOR3(randNumX(gen), 30, randNumZ(gen));
-			g_pLogger->ValueLog(__FUNCTION__,__LINE__,"ff",vPos.x,vPos.z);
 			cSwampB *pSwampB = new cSwampB;
 			pSwampB->Setup(Tag::Tag_SwampB);
 			pSwampB->SetPos(vPos);

@@ -664,8 +664,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						//pPaladin->OnStun(false);
-
 						cSoulEater_BasicAttack* pBasicAttack = (cSoulEater_BasicAttack*)m_pCurState;
 
 						float fDamage = m_fPhysicDamage * pBasicAttack->GetPhysicsDamage();
@@ -674,7 +672,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 						info.dwCollsionTime = GetTickCount();
 						info.dwDelayTime = 1500;
 
-						
 						pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 10.0f);
 					}
 				}
@@ -684,8 +681,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 				{
 					if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 					{
-						//pPaladin->OnStun(false);
-
 						cSoulEater_TailAttack* pTailAttack = (cSoulEater_TailAttack*)m_pCurState;
 
 						float fDamage = m_fPhysicDamage * pTailAttack->GetPhysicsDamage();
@@ -700,8 +695,6 @@ void cDragonSoulEater::CollisionProcess(cObject* pObject)
 			case 3:		// µ¹Áø
 				if (pObject->GetCollsionInfo(m_nTag) == nullptr)
 				{
-					//pPaladin->OnStun(false);
-
 					cSoulEater_Rush* pRush = (cSoulEater_Rush*)m_pCurState;
 
 					float fDamage = m_fElementalDamage * pRush->GetElementalDamage();

@@ -268,8 +268,6 @@ void cLavaGolem::CollisionProcess(cObject* pObject)
 
 			float fDamage = m_fDamege;
 
-			Paladin->OnStun(false);
-			
 			pObject->AddCollisionInfo(m_nTag, info, fDamage, true, 0.0f, 0.0f);
 		}
 	}
