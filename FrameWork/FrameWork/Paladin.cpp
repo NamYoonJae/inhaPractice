@@ -74,17 +74,13 @@ cPaladin::cPaladin()
 	, m_Char_Scream_Duration(0)
 
 	, m_pTrophies(NULL)
-	, m_pShadowRenderTarget(NULL)
-	, m_pShadowDepthStencil(NULL)
 
-	, m_pShadowMap(NULL)
 	, m_dwDeverffStartTime(GetTickCount())
 	, m_dwDeverffPreTime(100.0f)
 	, m_IsChangeScene(false)
 	, m_dwStaminaStartTime(GetTickCount())
 	, m_dwStaminaPreTime(100.0f)
 	, m_isStuned(false)
-	, m_pShadow(NULL)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -97,9 +93,6 @@ cPaladin::~cPaladin()
 	SafeDelete(m_pCurState);
 	SafeDelete(m_pSkinnedUnit);
 	SafeDelete(m_pTrophies);
-
-	SafeRelease(m_pShadowRenderTarget);
-	SafeRelease(m_pShadowDepthStencil);
 	
 	for (cParts* parts : m_vecParts)
 	{
@@ -234,13 +227,7 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 	m_Mstl.Specular = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 	m_Mstl.Diffuse = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.0f);
 
-	ShadowShaderSetup();
 	ShaderSetup();
-
-	m_pShadowMap = new cPopup;
-	m_pShadowMap->Setup(m_pShadowRenderTarget, 2048);
-	m_pShadowMap->SetPercent(0.1f);
-	m_pShadowMap->SetPosition(D3DXVECTOR2(1000, 0));
 
 	m_pCurState = new cPaladinIdle(this);
 
@@ -251,40 +238,6 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 
 		m_vecDebuff_UI.push_back(popup1);
 		m_vecDebuff_UI.push_back(popup2);
-	}
-
-	m_ShadowScale = D3DXVECTOR3(0.1f, 0.001f, 0.1f);
-
-	m_pShadow = new cShadow;
-	m_pShadow->Setup();
-	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
-	m_pShadow->SetScale(m_ShadowScale);
-
-}
-
-void cPaladin::ShadowShaderSetup()
-{
-	const int shadowMapSize = 2048;
-	if (FAILED(g_pD3DDevice->CreateTexture(shadowMapSize, shadowMapSize,
-		1, D3DUSAGE_RENDERTARGET, D3DFMT_R32F,
-		D3DPOOL_DEFAULT, &m_pShadowRenderTarget, NULL)))
-	{
-		cout << "CreateTexture FAILED" << endl;
-	}
-
-	if (FAILED(g_pD3DDevice->CreateDepthStencilSurface(shadowMapSize, shadowMapSize,
-		D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, TRUE,
-		&m_pShadowDepthStencil, NULL)))
-	{
-		cout << "CreateDepthStencilSurface FAILED" << endl;
-	}
-
-	cArenaMap* pArenaMap = (cArenaMap*)ObjectManager->SearchChild(Tag::Tag_Map);
-	
-	if(pArenaMap)
-	{
-		pArenaMap->AddShadowMap(m_pShadowRenderTarget);
-		pArenaMap = nullptr;
 	}
 }
 
@@ -465,8 +418,6 @@ void cPaladin::Update()
 			}
 		}
 	}
-
-	m_pShadow->SetPos(D3DXVECTOR3(m_vPos.x, pos_y, m_vPos.z));
 }
 
 void cPaladin::Update(EventType event)
