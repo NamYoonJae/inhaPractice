@@ -25,6 +25,12 @@ cSwampA::cSwampA()
 
 cSwampA::~cSwampA()
 {
+	SafeRelease(m_pMesh);
+	SafeRelease(m_pShader);
+	SafeRelease(m_pTexcoord);
+	SafeRelease(m_pTexcoord_B);
+	SafeRelease(m_pTex0);
+	SafeRelease(m_pNoise);
 }
 
 void cSwampA::Setup(Tag T)
