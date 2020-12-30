@@ -146,12 +146,12 @@ void cSkinnedMesh::Render(LPD3DXFRAME pFrame)
 
 void cSkinnedMesh::Render(D3DXMATRIXA16 * pmat)
 {
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
 	//D3DXMATRIXA16 matWorld;
 	//D3DXMatrixIdentity(&matWorld);
 	//g_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	Render(LPD3DXFRAME(NULL));
-	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void cSkinnedMesh::SetupBoneMatrixPtrs(LPD3DXFRAME pFrame)
@@ -416,4 +416,10 @@ std::vector<D3DXMATRIXA16*> cSkinnedMesh::SetUpBoneMatrix()
 	}
 	else
 		return vecMatrixArray;
+}
+
+void cSkinnedMesh::UpdateMatrix()
+{
+	Update((ST_BONE*)m_pRoot, &m_matWorldTM);
+	UpdateSkinnedMesh(m_pRoot);
 }

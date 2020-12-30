@@ -111,7 +111,7 @@ float4 PS(PS_INPUT Input) : COLOR
    }
    float3 ambient = float3(0.02f, 0.02f, 0.02f);
    
-   return float4(ambient + diffuse + specular, 1.0f ) ;
+   return saturate(float4(ambient + diffuse + specular, 1.0f ));
 }
 
 
