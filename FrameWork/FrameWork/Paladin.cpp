@@ -1196,28 +1196,35 @@ void cPaladin::AddCollisionInfo(
 			fResult = fDMG - m_Elemental_Defense;
 		}
 
-		fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
+		//GenerateRandomNum(); <<
+		random_device rd;
+		mt19937_64 gen(rd());
+		uniform_real_distribution<> randNum(-fResult * 0.2, fResult * 0.2);
+		fResult = fResult + randNum(gen);
+		//fResult = fResult + GenerateRandomNum(-fResult * 0.2, fResult * 0.2);
+
+		m_Hp = m_Hp - (int)fResult;
+		if (0 > m_Hp)
+		{
+			m_Hp = 0;
+		}
+
+		// 이 아래에서 폰트띄우기
+		{
+			cFontTmp* pDamageFont = new cFontTmp;
+			pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
+
+			pDamageFont->Setup(to_string((int)fResult), Red);
+			D3DXVECTOR3 vPos = m_vPos;
+			vPos.y += 30;
+			pDamageFont->SetPos(vPos);
+
+			ObjectManager->AddUIChild(pDamageFont);
+		}
 	}
 
 	
-	m_Hp = m_Hp - (int)fResult;
-	if (0 > m_Hp)
-	{
-		m_Hp = 0;
-	}
 
-	// 이 아래에서 폰트띄우기
-	{
-		cFontTmp* pDamageFont = new cFontTmp;
-		pDamageFont->Tagging(TAG_UI::TagUI_3DFont);
-
-		pDamageFont->Setup(to_string((int)fResult), Red);
-		D3DXVECTOR3 vPos = m_vPos;
-		vPos.y += 30;
-		pDamageFont->SetPos(vPos);
-
-		ObjectManager->AddUIChild(pDamageFont);
-	}
 
 	{ // font
 		//cFont* pPhaseFont = new cFont;
@@ -1231,7 +1238,7 @@ void cPaladin::AddCollisionInfo(
 		//	, false);
 		//pPhaseFont->Tagging(TAG_UI::TagUI_PhaseShift);
 
-		//ObjectManager->AddUIChild(pPhaseFont);
+		//ObjectManager->AddUIChild(pPhaYYseFont);
 	}
 
 	// 스턴치 경직치 처리

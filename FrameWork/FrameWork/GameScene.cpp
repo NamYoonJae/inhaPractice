@@ -257,10 +257,12 @@ void cGameScene::Setup() // boss1map  boss2map
 
 	// Font
 	//{
-	//	cFontTmp* pFontTest = new cFontTmp;
+	//	cFont* pPhaseShift = new cFont;
+	//	pPhaseShift->Setup("Phase Changed!", eFontType::FONT_SYSTEM, D3DXVECTOR3(100, 100, 0), true);
+	//	pPhaseShift->Tagging(TAG_UI::TagUI_PhaseShift);
 
-	//	pFontTest->Setup("tmp", eFontType::FONT_SYSTEM);
-	//	ObjectManager->AddChild(pFontTest);
+
+	//	ObjectManager->AddUIChild(pPhaseShift);
 	//}
 
 
