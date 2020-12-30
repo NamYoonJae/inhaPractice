@@ -14,6 +14,7 @@ private:
 	DWORD m_dwElapsedTime;
 	Synthesize(DWORD, m_dwDurationTime, Duration);
 
+	D3DXCOLOR m_color;
 
 	// 보스의 공격력
 	float				m_fPhysicDamage;

@@ -38,6 +38,7 @@ cSwampB::~cSwampB()
 
 void cSwampB::Setup(Tag T)
 {
+	m_color = D3DXCOLOR(1.0f, 0, 0, 1.0f);
 	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
 	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS/");
 	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
@@ -131,9 +132,9 @@ void cSwampB::Setup(Tag T)
 	// OBB
 
 	m_pOBB = new cOBB;
-	D3DXMATRIXA16 matS;
-	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);
-	m_pOBB->Setup(D3DXVECTOR3(-50, 20, -50), D3DXVECTOR3(50, 0, 50), &matS);
+	//D3DXMATRIXA16 matS;
+	//D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);
+	m_pOBB->Setup(D3DXVECTOR3(-50, -50, -50), D3DXVECTOR3(50, 50, 50));
 
 }
 
@@ -148,25 +149,28 @@ void cSwampB::Update()
 	//	}
 	//}
 
-	D3DXMATRIXA16 matWorld, matR, matT;
+	D3DXMATRIXA16 matWorld, matR, matT, matS;
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixIdentity(&matT);
 	D3DXMatrixIdentity(&matR);
+	D3DXMatrixIdentity(&matS);
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);
 	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
 	D3DXMatrixRotationY(&matR, m_RotY);
 
 
 	if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
 	{
-		if (m_pOBB)
-		{		
-			matWorld = matR * matT;
-			m_pOBB->Update(&matWorld);
-		}
 		m_RotY += 1 / D3DX_PI * 0.03;
 		m_dwStateStartTime = GetTickCount();
 	}
 
+	if (m_pOBB)
+	{
+		matWorld = matS * matR * matT;
+		m_pOBB->Update(&matWorld);
+		
+	}
 
 	if (GetTickCount() - m_dwElapsedTime > m_dwDurationTime)
 	{
@@ -188,6 +192,7 @@ void cSwampB::Render(D3DXMATRIXA16 * pmat)
 	for (int i = 0; i < m_vecMtl.size(); ++i)
 	{
 		g_pD3DDevice->SetMaterial(&m_vecMtl[i]);
+		
 		
 		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 		g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
@@ -221,9 +226,9 @@ void cSwampB::Render(D3DXMATRIXA16 * pmat)
 		g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 		g_pD3DDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
 		g_pD3DDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
-
+		
 		m_pMesh->DrawSubset(0);
-
+		
 		g_pD3DDevice->SetTexture(0, NULL);
 		g_pD3DDevice->SetTexture(1, NULL);
 		g_pD3DDevice->SetTexture(2, NULL);
@@ -243,13 +248,13 @@ void cSwampB::Render(D3DXMATRIXA16 * pmat)
 		g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 		g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 		g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-
+		
 
 	}
 
 	if (m_pOBB)
 	{
-		m_pOBB->OBBBOX_Render(D3DCOLOR_ARGB(255, 255, 255, 255));
+		m_pOBB->OBBBOX_Render(m_color);
 	}
 
 }
@@ -265,20 +270,20 @@ void cSwampB::CollisionProcess(cObject * pObject)
 		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible()
 			&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 		{
-			switch (m_nTag)
-			{
-			case Tag::Tag_SwampB:
-			{
-				CollisionInfo info;
-				info.dwCollsionTime = GetTickCount();
-				info.dwDelayTime = 300;
+			CollisionInfo info;
+			info.dwCollsionTime = GetTickCount();
+			info.dwDelayTime = 500;
+			
+			m_color = D3DXCOLOR(1.0f,1.0f,1.0f,1.0f);
 
-				float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
+			float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
 
-				pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
-			}
-			break;
-			}
+			pObject->AddCollisionInfo(m_nTag, info, fDamage, true);
+			cout << "true" << endl;
+		}
+		else
+		{
+			m_color = D3DXCOLOR(1.0f, 0.0f, 0.0f, 0.0f);
 		}
 	}
 }

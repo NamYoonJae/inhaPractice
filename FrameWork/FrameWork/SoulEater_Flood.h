@@ -9,7 +9,7 @@ private:
 	DWORD m_dwCoolTime;
 
 	int m_nCntSwamp;
-	RECT MapRC;
+
 	bool m_IsTrigger;
 public:
 	cSoulEater_Flood();
