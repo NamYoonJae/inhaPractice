@@ -33,12 +33,12 @@ void cOrb::Setup()
 	m_Holdingtime = json_Function::object_get_double(pOrbObject, "Status/Holding time");
 
 	// log
-	cout << "Obb jsonValue  Holding time : " << m_Holdingtime << endl;
+	//cout << "Obb jsonValue  Holding time : " << m_Holdingtime << endl;
 #pragma endregion json
 
 
 	//임시적인 위치
-	m_vPos = D3DXVECTOR3(80.0f, 15.0f, 0);
+	//m_vPos = D3DXVECTOR3(80.0f, 15.0f, 0);
 
 
 	D3DXCreateTextureFromFile(g_pD3DDevice, L"data/ObjFile/MapObject/NW_ORB/shield_life.png", &m_pTex0);
@@ -95,10 +95,10 @@ void cOrb::Setup(D3DXVECTOR3 position)
 	JSON_Object* pStageBObject = g_p_jsonManager->get_json_object_Stage_B();
 	JSON_Object* pOrbObject = json_Function::object_get_object(pStageBObject, "Stage B/Object/4/");
 
-	m_Holdingtime = json_Function::object_get_double(pOrbObject, "Status/Holding time");
+	//m_Holdingtime = json_Function::object_get_double(pOrbObject, "Status/Holding time");
 
 	// log
-	cout << "Obb jsonValue  Holding time : " << m_Holdingtime << endl;
+	//cout << "Obb jsonValue  Holding time : " << m_Holdingtime << endl;
 #pragma endregion json
 
 	m_vPos = position;
@@ -161,12 +161,6 @@ void cOrb::Update()
 		D3DXMatrixIdentity(&matR);
 		D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y + 9.0f, m_vPos.z);
 
-		/*
-		matW = matR * matT;
-
-		if (m_pOBB)
-			m_pOBB->Update(&matW);
-		*/
 		D3DXMatrixRotationY(&matR, m_RotY);
 
 		if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
@@ -190,17 +184,12 @@ void cOrb::Update()
 			}
 		}
 
-		//m_isDelete = true;
-		/*
-		if (m_pSubOBB)
-		{
-			D3DXMatrixScaling(&matS, 0.4f,0.4f,0.4f);
-			matW = matS *matT;
-			m_pSubOBB->Update(&matW);
-		}
-		*/
 	}
-	
+	else if(GetTickCount() - m_dwStateStartTime > m_Holdingtime)
+	{
+		m_dwStateStartTime = GetTickCount();
+		m_OnOff = true;
+	}
 }
 
 void cOrb::Render(D3DXMATRIXA16 * pmat)
