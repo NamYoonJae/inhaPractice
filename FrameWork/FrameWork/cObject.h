@@ -99,7 +99,7 @@ public:
 
 	bool m_isDelete;
 	virtual void CollisionProcess(cObject* pObject) {};
-	virtual void AddCollisionInfo(int,CollisionInfo, float fDMG = 0.0f, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f); // true가 물리 데미지
+	virtual void AddCollisionInfo(int,CollisionInfo, float fDMG = 0.0f, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f, float slow = 0.0f); // true가 물리 데미지
 	CollisionInfo* GetCollsionInfo(int nTag);
 	std::map<int, CollisionInfo>& GetMapCollisionList() { return mapCollisionList; }
 	void CollisionInfoCheck();

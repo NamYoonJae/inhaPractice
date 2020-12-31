@@ -297,8 +297,8 @@
         "Status": {
           "Radius": 0.3,
           "Scale": null,
-          "Duration": 10000,
-          "Decrease Speed": -50
+          "Duration": 1000,
+          "Decrease Speed": 300
         }
       },
       "3": {

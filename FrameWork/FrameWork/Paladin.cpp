@@ -73,6 +73,10 @@ cPaladin::cPaladin()
 	, m_Char_Stun_Duration(0)
 	, m_Char_Scream_Duration(0)
 
+	, m_Char_isSlow(0)
+	, m_Char_Slow_rate(0)
+	, m_Char_Slow_Elapsedtime(0)
+	, m_Char_Slow_DurationTime(0)
 	, m_pTrophies(NULL)
 
 	, m_dwDeverffStartTime(GetTickCount())
@@ -143,6 +147,9 @@ void cPaladin::Setup(char* szFolder, char* szFile)
 		m_Char_Stun_Reduce = (int)json_Function::object_get_double(p_Character_object, "Stun/Rate reduce");
 		m_Char_Stun_Duration = (int)json_Function::object_get_double(p_Character_object, "Stun/Duration time");
 		m_Char_Scream_Duration = (int)json_Function::object_get_double(p_Character_object, "Scream/Duration time");
+
+		JSON_Object* p_stageB_object = g_p_jsonManager->get_json_object_Stage_B();
+		m_Char_Slow_DurationTime = json_Function::object_get_double(p_stageB_object, "Stage B/Object/2/Status/Duration");
 
 		m_Char_Invincibility_Duration = (float)json_Function::object_get_double(p_Character_object, "Invincibility/Duration time");
 
@@ -426,6 +433,7 @@ void cPaladin::Update(EventType event)
 			JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
 			m_fSpeed = m_fSpeed + json_Function::object_get_double(p_jsonObject, "Trophy/Dragonfoot/Passive/Increase speed");
 		}
+
 	}
 	else
 	{
@@ -437,6 +445,21 @@ void cPaladin::Update(EventType event)
 			m_fSpeed = m_fSpeed + json_Function::object_get_double(p_jsonObject, "Trophy/Dragonfoot/Passive/Increase speed");
 		}
 
+		if (m_Char_isSlow == true)
+		{
+			JSON_Object* p_stageB_object = g_p_jsonManager->get_json_object_Character();
+			JSON_Object* p_Swamp_object = json_object_get_object(p_stageB_object, "Stage B/Object/2/Status/"); 
+			m_fSpeed = m_fSpeed - m_Char_Slow_rate;
+			if (10 >= m_fSpeed)
+			{
+				m_fSpeed = 10;
+			}
+
+			if (m_Char_Slow_DurationTime < GetTickCount() - m_Char_Slow_Elapsedtime)
+			{
+				m_Char_isSlow = false;
+			}
+		}
 
 		if (event == EventType::EVENT_ARROW_UP)
 		{
@@ -1161,7 +1184,7 @@ int cPaladin::SearchDebuff(int debuff)
 void cPaladin::AddCollisionInfo(
 	int nTag, CollisionInfo Info,
 	float fDMG, bool bDamageType,
-	float fStunDamage, float fRigidDamage)
+	float fStunDamage, float fRigidDamage, float slow)
 {
 	if (m_Hp <= 0)
 		return;
@@ -1242,6 +1265,14 @@ void cPaladin::AddCollisionInfo(
 	{
 		OnStun(false);
 	}
+
+	if (0 < slow)
+	{
+		m_Char_isSlow = true;
+		m_Char_Slow_rate = slow;
+		m_Char_Slow_Elapsedtime = GetTickCount();
+	}
+
 }
 
 void cPaladin::PlayAttackSound()

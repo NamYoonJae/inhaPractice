@@ -96,8 +96,6 @@ void cSwampB::Setup(Tag T)
 				mtrls[i].MatD3D.Ambient = mtrls[i].MatD3D.Diffuse;
 				m_vecMtl.push_back(mtrls[i].MatD3D);
 			}
-
-
 		}
 		SafeRelease(mtrlBuffer);
 	}
@@ -105,7 +103,6 @@ void cSwampB::Setup(Tag T)
 
 
 	{
-
 		D3DXIMAGE_INFO info;
 		D3DXGetImageInfoFromFileA("data/Texture/poison_alphamap.png", &info);
 
@@ -123,13 +120,10 @@ void cSwampB::Setup(Tag T)
 
 		// shader load
 
-
 		D3DXCreateTextureFromFile(g_pD3DDevice, L"data/Texture/poison_diffuse.png", &m_pTex0);
 	}
 
-
 	// OBB
-
 	m_pOBB = new cOBB;
 	D3DXMATRIXA16 matS;
 	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.y + 3.0f, m_vScale.z);

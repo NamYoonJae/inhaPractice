@@ -362,24 +362,27 @@ void BGM_Setting_Event(EventType message, cPopup* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		button->SetStateChange(enum_Off);
+		if (button->GetState() == enum_On)
+		{
+			button->SetStateChange(enum_Off);
 
-		if (btnPosition.x < startBtnPosition.x)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
-		if (btnPosition.x > startBtnPosition.x + movement_range)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+			if (btnPosition.x < startBtnPosition.x)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+			if (btnPosition.x > startBtnPosition.x + movement_range)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
 
-		if (0 < (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Sound_object, "BGM", ((btnPosition.x - startBtnPosition.x) / tick));
-		else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Sound_object, "BGM", 0);
+			if (0 < (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Sound_object, "BGM", ((btnPosition.x - startBtnPosition.x) / tick));
+			else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Sound_object, "BGM", 0);
 
-		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
-		//g_pSoundManager->SetBGMSOUND(0.0f);
-		g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM") * 0.01f);
-		g_pSoundManager->PlayBGM();
+			json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+			//g_pSoundManager->SetBGMSOUND(0.0f);
+			g_pSoundManager->SetBGMSOUND((float)json_object_get_number(Sound_object, "BGM") * 0.01f);
+			g_pSoundManager->PlayBGM();
 
-		//g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
+			//g_pSoundManager->SetVolume((float)json_object_get_number(Sound_object, "BGM"));
+		}
 	}
 	break;
 	};//switch End
@@ -454,25 +457,28 @@ void SFX_Setting_Event(EventType message, cPopup* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		button->SetStateChange(enum_Off);
+		if (button->GetState() == enum_On)
+		{
+			button->SetStateChange(enum_Off);
 
-		if (btnPosition.x < startBtnPosition.x)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
-		if (btnPosition.x > startBtnPosition.x + movement_range)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+			if (btnPosition.x < startBtnPosition.x)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+			if (btnPosition.x > startBtnPosition.x + movement_range)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
 
-		if(0 < (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Sound_object, "SFX", ((btnPosition.x - startBtnPosition.x) / tick));
-		else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Sound_object, "SFX", 0);
+			if (0 < (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Sound_object, "SFX", ((btnPosition.x - startBtnPosition.x) / tick));
+			else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Sound_object, "SFX", 0);
 
-		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
-		//g_pSoundManager->SetSFXSOUND(0.0f);
-		g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX") * 0.01f);
-		//g_pSoundManager->Play3DSFX();
-		//g_pSoundManager->PlaySFX();
+			json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+			//g_pSoundManager->SetSFXSOUND(0.0f);
+			g_pSoundManager->SetSFXSOUND((float)json_object_get_number(Sound_object, "SFX") * 0.01f);
+			//g_pSoundManager->Play3DSFX();
+			//g_pSoundManager->PlaySFX();
 
-		// g_pSoundManager->SetSFXSOUND((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
+			// g_pSoundManager->SetSFXSOUND((float)(json_Function::object_get_double(p_json_object_setting, "Sound/SFX")));
+		}
 	}
 	break;
 	};//switch End
@@ -547,19 +553,22 @@ void MouseSensitivity_Total_Event(EventType message, cPopup* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		button->SetStateChange(enum_Off);
+		if (button->GetState() == enum_On)
+		{
+			button->SetStateChange(enum_Off);
 
-		if (btnPosition.x < startBtnPosition.x)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
-		if (btnPosition.x > startBtnPosition.x + movement_range)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+			if (btnPosition.x < startBtnPosition.x)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+			if (btnPosition.x > startBtnPosition.x + movement_range)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
 
-		if (0 < (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Mouse_object, "total", ((btnPosition.x - startBtnPosition.x) / tick));
-		else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Mouse_object, "total", 0);
+			if (0 < (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Mouse_object, "total", ((btnPosition.x - startBtnPosition.x) / tick));
+			else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Mouse_object, "total", 0);
 
-		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+			json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+		}
 	}
 	break;
 	};//switch End
@@ -634,19 +643,22 @@ void MouseSensitivity_Normal_Event(EventType message, cPopup* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		button->SetStateChange(enum_Off);
+		if (button->GetState() == enum_On)
+		{
+			button->SetStateChange(enum_Off);
 
-		if (btnPosition.x < startBtnPosition.x)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
-		if (btnPosition.x > startBtnPosition.x + movement_range)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+			if (btnPosition.x < startBtnPosition.x)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+			if (btnPosition.x > startBtnPosition.x + movement_range)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
 
-		if (0 < (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Mouse_object, "normal", ((btnPosition.x - startBtnPosition.x) / tick));
-		else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Mouse_object, "normal", 0);
+			if (0 < (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Mouse_object, "normal", ((btnPosition.x - startBtnPosition.x) / tick));
+			else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Mouse_object, "normal", 0);
 
-		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+			json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+		}
 	}
 	break;
 	};//switch End
@@ -721,19 +733,22 @@ void MouseSensitivity_Special_Event(EventType message, cPopup* btn)
 
 	case EventType::EVENT_LBUTTONUP:
 	{
-		button->SetStateChange(enum_Off);
+		if (button->GetState() == enum_On)
+		{
+			button->SetStateChange(enum_Off);
 
-		if (btnPosition.x < startBtnPosition.x)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
-		if (btnPosition.x > startBtnPosition.x + movement_range)
-			button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
+			if (btnPosition.x < startBtnPosition.x)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x, btnPosition.y));
+			if (btnPosition.x > startBtnPosition.x + movement_range)
+				button->SetPosition(D3DXVECTOR2(startBtnPosition.x + movement_range, btnPosition.y));
 
-		if (0 < (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Mouse_object, "special", ((btnPosition.x - startBtnPosition.x) / tick));
-		else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
-			json_object_set_number(Mouse_object, "special", 0);
+			if (0 < (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Mouse_object, "special", ((btnPosition.x - startBtnPosition.x) / tick));
+			else if (0 >= (btnPosition.x - startBtnPosition.x) / tick)
+				json_object_set_number(Mouse_object, "special", 0);
 
-		json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+			json_serialize_to_file_pretty(g_p_jsonManager->get_json_value_Setting(), "data/json/Setting.json");
+		}
 	}
 	break;
 	};//switch End

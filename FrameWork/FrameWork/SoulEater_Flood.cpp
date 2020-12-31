@@ -28,7 +28,6 @@ cSoulEater_Flood::cSoulEater_Flood(cDragonSoulEater* pDragon)
 	m_nCntSwamp = 0;
 	MapRC = { -500,-500,500,500};
 	m_IsTrigger = false;
-
 }
 
 

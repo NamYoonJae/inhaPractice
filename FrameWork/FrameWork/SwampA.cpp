@@ -36,10 +36,7 @@ cSwampA::~cSwampA()
 void cSwampA::Setup(Tag T)
 {
 	JSON_Object* p_Stage_B_object = g_p_jsonManager->get_json_object_Stage_B();
-	JSON_Object* p_BOSS_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS/");
-	JSON_Object* p_SKILL_object = json_Function::object_get_object(p_Stage_B_object, "Stage B/BOSS SKILL/");
-
-	m_Flood_Condition_Rate = json_Function::object_get_double(p_SKILL_object, "SKILL 3/Attribute/Condition rate"); // 상태이상 부여치
+	m_Flood_Condition_Rate = json_Function::object_get_double(p_Stage_B_object, "Stage B/Object/2/Status/Decrease Speed");
 
 	// TODO 슬로우 처리
 
@@ -114,7 +111,6 @@ void cSwampA::Setup(Tag T)
 		// shader load
 
 		m_pShader = g_pShaderManager->GetShader(eShader::Swamp);
-
 	}
 
 	m_pOBB = new cOBB;
@@ -197,19 +193,22 @@ void cSwampA::CollisionProcess(cObject * pObject)
 
 		cOBB *pBody = pPaladin->GetPartsList().at(1)->GetOBB();
 
-		if (cOBB::IsCollision(m_pOBB, pBody))
+		if (cOBB::IsCollision(m_pOBB, pBody) && !pPaladin->GetInvincible()
+			&& pObject->GetCollsionInfo(m_nTag) == nullptr)
 		{
 			switch (m_nTag)
 			{
 			case Tag::Tag_SwampA:
 			{
-				pPaladin->SetSpeed(pPaladin->GetOriginSpeed() - 50); // 벗어났을때 처리
+				CollisionInfo info;
+				info.dwCollsionTime = GetTickCount();
+				info.dwDelayTime = 100;
+
+				pObject->AddCollisionInfo(m_nTag, info, 0, 0, 0, 0, m_Flood_Condition_Rate); // 슬로우만 부여
 			}
-			// 	 이동속도 느려지는 오브젝트
 			break;
 			}
 		}
-
 
 	}
 }

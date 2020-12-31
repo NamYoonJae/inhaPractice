@@ -19,6 +19,7 @@ enum eDebuff_Player
 	enum_Poison,
 	enum_Stun,
 	enum_Roar,
+	enum_slow
 };
 
 class cPaladin : public cCharater
@@ -86,12 +87,17 @@ private:
 	float			m_Char_Invincibility_Duration;
 	int				m_Char_Flinch;  // 캐릭터 움찔 발생 손상치
 
+	bool			m_Char_isSlow;
+	float			m_Char_Slow_rate;
+	DWORD			m_Char_Slow_Elapsedtime;
+	DWORD			m_Char_Slow_DurationTime;
+
 	int				m_Aggro;  // 어그로
 
 	// object interaction 
 	float			m_Orb_effect_Duration;
 
-
+	
 
 	cTrophies* m_pTrophies;
 
@@ -151,7 +157,7 @@ public:
 	void SetStaminaState(bool state) { m_IsStaminaState = state; };
 
 	//
-	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f) override;
+	void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0.0f, float fRigidDamage = 0.0f, float slow = 0.0f) override;
 	
 	void PlayAttackSound();
 	void PlayDeathSound();

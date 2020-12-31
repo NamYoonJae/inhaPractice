@@ -10,6 +10,9 @@ cFontManager::cFontManager()
 
 cFontManager::~cFontManager()
 {
+	RemoveFontResource(L"umberto");
+	RemoveFontResource(L"Algerian");
+
 	Destroy();
 }
 
@@ -83,6 +86,8 @@ void cFontManager::DrawFont(eFontType type, string text, int AreaLeft, int AreaT
 
 void cFontManager::Destroy()
 {
+
+
 	for (auto font : m_mapFont)
 	{
 		SafeRelease(font.second);

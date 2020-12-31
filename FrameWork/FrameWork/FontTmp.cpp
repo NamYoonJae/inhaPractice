@@ -20,6 +20,8 @@ cFont3D::cFont3D()
 
 cFont3D::~cFont3D()
 {
+	RemoveFontResource(L"국립박물관문화재단클래식 Bold");
+
 	SafeRelease(m_pTex);
 	SafeRelease(m_p3DText);
 }
