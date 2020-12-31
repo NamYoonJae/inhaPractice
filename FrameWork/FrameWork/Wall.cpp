@@ -150,6 +150,7 @@ void cWall::Update()
 void cWall::Render(D3DXMATRIXA16 * pmat)
 {
 	if (!m_IsSwitch) return;
+	//CreateShadow();
 
 	D3DXMATRIXA16 matW, matT, matR, matS;
 
@@ -175,4 +176,81 @@ void cWall::Render(D3DXMATRIXA16 * pmat)
 void cWall::CollisionProcess(cObject * pObject)
 {
 	return;
+}
+
+void cWall::CreateShadow()
+{
+	D3DLIGHT9  light;
+	g_pD3DDevice->GetLight(0, &light);
+	D3DXVECTOR4 vDir(light.Direction, 0);
+
+	// 그림자 행렬 만들기.
+	D3DXPLANE  plane(0, -1, 0, 0);
+	D3DXMATRIXA16   mShadow;
+	D3DXMatrixShadow(&mShadow, &vDir, &plane);
+
+
+	// 그림자 반투명처리.
+	g_pD3DDevice->SetTexture(0, NULL);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_CONSTANT, D3DXCOLOR(0, 0, 0, 0.5f));
+
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+	//  스텐실 테스트 옵션 설정. : '0' 인곳에 그린후, 값을 증가 시켜, 중복렌더링을 방지.
+	//
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, true);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILREF, 0x00);            //기본값은 0x00
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);      //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);   //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);   //성공시, 버퍼의 값을 증가 
+
+
+	// 기타 옵션.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+
+	// 그리기..
+	D3DXMATRIXA16 _mTM;
+	D3DXMATRIXA16 matT, matR, matS;
+
+	D3DXMatrixScaling(&matS, m_vScale.x, m_vScale.x, m_vScale.x);
+	D3DXMatrixRotationY(&matR, m_vRot.y);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	
+	_mTM = matS * matR * matT * mShadow;
+	//_mTM = matS * matR * matT;
+	//_mTM = matS * matT * mShadow;
+	//_mTM = mShadow;
+	
+	for (int i = 0; i < m_vecGroup.size(); ++i)
+	{
+		g_pD3DDevice->SetTransform(D3DTS_WORLD, &_mTM);
+		m_vecGroup.at(i)->Render();
+	}
+
+	// 옵션 복구.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, TRUE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }

@@ -36,4 +36,6 @@ public:
 	int	GetObjectListSize() { return vecObjectList.size(); }
 	
 	void ObjectPool::CollisionDetection();
+
+	void RemoveAll();
 };

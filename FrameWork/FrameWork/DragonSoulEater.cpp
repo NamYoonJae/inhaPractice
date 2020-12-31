@@ -141,6 +141,7 @@ void cDragonSoulEater::Update()
 
 void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 {
+	CreateShadow();
 	D3DXMATRIXA16 matWorld, matT,
 	matR, matRx,matRy,matRz;
 	D3DXMatrixIdentity(&matWorld);
@@ -174,7 +175,7 @@ void cDragonSoulEater::Render(D3DXMATRIXA16* pmat)
 	for (int i = 0; i < m_vecBoundingBoxList.size(); i++)
 		m_vecBoundingBoxList.at(i).Box->OBBBOX_Render(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 	
-	m_pShadow->Render();
+	//m_pShadow->Render();
 
 }
 
@@ -1337,4 +1338,77 @@ void cDragonSoulEater::DashShader()
 		}
 	}
 
+}
+
+void cDragonSoulEater::CreateShadow()
+{
+	D3DLIGHT9  light;
+	g_pD3DDevice->GetLight(0, &light);
+	D3DXVECTOR4 vDir(light.Direction, 0);
+
+	// 그림자 행렬 만들기.
+	D3DXPLANE  plane(0, -1, 0, 0);
+	D3DXMATRIXA16   mShadow;
+	D3DXMatrixShadow(&mShadow, &vDir, &plane);
+
+
+	// 그림자 반투명처리.
+	g_pD3DDevice->SetTexture(0, NULL);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_CONSTANT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_CONSTANT, D3DXCOLOR(0, 0, 0, 0.5f));
+
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
+	//  스텐실 테스트 옵션 설정. : '0' 인곳에 그린후, 값을 증가 시켜, 중복렌더링을 방지.
+	//
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, true);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILREF, 0x00);            //기본값은 0x00
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);      //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);   //기본값.
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);   //성공시, 버퍼의 값을 증가 
+
+
+	// 기타 옵션.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+
+	// 그리기..
+	D3DXMATRIXA16 _mTM, matS, matT;
+	D3DXMatrixScaling(&matS, 0.2f, 0.2f, 0.2f);
+	D3DXMatrixTranslation(&matT, m_vPos.x, m_vPos.y, m_vPos.z);
+	D3DXMATRIXA16 _tempMat = matS * matT;
+	_mTM = MatrixIdentity * mShadow;
+	D3DXMATRIXA16 oldWorldMat = m_pSkinnedUnit->m_matWorldTM;
+	m_pSkinnedUnit->m_matWorldTM = _mTM;
+
+	m_pSkinnedUnit->UpdateMatrix();
+	g_pD3DDevice->SetTransform(D3DTS_WORLD, &_tempMat);
+	m_pSkinnedUnit->Render();
+	m_pSkinnedUnit->m_matWorldTM = oldWorldMat;
+	m_pSkinnedUnit->UpdateMatrix();
+
+	// 옵션 복구.
+	g_pD3DDevice->SetRenderState(D3DRS_CULLMODE, TRUE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	g_pD3DDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	g_pD3DDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 }

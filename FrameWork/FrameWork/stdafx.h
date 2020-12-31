@@ -57,7 +57,7 @@ extern HWND g_hWnd;
 	public: inline void Set##FunName(varType var){varName = var;}
 
 extern HWND g_hWnd;
-
+extern bool updateblock;
 #include "cDeviceManage.h"
 #include "Logger.h"
 #include "EventManager.h"

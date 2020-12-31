@@ -24,8 +24,7 @@ public:
 		bool powerOnOff,
 		bool fixed,
 		int tag,
-		float maxGauge,
-		float gauge
+		float maxGauge
 	);
 
 	void Update() override;
@@ -67,6 +66,8 @@ public:
 
 	float GetMaxGauge();
 	float GetGauge();
+	void SetGauge(float gauge) { m_Gauge = gauge; };
+	void SetIsTrophiesState(bool state) { m_IsTrophiesState = state; };
 
 };
 

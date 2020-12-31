@@ -85,6 +85,9 @@ cPaladin::cPaladin()
 	, m_dwStaminaStartTime(GetTickCount())
 	, m_dwStaminaPreTime(100.0f)
 	, m_isStuned(false)
+	, m_PoisonGauge(0)
+	, m_DethTime(NULL)
+	, m_Deth(false)
 {
 	D3DXMatrixIdentity(&m_matWorld);
 	D3DXMatrixIdentity(&TempRot);
@@ -239,15 +242,24 @@ void cPaladin::ShaderSetup()
 
 void cPaladin::Update()
 {
-
-	if (m_Hp <= 0 && m_IsChangeScene == false) 
+	if (m_Hp <= 0 && m_IsChangeScene == false && m_Deth ==false) 
 	{
+		
  		cBackViewCamera* pCamera = (cBackViewCamera*)ObjectManager->SearchChild(Tag::Tag_Camera);
 		pCamera->SetUpdate(false);
 		m_IsChangeScene = true;
-		g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
-		
+		OnDeath();
+		m_DethTime = GetTickCount();
+		m_Deth = true;
 		return;
+	}
+
+	if (m_Deth == true) 
+	{
+		if (GetTickCount() - m_DethTime >= 3000) 
+		{
+			g_pSceneManager->ChangeScene(SceneType::SCENE_GAMEOVER);
+		}
 	}
 
 	//if (m_fvelocity != 0)
@@ -399,10 +411,19 @@ void cPaladin::Update()
 			}
 		}
 	}
+
+	if (m_PoisonGauge >= 100) 
+	{
+		m_PoisonGauge = 0;
+		SetDebuff(enum_Poison);
+	}
+
+	
 }
 
 void cPaladin::Update(EventType event)
 {
+
 	if (m_isStuned)
 	{
 		m_fvelocity = 0;
@@ -563,11 +584,35 @@ void cPaladin::Update(EventType event)
 				m_Stamina -= 50;
 				if (m_Stamina < 0.0f) m_Stamina = 0.0f;
 
-				SafeDelete(m_pCurState);
-				if(m_pTrophies->GetTag() == TagUI_Trophies_DragonFoot)
-					m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Kick);
-				else if(m_pTrophies->GetTag() == TagUI_Trophies_SkyBeez)
-					m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Roar);
+				
+				
+				if (m_pTrophies->GetGauge() < 5)
+				{
+				
+				}
+				else
+				{
+					SafeDelete(m_pCurState);
+
+					if (m_pTrophies->GetTag() == TagUI_Trophies_DragonFoot)
+					{
+						m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Kick);
+					}
+					else if (m_pTrophies->GetTag() == TagUI_Trophies_SkyBeez)
+					{
+						m_pCurState = new cPaladinSpecialAttack(this, m_pCurState->Roar);
+					}
+					float gauge = m_pTrophies->GetGauge() - 20.0f;
+					if (gauge < 0)
+					{
+						gauge = 0;
+					}
+					m_pTrophies->SetGauge(gauge);
+				}
+
+				
+				
+
 			}
 			m_IsStaminaState = false;
 		}
@@ -806,7 +851,7 @@ void cPaladin::CollisionProcess(cObject* pObject)
 							JSON_Object* p_jsonObject = g_p_jsonManager->get_json_object_Trophies();
 							float RequireHPRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
 							float RestoreRate = json_Function::object_get_double(p_jsonObject, "Trophy/SkyObb/Passive/Require HP");
-
+							cout << RequireHPRate << endl;
 							if(RequireHPRate > (float)m_Hp / (float)m_MaxHp)
 							{
 								m_Hp = m_Hp + (int)(iDamage * RestoreRate);
@@ -1048,8 +1093,8 @@ void cPaladin::CreateTrophies(EventType message)
 			true,
 			true,
 			TAG_UI::TagUI_Trophies_SkyBeez,
-			1000,
-			1000);
+			100
+			);
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
@@ -1064,8 +1109,8 @@ void cPaladin::CreateTrophies(EventType message)
 			1.0, 
 			true, true, 
 			TAG_UI::TagUI_Trophies_DragonFoot, 
-			1000, 
-			1000);
+			100
+			);
 
 		EventManager->Attach((cObserver*)m_pTrophies);
 		ObjectManager->AddUIChild((cObject*)m_pTrophies);
@@ -1239,8 +1284,8 @@ void cPaladin::AddCollisionInfo(
 
 	{ // font
 	   //cFont* pPhaseFont = new cFont;
-		RECT rect;
-		GetWindowRect(g_hWnd, &rect);
+		//RECT rect;
+		//GetWindowRect(g_hWnd, &rect);
 
 		//pPhaseFont->Setup(
 		//   to_string(1) + " : Phase"
@@ -1260,6 +1305,7 @@ void cPaladin::AddCollisionInfo(
 	{
 		m_Char_StunRate = 0;
 		OnStun(true);
+		SetDebuff(enum_Stun);
 	}
 	else if(nTag == Tag::Tag_Boss || nTag == Tag::Tag_LavaGolem)
 	{
@@ -1273,6 +1319,12 @@ void cPaladin::AddCollisionInfo(
 		m_Char_Slow_Elapsedtime = GetTickCount();
 	}
 
+}
+
+void cPaladin::OnDeath()
+{
+	m_pSkinnedUnit->SetAnimationIndex(m_pCurState->Die);
+	PlayAttackSound();
 }
 
 void cPaladin::PlayAttackSound()
