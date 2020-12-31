@@ -52,10 +52,7 @@ public:
 	void	SetRotationMatrix(D3DXMATRIXA16* mat) { m_matR = *mat; }
 	int		GetStateIndex();
 	virtual void CollisionProcess(cObject* pObject) override;
-	void AddCollisionInfo(
-		int nTag, CollisionInfo Info,
-		float fDMG, bool bDamageType,
-		float fStunDamage, float fRigidDamage);
+	virtual void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0, float fRigidDamage = 0, float slow = 0);
 	void HitSound() override;
 	void CreateShadow();
 };

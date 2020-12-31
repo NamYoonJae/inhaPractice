@@ -449,7 +449,7 @@ void cLavaGolem::CreateShadow()
 void cLavaGolem::AddCollisionInfo(
 	int nTag, CollisionInfo Info,
 	float fDMG, bool bDamageType,
-	float fStunDamage, float fRigidDamage)
+	float fStunDamage, float fRigidDamage, float slow)
 {
 	mapCollisionList.insert(pair<int, CollisionInfo>(nTag, Info));
 

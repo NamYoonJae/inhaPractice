@@ -114,7 +114,7 @@ public:
 	//cSoulEaterState* GetState() { return m_pCurState; }
 	void SetupBoundingBox();
 	virtual void CollisionProcess(cObject* pObject) override;
-	virtual void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0, float fRigidDamage = 0);
+	virtual void AddCollisionInfo(int nTag, CollisionInfo Info, float fDMG = 0, bool bDamageType = true, float fStunDamage = 0, float fRigidDamage = 0, float slow = 0);
 	//std::vector<cOBB*>* GetBouningBox() { return &m_vecBoundingBoxList; }
 
 	//new
