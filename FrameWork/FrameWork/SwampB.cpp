@@ -279,7 +279,7 @@ void cSwampB::CollisionProcess(cObject * pObject)
 			float fDamage = m_fPhysicDamage * m_Flood_Physic_Rate;
 
 			pObject->AddCollisionInfo(Tag::Tag_SwampB, info, fDamage);
-			cout << "true" << endl;
+			pPaladin->IncreasePoisonGauge();
 		}
 		else
 		{

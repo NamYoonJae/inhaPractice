@@ -31,7 +31,7 @@
     },
     "Stun": {
       "Rate reduce": 1,
-      "Duration time": 4000
+      "Duration time": 3000
     },
     "Scream": {
       "Duration time": 2000

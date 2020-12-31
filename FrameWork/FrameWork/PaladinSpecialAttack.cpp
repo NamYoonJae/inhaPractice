@@ -4,6 +4,7 @@
 #include "PaladinSpecialAttack.h"
 
 #include "SoundManager.h"
+#include "Trophies.h"
 
 cPaladinSpecialAttack::cPaladinSpecialAttack(cPaladin* pPaladin, int AnimIndex)
 	:cPaladinState(pPaladin)
@@ -29,14 +30,18 @@ void cPaladinSpecialAttack::StateUpdate()
 	LPD3DXANIMATIONSET pCurAnimSet = NULL;
 	float fAnimPeriod;
 	float fAnimBlendingTime = 0.3f;
-
+	cTrophies* trophies = m_pPaladin->GetTrophies();
+	
 	if (m_pPaladin->GetStateIndex() == eAnimationSet::Kick)
 	{
+		//trophies->SetIsTrophiesState(false);
 		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
 		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
+
 	}
 	else if (m_pPaladin->GetStateIndex() == eAnimationSet::Roar)
 	{
+		//trophies->SetIsTrophiesState(false);
 		pAnimController->GetTrackAnimationSet(0, &pCurAnimSet);
 		fAnimPeriod = (pCurAnimSet->GetPeriod() - fAnimBlendingTime) * 1000.0f;
 

@@ -338,3 +338,22 @@ void ObjectPool::RemoveChild(cObject& obj)
 
 	// 이거 아직 완성안됨 코드 수정으로인하여  12-23
 }
+
+void ObjectPool::RemoveAll()
+{
+	for (int i = 0; i < vecObjectList.size(); i++)
+	{
+		delete(vecObjectList[i]);
+		vecObjectList.erase(vecObjectList.begin() + i);
+	}
+
+	/*
+	for (int i = 0; i < vecUserInterface.size(); i++)
+	{
+		delete(vecUserInterface[i]);
+		vecObjectList.erase(vecUserInterface.begin() + i);
+	}
+	*/
+}
+
+

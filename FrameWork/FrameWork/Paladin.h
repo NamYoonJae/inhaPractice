@@ -54,6 +54,7 @@ private:
 	float m_StaminaRestoreValue;
 	//DWORD m_dwStaminaRestoreElapsedTime;
 	bool m_IsStaminaState;
+	float m_PoisonGauge;
 
 	bool m_IsChangeScene;
 	bool m_isStuned;
@@ -104,6 +105,10 @@ private:
 
 	DWORD m_dwStaminaPreTime;
 	DWORD m_dwStaminaStartTime;
+
+	DWORD m_DethTime;
+	bool m_Deth;
+
 public:
 	cPaladin();
 	~cPaladin();
@@ -159,6 +164,9 @@ public:
 	void SetStun(bool isStuned) { m_isStuned = isStuned; }
 	void OnStun(bool isHardStun);
 	void OnDeath();
+
+	cTrophies* GetTrophies() { return m_pTrophies; };
+	void IncreasePoisonGauge() { m_PoisonGauge += 20; };
 };
 
 class cParts

@@ -5,7 +5,7 @@
       "Gauge restore": 0.15,
       "Passive": {
         "Cooldown": "N",
-        "Require HP": 0.1,
+        "Require HP": 0.3,
         "Restore HP rate": 0.5,
         "Duration time": "N"
       },

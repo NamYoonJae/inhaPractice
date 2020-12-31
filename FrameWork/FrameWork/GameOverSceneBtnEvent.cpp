@@ -2,6 +2,9 @@
 #include "GameOverSceneBtnEvent.h"
 #include "EventManager.h"
 #include "PopUp.h"
+#include "ObjectPool.h"
+#include "Scene.h"
+#include "TitleScene.h"
 
 void GameOverRetryBtnEvent(EventType message, cPopup* btn)
 {
@@ -89,6 +92,8 @@ void GameOverRetryBtnEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/GameOver/NW_Retry/NW_GameOver_Retry_Over.png");
 					//g_pSceneManager->ChangeScene();
+					//다시하기
+					
 				}
 			}
 		}
@@ -186,6 +191,9 @@ void GameOverMainMenuBtnEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Hover);
 					button->ChangeSprite("data/UI/GameOver/NW_MainMenu/NW_GameOver_MainMenu_Over.png");
 					//g_pSceneManager->ChangeScene();
+					//ObjectManager->RemoveAll();
+					//g_pSceneManager->ChangeScene(SceneType::SCENE_TITLE);
+
 				}
 			}
 		}

@@ -18,6 +18,8 @@ HWND g_hWnd;
 HCURSOR g_PressedCursor;
 HCURSOR g_NormalCursor;
 HCURSOR g_OverCursor;
+bool updateblock;
+
 
 // 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
@@ -81,7 +83,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		else
 		{
 			EventManager->Update();
-			ObjectManager->Update();
+			if (!updateblock)
+			{
+				ObjectManager->Update();
+			}
+			
 			ObjectManager->Render();
 			ObjectManager->CollisionDetection();
 
@@ -142,6 +148,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, 1600, 900, nullptr, nullptr, hInstance, nullptr);
    g_hWnd = hWnd;
+   updateblock = false;
 #ifdef _DEBUG
    g_pLogger->CreateLogFile();
 #endif // _DEBUG

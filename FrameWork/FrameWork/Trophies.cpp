@@ -6,6 +6,7 @@
 cTrophies::cTrophies()
 	: m_dwStateStartTime(GetTickCount())
 	, m_dwPreparationTime(1000.0f)
+	, m_IsTrophiesState(true)
 {
 	m_MaxGauge = 0;
 	m_Gauge = 0;
@@ -19,6 +20,7 @@ cTrophies::cTrophies()
 	m_Power = true;
 	m_Fixed = true;
 	m_pPaladin = NULL;
+
 
 }
 
@@ -40,6 +42,7 @@ void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float pe
 	m_nTag = tag;
 	m_MaxGauge = maxGauge;
 	m_Gauge = 0;
+
 	D3DXCreateSprite(g_pD3DDevice, &m_pSprite);
 
 	string fileRoot(root);
@@ -52,12 +55,13 @@ void cTrophies::Setup(char* root, char* fileName, D3DXVECTOR3 position, float pe
 
 void cTrophies::Update()
 {
-	if (m_Power)
+
+	if (m_IsTrophiesState)
 	{
 		if (GetTickCount() - m_dwStateStartTime <= m_dwPreparationTime)
 		{
-			m_Gauge += 2.0f;
-			if(m_Gauge >= m_MaxGauge)
+			m_Gauge += 0.05f;
+			if (m_Gauge >= m_MaxGauge)
 			{
 				m_Gauge = m_MaxGauge;
 			}
@@ -65,16 +69,13 @@ void cTrophies::Update()
 		}
 	}
 
+
 	
 }
 
 void cTrophies::Update(EventType message)
 {
-	if (m_Power)
-	{
-		if (EventProcess)
-			EventProcess(message, this);
-	}
+
 }
 
 void cTrophies::Render(D3DXMATRIXA16* pmat)

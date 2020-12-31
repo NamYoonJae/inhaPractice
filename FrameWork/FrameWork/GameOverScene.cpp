@@ -17,6 +17,7 @@ cGameOverScene::~cGameOverScene()
 
 void cGameOverScene::Setup()
 {
+	updateblock = true;
 #pragma region UI TAG::GameOver
 
 	//GameOver UI

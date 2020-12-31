@@ -54,11 +54,13 @@ void cButton::Update(EventType message)
 		if(EventProcess)
 		EventProcess(message, this);
 
+
 		for (int i = 0; i < m_vecPopupBtnList.size(); i++)
 		{
 			if (this->m_Power)
 				m_vecPopupBtnList[i]->Update(message);
 		}
+
 	}
 }
 

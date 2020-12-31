@@ -3,6 +3,8 @@
 #include "ObjectPool.h"
 #include "GameClearSceneUIEvent.h"
 
+
+
 cGameClearScene::cGameClearScene(SceneType T)
 	:cScene(T)
 {
@@ -14,7 +16,7 @@ cGameClearScene::~cGameClearScene()
 
 void cGameClearScene::Setup()
 {
-
+	updateblock = true;
 	cPopup* pGmaeClearBackgound = new cPopup;
 	pGmaeClearBackgound->Setup("data/UI/GameClear","NW_BackGround.png",
 		D3DXVECTOR3(0, -50, 0), 1, true, true, TAG_UI::TagUI_GameClear);

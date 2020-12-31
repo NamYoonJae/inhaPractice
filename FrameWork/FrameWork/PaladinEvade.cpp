@@ -28,6 +28,7 @@ void cPaladinEvade::StateUpdate()
 
 	LPD3DXANIMATIONCONTROLLER pAnimController = m_pPaladin->GetSkinnedMesh()->GetAnimationController();
 	LPD3DXANIMATIONSET pCurAnimSet = NULL;
+
 	float fAnimPeriod;
 	float fAnimBlendingTime = 0.3f;
 
