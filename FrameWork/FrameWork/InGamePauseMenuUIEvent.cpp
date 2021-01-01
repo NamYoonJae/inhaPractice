@@ -148,6 +148,7 @@ void InGamePauseMenu_returnEvent_whitespace(EventType message, cPopup* popup)
 			{
 				popup->SetStateChange(enum_Off);
 				popup->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
+				updateblock = false;
 			}
 		}
 	}
@@ -238,6 +239,7 @@ void InGamePauseMenu_returnEvent(EventType message, cPopup* btn)
 					button->SetStateChange(enum_Off);
 
 					button->GetTopPopUp()->PowerOnOff_List_OnlySelf(false);
+					updateblock = false;
 				}
 			}
 		}

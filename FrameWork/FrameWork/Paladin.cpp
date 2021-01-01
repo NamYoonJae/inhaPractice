@@ -423,6 +423,7 @@ void cPaladin::Update()
 
 void cPaladin::Update(EventType event)
 {
+	if (updateblock) return;
 
 	if (m_isStuned)
 	{
@@ -634,26 +635,6 @@ void cPaladin::Update(EventType event)
 			m_IsStaminaState = false;
 		}
 	}
-
-	//팔라딘 디버프 상태 테스트
-	if (event == EventType::EVENT_NUMPAD_6)
-	{
-		SetDebuff(enum_Idle);
-	}
-	if (event == EventType::EVENT_NUMPAD_7)
-	{
-		SetDebuff(enum_Poison);
-	}
-	if (event == EventType::EVENT_NUMPAD_8)
-	{
-		SetDebuff(enum_Stun);
-	}
-	if (event == EventType::EVENT_NUMPAD_9)
-	{
-		SetDebuff(enum_Roar);
-	}
-
-
 }
 
 void cPaladin::Render(D3DXMATRIXA16* pmat)

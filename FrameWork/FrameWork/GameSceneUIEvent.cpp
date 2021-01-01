@@ -38,11 +38,13 @@ void InGamePause_Event(EventType message, cPopup* btn)
 			if (child_power)
 			{
 				btn->PowerOnOff_List_OnlySelf(false);
+				updateblock = false;
 			}
 			else
 			{
 				btn->PowerOnOff_List_OnlySelf(false);
 				btn->GetPopupBtn(0)->PowerOnOff_OnlySelf(true);
+				updateblock = true;
 			}
 		}
 	}
